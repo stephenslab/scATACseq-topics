@@ -10,4 +10,5 @@ editor_options:
 
 Topic modeling analysis of single-cell ATAC-seq data.
 
++ [Literatures for scATAC-seq resources](references.html)
 
