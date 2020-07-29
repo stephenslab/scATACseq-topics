@@ -1,6 +1,6 @@
 ---
 title: "References"
-author: "kevinlkx"
+author: "Kaixuan Luo"
 date: "2020-07-29"
 output: workflowr::wflow_html
 editor_options:
