@@ -1,5 +1,5 @@
 ---
-title: "Home"
+title: "Topic modeling analysis of single-cell ATAC-seq data"
 site: workflowr::wflow_site
 output:
   workflowr::wflow_html:
@@ -8,4 +8,6 @@ editor_options:
   chunk_output_type: console
 ---
 
-Welcome to my research website.
+Topic modeling analysis of single-cell ATAC-seq data.
+
+
