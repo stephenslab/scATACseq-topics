@@ -1,0 +1,22 @@
+---
+title: "References"
+author: "kevinlkx"
+date: "2020-07-29"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+## Literatures for scATAC-seq resources
+* Preissl, S., Fang, R., Huang, H., Zhao, Y., Raviram, R., Gorkin, D., Zhang, Y., Sos, B., Afzal, V., Dickel, D., Kuan, S., Visel, A., Pennacchio, L., Zhang, K., Ren, B. (2018). Single-nucleus analysis of accessible chromatin in developing mouse forebrain reveals cell-type-specific transcriptional regulation Nature Neuroscience  21(3), 432 439. https://dx.doi.org/10.1038/s41593-018-0079-3
+
+* Buenrostro, J., Corces, M., Lareau, C., Wu, B., Schep, A., Aryee, M., Majeti, R., Chang, H., Greenleaf, W. (2018). Integrated Single-Cell Analysis Maps the Continuous Regulatory Landscape of Human Hematopoietic Differentiation Cell 173(6), 1535 1537.e16. https://dx.doi.org/10.1016/j.cell.2018.03.074
+
+* Cusanovich, D., Hill, A., Aghamirzaie, D., Daza, R., Pliner, H., Berletch, J., Filippova, G., Huang, X., Christiansen, L., DeWitt, W., Lee, C., Regalado, S., Read, D., Steemers, F., Disteche, C., Trapnell, C., Shendure, J. (2018). A Single-Cell Atlas of In&nbsp;Vivo Mammalian Chromatin Accessibility Cell 174(5), 1 35. https://dx.doi.org/10.1016/j.cell.2018.06.052
+
+* Cao, J., Packer, J., Ramani, V., Cusanovich, D., Huynh, C., Daza, R., Qiu, X., Lee, C., Furlan, S., Steemers, F., Adey, A., Waterston, R., Trapnell, C., Shendure, J. (2017). Comprehensive single-cell transcriptional profiling of a multicellular organism. Science 357(6352), 661 667. https://dx.doi.org/10.1126/science.aam8940
+
+* Lareau, C., Duarte, F., Chew, J., Kartha, V., Burkett, Z., Kohlway, A., Pokholok, D., Aryee, M., Steemers, F., Lebofsky, R., Buenrostro, J. (2019). Droplet-based combinatorial indexing for massive-scale single-cell chromatin accessibility Nature Biotechnology 518(1), 1 15. https://dx.doi.org/10.1038/s41587-019-0147-6 
+
+* Pijuan-Sala, B., Wilson, N., Xia, J., Hou, X., Hannah, R., Kinston, S., Calero-Nieto, F., Poirion, O., Preissl, S., Liu, F., Göttgens, B. (2020). Single-cell chromatin accessibility maps reveal regulatory programs driving early mouse organogenesis Nature Cell Biology https://dx.doi.org/10.1038/s41556-020-0489-9
+
