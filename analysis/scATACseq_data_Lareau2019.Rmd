@@ -1,0 +1,32 @@
+---
+title: "Lareau 2019 scATAC-seq datasets"
+author: "Kaixuan Luo"
+date: "2020-08-12"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+## Lareau 2019 dataset
+RCC directory: `/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/`
+
+Reference: Lareau, C., Duarte, F., Chew, J., Kartha, V., Burkett, Z., Kohlway, A., Pokholok, D., Aryee, M., Steemers, F., Lebofsky, R., Buenrostro, J. (2019). Droplet-based combinatorial indexing for massive-scale single-cell chromatin accessibility Nature Biotechnology 518(1), 1 15. https://dx.doi.org/10.1038/s41587-019-0147-6 
+
+Abstract: "Recent technical advancements have facilitated the mapping of epigenomes at single-cell resolution; however, the throughput and quality of these methods have limited their widespread adoption. Here we describe a high-quality (105 nuclear fragments per cell) droplet-microfluidics-based method for single-cell profiling of chromatin accessibility. We use this approach, named 'droplet single-cell assay for transposase-accessible chromatin using sequencing' (dscATAC-seq), to assay 46,653 cells for the unbiased discovery of cell types and regulatory elements in adult mouse brain. We further increase the throughput of this platform by combining it with combinatorial indexing (dsciATAC-seq), enabling single-cell studies at a massive scale. We demonstrate the utility of this approach by measuring chromatin accessibility across 136,463 resting and stimulated human bone marrow-derived cells to reveal changes in the cis- and trans-regulatory landscape across cell types and under stimulatory conditions at single-cell resolution. Altogether, we describe a total of 510,123 single-cell profiles, demonstrating the scalability and flexibility of this droplet-based platform."
+
+Data availability: 
+GEO: [GSE123581](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE123581)
+Raw sequencing files and processed files for all data generated in this study were deposited at Gene Expression Omnibus (GEO) under accession number GSE123581. UCSC genome browser tracks for the datasets generated in this study are available from the following websites: mouse brain, https://s3.us-east-2.amazonaws.com/jasonbuenrostro/2018_mouse_brain/hub.txt; BMMC dsciATAC-seq, https://s3.us-east-2.amazonaws.com/jasonbuenrostro/2018_BM_htsci/hub.txt; stimulated BMMC dsciATAC-seq, https://s3.us-east-2.amazonaws.com/jasonbuenrostro/2018_BM_htsci_stim/hub.txt.
+
+Code availability: 
+Complete code and documentation for the BAP software suite developed in this study is available at https://github.com/buenrostrolab/bap. Scripts corresponding to the analyses contained in this paper are provided at https://github.com/buenrostrolab/dscATAC_analysis_code.
+
+### Mouse brain data [GSE123576](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE123576)
+Experimental design: Whole brains from two adult mice were collected and processed using the BioRad SureCell scATAC-seq platform across multiple channels in the instrument.
+
+RCC directory: `/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/mouse_brain/`
+
+### Human bone marrow data [GSE123580](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE123580)
+Experimental design: In a single experiment, we utilized 96 barcoded Tn5 to profile human bone marrow mononuclear cells from two donors before (untreated controls) and after stimulation. After the tagmentation reaction, all cells were pooled, washed and processed in 16 different channels (16 "samples") on the SureCell platform (thus, data from 16 samples should be collapsed for analysis)
+
+RCC directory: `/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/bone_marrow/`
