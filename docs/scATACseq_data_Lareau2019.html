@@ -13,7 +13,7 @@
 
 <meta name="date" content="2020-08-12" />
 
-<title>Lareau 2019 scATAC-seq datasets</title>
+<title>Lareau 2019 scATAC-seq dataset</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -372,7 +372,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Lareau 2019 scATAC-seq datasets</h1>
+<h1 class="title toc-ignore">Lareau 2019 scATAC-seq dataset</h1>
 <h4 class="author">Kaixuan Luo</h4>
 <h4 class="date">2020-08-12</h4>
 
@@ -399,7 +399,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-08-17
+<strong>Last updated:</strong> 2020-08-19
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -430,16 +430,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong3760773"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> 3760773 </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong422230a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> 422230a </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrong3760773" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrong422230a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version 3760773. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version 422230a. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -448,7 +448,11 @@ Note that you need to be careful to ensure that all relevant files for the analy
 Ignored files:
     Ignored:    .Rproj.user/
 
+Untracked files:
+    Untracked:  analysis/scATACseq_analysis_Lareau2019.Rmd
+
 Unstaged changes:
+    Modified:   analysis/index.Rmd
     Modified:   analysis/references.Rmd
 
 </code></pre>
@@ -493,6 +497,40 @@ Message
 Rmd
 </td>
 <td>
+422230a
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-08-19
+</td>
+<td>
+wflow_publish(“analysis/scATACseq_data_Lareau2019.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+20279e3
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-08-17
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 3760773
 </td>
 <td>
@@ -514,20 +552,24 @@ wflow_publish(“analysis/scATACseq_data_Lareau2019.Rmd”)
 </div>
 <div id="lareau-2019-dataset" class="section level2">
 <h2>Lareau 2019 dataset</h2>
-<p>RCC directory: <code>/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/</code></p>
-<p>Reference: Lareau, C., Duarte, F., Chew, J., Kartha, V., Burkett, Z., Kohlway, A., Pokholok, D., Aryee, M., Steemers, F., Lebofsky, R., Buenrostro, J. (2019). Droplet-based combinatorial indexing for massive-scale single-cell chromatin accessibility Nature Biotechnology 518(1), 1 15. <a href="https://dx.doi.org/10.1038/s41587-019-0147-6" class="uri">https://dx.doi.org/10.1038/s41587-019-0147-6</a></p>
-<p>Abstract: “Recent technical advancements have facilitated the mapping of epigenomes at single-cell resolution; however, the throughput and quality of these methods have limited their widespread adoption. Here we describe a high-quality (105 nuclear fragments per cell) droplet-microfluidics-based method for single-cell profiling of chromatin accessibility. We use this approach, named ‘droplet single-cell assay for transposase-accessible chromatin using sequencing’ (dscATAC-seq), to assay 46,653 cells for the unbiased discovery of cell types and regulatory elements in adult mouse brain. We further increase the throughput of this platform by combining it with combinatorial indexing (dsciATAC-seq), enabling single-cell studies at a massive scale. We demonstrate the utility of this approach by measuring chromatin accessibility across 136,463 resting and stimulated human bone marrow-derived cells to reveal changes in the cis- and trans-regulatory landscape across cell types and under stimulatory conditions at single-cell resolution. Altogether, we describe a total of 510,123 single-cell profiles, demonstrating the scalability and flexibility of this droplet-based platform.”</p>
-<p>Data availability: GEO: <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE123581">GSE123581</a> Raw sequencing files and processed files for all data generated in this study were deposited at Gene Expression Omnibus (GEO) under accession number GSE123581. UCSC genome browser tracks for the datasets generated in this study are available from the following websites: mouse brain, <a href="https://s3.us-east-2.amazonaws.com/jasonbuenrostro/2018_mouse_brain/hub.txt" class="uri">https://s3.us-east-2.amazonaws.com/jasonbuenrostro/2018_mouse_brain/hub.txt</a>; BMMC dsciATAC-seq, <a href="https://s3.us-east-2.amazonaws.com/jasonbuenrostro/2018_BM_htsci/hub.txt" class="uri">https://s3.us-east-2.amazonaws.com/jasonbuenrostro/2018_BM_htsci/hub.txt</a>; stimulated BMMC dsciATAC-seq, <a href="https://s3.us-east-2.amazonaws.com/jasonbuenrostro/2018_BM_htsci_stim/hub.txt" class="uri">https://s3.us-east-2.amazonaws.com/jasonbuenrostro/2018_BM_htsci_stim/hub.txt</a>.</p>
-<p>Code availability: Complete code and documentation for the BAP software suite developed in this study is available at <a href="https://github.com/buenrostrolab/bap" class="uri">https://github.com/buenrostrolab/bap</a>. Scripts corresponding to the analyses contained in this paper are provided at <a href="https://github.com/buenrostrolab/dscATAC_analysis_code" class="uri">https://github.com/buenrostrolab/dscATAC_analysis_code</a>.</p>
-<div id="mouse-brain-data-gse123576" class="section level3">
-<h3>Mouse brain data <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE123576">GSE123576</a></h3>
-<p>Experimental design: Whole brains from two adult mice were collected and processed using the BioRad SureCell scATAC-seq platform across multiple channels in the instrument.</p>
-<p>RCC directory: <code>/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/mouse_brain/</code></p>
+<p><strong>Reference</strong>: Lareau, C., Duarte, F., Chew, J., Kartha, V., Burkett, Z., Kohlway, A., Pokholok, D., Aryee, M., Steemers, F., Lebofsky, R., Buenrostro, J. (2019). Droplet-based combinatorial indexing for massive-scale single-cell chromatin accessibility. Nature Biotechnology 518(1), 1 15. <a href="https://dx.doi.org/10.1038/s41587-019-0147-6" class="uri">https://dx.doi.org/10.1038/s41587-019-0147-6</a></p>
+<p><strong>Abstract</strong>: “Recent technical advancements have facilitated the mapping of epigenomes at single-cell resolution; however, the throughput and quality of these methods have limited their widespread adoption. Here we describe a high-quality (105 nuclear fragments per cell) droplet-microfluidics-based method for single-cell profiling of chromatin accessibility. We use this approach, named ‘droplet single-cell assay for transposase-accessible chromatin using sequencing’ (dscATAC-seq), to assay 46,653 cells for the unbiased discovery of cell types and regulatory elements in adult mouse brain. We further increase the throughput of this platform by combining it with combinatorial indexing (dsciATAC-seq), enabling single-cell studies at a massive scale. We demonstrate the utility of this approach by measuring chromatin accessibility across 136,463 resting and stimulated human bone marrow-derived cells to reveal changes in the cis- and trans-regulatory landscape across cell types and under stimulatory conditions at single-cell resolution. Altogether, we describe a total of 510,123 single-cell profiles, demonstrating the scalability and flexibility of this droplet-based platform.”</p>
+<div id="data-availability" class="section level3">
+<h3>Data availability</h3>
+<p><strong>RCC directory</strong>: <code>/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/</code></p>
+<p>Raw sequencing files and processed files for all data generated in this study were deposited at Gene Expression Omnibus (GEO) under accession number <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE123581">GSE123581</a></p>
+<p>UCSC genome browser tracks for the datasets generated in this study are available from the following websites: mouse brain, <a href="https://s3.us-east-2.amazonaws.com/jasonbuenrostro/2018_mouse_brain/hub.txt" class="uri">https://s3.us-east-2.amazonaws.com/jasonbuenrostro/2018_mouse_brain/hub.txt</a>; BMMC dsciATAC-seq, <a href="https://s3.us-east-2.amazonaws.com/jasonbuenrostro/2018_BM_htsci/hub.txt" class="uri">https://s3.us-east-2.amazonaws.com/jasonbuenrostro/2018_BM_htsci/hub.txt</a>; stimulated BMMC dsciATAC-seq, <a href="https://s3.us-east-2.amazonaws.com/jasonbuenrostro/2018_BM_htsci_stim/hub.txt" class="uri">https://s3.us-east-2.amazonaws.com/jasonbuenrostro/2018_BM_htsci_stim/hub.txt</a>.</p>
+<p><strong>Code availability</strong>: Complete code and documentation for the BAP software suite developed in this study is available at <a href="https://github.com/buenrostrolab/bap" class="uri">https://github.com/buenrostrolab/bap</a>. Scripts corresponding to the analyses contained in this paper are provided at <a href="https://github.com/buenrostrolab/dscATAC_analysis_code" class="uri">https://github.com/buenrostrolab/dscATAC_analysis_code</a>.</p>
+<div id="mouse-brain-data-gse123576" class="section level4">
+<h4>Mouse brain data <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE123576">GSE123576</a></h4>
+<p><strong>Experimental design</strong>: Whole brains from two adult mice were collected and processed using the BioRad SureCell scATAC-seq platform across multiple channels in the instrument.</p>
+<p><strong>RCC directory</strong>: <code>/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/mouse_brain/</code></p>
 </div>
-<div id="human-bone-marrow-data-gse123580" class="section level3">
-<h3>Human bone marrow data <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE123580">GSE123580</a></h3>
-<p>Experimental design: In a single experiment, we utilized 96 barcoded Tn5 to profile human bone marrow mononuclear cells from two donors before (untreated controls) and after stimulation. After the tagmentation reaction, all cells were pooled, washed and processed in 16 different channels (16 “samples”) on the SureCell platform (thus, data from 16 samples should be collapsed for analysis)</p>
-<p>RCC directory: <code>/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/bone_marrow/</code></p>
+<div id="human-bone-marrow-data-gse123580" class="section level4">
+<h4>Human bone marrow data <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE123580">GSE123580</a></h4>
+<p><strong>Experimental design</strong>: In a single experiment, we utilized 96 barcoded Tn5 to profile human bone marrow mononuclear cells from two donors before (untreated controls) and after stimulation. After the tagmentation reaction, all cells were pooled, washed and processed in 16 different channels (16 “samples”) on the SureCell platform (thus, data from 16 samples should be collapsed for analysis)</p>
+<p><strong>RCC directory</strong>: <code>/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/bone_marrow/</code></p>
+</div>
 </div>
 </div>
 
