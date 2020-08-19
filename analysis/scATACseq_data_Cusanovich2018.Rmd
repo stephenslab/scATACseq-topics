@@ -1,0 +1,26 @@
+---
+title: "Cusanovich and Hill 2018 sci-ATAC-seq dataset"
+author: "Kaixuan Luo"
+date: "2020-08-12"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+## Cusanovich and Hill, et al. 2018 dataset
+
+**Reference**: Cusanovich, D., Hill, A., Aghamirzaie, D., Daza, R., Pliner, H., Berletch, J., Filippova, G., Huang, X., Christiansen, L., DeWitt, W., Lee, C., Regalado, S., Read, D., Steemers, F., Disteche, C., Trapnell, C., Shendure, J. (2018). A Single-Cell Atlas of In Vivo Mammalian Chromatin Accessibility Cell 174(5), 1 35. https://dx.doi.org/10.1016/j.cell.2018.06.052
+
+**Abstract**: "We applied a combinatorial indexing assay, sci-ATAC-seq, to profile genome-wide chromatin accessibility in ∼100,000 single cells from 13 adult mouse tissues. We identify 85 distinct patterns of chromatin accessibility, most of which can be assigned to cell types, and ∼400,000 differentially accessible elements. We use these data to link regulatory elements to their target genes, to define the transcription factor grammar specifying each cell type, and to discover in vivo correlates of heterogeneity in accessibility within cell types. We develop a technique for mapping single cell gene expression data to single-cell chromatin accessibility data, facilitating the comparison of atlases. By intersecting mouse chromatin accessibility with human genome-wide association summary statistics, we identify cell-type-specific enrichments of the heritability signal for hundreds of complex traits. These data define the in vivo landscape of the regulatory genome for common mammalian cell types at single-cell resolution."
+
+**Experimental design**: single cell measurements of chromatin accessibility for 17 samples spanning 13 different tissues in 8-week old mice (Mus. musculus).
+
+**Technology**: To generate these data we have used a technique we developed called sci-ATAC-seq (Cusanovich et al., Science 2015). sci-ATAC-seq uses a paradigm called combinatorial indexing, where nucelic acids from cells are labeled with unique combinations of barcodes via multiple rounds of split-pool barcoding.
+
+### Data availability
+
+**Raw data**: Sequencing data and some processed data files are in GEO: [GSE111586](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE111586)
+
+**Processed data and vignettes**: Supplementary files, data, and vignettes are available at: http://atlas.gs.washington.edu/mouse-atac
+
+**RCC directory**: `/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/`
