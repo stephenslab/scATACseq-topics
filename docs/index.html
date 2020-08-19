@@ -319,7 +319,7 @@ $(document).ready(function () {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-07-29
+<strong>Last updated:</strong> 2020-08-19
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -350,22 +350,30 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong9bb909e"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> 9bb909e </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong3c2ef95"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> 3c2ef95 </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrong9bb909e" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrong3c2ef95" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version 9bb909e. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version 3c2ef95. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 </p>
 <pre><code>
-working directory clean
+Ignored files:
+    Ignored:    .Rproj.user/
+
+Untracked files:
+    Untracked:  analysis/scATACseq_analysis_Lareau2019.Rmd
+
+Unstaged changes:
+    Modified:   analysis/references.Rmd
+
 </code></pre>
 <p>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
@@ -403,6 +411,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+3c2ef95
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-08-19
+</td>
+<td>
+wflow_publish(“analysis/index.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+d94e173
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-07-29
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -480,7 +522,15 @@ Start workflowr project.
 </div>
 <p>Topic modeling analysis of single-cell ATAC-seq data.</p>
 <ul>
-<li><a href="references.html">Literatures for scATAC-seq resources</a></li>
+<li><p><a href="references.html">Literatures for scATAC-seq resources</a></p></li>
+<li><a href="scATACseq_analysis_Cusanovich2018.html">Topic modeling analysis for Cusanovich 2018 sci-ATAC-seq dataset</a>
+<ul>
+<li><a href="scATACseq_data_Cusanovich2018.html">Cusanovich 2018 sci-ATAC-seq dataset</a></li>
+</ul></li>
+<li><a href="scATACseq_analysis_Lareau2019.html">Topic modeling analysis for Lareau 2019 scATAC-seq dataset</a>
+<ul>
+<li><a href="scATACseq_data_Lareau2019.html">Lareau 2019 sci-ATAC-seq dataset</a></li>
+</ul></li>
 </ul>
 
 
