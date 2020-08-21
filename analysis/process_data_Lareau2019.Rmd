@@ -1,0 +1,137 @@
+---
+title: "Topic modeling analysis for Lareau 2019 scATAC-seq datasets"
+author: "kevinlkx"
+date: "2020-08-17"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+## Lareau 2019 dataset
+
+Reference: Lareau, C., Duarte, F., Chew, J., Kartha, V., Burkett, Z., Kohlway, A., Pokholok, D., Aryee, M., Steemers, F., Lebofsky, R., Buenrostro, J. (2019). Droplet-based combinatorial indexing for massive-scale single-cell chromatin accessibility Nature Biotechnology 518(1), 1 15. https://dx.doi.org/10.1038/s41587-019-0147-6 
+
+### Mouse brain data [GSE123576](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE123576)
+Downloaded GSE123576_mousebrain_countsData_revision.csv.gz from the Gene Expression Omnibus (GEO) website, accession GSE123576.
+RCC directory: `/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/mouse_brain/`
+
+#### Load and binarize ATAC-seq counts
+```{r}
+library(Matrix)
+library(readr)
+
+out <- read_delim("/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/mouse_brain/raw_data/GSE123576_mousebrain_countsData_revision.csv.gz",delim = " ")
+class(out) <- "data.frame"
+
+# binarize counts
+out$binarized_count <- as.integer(out$count > 0)
+
+counts <- with(out, sparseMatrix(i = cell_idx, j = peak_idx, x = binarized_count))
+
+cat(sprintf("Number of samples (cells): %d\n",nrow(counts)))
+cat(sprintf("Number of peaks: %d\n",ncol(counts)))
+cat(sprintf("Proportion of counts that are non-zero: %0.1f%%.\n",
+            100*mean(counts > 0)))
+
+```
+
+#### metadata
+* samples: 
+```{r}
+samples <- read.table("/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/mouse_brain/raw_data/GSE123576_mousebrain_cellData_revision.tsv.gz", header = TRUE, stringsAsFactors = FALSE, sep = "\t")
+
+dim(samples)
+
+cat(sprintf("Number of samples: %d\n",nrow(samples)))
+
+print(samples[1:3,])
+
+```
+
+* peaks: 
+```{r}
+peaks <- read.table("/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/mouse_brain/raw_data/GSE123576_mousebrain_peaks_revision.bed.gz", header = FALSE, stringsAsFactors = FALSE, sep = "\t")
+colnames(peaks) <- c("chr", "start", "end")
+peaks$name <- paste0(peaks$chr, ":", peaks$start, "-", peaks$end)
+
+cat(sprintf("Number of peaks: %d\n",nrow(peaks)))
+
+print(peaks[1:3,])
+
+rownames(counts) <- samples$DropBarcode
+colnames(counts) <- peaks$name
+```
+
+```{r}
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/mouse_brain/processed_data/"
+dir.create(data.dir, showWarnings = FALSE, recursive = TRUE)
+
+saveRDS(counts, file.path(data.dir, "counts_Lareau_2019_mousebrain.rds"))
+
+save(list = c("samples", "peaks", "counts"), file = file.path(data.dir, "Lareau_2019_mousebrain.RData"))
+
+```
+
+### Human bone marrow data [GSE123580](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE123580)
+Downloaded GSE123580_bonemarrow_countsData.csv.gz from the Gene Expression Omnibus (GEO) website, accession GSE123580.
+RCC directory: `/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/bone_marrow/`
+
+#### Load and binarize ATAC-seq counts
+```{r}
+library(Matrix)
+library(readr)
+
+out <- read_delim("/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/bone_marrow/raw_data/GSE123580_bonemarrow_countsData.csv.gz",delim = " ")
+class(out) <- "data.frame"
+
+# binarize counts
+out$binarized_count <- as.integer(out$count > 0)
+
+counts <- with(out, sparseMatrix(i = cell_idx, j = peak_idx, x = binarized_count))
+
+cat(sprintf("Number of samples (cells): %d\n",nrow(counts)))
+cat(sprintf("Number of peaks: %d\n",ncol(counts)))
+cat(sprintf("Proportion of counts that are non-zero: %0.1f%%.\n",
+            100*mean(counts > 0)))
+
+
+```
+
+
+#### metadata
+* samples: 
+```{r}
+samples <- read.table("/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/bone_marrow/raw_data/GSE123580_bonemarrow_cellData.tsv.gz", header = TRUE, stringsAsFactors = FALSE, sep = "\t")
+
+dim(samples)
+
+cat(sprintf("Number of samples: %d\n",nrow(samples)))
+
+print(samples[1:3,])
+
+```
+
+* peaks: 
+```{r}
+peaks <- read.table("/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/bone_marrow/raw_data/GSE123580_bonemarrow_peaks.bed.gz", header = FALSE, stringsAsFactors = FALSE, sep = "\t")
+colnames(peaks) <- c("chr", "start", "end")
+peaks$name <- paste0(peaks$chr, ":", peaks$start, "-", peaks$end)
+
+cat(sprintf("Number of peaks: %d\n",nrow(peaks)))
+
+print(peaks[1:3,])
+
+rownames(counts) <- samples$DropBarcode
+colnames(counts) <- peaks$name
+```
+
+```{r}
+
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/bone_marrow/processed_data/"
+dir.create(data.dir, showWarnings = FALSE, recursive = TRUE)
+
+saveRDS(counts, file.path(data.dir, "counts_Lareau_2019_bonemarrow.rds"))
+
+save(list = c("samples", "peaks", "counts"), file = file.path(data.dir, "Lareau_2019_bonemarrow.RData"))
+
+```
