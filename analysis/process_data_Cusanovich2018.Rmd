@@ -7,7 +7,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-## Cusanovich and Hill, et al. 2018 dataset
+## About Cusanovich and Hill, et al. 2018 dataset
 
 Reference: Cusanovich, D., Hill, A., Aghamirzaie, D., Daza, R., Pliner, H., Berletch, J., Filippova, G., Huang, X., Christiansen, L., DeWitt, W., Lee, C., Regalado, S., Read, D., Steemers, F., Disteche, C., Trapnell, C., Shendure, J. (2018). A Single-Cell Atlas of In Vivo Mammalian Chromatin Accessibility Cell 174(5), 1 35. https://dx.doi.org/10.1016/j.cell.2018.06.052
 
@@ -24,31 +24,10 @@ Many of the initial steps of processing raw sci-ATAC-seq libraries used for this
 ## Matrix files
 
 * Binarized peak by cell matrix: `atac_matrix.binary.qc_filtered.rds` (only QC filtered cells are included).
-```{r}
-library(Matrix)
-
-## atac_matrix.binary.qc_filtered.rds: binarized peak by cell matrix in RDS format.
-binarized_matrix <- readRDS("/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/ATAC_matrices/atac_matrix.binary.qc_filtered.rds")
-dim(binarized_matrix)
-
-```
 
 * The subset of peaks used as input to TFIDF: `atac_matrix.tfidf.qc_filtered.peaks.txt`.
-```{r}
-peaks_tfidf <- read.table("/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/ATAC_matrices/atac_matrix.tfidf.qc_filtered.peaks.txt", header = FALSE, stringsAsFactors = TRUE)
-
-cat(nrow(peaks_tfidf), "peaks used as input to TFIDF.")
-```
 
 * TFIDF normalized peak by cell matrix: `atac_matrix.tfidf.qc_filtered.rds`. This dataset has rare peaks filtered out and is then normalized with TFIDF to allow for input to PCA/TSNE (only QC filtered cells are included).
-
-```{r}
-library(Matrix)
-
-## atac_matrix.tfidf.qc_filtered.rds: TFIDF normalized peak by cell matrix in RDS format.
-atac_matrix.tfidf <- readRDS("/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/ATAC_matrices/atac_matrix.tfidf.qc_filtered.rds")
-dim(atac_matrix.tfidf)
-```
 
 ## Metadata
 + `cell_metadata.txt`: Metadata for cells in TSV format, including several features such as TSNE coordinates, cluster assignments, and cell type assignments. Columns in this data: 
@@ -94,6 +73,60 @@ dim(peak_promoter_intersections)
 peak_promoter_intersections[1:3,]
 ```
 
+
+## Input data for topic modeling of the sci-ATAC-seq matrix
+
+* Binarized peak by cell matrix: `atac_matrix.binary.qc_filtered.rds` (only QC filtered cells are included).
+```{r}
+library(Matrix)
+library(tools)
+
+## atac_matrix.binary.qc_filtered.rds: binarized peak by cell matrix in RDS format.
+binarized_matrix <- readRDS("/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/ATAC_matrices/atac_matrix.binary.qc_filtered.rds")
+dim(binarized_matrix)
+counts <- t(binarized_matrix)
+
+cat(sprintf("Number of samples (cells): %d\n",nrow(counts)))
+cat(sprintf("Number of peaks: %d\n",ncol(counts)))
+cat(sprintf("Proportion of counts that are non-zero: %0.1f%%.\n",
+            100*mean(counts > 0)))
+
+# 100*nnzero(counts)/prod(dim(counts))
+
+```
+
+* `cell_metadata.txt`: Metadata for cells in TSV format, including several features such as TSNE coordinates, cluster assignments, and cell type assignments. 
+```{r}
+samples <- read.table("/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/metadata/cell_metadata.txt", header = TRUE, stringsAsFactors = FALSE, sep = "\t")
+
+dim(samples)
+
+cat(sprintf("Number of samples: %d\n",nrow(samples)))
+
+print(samples[1:3,])
+
+```
+
+This study measured single cell chromatin accessibility in 13 different tissues in mice:
+```{r}
+table(samples$tissue)
+```
+
+They labeled the cells into the following cell types:
+```{r}
+table(samples$cell_label)
+```
+
+```{r}
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/processed_data/"
+dir.create(data.dir, showWarnings = FALSE, recursive = TRUE)
+
+saveRDS(counts, file.path(data.dir, "counts_Cusanovich_2018.rds"))
+
+save(list = c("samples","counts"), file = file.path(data.dir, "Cusanovich_2018.RData"))
+
+```
+
 ## Dimensionality Reduction in the original paper
 
 They used the LSI (Latent Semantic Indexing) appraoch for dimensionality reduction: first, transform the data using the frequency-inverse document frequency transformation (TF-IDF), and then use singular value decomposition (SVD) on the TF-IDF matrix to generate a lower dimensional representation of the data. Introduction to LSI from [wikipedia](https://en.wikipedia.org/wiki/Latent_semantic_analysis). 
@@ -115,8 +148,6 @@ results.dim_reduction <- atac_dim_reduction(binarized_matrix, site_frequency_thr
 ```{r, eval=FALSE}
 library(Matrix)
 library(irlba)
-dir_results <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/results/"
-dir.create(dir_results, showWarnings = FALSE, recursive = TRUE)
 
 site_frequency_threshold <- 0.02
 atac_matrix <- readRDS("/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/ATAC_matrices/atac_matrix.binary.qc_filtered.rds")
@@ -131,12 +162,10 @@ ncounts <- atac_matrix[num_cells_ncounted >= threshold,]
 nfreqs <- t(t(ncounts) / Matrix::colSums(ncounts)) # term frequency
 tf_idf_counts <- nfreqs * log(1 + ncol(ncounts) / Matrix::rowSums(ncounts)) # term frequency * inverse document frequency
 
-saveRDS(tf_idf_counts, paste0(dir_results, "/atac_matrix.tfidf.qc_filtered_freq", site_frequency_threshold, ".rds"))
-
 ```
 
 ### LSI (TF-IDF and SVD) on ATAC-seq matrix (only QC filtered cells are included)
-```{r}
+```{r, eval=FALSE}
 ## LSI on ATAC-seq matrix
 # atac_matrix: a peak x cell scATAC-seq matrix
 # n_PCs: number of PCs (singular vectors) included
@@ -173,47 +202,4 @@ LSI_atac <- function(atac_matrix, n_PCs = 50, site_frequency_threshold = 0.03){
 
 ```{r, eval=FALSE}
 atac_LSI <- LSI_atac(atac_matrix, 50, 0.02)
-```
-
-## Topic modeling of the sci-ATAC-seq matrix
-
-* Binarized peak by cell matrix: `atac_matrix.binary.qc_filtered.rds` (only QC filtered cells are included).
-```{r}
-library(Matrix)
-
-## atac_matrix.binary.qc_filtered.rds: binarized peak by cell matrix in RDS format.
-binarized_matrix <- readRDS("/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/ATAC_matrices/atac_matrix.binary.qc_filtered.rds")
-dim(binarized_matrix)
-counts <- t(binarized_matrix)
-
-cat(sprintf("Number of cells (samples): %d\n",nrow(counts)))
-cat(sprintf("Number of peaks: %d\n",ncol(counts)))
-cat(sprintf("Proportion of counts that are non-zero: %0.1f%%.\n",
-            100*mean(counts > 0)))
-
-# 100*nnzero(counts)/prod(dim(counts))
-
-```
-
-* `cell_metadata.txt`: Metadata for cells in TSV format, including several features such as TSNE coordinates, cluster assignments, and cell type assignments. Columns in this data: 
-    - cell: cell barcode (combined and corrected)
-    - tissue: the tissue that this cell originated from
-    - tissue_replicate: same as tissue, but each replicate has a unique id
-    - cluster: cluster assignment in initial t-SNE
-    - subset_cluster: cluster assignment in iterative t-SNE space
-    - tsne_1: t-SNE1 coordinate in initial t-SNE
-    - tsne_2: t-SNE2 coordinate in initial t-SNE
-    - subset_tsne1: t-SNE1 coordinate in iterative t-SNE
-    - subset_tsne2: t-SNE2 coordinate in iterative t-SNE
-    - id: combined ID for major + iterative cluster assignment
-    - cell_label: assigned cell type
-
-```{r}
-cell_metadata <- read.table("/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/metadata/cell_metadata.txt", header = TRUE, stringsAsFactors = TRUE, sep = "\t")
-
-dim(cell_metadata)
-
-cat(sprintf("Number of cells (samples): %d\n",nrow(cell_metadata)))
-
-print(cell_metadata[1:3,])
 ```
