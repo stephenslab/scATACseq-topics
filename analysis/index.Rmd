@@ -8,13 +8,15 @@ editor_options:
   chunk_output_type: console
 ---
 
-Topic modeling analysis of single-cell ATAC-seq data.
+Topic modeling analysis of single-cell ATAC-seq data
 
-+ [Literatures for scATAC-seq resources](references.html)
+* [Literatures of scATAC-seq papers](references.html)
 
-+ [Topic modeling analysis for Cusanovich 2018 sci-ATAC-seq dataset](scATACseq_analysis_Cusanovich2018.html)
-    - [Cusanovich 2018 sci-ATAC-seq dataset](scATACseq_data_Cusanovich2018.html)
-
-+ [Topic modeling analysis for Lareau 2019 scATAC-seq dataset](scATACseq_analysis_Lareau2019.html)
-    - [Lareau 2019 sci-ATAC-seq dataset](scATACseq_data_Lareau2019.html)
+* Topic modeling analysis for Cusanovich 2018 sci-ATAC-seq dataset
+    - [About Cusanovich 2018 sci-ATAC-seq dataset](scATACseq_data_Cusanovich2018.html)
+    - [Process Cusanovich 2018 sci-ATAC-seq dataset](process_data_Cusanovich2018.html)
+    
+* Topic modeling analysis for Lareau 2019 scATAC-seq dataset
+    - [Lareau 2019 scATAC-seq dataset](scATACseq_data_Lareau2019.html)
+    - [Process Lareau 2019 scATAC-seq dataset](process_data_Lareau2019.html)
 
