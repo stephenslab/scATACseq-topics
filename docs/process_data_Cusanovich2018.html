@@ -13,7 +13,7 @@
 
 <meta name="date" content="2020-08-17" />
 
-<title>Topic modeling analysis for Cusanovich and Hill 2018 sci-ATAC-seq datasets</title>
+<title>Process data for Cusanovich 2018 sci-ATAC-seq dataset</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -372,7 +372,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Topic modeling analysis for Cusanovich and Hill 2018 sci-ATAC-seq datasets</h1>
+<h1 class="title toc-ignore">Process data for Cusanovich 2018 sci-ATAC-seq dataset</h1>
 <h4 class="author">Kaixuan Luo</h4>
 <h4 class="date">2020-08-17</h4>
 
@@ -399,7 +399,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-08-19
+<strong>Last updated:</strong> 2020-08-21
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -490,16 +490,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong23b953f"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> 23b953f </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongd0bc60c"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> d0bc60c </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrong23b953f" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongd0bc60c" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version 23b953f. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version d0bc60c. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -509,11 +509,18 @@ Ignored files:
     Ignored:    .Rproj.user/
 
 Untracked files:
-    Untracked:  analysis/scATACseq_analysis_Lareau2019.Rmd
-    Untracked:  analysis/scATACseq_data_Cusanovich2018.Rmd
+    Untracked:  analysis/analysis_Cusanovich2018.Rmd
+    Untracked:  analysis/test_fast_topics.Rmd
+    Untracked:  code/
+    Untracked:  log/
+    Untracked:  output/prefit-Cusanovich2018-k=2.Rout
+    Untracked:  output/prefit-Cusanovich2018-k=3.Rout
+    Untracked:  output/slurm-3662788.out
+    Untracked:  output/slurm-3662831.out
+    Untracked:  scripts/compile_poisson_nmf_fits.R
+    Untracked:  scripts/fit_all_models_Cusanovich_2018.sh
 
 Unstaged changes:
-    Modified:   analysis/index.Rmd
     Modified:   analysis/references.Rmd
 
 </code></pre>
@@ -529,7 +536,7 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <div id="versions" class="tab-pane fade">
 
 <p>
-These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/scATACseq_analysis_Cusanovich2018.Rmd</code>) and HTML (<code>docs/scATACseq_analysis_Cusanovich2018.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/process_data_Cusanovich2018.Rmd</code>) and HTML (<code>docs/process_data_Cusanovich2018.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
 </p>
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
@@ -558,16 +565,50 @@ Message
 Rmd
 </td>
 <td>
-23b953f
+d0bc60c
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-08-19
+2020-08-21
 </td>
 <td>
-wflow_publish(“analysis/scATACseq_analysis_Cusanovich2018.Rmd”)
+wflow_publish(“analysis/process_data_Cusanovich2018.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+0289508
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-08-21
+</td>
+<td>
+wflow_rename(“analysis/scATACseq_analysis_Cusanovich2018.Rmd”,
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+0289508
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-08-21
+</td>
+<td>
+wflow_rename(“analysis/scATACseq_analysis_Cusanovich2018.Rmd”,
 </td>
 </tr>
 </tbody>
@@ -577,8 +618,8 @@ wflow_publish(“analysis/scATACseq_analysis_Cusanovich2018.Rmd”)
 </div>
 </div>
 </div>
-<div id="cusanovich-and-hill-et-al.-2018-dataset" class="section level2">
-<h2>Cusanovich and Hill, et al. 2018 dataset</h2>
+<div id="about-cusanovich-2018-dataset" class="section level2">
+<h2>About Cusanovich 2018 dataset</h2>
 <p>Reference: Cusanovich, D., Hill, A., Aghamirzaie, D., Daza, R., Pliner, H., Berletch, J., Filippova, G., Huang, X., Christiansen, L., DeWitt, W., Lee, C., Regalado, S., Read, D., Steemers, F., Disteche, C., Trapnell, C., Shendure, J. (2018). A Single-Cell Atlas of In Vivo Mammalian Chromatin Accessibility Cell 174(5), 1 35. <a href="https://dx.doi.org/10.1016/j.cell.2018.06.052" class="uri">https://dx.doi.org/10.1016/j.cell.2018.06.052</a></p>
 <p>Data were downloaded from the website: <a href="https://atlas.gs.washington.edu/mouse-atac/data/" class="uri">https://atlas.gs.washington.edu/mouse-atac/data/</a>. They also provided detail descriptions about these datasets.</p>
 <p>RCC directory: <code>/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/</code></p>
@@ -589,30 +630,10 @@ wflow_publish(“analysis/scATACseq_analysis_Cusanovich2018.Rmd”)
 <div id="matrix-files" class="section level2">
 <h2>Matrix files</h2>
 <ul>
-<li>Binarized peak by cell matrix: <code>atac_matrix.binary.qc_filtered.rds</code> (only QC filtered cells are included).</li>
+<li><p>Binarized peak by cell matrix: <code>atac_matrix.binary.qc_filtered.rds</code> (only QC filtered cells are included).</p></li>
+<li><p>The subset of peaks used as input to TFIDF: <code>atac_matrix.tfidf.qc_filtered.peaks.txt</code>.</p></li>
+<li><p>TFIDF normalized peak by cell matrix: <code>atac_matrix.tfidf.qc_filtered.rds</code>. This dataset has rare peaks filtered out and is then normalized with TFIDF to allow for input to PCA/TSNE (only QC filtered cells are included).</p></li>
 </ul>
-<pre class="r"><code>library(Matrix)
-
-## atac_matrix.binary.qc_filtered.rds: binarized peak by cell matrix in RDS format.
-binarized_matrix &lt;- readRDS(&quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/ATAC_matrices/atac_matrix.binary.qc_filtered.rds&quot;)
-dim(binarized_matrix)</code></pre>
-<pre><code>[1] 436206  81173</code></pre>
-<ul>
-<li>The subset of peaks used as input to TFIDF: <code>atac_matrix.tfidf.qc_filtered.peaks.txt</code>.</li>
-</ul>
-<pre class="r"><code>peaks_tfidf &lt;- read.table(&quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/ATAC_matrices/atac_matrix.tfidf.qc_filtered.peaks.txt&quot;, header = FALSE, stringsAsFactors = TRUE)
-
-cat(nrow(peaks_tfidf), &quot;peaks used as input to TFIDF.&quot;)</code></pre>
-<pre><code>167013 peaks used as input to TFIDF.</code></pre>
-<ul>
-<li>TFIDF normalized peak by cell matrix: <code>atac_matrix.tfidf.qc_filtered.rds</code>. This dataset has rare peaks filtered out and is then normalized with TFIDF to allow for input to PCA/TSNE (only QC filtered cells are included).</li>
-</ul>
-<pre class="r"><code>library(Matrix)
-
-## atac_matrix.tfidf.qc_filtered.rds: TFIDF normalized peak by cell matrix in RDS format.
-atac_matrix.tfidf &lt;- readRDS(&quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/ATAC_matrices/atac_matrix.tfidf.qc_filtered.rds&quot;)
-dim(atac_matrix.tfidf)</code></pre>
-<pre><code>[1] 167013  81173</code></pre>
 </div>
 <div id="metadata" class="section level2">
 <h2>Metadata</h2>
@@ -687,81 +708,13 @@ dim(peak_promoter_intersections)</code></pre>
 2          Gm1992  ENSMUST00000161581.1            antisense      +
 3            Xkr4  ENSMUST00000070533.4       protein_coding      -</code></pre>
 </div>
-<div id="dimensionality-reduction-in-the-original-paper" class="section level2">
-<h2>Dimensionality Reduction in the original paper</h2>
-<p>They used the LSI (Latent Semantic Indexing) appraoch for dimensionality reduction: first, transform the data using the frequency-inverse document frequency transformation (TF-IDF), and then use singular value decomposition (SVD) on the TF-IDF matrix to generate a lower dimensional representation of the data. Introduction to LSI from <a href="https://en.wikipedia.org/wiki/Latent_semantic_analysis">wikipedia</a>.</p>
-<p>TF-IDF: first weight all the sites for individual cells by the total number of sites accessible in that cell (<code>term frequency</code>); then multiply these weighted values by log(1 + the inverse frequency of each site across all cells), the <code>inverse document frequency</code>. Introduction to TF-IDF from <a href="https://en.wikipedia.org/wiki/Tf–idf">wikipedia</a>.</p>
-<p>This representation was then used as input for the T-SNE (t-distributed Stochastic Neighbor Embedding) analysis using <code>Rtsne</code> package in R.</p>
-<p>The code below uses an example function <code>atac_dim_reduction</code> in <a href="https://github.com/shendurelab/mouse-atac/blob/master/dim_reduction/dim_reduction.R">dim_reduction.R</a> from the authors’ Github page that given a matrix will do TFIDF, PCA, and t-SNE and return the resulting PCA and TSNE coordinates. Note that this function takes the binarized matrix and a site_frequency_threshold argument (default 0.03 or site observed in at least 3% of cells).</p>
-<pre class="r"><code>source(&#39;/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/code_from_authors/mouse-atac/dim_reduction/dim_reduction.R&#39;)
-binarized_matrix &lt;- readRDS(&quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/ATAC_matrices/atac_matrix.binary.qc_filtered.rds&quot;)
-# This function outputs a list with two items pca_coords and tsne_coords, which contain the PCA and t-SNE coordinates as dataframes where the cell IDs are included as the rownames.
-results.dim_reduction &lt;- atac_dim_reduction(binarized_matrix, site_frequency_threshold=0.02)</code></pre>
-<div id="tf-idf-transformation" class="section level3">
-<h3>TF-IDF transformation</h3>
-<pre class="r"><code>library(Matrix)
-library(irlba)
-dir_results &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/results/&quot;
-dir.create(dir_results, showWarnings = FALSE, recursive = TRUE)
-
-site_frequency_threshold &lt;- 0.02
-atac_matrix &lt;- readRDS(&quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/ATAC_matrices/atac_matrix.binary.qc_filtered.rds&quot;)
-
-## select sites/peaks observed in at least (site_frequency_threshold)% of cells
-num_cells_ncounted &lt;- Matrix::rowSums(atac_matrix)
-threshold &lt;- ncol(atac_matrix) * site_frequency_threshold
-
-ncounts &lt;- atac_matrix[num_cells_ncounted &gt;= threshold,]
-
-## Normalize the data with TF-IDF
-nfreqs &lt;- t(t(ncounts) / Matrix::colSums(ncounts)) # term frequency
-tf_idf_counts &lt;- nfreqs * log(1 + ncol(ncounts) / Matrix::rowSums(ncounts)) # term frequency * inverse document frequency
-
-saveRDS(tf_idf_counts, paste0(dir_results, &quot;/atac_matrix.tfidf.qc_filtered_freq&quot;, site_frequency_threshold, &quot;.rds&quot;))</code></pre>
-</div>
-<div id="lsi-tf-idf-and-svd-on-atac-seq-matrix-only-qc-filtered-cells-are-included" class="section level3">
-<h3>LSI (TF-IDF and SVD) on ATAC-seq matrix (only QC filtered cells are included)</h3>
-<pre class="r"><code>## LSI on ATAC-seq matrix
-# atac_matrix: a peak x cell scATAC-seq matrix
-# n_PCs: number of PCs (singular vectors) included
-# site_frequency_threshold: site observed in at least % of cells
-# adapted from the atac_dim_reduction function in https://github.com/shendurelab/mouse-atac/blob/master/dim_reduction/dim_reduction.R
-LSI_atac &lt;- function(atac_matrix, n_PCs = 50, site_frequency_threshold = 0.03){
-  library(Matrix)
-  library(irlba)
-  
-  ## select sites/peaks observed in at least (site_frequency_threshold)% of cells
-  num_cells_ncounted &lt;- Matrix::rowSums(atac_matrix)
-  threshold &lt;- ncol(atac_matrix) * site_frequency_threshold
-  
-  ncounts &lt;- atac_matrix[num_cells_ncounted &gt;= threshold,]
-  
-  ## Normalize the data with TF-IDF
-  nfreqs &lt;- t(t(ncounts) / Matrix::colSums(ncounts)) # term frequency
-  tf_idf_counts &lt;- nfreqs * log(1 + ncol(ncounts) / Matrix::rowSums(ncounts)) # term frequency * inverse document frequency
-  
-  ## Do SVD
-  set.seed(0)
-  # use IRLBA algorithm to compute a partial SVD
-  # IRLBA: Fast Truncated Singular Value Decomposition and Principal Components Analysis for Large Dense and Sparse Matrices
-  SVD &lt;- irlba(tf_idf_counts, n_PCs, n_PCs, maxit=1000) 
-  d_diag &lt;- matrix(0, nrow=length(SVD$d), ncol=length(SVD$d))
-  diag(d_diag) &lt;- SVD$d
-  SVD_vd &lt;- t(d_diag %*% t(SVD$v))
-  rownames(SVD_vd) &lt;- colnames(atac_matrix)
-  colnames(SVD_vd) &lt;- paste0(&#39;pca_&#39;, 1:ncol(SVD_vd))
-  # return SVD_vd: cell x PC matrix
-  return(SVD_vd)
-}</code></pre>
-<pre class="r"><code>atac_LSI &lt;- LSI_atac(atac_matrix, 50, 0.02)</code></pre>
-</div>
-</div>
-<div id="topic-modeling-of-the-sci-atac-seq-matrix" class="section level2">
-<h2>Topic modeling of the sci-ATAC-seq matrix</h2>
+<div id="prepare-data-for-topic-modeling" class="section level2">
+<h2>Prepare data for topic modeling</h2>
 <ul>
 <li>Binarized peak by cell matrix: <code>atac_matrix.binary.qc_filtered.rds</code> (only QC filtered cells are included).</li>
 </ul>
 <pre class="r"><code>library(Matrix)
+library(tools)
 
 ## atac_matrix.binary.qc_filtered.rds: binarized peak by cell matrix in RDS format.
 binarized_matrix &lt;- readRDS(&quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/ATAC_matrices/atac_matrix.binary.qc_filtered.rds&quot;)
@@ -769,8 +722,8 @@ dim(binarized_matrix)</code></pre>
 <pre><code>[1] 436206  81173</code></pre>
 <pre class="r"><code>counts &lt;- t(binarized_matrix)
 
-cat(sprintf(&quot;Number of cells (samples): %d\n&quot;,nrow(counts)))</code></pre>
-<pre><code>Number of cells (samples): 81173</code></pre>
+cat(sprintf(&quot;Number of samples (cells): %d\n&quot;,nrow(counts)))</code></pre>
+<pre><code>Number of samples (cells): 81173</code></pre>
 <pre class="r"><code>cat(sprintf(&quot;Number of peaks: %d\n&quot;,ncol(counts)))</code></pre>
 <pre><code>Number of peaks: 436206</code></pre>
 <pre class="r"><code>cat(sprintf(&quot;Proportion of counts that are non-zero: %0.1f%%.\n&quot;,
@@ -778,28 +731,15 @@ cat(sprintf(&quot;Number of cells (samples): %d\n&quot;,nrow(counts)))</code></p
 <pre><code>Proportion of counts that are non-zero: 1.2%.</code></pre>
 <pre class="r"><code># 100*nnzero(counts)/prod(dim(counts))</code></pre>
 <ul>
-<li><code>cell_metadata.txt</code>: Metadata for cells in TSV format, including several features such as TSNE coordinates, cluster assignments, and cell type assignments. Columns in this data:
-<ul>
-<li>cell: cell barcode (combined and corrected)</li>
-<li>tissue: the tissue that this cell originated from</li>
-<li>tissue_replicate: same as tissue, but each replicate has a unique id</li>
-<li>cluster: cluster assignment in initial t-SNE</li>
-<li>subset_cluster: cluster assignment in iterative t-SNE space</li>
-<li>tsne_1: t-SNE1 coordinate in initial t-SNE</li>
-<li>tsne_2: t-SNE2 coordinate in initial t-SNE</li>
-<li>subset_tsne1: t-SNE1 coordinate in iterative t-SNE</li>
-<li>subset_tsne2: t-SNE2 coordinate in iterative t-SNE</li>
-<li>id: combined ID for major + iterative cluster assignment</li>
-<li>cell_label: assigned cell type</li>
-</ul></li>
+<li><code>cell_metadata.txt</code>: Metadata for cells in TSV format, including several features such as TSNE coordinates, cluster assignments, and cell type assignments.</li>
 </ul>
-<pre class="r"><code>cell_metadata &lt;- read.table(&quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/metadata/cell_metadata.txt&quot;, header = TRUE, stringsAsFactors = TRUE, sep = &quot;\t&quot;)
+<pre class="r"><code>samples &lt;- read.table(&quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/metadata/cell_metadata.txt&quot;, header = TRUE, stringsAsFactors = FALSE, sep = &quot;\t&quot;)
 
-dim(cell_metadata)</code></pre>
+dim(samples)</code></pre>
 <pre><code>[1] 81173    11</code></pre>
-<pre class="r"><code>cat(sprintf(&quot;Number of cells (samples): %d\n&quot;,nrow(cell_metadata)))</code></pre>
-<pre><code>Number of cells (samples): 81173</code></pre>
-<pre class="r"><code>print(cell_metadata[1:3,])</code></pre>
+<pre class="r"><code>cat(sprintf(&quot;Number of samples: %d\n&quot;,nrow(samples)))</code></pre>
+<pre><code>Number of samples: 81173</code></pre>
+<pre class="r"><code>print(samples[1:3,])</code></pre>
 <pre><code>                                  cell     tissue tissue.replicate cluster
 1 AGCGATAGAACGAATTCGCCTCCGACGGCAGGACGT       Lung      Lung2_62216      10
 2 AGCGATAGAACGAATTCGTTGGTAGTCGATAGAGGC     Spleen     Spleen_62016      10
@@ -812,6 +752,66 @@ dim(cell_metadata)</code></pre>
 1 clusters_10.cluster_1 Hematopoietic progenitors
 2 clusters_10.cluster_1 Hematopoietic progenitors
 3 clusters_10.cluster_1 Hematopoietic progenitors</code></pre>
+<p>This study measured single cell chromatin accessibility in 13 different tissues in mice:</p>
+<pre class="r"><code>table(samples$tissue)</code></pre>
+<pre><code>
+      BoneMarrow       Cerebellum            Heart           Kidney 
+            8403             2278             7650             6431 
+  LargeIntestine            Liver             Lung PreFrontalCortex 
+            7086             6167             9996             5959 
+  SmallIntestine           Spleen           Testes           Thymus 
+            4077             4020             2723             7617 
+      WholeBrain 
+            8766 </code></pre>
+<p>Cells were labeled into the cell types:</p>
+<pre class="r"><code>table(samples$cell_label)</code></pre>
+<pre><code>
+         Activated B cells       Alveolar macrophages 
+                       500                        559 
+                Astrocytes                    B cells 
+                      1666                       5772 
+            Cardiomyocytes   Cerebellar granule cells 
+                      4076                       4099 
+           Collecting duct                 Collisions 
+                       164                       1218 
+                    DCT/CD            Dendritic cells 
+                       506                        958 
+  Distal convoluted tubule Endothelial I (glomerular) 
+                       319                        552 
+       Endothelial I cells       Endothelial II cells 
+                       952                       3019 
+               Enterocytes              Erythroblasts 
+                      4783                       2811 
+           Ex. neurons CPN          Ex. neurons CThPN 
+                      1832                       1540 
+          Ex. neurons SCPN  Hematopoietic progenitors 
+                      1466                       3425 
+               Hepatocytes           Immature B cells 
+                      5664                        571 
+        Inhibitory neurons              Loop of henle 
+                      1828                        815 
+               Macrophages                  Microglia 
+                       711                        422 
+                 Monocytes                   NK cells 
+                      1173                        321 
+          Oligodendrocytes                  Podocytes 
+                      1558                        498 
+           Proximal tubule         Proximal tubule S3 
+                      2570                        594 
+            Purkinje cells         Regulatory T cells 
+                       320                        507 
+         SOM+ Interneurons                      Sperm 
+                       553                       2089 
+                   T cells         Type I pneumocytes 
+                      8954                       1622 
+       Type II pneumocytes                    Unknown 
+                       157                      10029 </code></pre>
+<pre class="r"><code>data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/processed_data/&quot;
+dir.create(data.dir, showWarnings = FALSE, recursive = TRUE)
+
+saveRDS(counts, file.path(data.dir, &quot;counts_Cusanovich_2018.rds&quot;))
+
+save(list = c(&quot;samples&quot;,&quot;counts&quot;), file = file.path(data.dir, &quot;Cusanovich_2018.RData&quot;))</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -836,7 +836,8 @@ locale:
 [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
 
 attached base packages:
-[1] stats     graphics  grDevices utils     datasets  methods   base     
+[1] tools     stats     graphics  grDevices utils     datasets  methods  
+[8] base     
 
 other attached packages:
 [1] Matrix_1.2-15   workflowr_1.6.2
@@ -846,9 +847,9 @@ loaded via a namespace (and not attached):
  [5] later_1.0.0     grid_3.5.1      R6_2.4.1        backports_1.1.7
  [9] git2r_0.27.1    magrittr_1.5    evaluate_0.14   stringi_1.4.6  
 [13] rlang_0.4.6     fs_1.3.1        promises_1.1.0  whisker_0.4    
-[17] rmarkdown_2.1   tools_3.5.1     stringr_1.4.0   glue_1.4.1     
-[21] httpuv_1.5.3.1  xfun_0.14       yaml_2.2.0      compiler_3.5.1 
-[25] htmltools_0.4.0 knitr_1.28     </code></pre>
+[17] rmarkdown_2.1   stringr_1.4.0   glue_1.4.1      httpuv_1.5.3.1 
+[21] xfun_0.14       yaml_2.2.0      compiler_3.5.1  htmltools_0.4.0
+[25] knitr_1.28     </code></pre>
 </div>
 </div>
 
