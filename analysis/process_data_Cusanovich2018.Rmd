@@ -75,23 +75,26 @@ peak_promoter_intersections[1:3,]
 
 
 ## Prepare data for topic modeling
-
-* Binarized peak by cell matrix: `atac_matrix.binary.qc_filtered.rds` (only QC filtered cells are included).
 ```{r}
 library(Matrix)
 library(tools)
+```
+
+* Binarized peak by cell matrix: `atac_matrix.binary.qc_filtered.rds` (only QC filtered cells are included).
+```{r, eval=FALSE}
 
 ## atac_matrix.binary.qc_filtered.rds: binarized peak by cell matrix in RDS format.
 binarized_matrix <- readRDS("/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/ATAC_matrices/atac_matrix.binary.qc_filtered.rds")
 dim(binarized_matrix)
 counts <- t(binarized_matrix)
 
+## all peaks exist in all of the cells
+length(which(colSums(counts > 0) == 0))
+
 cat(sprintf("Number of samples (cells): %d\n",nrow(counts)))
 cat(sprintf("Number of peaks: %d\n",ncol(counts)))
 cat(sprintf("Proportion of counts that are non-zero: %0.1f%%.\n",
             100*mean(counts > 0)))
-
-# 100*nnzero(counts)/prod(dim(counts))
 
 ```
 
@@ -117,12 +120,26 @@ Cells were labeled into the cell types:
 table(samples$cell_label)
 ```
 
-```{r}
+```{r, eval=FALSE}
 data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/processed_data/"
 dir.create(data.dir, showWarnings = FALSE, recursive = TRUE)
 
 saveRDS(counts, file.path(data.dir, "counts_Cusanovich_2018.rds"))
 
 save(list = c("samples","counts"), file = file.path(data.dir, "Cusanovich_2018.RData"))
+
+```
+
+
+```{r}
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/processed_data/"
+load(file.path(data.dir, "Cusanovich_2018.RData"))
+
+cat(sprintf("Loaded %d x %d counts matrix.\n",nrow(counts),ncol(counts)))
+
+cat(sprintf("Number of samples (cells): %d\n",nrow(counts)))
+cat(sprintf("Number of peaks: %d\n",ncol(counts)))
+cat(sprintf("Proportion of counts that are non-zero: %0.1f%%.\n",
+            100*mean(counts > 0)))
 
 ```
