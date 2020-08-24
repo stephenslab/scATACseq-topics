@@ -1,6 +1,6 @@
 ---
-title: "Topic modeling analysis for Lareau 2019 scATAC-seq datasets"
-author: "kevinlkx"
+title: "Process data for Lareau 2019 sci-ATAC-seq dataset"
+author: "Kaixuan Luo"
 date: "2020-08-17"
 output: workflowr::wflow_html
 editor_options:
@@ -19,19 +19,14 @@ RCC directory: `/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/m
 ```{r}
 library(Matrix)
 library(readr)
+```
 
+```{r, eval=FALSE}
 out <- read_delim("/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/mouse_brain/raw_data/GSE123576_mousebrain_countsData_revision.csv.gz",delim = " ")
 class(out) <- "data.frame"
 
 # binarize counts
 out$binarized_count <- as.integer(out$count > 0)
-
-counts <- with(out, sparseMatrix(i = cell_idx, j = peak_idx, x = binarized_count))
-
-cat(sprintf("Number of samples (cells): %d\n",nrow(counts)))
-cat(sprintf("Number of peaks: %d\n",ncol(counts)))
-cat(sprintf("Proportion of counts that are non-zero: %0.1f%%.\n",
-            100*mean(counts > 0)))
 
 ```
 
@@ -57,12 +52,24 @@ peaks$name <- paste0(peaks$chr, ":", peaks$start, "-", peaks$end)
 cat(sprintf("Number of peaks: %d\n",nrow(peaks)))
 
 print(peaks[1:3,])
-
-rownames(counts) <- samples$DropBarcode
-colnames(counts) <- peaks$name
 ```
 
-```{r}
+```{r, eval=FALSE}
+counts <- sparseMatrix(i = out$cell_idx, j = out$peak_idx, x = out$binarized_count, 
+                       dims = c(max(out$cell_idx), max(out$peak_idx)),
+                       dimnames = list(sample = samples$DropBarcode,
+                                       peak = peaks$name))
+
+```
+
+#### Remove peaks not exist in any of the cells
+```{r, eval=FALSE}
+j <- which(colSums(counts > 0) >= 1)
+peaks <- peaks[j,]
+counts <- counts[,j]
+```
+
+```{r, eval=FALSE}
 data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/mouse_brain/processed_data/"
 dir.create(data.dir, showWarnings = FALSE, recursive = TRUE)
 
@@ -72,12 +79,24 @@ save(list = c("samples", "peaks", "counts"), file = file.path(data.dir, "Lareau_
 
 ```
 
+```{r}
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/mouse_brain/processed_data/"
+load(file.path(data.dir, "Lareau_2019_mousebrain.RData"))
+cat(sprintf("Loaded %d x %d counts matrix.\n",nrow(counts),ncol(counts)))
+
+cat(sprintf("Number of samples (cells): %d\n",nrow(counts)))
+cat(sprintf("Number of peaks: %d\n",ncol(counts)))
+cat(sprintf("Proportion of counts that are non-zero: %0.1f%%.\n",
+            100*mean(counts > 0)))
+
+```
+
 ### Human bone marrow data [GSE123580](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE123580)
 Downloaded GSE123580_bonemarrow_countsData.csv.gz from the Gene Expression Omnibus (GEO) website, accession GSE123580.
 RCC directory: `/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/bone_marrow/`
 
 #### Load and binarize ATAC-seq counts
-```{r}
+```{r, eval=FALSE}
 library(Matrix)
 library(readr)
 
@@ -86,14 +105,6 @@ class(out) <- "data.frame"
 
 # binarize counts
 out$binarized_count <- as.integer(out$count > 0)
-
-counts <- with(out, sparseMatrix(i = cell_idx, j = peak_idx, x = binarized_count))
-
-cat(sprintf("Number of samples (cells): %d\n",nrow(counts)))
-cat(sprintf("Number of peaks: %d\n",ncol(counts)))
-cat(sprintf("Proportion of counts that are non-zero: %0.1f%%.\n",
-            100*mean(counts > 0)))
-
 
 ```
 
@@ -121,11 +132,30 @@ cat(sprintf("Number of peaks: %d\n",nrow(peaks)))
 
 print(peaks[1:3,])
 
-rownames(counts) <- samples$DropBarcode
-colnames(counts) <- peaks$name
 ```
 
-```{r}
+```{r, eval=FALSE}
+counts <- sparseMatrix(i = out$cell_idx, j = out$peak_idx, x = out$binarized_count, 
+                       dims = c(max(out$cell_idx), max(out$peak_idx)),
+                       dimnames = list(sample = samples$DropBarcode,
+                                       peak = peaks$name))
+
+```
+
+#### Remove peaks not exist in any of the cells
+```{r, eval=FALSE}
+j <- which(colSums(counts > 0) >= 1)
+peaks <- peaks[j,]
+counts <- counts[,j]
+
+cat(sprintf("Number of samples (cells): %d\n",nrow(counts)))
+cat(sprintf("Number of peaks: %d\n",ncol(counts)))
+cat(sprintf("Proportion of counts that are non-zero: %0.1f%%.\n",
+            100*mean(counts > 0)))
+
+```
+
+```{r, eval=FALSE}
 
 data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/bone_marrow/processed_data/"
 dir.create(data.dir, showWarnings = FALSE, recursive = TRUE)
@@ -133,5 +163,18 @@ dir.create(data.dir, showWarnings = FALSE, recursive = TRUE)
 saveRDS(counts, file.path(data.dir, "counts_Lareau_2019_bonemarrow.rds"))
 
 save(list = c("samples", "peaks", "counts"), file = file.path(data.dir, "Lareau_2019_bonemarrow.RData"))
+
+```
+
+```{r}
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/bone_marrow/processed_data/"
+load(file.path(data.dir, "Lareau_2019_bonemarrow.RData"))
+
+cat(sprintf("Loaded %d x %d counts matrix.\n",nrow(counts),ncol(counts)))
+
+cat(sprintf("Number of samples (cells): %d\n",nrow(counts)))
+cat(sprintf("Number of peaks: %d\n",ncol(counts)))
+cat(sprintf("Proportion of counts that are non-zero: %0.1f%%.\n",
+            100*mean(counts > 0)))
 
 ```
