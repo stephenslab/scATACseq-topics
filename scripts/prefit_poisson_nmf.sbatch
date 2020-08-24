@@ -3,7 +3,7 @@
 #SBATCH --partition=broadwl
 #SBATCH --account=pi-mstephens
 #SBATCH --cpus-per-task=1
-#SBATCH --mem=30G
+#SBATCH --mem=50G
 #SBATCH --time=30:00:00
 
 # This script allocates computing resources (CPUs, memory), loads R,
