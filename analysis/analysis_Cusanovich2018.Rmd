@@ -1,0 +1,99 @@
+---
+title: "Analysis for Cusanovich 2018 sci-ATAC-seq dataset"
+author: "Kaixuan Luo"
+date: "2020-08-17"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+## About Cusanovich 2018 dataset
+
+Reference: Cusanovich, D., Hill, A., Aghamirzaie, D., Daza, R., Pliner, H., Berletch, J., Filippova, G., Huang, X., Christiansen, L., DeWitt, W., Lee, C., Regalado, S., Read, D., Steemers, F., Disteche, C., Trapnell, C., Shendure, J. (2018). A Single-Cell Atlas of In Vivo Mammalian Chromatin Accessibility Cell 174(5), 1 35. https://dx.doi.org/10.1016/j.cell.2018.06.052
+
+Data were downloaded from the website: https://atlas.gs.washington.edu/mouse-atac/data/. They also provided detail descriptions about these datasets.
+
+RCC directory: `/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/`
+
+The authors included nice tutorials on how to get started with analysis of sci-ATAC-seq data: http://atlas.gs.washington.edu/mouse-atac/docs/
+
+R/python scripts referenced in this tutorial are available on: https://github.com/shendurelab/mouse-atac and downloaded to `/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/code_from_authors/mouse-atac` on RCC. 
+
+Many of the initial steps of processing raw sci-ATAC-seq libraries used for this study are similar to their previous work of sci-ATAC-seq on Drosophila melanogaster embryos at 3 different stages of development. "Cusanovich, D., Reddington, J., Garfield, D. et al. The cis-regulatory dynamics of embryonic development at single-cell resolution. Nature 555, 538–542 (2018). https://doi.org/10.1038/nature25981". Code and documentation on processing sequencing data can be found on the [Fly ATAC Github](https://github.com/shendurelab/fly-atac). Documentation on various downstream steps can be found in the [Fly ATAC documentation](http://atlas.gs.washington.edu/fly-atac/).
+
+## Dimensionality Reduction in the original paper
+
+They used the LSI (Latent Semantic Indexing) appraoch for dimensionality reduction: first, transform the data using the frequency-inverse document frequency transformation (TF-IDF), and then use singular value decomposition (SVD) on the TF-IDF matrix to generate a lower dimensional representation of the data. Introduction to LSI from [wikipedia](https://en.wikipedia.org/wiki/Latent_semantic_analysis). 
+
+TF-IDF: first weight all the sites for individual cells by the total number of sites accessible in that cell (`term frequency`); then multiply these weighted values by log(1 + the inverse frequency of each site across all cells), the `inverse document frequency`. Introduction to TF-IDF from [wikipedia](https://en.wikipedia.org/wiki/Tf–idf). 
+
+This representation was then used as input for the T-SNE (t-distributed Stochastic Neighbor Embedding) analysis using `Rtsne` package in R.
+
+The code below uses an example function `atac_dim_reduction` in [dim_reduction.R](https://github.com/shendurelab/mouse-atac/blob/master/dim_reduction/dim_reduction.R) from the authors' Github page that given a matrix will do TFIDF, PCA, and t-SNE and return the resulting PCA and TSNE coordinates. Note that this function takes the binarized matrix and a site_frequency_threshold argument (default 0.03 or site observed in at least 3% of cells).
+```{r, eval=FALSE}
+source('/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/code_from_authors/mouse-atac/dim_reduction/dim_reduction.R')
+binarized_matrix <- readRDS("/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/ATAC_matrices/atac_matrix.binary.qc_filtered.rds")
+# This function outputs a list with two items pca_coords and tsne_coords, which contain the PCA and t-SNE coordinates as dataframes where the cell IDs are included as the rownames.
+results.dim_reduction <- atac_dim_reduction(binarized_matrix, site_frequency_threshold=0.02)
+```
+
+### TF-IDF transformation
+
+```{r, eval=FALSE}
+library(Matrix)
+library(irlba)
+
+site_frequency_threshold <- 0.02
+atac_matrix <- readRDS("/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/ATAC_matrices/atac_matrix.binary.qc_filtered.rds")
+
+## select sites/peaks observed in at least (site_frequency_threshold)% of cells
+num_cells_ncounted <- Matrix::rowSums(atac_matrix)
+threshold <- ncol(atac_matrix) * site_frequency_threshold
+
+ncounts <- atac_matrix[num_cells_ncounted >= threshold,]
+
+## Normalize the data with TF-IDF
+nfreqs <- t(t(ncounts) / Matrix::colSums(ncounts)) # term frequency
+tf_idf_counts <- nfreqs * log(1 + ncol(ncounts) / Matrix::rowSums(ncounts)) # term frequency * inverse document frequency
+
+```
+
+### LSI (TF-IDF and SVD) on ATAC-seq matrix (only QC filtered cells are included)
+```{r, eval=FALSE}
+## LSI on ATAC-seq matrix
+# atac_matrix: a peak x cell scATAC-seq matrix
+# n_PCs: number of PCs (singular vectors) included
+# site_frequency_threshold: site observed in at least % of cells
+# adapted from the atac_dim_reduction function in https://github.com/shendurelab/mouse-atac/blob/master/dim_reduction/dim_reduction.R
+LSI_atac <- function(atac_matrix, n_PCs = 50, site_frequency_threshold = 0.03){
+  library(Matrix)
+  library(irlba)
+  
+  ## select sites/peaks observed in at least (site_frequency_threshold)% of cells
+  num_cells_ncounted <- Matrix::rowSums(atac_matrix)
+  threshold <- ncol(atac_matrix) * site_frequency_threshold
+  
+  ncounts <- atac_matrix[num_cells_ncounted >= threshold,]
+  
+  ## Normalize the data with TF-IDF
+  nfreqs <- t(t(ncounts) / Matrix::colSums(ncounts)) # term frequency
+  tf_idf_counts <- nfreqs * log(1 + ncol(ncounts) / Matrix::rowSums(ncounts)) # term frequency * inverse document frequency
+  
+  ## Do SVD
+  set.seed(0)
+  # use IRLBA algorithm to compute a partial SVD
+  # IRLBA: Fast Truncated Singular Value Decomposition and Principal Components Analysis for Large Dense and Sparse Matrices
+  SVD <- irlba(tf_idf_counts, n_PCs, n_PCs, maxit=1000) 
+  d_diag <- matrix(0, nrow=length(SVD$d), ncol=length(SVD$d))
+  diag(d_diag) <- SVD$d
+  SVD_vd <- t(d_diag %*% t(SVD$v))
+  rownames(SVD_vd) <- colnames(atac_matrix)
+  colnames(SVD_vd) <- paste0('pca_', 1:ncol(SVD_vd))
+  # return SVD_vd: cell x PC matrix
+  return(SVD_vd)
+}
+```
+
+```{r, eval=FALSE}
+atac_LSI <- LSI_atac(atac_matrix, 50, 0.02)
+```
