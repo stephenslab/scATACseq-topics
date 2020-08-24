@@ -3,7 +3,7 @@
 #SBATCH --partition=broadwl
 #SBATCH --account=pi-mstephens
 #SBATCH --cpus-per-task=1
-#SBATCH --mem=30G
+#SBATCH --mem=50G
 #SBATCH --time=32:00:00
 
 # This script allocates computing resources (CPUs, memory), loads R,
@@ -31,10 +31,6 @@ echo numiter=${NUMITER}
 echo extrapolate=${6}
 echo outfile=${OUTFILE}
 
-DAT=$(basename ${DATFILE} .RData)
-PREFIT=${DAT//"_"/"-"}
-PREFIT=../output/${PREFIT}/rds/prefit-${PREFIT}-k=${K}.rds
-
 # For reproducibility, I add version numbers to the "module load" calls.
 module load R/3.5.1
 
@@ -42,6 +38,6 @@ module load R/3.5.1
 echo "Running fit_poisson_nmf.R"
 export OPENBLAS_NUM_THREADS=1
 Rscript ~/projects/scATACseq-topics/scripts/fit_poisson_nmf.R \
-  --counts ${DATFILE} --prefit ${PREFIT} \
+  --counts ${DATFILE} --prefit ${PREFITFILE}.rds \
   --method ${METHOD} -n ${NUMITER} ${EXTRAPOLATE} \
   --nc 1 -o ${OUTFILE}.rds > ${OUTFILE}.Rout
