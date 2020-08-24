@@ -9,11 +9,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="kevinlkx" />
+<meta name="author" content="Kaixuan Luo" />
 
 <meta name="date" content="2020-08-17" />
 
-<title>Topic modeling analysis for Lareau 2019 scATAC-seq datasets</title>
+<title>Process data for Lareau 2019 sci-ATAC-seq dataset</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -372,8 +372,8 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Topic modeling analysis for Lareau 2019 scATAC-seq datasets</h1>
-<h4 class="author">kevinlkx</h4>
+<h1 class="title toc-ignore">Process data for Lareau 2019 sci-ATAC-seq dataset</h1>
+<h4 class="author">Kaixuan Luo</h4>
 <h4 class="date">2020-08-17</h4>
 
 </div>
@@ -399,7 +399,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-08-21
+<strong>Last updated:</strong> 2020-08-24
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -490,16 +490,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstronge5ae61d"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> e5ae61d </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongbfb8ee6"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> bfb8ee6 </a>
 </p>
 </div>
-<div id="strongRepositoryversionstronge5ae61d" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongbfb8ee6" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version e5ae61d. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version bfb8ee6. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -509,6 +509,7 @@ Ignored files:
     Ignored:    .Rproj.user/
 
 Untracked files:
+    Untracked:  analysis/analysis_Cusanovich2018.Rmd
     Untracked:  analysis/test_fast_topics.Rmd
     Untracked:  code/
     Untracked:  log/
@@ -517,10 +518,13 @@ Untracked files:
     Untracked:  output/slurm-3662788.out
     Untracked:  output/slurm-3662831.out
     Untracked:  scripts/compile_poisson_nmf_fits.R
-    Untracked:  scripts/fit_all_models_Cusanovich_2018.sh
+    Untracked:  scripts/fit_all_models_Cusanovich2018.sh
+    Untracked:  scripts/fit_all_models_Lareau2019.sh
 
 Unstaged changes:
     Modified:   analysis/references.Rmd
+    Modified:   scripts/fit_poisson_nmf.sbatch
+    Modified:   scripts/prefit_poisson_nmf.sbatch
 
 </code></pre>
 <p>
@@ -564,6 +568,40 @@ Message
 Rmd
 </td>
 <td>
+bfb8ee6
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-08-24
+</td>
+<td>
+wflow_publish(“analysis/process_data_Lareau2019.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+d36ca58
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-08-21
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 e5ae61d
 </td>
 <td>
@@ -592,29 +630,12 @@ wflow_publish(“analysis/process_data_Lareau2019.Rmd”)
 <div id="load-and-binarize-atac-seq-counts" class="section level4">
 <h4>Load and binarize ATAC-seq counts</h4>
 <pre class="r"><code>library(Matrix)
-library(readr)
-
-out &lt;- read_delim(&quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/mouse_brain/raw_data/GSE123576_mousebrain_countsData_revision.csv.gz&quot;,delim = &quot; &quot;)</code></pre>
-<pre><code>Parsed with column specification:
-cols(
-  peak_idx = col_double(),
-  cell_idx = col_double(),
-  count = col_double()
-)</code></pre>
-<pre class="r"><code>class(out) &lt;- &quot;data.frame&quot;
+library(readr)</code></pre>
+<pre class="r"><code>out &lt;- read_delim(&quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/mouse_brain/raw_data/GSE123576_mousebrain_countsData_revision.csv.gz&quot;,delim = &quot; &quot;)
+class(out) &lt;- &quot;data.frame&quot;
 
 # binarize counts
-out$binarized_count &lt;- as.integer(out$count &gt; 0)
-
-counts &lt;- with(out, sparseMatrix(i = cell_idx, j = peak_idx, x = binarized_count))
-
-cat(sprintf(&quot;Number of samples (cells): %d\n&quot;,nrow(counts)))</code></pre>
-<pre><code>Number of samples (cells): 46653</code></pre>
-<pre class="r"><code>cat(sprintf(&quot;Number of peaks: %d\n&quot;,ncol(counts)))</code></pre>
-<pre><code>Number of peaks: 454047</code></pre>
-<pre class="r"><code>cat(sprintf(&quot;Proportion of counts that are non-zero: %0.1f%%.\n&quot;,
-            100*mean(counts &gt; 0)))</code></pre>
-<pre><code>Proportion of counts that are non-zero: 2.1%.</code></pre>
+out$binarized_count &lt;- as.integer(out$count &gt; 0)</code></pre>
 </div>
 <div id="metadata" class="section level4">
 <h4>metadata</h4>
@@ -646,14 +667,33 @@ cat(sprintf(&quot;Number of peaks: %d\n&quot;,nrow(peaks)))</code></pre>
 1 chr1 3042897 3043397 chr1:3042897-3043397
 2 chr1 3094911 3095411 chr1:3094911-3095411
 3 chr1 3113443 3113943 chr1:3113443-3113943</code></pre>
-<pre class="r"><code>rownames(counts) &lt;- samples$DropBarcode
-colnames(counts) &lt;- peaks$name</code></pre>
+<pre class="r"><code>counts &lt;- sparseMatrix(i = out$cell_idx, j = out$peak_idx, x = out$binarized_count, 
+                       dims = c(max(out$cell_idx), max(out$peak_idx)),
+                       dimnames = list(sample = samples$DropBarcode,
+                                       peak = peaks$name))</code></pre>
+</div>
+<div id="remove-peaks-not-exist-in-any-of-the-cells" class="section level4">
+<h4>Remove peaks not exist in any of the cells</h4>
+<pre class="r"><code>j &lt;- which(colSums(counts &gt; 0) &gt;= 1)
+peaks &lt;- peaks[j,]
+counts &lt;- counts[,j]</code></pre>
 <pre class="r"><code>data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/mouse_brain/processed_data/&quot;
 dir.create(data.dir, showWarnings = FALSE, recursive = TRUE)
 
 saveRDS(counts, file.path(data.dir, &quot;counts_Lareau_2019_mousebrain.rds&quot;))
 
 save(list = c(&quot;samples&quot;, &quot;peaks&quot;, &quot;counts&quot;), file = file.path(data.dir, &quot;Lareau_2019_mousebrain.RData&quot;))</code></pre>
+<pre class="r"><code>data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/mouse_brain/processed_data/&quot;
+load(file.path(data.dir, &quot;Lareau_2019_mousebrain.RData&quot;))
+cat(sprintf(&quot;Loaded %d x %d counts matrix.\n&quot;,nrow(counts),ncol(counts)))</code></pre>
+<pre><code>Loaded 46653 x 451300 counts matrix.</code></pre>
+<pre class="r"><code>cat(sprintf(&quot;Number of samples (cells): %d\n&quot;,nrow(counts)))</code></pre>
+<pre><code>Number of samples (cells): 46653</code></pre>
+<pre class="r"><code>cat(sprintf(&quot;Number of peaks: %d\n&quot;,ncol(counts)))</code></pre>
+<pre><code>Number of peaks: 451300</code></pre>
+<pre class="r"><code>cat(sprintf(&quot;Proportion of counts that are non-zero: %0.1f%%.\n&quot;,
+            100*mean(counts &gt; 0)))</code></pre>
+<pre><code>Proportion of counts that are non-zero: 2.1%.</code></pre>
 </div>
 </div>
 <div id="human-bone-marrow-data-gse123580" class="section level3">
@@ -664,27 +704,11 @@ save(list = c(&quot;samples&quot;, &quot;peaks&quot;, &quot;counts&quot;), file 
 <pre class="r"><code>library(Matrix)
 library(readr)
 
-out &lt;- read_delim(&quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/bone_marrow/raw_data/GSE123580_bonemarrow_countsData.csv.gz&quot;,delim = &quot; &quot;)</code></pre>
-<pre><code>Parsed with column specification:
-cols(
-  peak_idx = col_double(),
-  cell_idx = col_double(),
-  count = col_double()
-)</code></pre>
-<pre class="r"><code>class(out) &lt;- &quot;data.frame&quot;
+out &lt;- read_delim(&quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/bone_marrow/raw_data/GSE123580_bonemarrow_countsData.csv.gz&quot;,delim = &quot; &quot;)
+class(out) &lt;- &quot;data.frame&quot;
 
 # binarize counts
-out$binarized_count &lt;- as.integer(out$count &gt; 0)
-
-counts &lt;- with(out, sparseMatrix(i = cell_idx, j = peak_idx, x = binarized_count))
-
-cat(sprintf(&quot;Number of samples (cells): %d\n&quot;,nrow(counts)))</code></pre>
-<pre><code>Number of samples (cells): 136463</code></pre>
-<pre class="r"><code>cat(sprintf(&quot;Number of peaks: %d\n&quot;,ncol(counts)))</code></pre>
-<pre><code>Number of peaks: 156311</code></pre>
-<pre class="r"><code>cat(sprintf(&quot;Proportion of counts that are non-zero: %0.1f%%.\n&quot;,
-            100*mean(counts &gt; 0)))</code></pre>
-<pre><code>Proportion of counts that are non-zero: 0.6%.</code></pre>
+out$binarized_count &lt;- as.integer(out$count &gt; 0)</code></pre>
 </div>
 <div id="metadata-1" class="section level4">
 <h4>metadata</h4>
@@ -716,14 +740,39 @@ cat(sprintf(&quot;Number of peaks: %d\n&quot;,nrow(peaks)))</code></pre>
 1 chr1  9942 10442  chr1:9942-10442
 2 chr1 11036 11536 chr1:11036-11536
 3 chr1 12478 12978 chr1:12478-12978</code></pre>
-<pre class="r"><code>rownames(counts) &lt;- samples$DropBarcode
-colnames(counts) &lt;- peaks$name</code></pre>
+<pre class="r"><code>counts &lt;- sparseMatrix(i = out$cell_idx, j = out$peak_idx, x = out$binarized_count, 
+                       dims = c(max(out$cell_idx), max(out$peak_idx)),
+                       dimnames = list(sample = samples$DropBarcode,
+                                       peak = peaks$name))</code></pre>
+</div>
+<div id="remove-peaks-not-exist-in-any-of-the-cells-1" class="section level4">
+<h4>Remove peaks not exist in any of the cells</h4>
+<pre class="r"><code>j &lt;- which(colSums(counts &gt; 0) &gt;= 1)
+peaks &lt;- peaks[j,]
+counts &lt;- counts[,j]
+
+cat(sprintf(&quot;Number of samples (cells): %d\n&quot;,nrow(counts)))
+cat(sprintf(&quot;Number of peaks: %d\n&quot;,ncol(counts)))
+cat(sprintf(&quot;Proportion of counts that are non-zero: %0.1f%%.\n&quot;,
+            100*mean(counts &gt; 0)))</code></pre>
 <pre class="r"><code>data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/bone_marrow/processed_data/&quot;
 dir.create(data.dir, showWarnings = FALSE, recursive = TRUE)
 
 saveRDS(counts, file.path(data.dir, &quot;counts_Lareau_2019_bonemarrow.rds&quot;))
 
 save(list = c(&quot;samples&quot;, &quot;peaks&quot;, &quot;counts&quot;), file = file.path(data.dir, &quot;Lareau_2019_bonemarrow.RData&quot;))</code></pre>
+<pre class="r"><code>data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/bone_marrow/processed_data/&quot;
+load(file.path(data.dir, &quot;Lareau_2019_bonemarrow.RData&quot;))
+
+cat(sprintf(&quot;Loaded %d x %d counts matrix.\n&quot;,nrow(counts),ncol(counts)))</code></pre>
+<pre><code>Loaded 136463 x 146860 counts matrix.</code></pre>
+<pre class="r"><code>cat(sprintf(&quot;Number of samples (cells): %d\n&quot;,nrow(counts)))</code></pre>
+<pre><code>Number of samples (cells): 136463</code></pre>
+<pre class="r"><code>cat(sprintf(&quot;Number of peaks: %d\n&quot;,ncol(counts)))</code></pre>
+<pre><code>Number of peaks: 146860</code></pre>
+<pre class="r"><code>cat(sprintf(&quot;Proportion of counts that are non-zero: %0.1f%%.\n&quot;,
+            100*mean(counts &gt; 0)))</code></pre>
+<pre><code>Proportion of counts that are non-zero: 0.7%.</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
