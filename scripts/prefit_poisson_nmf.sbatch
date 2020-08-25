@@ -1,9 +1,11 @@
 #!/bin/bash
 
+#SBATCH --job-name=prefitNMF
+#SBATCH --output=prefitNMF_%J.out
 #SBATCH --partition=broadwl
 #SBATCH --account=pi-mstephens
-#SBATCH --cpus-per-task=1
-#SBATCH --mem=50G
+#SBATCH --cpus-per-task=10
+#SBATCH --mem=20G
 #SBATCH --time=30:00:00
 
 # This script allocates computing resources (CPUs, memory), loads R,
@@ -28,4 +30,4 @@ echo "Running prefit_poisson_nmf.R"
 export OPENBLAS_NUM_THREADS=1
 Rscript ~/projects/scATACseq-topics/scripts/prefit_poisson_nmf.R \
   --counts ${DATFILE} -k ${K} -n ${NUMITER} \
-  --nc 1 -o ${OUTFILE}.rds > ${OUTFILE}.Rout
+  --nc 10 -o ${OUTFILE}.rds > ${OUTFILE}.Rout
