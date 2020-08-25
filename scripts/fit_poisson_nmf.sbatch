@@ -1,9 +1,11 @@
 #!/bin/bash
 
+#SBATCH --job-name=fitNMF
+#SBATCH --output=fitNMF_%J.out
 #SBATCH --partition=broadwl
 #SBATCH --account=pi-mstephens
-#SBATCH --cpus-per-task=1
-#SBATCH --mem=50G
+#SBATCH --cpus-per-task=10
+#SBATCH --mem=20G
 #SBATCH --time=32:00:00
 
 # This script allocates computing resources (CPUs, memory), loads R,
@@ -40,4 +42,4 @@ export OPENBLAS_NUM_THREADS=1
 Rscript ~/projects/scATACseq-topics/scripts/fit_poisson_nmf.R \
   --counts ${DATFILE} --prefit ${PREFITFILE}.rds \
   --method ${METHOD} -n ${NUMITER} ${EXTRAPOLATE} \
-  --nc 1 -o ${OUTFILE}.rds > ${OUTFILE}.Rout
+  --nc 10 -o ${OUTFILE}.rds > ${OUTFILE}.Rout
