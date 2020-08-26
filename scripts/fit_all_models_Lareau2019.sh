@@ -8,44 +8,53 @@ SCRIPT_PREFIT=~/projects/scATACseq-topics/scripts/prefit_poisson_nmf.sbatch
 SCRIPT_FIT=~/projects/scATACseq-topics/scripts/fit_poisson_nmf.sbatch
 
 # Lareau_2019_bonemarrow data
-DAT_DIR=/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/bone_marrow/processed_data/
-OUT_DIR=/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/bone_marrow/output/
-cd /project2/mstephens/kevinluo/scATACseq-topics/data/log
+DAT_DIR=/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/bone_marrow/processed_data
+OUT_DIR=/project2/mstephens/kevinluo/scATACseq-topics/output/Lareau_2019
 mkdir -p ${OUT_DIR}
-NUMITER=10
+
+cd /project2/mstephens/kevinluo/scATACseq-topics/log
 
 # "Pre-fit" factorizations to the Lareau_2019_bonemarrow data.
-#                       data                                     k numiter    outfile
-sbatch ${SCRIPT_PREFIT} ${DAT_DIR}/Lareau_2019_bonemarrow.RData  2 ${NUMITER} ${OUT_DIR}/prefit-Lareau2019_bonemarrow-k=2
+#                                 data                                     k  numiter outfile
+sbatch --mem=20G ${SCRIPT_PREFIT} ${DAT_DIR}/Lareau_2019_bonemarrow.RData  2  100     ${OUT_DIR}/prefit-Lareau2019_bonemarrow-k=2
+sbatch --mem=20G ${SCRIPT_PREFIT} ${DAT_DIR}/Lareau_2019_bonemarrow.RData  10 100     ${OUT_DIR}/prefit-Lareau2019_bonemarrow-k=10
+
+sbatch --mem=20G ${SCRIPT_PREFIT} ${DAT_DIR}/Lareau_2019_bonemarrow.RData  3  300     ${OUT_DIR}/prefit-Lareau2019_bonemarrow-k=3
+sbatch --mem=20G ${SCRIPT_PREFIT} ${DAT_DIR}/Lareau_2019_bonemarrow.RData  4  300     ${OUT_DIR}/prefit-Lareau2019_bonemarrow-k=4
+sbatch --mem=20G ${SCRIPT_PREFIT} ${DAT_DIR}/Lareau_2019_bonemarrow.RData  5  300     ${OUT_DIR}/prefit-Lareau2019_bonemarrow-k=5
+sbatch --mem=20G ${SCRIPT_PREFIT} ${DAT_DIR}/Lareau_2019_bonemarrow.RData  6  300     ${OUT_DIR}/prefit-Lareau2019_bonemarrow-k=6
+sbatch --mem=20G ${SCRIPT_PREFIT} ${DAT_DIR}/Lareau_2019_bonemarrow.RData  7  300     ${OUT_DIR}/prefit-Lareau2019_bonemarrow-k=7
+sbatch --mem=20G ${SCRIPT_PREFIT} ${DAT_DIR}/Lareau_2019_bonemarrow.RData  8  300     ${OUT_DIR}/prefit-Lareau2019_bonemarrow-k=8
+sbatch --mem=20G ${SCRIPT_PREFIT} ${DAT_DIR}/Lareau_2019_bonemarrow.RData  9  300     ${OUT_DIR}/prefit-Lareau2019_bonemarrow-k=9
 
 # Fit factorizations to Lareau_2019_bonemarrow data, with and without extrapolation.
-#                    data                                    prefitfile                                  k method numiter     ex outfile
-sbatch ${SCRIPT_FIT} ${DAT_DIR}/Lareau_2019_bonemarrow.RData ${OUT_DIR}/prefit-Lareau2019_bonemarrow-k=2 2 em     ${NUMITER}  no ${OUT_DIR}/fit-Lareau2019_bonemarrow-em-k=2
-sbatch ${SCRIPT_FIT} ${DAT_DIR}/Lareau_2019_bonemarrow.RData ${OUT_DIR}/prefit-Lareau2019_bonemarrow-k=2 2 ccd    ${NUMITER}  no ${OUT_DIR}/fit-Lareau2019_bonemarrow-ccd-k=2
-sbatch ${SCRIPT_FIT} ${DAT_DIR}/Lareau_2019_bonemarrow.RData ${OUT_DIR}/prefit-Lareau2019_bonemarrow-k=2 2 scd    ${NUMITER}  no ${OUT_DIR}/fit-Lareau2019_bonemarrow-scd-k=2
-sbatch ${SCRIPT_FIT} ${DAT_DIR}/Lareau_2019_bonemarrow.RData ${OUT_DIR}/prefit-Lareau2019_bonemarrow-k=2 2 em     ${NUMITER} yes ${OUT_DIR}/fit-Lareau2019_bonemarrow-em-ex-k=2
-sbatch ${SCRIPT_FIT} ${DAT_DIR}/Lareau_2019_bonemarrow.RData ${OUT_DIR}/prefit-Lareau2019_bonemarrow-k=2 2 ccd    ${NUMITER} yes ${OUT_DIR}/fit-Lareau2019_bonemarrow-ccd-ex-k=2
-sbatch ${SCRIPT_FIT} ${DAT_DIR}/Lareau_2019_bonemarrow.RData ${OUT_DIR}/prefit-Lareau2019_bonemarrow-k=2 2 scd    ${NUMITER} yes ${OUT_DIR}/fit-Lareau2019_bonemarrow-scd-ex-k=2
+#                    data                                    prefitfile                                  k method numiter ex outfile
+sbatch ${SCRIPT_FIT} ${DAT_DIR}/Lareau_2019_bonemarrow.RData ${OUT_DIR}/prefit-Lareau2019_bonemarrow-k=2 2 em     500     no ${OUT_DIR}/fit-Lareau2019_bonemarrow-em-k=2
+sbatch ${SCRIPT_FIT} ${DAT_DIR}/Lareau_2019_bonemarrow.RData ${OUT_DIR}/prefit-Lareau2019_bonemarrow-k=2 2 ccd    500     no ${OUT_DIR}/fit-Lareau2019_bonemarrow-ccd-k=2
+sbatch ${SCRIPT_FIT} ${DAT_DIR}/Lareau_2019_bonemarrow.RData ${OUT_DIR}/prefit-Lareau2019_bonemarrow-k=2 2 scd    500     no ${OUT_DIR}/fit-Lareau2019_bonemarrow-scd-k=2
+sbatch ${SCRIPT_FIT} ${DAT_DIR}/Lareau_2019_bonemarrow.RData ${OUT_DIR}/prefit-Lareau2019_bonemarrow-k=2 2 em     500     yes ${OUT_DIR}/fit-Lareau2019_bonemarrow-em-ex-k=2
+sbatch ${SCRIPT_FIT} ${DAT_DIR}/Lareau_2019_bonemarrow.RData ${OUT_DIR}/prefit-Lareau2019_bonemarrow-k=2 2 ccd    500     yes ${OUT_DIR}/fit-Lareau2019_bonemarrow-ccd-ex-k=2
+sbatch ${SCRIPT_FIT} ${DAT_DIR}/Lareau_2019_bonemarrow.RData ${OUT_DIR}/prefit-Lareau2019_bonemarrow-k=2 2 scd    500     yes ${OUT_DIR}/fit-Lareau2019_bonemarrow-scd-ex-k=2
 
 
-# Lareau_2019_mousebrain data
-DAT_DIR=/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/mouse_brain/processed_data/
-OUT_DIR=/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/mouse_brain/output/
-cd /project2/mstephens/kevinluo/scATACseq-topics/data/log
-mkdir -p ${OUT_DIR}
-NUMITER=10
-
-# "Pre-fit" factorizations to the Lareau_2019_mousebrain data.
-#                       data                                     k numiter    outfile
-sbatch ${SCRIPT_PREFIT} ${DAT_DIR}/Lareau_2019_mousebrain.RData  2 ${NUMITER} ${OUT_DIR}/prefit-Lareau2019_mousebrain-k=2
-
-# Fit factorizations to Lareau_2019_mousebrain data, with and without extrapolation.
-#                    data                                    prefitfile                                  k method numiter     ex outfile
-sbatch ${SCRIPT_FIT} ${DAT_DIR}/Lareau_2019_mousebrain.RData ${OUT_DIR}/prefit-Lareau2019_mousebrain-k=2 2 em     ${NUMITER}  no fit-Lareau2019_mousebrain-em-k=2
-sbatch ${SCRIPT_FIT} ${DAT_DIR}/Lareau_2019_mousebrain.RData ${OUT_DIR}/prefit-Lareau2019_mousebrain-k=2 2 ccd    ${NUMITER}  no fit-Lareau2019_mousebrain-ccd-k=2
-sbatch ${SCRIPT_FIT} ${DAT_DIR}/Lareau_2019_mousebrain.RData ${OUT_DIR}/prefit-Lareau2019_mousebrain-k=2 2 scd    ${NUMITER}  no fit-Lareau2019_mousebrain-scd-k=2
-sbatch ${SCRIPT_FIT} ${DAT_DIR}/Lareau_2019_mousebrain.RData ${OUT_DIR}/prefit-Lareau2019_mousebrain-k=2 2 em     ${NUMITER} yes fit-Lareau2019_mousebrain-em-ex-k=2
-sbatch ${SCRIPT_FIT} ${DAT_DIR}/Lareau_2019_mousebrain.RData ${OUT_DIR}/prefit-Lareau2019_mousebrain-k=2 2 ccd    ${NUMITER} yes fit-Lareau2019_mousebrain-ccd-ex-k=2
-sbatch ${SCRIPT_FIT} ${DAT_DIR}/Lareau_2019_mousebrain.RData ${OUT_DIR}/prefit-Lareau2019_mousebrain-k=2 2 scd    ${NUMITER} yes fit-Lareau2019_mousebrain-scd-ex-k=2
-
+# # Lareau_2019_mousebrain data
+# DAT_DIR=/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/mouse_brain/processed_data
+# OUT_DIR=/project2/mstephens/kevinluo/scATACseq-topics/output/Lareau_2019
+# NUMITER=10
+# mkdir -p ${OUT_DIR}
+#
+# cd /project2/mstephens/kevinluo/scATACseq-topics/log
+#
+# # "Pre-fit" factorizations to the Lareau_2019_mousebrain data.
+# #                       data                                     k numiter    outfile
+# sbatch ${SCRIPT_PREFIT} ${DAT_DIR}/Lareau_2019_mousebrain.RData  2 ${NUMITER} ${OUT_DIR}/prefit-Lareau2019_mousebrain-k=2
+#
+# # Fit factorizations to Lareau_2019_mousebrain data, with and without extrapolation.
+# #                    data                                    prefitfile                                  k method numiter     ex outfile
+# sbatch ${SCRIPT_FIT} ${DAT_DIR}/Lareau_2019_mousebrain.RData ${OUT_DIR}/prefit-Lareau2019_mousebrain-k=2 2 em     ${NUMITER}  no fit-Lareau2019_mousebrain-em-k=2
+# sbatch ${SCRIPT_FIT} ${DAT_DIR}/Lareau_2019_mousebrain.RData ${OUT_DIR}/prefit-Lareau2019_mousebrain-k=2 2 ccd    ${NUMITER}  no fit-Lareau2019_mousebrain-ccd-k=2
+# sbatch ${SCRIPT_FIT} ${DAT_DIR}/Lareau_2019_mousebrain.RData ${OUT_DIR}/prefit-Lareau2019_mousebrain-k=2 2 scd    ${NUMITER}  no fit-Lareau2019_mousebrain-scd-k=2
+# sbatch ${SCRIPT_FIT} ${DAT_DIR}/Lareau_2019_mousebrain.RData ${OUT_DIR}/prefit-Lareau2019_mousebrain-k=2 2 em     ${NUMITER} yes fit-Lareau2019_mousebrain-em-ex-k=2
+# sbatch ${SCRIPT_FIT} ${DAT_DIR}/Lareau_2019_mousebrain.RData ${OUT_DIR}/prefit-Lareau2019_mousebrain-k=2 2 ccd    ${NUMITER} yes fit-Lareau2019_mousebrain-ccd-ex-k=2
+# sbatch ${SCRIPT_FIT} ${DAT_DIR}/Lareau_2019_mousebrain.RData ${OUT_DIR}/prefit-Lareau2019_mousebrain-k=2 2 scd    ${NUMITER} yes fit-Lareau2019_mousebrain-scd-ex-k=2
 
