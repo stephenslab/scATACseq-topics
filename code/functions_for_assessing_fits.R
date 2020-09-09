@@ -27,7 +27,7 @@ create_progress_plots <- function (dat, fits, y = c("loglik","res")) {
   for (i in 1:n) {
     fit                 <- fits[[i]]
     fit$progress        <- fit$progress[-(1:1000),]
-    fit$progress$timing <- fit$progress$timing/360
+    fit$progress$timing <- fit$progress$timing/3600
     fits[[i]]           <- fit
   }
 
