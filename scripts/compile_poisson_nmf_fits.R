@@ -5,6 +5,7 @@
 
 library(tools)
 library(stringr)
+library(optparse)
 
 # Process the command-line arguments.
 parser <- OptionParser()
@@ -21,7 +22,7 @@ rm(parser,out)
 # List all the RDS files containing the model fits.
 files <- Sys.glob(file.path(out.dir, paste0("fit-", dataset, "-*.rds")))
 n     <- length(files)
-cat(n, "files. \n")
+cat(sprintf("Combined fitted results of %d files for %s dataset. \n", n, dataset))
 
 # Set up two data structures: "fits", a list used to store all the
 # results; and "dat", a data frame summarizing the model parameters
@@ -60,5 +61,7 @@ dat <- transform(dat,k = factor(k))
 out.file <- paste0(out.dir, "/compiled.fits.", dataset,".RData")
 save(list = c("dat","fits"),
      file = out.file)
-resaveRdaFiles(out.file)
+# resaveRdaFiles(out.file)
+
+cat("Combined results saved to", out.file, "\n")
 

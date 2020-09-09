@@ -31,7 +31,6 @@ sbatch --mem=20G ${SCRIPT_PREFIT} ${DAT_DIR}/Lareau_2019_bonemarrow.RData  9  30
 sbatch --mem=20G ${SCRIPT_PREFIT} ${DAT_DIR}/Lareau_2019_bonemarrow.RData  10 300     ${OUT_DIR}/prefit-Lareau2019_bonemarrow-k=10
 sbatch --mem=20G ${SCRIPT_PREFIT} ${DAT_DIR}/Lareau_2019_bonemarrow.RData  11 300     ${OUT_DIR}/prefit-Lareau2019_bonemarrow-k=11
 sbatch --mem=20G ${SCRIPT_PREFIT} ${DAT_DIR}/Lareau_2019_bonemarrow.RData  12 300     ${OUT_DIR}/prefit-Lareau2019_bonemarrow-k=12
-sbatch --mem=20G ${SCRIPT_PREFIT} ${DAT_DIR}/Lareau_2019_bonemarrow.RData  13 300     ${OUT_DIR}/prefit-Lareau2019_bonemarrow-k=13
 
 # Fit factorizations to Lareau_2019_bonemarrow data, with and without extrapolation.
 # Computation took 12663 seconds (3.5 hrs) for 100 iterations with k = 2, and em method (using 10 cpus).
@@ -100,6 +99,10 @@ sbatch ${SCRIPT_FIT} ${DAT_DIR}/Lareau_2019_bonemarrow.RData ${OUT_DIR}/prefit-L
 sbatch ${SCRIPT_FIT} ${DAT_DIR}/Lareau_2019_bonemarrow.RData ${OUT_DIR}/prefit-Lareau2019_bonemarrow-k=10 10 em     600     yes ${OUT_DIR}/fit-Lareau2019_bonemarrow-em-ex-k=10
 sbatch ${SCRIPT_FIT} ${DAT_DIR}/Lareau_2019_bonemarrow.RData ${OUT_DIR}/prefit-Lareau2019_bonemarrow-k=10 10 ccd    600     yes ${OUT_DIR}/fit-Lareau2019_bonemarrow-ccd-ex-k=10
 sbatch ${SCRIPT_FIT} ${DAT_DIR}/Lareau_2019_bonemarrow.RData ${OUT_DIR}/prefit-Lareau2019_bonemarrow-k=10 10 scd    600     yes ${OUT_DIR}/fit-Lareau2019_bonemarrow-scd-ex-k=10
+
+# Compile the fitted Poisson non-negative factorizations into a single .RData file.
+OUT_DIR=/project2/mstephens/kevinluo/scATACseq-topics/output/Lareau_2019
+Rscript ~/projects/scATACseq-topics/scripts/compile_poisson_nmf_fits.R -o ${OUT_DIR} -d Lareau2019_bonemarrow
 
 # # Lareau_2019_mousebrain data
 # DAT_DIR=/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/mouse_brain/processed_data

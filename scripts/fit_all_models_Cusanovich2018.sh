@@ -97,4 +97,6 @@ sbatch --mem=50G ${SCRIPT_FIT} ${DAT_DIR}/Cusanovich_2018.RData ${OUT_DIR}/prefi
 sbatch --mem=50G ${SCRIPT_FIT} ${DAT_DIR}/Cusanovich_2018.RData ${OUT_DIR}/prefit-Cusanovich2018-k=10 10 ccd    250     yes ${OUT_DIR}/fit-Cusanovich2018-ccd-ex-k=10
 sbatch --mem=50G ${SCRIPT_FIT} ${DAT_DIR}/Cusanovich_2018.RData ${OUT_DIR}/prefit-Cusanovich2018-k=10 10 scd    250     yes ${OUT_DIR}/fit-Cusanovich2018-scd-ex-k=10
 
-
+# Compile the fitted Poisson non-negative factorizations into a single .RData file.
+OUT_DIR=/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018
+Rscript ~/projects/scATACseq-topics/scripts/compile_poisson_nmf_fits.R -o ${OUT_DIR} -d Cusanovich2018

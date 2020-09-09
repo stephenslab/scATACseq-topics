@@ -6,7 +6,7 @@
 #SBATCH --account=pi-mstephens
 #SBATCH --cpus-per-task=10
 #SBATCH --mem=20G
-#SBATCH --time=30:00:00
+#SBATCH --time=36:00:00
 
 # This script allocates computing resources (CPUs, memory), loads R,
 # and runs prefit_poisson_nmf.R. See fit_all_models.sh for examples
