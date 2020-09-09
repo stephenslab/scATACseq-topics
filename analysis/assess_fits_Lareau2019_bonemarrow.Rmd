@@ -20,7 +20,7 @@ additional functions for creating the plots.
 library(fastTopics)
 library(ggplot2)
 library(cowplot)
-source("~/projects/scATACseq-topics/code/functions_for_assessing_fits.R")
+source("code/functions_for_assessing_fits.R")
 ```
 
 Load the results of running `fit_poisson_nmf` on the Lareau2019 data,
