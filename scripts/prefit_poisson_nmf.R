@@ -9,7 +9,7 @@
 # data test.RData by running 500 EM updates, 2 threads, and with
 # results saved to prefit_test.rds, run this command:
 #
-#   ./prefit_poisson_nmf_purified_pbmc.R --counts test.RData \
+#   ./prefit_poisson_nmf.R --counts test.RData \
 #      -k 4 -n 500 --nc 2 -o prefit_test.rds
 #
 # Running the script without specifying any options will prefit a
