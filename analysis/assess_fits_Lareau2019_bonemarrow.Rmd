@@ -50,8 +50,12 @@ for all choices of $k$, and for each of the three optimization methods
 of the fit is measured by the log-likelihood relative to the best
 log-likelihood that was identified among all methods compared.
 
-```{r plot-loglik, fig.height=6, fig.width=9}
-create_progress_plots(dat, fits, "loglik", numiter.prefit = 300)
+```{r plot-loglik-timing, fig.height=6, fig.width=9}
+create_progress_plots(dat, fits, x="timing", y="loglik", numiter.prefit=300)
+```
+
+```{r plot-loglik-iter, fig.height=6, fig.width=9}
+create_progress_plots(dat, fits, x="iter", y="loglik", numiter.prefit=300)
 ```
 
 The last set of plots shows the evolution of the KKT residuals over
@@ -61,7 +65,10 @@ assess how close we are to a solution. Note that, unlike the
 log-likelihood, the KKT residuals are not expected to decrease
 monotonically over time.
 
-```{r plot-res, fig.height=6, fig.width=9}
-create_progress_plots(dat, fits, "res", numiter.prefit = 300)
+```{r plot-res-timing, fig.height=6, fig.width=9}
+create_progress_plots(dat, fits, x="timing", y="res", numiter.prefit=300)
 ```
 
+```{r plot-res-iter, fig.height=6, fig.width=9}
+create_progress_plots(dat, fits, x="iter", y="res", numiter.prefit=300)
+```
