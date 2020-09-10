@@ -1,0 +1,214 @@
+---
+title: "Visualize and interpret topics in Lareau 2019 bone marrow scATAC-seq data"
+author: "Kaixuan Luo"
+output: workflowr::wflow_html
+---
+
+Here we examine and compare the topic modeling results for the 
+bone marrow scATAC-seq dataset from [Lareau *et al* (2019)][Lareau-2019].
+
+The goal of this analysis is to illustrate how the topic models
+fitted to these data sets can be used to learn about structure in the
+data. 
+
+In particular, we would like to identify clusters, and interpret
+clusters and topics as "cell types" or "regulatory programs".
+
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
+                      fig.align = "center",dpi = 120)
+```
+
+Load the packages used in the analysis below, as well as additional
+functions that will be used to generate some of the plots.
+
+```{r load-pkgs, message=FALSE}
+library(tools)
+library(dplyr)
+library(fastTopics)
+library(ggplot2)
+library(cowplot)
+source("code/plots.R")
+```
+
+Lareau 2019 bone marrow scATAC-seq dataset
+------------------------------------------
+
+### Load the data and Poisson NMF model fit
+Load the data
+```{r load-data}
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/bone_marrow/processed_data/"
+load(file.path(data.dir, "Lareau_2019_bonemarrow.RData"))
+```
+
+About the samples:
+The study used dsciATAC-seq to profile bone marrow mononuclear cells (BMMCs)
+from two human donors before (untreated controls) and after stimulation, 
+producing chromatin accessibility profiles for a total of 136,463 cells that passed quality filters.
+
+Conditions: 1) Resting 2) Stimulated
+```{r samples-condtion}
+samples$Condition <- as.factor(samples$Condition)
+table(samples$Condition)
+```
+
+15 de novo-defined clusters covering known hematopoietic cell types
+```{r samples-cluster}
+samples$Cluster <- as.factor(samples$Cluster)
+table(samples$Cluster)
+
+```
+
+```{r load-PoissonNMF-fit-1}
+# Load the results of running `fit_poisson_nmf` on the Lareau2019 data,
+# with different algorithms, and for various choices of $k$ (the number
+# of "topics").
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Lareau_2019"
+load(file.path(out.dir, "/compiled.fits.Lareau2019_bonemarrow.RData"))
+```
+
+### Explore the structure of the single-cell data as inferred by the topic model.
+
+#### Structure plot
+
+The structure plots summarize the topic proportions in the resting (control) and stimulated conditions.
+
+##### Resting condition
+Structure plot for cells in the *resting* condition, grouped by different cell labels (15 de novo-defined clusters):
+
+$k = 3$: 
+```{r structure-plot-2, fig.width=7, fig.height=2}
+fit_poisson_nmf <- fits[["fit-Lareau2019_bonemarrow-scd-ex-k=3"]]
+
+set.seed(1)
+
+rows <- sort(which(samples$Condition == "Resting"))
+p.structure_plot <- structure_plot(select(poisson2multinom(fit_poisson_nmf), loadings = rows),
+                     grouping = samples[rows,"Cluster"],
+                     n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
+print(p.structure_plot)
+```
+
+$k = 4$: 
+```{r structure-plot-3, fig.width=7, fig.height=2}
+fit_poisson_nmf <- fits[["fit-Lareau2019_bonemarrow-scd-ex-k=4"]]
+
+set.seed(1)
+
+rows <- sort(which(samples$Condition == "Resting"))
+p.structure_plot <- structure_plot(select(poisson2multinom(fit_poisson_nmf), loadings = rows),
+                     grouping = samples[rows,"Cluster"],
+                     n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
+print(p.structure_plot)
+```
+
+$k = 5$: 
+```{r structure-plot-4, fig.width=7, fig.height=2}
+fit_poisson_nmf <- fits[["fit-Lareau2019_bonemarrow-scd-ex-k=5"]]
+
+set.seed(1)
+
+rows <- sort(which(samples$Condition == "Resting"))
+p.structure_plot <- structure_plot(select(poisson2multinom(fit_poisson_nmf), loadings = rows),
+                     grouping = samples[rows,"Cluster"],
+                     n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
+print(p.structure_plot)
+```
+
+$k = 6$: 
+```{r structure-plot-5, fig.width=7, fig.height=2}
+fit_poisson_nmf <- fits[["fit-Lareau2019_bonemarrow-scd-ex-k=6"]]
+
+set.seed(1)
+
+rows <- sort(which(samples$Condition == "Resting"))
+p.structure_plot <- structure_plot(select(poisson2multinom(fit_poisson_nmf), loadings = rows),
+                     grouping = samples[rows,"Cluster"],
+                     n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
+print(p.structure_plot)
+```
+
+$k = 7$: 
+```{r structure-plot-7, fig.width=7, fig.height=2}
+fit_poisson_nmf <- fits[["fit-Lareau2019_bonemarrow-scd-ex-k=7"]]
+
+set.seed(1)
+
+rows <- sort(which(samples$Condition == "Resting"))
+p.structure_plot <- structure_plot(select(poisson2multinom(fit_poisson_nmf), loadings = rows),
+                     grouping = samples[rows,"Cluster"],
+                     n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
+print(p.structure_plot)
+```
+
+##### Stimulated condition
+
+Structure plot for cells in the *stimulated* condition, grouped by different cell labels:
+
+$k = 3$: 
+```{r structure-plot-8, fig.width=7, fig.height=2}
+fit_poisson_nmf <- fits[["fit-Lareau2019_bonemarrow-scd-ex-k=3"]]
+
+set.seed(1)
+
+rows <- sort(which(samples$Condition == "Stimulated"))
+p.structure_plot <- structure_plot(select(poisson2multinom(fit_poisson_nmf), loadings = rows),
+                     grouping = samples[rows,"Cluster"],
+                     n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
+print(p.structure_plot)
+```
+
+$k = 4$: 
+```{r structure-plot-9, fig.width=7, fig.height=2}
+fit_poisson_nmf <- fits[["fit-Lareau2019_bonemarrow-scd-ex-k=4"]]
+
+set.seed(1)
+
+rows <- sort(which(samples$Condition == "Stimulated"))
+p.structure_plot <- structure_plot(select(poisson2multinom(fit_poisson_nmf), loadings = rows),
+                     grouping = samples[rows,"Cluster"],
+                     n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
+print(p.structure_plot)
+```
+
+$k = 5$: 
+```{r structure-plot-10, fig.width=7, fig.height=2}
+fit_poisson_nmf <- fits[["fit-Lareau2019_bonemarrow-scd-ex-k=5"]]
+
+set.seed(1)
+
+rows <- sort(which(samples$Condition == "Stimulated"))
+p.structure_plot <- structure_plot(select(poisson2multinom(fit_poisson_nmf), loadings = rows),
+                     grouping = samples[rows,"Cluster"],
+                     n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
+print(p.structure_plot)
+```
+
+$k = 6$: 
+```{r structure-plot-11, fig.width=7, fig.height=2}
+fit_poisson_nmf <- fits[["fit-Lareau2019_bonemarrow-scd-ex-k=6"]]
+
+set.seed(1)
+
+rows <- sort(which(samples$Condition == "Stimulated"))
+p.structure_plot <- structure_plot(select(poisson2multinom(fit_poisson_nmf), loadings = rows),
+                     grouping = samples[rows,"Cluster"],
+                     n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
+print(p.structure_plot)
+```
+
+$k = 7$: 
+```{r structure-plot-12, fig.width=7, fig.height=2}
+fit_poisson_nmf <- fits[["fit-Lareau2019_bonemarrow-scd-ex-k=7"]]
+
+set.seed(1)
+
+rows <- sort(which(samples$Condition == "Stimulated"))
+p.structure_plot <- structure_plot(select(poisson2multinom(fit_poisson_nmf), loadings = rows),
+                     grouping = samples[rows,"Cluster"],
+                     n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
+print(p.structure_plot)
+```
+
+
+[Lareau-2019](scATACseq_data_Lareau2019.html)
