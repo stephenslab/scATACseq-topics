@@ -94,8 +94,30 @@ sbatch --mem=50G ${SCRIPT_FIT} ${DAT_DIR}/Cusanovich_2018.RData ${OUT_DIR}/prefi
 sbatch --mem=50G ${SCRIPT_FIT} ${DAT_DIR}/Cusanovich_2018.RData ${OUT_DIR}/prefit-Cusanovich2018-k=10 10 ccd    250     no  ${OUT_DIR}/fit-Cusanovich2018-ccd-k=10
 sbatch --mem=50G ${SCRIPT_FIT} ${DAT_DIR}/Cusanovich_2018.RData ${OUT_DIR}/prefit-Cusanovich2018-k=10 10 scd    250     no  ${OUT_DIR}/fit-Cusanovich2018-scd-k=10
 sbatch --mem=50G ${SCRIPT_FIT} ${DAT_DIR}/Cusanovich_2018.RData ${OUT_DIR}/prefit-Cusanovich2018-k=10 10 em     250     yes ${OUT_DIR}/fit-Cusanovich2018-em-ex-k=10
-sbatch --mem=50G ${SCRIPT_FIT} ${DAT_DIR}/Cusanovich_2018.RData ${OUT_DIR}/prefit-Cusanovich2018-k=10 10 ccd    250     yes ${OUT_DIR}/fit-Cusanovich2018-ccd-ex-k=10
+sbatch --mem=55G ${SCRIPT_FIT} ${DAT_DIR}/Cusanovich_2018.RData ${OUT_DIR}/prefit-Cusanovich2018-k=10 10 ccd    250     yes ${OUT_DIR}/fit-Cusanovich2018-ccd-ex-k=10
 sbatch --mem=50G ${SCRIPT_FIT} ${DAT_DIR}/Cusanovich_2018.RData ${OUT_DIR}/prefit-Cusanovich2018-k=10 10 scd    250     yes ${OUT_DIR}/fit-Cusanovich2018-scd-ex-k=10
+
+sbatch --mem=50G ${SCRIPT_FIT} ${DAT_DIR}/Cusanovich_2018.RData ${OUT_DIR}/prefit-Cusanovich2018-k=11 11 em     250     no  ${OUT_DIR}/fit-Cusanovich2018-em-k=11
+sbatch --mem=50G ${SCRIPT_FIT} ${DAT_DIR}/Cusanovich_2018.RData ${OUT_DIR}/prefit-Cusanovich2018-k=11 11 ccd    250     no  ${OUT_DIR}/fit-Cusanovich2018-ccd-k=11
+sbatch --mem=50G ${SCRIPT_FIT} ${DAT_DIR}/Cusanovich_2018.RData ${OUT_DIR}/prefit-Cusanovich2018-k=11 11 scd    250     no  ${OUT_DIR}/fit-Cusanovich2018-scd-k=11
+sbatch --mem=50G ${SCRIPT_FIT} ${DAT_DIR}/Cusanovich_2018.RData ${OUT_DIR}/prefit-Cusanovich2018-k=11 11 em     250     yes ${OUT_DIR}/fit-Cusanovich2018-em-ex-k=11
+sbatch --mem=50G ${SCRIPT_FIT} ${DAT_DIR}/Cusanovich_2018.RData ${OUT_DIR}/prefit-Cusanovich2018-k=11 11 ccd    250     yes ${OUT_DIR}/fit-Cusanovich2018-ccd-ex-k=11
+sbatch --mem=50G ${SCRIPT_FIT} ${DAT_DIR}/Cusanovich_2018.RData ${OUT_DIR}/prefit-Cusanovich2018-k=11 11 scd    250     yes ${OUT_DIR}/fit-Cusanovich2018-scd-ex-k=11
+
+sbatch --mem=50G ${SCRIPT_FIT} ${DAT_DIR}/Cusanovich_2018.RData ${OUT_DIR}/prefit-Cusanovich2018-k=12 12 em     250     no  ${OUT_DIR}/fit-Cusanovich2018-em-k=12
+sbatch --mem=50G ${SCRIPT_FIT} ${DAT_DIR}/Cusanovich_2018.RData ${OUT_DIR}/prefit-Cusanovich2018-k=12 12 ccd    250     no  ${OUT_DIR}/fit-Cusanovich2018-ccd-k=12
+sbatch --mem=50G ${SCRIPT_FIT} ${DAT_DIR}/Cusanovich_2018.RData ${OUT_DIR}/prefit-Cusanovich2018-k=12 12 scd    250     no  ${OUT_DIR}/fit-Cusanovich2018-scd-k=12
+sbatch --mem=50G ${SCRIPT_FIT} ${DAT_DIR}/Cusanovich_2018.RData ${OUT_DIR}/prefit-Cusanovich2018-k=12 12 em     250     yes ${OUT_DIR}/fit-Cusanovich2018-em-ex-k=12
+sbatch --mem=50G ${SCRIPT_FIT} ${DAT_DIR}/Cusanovich_2018.RData ${OUT_DIR}/prefit-Cusanovich2018-k=12 12 ccd    250     yes ${OUT_DIR}/fit-Cusanovich2018-ccd-ex-k=12
+sbatch --mem=50G ${SCRIPT_FIT} ${DAT_DIR}/Cusanovich_2018.RData ${OUT_DIR}/prefit-Cusanovich2018-k=12 12 scd    250     yes ${OUT_DIR}/fit-Cusanovich2018-scd-ex-k=12
+
+sbatch --mem=50G ${SCRIPT_FIT} ${DAT_DIR}/Cusanovich_2018.RData ${OUT_DIR}/prefit-Cusanovich2018-k=13 13 em     250     no  ${OUT_DIR}/fit-Cusanovich2018-em-k=13
+sbatch --mem=50G ${SCRIPT_FIT} ${DAT_DIR}/Cusanovich_2018.RData ${OUT_DIR}/prefit-Cusanovich2018-k=13 13 ccd    250     no  ${OUT_DIR}/fit-Cusanovich2018-ccd-k=13
+sbatch --mem=50G ${SCRIPT_FIT} ${DAT_DIR}/Cusanovich_2018.RData ${OUT_DIR}/prefit-Cusanovich2018-k=13 13 scd    250     no  ${OUT_DIR}/fit-Cusanovich2018-scd-k=13
+sbatch --mem=50G ${SCRIPT_FIT} ${DAT_DIR}/Cusanovich_2018.RData ${OUT_DIR}/prefit-Cusanovich2018-k=13 13 em     250     yes ${OUT_DIR}/fit-Cusanovich2018-em-ex-k=13
+sbatch --mem=50G ${SCRIPT_FIT} ${DAT_DIR}/Cusanovich_2018.RData ${OUT_DIR}/prefit-Cusanovich2018-k=13 13 ccd    250     yes ${OUT_DIR}/fit-Cusanovich2018-ccd-ex-k=13
+sbatch --mem=50G ${SCRIPT_FIT} ${DAT_DIR}/Cusanovich_2018.RData ${OUT_DIR}/prefit-Cusanovich2018-k=13 13 scd    250     yes ${OUT_DIR}/fit-Cusanovich2018-scd-ex-k=13
+
 
 # Compile the fitted Poisson non-negative factorizations into a single .RData file.
 OUT_DIR=/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018
