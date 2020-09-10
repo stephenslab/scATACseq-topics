@@ -148,11 +148,6 @@ j <- which(colSums(counts > 0) >= 1)
 peaks <- peaks[j,]
 counts <- counts[,j]
 
-cat(sprintf("Number of samples (cells): %d\n",nrow(counts)))
-cat(sprintf("Number of peaks: %d\n",ncol(counts)))
-cat(sprintf("Proportion of counts that are non-zero: %0.1f%%.\n",
-            100*mean(counts > 0)))
-
 ```
 
 ```{r, eval=FALSE}
