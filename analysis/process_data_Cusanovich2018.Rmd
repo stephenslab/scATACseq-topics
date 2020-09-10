@@ -90,6 +90,7 @@ counts <- t(binarized_matrix)
 
 ## all peaks exist in all of the cells
 length(which(colSums(counts > 0) == 0))
+length(which(rowSums(counts > 0) == 0))
 
 cat(sprintf("Number of samples (cells): %d\n",nrow(counts)))
 cat(sprintf("Number of peaks: %d\n",ncol(counts)))
