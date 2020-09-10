@@ -488,16 +488,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreef684ae986a13959ea8375cae209f73f11488d51atargetblankf684ae9a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/f684ae986a13959ea8375cae209f73f11488d51a" target="_blank">f684ae9</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree658edd671f5078190224f00639083c1b4f055158targetblank658edd6a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/658edd671f5078190224f00639083c1b4f055158" target="_blank">658edd6</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreef684ae986a13959ea8375cae209f73f11488d51atargetblankf684ae9a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree658edd671f5078190224f00639083c1b4f055158targetblank658edd6a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/f684ae986a13959ea8375cae209f73f11488d51a" target="_blank">f684ae9</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/658edd671f5078190224f00639083c1b4f055158" target="_blank">658edd6</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -508,11 +508,9 @@ Ignored files:
     Ignored:    .Rproj.user/
 
 Untracked files:
-    Untracked:  analysis/plots_Cusanovich2018.Rmd
     Untracked:  code/plots.R
 
 Unstaged changes:
-    Modified:   analysis/index.Rmd
     Modified:   code/functions_for_assessing_fits.R
     Modified:   scripts/fit_all_models_Cusanovich2018.sh
 
@@ -558,6 +556,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/658edd671f5078190224f00639083c1b4f055158/analysis/plots_Lareau2019_bonemarrow.Rmd" target="_blank">658edd6</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-09-10
+</td>
+<td>
+update structure plots
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/4a4005ae7f94049c145d8e23d7ad45890f8fa2f5/docs/plots_Lareau2019_bonemarrow.html" target="_blank">4a4005a</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-09-10
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/f684ae986a13959ea8375cae209f73f11488d51a/analysis/plots_Lareau2019_bonemarrow.Rmd" target="_blank">f684ae9</a>
 </td>
 <td>
@@ -577,7 +609,7 @@ initial structure plots
 </div>
 </div>
 </div>
-<p>Here we examine and compare the topic modeling results for the bone marrow scATAC-seq dataset from [Lareau <em>et al</em> (2019)][Lareau-2019].</p>
+<p>Here we examine and compare the topic modeling results for the bone marrow scATAC-seq dataset from <a href="scATACseq_data_Lareau2019.html">Lareau <em>et al</em> (2019)</a></p>
 <p>The goal of this analysis is to illustrate how the topic models fitted to these data sets can be used to learn about structure in the data.</p>
 <p>In particular, we would like to identify clusters, and interpret clusters and topics as “cell types” or “regulatory programs”.</p>
 <p>Load the packages used in the analysis below, as well as additional functions that will be used to generate some of the plots.</p>
@@ -587,13 +619,17 @@ library(fastTopics)
 library(ggplot2)
 library(cowplot)
 source(&quot;code/plots.R&quot;)</code></pre>
+<pre class="r"><code>set.seed(1)</code></pre>
 <div id="lareau-2019-bone-marrow-scatac-seq-dataset" class="section level2">
 <h2>Lareau 2019 bone marrow scATAC-seq dataset</h2>
 <div id="load-the-data-and-poisson-nmf-model-fit" class="section level3">
 <h3>Load the data and Poisson NMF model fit</h3>
 <p>Load the data</p>
 <pre class="r"><code>data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/bone_marrow/processed_data/&quot;
-load(file.path(data.dir, &quot;Lareau_2019_bonemarrow.RData&quot;))</code></pre>
+load(file.path(data.dir, &quot;Lareau_2019_bonemarrow.RData&quot;))
+cat(sprintf(&quot;%d x %d counts matrix.\n&quot;,nrow(counts),ncol(counts)))
+rm(counts)
+# 136463 x 146860 counts matrix.</code></pre>
 <p>About the samples: The study used dsciATAC-seq to profile bone marrow mononuclear cells (BMMCs) from two human donors before (untreated controls) and after stimulation, producing chromatin accessibility profiles for a total of 136,463 cells that passed quality filters.</p>
 <p>Conditions: 1) Resting 2) Stimulated</p>
 <pre class="r"><code>samples$Condition &lt;- as.factor(samples$Condition)
@@ -601,7 +637,7 @@ table(samples$Condition)
 # 
 #    Resting Stimulated 
 #      60495      75968</code></pre>
-<p>15 de novo-defined clusters covering known hematopoietic cell types</p>
+<p>15 de novo-defined clusters covering known hematopoietic cell types:</p>
 <pre class="r"><code>samples$Cluster &lt;- as.factor(samples$Cluster)
 table(samples$Cluster)
 # 
@@ -609,10 +645,8 @@ table(samples$Cluster)
 #      4732     38420     15951       627      3506      4629      2269      5569 
 #  HSPC-ery    Mono-1    Mono-2        NK       pDC      preB      proB 
 #      2253     13933     12699     14127      2154     12612      2982</code></pre>
-<pre class="r"><code># Load the results of running `fit_poisson_nmf` on the Lareau2019 data,
-# with different algorithms, and for various choices of $k$ (the number
-# of &quot;topics&quot;).
-out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Lareau_2019&quot;
+<p>Load the results of running <code>fit_poisson_nmf</code> on the Lareau2019 data, with different algorithms, and for various choices of <span class="math inline">\(k\)</span> (the number of “topics”).</p>
+<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Lareau_2019&quot;
 load(file.path(out.dir, &quot;/compiled.fits.Lareau2019_bonemarrow.RData&quot;))</code></pre>
 </div>
 <div id="explore-the-structure-of-the-single-cell-data-as-inferred-by-the-topic-model." class="section level3">
@@ -623,121 +657,154 @@ load(file.path(out.dir, &quot;/compiled.fits.Lareau2019_bonemarrow.RData&quot;))
 <div id="resting-condition" class="section level5">
 <h5>Resting condition</h5>
 <p>Structure plot for cells in the <em>resting</em> condition, grouped by different cell labels (15 de novo-defined clusters):</p>
+<p><span class="math inline">\(k = 2\)</span>:</p>
+<pre class="r"><code>fit_poisson_nmf &lt;- fits[[&quot;fit-Lareau2019_bonemarrow-scd-ex-k=2&quot;]]
+
+rows &lt;- sort(which(samples$Condition == &quot;Resting&quot;))
+p.structure_plot &lt;- structure_plot(select(poisson2multinom(fit_poisson_nmf), loadings = rows),
+                     grouping = samples[rows,&quot;Cluster&quot;],
+                     n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
+print(p.structure_plot)</code></pre>
+<p><img src="figure/plots_Lareau2019_bonemarrow.Rmd/structure-plot-resting-1-1.png" width="840" style="display: block; margin: auto;" /></p>
 <p><span class="math inline">\(k = 3\)</span>:</p>
 <pre class="r"><code>fit_poisson_nmf &lt;- fits[[&quot;fit-Lareau2019_bonemarrow-scd-ex-k=3&quot;]]
 
-set.seed(1)
-
 rows &lt;- sort(which(samples$Condition == &quot;Resting&quot;))
 p.structure_plot &lt;- structure_plot(select(poisson2multinom(fit_poisson_nmf), loadings = rows),
                      grouping = samples[rows,&quot;Cluster&quot;],
                      n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
 print(p.structure_plot)</code></pre>
-<p><img src="figure/plots_Lareau2019_bonemarrow.Rmd/structure-plot-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/plots_Lareau2019_bonemarrow.Rmd/structure-plot-resting-2-1.png" width="840" style="display: block; margin: auto;" /></p>
 <p><span class="math inline">\(k = 4\)</span>:</p>
 <pre class="r"><code>fit_poisson_nmf &lt;- fits[[&quot;fit-Lareau2019_bonemarrow-scd-ex-k=4&quot;]]
 
-set.seed(1)
-
 rows &lt;- sort(which(samples$Condition == &quot;Resting&quot;))
 p.structure_plot &lt;- structure_plot(select(poisson2multinom(fit_poisson_nmf), loadings = rows),
                      grouping = samples[rows,&quot;Cluster&quot;],
                      n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
 print(p.structure_plot)</code></pre>
-<p><img src="figure/plots_Lareau2019_bonemarrow.Rmd/structure-plot-3-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/plots_Lareau2019_bonemarrow.Rmd/structure-plot-resting-3-1.png" width="840" style="display: block; margin: auto;" /></p>
 <p><span class="math inline">\(k = 5\)</span>:</p>
 <pre class="r"><code>fit_poisson_nmf &lt;- fits[[&quot;fit-Lareau2019_bonemarrow-scd-ex-k=5&quot;]]
 
-set.seed(1)
-
 rows &lt;- sort(which(samples$Condition == &quot;Resting&quot;))
 p.structure_plot &lt;- structure_plot(select(poisson2multinom(fit_poisson_nmf), loadings = rows),
                      grouping = samples[rows,&quot;Cluster&quot;],
                      n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
 print(p.structure_plot)</code></pre>
-<p><img src="figure/plots_Lareau2019_bonemarrow.Rmd/structure-plot-4-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/plots_Lareau2019_bonemarrow.Rmd/structure-plot-resting-4-1.png" width="840" style="display: block; margin: auto;" /></p>
 <p><span class="math inline">\(k = 6\)</span>:</p>
 <pre class="r"><code>fit_poisson_nmf &lt;- fits[[&quot;fit-Lareau2019_bonemarrow-scd-ex-k=6&quot;]]
 
-set.seed(1)
-
 rows &lt;- sort(which(samples$Condition == &quot;Resting&quot;))
 p.structure_plot &lt;- structure_plot(select(poisson2multinom(fit_poisson_nmf), loadings = rows),
                      grouping = samples[rows,&quot;Cluster&quot;],
                      n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
 print(p.structure_plot)</code></pre>
-<p><img src="figure/plots_Lareau2019_bonemarrow.Rmd/structure-plot-5-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/plots_Lareau2019_bonemarrow.Rmd/structure-plot-resting-5-1.png" width="840" style="display: block; margin: auto;" /></p>
 <p><span class="math inline">\(k = 7\)</span>:</p>
 <pre class="r"><code>fit_poisson_nmf &lt;- fits[[&quot;fit-Lareau2019_bonemarrow-scd-ex-k=7&quot;]]
 
-set.seed(1)
+rows &lt;- sort(which(samples$Condition == &quot;Resting&quot;))
+p.structure_plot &lt;- structure_plot(select(poisson2multinom(fit_poisson_nmf), loadings = rows),
+                     grouping = samples[rows,&quot;Cluster&quot;],
+                     n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
+print(p.structure_plot)</code></pre>
+<p><img src="figure/plots_Lareau2019_bonemarrow.Rmd/structure-plot-resting-6-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><span class="math inline">\(k = 8\)</span>:</p>
+<pre class="r"><code>fit_poisson_nmf &lt;- fits[[&quot;fit-Lareau2019_bonemarrow-scd-ex-k=8&quot;]]
 
 rows &lt;- sort(which(samples$Condition == &quot;Resting&quot;))
 p.structure_plot &lt;- structure_plot(select(poisson2multinom(fit_poisson_nmf), loadings = rows),
                      grouping = samples[rows,&quot;Cluster&quot;],
                      n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
 print(p.structure_plot)</code></pre>
-<p><img src="figure/plots_Lareau2019_bonemarrow.Rmd/structure-plot-7-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/plots_Lareau2019_bonemarrow.Rmd/structure-plot-resting-7-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><span class="math inline">\(k = 9\)</span>:</p>
+<pre class="r"><code>fit_poisson_nmf &lt;- fits[[&quot;fit-Lareau2019_bonemarrow-scd-ex-k=9&quot;]]
+
+rows &lt;- sort(which(samples$Condition == &quot;Resting&quot;))
+p.structure_plot &lt;- structure_plot(select(poisson2multinom(fit_poisson_nmf), loadings = rows),
+                     grouping = samples[rows,&quot;Cluster&quot;],
+                     n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
+print(p.structure_plot)</code></pre>
+<p><img src="figure/plots_Lareau2019_bonemarrow.Rmd/structure-plot-resting-8-1.png" width="840" style="display: block; margin: auto;" /></p>
 </div>
 <div id="stimulated-condition" class="section level5">
 <h5>Stimulated condition</h5>
 <p>Structure plot for cells in the <em>stimulated</em> condition, grouped by different cell labels:</p>
+<p><span class="math inline">\(k = 2\)</span>:</p>
+<pre class="r"><code>fit_poisson_nmf &lt;- fits[[&quot;fit-Lareau2019_bonemarrow-scd-ex-k=2&quot;]]
+
+rows &lt;- sort(which(samples$Condition == &quot;Stimulated&quot;))
+p.structure_plot &lt;- structure_plot(select(poisson2multinom(fit_poisson_nmf), loadings = rows),
+                     grouping = samples[rows,&quot;Cluster&quot;],
+                     n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
+print(p.structure_plot)</code></pre>
+<p><img src="figure/plots_Lareau2019_bonemarrow.Rmd/structure-plot-stimulated-1-1.png" width="840" style="display: block; margin: auto;" /></p>
 <p><span class="math inline">\(k = 3\)</span>:</p>
 <pre class="r"><code>fit_poisson_nmf &lt;- fits[[&quot;fit-Lareau2019_bonemarrow-scd-ex-k=3&quot;]]
 
-set.seed(1)
-
 rows &lt;- sort(which(samples$Condition == &quot;Stimulated&quot;))
 p.structure_plot &lt;- structure_plot(select(poisson2multinom(fit_poisson_nmf), loadings = rows),
                      grouping = samples[rows,&quot;Cluster&quot;],
                      n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
 print(p.structure_plot)</code></pre>
-<p><img src="figure/plots_Lareau2019_bonemarrow.Rmd/structure-plot-8-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/plots_Lareau2019_bonemarrow.Rmd/structure-plot-stimulated-2-1.png" width="840" style="display: block; margin: auto;" /></p>
 <p><span class="math inline">\(k = 4\)</span>:</p>
 <pre class="r"><code>fit_poisson_nmf &lt;- fits[[&quot;fit-Lareau2019_bonemarrow-scd-ex-k=4&quot;]]
 
-set.seed(1)
-
 rows &lt;- sort(which(samples$Condition == &quot;Stimulated&quot;))
 p.structure_plot &lt;- structure_plot(select(poisson2multinom(fit_poisson_nmf), loadings = rows),
                      grouping = samples[rows,&quot;Cluster&quot;],
                      n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
 print(p.structure_plot)</code></pre>
-<p><img src="figure/plots_Lareau2019_bonemarrow.Rmd/structure-plot-9-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/plots_Lareau2019_bonemarrow.Rmd/structure-plot-stimulated-3-1.png" width="840" style="display: block; margin: auto;" /></p>
 <p><span class="math inline">\(k = 5\)</span>:</p>
 <pre class="r"><code>fit_poisson_nmf &lt;- fits[[&quot;fit-Lareau2019_bonemarrow-scd-ex-k=5&quot;]]
 
-set.seed(1)
-
 rows &lt;- sort(which(samples$Condition == &quot;Stimulated&quot;))
 p.structure_plot &lt;- structure_plot(select(poisson2multinom(fit_poisson_nmf), loadings = rows),
                      grouping = samples[rows,&quot;Cluster&quot;],
                      n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
 print(p.structure_plot)</code></pre>
-<p><img src="figure/plots_Lareau2019_bonemarrow.Rmd/structure-plot-10-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/plots_Lareau2019_bonemarrow.Rmd/structure-plot-stimulated-4-1.png" width="840" style="display: block; margin: auto;" /></p>
 <p><span class="math inline">\(k = 6\)</span>:</p>
 <pre class="r"><code>fit_poisson_nmf &lt;- fits[[&quot;fit-Lareau2019_bonemarrow-scd-ex-k=6&quot;]]
 
-set.seed(1)
-
 rows &lt;- sort(which(samples$Condition == &quot;Stimulated&quot;))
 p.structure_plot &lt;- structure_plot(select(poisson2multinom(fit_poisson_nmf), loadings = rows),
                      grouping = samples[rows,&quot;Cluster&quot;],
                      n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
 print(p.structure_plot)</code></pre>
-<p><img src="figure/plots_Lareau2019_bonemarrow.Rmd/structure-plot-11-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/plots_Lareau2019_bonemarrow.Rmd/structure-plot-stimulated-5-1.png" width="840" style="display: block; margin: auto;" /></p>
 <p><span class="math inline">\(k = 7\)</span>:</p>
 <pre class="r"><code>fit_poisson_nmf &lt;- fits[[&quot;fit-Lareau2019_bonemarrow-scd-ex-k=7&quot;]]
 
-set.seed(1)
+rows &lt;- sort(which(samples$Condition == &quot;Stimulated&quot;))
+p.structure_plot &lt;- structure_plot(select(poisson2multinom(fit_poisson_nmf), loadings = rows),
+                     grouping = samples[rows,&quot;Cluster&quot;],
+                     n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
+print(p.structure_plot)</code></pre>
+<p><img src="figure/plots_Lareau2019_bonemarrow.Rmd/structure-plot-stimulated-6-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><span class="math inline">\(k = 8\)</span>:</p>
+<pre class="r"><code>fit_poisson_nmf &lt;- fits[[&quot;fit-Lareau2019_bonemarrow-scd-ex-k=8&quot;]]
 
 rows &lt;- sort(which(samples$Condition == &quot;Stimulated&quot;))
 p.structure_plot &lt;- structure_plot(select(poisson2multinom(fit_poisson_nmf), loadings = rows),
                      grouping = samples[rows,&quot;Cluster&quot;],
                      n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
 print(p.structure_plot)</code></pre>
-<p><img src="figure/plots_Lareau2019_bonemarrow.Rmd/structure-plot-12-1.png" width="840" style="display: block; margin: auto;" /></p>
-<p><a href="scATACseq_data_Lareau2019.html">Lareau-2019</a></p>
+<p><img src="figure/plots_Lareau2019_bonemarrow.Rmd/structure-plot-stimulated-7-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><span class="math inline">\(k = 9\)</span>:</p>
+<pre class="r"><code>fit_poisson_nmf &lt;- fits[[&quot;fit-Lareau2019_bonemarrow-scd-ex-k=9&quot;]]
+
+rows &lt;- sort(which(samples$Condition == &quot;Stimulated&quot;))
+p.structure_plot &lt;- structure_plot(select(poisson2multinom(fit_poisson_nmf), loadings = rows),
+                     grouping = samples[rows,&quot;Cluster&quot;],
+                     n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
+print(p.structure_plot)</code></pre>
+<p><img src="figure/plots_Lareau2019_bonemarrow.Rmd/structure-plot-stimulated-8-1.png" width="840" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
