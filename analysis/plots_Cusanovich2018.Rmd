@@ -1,0 +1,171 @@
+---
+title: "Visualize and interpret topics in Cusanovich2018 data"
+author: "Kaixuan Luo"
+output: workflowr::wflow_html
+---
+
+Here we examine and compare the topic modeling results for the 
+scATAC-seq dataset from the mouse single-cell atlas paper 
+[Cusanovich *et al* (2018)](scATACseq_data_Cusanovich2018.html)
+
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
+                      fig.align = "center",dpi = 120)
+```
+
+Load the packages used in the analysis below, as well as additional
+functions that will be used to generate some of the plots.
+
+```{r load-pkgs, message=FALSE}
+library(tools)
+library(dplyr)
+library(fastTopics)
+library(ggplot2)
+library(cowplot)
+source("code/plots.R")
+```
+
+```{r}
+set.seed(1)
+```
+
+Cusanovich 2018 mouse scATAC-seq dataset
+------------------------------------------
+
+### Load the data and Poisson NMF model fit
+Load the data
+```{r load-data}
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/processed_data/"
+load(file.path(data.dir, "Cusanovich_2018.RData"))
+cat(sprintf("%d x %d counts matrix.\n",nrow(counts),ncol(counts)))
+rm(counts)
+```
+
+About the samples:
+The study measured single cell chromatin accessibility for 17 samples 
+spanning 13 different tissues in 8-week old mice.
+
+```{r samples}
+cat(nrow(samples), "samples (cells). \n")
+```
+
+Tissues:
+```{r samples-tissues}
+samples$tissue <- as.factor(samples$tissue)
+cat(length(levels(samples$tissue)), "tissues. \n")
+table(samples$tissue)
+
+```
+
+Cell types labels:
+```{r samples-cells}
+samples$cell_label <- as.factor(samples$cell_label)
+cat(length(levels(samples$cell_label)), "cell types \n")
+table(samples$cell_label)
+
+```
+
+Load the results of running `fit_poisson_nmf` on the Cusanovich2018 data,
+with different algorithms, and for various choices of $k$ (the number
+of "topics").
+```{r load-PoissonNMF-fit}
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
+load(file.path(out.dir, "/compiled.fits.Cusanovich2018.RData"))
+```
+
+### Explore the structure of the single-cell data as inferred by the topic model.
+
+#### Structure plot
+
+The structure plots below summarize the topic proportions in the samples grouped by different tissues.
+
+$k = 2$: 
+```{r structure-plot-2, fig.width=7, fig.height=2}
+fit_poisson_nmf <- fits[["fit-Cusanovich2018-scd-ex-k=2"]]
+
+p.structure_plot <- structure_plot(poisson2multinom(fit_poisson_nmf),
+                     grouping = samples[,"tissue"],
+                     n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
+print(p.structure_plot)
+```
+
+$k = 3$: 
+```{r structure-plot-3, fig.width=7, fig.height=2}
+fit_poisson_nmf <- fits[["fit-Cusanovich2018-scd-ex-k=3"]]
+
+p.structure_plot <- structure_plot(poisson2multinom(fit_poisson_nmf),
+                     grouping = samples[,"tissue"],
+                     n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
+print(p.structure_plot)
+```
+
+$k = 4$: 
+```{r structure-plot-4, fig.width=7, fig.height=2}
+fit_poisson_nmf <- fits[["fit-Cusanovich2018-scd-ex-k=4"]]
+
+p.structure_plot <- structure_plot(poisson2multinom(fit_poisson_nmf),
+                     grouping = samples[,"tissue"],
+                     n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
+print(p.structure_plot)
+```
+
+$k = 5$: 
+```{r structure-plot-5, fig.width=7, fig.height=2}
+fit_poisson_nmf <- fits[["fit-Cusanovich2018-scd-ex-k=5"]]
+
+p.structure_plot <- structure_plot(poisson2multinom(fit_poisson_nmf),
+                     grouping = samples[,"tissue"],
+                     n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
+print(p.structure_plot)
+```
+
+$k = 6$: 
+```{r structure-plot-6, fig.width=7, fig.height=2}
+fit_poisson_nmf <- fits[["fit-Cusanovich2018-scd-ex-k=6"]]
+
+p.structure_plot <- structure_plot(poisson2multinom(fit_poisson_nmf),
+                     grouping = samples[,"tissue"],
+                     n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
+print(p.structure_plot)
+```
+
+$k = 7$: 
+```{r structure-plot-7, fig.width=7, fig.height=2}
+fit_poisson_nmf <- fits[["fit-Cusanovich2018-scd-ex-k=7"]]
+
+p.structure_plot <- structure_plot(poisson2multinom(fit_poisson_nmf),
+                     grouping = samples[,"tissue"],
+                     n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
+print(p.structure_plot)
+```
+
+$k = 8$: 
+```{r structure-plot-8, fig.width=7, fig.height=2}
+fit_poisson_nmf <- fits[["fit-Cusanovich2018-scd-ex-k=8"]]
+
+p.structure_plot <- structure_plot(poisson2multinom(fit_poisson_nmf),
+                     grouping = samples[,"tissue"],
+                     n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
+print(p.structure_plot)
+```
+
+$k = 9$: 
+```{r structure-plot-9, fig.width=7, fig.height=2}
+fit_poisson_nmf <- fits[["fit-Cusanovich2018-scd-ex-k=9"]]
+
+p.structure_plot <- structure_plot(poisson2multinom(fit_poisson_nmf),
+                     grouping = samples[,"tissue"],
+                     n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
+print(p.structure_plot)
+```
+
+$k = 10$: 
+```{r structure-plot-10, fig.width=7, fig.height=2}
+fit_poisson_nmf <- fits[["fit-Cusanovich2018-scd-ex-k=10"]]
+
+p.structure_plot <- structure_plot(poisson2multinom(fit_poisson_nmf),
+                     grouping = samples[,"tissue"],
+                     n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
+print(p.structure_plot)
+```
+
