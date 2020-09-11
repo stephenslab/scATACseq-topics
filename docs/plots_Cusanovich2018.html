@@ -488,16 +488,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreedc70e46c43134e630fc732877740776370ee24b1targetblankdc70e46a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/dc70e46c43134e630fc732877740776370ee24b1" target="_blank">dc70e46</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree6d64de69248fc8bf434009bd289812c0c298095atargetblank6d64de6a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/6d64de69248fc8bf434009bd289812c0c298095a" target="_blank">6d64de6</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreedc70e46c43134e630fc732877740776370ee24b1targetblankdc70e46a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree6d64de69248fc8bf434009bd289812c0c298095atargetblank6d64de6a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/dc70e46c43134e630fc732877740776370ee24b1" target="_blank">dc70e46</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/6d64de69248fc8bf434009bd289812c0c298095a" target="_blank">6d64de6</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -544,6 +544,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/6d64de69248fc8bf434009bd289812c0c298095a/analysis/plots_Cusanovich2018.Rmd" target="_blank">6d64de6</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-09-11
+</td>
+<td>
+add t-SNE and membership pie charts
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/7c0b14fc8b62f93f7ccf47c567ff831e5b1b111e/docs/plots_Cusanovich2018.html" target="_blank">7c0b14f</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-09-11
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -691,10 +725,8 @@ load(file.path(out.dir, &quot;/compiled.fits.Cusanovich2018.RData&quot;))</code>
 <p>Select all <code>scd-ex</code> model fits</p>
 <pre class="r"><code>fits &lt;- fits[grep(&quot;scd-ex&quot;, names(fits))]</code></pre>
 </div>
-<div id="explore-the-structure-of-the-single-cell-data-as-inferred-by-the-topic-model." class="section level3">
-<h3>Explore the structure of the single-cell data as inferred by the topic model.</h3>
-<div id="structure-plot" class="section level4">
-<h4>Structure plot</h4>
+<div id="structure-plots" class="section level3">
+<h3>Structure plots</h3>
 <p>The structure plots below summarize the topic proportions in the samples grouped by different tissues.</p>
 <p><span class="math inline">\(k = 2\)</span>:</p>
 <pre class="r"><code>fit_poisson_nmf &lt;- fits[[&quot;fit-Cusanovich2018-scd-ex-k=2&quot;]]
@@ -1102,9 +1134,9 @@ kevinlkx
 </div>
 </div>
 </div>
-<div id="plot-samples-by-tissues-on-the-t-sne-coordinates-provided-by-the-original-paper" class="section level4">
-<h4>Plot samples by tissues on the t-SNE coordinates provided by the original paper</h4>
-<p>Plot all samples by tissues:</p>
+<div id="t-sne-plot" class="section level3">
+<h3>t-SNE plot</h3>
+<p>Plot samples by tissues on the t-SNE coordinates provided by the original paper:</p>
 <pre class="r"><code>p.tissues_tsne &lt;- ggplot(samples, aes(x = tsne_1, y = tsne_2)) + 
   geom_point(aes(colour = tissue), size = 0.5) + 
   labs(x = &#39;t-SNE 1&#39;, y = &#39;t-SNE 2&#39;, title = &#39;&#39;) + 
@@ -1112,7 +1144,44 @@ kevinlkx
   theme_classic()
 
 print(p.tissues_tsne)</code></pre>
-<p><img src="figure/plots_Cusanovich2018.Rmd/tSNE-tissues-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p><img src="figure/plots_Cusanovich2018.Rmd/tSNE-tissues-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-tSNE-tissues-1">
+Past versions of tSNE-tissues-1.png
+</button>
+</p>
+<div id="fig-tSNE-tissues-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/7c0b14fc8b62f93f7ccf47c567ff831e5b1b111e/docs/figure/plots_Cusanovich2018.Rmd/tSNE-tissues-1.png" target="_blank">7c0b14f</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-09-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Plot a random subset of 2000 samples by tissues:</p>
 <pre class="r"><code>idx_plot &lt;- sort(sample(1:length(samples$cell), 2000))
 
@@ -1123,10 +1192,48 @@ p.tissues_tsne &lt;- ggplot(samples[idx_plot,], aes(x = tsne_1, y = tsne_2)) +
   theme_classic()
 
 print(p.tissues_tsne)</code></pre>
-<p><img src="figure/plots_Cusanovich2018.Rmd/tSNE-tissues-2-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p><img src="figure/plots_Cusanovich2018.Rmd/tSNE-tissues-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-tSNE-tissues-2-1">
+Past versions of tSNE-tissues-2-1.png
+</button>
+</p>
+<div id="fig-tSNE-tissues-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/7c0b14fc8b62f93f7ccf47c567ff831e5b1b111e/docs/figure/plots_Cusanovich2018.Rmd/tSNE-tissues-2-1.png" target="_blank">7c0b14f</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-09-11
+</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div id="visualize-topic-membership-using-pie-charts-for-cells-on-t-sne-coordinates-provided-by-the-original-paper" class="section level4">
-<h4>Visualize topic membership using pie-charts for cells on t-SNE coordinates provided by the original paper</h4>
+</div>
+</div>
+<div id="visualize-topic-membership-using-pie-charts-on-t-sne-coordinates" class="section level3">
+<h3>Visualize topic membership using pie-charts on t-SNE coordinates</h3>
+<p>Visualize topic membership using pie-charts for cells on t-SNE coordinates provided by the original paper</p>
 <p>Plot the subset of 2000 samples:</p>
 <p><span class="math inline">\(k = 3\)</span>:</p>
 <pre class="r"><code>k &lt;- 3
@@ -1144,6 +1251,43 @@ res &lt;- lapply(idx_plot, function(r)
           y=samples[r,&quot;tsne_2&quot;], labels=c(&quot;&quot;,&quot;&quot;,&quot;&quot;),
           radius = 1, col = RColorBrewer::brewer.pal(9, &quot;Set1&quot;)))</code></pre>
 <p><img src="figure/plots_Cusanovich2018.Rmd/topic-membership-pies-tSNE-1-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-topic-membership-pies-tSNE-1-1">
+Past versions of topic-membership-pies-tSNE-1-1.png
+</button>
+</p>
+<div id="fig-topic-membership-pies-tSNE-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/7c0b14fc8b62f93f7ccf47c567ff831e5b1b111e/docs/figure/plots_Cusanovich2018.Rmd/topic-membership-pies-tSNE-1-1.png" target="_blank">7c0b14f</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-09-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p><span class="math inline">\(k = 4\)</span>:</p>
 <pre class="r"><code>k &lt;- 4
 fit_poisson_nmf &lt;- fits[[sprintf(&quot;fit-Cusanovich2018-scd-ex-k=%d&quot;, k)]]
@@ -1160,6 +1304,43 @@ res &lt;- lapply(idx_plot, function(r)
           y=samples[r,&quot;tsne_2&quot;], labels=c(&quot;&quot;,&quot;&quot;,&quot;&quot;),
           radius = 1, col = RColorBrewer::brewer.pal(9, &quot;Set1&quot;)))</code></pre>
 <p><img src="figure/plots_Cusanovich2018.Rmd/topic-membership-pies-tSNE-2-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-topic-membership-pies-tSNE-2-1">
+Past versions of topic-membership-pies-tSNE-2-1.png
+</button>
+</p>
+<div id="fig-topic-membership-pies-tSNE-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/7c0b14fc8b62f93f7ccf47c567ff831e5b1b111e/docs/figure/plots_Cusanovich2018.Rmd/topic-membership-pies-tSNE-2-1.png" target="_blank">7c0b14f</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-09-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p><span class="math inline">\(k = 5\)</span>:</p>
 <pre class="r"><code>k &lt;- 5
 fit_poisson_nmf &lt;- fits[[sprintf(&quot;fit-Cusanovich2018-scd-ex-k=%d&quot;, k)]]
@@ -1176,6 +1357,43 @@ res &lt;- lapply(idx_plot, function(r)
           y=samples[r,&quot;tsne_2&quot;], labels=c(&quot;&quot;,&quot;&quot;,&quot;&quot;),
           radius = 1, col = RColorBrewer::brewer.pal(9, &quot;Set1&quot;)))</code></pre>
 <p><img src="figure/plots_Cusanovich2018.Rmd/topic-membership-pies-tSNE-3-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-topic-membership-pies-tSNE-3-1">
+Past versions of topic-membership-pies-tSNE-3-1.png
+</button>
+</p>
+<div id="fig-topic-membership-pies-tSNE-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/7c0b14fc8b62f93f7ccf47c567ff831e5b1b111e/docs/figure/plots_Cusanovich2018.Rmd/topic-membership-pies-tSNE-3-1.png" target="_blank">7c0b14f</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-09-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p><span class="math inline">\(k = 6\)</span>:</p>
 <pre class="r"><code>k &lt;- 6
 fit_poisson_nmf &lt;- fits[[sprintf(&quot;fit-Cusanovich2018-scd-ex-k=%d&quot;, k)]]
@@ -1192,6 +1410,43 @@ res &lt;- lapply(idx_plot, function(r)
           y=samples[r,&quot;tsne_2&quot;], labels=c(&quot;&quot;,&quot;&quot;,&quot;&quot;),
           radius = 1, col = RColorBrewer::brewer.pal(9, &quot;Set1&quot;)))</code></pre>
 <p><img src="figure/plots_Cusanovich2018.Rmd/topic-membership-pies-tSNE-4-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-topic-membership-pies-tSNE-4-1">
+Past versions of topic-membership-pies-tSNE-4-1.png
+</button>
+</p>
+<div id="fig-topic-membership-pies-tSNE-4-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/7c0b14fc8b62f93f7ccf47c567ff831e5b1b111e/docs/figure/plots_Cusanovich2018.Rmd/topic-membership-pies-tSNE-4-1.png" target="_blank">7c0b14f</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-09-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p><span class="math inline">\(k = 7\)</span>:</p>
 <pre class="r"><code>k &lt;- 7
 fit_poisson_nmf &lt;- fits[[sprintf(&quot;fit-Cusanovich2018-scd-ex-k=%d&quot;, k)]]
@@ -1208,6 +1463,43 @@ res &lt;- lapply(idx_plot, function(r)
           y=samples[r,&quot;tsne_2&quot;], labels=c(&quot;&quot;,&quot;&quot;,&quot;&quot;),
           radius = 1, col = RColorBrewer::brewer.pal(9, &quot;Set1&quot;)))</code></pre>
 <p><img src="figure/plots_Cusanovich2018.Rmd/topic-membership-pies-tSNE-5-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-topic-membership-pies-tSNE-5-1">
+Past versions of topic-membership-pies-tSNE-5-1.png
+</button>
+</p>
+<div id="fig-topic-membership-pies-tSNE-5-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/7c0b14fc8b62f93f7ccf47c567ff831e5b1b111e/docs/figure/plots_Cusanovich2018.Rmd/topic-membership-pies-tSNE-5-1.png" target="_blank">7c0b14f</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-09-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p><span class="math inline">\(k = 8\)</span>:</p>
 <pre class="r"><code>k &lt;- 8
 fit_poisson_nmf &lt;- fits[[sprintf(&quot;fit-Cusanovich2018-scd-ex-k=%d&quot;, k)]]
@@ -1224,6 +1516,43 @@ res &lt;- lapply(idx_plot, function(r)
           y=samples[r,&quot;tsne_2&quot;], labels=c(&quot;&quot;,&quot;&quot;,&quot;&quot;),
           radius = 1, col = RColorBrewer::brewer.pal(9, &quot;Set1&quot;)))</code></pre>
 <p><img src="figure/plots_Cusanovich2018.Rmd/topic-membership-pies-tSNE-6-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-topic-membership-pies-tSNE-6-1">
+Past versions of topic-membership-pies-tSNE-6-1.png
+</button>
+</p>
+<div id="fig-topic-membership-pies-tSNE-6-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/7c0b14fc8b62f93f7ccf47c567ff831e5b1b111e/docs/figure/plots_Cusanovich2018.Rmd/topic-membership-pies-tSNE-6-1.png" target="_blank">7c0b14f</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-09-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p><span class="math inline">\(k = 9\)</span>:</p>
 <pre class="r"><code>k &lt;- 9
 fit_poisson_nmf &lt;- fits[[sprintf(&quot;fit-Cusanovich2018-scd-ex-k=%d&quot;, k)]]
@@ -1240,6 +1569,59 @@ res &lt;- lapply(idx_plot, function(r)
           y=samples[r,&quot;tsne_2&quot;], labels=c(&quot;&quot;,&quot;&quot;,&quot;&quot;),
           radius = 1, col = RColorBrewer::brewer.pal(9, &quot;Set1&quot;)))</code></pre>
 <p><img src="figure/plots_Cusanovich2018.Rmd/topic-membership-pies-tSNE-7-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-topic-membership-pies-tSNE-7-1">
+Past versions of topic-membership-pies-tSNE-7-1.png
+</button>
+</p>
+<div id="fig-topic-membership-pies-tSNE-7-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/7c0b14fc8b62f93f7ccf47c567ff831e5b1b111e/docs/figure/plots_Cusanovich2018.Rmd/topic-membership-pies-tSNE-7-1.png" target="_blank">7c0b14f</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-09-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><span class="math inline">\(k = 10\)</span>:</p>
+<pre class="r"><code>k &lt;- 10
+fit_poisson_nmf &lt;- fits[[sprintf(&quot;fit-Cusanovich2018-scd-ex-k=%d&quot;, k)]]
+fit &lt;- poisson2multinom(fit_poisson_nmf)
+
+plot(NA,NA, main = paste(&quot;K =&quot;, k), 
+     xlab = &#39;t-SNE 1&#39;, ylab = &#39;t-SNE 2&#39;, 
+     xlim=c(min(samples$tsne_1),max(samples$tsne_1)),
+     ylim=c(min(samples$tsne_2),max(samples$tsne_2)))
+
+res &lt;- lapply(idx_plot, function(r)
+  add.pie(z=as.integer(100*fit$L[r,]),
+          x=samples[r,&quot;tsne_1&quot;],
+          y=samples[r,&quot;tsne_2&quot;], labels=c(&quot;&quot;,&quot;&quot;,&quot;&quot;),
+          radius = 1, col = RColorBrewer::brewer.pal(9, &quot;Set1&quot;)))</code></pre>
+<p><img src="figure/plots_Cusanovich2018.Rmd/topic-membership-pies-tSNE-8-1.png" width="600" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1289,7 +1671,6 @@ res &lt;- lapply(idx_plot, function(r)
 # [57] vctrs_0.3.0        RColorBrewer_1.1-2 glue_1.4.1         purrr_0.3.4       
 # [61] hms_0.4.2          yaml_2.2.0         colorspace_1.4-1   plotly_4.8.0      
 # [65] knitr_1.28         quantreg_5.36      MCMCpack_1.4-4</code></pre>
-</div>
 </div>
 </div>
 </div>
