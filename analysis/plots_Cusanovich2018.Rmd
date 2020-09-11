@@ -80,9 +80,7 @@ Select all `scd-ex` model fits
 fits <- fits[grep("scd-ex", names(fits))]
 ```
 
-### Explore the structure of the single-cell data as inferred by the topic model.
-
-#### Structure plot
+### Structure plots
 
 The structure plots below summarize the topic proportions in the samples grouped by different tissues.
 
@@ -176,10 +174,10 @@ p.structure_plot <- structure_plot(poisson2multinom(fit_poisson_nmf),
 print(p.structure_plot)
 ```
 
-#### Plot samples by tissues on the t-SNE coordinates provided by the original paper
+### t-SNE plot
 
-Plot all samples by tissues:
-```{r tSNE-tissues, fig.width=5, fig.height=5}
+Plot samples by tissues on the t-SNE coordinates provided by the original paper:
+```{r tSNE-tissues, fig.width=7, fig.height=5}
 p.tissues_tsne <- ggplot(samples, aes(x = tsne_1, y = tsne_2)) + 
   geom_point(aes(colour = tissue), size = 0.5) + 
   labs(x = 't-SNE 1', y = 't-SNE 2', title = '') + 
@@ -190,7 +188,7 @@ print(p.tissues_tsne)
 ```
 
 Plot a random subset of 2000 samples by tissues:
-```{r tSNE-tissues-2, fig.width=5, fig.height=5}
+```{r tSNE-tissues-2, fig.width=7, fig.height=5}
 idx_plot <- sort(sample(1:length(samples$cell), 2000))
 
 p.tissues_tsne <- ggplot(samples[idx_plot,], aes(x = tsne_1, y = tsne_2)) + 
@@ -202,7 +200,9 @@ p.tissues_tsne <- ggplot(samples[idx_plot,], aes(x = tsne_1, y = tsne_2)) +
 print(p.tissues_tsne)
 ```
 
-#### Visualize topic membership using pie-charts for cells on t-SNE coordinates provided by the original paper
+### Visualize topic membership using pie-charts on t-SNE coordinates
+
+Visualize topic membership using pie-charts for cells on t-SNE coordinates provided by the original paper
 
 Plot the subset of 2000 samples:
 
@@ -317,6 +317,24 @@ res <- lapply(idx_plot, function(r)
 $k = 9$: 
 ```{r topic-membership-pies-tSNE-7, fig.width=5, fig.height=5}
 k <- 9
+fit_poisson_nmf <- fits[[sprintf("fit-Cusanovich2018-scd-ex-k=%d", k)]]
+fit <- poisson2multinom(fit_poisson_nmf)
+
+plot(NA,NA, main = paste("K =", k), 
+     xlab = 't-SNE 1', ylab = 't-SNE 2', 
+     xlim=c(min(samples$tsne_1),max(samples$tsne_1)),
+     ylim=c(min(samples$tsne_2),max(samples$tsne_2)))
+
+res <- lapply(idx_plot, function(r)
+  add.pie(z=as.integer(100*fit$L[r,]),
+          x=samples[r,"tsne_1"],
+          y=samples[r,"tsne_2"], labels=c("","",""),
+          radius = 1, col = RColorBrewer::brewer.pal(9, "Set1")))
+```
+
+$k = 10$: 
+```{r topic-membership-pies-tSNE-8, fig.width=5, fig.height=5}
+k <- 10
 fit_poisson_nmf <- fits[[sprintf("fit-Cusanovich2018-scd-ex-k=%d", k)]]
 fit <- poisson2multinom(fit_poisson_nmf)
 
