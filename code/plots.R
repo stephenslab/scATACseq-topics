@@ -37,33 +37,43 @@ basic_pca_plot <- function (fit, pcs = 1:2) {
 # Create a basic scatterplot showing the topic proportions projected
 # onto two principal components (PCs), and the colour of the points is
 # varied according to a factor ("labels").
-pca_plot_with_labels <-
-  function (fit, pcs = c("PC1","PC2"), labels,
-            colors = c("darkorange","darkblue","dodgerblue","magenta",
-                       "gold")) {
-    if (inherits(fit,"poisson_nmf_fit"))
-      fit <- poisson2multinom(fit)
-    out.pca <- prcomp(fit$L)
-    dat     <- cbind(out.pca$x,data.frame(label = factor(labels)))
-    return(ggplot(dat,aes_string(x = pcs[1],y = pcs[2],fill = "label")) +
-             geom_point(shape = 21,color = "white",size = 1.25) +
-             scale_fill_manual(values = colors) +
-             theme_cowplot(font_size = 10))
-  }
+labeled_pca_plot <-
+  function (fit, pcs = 1:2, labels, font_size = 9,
+            colors = rep(c("firebrick","dodgerblue","forestgreen",
+                           "darkmagenta","darkorange","gold","darkblue",
+                           "peru","greenyellow","olivedrab"),times = 4),
+            shapes = rep(c(21:24),each = 10),
+            legend_label = "label") {
+  if (inherits(fit,"poisson_nmf_fit"))
+    fit <- poisson2multinom(fit)
+  dat <- as.data.frame(prcomp(fit$L)$x)
+  if (is.numeric(pcs))
+    pcs <- names(dat)[pcs]
+  dat <- cbind(data.frame(label = factor(labels)),dat)
+  return(ggplot(dat,aes_string(x = pcs[1],y = pcs[2],fill = "label",
+                               shape = "label")) +
+         geom_point(color = "white",size = 1.2,na.rm = TRUE) +
+         scale_fill_manual(values = colors) +
+         scale_shape_manual(values = shapes) +
+         labs(fill = legend_label,shape = legend_label) +
+         theme_cowplot(font_size = font_size))
+}
 
-# Create a "hex plot" showing the density of the data points
+# Create a "hexbin plot" showing the density of the data points
 # (specifically, the topic proportions) as they are projected onto two
-# principal ccomponents (PCs).
-pca_hex_plot <-
-  function (fit, pcs = c("PC1","PC2"), n = 40, bins = c(0,1,10,100,1000,Inf),
+# principal components (PCs).
+pca_hexbin_plot <-
+  function (fit, pcs = 1:2, n = 40, bins = c(0,1,10,100,1000,Inf),
             colors = c("gainsboro","lightskyblue","gold","orange","magenta")) {
-    if (inherits(fit,"poisson_nmf_fit"))
-      fit <- poisson2multinom(fit)
-    pdat <- as.data.frame(prcomp(fit$L)$x)
-    return(ggplot(pdat,aes_string(x = pcs[1],y = pcs[2])) +
-             stat_bin_hex(mapping = aes_q(fill = quote(cut(..count..,bins))),
-                          bins = n) +
-             scale_fill_manual(values = colors) +
-             labs(fill = "count") +
-             theme_cowplot(font_size = 10))
-  }
+  if (inherits(fit,"poisson_nmf_fit"))
+    fit <- poisson2multinom(fit)
+  dat <- as.data.frame(prcomp(fit$L)$x)
+  if (is.numeric(pcs))
+    pcs <- names(dat)[pcs]
+  return(ggplot(dat,aes_string(x = pcs[1],y = pcs[2])) +
+         stat_bin_hex(mapping = aes_q(fill = quote(cut(..count..,bins))),
+                      bins = n) +
+         scale_fill_manual(values = colors) +
+         labs(fill = "count") +
+         theme_cowplot(font_size = 10))
+}
