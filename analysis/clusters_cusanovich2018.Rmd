@@ -65,39 +65,39 @@ clusters.
 Next, layer the tissue labels onto the PC plots. PCs 1 and 2:
 
 ```{r pca-3, fig.width=8, fig.height=2.25}
-p9 <- labeled_pca_plot(fit,1:2,samples$tissue,font_size = 8,
+p9 <- labeled_pca_plot(fit,1:2,samples$tissue,font_size = 7,
                        legend_label = "tissue")
-p10 <- labeled_pca_plot(fit,1:2,samples$cell_label,font_size = 8,
+p10 <- labeled_pca_plot(fit,1:2,samples$cell_label,font_size = 7,
                         legend_label = "cell_label")
-plot_grid(p9,p10,rel_widths = c(2,3))
+plot_grid(p9,p10,rel_widths = c(8,11))
 ```
 
 PCs 3 and 4:
 
 ```{r pca-4, fig.width=8, fig.height=2.25}
-p11 <- labeled_pca_plot(fit,3:4,samples$tissue,font_size = 8,
+p11 <- labeled_pca_plot(fit,3:4,samples$tissue,font_size = 7,
                         legend_label = "tissue")
-p12 <- labeled_pca_plot(fit,3:4,samples$cell_label,font_size = 8,
+p12 <- labeled_pca_plot(fit,3:4,samples$cell_label,font_size = 7,
                         legend_label = "cell_label")
-plot_grid(p11,p12,rel_widths = c(2,3))
+plot_grid(p11,p12,rel_widths = c(8,11))
 ```
 
 PCs 5 and 6:
 
 ```{r pca-5, fig.width=8, fig.height=2.25}
-p13 <- labeled_pca_plot(fit,5:6,samples$tissue,font_size = 8,
+p13 <- labeled_pca_plot(fit,5:6,samples$tissue,font_size = 7,
                        legend_label = "tissue")
-p14 <- labeled_pca_plot(fit,5:6,samples$cell_label,font_size = 8,
+p14 <- labeled_pca_plot(fit,5:6,samples$cell_label,font_size = 7,
                         legend_label = "cell_label")
-plot_grid(p13,p14,rel_widths = c(2,3))
+plot_grid(p13,p14,rel_widths = c(8,11))
 ```
 
 PCs 7 and 8:
 
 ```{r pca-6, fig.width=8, fig.height=2.25}
-p15 <- labeled_pca_plot(fit,7:8,samples$tissue,font_size = 8,
+p15 <- labeled_pca_plot(fit,7:8,samples$tissue,font_size = 7,
                        legend_label = "tissue")
-p16 <- labeled_pca_plot(fit,7:8,samples$cell_label,font_size = 8,
+p16 <- labeled_pca_plot(fit,7:8,samples$cell_label,font_size = 7,
                         legend_label = "cell_label")
-plot_grid(p15,p16,rel_widths = c(2,3))
+plot_grid(p15,p16,rel_widths = c(8,11))
 ```
