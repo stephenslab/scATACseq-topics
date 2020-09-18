@@ -22,6 +22,19 @@ create_abundance_plot <- function (fit, probs = c(0.1,0.25,0.5),
 }
 
 # Create a basic scatterplot showing the topic proportions projected
+# onto two principal components (PCs).
+basic_pca_plot <- function (fit, pcs = 1:2) {
+  if (inherits(fit,"poisson_nmf_fit"))
+    fit <- poisson2multinom(fit)
+  dat <- as.data.frame(prcomp(fit$L)$x)
+  if (is.numeric(pcs))
+    pcs <- names(dat)[pcs]
+  return(ggplot(dat,aes_string(x = pcs[1],y = pcs[2])) +
+         geom_point(shape = 21,color = "white",fill = "black",size = 1.25) +
+         theme_cowplot(font_size = 10))
+}
+
+# Create a basic scatterplot showing the topic proportions projected
 # onto two principal components (PCs), and the colour of the points is
 # varied according to a factor ("labels").
 pca_plot_with_labels <-

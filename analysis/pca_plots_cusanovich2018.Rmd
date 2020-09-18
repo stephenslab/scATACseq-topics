@@ -1,0 +1,39 @@
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
+                      fig.align = "center",dpi = 120)
+```
+					  
+Load packages and some functions used in this analysis.
+
+```{r load-pkgs}
+library(Matrix)
+library(ggplot2)
+library(cowplot)
+library(fastTopics)
+source("../code/plots.R")
+```
+
+Load data. The UMI counts are no longer needed at this stage of the
+analysis.
+
+```{r load-data}
+load("../data/Cusanovich_2018.RData")
+rm(counts)
+```
+
+Load the $k = 10$ Poisson NMF fit.
+
+```{r load-fit}
+fit <- readRDS("../output/fit-Cusanovich2018-scd-ex-k=10.rds")$fit
+```
+
+Plot PCs of the topic proportions.
+
+```{r pca-1 fig.width=8, fig.height=8}
+p1 <- basic_pca_plot(fit,1:2)
+p2 <- basic_pca_plot(fit,3:4)
+p3 <- basic_pca_plot(fit,5:6)
+p4 <- basic_pca_plot(fit,7:8)
+p5 <- basic_pca_plot(fit,8:9)
+plot_grid(p1,p2,p3,p4,p5,nrow = 2,ncol =3)
+```
