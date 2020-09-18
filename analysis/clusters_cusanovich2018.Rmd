@@ -1,7 +1,9 @@
 ---
 title: "Explore structure in Cusanovich et al (2018) data from PC plots of topic proportions"
 author: Peter Carbonetto
-output: workflowr::wflow_html
+output:
+  workflowr::wflow_html:
+    toc: no
 ---
 
 Here we explore the structure in the Cusanovich *et al* (2018)
