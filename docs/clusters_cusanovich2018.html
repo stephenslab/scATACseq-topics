@@ -412,16 +412,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree090615f295c4616d70bc51b3c51f265d1c2db532targetblank090615fa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/090615f295c4616d70bc51b3c51f265d1c2db532" target="_blank">090615f</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree03a5b9624853a467bb9c941f08e55c1c96ef1c7dtargetblank03a5b96a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/03a5b9624853a467bb9c941f08e55c1c96ef1c7d" target="_blank">03a5b96</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree090615f295c4616d70bc51b3c51f265d1c2db532targetblank090615fa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree03a5b9624853a467bb9c941f08e55c1c96ef1c7dtargetblank03a5b96a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/090615f295c4616d70bc51b3c51f265d1c2db532" target="_blank">090615f</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/03a5b9624853a467bb9c941f08e55c1c96ef1c7d" target="_blank">03a5b96</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -468,6 +468,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/03a5b9624853a467bb9c941f08e55c1c96ef1c7d/analysis/clusters_cusanovich2018.Rmd" target="_blank">03a5b96</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2020-09-18
+</td>
+<td>
+workflowr::wflow_publish(“clusters_cusanovich2018.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/09a611df64210dcf76d1df949579656a488ea39f/docs/clusters_cusanovich2018.html" target="_blank">09a611d</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2020-09-18
+</td>
+<td>
+Adjusted dimensions of PCA plots in clusters_cusanovich2018 analysis.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -718,11 +752,11 @@ Peter Carbonetto
 </div>
 <p>These hexbin plots make it quite clear that there are distinct clusters.</p>
 <p>Next, layer the tissue labels onto the PC plots. PCs 1 and 2:</p>
-<pre class="r"><code>p9 &lt;- labeled_pca_plot(fit,1:2,samples$tissue,font_size = 8,
+<pre class="r"><code>p9 &lt;- labeled_pca_plot(fit,1:2,samples$tissue,font_size = 7,
                        legend_label = &quot;tissue&quot;)
-p10 &lt;- labeled_pca_plot(fit,1:2,samples$cell_label,font_size = 8,
+p10 &lt;- labeled_pca_plot(fit,1:2,samples$cell_label,font_size = 7,
                         legend_label = &quot;cell_label&quot;)
-plot_grid(p9,p10,rel_widths = c(2,3))</code></pre>
+plot_grid(p9,p10,rel_widths = c(8,11))</code></pre>
 <p><img src="figure/clusters_cusanovich2018.Rmd/pca-3-1.png" width="960" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-3-1">
@@ -746,6 +780,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/09a611df64210dcf76d1df949579656a488ea39f/docs/figure/clusters_cusanovich2018.Rmd/pca-3-1.png" target="_blank">09a611d</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2020-09-18
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/9983e8584e56c4899f10b8b5d54cc5da6f278ad8/docs/figure/clusters_cusanovich2018.Rmd/pca-3-1.png" target="_blank">9983e85</a>
@@ -773,11 +818,11 @@ Peter Carbonetto
 </div>
 </div>
 <p>PCs 3 and 4:</p>
-<pre class="r"><code>p11 &lt;- labeled_pca_plot(fit,3:4,samples$tissue,font_size = 8,
+<pre class="r"><code>p11 &lt;- labeled_pca_plot(fit,3:4,samples$tissue,font_size = 7,
                         legend_label = &quot;tissue&quot;)
-p12 &lt;- labeled_pca_plot(fit,3:4,samples$cell_label,font_size = 8,
+p12 &lt;- labeled_pca_plot(fit,3:4,samples$cell_label,font_size = 7,
                         legend_label = &quot;cell_label&quot;)
-plot_grid(p11,p12,rel_widths = c(2,3))</code></pre>
+plot_grid(p11,p12,rel_widths = c(8,11))</code></pre>
 <p><img src="figure/clusters_cusanovich2018.Rmd/pca-4-1.png" width="960" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-4-1">
@@ -801,6 +846,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/09a611df64210dcf76d1df949579656a488ea39f/docs/figure/clusters_cusanovich2018.Rmd/pca-4-1.png" target="_blank">09a611d</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2020-09-18
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/9983e8584e56c4899f10b8b5d54cc5da6f278ad8/docs/figure/clusters_cusanovich2018.Rmd/pca-4-1.png" target="_blank">9983e85</a>
@@ -828,11 +884,11 @@ Peter Carbonetto
 </div>
 </div>
 <p>PCs 5 and 6:</p>
-<pre class="r"><code>p13 &lt;- labeled_pca_plot(fit,5:6,samples$tissue,font_size = 8,
+<pre class="r"><code>p13 &lt;- labeled_pca_plot(fit,5:6,samples$tissue,font_size = 7,
                        legend_label = &quot;tissue&quot;)
-p14 &lt;- labeled_pca_plot(fit,5:6,samples$cell_label,font_size = 8,
+p14 &lt;- labeled_pca_plot(fit,5:6,samples$cell_label,font_size = 7,
                         legend_label = &quot;cell_label&quot;)
-plot_grid(p13,p14,rel_widths = c(2,3))</code></pre>
+plot_grid(p13,p14,rel_widths = c(8,11))</code></pre>
 <p><img src="figure/clusters_cusanovich2018.Rmd/pca-5-1.png" width="960" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-5-1">
@@ -856,6 +912,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/09a611df64210dcf76d1df949579656a488ea39f/docs/figure/clusters_cusanovich2018.Rmd/pca-5-1.png" target="_blank">09a611d</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2020-09-18
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/9983e8584e56c4899f10b8b5d54cc5da6f278ad8/docs/figure/clusters_cusanovich2018.Rmd/pca-5-1.png" target="_blank">9983e85</a>
@@ -883,11 +950,11 @@ Peter Carbonetto
 </div>
 </div>
 <p>PCs 7 and 8:</p>
-<pre class="r"><code>p15 &lt;- labeled_pca_plot(fit,7:8,samples$tissue,font_size = 8,
+<pre class="r"><code>p15 &lt;- labeled_pca_plot(fit,7:8,samples$tissue,font_size = 7,
                        legend_label = &quot;tissue&quot;)
-p16 &lt;- labeled_pca_plot(fit,7:8,samples$cell_label,font_size = 8,
+p16 &lt;- labeled_pca_plot(fit,7:8,samples$cell_label,font_size = 7,
                         legend_label = &quot;cell_label&quot;)
-plot_grid(p15,p16,rel_widths = c(2,3))</code></pre>
+plot_grid(p15,p16,rel_widths = c(8,11))</code></pre>
 <p><img src="figure/clusters_cusanovich2018.Rmd/pca-6-1.png" width="960" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-6-1">
@@ -911,6 +978,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/09a611df64210dcf76d1df949579656a488ea39f/docs/figure/clusters_cusanovich2018.Rmd/pca-6-1.png" target="_blank">09a611d</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2020-09-18
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/9983e8584e56c4899f10b8b5d54cc5da6f278ad8/docs/figure/clusters_cusanovich2018.Rmd/pca-6-1.png" target="_blank">9983e85</a>
