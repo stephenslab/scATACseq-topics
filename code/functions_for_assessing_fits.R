@@ -45,7 +45,7 @@ create_progress_plots <- function (dat, fits, x = c("timing", "iter"),
     rows <- which(dat$k == i)
     method_rows <- with(dat[rows,],paste0(method,ifelse(extrapolate,"+ex","")))
     # allow the colors and fills to match with the method labels
-    idx_method <- which(method_labels %in% method_rows)
+    idx_method <- match(method_rows, method_labels)
     plots[[i]] <-
       plot_progress_poisson_nmf(fits[rows],x = x, y = y,
                                 add.point.every = 100,shapes = 21,
