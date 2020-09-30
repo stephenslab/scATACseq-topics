@@ -397,7 +397,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-09-10
+<strong>Last updated:</strong> 2020-09-30
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -488,16 +488,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree6d5b957f63ca07408aa03483c78c7e222d36ec45targetblank6d5b957a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/6d5b957f63ca07408aa03483c78c7e222d36ec45" target="_blank">6d5b957</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree06bd689b0f861c4f067a399174a0f527b3b48b22targetblank06bd689a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/06bd689b0f861c4f067a399174a0f527b3b48b22" target="_blank">06bd689</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree6d5b957f63ca07408aa03483c78c7e222d36ec45targetblank6d5b957a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree06bd689b0f861c4f067a399174a0f527b3b48b22targetblank06bd689a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/6d5b957f63ca07408aa03483c78c7e222d36ec45" target="_blank">6d5b957</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/06bd689b0f861c4f067a399174a0f527b3b48b22" target="_blank">06bd689</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -507,14 +507,7 @@ Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
 
-Untracked files:
-    Untracked:  analysis/plots_Cusanovich2018.Rmd
-    Untracked:  analysis/plots_Lareau2019_bonemarrow.Rmd
-    Untracked:  code/plots.R
-
 Unstaged changes:
-    Modified:   analysis/index.Rmd
-    Modified:   code/functions_for_assessing_fits.R
     Modified:   scripts/fit_all_models_Cusanovich2018.sh
 
 </code></pre>
@@ -554,6 +547,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/06bd689b0f861c4f067a399174a0f527b3b48b22/analysis/assess_fits_Cusanovich2018.Rmd" target="_blank">06bd689</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-09-30
+</td>
+<td>
+add results with k = 11:15
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/bdbac45be3007202fb412f401a134762f97b99a9/docs/assess_fits_Cusanovich2018.html" target="_blank">bdbac45</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-09-10
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -647,45 +674,6 @@ kevinlkx
 </div>
 <p>As expected, the likelihood consistently improves as the rank, <span class="math inline">\(k\)</span>, is increased.</p>
 <p>The next set of plots shows the improvement in the fit over time, for all choices of <span class="math inline">\(k\)</span>, and for each of the three optimization methods (EM, CCD, SCD), with and without the extrapolation scheme. The quality of the fit is measured by the log-likelihood relative to the best log-likelihood that was identified among all methods compared.</p>
-<pre class="r"><code>create_progress_plots(dat, fits, x=&quot;timing&quot;, y=&quot;loglik&quot;, numiter.prefit=200)</code></pre>
-<p><img src="figure/assess_fits_Cusanovich2018.Rmd/plot-loglik-timing-1.png" width="864" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-loglik-timing-1">
-Past versions of plot-loglik-timing-1.png
-</button>
-</p>
-<div id="fig-plot-loglik-timing-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/6d06f2a52dd4f2f9945dca0a4590eb66f3d546d0/docs/figure/assess_fits_Cusanovich2018.Rmd/plot-loglik-timing-1.png" target="_blank">6d06f2a</a>
-</td>
-<td>
-kevinlkx
-</td>
-<td>
-2020-09-09
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
 <pre class="r"><code>create_progress_plots(dat, fits, x=&quot;iter&quot;, y=&quot;loglik&quot;, numiter.prefit=200)</code></pre>
 <p><img src="figure/assess_fits_Cusanovich2018.Rmd/plot-loglik-iter-1.png" width="864" style="display: block; margin: auto;" /></p>
 <p>
@@ -726,45 +714,6 @@ kevinlkx
 </div>
 </div>
 <p>The last set of plots shows the evolution of the KKT residuals over time; the KKT residuals should vanish near a stationary point of the log-likelihood, so looking at the largest KKT residual can be used to assess how close we are to a solution. Note that, unlike the log-likelihood, the KKT residuals are not expected to decrease monotonically over time.</p>
-<pre class="r"><code>create_progress_plots(dat, fits, x=&quot;timing&quot;, y=&quot;res&quot;, numiter.prefit=200)</code></pre>
-<p><img src="figure/assess_fits_Cusanovich2018.Rmd/plot-res-timing-1.png" width="864" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-res-timing-1">
-Past versions of plot-res-timing-1.png
-</button>
-</p>
-<div id="fig-plot-res-timing-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/6d06f2a52dd4f2f9945dca0a4590eb66f3d546d0/docs/figure/assess_fits_Cusanovich2018.Rmd/plot-res-timing-1.png" target="_blank">6d06f2a</a>
-</td>
-<td>
-kevinlkx
-</td>
-<td>
-2020-09-09
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
 <pre class="r"><code>create_progress_plots(dat, fits, x=&quot;iter&quot;, y=&quot;res&quot;, numiter.prefit=200)</code></pre>
 <p><img src="figure/assess_fits_Cusanovich2018.Rmd/plot-res-iter-1.png" width="864" style="display: block; margin: auto;" /></p>
 <p>
@@ -831,7 +780,7 @@ kevinlkx
 # [1] stats     graphics  grDevices utils     datasets  methods   base     
 # 
 # other attached packages:
-# [1] cowplot_1.0.0      ggplot2_3.3.0      fastTopics_0.3-163 workflowr_1.6.2   
+# [1] cowplot_1.0.0      ggplot2_3.3.0      fastTopics_0.3-163
 # 
 # loaded via a namespace (and not attached):
 #  [1] ggrepel_0.8.2      Rcpp_1.0.4.6       lattice_0.20-38    tidyr_0.8.3       
@@ -843,14 +792,15 @@ kevinlkx
 # [25] labeling_0.3       Rtsne_0.15         stringr_1.4.0      htmlwidgets_1.5.1 
 # [29] munsell_0.5.0      compiler_3.5.1     httpuv_1.5.3.1     xfun_0.14         
 # [33] pkgconfig_2.0.3    mcmc_0.9-7         htmltools_0.4.0    tidyselect_0.2.5  
-# [37] tibble_3.0.1       quadprog_1.5-5     viridisLite_0.3.0  crayon_1.3.4      
-# [41] dplyr_0.8.5        withr_2.1.2        later_1.0.0        MASS_7.3-51.6     
-# [45] grid_3.5.1         jsonlite_1.6       gtable_0.3.0       lifecycle_0.2.0   
-# [49] git2r_0.27.1       magrittr_1.5       scales_1.1.1       RcppParallel_4.4.3
-# [53] stringi_1.4.6      farver_2.0.3       fs_1.3.1           promises_1.1.0    
-# [57] ellipsis_0.3.1     vctrs_0.3.0        tools_3.5.1        glue_1.4.1        
-# [61] purrr_0.3.4        hms_0.4.2          yaml_2.2.0         colorspace_1.4-1  
-# [65] plotly_4.8.0       knitr_1.28         quantreg_5.36      MCMCpack_1.4-4</code></pre>
+# [37] tibble_3.0.1       workflowr_1.6.2    quadprog_1.5-5     viridisLite_0.3.0 
+# [41] crayon_1.3.4       dplyr_0.8.5        withr_2.1.2        later_1.0.0       
+# [45] MASS_7.3-51.6      grid_3.5.1         jsonlite_1.6       gtable_0.3.0      
+# [49] lifecycle_0.2.0    git2r_0.27.1       magrittr_1.5       scales_1.1.1      
+# [53] RcppParallel_4.4.3 stringi_1.4.6      farver_2.0.3       fs_1.3.1          
+# [57] promises_1.1.0     ellipsis_0.3.1     vctrs_0.3.0        tools_3.5.1       
+# [61] glue_1.4.1         purrr_0.3.4        hms_0.4.2          yaml_2.2.0        
+# [65] colorspace_1.4-1   plotly_4.8.0       knitr_1.28         quantreg_5.36     
+# [69] MCMCpack_1.4-4</code></pre>
 </div>
 
 
