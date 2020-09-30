@@ -36,7 +36,7 @@ This plot shows the improvement in the log-likelihood as the rank,
 $k$, is increased. The log-likelihoods are shown relative to the
 log-likelihood at $k = 2$. 
 
-```{r plot-loglik-vs-k, fig.height=3, fig.width=3.5}
+```{r plot-loglik-vs-k, fig.height=3, fig.width=4}
 plot_loglik_vs_rank(fits) +
   theme_cowplot(font_size = 12)
 ```
@@ -50,7 +50,7 @@ for all choices of $k$, and for each of the three optimization methods
 of the fit is measured by the log-likelihood relative to the best
 log-likelihood that was identified among all methods compared.
 
-```{r plot-loglik-iter, fig.height=6, fig.width=9}
+```{r plot-loglik-iter, fig.height=8, fig.width=9}
 create_progress_plots(dat, fits, x="iter", y="loglik", numiter.prefit=200)
 ```
 
@@ -61,6 +61,6 @@ assess how close we are to a solution. Note that, unlike the
 log-likelihood, the KKT residuals are not expected to decrease
 monotonically over time.
 
-```{r plot-res-iter, fig.height=6, fig.width=9}
+```{r plot-res-iter, fig.height=8, fig.width=9}
 create_progress_plots(dat, fits, x="iter", y="res", numiter.prefit=200)
 ```
