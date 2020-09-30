@@ -38,7 +38,7 @@ create_progress_plots <- function (dat, fits, x = c("timing", "iter"),
   clrs <- c("deepskyblue","darkorange","darkmagenta")
   xlab <- ifelse(x == "timing", "runtime (h)", "iterations")
 
-  #
+  # method labels in the legend
   method_labels <- c("em", "ccd", "scd", "em+ex", "ccd+ex", "scd+ex")
 
   for (i in 2:k) {
