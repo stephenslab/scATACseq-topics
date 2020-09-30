@@ -38,13 +38,19 @@ create_progress_plots <- function (dat, fits, x = c("timing", "iter"),
   clrs <- c("deepskyblue","darkorange","darkmagenta")
   xlab <- ifelse(x == "timing", "runtime (h)", "iterations")
 
+  #
+  method_labels <- c("em", "ccd", "scd", "em+ex", "ccd+ex", "scd+ex")
+
   for (i in 2:k) {
     rows <- which(dat$k == i)
+    method_rows <- with(dat[rows,],paste0(method,ifelse(extrapolate,"+ex","")))
+    # allow the colors and fills to match with the method labels
+    idx_exist <- which(method_labels %in% method_rows)
     plots[[i]] <-
       plot_progress_poisson_nmf(fits[rows],x = x, y = y,
                                 add.point.every = 100,shapes = 21,
-                                colors = rep(c(clrs),2),
-                                fills = c(clrs,rep("white",3))) +
+                                colors = rep(c(clrs),2)[idx_exist],
+                                fills = c(clrs,rep("white",3))[idx_exist]) +
       labs(x = xlab, title = paste("k =",i)) +
       theme_cowplot(font_size = 10) +
       theme(plot.title = element_text(size = 10,face = "plain"))
