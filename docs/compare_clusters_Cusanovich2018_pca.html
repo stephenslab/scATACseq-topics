@@ -412,16 +412,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree90ce4ce5ccc6e237c9db3a88100d4d4021b6c3b0targetblank90ce4cea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/90ce4ce5ccc6e237c9db3a88100d4d4021b6c3b0" target="_blank">90ce4ce</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree692168de0b2c3fefdfe1500fe21f4a4da8d399f9targetblank692168da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/692168de0b2c3fefdfe1500fe21f4a4da8d399f9" target="_blank">692168d</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree90ce4ce5ccc6e237c9db3a88100d4d4021b6c3b0targetblank90ce4cea" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree692168de0b2c3fefdfe1500fe21f4a4da8d399f9targetblank692168da" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/90ce4ce5ccc6e237c9db3a88100d4d4021b6c3b0" target="_blank">90ce4ce</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/692168de0b2c3fefdfe1500fe21f4a4da8d399f9" target="_blank">692168d</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -447,7 +447,7 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <div id="versions" class="tab-pane fade">
 
 <p>
-These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/clusters_Cusanovich2018_pca.Rmd</code>) and HTML (<code>docs/clusters_Cusanovich2018_pca.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/compare_clusters_Cusanovich2018_pca.Rmd</code>) and HTML (<code>docs/compare_clusters_Cusanovich2018_pca.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
 </p>
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
@@ -476,7 +476,7 @@ Message
 Rmd
 </td>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/90ce4ce5ccc6e237c9db3a88100d4d4021b6c3b0/analysis/clusters_Cusanovich2018_pca.Rmd" target="_blank">90ce4ce</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/692168de0b2c3fefdfe1500fe21f4a4da8d399f9/analysis/compare_clusters_Cusanovich2018_pca.Rmd" target="_blank">692168d</a>
 </td>
 <td>
 kevinlkx
@@ -485,7 +485,24 @@ kevinlkx
 2020-10-07
 </td>
 <td>
-PCA for topic models with different k
+wflow_rename(“analysis/clusters_Cusanovich2018_pca.Rmd”, “analysis/compare_clusters_Cusanovich2018_pca.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/692168de0b2c3fefdfe1500fe21f4a4da8d399f9/docs/compare_clusters_Cusanovich2018_pca.html" target="_blank">692168d</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-10-07
+</td>
+<td>
+wflow_rename(“analysis/clusters_Cusanovich2018_pca.Rmd”, “analysis/compare_clusters_Cusanovich2018_pca.Rmd”)
 </td>
 </tr>
 </tbody>
@@ -517,14 +534,88 @@ p2 &lt;- basic_pca_plot(fit,3:4)
 p3 &lt;- basic_pca_plot(fit,5:6)
 p4 &lt;- basic_pca_plot(fit,7:8)
 plot_grid(p1,p2,p3,p4)</code></pre>
-<p><img src="figure/clusters_Cusanovich2018_pca.Rmd/pca-k9-1-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-k9-1-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-k9-1-1">
+Past versions of pca-k9-1-1.png
+</button>
+</p>
+<div id="fig-pca-k9-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/692168de0b2c3fefdfe1500fe21f4a4da8d399f9/docs/figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-k9-1-1.png" target="_blank">692168d</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-10-07
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>These next plots visualize the same results, but as 2-d (“hexbin”) histograms:</p>
 <pre class="r"><code>p5 &lt;- pca_hexbin_plot(fit,1:2) + guides(fill = &quot;none&quot;)
 p6 &lt;- pca_hexbin_plot(fit,3:4) + guides(fill = &quot;none&quot;)
 p7 &lt;- pca_hexbin_plot(fit,5:6) + guides(fill = &quot;none&quot;)
 p8 &lt;- pca_hexbin_plot(fit,7:8) + guides(fill = &quot;none&quot;)
 plot_grid(p5,p6,p7,p8)</code></pre>
-<p><img src="figure/clusters_Cusanovich2018_pca.Rmd/pca-k9-2-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-k9-2-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-k9-2-1">
+Past versions of pca-k9-2-1.png
+</button>
+</p>
+<div id="fig-pca-k9-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/692168de0b2c3fefdfe1500fe21f4a4da8d399f9/docs/figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-k9-2-1.png" target="_blank">692168d</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-10-07
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="k-10" class="section level3">
 <h3>k = 10</h3>
@@ -537,14 +628,88 @@ p2 &lt;- basic_pca_plot(fit,3:4)
 p3 &lt;- basic_pca_plot(fit,5:6)
 p4 &lt;- basic_pca_plot(fit,7:8)
 plot_grid(p1,p2,p3,p4)</code></pre>
-<p><img src="figure/clusters_Cusanovich2018_pca.Rmd/pca-k10-1-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-k10-1-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-k10-1-1">
+Past versions of pca-k10-1-1.png
+</button>
+</p>
+<div id="fig-pca-k10-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/692168de0b2c3fefdfe1500fe21f4a4da8d399f9/docs/figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-k10-1-1.png" target="_blank">692168d</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-10-07
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>These next plots visualize the same results, but as 2-d (“hexbin”) histograms:</p>
 <pre class="r"><code>p5 &lt;- pca_hexbin_plot(fit,1:2) + guides(fill = &quot;none&quot;)
 p6 &lt;- pca_hexbin_plot(fit,3:4) + guides(fill = &quot;none&quot;)
 p7 &lt;- pca_hexbin_plot(fit,5:6) + guides(fill = &quot;none&quot;)
 p8 &lt;- pca_hexbin_plot(fit,7:8) + guides(fill = &quot;none&quot;)
 plot_grid(p5,p6,p7,p8)</code></pre>
-<p><img src="figure/clusters_Cusanovich2018_pca.Rmd/pca-k10-2-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-k10-2-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-k10-2-1">
+Past versions of pca-k10-2-1.png
+</button>
+</p>
+<div id="fig-pca-k10-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/692168de0b2c3fefdfe1500fe21f4a4da8d399f9/docs/figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-k10-2-1.png" target="_blank">692168d</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-10-07
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="k-11" class="section level3">
 <h3>k = 11</h3>
@@ -557,14 +722,88 @@ p2 &lt;- basic_pca_plot(fit,3:4)
 p3 &lt;- basic_pca_plot(fit,5:6)
 p4 &lt;- basic_pca_plot(fit,7:8)
 plot_grid(p1,p2,p3,p4)</code></pre>
-<p><img src="figure/clusters_Cusanovich2018_pca.Rmd/pca-k11-1-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-k11-1-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-k11-1-1">
+Past versions of pca-k11-1-1.png
+</button>
+</p>
+<div id="fig-pca-k11-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/692168de0b2c3fefdfe1500fe21f4a4da8d399f9/docs/figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-k11-1-1.png" target="_blank">692168d</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-10-07
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>These next plots visualize the same results, but as 2-d (“hexbin”) histograms:</p>
 <pre class="r"><code>p5 &lt;- pca_hexbin_plot(fit,1:2) + guides(fill = &quot;none&quot;)
 p6 &lt;- pca_hexbin_plot(fit,3:4) + guides(fill = &quot;none&quot;)
 p7 &lt;- pca_hexbin_plot(fit,5:6) + guides(fill = &quot;none&quot;)
 p8 &lt;- pca_hexbin_plot(fit,7:8) + guides(fill = &quot;none&quot;)
 plot_grid(p5,p6,p7,p8)</code></pre>
-<p><img src="figure/clusters_Cusanovich2018_pca.Rmd/pca-k11-2-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-k11-2-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-k11-2-1">
+Past versions of pca-k11-2-1.png
+</button>
+</p>
+<div id="fig-pca-k11-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/692168de0b2c3fefdfe1500fe21f4a4da8d399f9/docs/figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-k11-2-1.png" target="_blank">692168d</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-10-07
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="k-12" class="section level3">
 <h3>k = 12</h3>
@@ -577,14 +816,88 @@ p2 &lt;- basic_pca_plot(fit,3:4)
 p3 &lt;- basic_pca_plot(fit,5:6)
 p4 &lt;- basic_pca_plot(fit,7:8)
 plot_grid(p1,p2,p3,p4)</code></pre>
-<p><img src="figure/clusters_Cusanovich2018_pca.Rmd/pca-k12-1-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-k12-1-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-k12-1-1">
+Past versions of pca-k12-1-1.png
+</button>
+</p>
+<div id="fig-pca-k12-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/692168de0b2c3fefdfe1500fe21f4a4da8d399f9/docs/figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-k12-1-1.png" target="_blank">692168d</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-10-07
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>These next plots visualize the same results, but as 2-d (“hexbin”) histograms:</p>
 <pre class="r"><code>p5 &lt;- pca_hexbin_plot(fit,1:2) + guides(fill = &quot;none&quot;)
 p6 &lt;- pca_hexbin_plot(fit,3:4) + guides(fill = &quot;none&quot;)
 p7 &lt;- pca_hexbin_plot(fit,5:6) + guides(fill = &quot;none&quot;)
 p8 &lt;- pca_hexbin_plot(fit,7:8) + guides(fill = &quot;none&quot;)
 plot_grid(p5,p6,p7,p8)</code></pre>
-<p><img src="figure/clusters_Cusanovich2018_pca.Rmd/pca-k12-2-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-k12-2-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-k12-2-1">
+Past versions of pca-k12-2-1.png
+</button>
+</p>
+<div id="fig-pca-k12-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/692168de0b2c3fefdfe1500fe21f4a4da8d399f9/docs/figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-k12-2-1.png" target="_blank">692168d</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-10-07
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="k-13" class="section level3">
 <h3>k = 13</h3>
@@ -597,14 +910,88 @@ p2 &lt;- basic_pca_plot(fit,3:4)
 p3 &lt;- basic_pca_plot(fit,5:6)
 p4 &lt;- basic_pca_plot(fit,7:8)
 plot_grid(p1,p2,p3,p4)</code></pre>
-<p><img src="figure/clusters_Cusanovich2018_pca.Rmd/pca-k13-1-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-k13-1-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-k13-1-1">
+Past versions of pca-k13-1-1.png
+</button>
+</p>
+<div id="fig-pca-k13-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/692168de0b2c3fefdfe1500fe21f4a4da8d399f9/docs/figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-k13-1-1.png" target="_blank">692168d</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-10-07
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>These next plots visualize the same results, but as 2-d (“hexbin”) histograms:</p>
 <pre class="r"><code>p5 &lt;- pca_hexbin_plot(fit,1:2) + guides(fill = &quot;none&quot;)
 p6 &lt;- pca_hexbin_plot(fit,3:4) + guides(fill = &quot;none&quot;)
 p7 &lt;- pca_hexbin_plot(fit,5:6) + guides(fill = &quot;none&quot;)
 p8 &lt;- pca_hexbin_plot(fit,7:8) + guides(fill = &quot;none&quot;)
 plot_grid(p5,p6,p7,p8)</code></pre>
-<p><img src="figure/clusters_Cusanovich2018_pca.Rmd/pca-k13-2-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-k13-2-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-k13-2-1">
+Past versions of pca-k13-2-1.png
+</button>
+</p>
+<div id="fig-pca-k13-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/692168de0b2c3fefdfe1500fe21f4a4da8d399f9/docs/figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-k13-2-1.png" target="_blank">692168d</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-10-07
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="k-14" class="section level3">
 <h3>k = 14</h3>
@@ -617,14 +1004,88 @@ p2 &lt;- basic_pca_plot(fit,3:4)
 p3 &lt;- basic_pca_plot(fit,5:6)
 p4 &lt;- basic_pca_plot(fit,7:8)
 plot_grid(p1,p2,p3,p4)</code></pre>
-<p><img src="figure/clusters_Cusanovich2018_pca.Rmd/pca-k14-1-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-k14-1-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-k14-1-1">
+Past versions of pca-k14-1-1.png
+</button>
+</p>
+<div id="fig-pca-k14-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/692168de0b2c3fefdfe1500fe21f4a4da8d399f9/docs/figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-k14-1-1.png" target="_blank">692168d</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-10-07
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>These next plots visualize the same results, but as 2-d (“hexbin”) histograms:</p>
 <pre class="r"><code>p5 &lt;- pca_hexbin_plot(fit,1:2) + guides(fill = &quot;none&quot;)
 p6 &lt;- pca_hexbin_plot(fit,3:4) + guides(fill = &quot;none&quot;)
 p7 &lt;- pca_hexbin_plot(fit,5:6) + guides(fill = &quot;none&quot;)
 p8 &lt;- pca_hexbin_plot(fit,7:8) + guides(fill = &quot;none&quot;)
 plot_grid(p5,p6,p7,p8)</code></pre>
-<p><img src="figure/clusters_Cusanovich2018_pca.Rmd/pca-k14-2-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-k14-2-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-k14-2-1">
+Past versions of pca-k14-2-1.png
+</button>
+</p>
+<div id="fig-pca-k14-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/692168de0b2c3fefdfe1500fe21f4a4da8d399f9/docs/figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-k14-2-1.png" target="_blank">692168d</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-10-07
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="k-15" class="section level3">
 <h3>k = 15</h3>
@@ -637,14 +1098,88 @@ p2 &lt;- basic_pca_plot(fit,3:4)
 p3 &lt;- basic_pca_plot(fit,5:6)
 p4 &lt;- basic_pca_plot(fit,7:8)
 plot_grid(p1,p2,p3,p4)</code></pre>
-<p><img src="figure/clusters_Cusanovich2018_pca.Rmd/pca-k15-1-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-k15-1-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-k15-1-1">
+Past versions of pca-k15-1-1.png
+</button>
+</p>
+<div id="fig-pca-k15-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/692168de0b2c3fefdfe1500fe21f4a4da8d399f9/docs/figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-k15-1-1.png" target="_blank">692168d</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-10-07
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>These next plots visualize the same results, but as 2-d (“hexbin”) histograms:</p>
 <pre class="r"><code>p5 &lt;- pca_hexbin_plot(fit,1:2) + guides(fill = &quot;none&quot;)
 p6 &lt;- pca_hexbin_plot(fit,3:4) + guides(fill = &quot;none&quot;)
 p7 &lt;- pca_hexbin_plot(fit,5:6) + guides(fill = &quot;none&quot;)
 p8 &lt;- pca_hexbin_plot(fit,7:8) + guides(fill = &quot;none&quot;)
 plot_grid(p5,p6,p7,p8)</code></pre>
-<p><img src="figure/clusters_Cusanovich2018_pca.Rmd/pca-k15-2-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-k15-2-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-k15-2-1">
+Past versions of pca-k15-2-1.png
+</button>
+</p>
+<div id="fig-pca-k15-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/692168de0b2c3fefdfe1500fe21f4a4da8d399f9/docs/figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-k15-2-1.png" target="_blank">692168d</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-10-07
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
