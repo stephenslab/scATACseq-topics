@@ -33,6 +33,10 @@ load(file.path(data.dir, "Cusanovich_2018.RData"))
 rm(counts)
 ```
 
+## Plot PCs of the topic proportions
+We first use PCA to explore the structure inferred from the
+multinomial topic model with different numbers of $k$:
+
 ### k = 9
 Load the $k = 9$ Poisson NMF fit.
 ```{r load-fit-k7}
@@ -233,3 +237,213 @@ p7 <- pca_hexbin_plot(fit,5:6) + guides(fill = "none")
 p8 <- pca_hexbin_plot(fit,7:8) + guides(fill = "none")
 plot_grid(p5,p6,p7,p8)
 ```
+
+## Layer the tissue and cell labels onto the PC plots
+Next, we layer the tissue and cell labels onto the PC plots.
+
+### k = 10
+
+Load the $k = 10$ Poisson NMF fit.
+```{r load-fit-k10-2}
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
+fit <- readRDS(file.path(out.dir, "/fit-Cusanovich2018-scd-ex-k=10.rds"))$fit
+```
+
+Plot PCs of the topic proportions.
+
+```{r pca-k10-3, fig.width=5, fig.height=4.5}
+p1 <- basic_pca_plot(fit,1:2)
+p2 <- basic_pca_plot(fit,3:4)
+p3 <- basic_pca_plot(fit,5:6)
+p4 <- basic_pca_plot(fit,7:8)
+plot_grid(p1,p2,p3,p4)
+```
+
+2-d ("hexbin") histograms:
+
+```{r pca-k10-4, fig.width=5, fig.height=4.5}
+p5 <- pca_hexbin_plot(fit,1:2) + guides(fill = "none")
+p6 <- pca_hexbin_plot(fit,3:4) + guides(fill = "none")
+p7 <- pca_hexbin_plot(fit,5:6) + guides(fill = "none")
+p8 <- pca_hexbin_plot(fit,7:8) + guides(fill = "none")
+plot_grid(p5,p6,p7,p8)
+```
+
+PCs 1 and 2:
+
+```{r pca-labels-k10-1, fig.width=8, fig.height=2.25}
+p9 <- labeled_pca_plot(fit,1:2,samples$tissue,font_size = 7,
+                       legend_label = "tissue")
+p10 <- labeled_pca_plot(fit,1:2,samples$cell_label,font_size = 7,
+                        legend_label = "cell_label")
+plot_grid(p9,p10,rel_widths = c(8,11))
+```
+
+PCs 3 and 4:
+
+```{r pca-labels-k10-2, fig.width=8, fig.height=2.25}
+p11 <- labeled_pca_plot(fit,3:4,samples$tissue,font_size = 7,
+                        legend_label = "tissue")
+p12 <- labeled_pca_plot(fit,3:4,samples$cell_label,font_size = 7,
+                        legend_label = "cell_label")
+plot_grid(p11,p12,rel_widths = c(8,11))
+```
+
+PCs 5 and 6:
+
+```{r pca-labels-k10-3, fig.width=8, fig.height=2.25}
+p13 <- labeled_pca_plot(fit,5:6,samples$tissue,font_size = 7,
+                       legend_label = "tissue")
+p14 <- labeled_pca_plot(fit,5:6,samples$cell_label,font_size = 7,
+                        legend_label = "cell_label")
+plot_grid(p13,p14,rel_widths = c(8,11))
+```
+
+PCs 7 and 8:
+
+```{r pca-labels-k10-4, fig.width=8, fig.height=2.25}
+p15 <- labeled_pca_plot(fit,7:8,samples$tissue,font_size = 7,
+                       legend_label = "tissue")
+p16 <- labeled_pca_plot(fit,7:8,samples$cell_label,font_size = 7,
+                        legend_label = "cell_label")
+plot_grid(p15,p16,rel_widths = c(8,11))
+```
+
+
+### k = 13
+
+Load the $k = 13$ Poisson NMF fit.
+```{r load-fit-k13-2}
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
+fit <- readRDS(file.path(out.dir, "/fit-Cusanovich2018-scd-ex-k=13.rds"))$fit
+```
+
+Plot PCs of the topic proportions.
+
+```{r pca-k13-3, fig.width=5, fig.height=4.5}
+p1 <- basic_pca_plot(fit,1:2)
+p2 <- basic_pca_plot(fit,3:4)
+p3 <- basic_pca_plot(fit,5:6)
+p4 <- basic_pca_plot(fit,7:8)
+plot_grid(p1,p2,p3,p4)
+```
+
+2-d ("hexbin") histograms:
+
+```{r pca-k13-4, fig.width=5, fig.height=4.5}
+p5 <- pca_hexbin_plot(fit,1:2) + guides(fill = "none")
+p6 <- pca_hexbin_plot(fit,3:4) + guides(fill = "none")
+p7 <- pca_hexbin_plot(fit,5:6) + guides(fill = "none")
+p8 <- pca_hexbin_plot(fit,7:8) + guides(fill = "none")
+plot_grid(p5,p6,p7,p8)
+```
+
+PCs 1 and 2:
+
+```{r pca-labels-k13-1, fig.width=8, fig.height=2.25}
+p9 <- labeled_pca_plot(fit,1:2,samples$tissue,font_size = 7,
+                       legend_label = "tissue")
+p10 <- labeled_pca_plot(fit,1:2,samples$cell_label,font_size = 7,
+                        legend_label = "cell_label")
+plot_grid(p9,p10,rel_widths = c(8,11))
+```
+
+PCs 3 and 4:
+
+```{r pca-labels-k13-2, fig.width=8, fig.height=2.25}
+p11 <- labeled_pca_plot(fit,3:4,samples$tissue,font_size = 7,
+                        legend_label = "tissue")
+p12 <- labeled_pca_plot(fit,3:4,samples$cell_label,font_size = 7,
+                        legend_label = "cell_label")
+plot_grid(p11,p12,rel_widths = c(8,11))
+```
+
+PCs 5 and 6:
+
+```{r pca-labels-k13-3, fig.width=8, fig.height=2.25}
+p13 <- labeled_pca_plot(fit,5:6,samples$tissue,font_size = 7,
+                       legend_label = "tissue")
+p14 <- labeled_pca_plot(fit,5:6,samples$cell_label,font_size = 7,
+                        legend_label = "cell_label")
+plot_grid(p13,p14,rel_widths = c(8,11))
+```
+
+PCs 7 and 8:
+
+```{r pca-labels-k13-4, fig.width=8, fig.height=2.25}
+p15 <- labeled_pca_plot(fit,7:8,samples$tissue,font_size = 7,
+                       legend_label = "tissue")
+p16 <- labeled_pca_plot(fit,7:8,samples$cell_label,font_size = 7,
+                        legend_label = "cell_label")
+plot_grid(p15,p16,rel_widths = c(8,11))
+```
+
+
+### k = 15
+
+Load the $k = 15$ Poisson NMF fit.
+```{r load-fit-k15-2}
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
+fit <- readRDS(file.path(out.dir, "/fit-Cusanovich2018-scd-ex-k=15.rds"))$fit
+```
+
+Plot PCs of the topic proportions.
+
+```{r pca-k15-3, fig.width=5, fig.height=4.5}
+p1 <- basic_pca_plot(fit,1:2)
+p2 <- basic_pca_plot(fit,3:4)
+p3 <- basic_pca_plot(fit,5:6)
+p4 <- basic_pca_plot(fit,7:8)
+plot_grid(p1,p2,p3,p4)
+```
+
+2-d ("hexbin") histograms:
+
+```{r pca-k15-4, fig.width=5, fig.height=4.5}
+p5 <- pca_hexbin_plot(fit,1:2) + guides(fill = "none")
+p6 <- pca_hexbin_plot(fit,3:4) + guides(fill = "none")
+p7 <- pca_hexbin_plot(fit,5:6) + guides(fill = "none")
+p8 <- pca_hexbin_plot(fit,7:8) + guides(fill = "none")
+plot_grid(p5,p6,p7,p8)
+```
+
+PCs 1 and 2:
+
+```{r pca-labels-k15-1, fig.width=8, fig.height=2.25}
+p9 <- labeled_pca_plot(fit,1:2,samples$tissue,font_size = 7,
+                       legend_label = "tissue")
+p10 <- labeled_pca_plot(fit,1:2,samples$cell_label,font_size = 7,
+                        legend_label = "cell_label")
+plot_grid(p9,p10,rel_widths = c(8,11))
+```
+
+PCs 3 and 4:
+
+```{r pca-labels-k15-2, fig.width=8, fig.height=2.25}
+p11 <- labeled_pca_plot(fit,3:4,samples$tissue,font_size = 7,
+                        legend_label = "tissue")
+p12 <- labeled_pca_plot(fit,3:4,samples$cell_label,font_size = 7,
+                        legend_label = "cell_label")
+plot_grid(p11,p12,rel_widths = c(8,11))
+```
+
+PCs 5 and 6:
+
+```{r pca-labels-k15-3, fig.width=8, fig.height=2.25}
+p13 <- labeled_pca_plot(fit,5:6,samples$tissue,font_size = 7,
+                       legend_label = "tissue")
+p14 <- labeled_pca_plot(fit,5:6,samples$cell_label,font_size = 7,
+                        legend_label = "cell_label")
+plot_grid(p13,p14,rel_widths = c(8,11))
+```
+
+PCs 7 and 8:
+
+```{r pca-labels-k15-4, fig.width=8, fig.height=2.25}
+p15 <- labeled_pca_plot(fit,7:8,samples$tissue,font_size = 7,
+                       legend_label = "tissue")
+p16 <- labeled_pca_plot(fit,7:8,samples$cell_label,font_size = 7,
+                        legend_label = "cell_label")
+plot_grid(p15,p16,rel_widths = c(8,11))
+```
+
