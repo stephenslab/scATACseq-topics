@@ -412,16 +412,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree692168de0b2c3fefdfe1500fe21f4a4da8d399f9targetblank692168da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/692168de0b2c3fefdfe1500fe21f4a4da8d399f9" target="_blank">692168d</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree5e6198be34a7f3af1d6a2f6c694d192052b23c3ftargetblank5e6198ba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/5e6198be34a7f3af1d6a2f6c694d192052b23c3f" target="_blank">5e6198b</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree692168de0b2c3fefdfe1500fe21f4a4da8d399f9targetblank692168da" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree5e6198be34a7f3af1d6a2f6c694d192052b23c3ftargetblank5e6198ba" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/692168de0b2c3fefdfe1500fe21f4a4da8d399f9" target="_blank">692168d</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/5e6198be34a7f3af1d6a2f6c694d192052b23c3f" target="_blank">5e6198b</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -476,6 +476,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/5e6198be34a7f3af1d6a2f6c694d192052b23c3f/analysis/compare_clusters_Cusanovich2018_pca.Rmd" target="_blank">5e6198b</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-10-07
+</td>
+<td>
+layer tissue and cell labels on PC plots
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/9a3181574232e41d26aaa08c025741347d23fc63/docs/compare_clusters_Cusanovich2018_pca.html" target="_blank">9a31815</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-10-07
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/692168de0b2c3fefdfe1500fe21f4a4da8d399f9/analysis/compare_clusters_Cusanovich2018_pca.Rmd" target="_blank">692168d</a>
 </td>
 <td>
@@ -523,6 +557,9 @@ source(&quot;code/plots.R&quot;)</code></pre>
 <pre class="r"><code>data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/processed_data/&quot;
 load(file.path(data.dir, &quot;Cusanovich_2018.RData&quot;))
 rm(counts)</code></pre>
+<div id="plot-pcs-of-the-topic-proportions" class="section level2">
+<h2>Plot PCs of the topic proportions</h2>
+<p>We first use PCA to explore the structure inferred from the multinomial topic model with different numbers of <span class="math inline">\(k\)</span>:</p>
 <div id="k-9" class="section level3">
 <h3>k = 9</h3>
 <p>Load the <span class="math inline">\(k = 9\)</span> Poisson NMF fit.</p>
@@ -1180,6 +1217,154 @@ kevinlkx
 </table>
 </div>
 </div>
+</div>
+</div>
+<div id="layer-the-tissue-and-cell-labels-onto-the-pc-plots" class="section level2">
+<h2>Layer the tissue and cell labels onto the PC plots</h2>
+<p>Next, we layer the tissue and cell labels onto the PC plots.</p>
+<div id="k-10-1" class="section level3">
+<h3>k = 10</h3>
+<p>Load the <span class="math inline">\(k = 10\)</span> Poisson NMF fit.</p>
+<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018&quot;
+fit &lt;- readRDS(file.path(out.dir, &quot;/fit-Cusanovich2018-scd-ex-k=10.rds&quot;))$fit</code></pre>
+<p>Plot PCs of the topic proportions.</p>
+<pre class="r"><code>p1 &lt;- basic_pca_plot(fit,1:2)
+p2 &lt;- basic_pca_plot(fit,3:4)
+p3 &lt;- basic_pca_plot(fit,5:6)
+p4 &lt;- basic_pca_plot(fit,7:8)
+plot_grid(p1,p2,p3,p4)</code></pre>
+<p><img src="figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-k10-3-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p>2-d (“hexbin”) histograms:</p>
+<pre class="r"><code>p5 &lt;- pca_hexbin_plot(fit,1:2) + guides(fill = &quot;none&quot;)
+p6 &lt;- pca_hexbin_plot(fit,3:4) + guides(fill = &quot;none&quot;)
+p7 &lt;- pca_hexbin_plot(fit,5:6) + guides(fill = &quot;none&quot;)
+p8 &lt;- pca_hexbin_plot(fit,7:8) + guides(fill = &quot;none&quot;)
+plot_grid(p5,p6,p7,p8)</code></pre>
+<p><img src="figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-k10-4-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p>PCs 1 and 2:</p>
+<pre class="r"><code>p9 &lt;- labeled_pca_plot(fit,1:2,samples$tissue,font_size = 7,
+                       legend_label = &quot;tissue&quot;)
+p10 &lt;- labeled_pca_plot(fit,1:2,samples$cell_label,font_size = 7,
+                        legend_label = &quot;cell_label&quot;)
+plot_grid(p9,p10,rel_widths = c(8,11))</code></pre>
+<p><img src="figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-labels-k10-1-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>PCs 3 and 4:</p>
+<pre class="r"><code>p11 &lt;- labeled_pca_plot(fit,3:4,samples$tissue,font_size = 7,
+                        legend_label = &quot;tissue&quot;)
+p12 &lt;- labeled_pca_plot(fit,3:4,samples$cell_label,font_size = 7,
+                        legend_label = &quot;cell_label&quot;)
+plot_grid(p11,p12,rel_widths = c(8,11))</code></pre>
+<p><img src="figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-labels-k10-2-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>PCs 5 and 6:</p>
+<pre class="r"><code>p13 &lt;- labeled_pca_plot(fit,5:6,samples$tissue,font_size = 7,
+                       legend_label = &quot;tissue&quot;)
+p14 &lt;- labeled_pca_plot(fit,5:6,samples$cell_label,font_size = 7,
+                        legend_label = &quot;cell_label&quot;)
+plot_grid(p13,p14,rel_widths = c(8,11))</code></pre>
+<p><img src="figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-labels-k10-3-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>PCs 7 and 8:</p>
+<pre class="r"><code>p15 &lt;- labeled_pca_plot(fit,7:8,samples$tissue,font_size = 7,
+                       legend_label = &quot;tissue&quot;)
+p16 &lt;- labeled_pca_plot(fit,7:8,samples$cell_label,font_size = 7,
+                        legend_label = &quot;cell_label&quot;)
+plot_grid(p15,p16,rel_widths = c(8,11))</code></pre>
+<p><img src="figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-labels-k10-4-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="k-13-1" class="section level3">
+<h3>k = 13</h3>
+<p>Load the <span class="math inline">\(k = 13\)</span> Poisson NMF fit.</p>
+<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018&quot;
+fit &lt;- readRDS(file.path(out.dir, &quot;/fit-Cusanovich2018-scd-ex-k=13.rds&quot;))$fit</code></pre>
+<p>Plot PCs of the topic proportions.</p>
+<pre class="r"><code>p1 &lt;- basic_pca_plot(fit,1:2)
+p2 &lt;- basic_pca_plot(fit,3:4)
+p3 &lt;- basic_pca_plot(fit,5:6)
+p4 &lt;- basic_pca_plot(fit,7:8)
+plot_grid(p1,p2,p3,p4)</code></pre>
+<p><img src="figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-k13-3-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p>2-d (“hexbin”) histograms:</p>
+<pre class="r"><code>p5 &lt;- pca_hexbin_plot(fit,1:2) + guides(fill = &quot;none&quot;)
+p6 &lt;- pca_hexbin_plot(fit,3:4) + guides(fill = &quot;none&quot;)
+p7 &lt;- pca_hexbin_plot(fit,5:6) + guides(fill = &quot;none&quot;)
+p8 &lt;- pca_hexbin_plot(fit,7:8) + guides(fill = &quot;none&quot;)
+plot_grid(p5,p6,p7,p8)</code></pre>
+<p><img src="figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-k13-4-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p>PCs 1 and 2:</p>
+<pre class="r"><code>p9 &lt;- labeled_pca_plot(fit,1:2,samples$tissue,font_size = 7,
+                       legend_label = &quot;tissue&quot;)
+p10 &lt;- labeled_pca_plot(fit,1:2,samples$cell_label,font_size = 7,
+                        legend_label = &quot;cell_label&quot;)
+plot_grid(p9,p10,rel_widths = c(8,11))</code></pre>
+<p><img src="figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-labels-k13-1-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>PCs 3 and 4:</p>
+<pre class="r"><code>p11 &lt;- labeled_pca_plot(fit,3:4,samples$tissue,font_size = 7,
+                        legend_label = &quot;tissue&quot;)
+p12 &lt;- labeled_pca_plot(fit,3:4,samples$cell_label,font_size = 7,
+                        legend_label = &quot;cell_label&quot;)
+plot_grid(p11,p12,rel_widths = c(8,11))</code></pre>
+<p><img src="figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-labels-k13-2-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>PCs 5 and 6:</p>
+<pre class="r"><code>p13 &lt;- labeled_pca_plot(fit,5:6,samples$tissue,font_size = 7,
+                       legend_label = &quot;tissue&quot;)
+p14 &lt;- labeled_pca_plot(fit,5:6,samples$cell_label,font_size = 7,
+                        legend_label = &quot;cell_label&quot;)
+plot_grid(p13,p14,rel_widths = c(8,11))</code></pre>
+<p><img src="figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-labels-k13-3-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>PCs 7 and 8:</p>
+<pre class="r"><code>p15 &lt;- labeled_pca_plot(fit,7:8,samples$tissue,font_size = 7,
+                       legend_label = &quot;tissue&quot;)
+p16 &lt;- labeled_pca_plot(fit,7:8,samples$cell_label,font_size = 7,
+                        legend_label = &quot;cell_label&quot;)
+plot_grid(p15,p16,rel_widths = c(8,11))</code></pre>
+<p><img src="figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-labels-k13-4-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="k-15-1" class="section level3">
+<h3>k = 15</h3>
+<p>Load the <span class="math inline">\(k = 15\)</span> Poisson NMF fit.</p>
+<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018&quot;
+fit &lt;- readRDS(file.path(out.dir, &quot;/fit-Cusanovich2018-scd-ex-k=15.rds&quot;))$fit</code></pre>
+<p>Plot PCs of the topic proportions.</p>
+<pre class="r"><code>p1 &lt;- basic_pca_plot(fit,1:2)
+p2 &lt;- basic_pca_plot(fit,3:4)
+p3 &lt;- basic_pca_plot(fit,5:6)
+p4 &lt;- basic_pca_plot(fit,7:8)
+plot_grid(p1,p2,p3,p4)</code></pre>
+<p><img src="figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-k15-3-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p>2-d (“hexbin”) histograms:</p>
+<pre class="r"><code>p5 &lt;- pca_hexbin_plot(fit,1:2) + guides(fill = &quot;none&quot;)
+p6 &lt;- pca_hexbin_plot(fit,3:4) + guides(fill = &quot;none&quot;)
+p7 &lt;- pca_hexbin_plot(fit,5:6) + guides(fill = &quot;none&quot;)
+p8 &lt;- pca_hexbin_plot(fit,7:8) + guides(fill = &quot;none&quot;)
+plot_grid(p5,p6,p7,p8)</code></pre>
+<p><img src="figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-k15-4-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p>PCs 1 and 2:</p>
+<pre class="r"><code>p9 &lt;- labeled_pca_plot(fit,1:2,samples$tissue,font_size = 7,
+                       legend_label = &quot;tissue&quot;)
+p10 &lt;- labeled_pca_plot(fit,1:2,samples$cell_label,font_size = 7,
+                        legend_label = &quot;cell_label&quot;)
+plot_grid(p9,p10,rel_widths = c(8,11))</code></pre>
+<p><img src="figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-labels-k15-1-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>PCs 3 and 4:</p>
+<pre class="r"><code>p11 &lt;- labeled_pca_plot(fit,3:4,samples$tissue,font_size = 7,
+                        legend_label = &quot;tissue&quot;)
+p12 &lt;- labeled_pca_plot(fit,3:4,samples$cell_label,font_size = 7,
+                        legend_label = &quot;cell_label&quot;)
+plot_grid(p11,p12,rel_widths = c(8,11))</code></pre>
+<p><img src="figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-labels-k15-2-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>PCs 5 and 6:</p>
+<pre class="r"><code>p13 &lt;- labeled_pca_plot(fit,5:6,samples$tissue,font_size = 7,
+                       legend_label = &quot;tissue&quot;)
+p14 &lt;- labeled_pca_plot(fit,5:6,samples$cell_label,font_size = 7,
+                        legend_label = &quot;cell_label&quot;)
+plot_grid(p13,p14,rel_widths = c(8,11))</code></pre>
+<p><img src="figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-labels-k15-3-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>PCs 7 and 8:</p>
+<pre class="r"><code>p15 &lt;- labeled_pca_plot(fit,7:8,samples$tissue,font_size = 7,
+                       legend_label = &quot;tissue&quot;)
+p16 &lt;- labeled_pca_plot(fit,7:8,samples$cell_label,font_size = 7,
+                        legend_label = &quot;cell_label&quot;)
+plot_grid(p15,p16,rel_widths = c(8,11))</code></pre>
+<p><img src="figure/compare_clusters_Cusanovich2018_pca.Rmd/pca-labels-k15-4-1.png" width="960" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1228,6 +1413,7 @@ kevinlkx
 # [57] ellipsis_0.3.1     vctrs_0.3.0        tools_3.5.1        glue_1.4.1        
 # [61] purrr_0.3.4        hms_0.4.2          yaml_2.2.0         colorspace_1.4-1  
 # [65] plotly_4.8.0       knitr_1.28         quantreg_5.36      MCMCpack_1.4-4</code></pre>
+</div>
 </div>
 </div>
 
