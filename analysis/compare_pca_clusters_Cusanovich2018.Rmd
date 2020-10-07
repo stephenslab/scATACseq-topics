@@ -37,35 +37,6 @@ rm(counts)
 We first use PCA to explore the structure inferred from the
 multinomial topic model with different numbers of $k$:
 
-### k = 9
-Load the $k = 9$ Poisson NMF fit.
-```{r load-fit-k7}
-out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
-fit <- readRDS(file.path(out.dir, "/fit-Cusanovich2018-scd-ex-k=9.rds"))$fit
-```
-
-Plot PCs of the topic proportions.
-
-```{r pca-k9-1, fig.width=5, fig.height=4.5}
-p1 <- basic_pca_plot(fit,1:2)
-p2 <- basic_pca_plot(fit,3:4)
-p3 <- basic_pca_plot(fit,5:6)
-p4 <- basic_pca_plot(fit,7:8)
-plot_grid(p1,p2,p3,p4)
-```
-
-These next plots visualize the same results, but as 2-d ("hexbin")
-histograms:
-
-```{r pca-k9-2, fig.width=5, fig.height=4.5}
-p5 <- pca_hexbin_plot(fit,1:2) + guides(fill = "none")
-p6 <- pca_hexbin_plot(fit,3:4) + guides(fill = "none")
-p7 <- pca_hexbin_plot(fit,5:6) + guides(fill = "none")
-p8 <- pca_hexbin_plot(fit,7:8) + guides(fill = "none")
-plot_grid(p5,p6,p7,p8)
-```
-
-
 ### k = 10
 Load the $k = 10$ Poisson NMF fit.
 ```{r load-fit-k10}
