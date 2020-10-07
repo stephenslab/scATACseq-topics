@@ -1,0 +1,235 @@
+---
+title: "Compare PC plots of topic proportions from fastTopic with different K in Cusanovich et al (2018) data"
+author: Kaixuan Luo
+output:
+  workflowr::wflow_html:
+    toc: no
+---
+
+Here we explore the structure in the Cusanovich *et al* (2018)
+ATAC-seq data inferred from the multinomial topic model with 
+different numbers of $k$.
+
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
+                      fig.align = "center",dpi = 120)
+```
+					  
+Load packages and some functions used in this analysis.
+
+```{r load-pkgs, message=FALSE}
+library(Matrix)
+library(ggplot2)
+library(cowplot)
+library(fastTopics)
+source("code/plots.R")
+```
+
+Load the data. The counts are no longer needed at this stage of the
+analysis.
+```{r load-data}
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/processed_data/"
+load(file.path(data.dir, "Cusanovich_2018.RData"))
+rm(counts)
+```
+
+### k = 9
+Load the $k = 9$ Poisson NMF fit.
+```{r load-fit-k7}
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
+fit <- readRDS(file.path(out.dir, "/fit-Cusanovich2018-scd-ex-k=9.rds"))$fit
+```
+
+Plot PCs of the topic proportions.
+
+```{r pca-k9-1, fig.width=5, fig.height=4.5}
+p1 <- basic_pca_plot(fit,1:2)
+p2 <- basic_pca_plot(fit,3:4)
+p3 <- basic_pca_plot(fit,5:6)
+p4 <- basic_pca_plot(fit,7:8)
+plot_grid(p1,p2,p3,p4)
+```
+
+These next plots visualize the same results, but as 2-d ("hexbin")
+histograms:
+
+```{r pca-k9-2, fig.width=5, fig.height=4.5}
+p5 <- pca_hexbin_plot(fit,1:2) + guides(fill = "none")
+p6 <- pca_hexbin_plot(fit,3:4) + guides(fill = "none")
+p7 <- pca_hexbin_plot(fit,5:6) + guides(fill = "none")
+p8 <- pca_hexbin_plot(fit,7:8) + guides(fill = "none")
+plot_grid(p5,p6,p7,p8)
+```
+
+
+### k = 10
+Load the $k = 10$ Poisson NMF fit.
+```{r load-fit-k10}
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
+fit <- readRDS(file.path(out.dir, "/fit-Cusanovich2018-scd-ex-k=10.rds"))$fit
+```
+
+Plot PCs of the topic proportions.
+
+```{r pca-k10-1, fig.width=5, fig.height=4.5}
+p1 <- basic_pca_plot(fit,1:2)
+p2 <- basic_pca_plot(fit,3:4)
+p3 <- basic_pca_plot(fit,5:6)
+p4 <- basic_pca_plot(fit,7:8)
+plot_grid(p1,p2,p3,p4)
+```
+
+These next plots visualize the same results, but as 2-d ("hexbin")
+histograms:
+
+```{r pca-k10-2, fig.width=5, fig.height=4.5}
+p5 <- pca_hexbin_plot(fit,1:2) + guides(fill = "none")
+p6 <- pca_hexbin_plot(fit,3:4) + guides(fill = "none")
+p7 <- pca_hexbin_plot(fit,5:6) + guides(fill = "none")
+p8 <- pca_hexbin_plot(fit,7:8) + guides(fill = "none")
+plot_grid(p5,p6,p7,p8)
+```
+
+### k = 11
+Load the $k = 11$ Poisson NMF fit.
+```{r load-fit-k11}
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
+fit <- readRDS(file.path(out.dir, "/fit-Cusanovich2018-scd-ex-k=11.rds"))$fit
+```
+
+Plot PCs of the topic proportions.
+
+```{r pca-k11-1, fig.width=5, fig.height=4.5}
+p1 <- basic_pca_plot(fit,1:2)
+p2 <- basic_pca_plot(fit,3:4)
+p3 <- basic_pca_plot(fit,5:6)
+p4 <- basic_pca_plot(fit,7:8)
+plot_grid(p1,p2,p3,p4)
+```
+
+These next plots visualize the same results, but as 2-d ("hexbin")
+histograms:
+
+```{r pca-k11-2, fig.width=5, fig.height=4.5}
+p5 <- pca_hexbin_plot(fit,1:2) + guides(fill = "none")
+p6 <- pca_hexbin_plot(fit,3:4) + guides(fill = "none")
+p7 <- pca_hexbin_plot(fit,5:6) + guides(fill = "none")
+p8 <- pca_hexbin_plot(fit,7:8) + guides(fill = "none")
+plot_grid(p5,p6,p7,p8)
+```
+
+
+### k = 12
+Load the $k = 12$ Poisson NMF fit.
+```{r load-fit-k12}
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
+fit <- readRDS(file.path(out.dir, "/fit-Cusanovich2018-scd-ex-k=12.rds"))$fit
+```
+
+Plot PCs of the topic proportions.
+
+```{r pca-k12-1, fig.width=5, fig.height=4.5}
+p1 <- basic_pca_plot(fit,1:2)
+p2 <- basic_pca_plot(fit,3:4)
+p3 <- basic_pca_plot(fit,5:6)
+p4 <- basic_pca_plot(fit,7:8)
+plot_grid(p1,p2,p3,p4)
+```
+
+These next plots visualize the same results, but as 2-d ("hexbin")
+histograms:
+
+```{r pca-k12-2, fig.width=5, fig.height=4.5}
+p5 <- pca_hexbin_plot(fit,1:2) + guides(fill = "none")
+p6 <- pca_hexbin_plot(fit,3:4) + guides(fill = "none")
+p7 <- pca_hexbin_plot(fit,5:6) + guides(fill = "none")
+p8 <- pca_hexbin_plot(fit,7:8) + guides(fill = "none")
+plot_grid(p5,p6,p7,p8)
+```
+
+
+### k = 13
+Load the $k = 13$ Poisson NMF fit.
+```{r load-fit-k13}
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
+fit <- readRDS(file.path(out.dir, "/fit-Cusanovich2018-scd-ex-k=13.rds"))$fit
+```
+
+Plot PCs of the topic proportions.
+
+```{r pca-k13-1, fig.width=5, fig.height=4.5}
+p1 <- basic_pca_plot(fit,1:2)
+p2 <- basic_pca_plot(fit,3:4)
+p3 <- basic_pca_plot(fit,5:6)
+p4 <- basic_pca_plot(fit,7:8)
+plot_grid(p1,p2,p3,p4)
+```
+
+These next plots visualize the same results, but as 2-d ("hexbin")
+histograms:
+
+```{r pca-k13-2, fig.width=5, fig.height=4.5}
+p5 <- pca_hexbin_plot(fit,1:2) + guides(fill = "none")
+p6 <- pca_hexbin_plot(fit,3:4) + guides(fill = "none")
+p7 <- pca_hexbin_plot(fit,5:6) + guides(fill = "none")
+p8 <- pca_hexbin_plot(fit,7:8) + guides(fill = "none")
+plot_grid(p5,p6,p7,p8)
+```
+
+
+### k = 14
+Load the $k = 14$ Poisson NMF fit.
+```{r load-fit-k14}
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
+fit <- readRDS(file.path(out.dir, "/fit-Cusanovich2018-scd-ex-k=14.rds"))$fit
+```
+
+Plot PCs of the topic proportions.
+
+```{r pca-k14-1, fig.width=5, fig.height=4.5}
+p1 <- basic_pca_plot(fit,1:2)
+p2 <- basic_pca_plot(fit,3:4)
+p3 <- basic_pca_plot(fit,5:6)
+p4 <- basic_pca_plot(fit,7:8)
+plot_grid(p1,p2,p3,p4)
+```
+
+These next plots visualize the same results, but as 2-d ("hexbin")
+histograms:
+
+```{r pca-k14-2, fig.width=5, fig.height=4.5}
+p5 <- pca_hexbin_plot(fit,1:2) + guides(fill = "none")
+p6 <- pca_hexbin_plot(fit,3:4) + guides(fill = "none")
+p7 <- pca_hexbin_plot(fit,5:6) + guides(fill = "none")
+p8 <- pca_hexbin_plot(fit,7:8) + guides(fill = "none")
+plot_grid(p5,p6,p7,p8)
+```
+
+
+### k = 15
+Load the $k = 15$ Poisson NMF fit.
+```{r load-fit-k15}
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
+fit <- readRDS(file.path(out.dir, "/fit-Cusanovich2018-scd-ex-k=15.rds"))$fit
+```
+
+Plot PCs of the topic proportions.
+
+```{r pca-k15-1, fig.width=5, fig.height=4.5}
+p1 <- basic_pca_plot(fit,1:2)
+p2 <- basic_pca_plot(fit,3:4)
+p3 <- basic_pca_plot(fit,5:6)
+p4 <- basic_pca_plot(fit,7:8)
+plot_grid(p1,p2,p3,p4)
+```
+
+These next plots visualize the same results, but as 2-d ("hexbin")
+histograms:
+
+```{r pca-k15-2, fig.width=5, fig.height=4.5}
+p5 <- pca_hexbin_plot(fit,1:2) + guides(fill = "none")
+p6 <- pca_hexbin_plot(fit,3:4) + guides(fill = "none")
+p7 <- pca_hexbin_plot(fit,5:6) + guides(fill = "none")
+p8 <- pca_hexbin_plot(fit,7:8) + guides(fill = "none")
+plot_grid(p5,p6,p7,p8)
+```
