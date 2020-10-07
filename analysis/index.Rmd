@@ -16,7 +16,7 @@ Topic modeling analysis of single-cell ATAC-seq data
     - [About Cusanovich 2018 dataset](scATACseq_data_Cusanovich2018.html)
     - [Process Cusanovich 2018 dataset](process_data_Cusanovich2018.html)
     - [Assess model fits](assess_fits_Cusanovich2018.html)
-    - [PCA plots of topic proportions](compare_clusters_Cusanovich2018_pca.html)
+    - [PCA plots of topic proportions](compare_pca_clusters_Cusanovich2018.html)
     - [Visualize and interpret topics](plots_Cusanovich2018.html)
 
 * Topic modeling analysis for Lareau 2019 single cell ATAC-seq dataset
