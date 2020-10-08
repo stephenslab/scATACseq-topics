@@ -1,5 +1,6 @@
 # Short script to illustrate use of k-means to roughly define clusters
-# based on the topic proportions.
+# based on the topic proportions, and use these clusters to create a
+# Structure plot.
 library(Matrix)
 library(dplyr)
 library(fastTopics)
