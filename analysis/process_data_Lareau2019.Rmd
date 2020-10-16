@@ -9,7 +9,7 @@ editor_options:
 
 ## Lareau 2019 dataset
 
-Reference: Lareau, C., Duarte, F., Chew, J., Kartha, V., Burkett, Z., Kohlway, A., Pokholok, D., Aryee, M., Steemers, F., Lebofsky, R., Buenrostro, J. (2019). Droplet-based combinatorial indexing for massive-scale single-cell chromatin accessibility Nature Biotechnology 518(1), 1 15. https://dx.doi.org/10.1038/s41587-019-0147-6 
+Reference: Lareau, C., Duarte, F., Chew, J., Kartha, V., Burkett, Z., Kohlway, A., Pokholok, D., Aryee, M., Steemers, F., Lebofsky, R., Buenrostro, J. (2019). Droplet-based combinatorial indexing for massive-scale single-cell chromatin accessibility. Nature Biotechnology 518(1), 1 15. https://dx.doi.org/10.1038/s41587-019-0147-6 
 
 ### Mouse brain data [GSE123576](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE123576)
 Downloaded GSE123576_mousebrain_countsData_revision.csv.gz from the Gene Expression Omnibus (GEO) website, accession GSE123576.
@@ -94,12 +94,13 @@ cat(sprintf("Proportion of counts that are non-zero: %0.1f%%.\n",
 ### Human bone marrow data [GSE123580](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE123580)
 Downloaded GSE123580_bonemarrow_countsData.csv.gz from the Gene Expression Omnibus (GEO) website, accession GSE123580.
 RCC directory: `/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/bone_marrow/`
+```{r}
+library(Matrix)
+library(readr)
+```
 
 #### Load and binarize ATAC-seq counts
 ```{r, eval=FALSE}
-library(Matrix)
-library(readr)
-
 out <- read_delim("/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/bone_marrow/raw_data/GSE123580_bonemarrow_countsData.csv.gz",delim = " ")
 class(out) <- "data.frame"
 
@@ -142,7 +143,7 @@ counts <- sparseMatrix(i = out$cell_idx, j = out$peak_idx, x = out$binarized_cou
 
 ```
 
-#### Remove peaks not exist in any of the cells
+Remove peaks not exist in any of the cells
 ```{r, eval=FALSE}
 j <- which(colSums(counts > 0) >= 1)
 peaks <- peaks[j,]
@@ -150,6 +151,7 @@ counts <- counts[,j]
 
 ```
 
+#### save all data
 ```{r, eval=FALSE}
 
 data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/bone_marrow/processed_data/"
@@ -165,9 +167,65 @@ save(list = c("samples", "peaks", "counts"), file = file.path(data.dir, "Lareau_
 data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/bone_marrow/processed_data/"
 load(file.path(data.dir, "Lareau_2019_bonemarrow.RData"))
 
-cat(sprintf("Loaded %d x %d counts matrix.\n",nrow(counts),ncol(counts)))
+cat(sprintf("%d x %d counts matrix.\n",nrow(counts),ncol(counts)))
 
 cat(sprintf("Number of samples (cells): %d\n",nrow(counts)))
+cat(sprintf("Number of peaks: %d\n",ncol(counts)))
+cat(sprintf("Proportion of counts that are non-zero: %0.1f%%.\n",
+            100*mean(counts > 0)))
+
+```
+
+#### save data for `resting` samples
+```{r}
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/bone_marrow/processed_data/"
+load(file.path(data.dir, "Lareau_2019_bonemarrow.RData"))
+
+idx_resting <- which(samples$Condition == "Resting")
+samples <- samples[idx_resting,]
+counts <- counts[idx_resting,]
+
+saveRDS(counts, file.path(data.dir, "counts_Lareau_2019_bonemarrow_resting.rds"))
+
+save(list = c("samples", "peaks", "counts"), file = file.path(data.dir, "Lareau_2019_bonemarrow_resting.RData"))
+
+```
+
+```{r}
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/bone_marrow/processed_data/"
+load(file.path(data.dir, "Lareau_2019_bonemarrow_resting.RData"))
+
+cat(sprintf("%d x %d counts matrix.\n",nrow(counts),ncol(counts)))
+
+cat(sprintf("Number of samples (cells) that are resting: %d\n",nrow(counts)))
+cat(sprintf("Number of peaks: %d\n",ncol(counts)))
+cat(sprintf("Proportion of counts that are non-zero: %0.1f%%.\n",
+            100*mean(counts > 0)))
+
+```
+
+#### save data for `stimulated` samples
+```{r}
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/bone_marrow/processed_data/"
+load(file.path(data.dir, "Lareau_2019_bonemarrow.RData"))
+
+idx_stimulated <- which(samples$Condition == "Stimulated")
+samples <- samples[idx_stimulated,]
+counts <- counts[idx_stimulated,]
+
+saveRDS(counts, file.path(data.dir, "counts_Lareau_2019_bonemarrow_stimulated.rds"))
+
+save(list = c("samples", "peaks", "counts"), file = file.path(data.dir, "Lareau_2019_bonemarrow_stimulated.RData"))
+
+```
+
+```{r}
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/bone_marrow/processed_data/"
+load(file.path(data.dir, "Lareau_2019_bonemarrow_stimulated.RData"))
+
+cat(sprintf("%d x %d counts matrix.\n",nrow(counts),ncol(counts)))
+
+cat(sprintf("Number of samples (cells) that are stimulated: %d\n",nrow(counts)))
 cat(sprintf("Number of peaks: %d\n",ncol(counts)))
 cat(sprintf("Proportion of counts that are non-zero: %0.1f%%.\n",
             100*mean(counts > 0)))
