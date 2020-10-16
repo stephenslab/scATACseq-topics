@@ -7,13 +7,15 @@
 SCRIPT_PREFIT=~/projects/scATACseq-topics/scripts/prefit_poisson_nmf.sbatch
 SCRIPT_FIT=~/projects/scATACseq-topics/scripts/fit_poisson_nmf.sbatch
 
-# Lareau_2019_bonemarrow data
+
+# all Lareau_2019_bonemarrow data
+# ============================================================================================================================
 DAT_DIR=/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/bone_marrow/processed_data
-OUT_DIR=/project2/mstephens/kevinluo/scATACseq-topics/output/Lareau_2019
+OUT_DIR=/project2/mstephens/kevinluo/scATACseq-topics/output/Lareau_2019/Lareau_2019_bonemarrow
 mkdir -p ${OUT_DIR}
 
-mkdir -p /project2/mstephens/kevinluo/scATACseq-topics/log/Lareau_2019
-cd /project2/mstephens/kevinluo/scATACseq-topics/log/Lareau_2019
+mkdir -p /project2/mstephens/kevinluo/scATACseq-topics/log/Lareau_2019/Lareau_2019_bonemarrow
+cd /project2/mstephens/kevinluo/scATACseq-topics/log/Lareau_2019/Lareau_2019_bonemarrow
 
 # "Pre-fit" factorizations to the Lareau_2019_bonemarrow data.
 # Computation took 33196 seconds (9 hrs) for 300 iterations with k = 3 (using 10 cpus).
@@ -103,6 +105,56 @@ sbatch ${SCRIPT_FIT} ${DAT_DIR}/Lareau_2019_bonemarrow.RData ${OUT_DIR}/prefit-L
 # Compile the fitted Poisson non-negative factorizations into a single .RData file.
 OUT_DIR=/project2/mstephens/kevinluo/scATACseq-topics/output/Lareau_2019
 Rscript ~/projects/scATACseq-topics/scripts/compile_poisson_nmf_fits.R -o ${OUT_DIR} -d Lareau2019_bonemarrow
+
+# Lareau_2019_bonemarrow_resting data
+# ============================================================================================================================
+
+DAT_DIR=/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/bone_marrow/processed_data
+OUT_DIR=/project2/mstephens/kevinluo/scATACseq-topics/output/Lareau_2019/Lareau_2019_bonemarrow_resting
+mkdir -p ${OUT_DIR}
+
+mkdir -p /project2/mstephens/kevinluo/scATACseq-topics/log/Lareau_2019_bonemarrow_resting
+cd /project2/mstephens/kevinluo/scATACseq-topics/log/Lareau_2019_bonemarrow_resting
+
+# "Pre-fit" factorizations to the Lareau_2019_bonemarrow_resting data.
+#                                 data                                             k  numiter outfile
+sbatch --mem=20G ${SCRIPT_PREFIT} ${DAT_DIR}/Lareau_2019_bonemarrow_resting.RData  2  300     ${OUT_DIR}/prefit-Lareau2019_bonemarrow_resting-k=2
+sbatch --mem=20G ${SCRIPT_PREFIT} ${DAT_DIR}/Lareau_2019_bonemarrow_resting.RData  3  300     ${OUT_DIR}/prefit-Lareau2019_bonemarrow_resting-k=3
+sbatch --mem=20G ${SCRIPT_PREFIT} ${DAT_DIR}/Lareau_2019_bonemarrow_resting.RData  4  300     ${OUT_DIR}/prefit-Lareau2019_bonemarrow_resting-k=4
+sbatch --mem=20G ${SCRIPT_PREFIT} ${DAT_DIR}/Lareau_2019_bonemarrow_resting.RData  5  300     ${OUT_DIR}/prefit-Lareau2019_bonemarrow_resting-k=5
+sbatch --mem=20G ${SCRIPT_PREFIT} ${DAT_DIR}/Lareau_2019_bonemarrow_resting.RData  6  300     ${OUT_DIR}/prefit-Lareau2019_bonemarrow_resting-k=6
+sbatch --mem=20G ${SCRIPT_PREFIT} ${DAT_DIR}/Lareau_2019_bonemarrow_resting.RData  7  300     ${OUT_DIR}/prefit-Lareau2019_bonemarrow_resting-k=7
+sbatch --mem=20G ${SCRIPT_PREFIT} ${DAT_DIR}/Lareau_2019_bonemarrow_resting.RData  8  300     ${OUT_DIR}/prefit-Lareau2019_bonemarrow_resting-k=8
+sbatch --mem=20G ${SCRIPT_PREFIT} ${DAT_DIR}/Lareau_2019_bonemarrow_resting.RData  9  300     ${OUT_DIR}/prefit-Lareau2019_bonemarrow_resting-k=9
+sbatch --mem=20G ${SCRIPT_PREFIT} ${DAT_DIR}/Lareau_2019_bonemarrow_resting.RData  10 300     ${OUT_DIR}/prefit-Lareau2019_bonemarrow_resting-k=10
+sbatch --mem=20G ${SCRIPT_PREFIT} ${DAT_DIR}/Lareau_2019_bonemarrow_resting.RData  11 300     ${OUT_DIR}/prefit-Lareau2019_bonemarrow_resting-k=11
+sbatch --mem=20G ${SCRIPT_PREFIT} ${DAT_DIR}/Lareau_2019_bonemarrow_resting.RData  12 300     ${OUT_DIR}/prefit-Lareau2019_bonemarrow_resting-k=12
+sbatch --mem=20G ${SCRIPT_PREFIT} ${DAT_DIR}/Lareau_2019_bonemarrow_resting.RData  13 300     ${OUT_DIR}/prefit-Lareau2019_bonemarrow_resting-k=13
+
+# Lareau_2019_bonemarrow_stimulated data
+# ============================================================================================================================
+
+DAT_DIR=/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/bone_marrow/processed_data
+OUT_DIR=/project2/mstephens/kevinluo/scATACseq-topics/output/Lareau_2019/Lareau_2019_bonemarrow_stimulated
+mkdir -p ${OUT_DIR}
+
+mkdir -p /project2/mstephens/kevinluo/scATACseq-topics/log/Lareau_2019_bonemarrow_stimulated
+cd /project2/mstephens/kevinluo/scATACseq-topics/log/Lareau_2019_bonemarrow_stimulated
+
+# "Pre-fit" factorizations to the Lareau_2019_bonemarrow_stimulated data.
+#                                 data                                                k  numiter outfile
+sbatch --mem=20G ${SCRIPT_PREFIT} ${DAT_DIR}/Lareau_2019_bonemarrow_stimulated.RData  2  300     ${OUT_DIR}/prefit-Lareau2019_bonemarrow_stimulated-k=2
+sbatch --mem=20G ${SCRIPT_PREFIT} ${DAT_DIR}/Lareau_2019_bonemarrow_stimulated.RData  3  300     ${OUT_DIR}/prefit-Lareau2019_bonemarrow_stimulated-k=3
+sbatch --mem=20G ${SCRIPT_PREFIT} ${DAT_DIR}/Lareau_2019_bonemarrow_stimulated.RData  4  300     ${OUT_DIR}/prefit-Lareau2019_bonemarrow_stimulated-k=4
+sbatch --mem=20G ${SCRIPT_PREFIT} ${DAT_DIR}/Lareau_2019_bonemarrow_stimulated.RData  5  300     ${OUT_DIR}/prefit-Lareau2019_bonemarrow_stimulated-k=5
+sbatch --mem=20G ${SCRIPT_PREFIT} ${DAT_DIR}/Lareau_2019_bonemarrow_stimulated.RData  6  300     ${OUT_DIR}/prefit-Lareau2019_bonemarrow_stimulated-k=6
+sbatch --mem=20G ${SCRIPT_PREFIT} ${DAT_DIR}/Lareau_2019_bonemarrow_stimulated.RData  7  300     ${OUT_DIR}/prefit-Lareau2019_bonemarrow_stimulated-k=7
+sbatch --mem=20G ${SCRIPT_PREFIT} ${DAT_DIR}/Lareau_2019_bonemarrow_stimulated.RData  8  300     ${OUT_DIR}/prefit-Lareau2019_bonemarrow_stimulated-k=8
+sbatch --mem=20G ${SCRIPT_PREFIT} ${DAT_DIR}/Lareau_2019_bonemarrow_stimulated.RData  9  300     ${OUT_DIR}/prefit-Lareau2019_bonemarrow_stimulated-k=9
+sbatch --mem=20G ${SCRIPT_PREFIT} ${DAT_DIR}/Lareau_2019_bonemarrow_stimulated.RData  10 300     ${OUT_DIR}/prefit-Lareau2019_bonemarrow_stimulated-k=10
+sbatch --mem=20G ${SCRIPT_PREFIT} ${DAT_DIR}/Lareau_2019_bonemarrow_stimulated.RData  11 300     ${OUT_DIR}/prefit-Lareau2019_bonemarrow_stimulated-k=11
+sbatch --mem=20G ${SCRIPT_PREFIT} ${DAT_DIR}/Lareau_2019_bonemarrow_stimulated.RData  12 300     ${OUT_DIR}/prefit-Lareau2019_bonemarrow_stimulated-k=12
+sbatch --mem=20G ${SCRIPT_PREFIT} ${DAT_DIR}/Lareau_2019_bonemarrow_stimulated.RData  13 300     ${OUT_DIR}/prefit-Lareau2019_bonemarrow_stimulated-k=13
 
 # # Lareau_2019_mousebrain data
 # DAT_DIR=/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/mouse_brain/processed_data
