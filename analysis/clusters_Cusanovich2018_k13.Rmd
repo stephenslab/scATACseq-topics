@@ -241,15 +241,8 @@ freq_cluster_tissue <- with(samples,table(tissue,cluster_kmeans))
 print(freq_cluster_tissue)
 ```
 
-
-Compare to the PCA hexbin plots, 
-the clusters defined by k-means on topic proportions (below)
-reasonably identify the clusters shown in PCA.
-```{r pca-kmeans-1, fig.width=7, fig.height=4.5}
-plot_grid(p7,p8,p9,p10,p11,p12)
-
-```
-
+The clusters defined by k-means on topic proportions
+reasonably identify the clusters shown in the PCA hexbin plots (below).
 
 ```{r pca-kmeans-2, fig.width=9, fig.height=4.5}
 p29 <- labeled_pca_plot(fit,1:2,samples$cluster_kmeans,font_size = 7,
@@ -267,6 +260,11 @@ p34 <- labeled_pca_plot(fit,11:12,samples$cluster_kmeans,font_size = 7,
 plot_grid(p29,p30,p31,p32,p33,p34)
 ```
 
+```{r pca-kmeans-1, fig.width=7, fig.height=4.5}
+plot_grid(p7,p8,p9,p10,p11,p12)
+
+```
+
 We then label the cells in each cluster with the known tissue labels.
 
 Tissues:
@@ -277,17 +275,9 @@ table(samples$tissue)
 
 ```
 
-Cell types labels:
-```{r samples-cells}
-samples$cell_label <- as.factor(samples$cell_label)
-cat(length(levels(samples$cell_label)), "cell types \n")
-table(samples$cell_label)
-
-```
-
 Plot the distribution of tissues by cluster.
 ```{r freq-cluster-tissue, fig.width=8, fig.height=3}
-library(plyr) 
+library(plyr);library(dplyr)
 
 freq_cluster_tissue <- count(samples, vars=c("cluster_kmeans","tissue")) 
 
