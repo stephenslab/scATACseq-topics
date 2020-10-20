@@ -412,16 +412,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree98920edc38fb52a44e5e232aacfee04fd46847dctargetblank98920eda"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/98920edc38fb52a44e5e232aacfee04fd46847dc" target="_blank">98920ed</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreea4daf6de54a5dd39090a26672f73e5ae5d8a7601targetblanka4daf6da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/a4daf6de54a5dd39090a26672f73e5ae5d8a7601" target="_blank">a4daf6d</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree98920edc38fb52a44e5e232aacfee04fd46847dctargetblank98920eda" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreea4daf6de54a5dd39090a26672f73e5ae5d8a7601targetblanka4daf6da" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/98920edc38fb52a44e5e232aacfee04fd46847dc" target="_blank">98920ed</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/a4daf6de54a5dd39090a26672f73e5ae5d8a7601" target="_blank">a4daf6d</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -430,12 +430,12 @@ Note that you need to be careful to ensure that all relevant files for the analy
 Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
-    Ignored:    analysis/figure/
 
 Untracked files:
     Untracked:  analysis/clusters_pca_structure_Cusanovich2018.Rmd
 
 Unstaged changes:
+    Modified:   analysis/assess_fits_Lareau2019_bonemarrow.Rmd
     Modified:   code/plots.R
     Modified:   scripts/fit_all_models_Lareau2019.sh
 
@@ -476,6 +476,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/a4daf6de54a5dd39090a26672f73e5ae5d8a7601/analysis/clusters_Cusanovich2018_k13.Rmd" target="_blank">a4daf6d</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-10-20
+</td>
+<td>
+clustering with k = 13 topics
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/ac8ca65b1c246ccc29d024c45489bd18e1682210/docs/clusters_Cusanovich2018_k13.html" target="_blank">ac8ca65</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-10-20
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1316,6 +1350,7 @@ table(samples$tissue)
 #       WholeBrain 
 #             8766</code></pre>
 <p>Plot the distribution of tissues by cluster.</p>
+<p>Stacked barplot for the counts of tissues by clusters:</p>
 <pre class="r"><code>library(plyr);library(dplyr)
 # ------------------------------------------------------------------------------
 # You have loaded plyr after dplyr - this is likely to cause problems.
@@ -1341,50 +1376,28 @@ p35 &lt;- ggplot(freq_cluster_tissue, aes(fill=tissue, y=freq, x=cluster_kmeans)
   legend.text = element_text(size = 8)
   )
 print(p35)</code></pre>
-<p><img src="figure/clusters_Cusanovich2018_k13.Rmd/freq-cluster-tissue-1.png" width="960" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-freq-cluster-tissue-1">
-Past versions of freq-cluster-tissue-1.png
-</button>
-</p>
-<div id="fig-freq-cluster-tissue-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/a38788b2e6ab19366c8d3bc9e45dc9844fde044d/docs/figure/clusters_Cusanovich2018_k13.Rmd/freq-cluster-tissue-1.png" target="_blank">a38788b</a>
-</td>
-<td>
-kevinlkx
-</td>
-<td>
-2020-10-20
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/clusters_Cusanovich2018_k13.Rmd/freq-cluster-tissue-1-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>Percent stacked barplot for the counts of tissues by clusters:</p>
+<pre class="r"><code>
+freq_cluster_tissue &lt;- count(samples, vars=c(&quot;cluster_kmeans&quot;,&quot;tissue&quot;)) 
+
+
+p36 &lt;- ggplot(freq_cluster_tissue, aes(fill=tissue, y=freq, x=cluster_kmeans)) + 
+  geom_bar(position=&quot;fill&quot;, stat=&quot;identity&quot;) +
+  theme_classic() + xlab(&quot;Cluster&quot;) + ylab(&quot;Number of cells&quot;) +
+  guides(fill=guide_legend(ncol=2)) +
+  theme(
+  legend.title = element_text(size = 10),
+  legend.text = element_text(size = 8)
+  )
+print(p36)</code></pre>
+<p><img src="figure/clusters_Cusanovich2018_k13.Rmd/freq-cluster-tissue-2-1.png" width="960" style="display: block; margin: auto;" /></p>
 <!-- Plot the distribution of cell labels by cluster. -->
 <!-- ```{r freq-cluster-tissue, fig.width=9, fig.height=3} -->
 <!-- library(plyr)  -->
 <!-- freq_cluster_cell <- count(samples, vars=c("cluster_kmeans","cell_label"))  -->
 <!-- # stacked barplot for the counts of cells by clusters -->
-<!-- p36 <- ggplot(freq_cluster_cell, aes(fill=cell_label, y=freq, x=cluster_kmeans)) +  -->
+<!-- p37 <- ggplot(freq_cluster_cell, aes(fill=cell_label, y=freq, x=cluster_kmeans)) +  -->
 <!--   geom_bar(position="stack", stat="identity") + -->
 <!--   theme_classic() + xlab("Cluster") + ylab("Number of cells") + -->
 <!--   guides(fill=guide_legend(ncol=4)) + -->
@@ -1392,7 +1405,7 @@ kevinlkx
 <!--     legend.title = element_text(size = 10), -->
 <!--     legend.text = element_text(size = 6) -->
 <!--   ) -->
-<!-- print(p36) -->
+<!-- print(p37) -->
 <!-- ``` -->
 <br>
 <p>
