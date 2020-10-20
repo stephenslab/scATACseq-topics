@@ -319,7 +319,7 @@ $(document).ready(function () {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-10-07
+<strong>Last updated:</strong> 2020-10-20
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -350,16 +350,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreed8d17304fb86ad7e83bd3d6883b221882af1de01targetblankd8d1730a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/d8d17304fb86ad7e83bd3d6883b221882af1de01" target="_blank">d8d1730</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree4a0657bc0bd980c9b7912a24d7ba69423e82859etargetblank4a0657ba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/4a0657bc0bd980c9b7912a24d7ba69423e82859e" target="_blank">4a0657b</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreed8d17304fb86ad7e83bd3d6883b221882af1de01targetblankd8d1730a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree4a0657bc0bd980c9b7912a24d7ba69423e82859etargetblank4a0657ba" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/d8d17304fb86ad7e83bd3d6883b221882af1de01" target="_blank">d8d1730</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/4a0657bc0bd980c9b7912a24d7ba69423e82859e" target="_blank">4a0657b</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -371,6 +371,10 @@ Ignored files:
 
 Untracked files:
     Untracked:  analysis/clusters_pca_structure_Cusanovich2018.Rmd
+
+Unstaged changes:
+    Modified:   code/plots.R
+    Modified:   scripts/fit_all_models_Lareau2019.sh
 
 </code></pre>
 <p>
@@ -409,6 +413,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/4a0657bc0bd980c9b7912a24d7ba69423e82859e/analysis/index.Rmd" target="_blank">4a0657b</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-10-20
+</td>
+<td>
+add clustering with k = 13 topics
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/ce007aa783cf34a2ff5d68e860f387b812146c13/docs/index.html" target="_blank">ce007aa</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-10-07
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -731,7 +769,8 @@ Start workflowr project.
 <li><a href="process_data_Cusanovich2018.html">Process Cusanovich 2018 dataset</a></li>
 <li><a href="assess_fits_Cusanovich2018.html">Assess model fits</a></li>
 <li><a href="compare_pca_clusters_Cusanovich2018.html">PCA plots of topic proportions</a></li>
-<li><a href="plots_Cusanovich2018.html">Visualize and interpret topics</a></li>
+<li><a href="plots_Cusanovich2018.html">Visualize topics</a></li>
+<li><a href="clusters_Cusanovich2018_k13.html">Clustering by topic proportions</a></li>
 </ul></li>
 <li>Topic modeling analysis for Lareau 2019 single cell ATAC-seq dataset
 <ul>
