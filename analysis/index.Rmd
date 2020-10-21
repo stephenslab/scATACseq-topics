@@ -24,5 +24,6 @@ Topic modeling analysis of single-cell ATAC-seq data
     - [About Lareau 2019 dataset](scATACseq_data_Lareau2019.html)
     - [Process Lareau 2019 dataset](process_data_Lareau2019.html)
     - [Assess model fits](assess_fits_Lareau2019_bonemarrow.html)
-    - [Visualize and interpret topics](plots_Lareau2019_bonemarrow.html)
+    - [PCA plots of topic proportions](compare_pca_clusters_Lareau_2019_bonemarrow.html)
+    - [Clustering by topic proportions](clusters_Lareau2019_bonemarrow_k13.html)
 
