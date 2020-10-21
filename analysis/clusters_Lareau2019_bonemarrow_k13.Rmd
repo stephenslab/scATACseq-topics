@@ -3,7 +3,7 @@ title: "Clustering Lareau *et al* (2019) bone marrow data using topic proportion
 author: Kaixuan Luo
 output:
   workflowr::wflow_html:
-    toc: no
+    toc: yes
 ---
 
 Here we explore the structure in the Lareau *et al* (2019) 
@@ -97,7 +97,7 @@ plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4,p.pca3.5,p.pca3.6)
 ```
 
 Visualize by structure plot grouped by cell labels
-```{r structure-plot-resting-1, fig.width=7, fig.height=3}
+```{r structure-plot-resting-1, fig.width=7, fig.height=2.5}
 set.seed(10)
 colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
                    "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928",
@@ -342,7 +342,7 @@ plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4,p.pca3.5,p.pca3.6)
 ```
 
 Visualize by structure plot grouped by cell labels
-```{r structure-plot-stimulated-1, fig.width=7, fig.height=3}
+```{r structure-plot-stimulated-1, fig.width=7, fig.height=2.5}
 set.seed(10)
 colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
                    "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928",
