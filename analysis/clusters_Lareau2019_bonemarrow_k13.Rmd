@@ -222,9 +222,9 @@ table(samples$Cluster)
 
 ```
 
-Plot the distribution of cell labels by cluster.
+Plot the distribution of cell labels by clusters.
 
-Stacked barplot for the counts of tissues by cell labels:
+Stacked barplot for the counts of cell labels by clusters:
 ```{r freq-cluster-cell-resting-1, fig.width=8, fig.height=3}
 library(plyr);library(dplyr)
 library(RColorBrewer)
@@ -233,7 +233,7 @@ freq_cluster_tissue <- count(samples, vars=c("cluster_kmeans","Cluster"))
 n_colors <- length(levels(samples$Cluster))
 colors_labels <- colorRampPalette(brewer.pal(9, "Set1"))(n_colors)
 
-# stacked barplot for the counts of tissues by clusters
+# stacked barplot for the counts of cell labels by clusters
 p.barplot.1 <- ggplot(freq_cluster_tissue, aes(fill=Cluster, y=freq, x=cluster_kmeans)) + 
   geom_bar(position="stack", stat="identity") +
   theme_classic() + xlab("Cluster") + ylab("Number of cells") +
@@ -247,7 +247,7 @@ print(p.barplot.1)
 
 ```
 
-Percent stacked barplot for the counts of tissues by clusters:
+Percent stacked barplot for the counts of cell labels by clusters:
 ```{r freq-cluster-tissue-resting-2, fig.width=8, fig.height=3}
 
 freq_cluster_tissue <- count(samples, vars=c("cluster_kmeans","Cluster")) 
@@ -266,6 +266,21 @@ p.barplot.2 <- ggplot(freq_cluster_tissue, aes(fill=Cluster, y=freq, x=cluster_k
 print(p.barplot.2)
 
 ```
+
+We can see a few clusters are dominated by one major cell type: 
+* cells in cluster c3 are primarily CD4 cells; 
+* cells in cluster c4 are primarily NK cells; 
+* cells in cluster c5 are primarily CD8 cells; 
+* the majority of cells in cluster c6 and c7 are CD4 cells; 
+* the majority of cells in cluster c8 are CD4 cells (and B cells); 
+* the majority of cells in cluster c10 are pDC cells (and HSPC cells); 
+* the majority of cells in cluster c11 are preB cells.
+
+Some clusters are combinations of related cell types: 
+* cells in cluster c1 are a combination of Mono-1 and Mono-2 cells; 
+* cells in cluster c2 are a combination of Ery-early and Ery-late cells; 
+
+Cluster c9 is more heterogeneous with HSPC, HSPC-ery, proB, and CLP cells. 
 
 ```{r freq-cluster-cells-resting}
 freq_cluster_cells <- with(samples,table(Cluster,cluster_kmeans))
@@ -465,9 +480,9 @@ table(samples$Cluster)
 
 ```
 
-Plot the distribution of cell labels by cluster.
+Plot the distribution of cell labels by clusters.
 
-Stacked barplot for the counts of tissues by cell labels:
+Stacked barplot for the counts of cell labels by clusters:
 ```{r freq-cluster-cell-stimulated-1, fig.width=8, fig.height=3}
 library(plyr);library(dplyr)
 library(RColorBrewer)
@@ -476,7 +491,7 @@ freq_cluster_tissue <- count(samples, vars=c("cluster_kmeans","Cluster"))
 n_colors <- length(levels(samples$Cluster))
 colors_labels <- colorRampPalette(brewer.pal(9, "Set1"))(n_colors)
 
-# stacked barplot for the counts of tissues by clusters
+# stacked barplot for the counts of cell labels by clusters
 p.barplot.1 <- ggplot(freq_cluster_tissue, aes(fill=Cluster, y=freq, x=cluster_kmeans)) + 
   geom_bar(position="stack", stat="identity") +
   theme_classic() + xlab("Cluster") + ylab("Number of cells") +
@@ -490,7 +505,7 @@ print(p.barplot.1)
 
 ```
 
-Percent stacked barplot for the counts of tissues by clusters:
+Percent stacked barplot for the counts of cell labels by clusters:
 ```{r freq-cluster-tissue-stimulated-2, fig.width=8, fig.height=3}
 
 freq_cluster_tissue <- count(samples, vars=c("cluster_kmeans","Cluster")) 
@@ -509,6 +524,19 @@ p.barplot.2 <- ggplot(freq_cluster_tissue, aes(fill=Cluster, y=freq, x=cluster_k
 print(p.barplot.2)
 
 ```
+
+We can see a few clusters are dominated by one major cell type: 
+* cells in cluster c1 are primarily CD8 cells; 
+* cells in cluster c2 are primarily NK cells; 
+* cells in cluster c5 are primarily CD4 cells.
+
+Some clusters are combinations of related cell types: 
+* cells in cluster c3 are a combination of Mono-1 and Mono-2 cells; 
+* cells in cluster c4 are a combination of CD4 and CD8 cells; 
+* cells in cluster c9 are a combination of B and preB cells; 
+* cells in cluster c10 are a combination of Ery-early, Ery-late and HSPC-ery cells; 
+
+Clusters c6, c7, c8, c11 are more heterogeneous with multiple cell types. 
 
 ```{r freq-cluster-cells-stimulated}
 freq_cluster_cells <- with(samples,table(Cluster,cluster_kmeans))
