@@ -23,12 +23,13 @@ library(cowplot)
 source("code/functions_for_assessing_fits.R")
 ```
 
+### Lareau_2019_bonemarrow dataset (including both resting and simulated conditions)
 Load the results of running `fit_poisson_nmf` on the Lareau2019 data,
 with different algorithms, and for various choices of $k$ (the number
 of "topics").
 
-```{r load-results}
-out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Lareau_2019"
+```{r load-results-1}
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Lareau_2019/Lareau_2019_bonemarrow"
 load(file.path(out.dir, "/compiled.fits.Lareau2019_bonemarrow.RData"))
 ```
 
@@ -36,7 +37,7 @@ This plot shows the improvement in the log-likelihood as the rank,
 $k$, is increased. The log-likelihoods are shown relative to the
 log-likelihood at $k = 2$. 
 
-```{r plot-loglik-vs-k, fig.height=3, fig.width=3.5}
+```{r plot-loglik-vs-k-1, fig.height=3, fig.width=3.5}
 plot_loglik_vs_rank(fits) +
   theme_cowplot(font_size = 12)
 ```
@@ -50,11 +51,7 @@ for all choices of $k$, and for each of the three optimization methods
 of the fit is measured by the log-likelihood relative to the best
 log-likelihood that was identified among all methods compared.
 
-```{r plot-loglik-timing, fig.height=6, fig.width=9}
-create_progress_plots(dat, fits, x="timing", y="loglik", numiter.prefit=300)
-```
-
-```{r plot-loglik-iter, fig.height=6, fig.width=9}
+```{r plot-loglik-iter-1, fig.height=6, fig.width=9}
 create_progress_plots(dat, fits, x="iter", y="loglik", numiter.prefit=300)
 ```
 
@@ -65,10 +62,95 @@ assess how close we are to a solution. Note that, unlike the
 log-likelihood, the KKT residuals are not expected to decrease
 monotonically over time.
 
-```{r plot-res-timing, fig.height=6, fig.width=9}
-create_progress_plots(dat, fits, x="timing", y="res", numiter.prefit=300)
+```{r plot-res-iter-1, fig.height=6, fig.width=9}
+create_progress_plots(dat, fits, x="iter", y="res", numiter.prefit=300)
 ```
 
-```{r plot-res-iter, fig.height=6, fig.width=9}
+
+### Lareau2019_bonemarrow_resting dataset (resting condition)
+Load the results of running `fit_poisson_nmf` on the 
+Lareau2019_bonemarrow_resting data,
+with different algorithms, and for various choices of $k$ (the number
+of "topics").
+
+```{r load-results-2}
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Lareau_2019/Lareau_2019_bonemarrow_resting"
+load(file.path(out.dir, "/compiled.fits.Lareau2019_bonemarrow_resting.RData"))
+```
+
+This plot shows the improvement in the log-likelihood as the rank,
+$k$, is increased. The log-likelihoods are shown relative to the
+log-likelihood at $k = 2$. 
+
+```{r plot-loglik-vs-k-2, fig.height=3, fig.width=3.5}
+plot_loglik_vs_rank(fits) +
+  theme_cowplot(font_size = 12)
+```
+
+As expected, the likelihood consistently improves as the rank, $k$, is
+increased.
+
+The next set of plots shows the improvement in the fit over time,
+for all choices of $k$, and for each of the three optimization methods
+(EM, CCD, SCD), with and without the extrapolation scheme. The quality
+of the fit is measured by the log-likelihood relative to the best
+log-likelihood that was identified among all methods compared.
+
+```{r plot-loglik-iter-2, fig.height=6, fig.width=9}
+create_progress_plots(dat, fits, x="iter", y="loglik", numiter.prefit=300)
+```
+
+The last set of plots shows the evolution of the KKT residuals over
+time; the KKT residuals should vanish near a stationary point of the
+log-likelihood, so looking at the largest KKT residual can be used to
+assess how close we are to a solution. Note that, unlike the
+log-likelihood, the KKT residuals are not expected to decrease
+monotonically over time.
+
+```{r plot-res-iter-2, fig.height=6, fig.width=9}
+create_progress_plots(dat, fits, x="iter", y="res", numiter.prefit=300)
+```
+
+### Lareau2019_bonemarrow_stimulated dataset (stimulated condition)
+Load the results of running `fit_poisson_nmf` on the 
+Lareau2019_bonemarrow_stimulated data,
+with different algorithms, and for various choices of $k$ (the number
+of "topics").
+
+```{r load-results-3}
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Lareau_2019/Lareau_2019_bonemarrow_stimulated"
+load(file.path(out.dir, "/compiled.fits.Lareau2019_bonemarrow_stimulated.RData"))
+```
+
+This plot shows the improvement in the log-likelihood as the rank,
+$k$, is increased. The log-likelihoods are shown relative to the
+log-likelihood at $k = 2$. 
+
+```{r plot-loglik-vs-k-3, fig.height=3, fig.width=3.5}
+plot_loglik_vs_rank(fits) +
+  theme_cowplot(font_size = 12)
+```
+
+As expected, the likelihood consistently improves as the rank, $k$, is
+increased.
+
+The next set of plots shows the improvement in the fit over time,
+for all choices of $k$, and for each of the three optimization methods
+(EM, CCD, SCD), with and without the extrapolation scheme. The quality
+of the fit is measured by the log-likelihood relative to the best
+log-likelihood that was identified among all methods compared.
+
+```{r plot-loglik-iter-3, fig.height=6, fig.width=9}
+create_progress_plots(dat, fits, x="iter", y="loglik", numiter.prefit=300)
+```
+
+The last set of plots shows the evolution of the KKT residuals over
+time; the KKT residuals should vanish near a stationary point of the
+log-likelihood, so looking at the largest KKT residual can be used to
+assess how close we are to a solution. Note that, unlike the
+log-likelihood, the KKT residuals are not expected to decrease
+monotonically over time.
+
+```{r plot-res-iter-3, fig.height=6, fig.width=9}
 create_progress_plots(dat, fits, x="iter", y="res", numiter.prefit=300)
 ```
