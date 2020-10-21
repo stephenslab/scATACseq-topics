@@ -397,7 +397,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-09-12
+<strong>Last updated:</strong> 2020-10-21
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -488,16 +488,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreead13ef48a8a7e8502e6120a8dd9c573586afab8dtargetblankad13ef4a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/ad13ef48a8a7e8502e6120a8dd9c573586afab8d" target="_blank">ad13ef4</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree65dd007b4876e804f10152afc4e8eb8dc3f8e30ctargetblank65dd007a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/65dd007b4876e804f10152afc4e8eb8dc3f8e30c" target="_blank">65dd007</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreead13ef48a8a7e8502e6120a8dd9c573586afab8dtargetblankad13ef4a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree65dd007b4876e804f10152afc4e8eb8dc3f8e30ctargetblank65dd007a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/ad13ef48a8a7e8502e6120a8dd9c573586afab8d" target="_blank">ad13ef4</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/65dd007b4876e804f10152afc4e8eb8dc3f8e30c" target="_blank">65dd007</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -506,6 +506,13 @@ Note that you need to be careful to ensure that all relevant files for the analy
 Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
+
+Untracked files:
+    Untracked:  analysis/clusters_pca_structure_Cusanovich2018.Rmd
+
+Unstaged changes:
+    Modified:   code/plots.R
+    Modified:   scripts/fit_all_models_Lareau2019.sh
 
 </code></pre>
 <p>
@@ -544,6 +551,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/65dd007b4876e804f10152afc4e8eb8dc3f8e30c/analysis/assess_fits_Lareau2019_bonemarrow.Rmd" target="_blank">65dd007</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-10-21
+</td>
+<td>
+add results from resting and simulated conditions
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/720d1c8301067ca4e539b452d88e52badad3395a/docs/assess_fits_Lareau2019_bonemarrow.html" target="_blank">720d1c8</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-09-12
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -693,220 +734,56 @@ assess fits
 library(ggplot2)
 library(cowplot)
 source(&quot;code/functions_for_assessing_fits.R&quot;)</code></pre>
+<div id="lareau_2019_bonemarrow-dataset-including-both-resting-and-simulated-conditions" class="section level3">
+<h3>Lareau_2019_bonemarrow dataset (including both resting and simulated conditions)</h3>
 <p>Load the results of running <code>fit_poisson_nmf</code> on the Lareau2019 data, with different algorithms, and for various choices of <span class="math inline">\(k\)</span> (the number of “topics”).</p>
-<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Lareau_2019&quot;
+<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Lareau_2019/Lareau_2019_bonemarrow&quot;
 load(file.path(out.dir, &quot;/compiled.fits.Lareau2019_bonemarrow.RData&quot;))</code></pre>
 <p>This plot shows the improvement in the log-likelihood as the rank, <span class="math inline">\(k\)</span>, is increased. The log-likelihoods are shown relative to the log-likelihood at <span class="math inline">\(k = 2\)</span>.</p>
 <pre class="r"><code>plot_loglik_vs_rank(fits) +
   theme_cowplot(font_size = 12)</code></pre>
-<p><img src="figure/assess_fits_Lareau2019_bonemarrow.Rmd/plot-loglik-vs-k-1.png" width="336" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-loglik-vs-k-1">
-Past versions of plot-loglik-vs-k-1.png
-</button>
-</p>
-<div id="fig-plot-loglik-vs-k-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/8723639923a40680f9f5ede74243f0e1fb4b37cd/docs/figure/assess_fits_Lareau2019_bonemarrow.Rmd/plot-loglik-vs-k-1.png" target="_blank">8723639</a>
-</td>
-<td>
-kevinlkx
-</td>
-<td>
-2020-09-09
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/54e781b78fc5121f9ae4ca00bd180ae1e0e211b7/docs/figure/assess_fits_Lareau2019_bonemarrow.Rmd/plot-loglik-vs-k-1.png" target="_blank">54e781b</a>
-</td>
-<td>
-kevinlkx
-</td>
-<td>
-2020-09-09
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/assess_fits_Lareau2019_bonemarrow.Rmd/plot-loglik-vs-k-1-1.png" width="336" style="display: block; margin: auto;" /></p>
 <p>As expected, the likelihood consistently improves as the rank, <span class="math inline">\(k\)</span>, is increased.</p>
 <p>The next set of plots shows the improvement in the fit over time, for all choices of <span class="math inline">\(k\)</span>, and for each of the three optimization methods (EM, CCD, SCD), with and without the extrapolation scheme. The quality of the fit is measured by the log-likelihood relative to the best log-likelihood that was identified among all methods compared.</p>
-<pre class="r"><code>create_progress_plots(dat, fits, x=&quot;timing&quot;, y=&quot;loglik&quot;, numiter.prefit=300)</code></pre>
-<p><img src="figure/assess_fits_Lareau2019_bonemarrow.Rmd/plot-loglik-timing-1.png" width="864" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-loglik-timing-1">
-Past versions of plot-loglik-timing-1.png
-</button>
-</p>
-<div id="fig-plot-loglik-timing-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/8723639923a40680f9f5ede74243f0e1fb4b37cd/docs/figure/assess_fits_Lareau2019_bonemarrow.Rmd/plot-loglik-timing-1.png" target="_blank">8723639</a>
-</td>
-<td>
-kevinlkx
-</td>
-<td>
-2020-09-09
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
 <pre class="r"><code>create_progress_plots(dat, fits, x=&quot;iter&quot;, y=&quot;loglik&quot;, numiter.prefit=300)</code></pre>
-<p><img src="figure/assess_fits_Lareau2019_bonemarrow.Rmd/plot-loglik-iter-1.png" width="864" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-loglik-iter-1">
-Past versions of plot-loglik-iter-1.png
-</button>
-</p>
-<div id="fig-plot-loglik-iter-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/8723639923a40680f9f5ede74243f0e1fb4b37cd/docs/figure/assess_fits_Lareau2019_bonemarrow.Rmd/plot-loglik-iter-1.png" target="_blank">8723639</a>
-</td>
-<td>
-kevinlkx
-</td>
-<td>
-2020-09-09
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/assess_fits_Lareau2019_bonemarrow.Rmd/plot-loglik-iter-1-1.png" width="864" style="display: block; margin: auto;" /></p>
 <p>The last set of plots shows the evolution of the KKT residuals over time; the KKT residuals should vanish near a stationary point of the log-likelihood, so looking at the largest KKT residual can be used to assess how close we are to a solution. Note that, unlike the log-likelihood, the KKT residuals are not expected to decrease monotonically over time.</p>
-<pre class="r"><code>create_progress_plots(dat, fits, x=&quot;timing&quot;, y=&quot;res&quot;, numiter.prefit=300)</code></pre>
-<p><img src="figure/assess_fits_Lareau2019_bonemarrow.Rmd/plot-res-timing-1.png" width="864" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-res-timing-1">
-Past versions of plot-res-timing-1.png
-</button>
-</p>
-<div id="fig-plot-res-timing-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/8723639923a40680f9f5ede74243f0e1fb4b37cd/docs/figure/assess_fits_Lareau2019_bonemarrow.Rmd/plot-res-timing-1.png" target="_blank">8723639</a>
-</td>
-<td>
-kevinlkx
-</td>
-<td>
-2020-09-09
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
 <pre class="r"><code>create_progress_plots(dat, fits, x=&quot;iter&quot;, y=&quot;res&quot;, numiter.prefit=300)</code></pre>
-<p><img src="figure/assess_fits_Lareau2019_bonemarrow.Rmd/plot-res-iter-1.png" width="864" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-res-iter-1">
-Past versions of plot-res-iter-1.png
-</button>
-</p>
-<div id="fig-plot-res-iter-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/8723639923a40680f9f5ede74243f0e1fb4b37cd/docs/figure/assess_fits_Lareau2019_bonemarrow.Rmd/plot-res-iter-1.png" target="_blank">8723639</a>
-</td>
-<td>
-kevinlkx
-</td>
-<td>
-2020-09-09
-</td>
-</tr>
-</tbody>
-</table>
+<p><img src="figure/assess_fits_Lareau2019_bonemarrow.Rmd/plot-res-iter-1-1.png" width="864" style="display: block; margin: auto;" /></p>
 </div>
+<div id="lareau2019_bonemarrow_resting-dataset-resting-condition" class="section level3">
+<h3>Lareau2019_bonemarrow_resting dataset (resting condition)</h3>
+<p>Load the results of running <code>fit_poisson_nmf</code> on the Lareau2019_bonemarrow_resting data, with different algorithms, and for various choices of <span class="math inline">\(k\)</span> (the number of “topics”).</p>
+<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Lareau_2019/Lareau_2019_bonemarrow_resting&quot;
+load(file.path(out.dir, &quot;/compiled.fits.Lareau2019_bonemarrow_resting.RData&quot;))</code></pre>
+<p>This plot shows the improvement in the log-likelihood as the rank, <span class="math inline">\(k\)</span>, is increased. The log-likelihoods are shown relative to the log-likelihood at <span class="math inline">\(k = 2\)</span>.</p>
+<pre class="r"><code>plot_loglik_vs_rank(fits) +
+  theme_cowplot(font_size = 12)</code></pre>
+<p><img src="figure/assess_fits_Lareau2019_bonemarrow.Rmd/plot-loglik-vs-k-2-1.png" width="336" style="display: block; margin: auto;" /></p>
+<p>As expected, the likelihood consistently improves as the rank, <span class="math inline">\(k\)</span>, is increased.</p>
+<p>The next set of plots shows the improvement in the fit over time, for all choices of <span class="math inline">\(k\)</span>, and for each of the three optimization methods (EM, CCD, SCD), with and without the extrapolation scheme. The quality of the fit is measured by the log-likelihood relative to the best log-likelihood that was identified among all methods compared.</p>
+<pre class="r"><code>create_progress_plots(dat, fits, x=&quot;iter&quot;, y=&quot;loglik&quot;, numiter.prefit=300)</code></pre>
+<p><img src="figure/assess_fits_Lareau2019_bonemarrow.Rmd/plot-loglik-iter-2-1.png" width="864" style="display: block; margin: auto;" /></p>
+<p>The last set of plots shows the evolution of the KKT residuals over time; the KKT residuals should vanish near a stationary point of the log-likelihood, so looking at the largest KKT residual can be used to assess how close we are to a solution. Note that, unlike the log-likelihood, the KKT residuals are not expected to decrease monotonically over time.</p>
+<pre class="r"><code>create_progress_plots(dat, fits, x=&quot;iter&quot;, y=&quot;res&quot;, numiter.prefit=300)</code></pre>
+<p><img src="figure/assess_fits_Lareau2019_bonemarrow.Rmd/plot-res-iter-2-1.png" width="864" style="display: block; margin: auto;" /></p>
 </div>
+<div id="lareau2019_bonemarrow_stimulated-dataset-stimulated-condition" class="section level3">
+<h3>Lareau2019_bonemarrow_stimulated dataset (stimulated condition)</h3>
+<p>Load the results of running <code>fit_poisson_nmf</code> on the Lareau2019_bonemarrow_stimulated data, with different algorithms, and for various choices of <span class="math inline">\(k\)</span> (the number of “topics”).</p>
+<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Lareau_2019/Lareau_2019_bonemarrow_stimulated&quot;
+load(file.path(out.dir, &quot;/compiled.fits.Lareau2019_bonemarrow_stimulated.RData&quot;))</code></pre>
+<p>This plot shows the improvement in the log-likelihood as the rank, <span class="math inline">\(k\)</span>, is increased. The log-likelihoods are shown relative to the log-likelihood at <span class="math inline">\(k = 2\)</span>.</p>
+<pre class="r"><code>plot_loglik_vs_rank(fits) +
+  theme_cowplot(font_size = 12)</code></pre>
+<p><img src="figure/assess_fits_Lareau2019_bonemarrow.Rmd/plot-loglik-vs-k-3-1.png" width="336" style="display: block; margin: auto;" /></p>
+<p>As expected, the likelihood consistently improves as the rank, <span class="math inline">\(k\)</span>, is increased.</p>
+<p>The next set of plots shows the improvement in the fit over time, for all choices of <span class="math inline">\(k\)</span>, and for each of the three optimization methods (EM, CCD, SCD), with and without the extrapolation scheme. The quality of the fit is measured by the log-likelihood relative to the best log-likelihood that was identified among all methods compared.</p>
+<pre class="r"><code>create_progress_plots(dat, fits, x=&quot;iter&quot;, y=&quot;loglik&quot;, numiter.prefit=300)</code></pre>
+<p><img src="figure/assess_fits_Lareau2019_bonemarrow.Rmd/plot-loglik-iter-3-1.png" width="864" style="display: block; margin: auto;" /></p>
+<p>The last set of plots shows the evolution of the KKT residuals over time; the KKT residuals should vanish near a stationary point of the log-likelihood, so looking at the largest KKT residual can be used to assess how close we are to a solution. Note that, unlike the log-likelihood, the KKT residuals are not expected to decrease monotonically over time.</p>
+<pre class="r"><code>create_progress_plots(dat, fits, x=&quot;iter&quot;, y=&quot;res&quot;, numiter.prefit=300)</code></pre>
+<p><img src="figure/assess_fits_Lareau2019_bonemarrow.Rmd/plot-res-iter-3-1.png" width="864" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -934,7 +811,7 @@ kevinlkx
 # [1] stats     graphics  grDevices utils     datasets  methods   base     
 # 
 # other attached packages:
-# [1] cowplot_1.0.0      ggplot2_3.3.0      fastTopics_0.3-163 workflowr_1.6.2   
+# [1] cowplot_1.0.0      ggplot2_3.3.0      fastTopics_0.3-180 workflowr_1.6.2   
 # 
 # loaded via a namespace (and not attached):
 #  [1] ggrepel_0.8.2      Rcpp_1.0.4.6       lattice_0.20-38    tidyr_0.8.3       
@@ -954,6 +831,7 @@ kevinlkx
 # [57] ellipsis_0.3.1     vctrs_0.3.0        tools_3.5.1        glue_1.4.1        
 # [61] purrr_0.3.4        hms_0.4.2          yaml_2.2.0         colorspace_1.4-1  
 # [65] plotly_4.8.0       knitr_1.28         quantreg_5.36      MCMCpack_1.4-4</code></pre>
+</div>
 </div>
 
 
