@@ -158,7 +158,7 @@ Define clusters using k-means, and then create structure plot
 based on the clusters from k-means.
 
 Define clusters using k-means with $k = 14$:
-```{r kmeans-1, cache=TRUE}
+```{r kmeans-1}
 set.seed(10)
 
 clusters.14 <- factor(kmeans(poisson2multinom(fit)$L,centers = 14)$cluster)
@@ -166,7 +166,7 @@ print(sort(table(clusters.14),decreasing = TRUE))
 ```
 
 Structure plot based on k-means clusters
-```{r structure-plot-kmeans-1, fig.width=7, fig.height=2.5}
+```{r structure-plot-kmeans-1, fig.width=7, fig.height=2}
 colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
                    "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928",
                    "gray")
@@ -180,7 +180,7 @@ print(p.structure.2)
 ```
 
 Define clusters using k-means with $k = 15$:
-```{r kmeans-2, cache=TRUE}
+```{r kmeans-2}
 set.seed(10)
 
 clusters.15 <- factor(kmeans(poisson2multinom(fit)$L,centers = 15)$cluster)
@@ -189,7 +189,7 @@ print(sort(table(clusters.15),decreasing = TRUE))
 ```
 
 Structure plot based on k-means clusters
-```{r structure-plot-kmeans-2, fig.width=7, fig.height=2.5}
+```{r structure-plot-kmeans-2, fig.width=7, fig.height=2}
 colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
             "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928",
             "gray")
@@ -203,7 +203,7 @@ print(p.structure.3)
 ```
 
 Define clusters using k-means with $k = 20$:
-```{r kmeans-3, cache=TRUE}
+```{r kmeans-3}
 set.seed(10)
 
 clusters.20 <- factor(kmeans(poisson2multinom(fit)$L,centers = 20)$cluster)
@@ -211,7 +211,7 @@ print(sort(table(clusters.20),decreasing = TRUE))
 ```
 
 Structure plot based on k-means clusters
-```{r structure-plot-kmeans-3, fig.width=7, fig.height=2.5}
+```{r structure-plot-kmeans-3, fig.width=7, fig.height=2}
 colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
                    "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928",
                    "gray")
@@ -241,7 +241,7 @@ samples$cluster_kmeans <- clusters.merged
 
 ```
 
-```{r refine-cluster-2, fig.width=7, fig.height=2.5}
+```{r refine-cluster-2, fig.width=7, fig.height=2}
 colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
                    "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928",
                    "gray")
