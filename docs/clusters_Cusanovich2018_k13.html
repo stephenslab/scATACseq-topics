@@ -303,7 +303,7 @@ $(document).ready(function () {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -312,7 +312,7 @@ $(document).ready(function () {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -324,7 +324,7 @@ $(document).ready(function () {
 <strong>Last updated:</strong> 2020-10-21
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>scATACseq-topics/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -388,24 +388,12 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongdetected"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>Cache:</strong> detected </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
 </p>
 </div>
-<div id="strongCachestrongdetected" class="panel-collapse collapse">
+<div id="strongCachestrongnone" class="panel-collapse collapse">
 <div class="panel-body">
-The following chunks had caches available:
-<ul>
-<li>
-kmeans-1
-</li>
-<li>
-kmeans-2
-</li>
-<li>
-kmeans-3
-</li>
-</ul>
-<p>To ensure reproducibility of the results, delete the cache directory <code>clusters_Cusanovich2018_k13_cache</code> and re-run the analysis. To have workflowr automatically delete the cache directory prior to building the file, set <code>delete_cache = TRUE</code> when running <code>wflow_build()</code> or <code>wflow_publish()</code>.</p>
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
 </div>
 </div>
 </div>
@@ -424,16 +412,16 @@ kmeans-3
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreec00f12be96ead245dc0fdf28f03d7af246a06d42targetblankc00f12ba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/c00f12be96ead245dc0fdf28f03d7af246a06d42" target="_blank">c00f12b</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree9d31a9fba6cedf2b9b3ee1072364767c4156ad73targetblank9d31a9fa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/9d31a9fba6cedf2b9b3ee1072364767c4156ad73" target="_blank">9d31a9f</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreec00f12be96ead245dc0fdf28f03d7af246a06d42targetblankc00f12ba" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree9d31a9fba6cedf2b9b3ee1072364767c4156ad73targetblank9d31a9fa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/c00f12be96ead245dc0fdf28f03d7af246a06d42" target="_blank">c00f12b</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/9d31a9fba6cedf2b9b3ee1072364767c4156ad73" target="_blank">9d31a9f</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -442,7 +430,6 @@ Note that you need to be careful to ensure that all relevant files for the analy
 Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
-    Ignored:    analysis/clusters_Cusanovich2018_k13_cache/
 
 Untracked files:
     Untracked:  analysis/clusters_pca_structure_Cusanovich2018.Rmd
@@ -489,6 +476,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/9d31a9fba6cedf2b9b3ee1072364767c4156ad73/docs/clusters_Cusanovich2018_k13.html" target="_blank">9d31a9f</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-10-21
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1138,6 +1142,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/9d31a9fba6cedf2b9b3ee1072364767c4156ad73/docs/figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-kmeans-1-1.png" target="_blank">9d31a9f</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-10-21
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/32ed5aea68036d63ab78e7d417a8067660328456/docs/figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-kmeans-1-1.png" target="_blank">32ed5ae</a>
 </td>
 <td>
@@ -1210,6 +1225,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/9d31a9fba6cedf2b9b3ee1072364767c4156ad73/docs/figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-kmeans-2-1.png" target="_blank">9d31a9f</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-10-21
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/32ed5aea68036d63ab78e7d417a8067660328456/docs/figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-kmeans-2-1.png" target="_blank">32ed5ae</a>
@@ -1289,6 +1315,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/9d31a9fba6cedf2b9b3ee1072364767c4156ad73/docs/figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-kmeans-3-1.png" target="_blank">9d31a9f</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-10-21
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/32ed5aea68036d63ab78e7d417a8067660328456/docs/figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-kmeans-3-1.png" target="_blank">32ed5ae</a>
 </td>
 <td>
@@ -1364,6 +1401,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/9d31a9fba6cedf2b9b3ee1072364767c4156ad73/docs/figure/clusters_Cusanovich2018_k13.Rmd/refine-cluster-2-1.png" target="_blank">9d31a9f</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-10-21
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/32ed5aea68036d63ab78e7d417a8067660328456/docs/figure/clusters_Cusanovich2018_k13.Rmd/refine-cluster-2-1.png" target="_blank">32ed5ae</a>
