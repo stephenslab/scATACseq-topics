@@ -1,9 +1,9 @@
 ---
-title: "Clustering Cusanovich et al (2018) data using topic proportions with K = 13"
+title: "Clustering Cusanovich et al (2018) data using topic proportions with K = 13 topics"
 author: Kaixuan Luo
 output:
   workflowr::wflow_html:
-    toc: no
+    toc: yes
 ---
 
 Here we explore the structure in the Cusanovich *et al* (2018)
