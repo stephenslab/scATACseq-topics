@@ -299,7 +299,7 @@ freq_cluster_tissue <- count(samples, vars=c("cluster_kmeans","tissue"))
 colors_tissues <- colorRampPalette(brewer.pal(9, "Set1"))(13)
 
 # stacked barplot for the counts of tissues by clusters
-p.structure.6 <- ggplot(freq_cluster_tissue, aes(fill=tissue, y=freq, x=cluster_kmeans)) + 
+p.barplot.1 <- ggplot(freq_cluster_tissue, aes(fill=tissue, y=freq, x=cluster_kmeans)) + 
   geom_bar(position="stack", stat="identity") +
   theme_classic() + xlab("Cluster") + ylab("Number of cells") +
   scale_fill_manual(values = colors_tissues) +
@@ -308,7 +308,7 @@ p.structure.6 <- ggplot(freq_cluster_tissue, aes(fill=tissue, y=freq, x=cluster_
   legend.title = element_text(size = 10),
   legend.text = element_text(size = 8)
   )
-print(p.structure.6)
+print(p.barplot.1)
 
 ```
 
@@ -319,7 +319,7 @@ freq_cluster_tissue <- count(samples, vars=c("cluster_kmeans","tissue"))
 
 colors_tissues <- colorRampPalette(brewer.pal(9, "Set1"))(13)
 
-p.structure.7 <- ggplot(freq_cluster_tissue, aes(fill=tissue, y=freq, x=cluster_kmeans)) + 
+p.barplot.2 <- ggplot(freq_cluster_tissue, aes(fill=tissue, y=freq, x=cluster_kmeans)) + 
   geom_bar(position="fill", stat="identity") +
   theme_classic() + xlab("Cluster") + ylab("Proportion of cells") +
   scale_fill_manual(values = colors_tissues) +
@@ -328,7 +328,7 @@ p.structure.7 <- ggplot(freq_cluster_tissue, aes(fill=tissue, y=freq, x=cluster_
   legend.title = element_text(size = 10),
   legend.text = element_text(size = 8)
   )
-print(p.structure.7)
+print(p.barplot.2)
 
 ```
 
