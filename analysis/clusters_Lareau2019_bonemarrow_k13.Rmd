@@ -27,11 +27,13 @@ source("code/plots.R")
 ```
 
 The study used dsciATAC-seq to profile bone marrow mononuclear cells (BMMCs)
-from two human donors before (*resting*, untreated controls) and after stimulation (*stimulated*).
+from two human donors before (untreated controls) and after stimulation.
 
-## *resting* condition
 
-### Load the data in *resting* condition
+## Resting condition
+The reference map of 60,495 resting cells (untreated controls) revealed the major lineages of hematopoietic differentiation de novo.
+
+### Load the data in **resting** condition
 ```{r load-data-resting}
 data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/bone_marrow/processed_data/"
 load(file.path(data.dir, "Lareau_2019_bonemarrow_resting.RData"))
@@ -78,7 +80,9 @@ plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4,p.pca2.5,p.pca2.6)
 ```
 
 ### Layer the cell labels onto the PC plots
-Next, we layer the cell labels onto the PC plots.
+The authors projected the untreated BMMCs onto hematopoietic development trajectories using a reference-guided approach. They predicted cell labels given the bulk sorted hematopoietic ATAC-seq profiles, and then identified 15 distinct clusters from the 60,495 resting cells, which recapitulated the major constitutive cell types in the human hematopoietic system. 
+
+Here, we layer the predicted cell labels onto the PC plots.
 
 ```{r pca-resting-3, fig.width=9, fig.height=5}
 p.pca3.1 <- labeled_pca_plot(fit,1:2,samples$Cluster,font_size = 7,
@@ -96,7 +100,7 @@ p.pca3.6 <- labeled_pca_plot(fit,11:12,samples$Cluster,font_size = 7,
 plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4,p.pca3.5,p.pca3.6)
 ```
 
-Visualize by structure plot grouped by cell labels
+Visualize by structure plot grouped by cell labels.
 ```{r structure-plot-resting-1, fig.width=7, fig.height=2.5}
 set.seed(10)
 colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
@@ -289,9 +293,12 @@ print(freq_cluster_cells)
 
 
 
-## *stimulated* condition
+## Stimulated condition
+To characterize the response of each immune cell cluster to stimulation conditions, the authors explored the differences between the untreated control cells and ex vivo cultured and lipopolysaccharide (LPS)-stimulated BMMCs.
 
-### Load the data in *stimulated* condition
+The authors used a k-nearest neighbor map to connect stimulated cells to control cells.
+ 
+### Load the data in **stimulated** condition
 ```{r load-data-stimulated}
 data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Lareau_2019/bone_marrow/processed_data/"
 load(file.path(data.dir, "Lareau_2019_bonemarrow_stimulated.RData"))
@@ -338,7 +345,7 @@ plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4,p.pca2.5,p.pca2.6)
 ```
 
 ### Layer the cell labels onto the PC plots
-Next, we layer the cell labels onto the PC plots.
+We layer the predicted cell labels onto the PC plots.
 
 ```{r pca-stimulated-3, fig.width=9, fig.height=5}
 p.pca3.1 <- labeled_pca_plot(fit,1:2,samples$Cluster,font_size = 7,
