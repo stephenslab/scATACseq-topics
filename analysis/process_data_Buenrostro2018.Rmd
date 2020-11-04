@@ -1,0 +1,146 @@
+---
+title: "Process data for Buenrostro 2018 scATAC-seq dataset"
+author: "Kaixuan Luo"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+## About Buenrostro 2018 dataset
+
+Reference: Buenrostro, J. D. et al. Integrated Single-Cell Analysis Maps the Continuous Regulatory Landscape of Human Hematopoietic Differentiation. Cell 173, 1535–1548.e16 (2018).
+
+Data were downloaded from GEO: [GSE96772](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE96772)
+
+RCC directory: `/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/`
+
+## Processed data
+
+Downloaded scATAC-seq processed data from GEO: [GSE96769](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE96769)
+
+* `GSE96769_PeakFile_20160207.bed.gz`
+* `GSE96769_scATACseq_counts.txt.gz`
+
+Downloaded processed data from the scATAC-benchmarking website (Chen et al. Genome Biology 2019) (https://github.com/pinellolab/scATAC-benchmarking/)
+
+## Prepare data for topic modeling
+```{r}
+library(Matrix)
+library(tools)
+library(readr)
+library(data.table)
+
+```
+
+count scATAC-seq reads in peaks
+```{bash, eval=FALSE}
+sbatch ~/projects/scATACseq-topics/scripts/count_reads_peaks_Buenrostro_2018.sbatch
+```
+
+combine counts from all samples
+```{r}
+dir_readcount_output <- '/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/count_reads_peaks_output/'
+files <- list.files(dir_readcount_output, pattern = "\\.txt$")
+sample_names <- sapply(strsplit(files,'\\.'),'[', 1)
+cat(length(sample_names), "samples. \n")
+```
+
+```{r, eval=FALSE}
+datalist <- lapply(files, function(x)fread(file.path(dir_readcount_output,x))$V4)
+counts <- do.call("cbind", datalist)
+```
+
+```{r}
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/"
+dir.create(data.dir, showWarnings = FALSE, recursive = TRUE)
+
+# saveRDS(counts, file.path(data.dir, "raw_counts_Buenrostro_2018.rds"))
+counts <- readRDS(file.path(data.dir, "raw_counts_Buenrostro_2018.rds"))
+```
+
+Processing count files (adapted from Chen et al. Genome Biology 2019 paper https://github.com/pinellolab/scATAC-benchmarking/blob/master/Real_Data/Buenrostro_2018/run_methods/Control/Control_buenrostro2018.ipynb)
+
+```{r}
+peaks <- read.csv("/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/input_Chen_2019/combined.sorted.merged.bed",
+                      sep = '\t',header=FALSE,stringsAsFactors=FALSE)
+peaknames <- paste(peaks$V1,peaks$V2,peaks$V3,sep = "_")
+rownames(peaks) <- peaknames
+cat(sprintf("Number of peaks: %d\n",nrow(peaks)))
+
+head(peaknames)
+
+colnames(counts) <- sample_names
+rownames(counts) <- peaknames
+
+dim(counts)
+```
+
+Sample labels
+```{r}
+samples <- read.table('/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/input_Chen_2019/metadata.tsv', header = TRUE, stringsAsFactors=FALSE, quote="",row.names=1)
+
+head(samples)
+```
+
+Filter peaks (filter out peaks with counts in < 1% samples)
+```{r}
+# adapted from Chen et al. Genome Biology 2019 paper https://github.com/pinellolab/scATAC-benchmarking/blob/master/Real_Data/Buenrostro_2018/run_methods/Control/Control_buenrostro2018.ipynb
+# filter peaks with counts in at least 1% samples
+filter_peaks <- function (datafr,cutoff = 0.01){
+    binary_mat = as.matrix((datafr > 0) + 0)
+    binary_mat = Matrix(binary_mat, sparse = TRUE) 
+    num_cells_ncounted = Matrix::rowSums(binary_mat)
+    ncounts = binary_mat[num_cells_ncounted >= dim(binary_mat)[2]*cutoff,]
+    ncounts = ncounts[rowSums(ncounts) > 0,] 
+    
+    options(repr.plot.width=4, repr.plot.height=4)
+    hist(log10(num_cells_ncounted),main="No. of Cells Each Site is Observed In",breaks=50)
+    abline(v=log10(min(num_cells_ncounted[num_cells_ncounted >= dim(binary_mat)[2]*cutoff])),lwd=2,col="indianred")
+#     hist(log10(new_counts),main="Number of Sites Each Cell Uses",breaks=50)
+    peaks_selected = rownames(ncounts)
+    return(peaks_selected)
+}
+```
+
+```{r}
+peaks_selected <- filter_peaks(counts)
+counts <- counts[peaks_selected,]
+peaks <- peaks[peaks_selected, ]
+
+counts <- t(counts)
+counts <- Matrix(counts, sparse = TRUE) 
+dim(counts)
+
+```
+
+Binarize counts
+```{r}
+binarized_counts <- as.matrix((counts > 0) + 0)
+dim(binarized_counts)
+```
+
+```{r}
+saveRDS(counts, file.path(data.dir, "counts_Buenrostro_2018.rds"))
+saveRDS(binarized_counts, file.path(data.dir, "binarized_counts_Buenrostro_2018.rds"))
+
+save(list = c("samples", "peaks", "counts"), 
+     file = file.path(data.dir, "Buenrostro_2018_counts.RData"))
+
+save(list = c("samples", "peaks", "binarized_counts"), 
+     file = file.path(data.dir, "Buenrostro_2018_binarized_counts.RData"))
+
+```
+
+```{r}
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/"
+load(file.path(data.dir, "Buenrostro_2018_counts.RData"))
+cat(sprintf("Loaded %d x %d counts matrix.\n",nrow(counts),ncol(counts)))
+
+cat(sprintf("Number of samples (cells): %d\n",nrow(counts)))
+cat(sprintf("Number of peaks: %d\n",ncol(counts)))
+cat(sprintf("Proportion of counts that are non-zero: %0.1f%%.\n",
+            100*mean(counts > 0)))
+
+```
+
+
