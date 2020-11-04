@@ -126,7 +126,8 @@ saveRDS(binarized_counts, file.path(data.dir, "binarized_counts_Buenrostro_2018.
 save(list = c("samples", "peaks", "counts"), 
      file = file.path(data.dir, "Buenrostro_2018_counts.RData"))
 
-save(list = c("samples", "peaks", "binarized_counts"), 
+counts <- binarized_counts
+save(list = c("samples", "peaks", "counts"), 
      file = file.path(data.dir, "Buenrostro_2018_binarized_counts.RData"))
 
 ```
