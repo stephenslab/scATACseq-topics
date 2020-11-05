@@ -116,6 +116,8 @@ dim(counts)
 Binarize counts
 ```{r}
 binarized_counts <- as.matrix((counts > 0) + 0)
+binarized_counts <- Matrix(binarized_counts, sparse = TRUE) 
+
 dim(binarized_counts)
 ```
 
