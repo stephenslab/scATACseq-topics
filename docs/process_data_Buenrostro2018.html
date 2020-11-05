@@ -397,7 +397,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-11-04
+<strong>Last updated:</strong> 2020-11-05
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -488,16 +488,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree857e1e8164281ddb806d57c6e7a604d6e6716a36targetblank857e1e8a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/857e1e8164281ddb806d57c6e7a604d6e6716a36" target="_blank">857e1e8</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree1da32f8c37df71b84c5000ac6d70eca03c272c18targetblank1da32f8a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/1da32f8c37df71b84c5000ac6d70eca03c272c18" target="_blank">1da32f8</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree857e1e8164281ddb806d57c6e7a604d6e6716a36targetblank857e1e8a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree1da32f8c37df71b84c5000ac6d70eca03c272c18targetblank1da32f8a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/857e1e8164281ddb806d57c6e7a604d6e6716a36" target="_blank">857e1e8</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/1da32f8c37df71b84c5000ac6d70eca03c272c18" target="_blank">1da32f8</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -508,11 +508,13 @@ Ignored files:
     Ignored:    .Rproj.user/
 
 Untracked files:
+    Untracked:  analysis/clusters_Buenrostro2018_k14.Rmd
     Untracked:  analysis/clusters_pca_structure_Cusanovich2018.Rmd
 
 Unstaged changes:
+    Modified:   analysis/compare_pca_clusters_Buenrostro_2018.Rmd
+    Modified:   analysis/index.Rmd
     Modified:   analysis/plots_Lareau2019_bonemarrow.Rmd
-    Modified:   code/plots.R
     Modified:   scripts/fit_all_models_Lareau2019.sh
 
 </code></pre>
@@ -552,6 +554,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/1da32f8c37df71b84c5000ac6d70eca03c272c18/analysis/process_data_Buenrostro2018.Rmd" target="_blank">1da32f8</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-05
+</td>
+<td>
+set binarized counts as sparse matrix
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/89b45be3922b3a5de08b197053ae0474ffdc6698/docs/process_data_Buenrostro2018.html" target="_blank">89b45be</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-04
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -737,6 +773,8 @@ dim(counts)</code></pre>
 <pre><code>[1]   2034 101172</code></pre>
 <p>Binarize counts</p>
 <pre class="r"><code>binarized_counts &lt;- as.matrix((counts &gt; 0) + 0)
+binarized_counts &lt;- Matrix(binarized_counts, sparse = TRUE) 
+
 dim(binarized_counts)</code></pre>
 <pre><code>[1]   2034 101172</code></pre>
 <pre class="r"><code>saveRDS(counts, file.path(data.dir, &quot;counts_Buenrostro_2018.rds&quot;))
