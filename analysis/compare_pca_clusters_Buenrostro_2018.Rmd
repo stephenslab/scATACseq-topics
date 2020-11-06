@@ -3,7 +3,7 @@ title: "Compare PC plots of topic proportions from fastTopic with different K in
 author: Kaixuan Luo
 output:
   workflowr::wflow_html:
-    toc: no
+    toc: yes
 ---
 
 Here we explore the structure in the Buenrostro *et al* (2018) 
