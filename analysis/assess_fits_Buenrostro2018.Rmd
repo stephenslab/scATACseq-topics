@@ -4,9 +4,7 @@ author: "Kaixuan Luo"
 output: workflowr::wflow_html
 ---
 
-Here we compare the quality of the fits obtained from the different
-updates (EM, CCD, SCD, with and without extrapolation), and with
-different $k$.
+Here we compare the quality of the fits with different $k$.
 
 ```{r knitr-opts, include=FALSE}
 knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
@@ -27,7 +25,8 @@ Load the results of running `fit_poisson_nmf` on the Cusanovich_2018 data,
 with different algorithms, and for various choices of $k$ (the number
 of "topics").
 
-```{r load-results}
+### Unbinarized counts
+```{r load-unbinarized-results}
 out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/unbinarized/"
 load(file.path(out.dir, "/compiled.fits.Buenrostro2018.RData"))
 ```
@@ -36,7 +35,7 @@ This plot shows the improvement in the log-likelihood as the rank,
 $k$, is increased. The log-likelihoods are shown relative to the
 log-likelihood at $k = 2$. 
 
-```{r plot-loglik-vs-k, fig.height=3, fig.width=4}
+```{r plot-unbinarized-loglik-vs-k, fig.height=3, fig.width=4}
 plot_loglik_vs_rank(fits) +
   theme_cowplot(font_size = 12)
 ```
@@ -50,7 +49,7 @@ for all choices of $k$, and for each of the three optimization methods
 of the fit is measured by the log-likelihood relative to the best
 log-likelihood that was identified among all methods compared.
 
-```{r plot-loglik-iter, fig.height=8, fig.width=9}
+```{r plot-unbinarized-loglik-iter, fig.height=8, fig.width=9}
 create_progress_plots(dat, fits, x="iter", y="loglik", numiter.prefit=300)
 ```
 
@@ -61,6 +60,46 @@ assess how close we are to a solution. Note that, unlike the
 log-likelihood, the KKT residuals are not expected to decrease
 monotonically over time.
 
-```{r plot-res-iter, fig.height=8, fig.width=9}
+```{r plot-unbinarized-res-iter, fig.height=8, fig.width=9}
+create_progress_plots(dat, fits, x="iter", y="res", numiter.prefit=300)
+```
+
+
+### binarized counts
+```{r load-binarized-results}
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/"
+load(file.path(out.dir, "/compiled.fits.Buenrostro2018-binarized.RData"))
+```
+
+This plot shows the improvement in the log-likelihood as the rank,
+$k$, is increased. The log-likelihoods are shown relative to the
+log-likelihood at $k = 2$. 
+
+```{r plot-binarized-loglik-vs-k, fig.height=3, fig.width=4}
+plot_loglik_vs_rank(fits) +
+  theme_cowplot(font_size = 12)
+```
+
+As expected, the likelihood consistently improves as the rank, $k$, is
+increased.
+
+The next set of plots shows the improvement in the fit over time,
+for all choices of $k$, and for each of the three optimization methods
+(EM, CCD, SCD), with and without the extrapolation scheme. The quality
+of the fit is measured by the log-likelihood relative to the best
+log-likelihood that was identified among all methods compared.
+
+```{r plot-binarized-loglik-iter, fig.height=8, fig.width=9}
+create_progress_plots(dat, fits, x="iter", y="loglik", numiter.prefit=300)
+```
+
+The last set of plots shows the evolution of the KKT residuals over
+time; the KKT residuals should vanish near a stationary point of the
+log-likelihood, so looking at the largest KKT residual can be used to
+assess how close we are to a solution. Note that, unlike the
+log-likelihood, the KKT residuals are not expected to decrease
+monotonically over time.
+
+```{r plot-binarized-res-iter, fig.height=8, fig.width=9}
 create_progress_plots(dat, fits, x="iter", y="res", numiter.prefit=300)
 ```
