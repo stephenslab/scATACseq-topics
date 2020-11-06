@@ -18,12 +18,17 @@ Topic modeling analysis of single-cell ATAC-seq data
     - [Assess model fits](assess_fits_Cusanovich2018.html)
     - [PCA plots of topic proportions](compare_pca_clusters_Cusanovich2018.html)
     - [Visualize topics](plots_Cusanovich2018.html)
-    - [Clustering by topic proportions](clusters_Cusanovich2018_k13.html)
+    - [Clustering by topic proportions (K=13)](clusters_Cusanovich2018_k13.html)
 
 * Topic modeling analysis for Lareau 2019 single cell ATAC-seq dataset
     - [About Lareau 2019 dataset](scATACseq_data_Lareau2019.html)
     - [Process Lareau 2019 dataset](process_data_Lareau2019.html)
     - [Assess model fits](assess_fits_Lareau2019_bonemarrow.html)
     - [PCA plots of topic proportions](compare_pca_clusters_Lareau_2019_bonemarrow.html)
-    - [Clustering by topic proportions](clusters_Lareau2019_bonemarrow_k13.html)
+    - [Clustering by topic proportions (K=13)](clusters_Lareau2019_bonemarrow_k13.html)
 
+* Topic modeling analysis for Buenrostro 2018 single cell ATAC-seq dataset
+    - [Process Buenrostro 2018 dataset](process_data_Buenrostro2018.html)
+    - [Assess model fits](assess_fits_Buenrostro2018.html)
+    - [PCA plots of topic proportions](compare_pca_clusters_Buenrostro_2018.html)
+    - [Clustering by topic proportions (K=11)](clusters_Buenrostro2018_k11.html)
