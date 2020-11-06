@@ -20,6 +20,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -257,6 +260,69 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -264,6 +330,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -412,16 +488,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreefbe50bce62b7387b26ec943a42a2e69a1024f724targetblankfbe50bca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/fbe50bce62b7387b26ec943a42a2e69a1024f724" target="_blank">fbe50bc</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree1826fa0cd011c3461f76cb93329cde9d23c43f82targetblank1826fa0a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/1826fa0cd011c3461f76cb93329cde9d23c43f82" target="_blank">1826fa0</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreefbe50bce62b7387b26ec943a42a2e69a1024f724targetblankfbe50bca" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree1826fa0cd011c3461f76cb93329cde9d23c43f82targetblank1826fa0a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/fbe50bce62b7387b26ec943a42a2e69a1024f724" target="_blank">fbe50bc</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/1826fa0cd011c3461f76cb93329cde9d23c43f82" target="_blank">1826fa0</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -476,6 +552,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/1826fa0cd011c3461f76cb93329cde9d23c43f82/analysis/compare_pca_clusters_Buenrostro_2018.Rmd" target="_blank">1826fa0</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-06
+</td>
+<td>
+add binarized data
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/compare_pca_clusters_Buenrostro_2018.html" target="_blank">fb6a121</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-06
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -567,6 +677,43 @@ p.pca1.4 &lt;- pca_plot(poisson2multinom(fit),pcs = 7:8,fill = &quot;none&quot;)
 
 plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4)</code></pre>
 <p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k10-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-unbinarized-k10-1-1">
+Past versions of pca-unbinarized-k10-1-1.png
+</button>
+</p>
+<div id="fig-pca-unbinarized-k10-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k10-1-1.png" target="_blank">fb6a121</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Some of the structure is more evident from “hexbin” plots showing the density of the points.</p>
 <pre class="r"><code>breaks &lt;- c(0,1,5,10,100,Inf)
 p.pca2.1 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 1:2, breaks = breaks) + guides(fill = &quot;none&quot;)
@@ -576,6 +723,43 @@ p.pca2.4 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 7:8, breaks = breaks
 
 plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4)</code></pre>
 <p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k10-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-unbinarized-k10-2-1">
+Past versions of pca-unbinarized-k10-2-1.png
+</button>
+</p>
+<div id="fig-pca-unbinarized-k10-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k10-2-1.png" target="_blank">fb6a121</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Next, we layer the cell labels onto the PC plots.</p>
 <pre class="r"><code>p.pca3.1 &lt;- labeled_pca_plot(fit,1:2,samples$label,font_size = 7,
                        legend_label = &quot;Cell labels&quot;)
@@ -588,6 +772,43 @@ p.pca3.4 &lt;- labeled_pca_plot(fit,7:8,samples$label,font_size = 7,
 
 plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)</code></pre>
 <p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k10-3-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-unbinarized-k10-3-1">
+Past versions of pca-unbinarized-k10-3-1.png
+</button>
+</p>
+<div id="fig-pca-unbinarized-k10-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k10-3-1.png" target="_blank">fb6a121</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="k-11" class="section level4">
 <h4>k = 11</h4>
@@ -602,6 +823,43 @@ p.pca1.4 &lt;- pca_plot(poisson2multinom(fit),pcs = 7:8,fill = &quot;none&quot;)
 
 plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4)</code></pre>
 <p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k11-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-unbinarized-k11-1-1">
+Past versions of pca-unbinarized-k11-1-1.png
+</button>
+</p>
+<div id="fig-pca-unbinarized-k11-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k11-1-1.png" target="_blank">fb6a121</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Some of the structure is more evident from “hexbin” plots showing the density of the points.</p>
 <pre class="r"><code>breaks &lt;- c(0,1,5,10,100,Inf)
 p.pca2.1 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 1:2, breaks = breaks) + guides(fill = &quot;none&quot;)
@@ -611,6 +869,43 @@ p.pca2.4 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 7:8, breaks = breaks
 
 plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4)</code></pre>
 <p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k11-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-unbinarized-k11-2-1">
+Past versions of pca-unbinarized-k11-2-1.png
+</button>
+</p>
+<div id="fig-pca-unbinarized-k11-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k11-2-1.png" target="_blank">fb6a121</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Next, we layer the cell labels onto the PC plots.</p>
 <pre class="r"><code>p.pca3.1 &lt;- labeled_pca_plot(fit,1:2,samples$label,font_size = 7,
                        legend_label = &quot;Cell labels&quot;)
@@ -623,6 +918,43 @@ p.pca3.4 &lt;- labeled_pca_plot(fit,7:8,samples$label,font_size = 7,
 
 plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)</code></pre>
 <p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k11-3-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-unbinarized-k11-3-1">
+Past versions of pca-unbinarized-k11-3-1.png
+</button>
+</p>
+<div id="fig-pca-unbinarized-k11-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k11-3-1.png" target="_blank">fb6a121</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="k-12" class="section level4">
 <h4>k = 12</h4>
@@ -637,6 +969,43 @@ p.pca1.4 &lt;- pca_plot(poisson2multinom(fit),pcs = 7:8,fill = &quot;none&quot;)
 
 plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4)</code></pre>
 <p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k12-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-unbinarized-k12-1-1">
+Past versions of pca-unbinarized-k12-1-1.png
+</button>
+</p>
+<div id="fig-pca-unbinarized-k12-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k12-1-1.png" target="_blank">fb6a121</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Some of the structure is more evident from “hexbin” plots showing the density of the points.</p>
 <pre class="r"><code>breaks &lt;- c(0,1,5,10,100,Inf)
 p.pca2.1 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 1:2, breaks = breaks) + guides(fill = &quot;none&quot;)
@@ -646,6 +1015,43 @@ p.pca2.4 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 7:8, breaks = breaks
 
 plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4)</code></pre>
 <p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k12-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-unbinarized-k12-2-1">
+Past versions of pca-unbinarized-k12-2-1.png
+</button>
+</p>
+<div id="fig-pca-unbinarized-k12-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k12-2-1.png" target="_blank">fb6a121</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Next, we layer the cell labels onto the PC plots.</p>
 <pre class="r"><code>p.pca3.1 &lt;- labeled_pca_plot(fit,1:2,samples$label,font_size = 7,
                        legend_label = &quot;Cell labels&quot;)
@@ -658,6 +1064,43 @@ p.pca3.4 &lt;- labeled_pca_plot(fit,7:8,samples$label,font_size = 7,
 
 plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)</code></pre>
 <p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k12-3-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-unbinarized-k12-3-1">
+Past versions of pca-unbinarized-k12-3-1.png
+</button>
+</p>
+<div id="fig-pca-unbinarized-k12-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k12-3-1.png" target="_blank">fb6a121</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="k-13" class="section level4">
 <h4>k = 13</h4>
@@ -672,6 +1115,43 @@ p.pca1.4 &lt;- pca_plot(poisson2multinom(fit),pcs = 7:8,fill = &quot;none&quot;)
 
 plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4)</code></pre>
 <p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k13-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-unbinarized-k13-1-1">
+Past versions of pca-unbinarized-k13-1-1.png
+</button>
+</p>
+<div id="fig-pca-unbinarized-k13-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k13-1-1.png" target="_blank">fb6a121</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Some of the structure is more evident from “hexbin” plots showing the density of the points.</p>
 <pre class="r"><code>breaks &lt;- c(0,1,5,10,100,Inf)
 p.pca2.1 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 1:2, breaks = breaks) + guides(fill = &quot;none&quot;)
@@ -681,6 +1161,43 @@ p.pca2.4 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 7:8, breaks = breaks
 
 plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4)</code></pre>
 <p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k13-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-unbinarized-k13-2-1">
+Past versions of pca-unbinarized-k13-2-1.png
+</button>
+</p>
+<div id="fig-pca-unbinarized-k13-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k13-2-1.png" target="_blank">fb6a121</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Next, we layer the cell labels onto the PC plots.</p>
 <pre class="r"><code>p.pca3.1 &lt;- labeled_pca_plot(fit,1:2,samples$label,font_size = 7,
                        legend_label = &quot;Cell labels&quot;)
@@ -693,6 +1210,43 @@ p.pca3.4 &lt;- labeled_pca_plot(fit,7:8,samples$label,font_size = 7,
 
 plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)</code></pre>
 <p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k13-3-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-unbinarized-k13-3-1">
+Past versions of pca-unbinarized-k13-3-1.png
+</button>
+</p>
+<div id="fig-pca-unbinarized-k13-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k13-3-1.png" target="_blank">fb6a121</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="k-14" class="section level4">
 <h4>k = 14</h4>
@@ -707,6 +1261,43 @@ p.pca1.4 &lt;- pca_plot(poisson2multinom(fit),pcs = 7:8,fill = &quot;none&quot;)
 
 plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4)</code></pre>
 <p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k14-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-unbinarized-k14-1-1">
+Past versions of pca-unbinarized-k14-1-1.png
+</button>
+</p>
+<div id="fig-pca-unbinarized-k14-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k14-1-1.png" target="_blank">fb6a121</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Some of the structure is more evident from “hexbin” plots showing the density of the points.</p>
 <pre class="r"><code>breaks &lt;- c(0,1,5,10,100,Inf)
 p.pca2.1 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 1:2, breaks = breaks) + guides(fill = &quot;none&quot;)
@@ -716,6 +1307,43 @@ p.pca2.4 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 7:8, breaks = breaks
 
 plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4)</code></pre>
 <p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k14-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-unbinarized-k14-2-1">
+Past versions of pca-unbinarized-k14-2-1.png
+</button>
+</p>
+<div id="fig-pca-unbinarized-k14-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k14-2-1.png" target="_blank">fb6a121</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Next, we layer the cell labels onto the PC plots.</p>
 <pre class="r"><code>p.pca3.1 &lt;- labeled_pca_plot(fit,1:2,samples$label,font_size = 7,
                        legend_label = &quot;Cell labels&quot;)
@@ -728,6 +1356,43 @@ p.pca3.4 &lt;- labeled_pca_plot(fit,7:8,samples$label,font_size = 7,
 
 plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)</code></pre>
 <p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k14-3-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-unbinarized-k14-3-1">
+Past versions of pca-unbinarized-k14-3-1.png
+</button>
+</p>
+<div id="fig-pca-unbinarized-k14-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k14-3-1.png" target="_blank">fb6a121</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="k-15" class="section level4">
 <h4>k = 15</h4>
@@ -742,6 +1407,43 @@ p.pca1.4 &lt;- pca_plot(poisson2multinom(fit),pcs = 7:8,fill = &quot;none&quot;)
 
 plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4)</code></pre>
 <p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k15-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-unbinarized-k15-1-1">
+Past versions of pca-unbinarized-k15-1-1.png
+</button>
+</p>
+<div id="fig-pca-unbinarized-k15-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k15-1-1.png" target="_blank">fb6a121</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Some of the structure is more evident from “hexbin” plots showing the density of the points.</p>
 <pre class="r"><code>breaks &lt;- c(0,1,5,10,100,Inf)
 p.pca2.1 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 1:2, breaks = breaks) + guides(fill = &quot;none&quot;)
@@ -751,6 +1453,43 @@ p.pca2.4 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 7:8, breaks = breaks
 
 plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4)</code></pre>
 <p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k15-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-unbinarized-k15-2-1">
+Past versions of pca-unbinarized-k15-2-1.png
+</button>
+</p>
+<div id="fig-pca-unbinarized-k15-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k15-2-1.png" target="_blank">fb6a121</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Next, we layer the cell labels onto the PC plots.</p>
 <pre class="r"><code>p.pca3.1 &lt;- labeled_pca_plot(fit,1:2,samples$label,font_size = 7,
                        legend_label = &quot;Cell labels&quot;)
@@ -763,6 +1502,43 @@ p.pca3.4 &lt;- labeled_pca_plot(fit,7:8,samples$label,font_size = 7,
 
 plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)</code></pre>
 <p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k15-3-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-unbinarized-k15-3-1">
+Past versions of pca-unbinarized-k15-3-1.png
+</button>
+</p>
+<div id="fig-pca-unbinarized-k15-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k15-3-1.png" target="_blank">fb6a121</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -791,6 +1567,43 @@ p.pca1.4 &lt;- pca_plot(poisson2multinom(fit),pcs = 7:8,fill = &quot;none&quot;)
 
 plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4)</code></pre>
 <p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k10-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-binarized-k10-1-1">
+Past versions of pca-binarized-k10-1-1.png
+</button>
+</p>
+<div id="fig-pca-binarized-k10-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k10-1-1.png" target="_blank">fb6a121</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Some of the structure is more evident from “hexbin” plots showing the density of the points.</p>
 <pre class="r"><code>breaks &lt;- c(0,1,5,10,100,Inf)
 p.pca2.1 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 1:2, breaks = breaks) + guides(fill = &quot;none&quot;)
@@ -800,6 +1613,43 @@ p.pca2.4 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 7:8, breaks = breaks
 
 plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4)</code></pre>
 <p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k10-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-binarized-k10-2-1">
+Past versions of pca-binarized-k10-2-1.png
+</button>
+</p>
+<div id="fig-pca-binarized-k10-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k10-2-1.png" target="_blank">fb6a121</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Next, we layer the cell labels onto the PC plots.</p>
 <pre class="r"><code>p.pca3.1 &lt;- labeled_pca_plot(fit,1:2,samples$label,font_size = 7,
                        legend_label = &quot;Cell labels&quot;)
@@ -812,6 +1662,43 @@ p.pca3.4 &lt;- labeled_pca_plot(fit,7:8,samples$label,font_size = 7,
 
 plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)</code></pre>
 <p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k10-3-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-binarized-k10-3-1">
+Past versions of pca-binarized-k10-3-1.png
+</button>
+</p>
+<div id="fig-pca-binarized-k10-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k10-3-1.png" target="_blank">fb6a121</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="k-11-1" class="section level4">
 <h4>k = 11</h4>
@@ -826,6 +1713,43 @@ p.pca1.4 &lt;- pca_plot(poisson2multinom(fit),pcs = 7:8,fill = &quot;none&quot;)
 
 plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4)</code></pre>
 <p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k11-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-binarized-k11-1-1">
+Past versions of pca-binarized-k11-1-1.png
+</button>
+</p>
+<div id="fig-pca-binarized-k11-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k11-1-1.png" target="_blank">fb6a121</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Some of the structure is more evident from “hexbin” plots showing the density of the points.</p>
 <pre class="r"><code>breaks &lt;- c(0,1,5,10,100,Inf)
 p.pca2.1 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 1:2, breaks = breaks) + guides(fill = &quot;none&quot;)
@@ -835,6 +1759,43 @@ p.pca2.4 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 7:8, breaks = breaks
 
 plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4)</code></pre>
 <p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k11-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-binarized-k11-2-1">
+Past versions of pca-binarized-k11-2-1.png
+</button>
+</p>
+<div id="fig-pca-binarized-k11-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k11-2-1.png" target="_blank">fb6a121</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Next, we layer the cell labels onto the PC plots.</p>
 <pre class="r"><code>p.pca3.1 &lt;- labeled_pca_plot(fit,1:2,samples$label,font_size = 7,
                        legend_label = &quot;Cell labels&quot;)
@@ -847,6 +1808,43 @@ p.pca3.4 &lt;- labeled_pca_plot(fit,7:8,samples$label,font_size = 7,
 
 plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)</code></pre>
 <p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k11-3-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-binarized-k11-3-1">
+Past versions of pca-binarized-k11-3-1.png
+</button>
+</p>
+<div id="fig-pca-binarized-k11-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k11-3-1.png" target="_blank">fb6a121</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="k-12-1" class="section level4">
 <h4>k = 12</h4>
@@ -861,6 +1859,43 @@ p.pca1.4 &lt;- pca_plot(poisson2multinom(fit),pcs = 7:8,fill = &quot;none&quot;)
 
 plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4)</code></pre>
 <p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k12-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-binarized-k12-1-1">
+Past versions of pca-binarized-k12-1-1.png
+</button>
+</p>
+<div id="fig-pca-binarized-k12-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k12-1-1.png" target="_blank">fb6a121</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Some of the structure is more evident from “hexbin” plots showing the density of the points.</p>
 <pre class="r"><code>breaks &lt;- c(0,1,5,10,100,Inf)
 p.pca2.1 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 1:2, breaks = breaks) + guides(fill = &quot;none&quot;)
@@ -870,6 +1905,43 @@ p.pca2.4 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 7:8, breaks = breaks
 
 plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4)</code></pre>
 <p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k12-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-binarized-k12-2-1">
+Past versions of pca-binarized-k12-2-1.png
+</button>
+</p>
+<div id="fig-pca-binarized-k12-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k12-2-1.png" target="_blank">fb6a121</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Next, we layer the cell labels onto the PC plots.</p>
 <pre class="r"><code>p.pca3.1 &lt;- labeled_pca_plot(fit,1:2,samples$label,font_size = 7,
                        legend_label = &quot;Cell labels&quot;)
@@ -882,6 +1954,43 @@ p.pca3.4 &lt;- labeled_pca_plot(fit,7:8,samples$label,font_size = 7,
 
 plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)</code></pre>
 <p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k12-3-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-binarized-k12-3-1">
+Past versions of pca-binarized-k12-3-1.png
+</button>
+</p>
+<div id="fig-pca-binarized-k12-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k12-3-1.png" target="_blank">fb6a121</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="k-13-1" class="section level4">
 <h4>k = 13</h4>
@@ -896,6 +2005,43 @@ p.pca1.4 &lt;- pca_plot(poisson2multinom(fit),pcs = 7:8,fill = &quot;none&quot;)
 
 plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4)</code></pre>
 <p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k13-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-binarized-k13-1-1">
+Past versions of pca-binarized-k13-1-1.png
+</button>
+</p>
+<div id="fig-pca-binarized-k13-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k13-1-1.png" target="_blank">fb6a121</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Some of the structure is more evident from “hexbin” plots showing the density of the points.</p>
 <pre class="r"><code>breaks &lt;- c(0,1,5,10,100,Inf)
 p.pca2.1 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 1:2, breaks = breaks) + guides(fill = &quot;none&quot;)
@@ -905,6 +2051,43 @@ p.pca2.4 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 7:8, breaks = breaks
 
 plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4)</code></pre>
 <p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k13-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-binarized-k13-2-1">
+Past versions of pca-binarized-k13-2-1.png
+</button>
+</p>
+<div id="fig-pca-binarized-k13-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k13-2-1.png" target="_blank">fb6a121</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Next, we layer the cell labels onto the PC plots.</p>
 <pre class="r"><code>p.pca3.1 &lt;- labeled_pca_plot(fit,1:2,samples$label,font_size = 7,
                        legend_label = &quot;Cell labels&quot;)
@@ -917,6 +2100,43 @@ p.pca3.4 &lt;- labeled_pca_plot(fit,7:8,samples$label,font_size = 7,
 
 plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)</code></pre>
 <p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k13-3-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-binarized-k13-3-1">
+Past versions of pca-binarized-k13-3-1.png
+</button>
+</p>
+<div id="fig-pca-binarized-k13-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k13-3-1.png" target="_blank">fb6a121</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="k-14-1" class="section level4">
 <h4>k = 14</h4>
@@ -931,6 +2151,43 @@ p.pca1.4 &lt;- pca_plot(poisson2multinom(fit),pcs = 7:8,fill = &quot;none&quot;)
 
 plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4)</code></pre>
 <p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k14-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-binarized-k14-1-1">
+Past versions of pca-binarized-k14-1-1.png
+</button>
+</p>
+<div id="fig-pca-binarized-k14-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k14-1-1.png" target="_blank">fb6a121</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Some of the structure is more evident from “hexbin” plots showing the density of the points.</p>
 <pre class="r"><code>breaks &lt;- c(0,1,5,10,100,Inf)
 p.pca2.1 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 1:2, breaks = breaks) + guides(fill = &quot;none&quot;)
@@ -940,6 +2197,43 @@ p.pca2.4 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 7:8, breaks = breaks
 
 plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4)</code></pre>
 <p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k14-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-binarized-k14-2-1">
+Past versions of pca-binarized-k14-2-1.png
+</button>
+</p>
+<div id="fig-pca-binarized-k14-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k14-2-1.png" target="_blank">fb6a121</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Next, we layer the cell labels onto the PC plots.</p>
 <pre class="r"><code>p.pca3.1 &lt;- labeled_pca_plot(fit,1:2,samples$label,font_size = 7,
                        legend_label = &quot;Cell labels&quot;)
@@ -952,6 +2246,43 @@ p.pca3.4 &lt;- labeled_pca_plot(fit,7:8,samples$label,font_size = 7,
 
 plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)</code></pre>
 <p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k14-3-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-binarized-k14-3-1">
+Past versions of pca-binarized-k14-3-1.png
+</button>
+</p>
+<div id="fig-pca-binarized-k14-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k14-3-1.png" target="_blank">fb6a121</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="k-15-1" class="section level4">
 <h4>k = 15</h4>
@@ -966,6 +2297,43 @@ p.pca1.4 &lt;- pca_plot(poisson2multinom(fit),pcs = 7:8,fill = &quot;none&quot;)
 
 plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4)</code></pre>
 <p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k15-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-binarized-k15-1-1">
+Past versions of pca-binarized-k15-1-1.png
+</button>
+</p>
+<div id="fig-pca-binarized-k15-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k15-1-1.png" target="_blank">fb6a121</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Some of the structure is more evident from “hexbin” plots showing the density of the points.</p>
 <pre class="r"><code>breaks &lt;- c(0,1,5,10,100,Inf)
 p.pca2.1 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 1:2, breaks = breaks) + guides(fill = &quot;none&quot;)
@@ -975,6 +2343,43 @@ p.pca2.4 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 7:8, breaks = breaks
 
 plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4)</code></pre>
 <p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k15-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-binarized-k15-2-1">
+Past versions of pca-binarized-k15-2-1.png
+</button>
+</p>
+<div id="fig-pca-binarized-k15-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k15-2-1.png" target="_blank">fb6a121</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Next, we layer the cell labels onto the PC plots.</p>
 <pre class="r"><code>p.pca3.1 &lt;- labeled_pca_plot(fit,1:2,samples$label,font_size = 7,
                        legend_label = &quot;Cell labels&quot;)
@@ -987,6 +2392,43 @@ p.pca3.4 &lt;- labeled_pca_plot(fit,7:8,samples$label,font_size = 7,
 
 plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)</code></pre>
 <p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k15-3-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-binarized-k15-3-1">
+Past versions of pca-binarized-k15-3-1.png
+</button>
+</p>
+<div id="fig-pca-binarized-k15-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k15-3-1.png" target="_blank">fb6a121</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1054,6 +2496,8 @@ footer is added to webpages before the MathJax javascript. -->
 </script>
 
 
+</div>
+</div>
 
 </div>
 
@@ -1086,6 +2530,32 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
