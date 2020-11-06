@@ -25,11 +25,11 @@ library(fastTopics)
 source("code/plots.R")
 ```
 
-We tried both unbinarized counts and binarized scATAC-seq data.
+We applied the analysis both unbinarized counts and binarized scATAC-seq data.
 
 ## Unbinarized counts
 Load the data
-```{r load-data}
+```{r load-unbinarized-data}
 data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/"
 load(file.path(data.dir, "Buenrostro_2018_counts.RData"))
 cat(sprintf("%d x %d counts matrix.\n",nrow(counts),ncol(counts)))
@@ -43,14 +43,14 @@ multinomial topic model with different numbers of $k$:
 
 #### k = 10
 Load the $k = 10$ Poisson NMF fit.
-```{r load-fit-k10}
+```{r load-unbinarized-fit-k10}
 out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/unbinarized/"
 fit <- readRDS(file.path(out.dir, "/fit-Buenrostro2018-scd-ex-k=10.rds"))$fit
 ```
 
 Plot PCs of the topic proportions.
 
-```{r pca-k10-1, fig.width=7, fig.height=4.5}
+```{r pca-unbinarized-k10-1, fig.width=7, fig.height=4.5}
 p.pca1.1 <- pca_plot(poisson2multinom(fit),pcs = 1:2,fill = "none")
 p.pca1.2 <- pca_plot(poisson2multinom(fit),pcs = 3:4,fill = "none")
 p.pca1.3 <- pca_plot(poisson2multinom(fit),pcs = 5:6,fill = "none")
@@ -62,7 +62,7 @@ plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4)
 Some of the structure is more evident from “hexbin” plots 
 showing the density of the points.
 
-```{r pca-k10-2, fig.width=7, fig.height=4.5}
+```{r pca-unbinarized-k10-2, fig.width=7, fig.height=4.5}
 breaks <- c(0,1,5,10,100,Inf)
 p.pca2.1 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 1:2, breaks = breaks) + guides(fill = "none")
 p.pca2.2 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 3:4, breaks = breaks) + guides(fill = "none")
@@ -74,7 +74,7 @@ plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4)
 
 Next, we layer the cell labels onto the PC plots.
 
-```{r pca-k10-3, fig.width=8, fig.height=6}
+```{r pca-unbinarized-k10-3, fig.width=8, fig.height=6}
 p.pca3.1 <- labeled_pca_plot(fit,1:2,samples$label,font_size = 7,
                        legend_label = "Cell labels")
 p.pca3.2 <- labeled_pca_plot(fit,3:4,samples$label,font_size = 7,
@@ -91,14 +91,14 @@ plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)
 
 #### k = 11
 Load the $k = 11$ Poisson NMF fit.
-```{r load-fit-k11}
+```{r load-unbinarized-fit-k11}
 out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/unbinarized/"
 fit <- readRDS(file.path(out.dir, "/fit-Buenrostro2018-scd-ex-k=11.rds"))$fit
 ```
 
 Plot PCs of the topic proportions.
 
-```{r pca-k11-1, fig.width=7, fig.height=4.5}
+```{r pca-unbinarized-k11-1, fig.width=7, fig.height=4.5}
 p.pca1.1 <- pca_plot(poisson2multinom(fit),pcs = 1:2,fill = "none")
 p.pca1.2 <- pca_plot(poisson2multinom(fit),pcs = 3:4,fill = "none")
 p.pca1.3 <- pca_plot(poisson2multinom(fit),pcs = 5:6,fill = "none")
@@ -110,7 +110,7 @@ plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4)
 Some of the structure is more evident from “hexbin” plots 
 showing the density of the points.
 
-```{r pca-k11-2, fig.width=7, fig.height=4.5}
+```{r pca-unbinarized-k11-2, fig.width=7, fig.height=4.5}
 breaks <- c(0,1,5,10,100,Inf)
 p.pca2.1 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 1:2, breaks = breaks) + guides(fill = "none")
 p.pca2.2 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 3:4, breaks = breaks) + guides(fill = "none")
@@ -122,7 +122,7 @@ plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4)
 
 Next, we layer the cell labels onto the PC plots.
 
-```{r pca-k11-3, fig.width=8, fig.height=6}
+```{r pca-unbinarized-k11-3, fig.width=8, fig.height=6}
 p.pca3.1 <- labeled_pca_plot(fit,1:2,samples$label,font_size = 7,
                        legend_label = "Cell labels")
 p.pca3.2 <- labeled_pca_plot(fit,3:4,samples$label,font_size = 7,
@@ -137,14 +137,14 @@ plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)
 
 #### k = 12
 Load the $k = 12$ Poisson NMF fit.
-```{r load-fit-k12}
+```{r load-unbinarized-fit-k12}
 out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/unbinarized/"
 fit <- readRDS(file.path(out.dir, "/fit-Buenrostro2018-scd-ex-k=12.rds"))$fit
 ```
 
 Plot PCs of the topic proportions.
 
-```{r pca-k12-1, fig.width=7, fig.height=4.5}
+```{r pca-unbinarized-k12-1, fig.width=7, fig.height=4.5}
 p.pca1.1 <- pca_plot(poisson2multinom(fit),pcs = 1:2,fill = "none")
 p.pca1.2 <- pca_plot(poisson2multinom(fit),pcs = 3:4,fill = "none")
 p.pca1.3 <- pca_plot(poisson2multinom(fit),pcs = 5:6,fill = "none")
@@ -156,7 +156,7 @@ plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4)
 Some of the structure is more evident from “hexbin” plots 
 showing the density of the points.
 
-```{r pca-k12-2, fig.width=7, fig.height=4.5}
+```{r pca-unbinarized-k12-2, fig.width=7, fig.height=4.5}
 breaks <- c(0,1,5,10,100,Inf)
 p.pca2.1 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 1:2, breaks = breaks) + guides(fill = "none")
 p.pca2.2 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 3:4, breaks = breaks) + guides(fill = "none")
@@ -168,7 +168,7 @@ plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4)
 
 Next, we layer the cell labels onto the PC plots.
 
-```{r pca-k12-3, fig.width=8, fig.height=6}
+```{r pca-unbinarized-k12-3, fig.width=8, fig.height=6}
 p.pca3.1 <- labeled_pca_plot(fit,1:2,samples$label,font_size = 7,
                        legend_label = "Cell labels")
 p.pca3.2 <- labeled_pca_plot(fit,3:4,samples$label,font_size = 7,
@@ -183,14 +183,14 @@ plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)
 
 #### k = 13
 Load the $k = 13$ Poisson NMF fit.
-```{r load-fit-k13}
+```{r load-unbinarized-fit-k13}
 out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/unbinarized/"
 fit <- readRDS(file.path(out.dir, "/fit-Buenrostro2018-scd-ex-k=13.rds"))$fit
 ```
 
 Plot PCs of the topic proportions.
 
-```{r pca-k13-1, fig.width=7, fig.height=4.5}
+```{r pca-unbinarized-k13-1, fig.width=7, fig.height=4.5}
 p.pca1.1 <- pca_plot(poisson2multinom(fit),pcs = 1:2,fill = "none")
 p.pca1.2 <- pca_plot(poisson2multinom(fit),pcs = 3:4,fill = "none")
 p.pca1.3 <- pca_plot(poisson2multinom(fit),pcs = 5:6,fill = "none")
@@ -202,7 +202,7 @@ plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4)
 Some of the structure is more evident from “hexbin” plots 
 showing the density of the points.
 
-```{r pca-k13-2, fig.width=7, fig.height=4.5}
+```{r pca-unbinarized-k13-2, fig.width=7, fig.height=4.5}
 breaks <- c(0,1,5,10,100,Inf)
 p.pca2.1 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 1:2, breaks = breaks) + guides(fill = "none")
 p.pca2.2 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 3:4, breaks = breaks) + guides(fill = "none")
@@ -214,7 +214,7 @@ plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4)
 
 Next, we layer the cell labels onto the PC plots.
 
-```{r pca-k13-3, fig.width=8, fig.height=6}
+```{r pca-unbinarized-k13-3, fig.width=8, fig.height=6}
 p.pca3.1 <- labeled_pca_plot(fit,1:2,samples$label,font_size = 7,
                        legend_label = "Cell labels")
 p.pca3.2 <- labeled_pca_plot(fit,3:4,samples$label,font_size = 7,
@@ -230,14 +230,14 @@ plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)
 
 #### k = 14
 Load the $k = 14$ Poisson NMF fit.
-```{r load-fit-k14}
+```{r load-unbinarized-fit-k14}
 out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/unbinarized/"
 fit <- readRDS(file.path(out.dir, "/fit-Buenrostro2018-scd-ex-k=14.rds"))$fit
 ```
 
 Plot PCs of the topic proportions.
 
-```{r pca-k14-1, fig.width=7, fig.height=4.5}
+```{r pca-unbinarized-k14-1, fig.width=7, fig.height=4.5}
 p.pca1.1 <- pca_plot(poisson2multinom(fit),pcs = 1:2,fill = "none")
 p.pca1.2 <- pca_plot(poisson2multinom(fit),pcs = 3:4,fill = "none")
 p.pca1.3 <- pca_plot(poisson2multinom(fit),pcs = 5:6,fill = "none")
@@ -249,7 +249,7 @@ plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4)
 Some of the structure is more evident from “hexbin” plots 
 showing the density of the points.
 
-```{r pca-k14-2, fig.width=7, fig.height=4.5}
+```{r pca-unbinarized-k14-2, fig.width=7, fig.height=4.5}
 breaks <- c(0,1,5,10,100,Inf)
 p.pca2.1 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 1:2, breaks = breaks) + guides(fill = "none")
 p.pca2.2 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 3:4, breaks = breaks) + guides(fill = "none")
@@ -261,7 +261,7 @@ plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4)
 
 Next, we layer the cell labels onto the PC plots.
 
-```{r pca-k14-3, fig.width=8, fig.height=6}
+```{r pca-unbinarized-k14-3, fig.width=8, fig.height=6}
 p.pca3.1 <- labeled_pca_plot(fit,1:2,samples$label,font_size = 7,
                        legend_label = "Cell labels")
 p.pca3.2 <- labeled_pca_plot(fit,3:4,samples$label,font_size = 7,
@@ -277,14 +277,14 @@ plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)
 
 #### k = 15
 Load the $k = 15$ Poisson NMF fit.
-```{r load-fit-k15}
+```{r load-unbinarized-fit-k15}
 out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/unbinarized/"
 fit <- readRDS(file.path(out.dir, "/fit-Buenrostro2018-scd-ex-k=15.rds"))$fit
 ```
 
 Plot PCs of the topic proportions.
 
-```{r pca-k15-1, fig.width=7, fig.height=4.5}
+```{r pca-unbinarized-k15-1, fig.width=7, fig.height=4.5}
 p.pca1.1 <- pca_plot(poisson2multinom(fit),pcs = 1:2,fill = "none")
 p.pca1.2 <- pca_plot(poisson2multinom(fit),pcs = 3:4,fill = "none")
 p.pca1.3 <- pca_plot(poisson2multinom(fit),pcs = 5:6,fill = "none")
@@ -296,7 +296,7 @@ plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4)
 Some of the structure is more evident from “hexbin” plots 
 showing the density of the points.
 
-```{r pca-k15-2, fig.width=7, fig.height=4.5}
+```{r pca-unbinarized-k15-2, fig.width=7, fig.height=4.5}
 breaks <- c(0,1,5,10,100,Inf)
 p.pca2.1 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 1:2, breaks = breaks) + guides(fill = "none")
 p.pca2.2 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 3:4, breaks = breaks) + guides(fill = "none")
@@ -308,7 +308,302 @@ plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4)
 
 Next, we layer the cell labels onto the PC plots.
 
-```{r pca-k15-3, fig.width=8, fig.height=6}
+```{r pca-unbinarized-k15-3, fig.width=8, fig.height=6}
+p.pca3.1 <- labeled_pca_plot(fit,1:2,samples$label,font_size = 7,
+                       legend_label = "Cell labels")
+p.pca3.2 <- labeled_pca_plot(fit,3:4,samples$label,font_size = 7,
+                       legend_label = "Cell labels")
+p.pca3.3 <- labeled_pca_plot(fit,5:6,samples$label,font_size = 7,
+                       legend_label = "Cell labels")
+p.pca3.4 <- labeled_pca_plot(fit,7:8,samples$label,font_size = 7,
+                       legend_label = "Cell labels")
+
+plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)
+```
+
+
+## Binarized counts
+Load the data
+```{r load-binarized-data}
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/"
+load(file.path(data.dir, "Buenrostro_2018_counts.RData"))
+cat(sprintf("%d x %d counts matrix.\n",nrow(counts),ncol(counts)))
+rm(counts)
+samples$label <- as.factor(samples$label)
+```
+
+### Plot PCs of the topic proportions
+We first use PCA to explore the structure inferred from the
+multinomial topic model with different numbers of $k$:
+
+#### k = 10
+Load the $k = 10$ Poisson NMF fit.
+```{r load-binarized-fit-k10}
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/"
+fit <- readRDS(file.path(out.dir, "/fit-Buenrostro2018-binarized-scd-ex-k=10.rds"))$fit
+```
+
+Plot PCs of the topic proportions.
+
+```{r pca-binarized-k10-1, fig.width=7, fig.height=4.5}
+p.pca1.1 <- pca_plot(poisson2multinom(fit),pcs = 1:2,fill = "none")
+p.pca1.2 <- pca_plot(poisson2multinom(fit),pcs = 3:4,fill = "none")
+p.pca1.3 <- pca_plot(poisson2multinom(fit),pcs = 5:6,fill = "none")
+p.pca1.4 <- pca_plot(poisson2multinom(fit),pcs = 7:8,fill = "none")
+
+plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4)
+```
+
+Some of the structure is more evident from “hexbin” plots 
+showing the density of the points.
+
+```{r pca-binarized-k10-2, fig.width=7, fig.height=4.5}
+breaks <- c(0,1,5,10,100,Inf)
+p.pca2.1 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 1:2, breaks = breaks) + guides(fill = "none")
+p.pca2.2 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 3:4, breaks = breaks) + guides(fill = "none")
+p.pca2.3 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 5:6, breaks = breaks) + guides(fill = "none")
+p.pca2.4 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 7:8, breaks = breaks) + guides(fill = "none")
+
+plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4)
+```
+
+Next, we layer the cell labels onto the PC plots.
+
+```{r pca-binarized-k10-3, fig.width=8, fig.height=6}
+p.pca3.1 <- labeled_pca_plot(fit,1:2,samples$label,font_size = 7,
+                       legend_label = "Cell labels")
+p.pca3.2 <- labeled_pca_plot(fit,3:4,samples$label,font_size = 7,
+                       legend_label = "Cell labels")
+p.pca3.3 <- labeled_pca_plot(fit,5:6,samples$label,font_size = 7,
+                       legend_label = "Cell labels")
+p.pca3.4 <- labeled_pca_plot(fit,7:8,samples$label,font_size = 7,
+                       legend_label = "Cell labels")
+
+plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)
+```
+
+
+
+#### k = 11
+Load the $k = 11$ Poisson NMF fit.
+```{r load-binarized-fit-k11}
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/"
+fit <- readRDS(file.path(out.dir, "/fit-Buenrostro2018-binarized-scd-ex-k=11.rds"))$fit
+```
+
+Plot PCs of the topic proportions.
+
+```{r pca-binarized-k11-1, fig.width=7, fig.height=4.5}
+p.pca1.1 <- pca_plot(poisson2multinom(fit),pcs = 1:2,fill = "none")
+p.pca1.2 <- pca_plot(poisson2multinom(fit),pcs = 3:4,fill = "none")
+p.pca1.3 <- pca_plot(poisson2multinom(fit),pcs = 5:6,fill = "none")
+p.pca1.4 <- pca_plot(poisson2multinom(fit),pcs = 7:8,fill = "none")
+
+plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4)
+```
+
+Some of the structure is more evident from “hexbin” plots 
+showing the density of the points.
+
+```{r pca-binarized-k11-2, fig.width=7, fig.height=4.5}
+breaks <- c(0,1,5,10,100,Inf)
+p.pca2.1 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 1:2, breaks = breaks) + guides(fill = "none")
+p.pca2.2 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 3:4, breaks = breaks) + guides(fill = "none")
+p.pca2.3 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 5:6, breaks = breaks) + guides(fill = "none")
+p.pca2.4 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 7:8, breaks = breaks) + guides(fill = "none")
+
+plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4)
+```
+
+Next, we layer the cell labels onto the PC plots.
+
+```{r pca-binarized-k11-3, fig.width=8, fig.height=6}
+p.pca3.1 <- labeled_pca_plot(fit,1:2,samples$label,font_size = 7,
+                       legend_label = "Cell labels")
+p.pca3.2 <- labeled_pca_plot(fit,3:4,samples$label,font_size = 7,
+                       legend_label = "Cell labels")
+p.pca3.3 <- labeled_pca_plot(fit,5:6,samples$label,font_size = 7,
+                       legend_label = "Cell labels")
+p.pca3.4 <- labeled_pca_plot(fit,7:8,samples$label,font_size = 7,
+                       legend_label = "Cell labels")
+
+plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)
+```
+
+#### k = 12
+Load the $k = 12$ Poisson NMF fit.
+```{r load-binarized-fit-k12}
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/"
+fit <- readRDS(file.path(out.dir, "/fit-Buenrostro2018-binarized-scd-ex-k=12.rds"))$fit
+```
+
+Plot PCs of the topic proportions.
+
+```{r pca-binarized-k12-1, fig.width=7, fig.height=4.5}
+p.pca1.1 <- pca_plot(poisson2multinom(fit),pcs = 1:2,fill = "none")
+p.pca1.2 <- pca_plot(poisson2multinom(fit),pcs = 3:4,fill = "none")
+p.pca1.3 <- pca_plot(poisson2multinom(fit),pcs = 5:6,fill = "none")
+p.pca1.4 <- pca_plot(poisson2multinom(fit),pcs = 7:8,fill = "none")
+
+plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4)
+```
+
+Some of the structure is more evident from “hexbin” plots 
+showing the density of the points.
+
+```{r pca-binarized-k12-2, fig.width=7, fig.height=4.5}
+breaks <- c(0,1,5,10,100,Inf)
+p.pca2.1 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 1:2, breaks = breaks) + guides(fill = "none")
+p.pca2.2 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 3:4, breaks = breaks) + guides(fill = "none")
+p.pca2.3 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 5:6, breaks = breaks) + guides(fill = "none")
+p.pca2.4 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 7:8, breaks = breaks) + guides(fill = "none")
+
+plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4)
+```
+
+Next, we layer the cell labels onto the PC plots.
+
+```{r pca-binarized-k12-3, fig.width=8, fig.height=6}
+p.pca3.1 <- labeled_pca_plot(fit,1:2,samples$label,font_size = 7,
+                       legend_label = "Cell labels")
+p.pca3.2 <- labeled_pca_plot(fit,3:4,samples$label,font_size = 7,
+                       legend_label = "Cell labels")
+p.pca3.3 <- labeled_pca_plot(fit,5:6,samples$label,font_size = 7,
+                       legend_label = "Cell labels")
+p.pca3.4 <- labeled_pca_plot(fit,7:8,samples$label,font_size = 7,
+                       legend_label = "Cell labels")
+
+plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)
+```
+
+#### k = 13
+Load the $k = 13$ Poisson NMF fit.
+```{r load-binarized-fit-k13}
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/"
+fit <- readRDS(file.path(out.dir, "/fit-Buenrostro2018-binarized-scd-ex-k=13.rds"))$fit
+```
+
+Plot PCs of the topic proportions.
+
+```{r pca-binarized-k13-1, fig.width=7, fig.height=4.5}
+p.pca1.1 <- pca_plot(poisson2multinom(fit),pcs = 1:2,fill = "none")
+p.pca1.2 <- pca_plot(poisson2multinom(fit),pcs = 3:4,fill = "none")
+p.pca1.3 <- pca_plot(poisson2multinom(fit),pcs = 5:6,fill = "none")
+p.pca1.4 <- pca_plot(poisson2multinom(fit),pcs = 7:8,fill = "none")
+
+plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4)
+```
+
+Some of the structure is more evident from “hexbin” plots 
+showing the density of the points.
+
+```{r pca-binarized-k13-2, fig.width=7, fig.height=4.5}
+breaks <- c(0,1,5,10,100,Inf)
+p.pca2.1 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 1:2, breaks = breaks) + guides(fill = "none")
+p.pca2.2 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 3:4, breaks = breaks) + guides(fill = "none")
+p.pca2.3 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 5:6, breaks = breaks) + guides(fill = "none")
+p.pca2.4 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 7:8, breaks = breaks) + guides(fill = "none")
+
+plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4)
+```
+
+Next, we layer the cell labels onto the PC plots.
+
+```{r pca-binarized-k13-3, fig.width=8, fig.height=6}
+p.pca3.1 <- labeled_pca_plot(fit,1:2,samples$label,font_size = 7,
+                       legend_label = "Cell labels")
+p.pca3.2 <- labeled_pca_plot(fit,3:4,samples$label,font_size = 7,
+                       legend_label = "Cell labels")
+p.pca3.3 <- labeled_pca_plot(fit,5:6,samples$label,font_size = 7,
+                       legend_label = "Cell labels")
+p.pca3.4 <- labeled_pca_plot(fit,7:8,samples$label,font_size = 7,
+                       legend_label = "Cell labels")
+
+plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)
+```
+
+
+#### k = 14
+Load the $k = 14$ Poisson NMF fit.
+```{r load-binarized-fit-k14}
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/"
+fit <- readRDS(file.path(out.dir, "/fit-Buenrostro2018-binarized-scd-ex-k=14.rds"))$fit
+```
+
+Plot PCs of the topic proportions.
+
+```{r pca-binarized-k14-1, fig.width=7, fig.height=4.5}
+p.pca1.1 <- pca_plot(poisson2multinom(fit),pcs = 1:2,fill = "none")
+p.pca1.2 <- pca_plot(poisson2multinom(fit),pcs = 3:4,fill = "none")
+p.pca1.3 <- pca_plot(poisson2multinom(fit),pcs = 5:6,fill = "none")
+p.pca1.4 <- pca_plot(poisson2multinom(fit),pcs = 7:8,fill = "none")
+
+plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4)
+```
+
+Some of the structure is more evident from “hexbin” plots 
+showing the density of the points.
+
+```{r pca-binarized-k14-2, fig.width=7, fig.height=4.5}
+breaks <- c(0,1,5,10,100,Inf)
+p.pca2.1 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 1:2, breaks = breaks) + guides(fill = "none")
+p.pca2.2 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 3:4, breaks = breaks) + guides(fill = "none")
+p.pca2.3 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 5:6, breaks = breaks) + guides(fill = "none")
+p.pca2.4 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 7:8, breaks = breaks) + guides(fill = "none")
+
+plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4)
+```
+
+Next, we layer the cell labels onto the PC plots.
+
+```{r pca-binarized-k14-3, fig.width=8, fig.height=6}
+p.pca3.1 <- labeled_pca_plot(fit,1:2,samples$label,font_size = 7,
+                       legend_label = "Cell labels")
+p.pca3.2 <- labeled_pca_plot(fit,3:4,samples$label,font_size = 7,
+                       legend_label = "Cell labels")
+p.pca3.3 <- labeled_pca_plot(fit,5:6,samples$label,font_size = 7,
+                       legend_label = "Cell labels")
+p.pca3.4 <- labeled_pca_plot(fit,7:8,samples$label,font_size = 7,
+                       legend_label = "Cell labels")
+
+plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)
+```
+
+
+#### k = 15
+Load the $k = 15$ Poisson NMF fit.
+```{r load-binarized-fit-k15}
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/"
+fit <- readRDS(file.path(out.dir, "/fit-Buenrostro2018-binarized-scd-ex-k=15.rds"))$fit
+```
+
+Plot PCs of the topic proportions.
+
+```{r pca-binarized-k15-1, fig.width=7, fig.height=4.5}
+p.pca1.1 <- pca_plot(poisson2multinom(fit),pcs = 1:2,fill = "none")
+p.pca1.2 <- pca_plot(poisson2multinom(fit),pcs = 3:4,fill = "none")
+p.pca1.3 <- pca_plot(poisson2multinom(fit),pcs = 5:6,fill = "none")
+p.pca1.4 <- pca_plot(poisson2multinom(fit),pcs = 7:8,fill = "none")
+
+plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4)
+```
+
+Some of the structure is more evident from “hexbin” plots 
+showing the density of the points.
+
+```{r pca-binarized-k15-2, fig.width=7, fig.height=4.5}
+breaks <- c(0,1,5,10,100,Inf)
+p.pca2.1 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 1:2, breaks = breaks) + guides(fill = "none")
+p.pca2.2 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 3:4, breaks = breaks) + guides(fill = "none")
+p.pca2.3 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 5:6, breaks = breaks) + guides(fill = "none")
+p.pca2.4 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 7:8, breaks = breaks) + guides(fill = "none")
+
+plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4)
+```
+
+Next, we layer the cell labels onto the PC plots.
+
+```{r pca-binarized-k15-3, fig.width=8, fig.height=6}
 p.pca3.1 <- labeled_pca_plot(fit,1:2,samples$label,font_size = 7,
                        legend_label = "Cell labels")
 p.pca3.2 <- labeled_pca_plot(fit,3:4,samples$label,font_size = 7,
