@@ -30,9 +30,6 @@ p4 <- pca_hexbin_plot(poisson2multinom(fit),pcs = 3:4,bins = 30,
 p5 <- pca_plot(poisson2multinom(fit),pcs = 3:4,k = 3)
 plot_grid(p3,p4,p5,nrow = 1)
 
-pca_plot(poisson2multinom(fit),pcs = c(3,4),fill = samples$label) +
-  scale_fill_manual(values = topic_colors)
-
 # Create a Structure plot.
 p6 <- structure_plot(poisson2multinom(fit),colors = topic_colors,
                      grouping = samples$label,gap = 20,
