@@ -1,12 +1,25 @@
 ---
-title: Visualize results of topic modeling in single-cell hematopoietic cells
+title: Visualize topics inferred from hematopoietic single-cell ATAC-seq data
 author: Peter Carbonetto
-output: workflowr::wflow_html
+output:
+  workflowr::wflow_html:
+    toc: no
+    theme: readable
+    highlight: textmate
+    self_contained: no
 ---
+
+This is a brief exploration of topics inferred from the single-cell
+ATAC-seq data of Buenrostro *et al* (2018).
+
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
+                      fig.align = "center",dpi = 120)
+```
 
 Load some packages used in the analysis below, and set the seed.
 
-```{r load-pkgs}
+```{r load-pkgs, message=FALSE}
 library(Matrix)
 library(dplyr)
 library(fastTopics)
@@ -52,14 +65,19 @@ x[pc8 > 0.35] <- "U"
 samples$cluster <- factor(x)
 ```
 
-```{r}
+The most distinct clusters (e.g., pDC) closely correspond to the
+Buenrostro *et al* (2018) FACS cell populations.
+
+```{r compare-clusters-to-population-labels}
 table(samples$label,samples$cluster)
 ```
 
-Project the cells---other than the "unknown" cluster---onto the top
-two PCs.
+The projection of the cells onto the top 4 PCs (omitting the "unknown"
+cluster) is reminiscent of the hematopoietic differentiation
+trajectory.  To make this more clear, I plotted the cell types using
+the same colours used in Buenrostro *et al* (2018).
 
-```{r, height=2.5, width=7}
+```{r, fig.height=2.75, fig.width=7, message=FALSE}
 facs_colors <- c("skyblue",     # CLP
                  "gold",        # CMP
                  "orange",      # GMP
@@ -72,18 +90,21 @@ facs_colors <- c("skyblue",     # CLP
                  "gray")        # unknown
 rows <- which(samples$cluster != "U")
 fit2 <- select(poisson2multinom(fit),loadings = rows)
-p1   <- pca_plot(fit2,pcs = 1:2,fill = samples[rows,"label"]) +
+p1 <- pca_plot(fit2,pcs = 1:2,fill = samples[rows,"label"]) +
   scale_fill_manual(values = facs_colors) +
   labs(fill = "cell type")
-p2   <- pca_plot(fit2,pcs = 3:4,fill = samples[rows,"label"]) +
+p2 <- pca_plot(fit2,pcs = 3:4,fill = samples[rows,"label"]) +
   scale_fill_manual(values = facs_colors) +
   labs(fill = "cell type")
 plot_grid(p1,p2)
 ```
 
-Create a Structure plot.
+The Structure plot summarizes the topic proportions in the 8
+clusters. Cluster A contains mainly HSC and MPP cells; cluster C is
+comprised mainly of CMP and MEP cells; and cluster B is the most
+heterogeneous and contains LMPP, GMP and CMP cell types.
 
-```{r structure-plot, height=2, width=7.5}
+```{r structure-plot, fig.height=1.75, fig.width=7.5, message=FALSE}
 topic_colors <- c("greenyellow",
                   "yellow",      # CMP
                   "gold",        # CMP
@@ -103,9 +124,11 @@ p3 <- structure_plot(poisson2multinom(fit),topics = topics,
 print(p3)
 ```
 
-Plot cluster A.
+The A, B, C and GMP clusters clearly contain additional substructure
+that might be worth a closer look. Interestingly, there are two large
+subclusters in cluster A that don't map to the two cell types.
 
-```{r height=3, width=3.5, warning=FALSE}
+```{r, fig.height=2.75, fig.width=3.5, message=FALSE}
 rows <- which(samples$cluster == "A")
 fit2 <- select(poisson2multinom(fit),loadings = rows)
 p4   <- pca_plot(fit2,fill = samples$label[rows,drop = FALSE]) +
@@ -114,9 +137,10 @@ p4   <- pca_plot(fit2,fill = samples$label[rows,drop = FALSE]) +
 print(p4)
 ```
 
-Plot cluster C.
+There is also some interesting substructure in cluster C, in
+particular a quite distinct subcluster of MEP cells.
 
-```{r, height=3, width=3.5, warning=FALSE}
+```{r, fig.height=2.75, fig.width=3.5, message=FALSE}
 rows <- which(samples$cluster == "C")
 fit2 <- select(poisson2multinom(fit),loadings = rows)
 p5   <- pca_plot(fit2,fill = samples$label[rows,drop = FALSE]) +
