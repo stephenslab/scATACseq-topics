@@ -5,6 +5,9 @@ navbar:
   left:
   - text: Home
     href: index.html
+  right:
+    - text: source
+      href: https://github.com/stephenslab/scATACseq-topics
 output:
   workflowr::wflow_html:
     toc: yes
