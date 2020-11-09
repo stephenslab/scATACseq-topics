@@ -124,11 +124,13 @@ p3 <- structure_plot(poisson2multinom(fit),topics = topics,
 print(p3)
 ```
 
-The A, B, C and GMP clusters clearly contain additional substructure
-that might be worth a closer look. Interestingly, there are two large
-subclusters in cluster A that don't map to the two cell types.
+The A, B, C and GMP clusters contain additional substructure that
+might be worth a closer look.
 
-```{r, fig.height=2.75, fig.width=3.5, message=FALSE}
+Interestingly, there are two large subclusters in cluster A that don't
+map to the two main cell types in this cluster:
+
+```{r, fig.height=2.5, fig.width=3.5, message=FALSE}
 rows <- which(samples$cluster == "A")
 fit2 <- select(poisson2multinom(fit),loadings = rows)
 p4   <- pca_plot(fit2,fill = samples$label[rows,drop = FALSE]) +
@@ -137,10 +139,10 @@ p4   <- pca_plot(fit2,fill = samples$label[rows,drop = FALSE]) +
 print(p4)
 ```
 
-There is also some interesting substructure in cluster C, in
-particular a quite distinct subcluster of MEP cells.
+There is also some interesting substructure in cluster C, and in
+particular a somewhat distinct subcluster of MEP cells:
 
-```{r, fig.height=2.75, fig.width=3.5, message=FALSE}
+```{r, fig.height=2.5, fig.width=3.5, message=FALSE}
 rows <- which(samples$cluster == "C")
 fit2 <- select(poisson2multinom(fit),loadings = rows)
 p5   <- pca_plot(fit2,fill = samples$label[rows,drop = FALSE]) +
