@@ -25,16 +25,17 @@ pc8 <- pca[,8]
 x[pc1 < 0.1]  <- "B"
 x[pc2 < -0.2] <- "C"
 x[pc3 > 0.35] <- "pDC"
+x[pc3 < -0.1 & pc4 < 0.05] <- "GMP"
 x[pc4 > 0.55] <- "CLP"
 x[pc5 < -0.25 & pc6 < -0.25] <- "mono"
 x[pc8 > 0.35] <- "U"
 
-# p1 <- pca_plot(poisson2multinom(fit),pcs = 1:2,fill = samples$label) +
+# p1 <- pca_plot(poisson2multinom(fit),pcs = 3:4,fill = samples$label) +
 #   scale_fill_manual(values = topic_colors)
-# p2 <- pca_plot(poisson2multinom(fit),pcs = 1:2,k = 5)
-# p3 <- pca_hexbin_plot(poisson2multinom(fit),pcs = 1:2,bins = 30,
-#                       breaks = c(0,1,5,10,20,Inf))
-# p4 <- pca_plot(poisson2multinom(fit),pcs = 1:2,fill = factor(x))
+# p2 <- pca_plot(poisson2multinom(fit),pcs = 3:4,k = 5)
+# p3 <- pca_hexbin_plot(poisson2multinom(fit),pcs = 3:4,bins = 30,
+#                      breaks = c(0,1,5,10,20,Inf))
+# p4 <- pca_plot(poisson2multinom(fit),pcs = 3:4,fill = factor(x))
 # plot_grid(p1,p2,p3,p4)
 
 samples$cluster <- factor(x)
@@ -81,8 +82,8 @@ p3 <- structure_plot(poisson2multinom(fit),topics = topics,
                      num_threads = 4,verbose = FALSE)
 print(p3)
 
-# Plot cluster B.
-rows <- which(samples$cluster == "B")
+# Plot cluster A.
+rows <- which(samples$cluster == "A")
 fit2 <- select(poisson2multinom(fit),loadings = rows)
 p4   <- pca_plot(fit2,fill = samples$label[rows,drop = FALSE]) +
   scale_fill_manual(values = facs_colors,drop = FALSE) +
