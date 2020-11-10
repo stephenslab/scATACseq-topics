@@ -14,3 +14,14 @@ counts <- sparseMatrix(i = dat$i,j = dat$j,x = dat$x)
 counts <- t(counts)
 rownames(counts) <- x
 rm(x,dat)
+
+# TO DO: Explain here what this code chunk is doing.
+y <- table(summary(counts)$x)
+x <- names(y)
+y <- as.numeric(y)
+plot(x,y,pch = 20,log = "y",
+     xlab = "number of fragments mapping to peak",
+     ylab = "number of peaks")
+lines(x,y)
+
+# TO DO: save counts.
