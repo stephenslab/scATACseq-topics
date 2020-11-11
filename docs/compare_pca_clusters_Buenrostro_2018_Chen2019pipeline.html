@@ -361,7 +361,9 @@ div.tocify {
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/stephenslab/scATACseq-topics">source</a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -397,7 +399,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-11-06
+<strong>Last updated:</strong> 2020-11-11
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -488,16 +490,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree1826fa0cd011c3461f76cb93329cde9d23c43f82targetblank1826fa0a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/1826fa0cd011c3461f76cb93329cde9d23c43f82" target="_blank">1826fa0</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreee2156319521e52cd2a84437e5b466ac237171e50targetblanke215631a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/e2156319521e52cd2a84437e5b466ac237171e50" target="_blank">e215631</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree1826fa0cd011c3461f76cb93329cde9d23c43f82targetblank1826fa0a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreee2156319521e52cd2a84437e5b466ac237171e50targetblanke215631a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/1826fa0cd011c3461f76cb93329cde9d23c43f82" target="_blank">1826fa0</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/e2156319521e52cd2a84437e5b466ac237171e50" target="_blank">e215631</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -509,11 +511,12 @@ Ignored files:
 
 Untracked files:
     Untracked:  analysis/clusters_pca_structure_Cusanovich2018.Rmd
+    Untracked:  analysis/process_data_Buenrostro2018_Chen2019.Rmd
+    Untracked:  buenrostro2018.RData
 
 Unstaged changes:
-    Modified:   analysis/index.Rmd
     Modified:   analysis/plots_Lareau2019_bonemarrow.Rmd
-    Modified:   scripts/fit_all_models_Lareau2019.sh
+    Modified:   scripts/fit_all_models_Buenrostro_2018.sbatch
 
 </code></pre>
 <p>
@@ -528,7 +531,7 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <div id="versions" class="tab-pane fade">
 
 <p>
-These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/compare_pca_clusters_Buenrostro_2018.Rmd</code>) and HTML (<code>docs/compare_pca_clusters_Buenrostro_2018.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd</code>) and HTML (<code>docs/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
 </p>
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
@@ -557,33 +560,16 @@ Message
 Rmd
 </td>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/1826fa0cd011c3461f76cb93329cde9d23c43f82/analysis/compare_pca_clusters_Buenrostro_2018.Rmd" target="_blank">1826fa0</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/e2156319521e52cd2a84437e5b466ac237171e50/analysis/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd" target="_blank">e215631</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-06
+2020-11-11
 </td>
 <td>
-add binarized data
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/compare_pca_clusters_Buenrostro_2018.html" target="_blank">fb6a121</a>
-</td>
-<td>
-kevinlkx
-</td>
-<td>
-2020-11-06
-</td>
-<td>
-Build site.
+update directory path for data and results
 </td>
 </tr>
 <tr>
@@ -591,16 +577,16 @@ Build site.
 Rmd
 </td>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/fbe50bce62b7387b26ec943a42a2e69a1024f724/analysis/compare_pca_clusters_Buenrostro_2018.Rmd" target="_blank">fbe50bc</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/799c484a55effe3d5985ac7ab9fbf781d28573d8/analysis/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd" target="_blank">799c484</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-06
+2020-11-11
 </td>
 <td>
-add binarized data
+wflow_rename(“analysis/compare_pca_clusters_Buenrostro_2018.Rmd”,
 </td>
 </tr>
 <tr>
@@ -608,33 +594,16 @@ add binarized data
 html
 </td>
 <td>
-<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/33925f42bd3b4b5dd6273387ca2af613f7553427/docs/compare_pca_clusters_Buenrostro_2018.html" target="_blank">33925f4</a>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/799c484a55effe3d5985ac7ab9fbf781d28573d8/docs/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.html" target="_blank">799c484</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-05
+2020-11-11
 </td>
 <td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/aa4715ce3ae5caa889dc4c75b1b5621676550d27/analysis/compare_pca_clusters_Buenrostro_2018.Rmd" target="_blank">aa4715c</a>
-</td>
-<td>
-kevinlkx
-</td>
-<td>
-2020-11-05
-</td>
-<td>
-PCA plots for unbinarized data
+wflow_rename(“analysis/compare_pca_clusters_Buenrostro_2018.Rmd”,
 </td>
 </tr>
 </tbody>
@@ -655,7 +624,7 @@ source(&quot;code/plots.R&quot;)</code></pre>
 <div id="unbinarized-counts" class="section level2">
 <h2>Unbinarized counts</h2>
 <p>Load the data</p>
-<pre class="r"><code>data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/&quot;
+<pre class="r"><code>data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/&quot;
 load(file.path(data.dir, &quot;Buenrostro_2018_counts.RData&quot;))
 cat(sprintf(&quot;%d x %d counts matrix.\n&quot;,nrow(counts),ncol(counts)))
 rm(counts)
@@ -667,7 +636,7 @@ samples$label &lt;- as.factor(samples$label)
 <div id="k-10" class="section level4">
 <h4>k = 10</h4>
 <p>Load the <span class="math inline">\(k = 10\)</span> Poisson NMF fit.</p>
-<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/unbinarized/&quot;
+<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/unbinarized/&quot;
 fit &lt;- readRDS(file.path(out.dir, &quot;/fit-Buenrostro2018-scd-ex-k=10.rds&quot;))$fit</code></pre>
 <p>Plot PCs of the topic proportions.</p>
 <pre class="r"><code>p.pca1.1 &lt;- pca_plot(poisson2multinom(fit),pcs = 1:2,fill = &quot;none&quot;)
@@ -676,7 +645,7 @@ p.pca1.3 &lt;- pca_plot(poisson2multinom(fit),pcs = 5:6,fill = &quot;none&quot;)
 p.pca1.4 &lt;- pca_plot(poisson2multinom(fit),pcs = 7:8,fill = &quot;none&quot;)
 
 plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4)</code></pre>
-<p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k10-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-unbinarized-k10-1-1.png" width="840" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-unbinarized-k10-1-1">
 Past versions of pca-unbinarized-k10-1-1.png
@@ -701,13 +670,13 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k10-1-1.png" target="_blank">fb6a121</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/799c484a55effe3d5985ac7ab9fbf781d28573d8/docs/figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-unbinarized-k10-1-1.png" target="_blank">799c484</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-06
+2020-11-11
 </td>
 </tr>
 </tbody>
@@ -722,7 +691,7 @@ p.pca2.3 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 5:6, breaks = breaks
 p.pca2.4 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 7:8, breaks = breaks) + guides(fill = &quot;none&quot;)
 
 plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4)</code></pre>
-<p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k10-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-unbinarized-k10-2-1.png" width="840" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-unbinarized-k10-2-1">
 Past versions of pca-unbinarized-k10-2-1.png
@@ -747,13 +716,13 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k10-2-1.png" target="_blank">fb6a121</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/799c484a55effe3d5985ac7ab9fbf781d28573d8/docs/figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-unbinarized-k10-2-1.png" target="_blank">799c484</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-06
+2020-11-11
 </td>
 </tr>
 </tbody>
@@ -771,7 +740,7 @@ p.pca3.4 &lt;- labeled_pca_plot(fit,7:8,samples$label,font_size = 7,
                        legend_label = &quot;Cell labels&quot;)
 
 plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)</code></pre>
-<p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k10-3-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-unbinarized-k10-3-1.png" width="960" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-unbinarized-k10-3-1">
 Past versions of pca-unbinarized-k10-3-1.png
@@ -796,13 +765,13 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k10-3-1.png" target="_blank">fb6a121</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/799c484a55effe3d5985ac7ab9fbf781d28573d8/docs/figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-unbinarized-k10-3-1.png" target="_blank">799c484</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-06
+2020-11-11
 </td>
 </tr>
 </tbody>
@@ -813,7 +782,7 @@ kevinlkx
 <div id="k-11" class="section level4">
 <h4>k = 11</h4>
 <p>Load the <span class="math inline">\(k = 11\)</span> Poisson NMF fit.</p>
-<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/unbinarized/&quot;
+<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/unbinarized/&quot;
 fit &lt;- readRDS(file.path(out.dir, &quot;/fit-Buenrostro2018-scd-ex-k=11.rds&quot;))$fit</code></pre>
 <p>Plot PCs of the topic proportions.</p>
 <pre class="r"><code>p.pca1.1 &lt;- pca_plot(poisson2multinom(fit),pcs = 1:2,fill = &quot;none&quot;)
@@ -822,7 +791,7 @@ p.pca1.3 &lt;- pca_plot(poisson2multinom(fit),pcs = 5:6,fill = &quot;none&quot;)
 p.pca1.4 &lt;- pca_plot(poisson2multinom(fit),pcs = 7:8,fill = &quot;none&quot;)
 
 plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4)</code></pre>
-<p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k11-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-unbinarized-k11-1-1.png" width="840" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-unbinarized-k11-1-1">
 Past versions of pca-unbinarized-k11-1-1.png
@@ -847,13 +816,13 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k11-1-1.png" target="_blank">fb6a121</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/799c484a55effe3d5985ac7ab9fbf781d28573d8/docs/figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-unbinarized-k11-1-1.png" target="_blank">799c484</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-06
+2020-11-11
 </td>
 </tr>
 </tbody>
@@ -868,7 +837,7 @@ p.pca2.3 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 5:6, breaks = breaks
 p.pca2.4 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 7:8, breaks = breaks) + guides(fill = &quot;none&quot;)
 
 plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4)</code></pre>
-<p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k11-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-unbinarized-k11-2-1.png" width="840" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-unbinarized-k11-2-1">
 Past versions of pca-unbinarized-k11-2-1.png
@@ -893,13 +862,13 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k11-2-1.png" target="_blank">fb6a121</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/799c484a55effe3d5985ac7ab9fbf781d28573d8/docs/figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-unbinarized-k11-2-1.png" target="_blank">799c484</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-06
+2020-11-11
 </td>
 </tr>
 </tbody>
@@ -917,7 +886,7 @@ p.pca3.4 &lt;- labeled_pca_plot(fit,7:8,samples$label,font_size = 7,
                        legend_label = &quot;Cell labels&quot;)
 
 plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)</code></pre>
-<p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k11-3-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-unbinarized-k11-3-1.png" width="960" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-unbinarized-k11-3-1">
 Past versions of pca-unbinarized-k11-3-1.png
@@ -942,13 +911,13 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k11-3-1.png" target="_blank">fb6a121</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/799c484a55effe3d5985ac7ab9fbf781d28573d8/docs/figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-unbinarized-k11-3-1.png" target="_blank">799c484</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-06
+2020-11-11
 </td>
 </tr>
 </tbody>
@@ -959,7 +928,7 @@ kevinlkx
 <div id="k-12" class="section level4">
 <h4>k = 12</h4>
 <p>Load the <span class="math inline">\(k = 12\)</span> Poisson NMF fit.</p>
-<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/unbinarized/&quot;
+<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/unbinarized/&quot;
 fit &lt;- readRDS(file.path(out.dir, &quot;/fit-Buenrostro2018-scd-ex-k=12.rds&quot;))$fit</code></pre>
 <p>Plot PCs of the topic proportions.</p>
 <pre class="r"><code>p.pca1.1 &lt;- pca_plot(poisson2multinom(fit),pcs = 1:2,fill = &quot;none&quot;)
@@ -968,7 +937,7 @@ p.pca1.3 &lt;- pca_plot(poisson2multinom(fit),pcs = 5:6,fill = &quot;none&quot;)
 p.pca1.4 &lt;- pca_plot(poisson2multinom(fit),pcs = 7:8,fill = &quot;none&quot;)
 
 plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4)</code></pre>
-<p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k12-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-unbinarized-k12-1-1.png" width="840" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-unbinarized-k12-1-1">
 Past versions of pca-unbinarized-k12-1-1.png
@@ -993,13 +962,13 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k12-1-1.png" target="_blank">fb6a121</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/799c484a55effe3d5985ac7ab9fbf781d28573d8/docs/figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-unbinarized-k12-1-1.png" target="_blank">799c484</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-06
+2020-11-11
 </td>
 </tr>
 </tbody>
@@ -1014,7 +983,7 @@ p.pca2.3 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 5:6, breaks = breaks
 p.pca2.4 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 7:8, breaks = breaks) + guides(fill = &quot;none&quot;)
 
 plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4)</code></pre>
-<p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k12-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-unbinarized-k12-2-1.png" width="840" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-unbinarized-k12-2-1">
 Past versions of pca-unbinarized-k12-2-1.png
@@ -1039,13 +1008,13 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k12-2-1.png" target="_blank">fb6a121</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/799c484a55effe3d5985ac7ab9fbf781d28573d8/docs/figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-unbinarized-k12-2-1.png" target="_blank">799c484</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-06
+2020-11-11
 </td>
 </tr>
 </tbody>
@@ -1063,7 +1032,7 @@ p.pca3.4 &lt;- labeled_pca_plot(fit,7:8,samples$label,font_size = 7,
                        legend_label = &quot;Cell labels&quot;)
 
 plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)</code></pre>
-<p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k12-3-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-unbinarized-k12-3-1.png" width="960" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-unbinarized-k12-3-1">
 Past versions of pca-unbinarized-k12-3-1.png
@@ -1088,13 +1057,13 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k12-3-1.png" target="_blank">fb6a121</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/799c484a55effe3d5985ac7ab9fbf781d28573d8/docs/figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-unbinarized-k12-3-1.png" target="_blank">799c484</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-06
+2020-11-11
 </td>
 </tr>
 </tbody>
@@ -1105,7 +1074,7 @@ kevinlkx
 <div id="k-13" class="section level4">
 <h4>k = 13</h4>
 <p>Load the <span class="math inline">\(k = 13\)</span> Poisson NMF fit.</p>
-<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/unbinarized/&quot;
+<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/unbinarized/&quot;
 fit &lt;- readRDS(file.path(out.dir, &quot;/fit-Buenrostro2018-scd-ex-k=13.rds&quot;))$fit</code></pre>
 <p>Plot PCs of the topic proportions.</p>
 <pre class="r"><code>p.pca1.1 &lt;- pca_plot(poisson2multinom(fit),pcs = 1:2,fill = &quot;none&quot;)
@@ -1114,7 +1083,7 @@ p.pca1.3 &lt;- pca_plot(poisson2multinom(fit),pcs = 5:6,fill = &quot;none&quot;)
 p.pca1.4 &lt;- pca_plot(poisson2multinom(fit),pcs = 7:8,fill = &quot;none&quot;)
 
 plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4)</code></pre>
-<p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k13-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-unbinarized-k13-1-1.png" width="840" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-unbinarized-k13-1-1">
 Past versions of pca-unbinarized-k13-1-1.png
@@ -1139,13 +1108,13 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k13-1-1.png" target="_blank">fb6a121</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/799c484a55effe3d5985ac7ab9fbf781d28573d8/docs/figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-unbinarized-k13-1-1.png" target="_blank">799c484</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-06
+2020-11-11
 </td>
 </tr>
 </tbody>
@@ -1160,7 +1129,7 @@ p.pca2.3 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 5:6, breaks = breaks
 p.pca2.4 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 7:8, breaks = breaks) + guides(fill = &quot;none&quot;)
 
 plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4)</code></pre>
-<p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k13-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-unbinarized-k13-2-1.png" width="840" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-unbinarized-k13-2-1">
 Past versions of pca-unbinarized-k13-2-1.png
@@ -1185,13 +1154,13 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k13-2-1.png" target="_blank">fb6a121</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/799c484a55effe3d5985ac7ab9fbf781d28573d8/docs/figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-unbinarized-k13-2-1.png" target="_blank">799c484</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-06
+2020-11-11
 </td>
 </tr>
 </tbody>
@@ -1209,7 +1178,7 @@ p.pca3.4 &lt;- labeled_pca_plot(fit,7:8,samples$label,font_size = 7,
                        legend_label = &quot;Cell labels&quot;)
 
 plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)</code></pre>
-<p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k13-3-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-unbinarized-k13-3-1.png" width="960" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-unbinarized-k13-3-1">
 Past versions of pca-unbinarized-k13-3-1.png
@@ -1234,13 +1203,13 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k13-3-1.png" target="_blank">fb6a121</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/799c484a55effe3d5985ac7ab9fbf781d28573d8/docs/figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-unbinarized-k13-3-1.png" target="_blank">799c484</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-06
+2020-11-11
 </td>
 </tr>
 </tbody>
@@ -1251,7 +1220,7 @@ kevinlkx
 <div id="k-14" class="section level4">
 <h4>k = 14</h4>
 <p>Load the <span class="math inline">\(k = 14\)</span> Poisson NMF fit.</p>
-<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/unbinarized/&quot;
+<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/unbinarized/&quot;
 fit &lt;- readRDS(file.path(out.dir, &quot;/fit-Buenrostro2018-scd-ex-k=14.rds&quot;))$fit</code></pre>
 <p>Plot PCs of the topic proportions.</p>
 <pre class="r"><code>p.pca1.1 &lt;- pca_plot(poisson2multinom(fit),pcs = 1:2,fill = &quot;none&quot;)
@@ -1260,7 +1229,7 @@ p.pca1.3 &lt;- pca_plot(poisson2multinom(fit),pcs = 5:6,fill = &quot;none&quot;)
 p.pca1.4 &lt;- pca_plot(poisson2multinom(fit),pcs = 7:8,fill = &quot;none&quot;)
 
 plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4)</code></pre>
-<p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k14-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-unbinarized-k14-1-1.png" width="840" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-unbinarized-k14-1-1">
 Past versions of pca-unbinarized-k14-1-1.png
@@ -1285,13 +1254,13 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k14-1-1.png" target="_blank">fb6a121</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/799c484a55effe3d5985ac7ab9fbf781d28573d8/docs/figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-unbinarized-k14-1-1.png" target="_blank">799c484</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-06
+2020-11-11
 </td>
 </tr>
 </tbody>
@@ -1306,7 +1275,7 @@ p.pca2.3 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 5:6, breaks = breaks
 p.pca2.4 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 7:8, breaks = breaks) + guides(fill = &quot;none&quot;)
 
 plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4)</code></pre>
-<p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k14-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-unbinarized-k14-2-1.png" width="840" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-unbinarized-k14-2-1">
 Past versions of pca-unbinarized-k14-2-1.png
@@ -1331,13 +1300,13 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k14-2-1.png" target="_blank">fb6a121</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/799c484a55effe3d5985ac7ab9fbf781d28573d8/docs/figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-unbinarized-k14-2-1.png" target="_blank">799c484</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-06
+2020-11-11
 </td>
 </tr>
 </tbody>
@@ -1355,7 +1324,7 @@ p.pca3.4 &lt;- labeled_pca_plot(fit,7:8,samples$label,font_size = 7,
                        legend_label = &quot;Cell labels&quot;)
 
 plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)</code></pre>
-<p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k14-3-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-unbinarized-k14-3-1.png" width="960" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-unbinarized-k14-3-1">
 Past versions of pca-unbinarized-k14-3-1.png
@@ -1380,13 +1349,13 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k14-3-1.png" target="_blank">fb6a121</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/799c484a55effe3d5985ac7ab9fbf781d28573d8/docs/figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-unbinarized-k14-3-1.png" target="_blank">799c484</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-06
+2020-11-11
 </td>
 </tr>
 </tbody>
@@ -1397,7 +1366,7 @@ kevinlkx
 <div id="k-15" class="section level4">
 <h4>k = 15</h4>
 <p>Load the <span class="math inline">\(k = 15\)</span> Poisson NMF fit.</p>
-<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/unbinarized/&quot;
+<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/unbinarized/&quot;
 fit &lt;- readRDS(file.path(out.dir, &quot;/fit-Buenrostro2018-scd-ex-k=15.rds&quot;))$fit</code></pre>
 <p>Plot PCs of the topic proportions.</p>
 <pre class="r"><code>p.pca1.1 &lt;- pca_plot(poisson2multinom(fit),pcs = 1:2,fill = &quot;none&quot;)
@@ -1406,7 +1375,7 @@ p.pca1.3 &lt;- pca_plot(poisson2multinom(fit),pcs = 5:6,fill = &quot;none&quot;)
 p.pca1.4 &lt;- pca_plot(poisson2multinom(fit),pcs = 7:8,fill = &quot;none&quot;)
 
 plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4)</code></pre>
-<p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k15-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-unbinarized-k15-1-1.png" width="840" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-unbinarized-k15-1-1">
 Past versions of pca-unbinarized-k15-1-1.png
@@ -1431,13 +1400,13 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k15-1-1.png" target="_blank">fb6a121</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/799c484a55effe3d5985ac7ab9fbf781d28573d8/docs/figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-unbinarized-k15-1-1.png" target="_blank">799c484</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-06
+2020-11-11
 </td>
 </tr>
 </tbody>
@@ -1452,7 +1421,7 @@ p.pca2.3 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 5:6, breaks = breaks
 p.pca2.4 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 7:8, breaks = breaks) + guides(fill = &quot;none&quot;)
 
 plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4)</code></pre>
-<p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k15-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-unbinarized-k15-2-1.png" width="840" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-unbinarized-k15-2-1">
 Past versions of pca-unbinarized-k15-2-1.png
@@ -1477,13 +1446,13 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k15-2-1.png" target="_blank">fb6a121</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/799c484a55effe3d5985ac7ab9fbf781d28573d8/docs/figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-unbinarized-k15-2-1.png" target="_blank">799c484</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-06
+2020-11-11
 </td>
 </tr>
 </tbody>
@@ -1501,7 +1470,7 @@ p.pca3.4 &lt;- labeled_pca_plot(fit,7:8,samples$label,font_size = 7,
                        legend_label = &quot;Cell labels&quot;)
 
 plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)</code></pre>
-<p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k15-3-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-unbinarized-k15-3-1.png" width="960" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-unbinarized-k15-3-1">
 Past versions of pca-unbinarized-k15-3-1.png
@@ -1526,13 +1495,13 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-unbinarized-k15-3-1.png" target="_blank">fb6a121</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/799c484a55effe3d5985ac7ab9fbf781d28573d8/docs/figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-unbinarized-k15-3-1.png" target="_blank">799c484</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-06
+2020-11-11
 </td>
 </tr>
 </tbody>
@@ -1545,8 +1514,8 @@ kevinlkx
 <div id="binarized-counts" class="section level2">
 <h2>Binarized counts</h2>
 <p>Load the data</p>
-<pre class="r"><code>data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/&quot;
-load(file.path(data.dir, &quot;Buenrostro_2018_counts.RData&quot;))
+<pre class="r"><code>data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/&quot;
+load(file.path(data.dir, &quot;Buenrostro_2018_binarized_counts.RData&quot;))
 cat(sprintf(&quot;%d x %d counts matrix.\n&quot;,nrow(counts),ncol(counts)))
 rm(counts)
 samples$label &lt;- as.factor(samples$label)
@@ -1557,7 +1526,7 @@ samples$label &lt;- as.factor(samples$label)
 <div id="k-10-1" class="section level4">
 <h4>k = 10</h4>
 <p>Load the <span class="math inline">\(k = 10\)</span> Poisson NMF fit.</p>
-<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/&quot;
+<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/&quot;
 fit &lt;- readRDS(file.path(out.dir, &quot;/fit-Buenrostro2018-binarized-scd-ex-k=10.rds&quot;))$fit</code></pre>
 <p>Plot PCs of the topic proportions.</p>
 <pre class="r"><code>p.pca1.1 &lt;- pca_plot(poisson2multinom(fit),pcs = 1:2,fill = &quot;none&quot;)
@@ -1566,7 +1535,7 @@ p.pca1.3 &lt;- pca_plot(poisson2multinom(fit),pcs = 5:6,fill = &quot;none&quot;)
 p.pca1.4 &lt;- pca_plot(poisson2multinom(fit),pcs = 7:8,fill = &quot;none&quot;)
 
 plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4)</code></pre>
-<p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k10-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-binarized-k10-1-1.png" width="840" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-binarized-k10-1-1">
 Past versions of pca-binarized-k10-1-1.png
@@ -1591,13 +1560,13 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k10-1-1.png" target="_blank">fb6a121</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/799c484a55effe3d5985ac7ab9fbf781d28573d8/docs/figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-binarized-k10-1-1.png" target="_blank">799c484</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-06
+2020-11-11
 </td>
 </tr>
 </tbody>
@@ -1612,7 +1581,7 @@ p.pca2.3 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 5:6, breaks = breaks
 p.pca2.4 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 7:8, breaks = breaks) + guides(fill = &quot;none&quot;)
 
 plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4)</code></pre>
-<p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k10-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-binarized-k10-2-1.png" width="840" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-binarized-k10-2-1">
 Past versions of pca-binarized-k10-2-1.png
@@ -1637,13 +1606,13 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k10-2-1.png" target="_blank">fb6a121</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/799c484a55effe3d5985ac7ab9fbf781d28573d8/docs/figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-binarized-k10-2-1.png" target="_blank">799c484</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-06
+2020-11-11
 </td>
 </tr>
 </tbody>
@@ -1661,7 +1630,7 @@ p.pca3.4 &lt;- labeled_pca_plot(fit,7:8,samples$label,font_size = 7,
                        legend_label = &quot;Cell labels&quot;)
 
 plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)</code></pre>
-<p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k10-3-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-binarized-k10-3-1.png" width="960" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-binarized-k10-3-1">
 Past versions of pca-binarized-k10-3-1.png
@@ -1686,13 +1655,13 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k10-3-1.png" target="_blank">fb6a121</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/799c484a55effe3d5985ac7ab9fbf781d28573d8/docs/figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-binarized-k10-3-1.png" target="_blank">799c484</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-06
+2020-11-11
 </td>
 </tr>
 </tbody>
@@ -1703,7 +1672,7 @@ kevinlkx
 <div id="k-11-1" class="section level4">
 <h4>k = 11</h4>
 <p>Load the <span class="math inline">\(k = 11\)</span> Poisson NMF fit.</p>
-<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/&quot;
+<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/&quot;
 fit &lt;- readRDS(file.path(out.dir, &quot;/fit-Buenrostro2018-binarized-scd-ex-k=11.rds&quot;))$fit</code></pre>
 <p>Plot PCs of the topic proportions.</p>
 <pre class="r"><code>p.pca1.1 &lt;- pca_plot(poisson2multinom(fit),pcs = 1:2,fill = &quot;none&quot;)
@@ -1712,7 +1681,7 @@ p.pca1.3 &lt;- pca_plot(poisson2multinom(fit),pcs = 5:6,fill = &quot;none&quot;)
 p.pca1.4 &lt;- pca_plot(poisson2multinom(fit),pcs = 7:8,fill = &quot;none&quot;)
 
 plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4)</code></pre>
-<p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k11-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-binarized-k11-1-1.png" width="840" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-binarized-k11-1-1">
 Past versions of pca-binarized-k11-1-1.png
@@ -1737,13 +1706,13 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k11-1-1.png" target="_blank">fb6a121</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/799c484a55effe3d5985ac7ab9fbf781d28573d8/docs/figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-binarized-k11-1-1.png" target="_blank">799c484</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-06
+2020-11-11
 </td>
 </tr>
 </tbody>
@@ -1758,7 +1727,7 @@ p.pca2.3 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 5:6, breaks = breaks
 p.pca2.4 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 7:8, breaks = breaks) + guides(fill = &quot;none&quot;)
 
 plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4)</code></pre>
-<p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k11-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-binarized-k11-2-1.png" width="840" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-binarized-k11-2-1">
 Past versions of pca-binarized-k11-2-1.png
@@ -1783,13 +1752,13 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k11-2-1.png" target="_blank">fb6a121</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/799c484a55effe3d5985ac7ab9fbf781d28573d8/docs/figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-binarized-k11-2-1.png" target="_blank">799c484</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-06
+2020-11-11
 </td>
 </tr>
 </tbody>
@@ -1807,7 +1776,7 @@ p.pca3.4 &lt;- labeled_pca_plot(fit,7:8,samples$label,font_size = 7,
                        legend_label = &quot;Cell labels&quot;)
 
 plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)</code></pre>
-<p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k11-3-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-binarized-k11-3-1.png" width="960" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-binarized-k11-3-1">
 Past versions of pca-binarized-k11-3-1.png
@@ -1832,13 +1801,13 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k11-3-1.png" target="_blank">fb6a121</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/799c484a55effe3d5985ac7ab9fbf781d28573d8/docs/figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-binarized-k11-3-1.png" target="_blank">799c484</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-06
+2020-11-11
 </td>
 </tr>
 </tbody>
@@ -1849,7 +1818,7 @@ kevinlkx
 <div id="k-12-1" class="section level4">
 <h4>k = 12</h4>
 <p>Load the <span class="math inline">\(k = 12\)</span> Poisson NMF fit.</p>
-<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/&quot;
+<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/&quot;
 fit &lt;- readRDS(file.path(out.dir, &quot;/fit-Buenrostro2018-binarized-scd-ex-k=12.rds&quot;))$fit</code></pre>
 <p>Plot PCs of the topic proportions.</p>
 <pre class="r"><code>p.pca1.1 &lt;- pca_plot(poisson2multinom(fit),pcs = 1:2,fill = &quot;none&quot;)
@@ -1858,7 +1827,7 @@ p.pca1.3 &lt;- pca_plot(poisson2multinom(fit),pcs = 5:6,fill = &quot;none&quot;)
 p.pca1.4 &lt;- pca_plot(poisson2multinom(fit),pcs = 7:8,fill = &quot;none&quot;)
 
 plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4)</code></pre>
-<p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k12-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-binarized-k12-1-1.png" width="840" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-binarized-k12-1-1">
 Past versions of pca-binarized-k12-1-1.png
@@ -1883,13 +1852,13 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k12-1-1.png" target="_blank">fb6a121</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/799c484a55effe3d5985ac7ab9fbf781d28573d8/docs/figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-binarized-k12-1-1.png" target="_blank">799c484</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-06
+2020-11-11
 </td>
 </tr>
 </tbody>
@@ -1904,7 +1873,7 @@ p.pca2.3 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 5:6, breaks = breaks
 p.pca2.4 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 7:8, breaks = breaks) + guides(fill = &quot;none&quot;)
 
 plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4)</code></pre>
-<p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k12-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-binarized-k12-2-1.png" width="840" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-binarized-k12-2-1">
 Past versions of pca-binarized-k12-2-1.png
@@ -1929,13 +1898,13 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k12-2-1.png" target="_blank">fb6a121</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/799c484a55effe3d5985ac7ab9fbf781d28573d8/docs/figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-binarized-k12-2-1.png" target="_blank">799c484</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-06
+2020-11-11
 </td>
 </tr>
 </tbody>
@@ -1953,7 +1922,7 @@ p.pca3.4 &lt;- labeled_pca_plot(fit,7:8,samples$label,font_size = 7,
                        legend_label = &quot;Cell labels&quot;)
 
 plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)</code></pre>
-<p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k12-3-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-binarized-k12-3-1.png" width="960" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-binarized-k12-3-1">
 Past versions of pca-binarized-k12-3-1.png
@@ -1978,13 +1947,13 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k12-3-1.png" target="_blank">fb6a121</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/799c484a55effe3d5985ac7ab9fbf781d28573d8/docs/figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-binarized-k12-3-1.png" target="_blank">799c484</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-06
+2020-11-11
 </td>
 </tr>
 </tbody>
@@ -1995,7 +1964,7 @@ kevinlkx
 <div id="k-13-1" class="section level4">
 <h4>k = 13</h4>
 <p>Load the <span class="math inline">\(k = 13\)</span> Poisson NMF fit.</p>
-<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/&quot;
+<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/&quot;
 fit &lt;- readRDS(file.path(out.dir, &quot;/fit-Buenrostro2018-binarized-scd-ex-k=13.rds&quot;))$fit</code></pre>
 <p>Plot PCs of the topic proportions.</p>
 <pre class="r"><code>p.pca1.1 &lt;- pca_plot(poisson2multinom(fit),pcs = 1:2,fill = &quot;none&quot;)
@@ -2004,7 +1973,7 @@ p.pca1.3 &lt;- pca_plot(poisson2multinom(fit),pcs = 5:6,fill = &quot;none&quot;)
 p.pca1.4 &lt;- pca_plot(poisson2multinom(fit),pcs = 7:8,fill = &quot;none&quot;)
 
 plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4)</code></pre>
-<p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k13-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-binarized-k13-1-1.png" width="840" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-binarized-k13-1-1">
 Past versions of pca-binarized-k13-1-1.png
@@ -2029,13 +1998,13 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k13-1-1.png" target="_blank">fb6a121</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/799c484a55effe3d5985ac7ab9fbf781d28573d8/docs/figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-binarized-k13-1-1.png" target="_blank">799c484</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-06
+2020-11-11
 </td>
 </tr>
 </tbody>
@@ -2050,7 +2019,7 @@ p.pca2.3 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 5:6, breaks = breaks
 p.pca2.4 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 7:8, breaks = breaks) + guides(fill = &quot;none&quot;)
 
 plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4)</code></pre>
-<p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k13-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-binarized-k13-2-1.png" width="840" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-binarized-k13-2-1">
 Past versions of pca-binarized-k13-2-1.png
@@ -2075,13 +2044,13 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k13-2-1.png" target="_blank">fb6a121</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/799c484a55effe3d5985ac7ab9fbf781d28573d8/docs/figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-binarized-k13-2-1.png" target="_blank">799c484</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-06
+2020-11-11
 </td>
 </tr>
 </tbody>
@@ -2099,7 +2068,7 @@ p.pca3.4 &lt;- labeled_pca_plot(fit,7:8,samples$label,font_size = 7,
                        legend_label = &quot;Cell labels&quot;)
 
 plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)</code></pre>
-<p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k13-3-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-binarized-k13-3-1.png" width="960" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-binarized-k13-3-1">
 Past versions of pca-binarized-k13-3-1.png
@@ -2124,13 +2093,13 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k13-3-1.png" target="_blank">fb6a121</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/799c484a55effe3d5985ac7ab9fbf781d28573d8/docs/figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-binarized-k13-3-1.png" target="_blank">799c484</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-06
+2020-11-11
 </td>
 </tr>
 </tbody>
@@ -2141,7 +2110,7 @@ kevinlkx
 <div id="k-14-1" class="section level4">
 <h4>k = 14</h4>
 <p>Load the <span class="math inline">\(k = 14\)</span> Poisson NMF fit.</p>
-<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/&quot;
+<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/&quot;
 fit &lt;- readRDS(file.path(out.dir, &quot;/fit-Buenrostro2018-binarized-scd-ex-k=14.rds&quot;))$fit</code></pre>
 <p>Plot PCs of the topic proportions.</p>
 <pre class="r"><code>p.pca1.1 &lt;- pca_plot(poisson2multinom(fit),pcs = 1:2,fill = &quot;none&quot;)
@@ -2150,7 +2119,7 @@ p.pca1.3 &lt;- pca_plot(poisson2multinom(fit),pcs = 5:6,fill = &quot;none&quot;)
 p.pca1.4 &lt;- pca_plot(poisson2multinom(fit),pcs = 7:8,fill = &quot;none&quot;)
 
 plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4)</code></pre>
-<p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k14-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-binarized-k14-1-1.png" width="840" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-binarized-k14-1-1">
 Past versions of pca-binarized-k14-1-1.png
@@ -2175,13 +2144,13 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k14-1-1.png" target="_blank">fb6a121</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/799c484a55effe3d5985ac7ab9fbf781d28573d8/docs/figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-binarized-k14-1-1.png" target="_blank">799c484</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-06
+2020-11-11
 </td>
 </tr>
 </tbody>
@@ -2196,7 +2165,7 @@ p.pca2.3 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 5:6, breaks = breaks
 p.pca2.4 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 7:8, breaks = breaks) + guides(fill = &quot;none&quot;)
 
 plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4)</code></pre>
-<p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k14-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-binarized-k14-2-1.png" width="840" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-binarized-k14-2-1">
 Past versions of pca-binarized-k14-2-1.png
@@ -2221,13 +2190,13 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k14-2-1.png" target="_blank">fb6a121</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/799c484a55effe3d5985ac7ab9fbf781d28573d8/docs/figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-binarized-k14-2-1.png" target="_blank">799c484</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-06
+2020-11-11
 </td>
 </tr>
 </tbody>
@@ -2245,7 +2214,7 @@ p.pca3.4 &lt;- labeled_pca_plot(fit,7:8,samples$label,font_size = 7,
                        legend_label = &quot;Cell labels&quot;)
 
 plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)</code></pre>
-<p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k14-3-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-binarized-k14-3-1.png" width="960" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-binarized-k14-3-1">
 Past versions of pca-binarized-k14-3-1.png
@@ -2270,13 +2239,13 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k14-3-1.png" target="_blank">fb6a121</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/799c484a55effe3d5985ac7ab9fbf781d28573d8/docs/figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-binarized-k14-3-1.png" target="_blank">799c484</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-06
+2020-11-11
 </td>
 </tr>
 </tbody>
@@ -2287,7 +2256,7 @@ kevinlkx
 <div id="k-15-1" class="section level4">
 <h4>k = 15</h4>
 <p>Load the <span class="math inline">\(k = 15\)</span> Poisson NMF fit.</p>
-<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/&quot;
+<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/&quot;
 fit &lt;- readRDS(file.path(out.dir, &quot;/fit-Buenrostro2018-binarized-scd-ex-k=15.rds&quot;))$fit</code></pre>
 <p>Plot PCs of the topic proportions.</p>
 <pre class="r"><code>p.pca1.1 &lt;- pca_plot(poisson2multinom(fit),pcs = 1:2,fill = &quot;none&quot;)
@@ -2296,7 +2265,7 @@ p.pca1.3 &lt;- pca_plot(poisson2multinom(fit),pcs = 5:6,fill = &quot;none&quot;)
 p.pca1.4 &lt;- pca_plot(poisson2multinom(fit),pcs = 7:8,fill = &quot;none&quot;)
 
 plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4)</code></pre>
-<p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k15-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-binarized-k15-1-1.png" width="840" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-binarized-k15-1-1">
 Past versions of pca-binarized-k15-1-1.png
@@ -2321,13 +2290,13 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k15-1-1.png" target="_blank">fb6a121</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/799c484a55effe3d5985ac7ab9fbf781d28573d8/docs/figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-binarized-k15-1-1.png" target="_blank">799c484</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-06
+2020-11-11
 </td>
 </tr>
 </tbody>
@@ -2342,7 +2311,7 @@ p.pca2.3 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 5:6, breaks = breaks
 p.pca2.4 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 7:8, breaks = breaks) + guides(fill = &quot;none&quot;)
 
 plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4)</code></pre>
-<p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k15-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-binarized-k15-2-1.png" width="840" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-binarized-k15-2-1">
 Past versions of pca-binarized-k15-2-1.png
@@ -2367,13 +2336,13 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k15-2-1.png" target="_blank">fb6a121</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/799c484a55effe3d5985ac7ab9fbf781d28573d8/docs/figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-binarized-k15-2-1.png" target="_blank">799c484</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-06
+2020-11-11
 </td>
 </tr>
 </tbody>
@@ -2391,7 +2360,7 @@ p.pca3.4 &lt;- labeled_pca_plot(fit,7:8,samples$label,font_size = 7,
                        legend_label = &quot;Cell labels&quot;)
 
 plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)</code></pre>
-<p><img src="figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k15-3-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><img src="figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-binarized-k15-3-1.png" width="960" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-binarized-k15-3-1">
 Past versions of pca-binarized-k15-3-1.png
@@ -2416,13 +2385,13 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/fb6a1216f96c28c8947da2936b80c594e76f1d06/docs/figure/compare_pca_clusters_Buenrostro_2018.Rmd/pca-binarized-k15-3-1.png" target="_blank">fb6a121</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/799c484a55effe3d5985ac7ab9fbf781d28573d8/docs/figure/compare_pca_clusters_Buenrostro_2018_Chen2019pipeline.Rmd/pca-binarized-k15-3-1.png" target="_blank">799c484</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-06
+2020-11-11
 </td>
 </tr>
 </tbody>
