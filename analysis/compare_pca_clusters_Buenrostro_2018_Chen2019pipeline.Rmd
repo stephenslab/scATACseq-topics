@@ -22,7 +22,7 @@ library(Matrix)
 library(ggplot2)
 library(cowplot)
 library(fastTopics)
-source("code/plots.R")
+source("../code/plots.R")
 ```
 
 We applied the analysis both unbinarized counts and binarized scATAC-seq data.
@@ -31,7 +31,7 @@ We applied the analysis both unbinarized counts and binarized scATAC-seq data.
 Load the data
 ```{r load-unbinarized-data}
 data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/"
-load(file.path(data.dir, "Buenrostro_2018_counts.RData"))
+load(file.path(data.dir, "Buenrostro_2018.RData"))
 cat(sprintf("%d x %d counts matrix.\n",nrow(counts),ncol(counts)))
 rm(counts)
 samples$label <- as.factor(samples$label)
@@ -326,7 +326,7 @@ plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)
 Load the data
 ```{r load-binarized-data}
 data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/"
-load(file.path(data.dir, "Buenrostro_2018_counts.RData"))
+load(file.path(data.dir, "Buenrostro_2018_binarized.RData"))
 cat(sprintf("%d x %d counts matrix.\n",nrow(counts),ncol(counts)))
 rm(counts)
 samples$label <- as.factor(samples$label)
