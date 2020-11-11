@@ -22,7 +22,7 @@ library(Matrix)
 library(ggplot2)
 library(cowplot)
 library(fastTopics)
-source("../code/plots.R")
+source("code/plots.R")
 ```
 
 We applied the analysis both unbinarized counts and binarized scATAC-seq data.
@@ -30,8 +30,8 @@ We applied the analysis both unbinarized counts and binarized scATAC-seq data.
 ## Unbinarized counts
 Load the data
 ```{r load-unbinarized-data}
-data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/"
-load(file.path(data.dir, "Buenrostro_2018.RData"))
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/"
+load(file.path(data.dir, "Buenrostro_2018_counts.RData"))
 cat(sprintf("%d x %d counts matrix.\n",nrow(counts),ncol(counts)))
 rm(counts)
 samples$label <- as.factor(samples$label)
@@ -44,7 +44,7 @@ multinomial topic model with different numbers of $k$:
 #### k = 10
 Load the $k = 10$ Poisson NMF fit.
 ```{r load-unbinarized-fit-k10}
-out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/unbinarized/"
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/unbinarized/"
 fit <- readRDS(file.path(out.dir, "/fit-Buenrostro2018-scd-ex-k=10.rds"))$fit
 ```
 
@@ -92,7 +92,7 @@ plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)
 #### k = 11
 Load the $k = 11$ Poisson NMF fit.
 ```{r load-unbinarized-fit-k11}
-out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/unbinarized/"
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/unbinarized/"
 fit <- readRDS(file.path(out.dir, "/fit-Buenrostro2018-scd-ex-k=11.rds"))$fit
 ```
 
@@ -138,7 +138,7 @@ plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)
 #### k = 12
 Load the $k = 12$ Poisson NMF fit.
 ```{r load-unbinarized-fit-k12}
-out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/unbinarized/"
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/unbinarized/"
 fit <- readRDS(file.path(out.dir, "/fit-Buenrostro2018-scd-ex-k=12.rds"))$fit
 ```
 
@@ -184,7 +184,7 @@ plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)
 #### k = 13
 Load the $k = 13$ Poisson NMF fit.
 ```{r load-unbinarized-fit-k13}
-out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/unbinarized/"
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/unbinarized/"
 fit <- readRDS(file.path(out.dir, "/fit-Buenrostro2018-scd-ex-k=13.rds"))$fit
 ```
 
@@ -231,7 +231,7 @@ plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)
 #### k = 14
 Load the $k = 14$ Poisson NMF fit.
 ```{r load-unbinarized-fit-k14}
-out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/unbinarized/"
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/unbinarized/"
 fit <- readRDS(file.path(out.dir, "/fit-Buenrostro2018-scd-ex-k=14.rds"))$fit
 ```
 
@@ -278,7 +278,7 @@ plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)
 #### k = 15
 Load the $k = 15$ Poisson NMF fit.
 ```{r load-unbinarized-fit-k15}
-out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/unbinarized/"
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/unbinarized/"
 fit <- readRDS(file.path(out.dir, "/fit-Buenrostro2018-scd-ex-k=15.rds"))$fit
 ```
 
@@ -325,8 +325,8 @@ plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)
 ## Binarized counts
 Load the data
 ```{r load-binarized-data}
-data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/"
-load(file.path(data.dir, "Buenrostro_2018_binarized.RData"))
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/"
+load(file.path(data.dir, "Buenrostro_2018_binarized_counts.RData"))
 cat(sprintf("%d x %d counts matrix.\n",nrow(counts),ncol(counts)))
 rm(counts)
 samples$label <- as.factor(samples$label)
@@ -339,7 +339,7 @@ multinomial topic model with different numbers of $k$:
 #### k = 10
 Load the $k = 10$ Poisson NMF fit.
 ```{r load-binarized-fit-k10}
-out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/"
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/"
 fit <- readRDS(file.path(out.dir, "/fit-Buenrostro2018-binarized-scd-ex-k=10.rds"))$fit
 ```
 
@@ -387,7 +387,7 @@ plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)
 #### k = 11
 Load the $k = 11$ Poisson NMF fit.
 ```{r load-binarized-fit-k11}
-out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/"
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/"
 fit <- readRDS(file.path(out.dir, "/fit-Buenrostro2018-binarized-scd-ex-k=11.rds"))$fit
 ```
 
@@ -433,7 +433,7 @@ plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)
 #### k = 12
 Load the $k = 12$ Poisson NMF fit.
 ```{r load-binarized-fit-k12}
-out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/"
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/"
 fit <- readRDS(file.path(out.dir, "/fit-Buenrostro2018-binarized-scd-ex-k=12.rds"))$fit
 ```
 
@@ -479,7 +479,7 @@ plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)
 #### k = 13
 Load the $k = 13$ Poisson NMF fit.
 ```{r load-binarized-fit-k13}
-out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/"
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/"
 fit <- readRDS(file.path(out.dir, "/fit-Buenrostro2018-binarized-scd-ex-k=13.rds"))$fit
 ```
 
@@ -526,7 +526,7 @@ plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)
 #### k = 14
 Load the $k = 14$ Poisson NMF fit.
 ```{r load-binarized-fit-k14}
-out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/"
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/"
 fit <- readRDS(file.path(out.dir, "/fit-Buenrostro2018-binarized-scd-ex-k=14.rds"))$fit
 ```
 
@@ -573,7 +573,7 @@ plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4)
 #### k = 15
 Load the $k = 15$ Poisson NMF fit.
 ```{r load-binarized-fit-k15}
-out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/"
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/"
 fit <- readRDS(file.path(out.dir, "/fit-Buenrostro2018-binarized-scd-ex-k=15.rds"))$fit
 ```
 
