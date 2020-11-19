@@ -13,7 +13,7 @@ cd /project2/mstephens/kevinluo/scATACseq-topics/log/Buenrostro_2018_chromVAR
 
 # Binarized counts
 # ----------------
-OUT_DIR=/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_chromVAR/scPeaks/binarized/
+OUT_DIR=/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_chromVAR_scPeaks/binarized/
 mkdir -p ${OUT_DIR}
 
 # "Pre-fit" factorizations to the Buenrostro_2018 binarized counts data.
@@ -51,13 +51,13 @@ sbatch --mem=20G ${SCRIPT_FIT} ${DAT_DIR}/Buenrostro_2018_binarized_scPeaks.RDat
 sbatch --mem=20G ${SCRIPT_FIT} ${DAT_DIR}/Buenrostro_2018_binarized_scPeaks.RData ${OUT_DIR}/prefit-Buenrostro2018-binarized-k=15 15 scd    1000     yes ${OUT_DIR}/fit-Buenrostro2018-binarized-scd-ex-k=15
 
 # Compile the fitted Poisson non-negative factorizations into a single .RData file.
-OUT_DIR=/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_chromVAR/scPeaks/binarized/
+OUT_DIR=/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_chromVAR_scPeaks/binarized/
 Rscript ~/projects/scATACseq-topics/scripts/compile_poisson_nmf_fits.R -o ${OUT_DIR} -d Buenrostro2018-binarized
 
 # Unbinarized counts
 # ------------------
 
-OUT_DIR=/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_chromVAR/scPeaks/unbinarized/
+OUT_DIR=/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_chromVAR_scPeaks/unbinarized/
 mkdir -p ${OUT_DIR}
 
 # "Pre-fit" factorizations to the Buenrostro_2018 counts data.
@@ -95,5 +95,5 @@ sbatch --mem=20G ${SCRIPT_FIT} ${DAT_DIR}/Buenrostro_2018_scPeaks.RData ${OUT_DI
 sbatch --mem=20G ${SCRIPT_FIT} ${DAT_DIR}/Buenrostro_2018_scPeaks.RData ${OUT_DIR}/prefit-Buenrostro2018-k=15 15 scd    1000     yes ${OUT_DIR}/fit-Buenrostro2018-scd-ex-k=15
 
 # Compile the fitted Poisson non-negative factorizations into a single .RData file.
-OUT_DIR=/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_chromVAR/scPeaks/unbinarized/
+OUT_DIR=/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_chromVAR_scPeaks/unbinarized/
 Rscript ~/projects/scATACseq-topics/scripts/compile_poisson_nmf_fits.R -o ${OUT_DIR} -d Buenrostro2018
