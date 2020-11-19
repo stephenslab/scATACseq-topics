@@ -279,3 +279,135 @@ cat(sprintf("Proportion of counts that are non-zero: %0.1f%%.\n",
 
 ```
 
+
+
+### Using peaks called from aggregated single-cell ATAC-seq data and filter peaks with less than 1% samples
+* Downloaded processed peaks and BAM files from the scATAC-benchmarking website (Chen et al. Genome Biology 2019) (https://github.com/pinellolab/scATAC-benchmarking/)
+* Count paired-end scATAC-seq reads in peaks using `chromVAR`, following the pipeline at https://nbviewer.jupyter.org/github/pinellolab/scATAC-benchmarking/blob/master/Real_Data/Buenrostro_2018/run_methods/chromVAR/chromVAR_buenrostro2018_motifs.ipynb?flush_cache=true
+
+Load chromVAR and related packages
+```{r}
+# if (!requireNamespace("BiocManager", quietly = TRUE))
+#     install.packages("BiocManager")
+# BiocManager::install("chromVAR")
+# BiocManager::install("motifmatchr")
+# BiocManager::install("BSgenome.Hsapiens.UCSC.hg19")
+# BiocManager::install("JASPAR2016")
+```
+
+```{r}
+library(chromVAR)
+library(motifmatchr)
+library(Matrix)
+library(SummarizedExperiment)
+library(BiocParallel)
+library('JASPAR2016')
+library(BSgenome.Hsapiens.UCSC.hg19)
+
+register(MulticoreParam(10))
+
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/chromVAR/"
+dir.create(data.dir, showWarnings = FALSE, recursive = TRUE)
+```
+
+```{r}
+samples <- read.table('/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/input_Chen_2019/metadata.tsv', header = TRUE, stringsAsFactors=FALSE, quote="",row.names=1)
+```
+
+```{r}
+peakfile <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/input_Chen_2019/combined.sorted.merged.bed"
+peaks <- getPeaks(peakfile, sort_peaks = TRUE)
+peaks <- resize(peaks, width = 500, fix = "center")
+
+cat(length(peaks), "peaks \n")
+```
+
+```{r}
+dir_bamfiles <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/input_Chen_2019/sc-bams_nodup/"
+bamfiles <- list.files(path = dir_bamfiles, pattern = "\\.bam$")
+cellnames <- sapply(strsplit(bamfiles,'.',fixed = TRUE), "[[", 1)
+sum(cellnames == rownames(samples))
+```
+
+count scATAC-seq paired-end fragments in the peaks
+```{r, eval=FALSE}
+fragment_counts <- getCounts(file.path(dir_bamfiles,bamfile), 
+                             peaks, 
+                             paired = TRUE, 
+                             by_rg = TRUE, 
+                             format = "bam", 
+                             colData = data.frame(celltype = cellnames))
+
+saveRDS(fragment_counts, file.path(data.dir, "fragment_counts_scPeaks_chromVAR_Buenrostro_2018.rds"))
+
+```
+
+```{r}
+fragment_counts <- readRDS(file.path(data.dir, "fragment_counts_scPeaks_chromVAR_Buenrostro_2018.rds"))
+fragment_counts
+```
+
+```{r}
+counts <- assay(fragment_counts)
+counts <- t(counts)
+
+peaks <- as.data.frame(peaks)[,1:3]
+colnames(peaks) <- c("chr", "start", "end")
+peak_names <- paste(peaks$chr, peaks$start, peaks$end, sep = "_")
+colnames(counts) <- peak_names
+
+```
+
+```{r}
+fragment_binarized_counts <- fragment_counts
+assay(fragment_binarized_counts) <- Matrix(as.matrix((assay(fragment_binarized_counts) > 0) + 0), sparse = TRUE)
+idx_peaks_filtered <- filterPeaks(fragment_binarized_counts, min_fragments_per_peak = floor(nrow(samples)*0.01), non_overlapping = TRUE, ix_return = TRUE)
+cat(length(idx_peaks_filtered), "peaks selected after filtering.  \n")
+
+peaks <- peaks[idx_peaks_filtered,]
+counts <- counts[,idx_peaks_filtered]
+
+```
+
+Plot the distribution of filtered fragment counts.
+```{r}
+y <- table(summary(counts)$x)
+x <- names(y)
+y <- as.numeric(y)
+plot(x,y,pch = 20,log = "y",cex = 0.65,
+     xlab = "number of fragments mapping to peak",
+     ylab = "number of peaks")
+lines(x,y)
+
+```
+
+Binarize counts
+```{r}
+binarized_counts <- as.matrix((counts > 0) + 0)
+binarized_counts <- Matrix(binarized_counts, sparse = TRUE) 
+dim(binarized_counts)
+```
+
+```{r}
+save(list = c("samples", "peaks", "counts"), 
+     file = file.path(data.dir, "Buenrostro_2018_scPeaks_filtered.RData"))
+
+counts <- binarized_counts
+save(list = c("samples", "peaks", "counts"), 
+     file = file.path(data.dir, "Buenrostro_2018_binarized_scPeaks_filtered.RData"))
+
+```
+
+```{r}
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/chromVAR/"
+
+load(file.path(data.dir, "Buenrostro_2018_binarized_scPeaks_filtered.RData"))
+cat(sprintf("Loaded %d x %d counts matrix.\n",nrow(counts),ncol(counts)))
+
+cat(sprintf("Number of samples (cells): %d\n",nrow(counts)))
+cat(sprintf("Number of peaks: %d\n",ncol(counts)))
+cat(sprintf("Proportion of counts that are non-zero: %0.1f%%.\n",
+            100*mean(counts > 0)))
+
+```
+
