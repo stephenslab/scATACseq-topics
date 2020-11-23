@@ -12,7 +12,7 @@
 <meta name="author" content="Kaixuan Luo" />
 
 
-<title>Clustering Buenrostro et al (2018) scATAC-seq data using topic proportions</title>
+<title>Clustering Buenrostro et al (2018) scATAC-seq data using topic proportions using chromVAR processed counts with scPeaks (&gt; 1% samples)</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -373,7 +373,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Clustering Buenrostro <em>et al</em> (2018) scATAC-seq data using topic proportions</h1>
+<h1 class="title toc-ignore">Clustering Buenrostro <em>et al</em> (2018) scATAC-seq data using topic proportions using chromVAR processed counts with scPeaks (&gt; 1% samples)</h1>
 <h4 class="author">Kaixuan Luo</h4>
 
 </div>
@@ -490,16 +490,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree73c27ac5915ee3da7ce95d023ee3ab92d4b27b25targetblank73c27aca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/73c27ac5915ee3da7ce95d023ee3ab92d4b27b25" target="_blank">73c27ac</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreea3847c53f269c52d16059f92a87a1a1360c1bba8targetblanka3847c5a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/a3847c53f269c52d16059f92a87a1a1360c1bba8" target="_blank">a3847c5</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree73c27ac5915ee3da7ce95d023ee3ab92d4b27b25targetblank73c27aca" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreea3847c53f269c52d16059f92a87a1a1360c1bba8targetblanka3847c5a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/73c27ac5915ee3da7ce95d023ee3ab92d4b27b25" target="_blank">73c27ac</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/a3847c53f269c52d16059f92a87a1a1360c1bba8" target="_blank">a3847c5</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -562,6 +562,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/a3847c53f269c52d16059f92a87a1a1360c1bba8/analysis/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd" target="_blank">a3847c5</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-23
+</td>
+<td>
+update the link of out.dir for unbinarized data
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/c8339555178b0802d993186ef1fc94ced5abd406/docs/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.html" target="_blank">c833955</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-23
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/73c27ac5915ee3da7ce95d023ee3ab92d4b27b25/analysis/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd" target="_blank">73c27ac</a>
 </td>
 <td>
@@ -603,7 +637,8 @@ samples$label &lt;- as.factor(samples$label)
 <div id="plot-pcs-of-the-topic-proportions" class="section level3">
 <h3>Plot PCs of the topic proportions</h3>
 <p>We first use PCA to explore the structure inferred from the multinomial topic model with <span class="math inline">\(k = 11\)</span>:</p>
-<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_chromVAR_scPeaks/unbinarized/&quot;
+<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_chromVAR_scPeaks_filtered/unbinarized/&quot;
+
 fit &lt;- readRDS(file.path(out.dir, &quot;/fit-Buenrostro2018-scd-ex-k=11.rds&quot;))$fit
 
 colors_topics &lt;- c(&quot;#a6cee3&quot;,&quot;#1f78b4&quot;,&quot;#b2df8a&quot;,&quot;#33a02c&quot;,&quot;#fb9a99&quot;,&quot;#e31a1c&quot;,
@@ -617,6 +652,43 @@ p.pca1.5 &lt;- pca_plot(poisson2multinom(fit),pcs = 9:10,fill = &quot;none&quot;
 
 plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4,p.pca1.5)</code></pre>
 <p><img src="figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/pca-unbinarized-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-unbinarized-1-1">
+Past versions of pca-unbinarized-1-1.png
+</button>
+</p>
+<div id="fig-pca-unbinarized-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/c8339555178b0802d993186ef1fc94ced5abd406/docs/figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/pca-unbinarized-1-1.png" target="_blank">c833955</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Some of the structure is more evident from “hexbin” plots showing the density of the points.</p>
 <pre class="r"><code>breaks &lt;- c(0,1,5,10,100,Inf)
 p.pca2.1 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 1:2, breaks = breaks) + guides(fill = &quot;none&quot;)
@@ -627,6 +699,43 @@ p.pca2.5 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 9:10, breaks = break
 
 plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4,p.pca2.5)</code></pre>
 <p><img src="figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/pca-unbinarized-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-unbinarized-2-1">
+Past versions of pca-unbinarized-2-1.png
+</button>
+</p>
+<div id="fig-pca-unbinarized-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/c8339555178b0802d993186ef1fc94ced5abd406/docs/figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/pca-unbinarized-2-1.png" target="_blank">c833955</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="layer-the-cell-labels-onto-the-pc-plots" class="section level3">
 <h3>Layer the cell labels onto the PC plots</h3>
@@ -643,6 +752,43 @@ p.pca3.5 &lt;- labeled_pca_plot(fit,9:10,samples$label,font_size = 7,
                        legend_label = &quot;Cell labels&quot;)
 plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4,p.pca3.5)</code></pre>
 <p><img src="figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/pca-unbinarized-3-1.png" width="1080" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-unbinarized-3-1">
+Past versions of pca-unbinarized-3-1.png
+</button>
+</p>
+<div id="fig-pca-unbinarized-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/c8339555178b0802d993186ef1fc94ced5abd406/docs/figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/pca-unbinarized-3-1.png" target="_blank">c833955</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Visualize by structure plot grouped by cell labels.</p>
 <pre class="r"><code>set.seed(10)
 
@@ -661,6 +807,43 @@ p.structure.1 &lt;- structure_plot(poisson2multinom(fit),
 
 print(p.structure.1)</code></pre>
 <p><img src="figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/structure-plot-unbinarized-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-unbinarized-1-1">
+Past versions of structure-plot-unbinarized-1-1.png
+</button>
+</p>
+<div id="fig-structure-plot-unbinarized-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/c8339555178b0802d993186ef1fc94ced5abd406/docs/figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/structure-plot-unbinarized-1-1.png" target="_blank">c833955</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="k-means-clustering-on-topic-proportions" class="section level3">
 <h3>k-means clustering on topic proportions</h3>
@@ -671,8 +854,8 @@ print(p.structure.1)</code></pre>
 clusters.10 &lt;- factor(kmeans(poisson2multinom(fit)$L,centers = 10)$cluster)
 print(sort(table(clusters.10),decreasing = TRUE))
 # clusters.10
-#   9   5   6   8  10   3   7   4   1   2 
-# 432 252 226 216 213 201 186 155  93  60</code></pre>
+#   1   6   4   5   8  10   7   2   9   3 
+# 420 268 236 220 185 171 164 160 144  66</code></pre>
 <p>Structure plot based on k-means clusters</p>
 <pre class="r"><code>p.structure.2 &lt;- structure_plot(poisson2multinom(fit),
                      grouping = clusters.10,
@@ -680,18 +863,55 @@ print(sort(table(clusters.10),decreasing = TRUE))
                      n = Inf,gap = 20,
                      perplexity = 50,topics = 1:11,colors = colors_topics,
                      num_threads = 4,verbose = FALSE)
-# Perplexity automatically changed to 29 because original setting of 50 was too large for the number of samples (93)
-# Perplexity automatically changed to 18 because original setting of 50 was too large for the number of samples (60)
+# Perplexity automatically changed to 20 because original setting of 50 was too large for the number of samples (66)
+# Perplexity automatically changed to 46 because original setting of 50 was too large for the number of samples (144)
 print(p.structure.2)</code></pre>
 <p><img src="figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/structure-plot-kmeans-unbinarized-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-kmeans-unbinarized-1-1">
+Past versions of structure-plot-kmeans-unbinarized-1-1.png
+</button>
+</p>
+<div id="fig-structure-plot-kmeans-unbinarized-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/c8339555178b0802d993186ef1fc94ced5abd406/docs/figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/structure-plot-kmeans-unbinarized-1-1.png" target="_blank">c833955</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Define clusters using k-means with 15 clusters:</p>
 <pre class="r"><code>set.seed(10)
 
 clusters.15 &lt;- factor(kmeans(poisson2multinom(fit)$L,centers = 15)$cluster)
 print(sort(table(clusters.15),decreasing = TRUE))
 # clusters.15
-#   5   8  14  11   6   9   4  10  12  15  13   1   7   3   2 
-# 254 193 189 180 163 145 138 131 126 109 108  91  81  66  60</code></pre>
+#   1   6  15   8  10  11   9   4   7   5   3  12  13   2  14 
+# 217 195 193 174 168 168 144 130 117 108 101  95  88  70  66</code></pre>
 <p>Structure plot based on k-means clusters</p>
 <pre class="r"><code>p.structure.3 &lt;- structure_plot(poisson2multinom(fit),
                      grouping = clusters.15,
@@ -699,26 +919,62 @@ print(sort(table(clusters.15),decreasing = TRUE))
                      n = Inf,gap = 20,
                      perplexity = 50,topics = 1:11, colors = colors_topics,
                      num_threads = 4,verbose = FALSE)
-# Perplexity automatically changed to 29 because original setting of 50 was too large for the number of samples (91)
-# Perplexity automatically changed to 18 because original setting of 50 was too large for the number of samples (60)
-# Perplexity automatically changed to 20 because original setting of 50 was too large for the number of samples (66)
-# Perplexity automatically changed to 44 because original setting of 50 was too large for the number of samples (138)
-# Perplexity automatically changed to 25 because original setting of 50 was too large for the number of samples (81)
-# Perplexity automatically changed to 47 because original setting of 50 was too large for the number of samples (145)
-# Perplexity automatically changed to 42 because original setting of 50 was too large for the number of samples (131)
-# Perplexity automatically changed to 40 because original setting of 50 was too large for the number of samples (126)
+# Perplexity automatically changed to 22 because original setting of 50 was too large for the number of samples (70)
+# Perplexity automatically changed to 32 because original setting of 50 was too large for the number of samples (101)
+# Perplexity automatically changed to 42 because original setting of 50 was too large for the number of samples (130)
 # Perplexity automatically changed to 34 because original setting of 50 was too large for the number of samples (108)
-# Perplexity automatically changed to 35 because original setting of 50 was too large for the number of samples (109)
+# Perplexity automatically changed to 37 because original setting of 50 was too large for the number of samples (117)
+# Perplexity automatically changed to 46 because original setting of 50 was too large for the number of samples (144)
+# Perplexity automatically changed to 30 because original setting of 50 was too large for the number of samples (95)
+# Perplexity automatically changed to 28 because original setting of 50 was too large for the number of samples (88)
+# Perplexity automatically changed to 20 because original setting of 50 was too large for the number of samples (66)
 print(p.structure.3)</code></pre>
 <p><img src="figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/structure-plot-kmeans-unbinarized-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-kmeans-unbinarized-2-1">
+Past versions of structure-plot-kmeans-unbinarized-2-1.png
+</button>
+</p>
+<div id="fig-structure-plot-kmeans-unbinarized-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/c8339555178b0802d993186ef1fc94ced5abd406/docs/figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/structure-plot-kmeans-unbinarized-2-1.png" target="_blank">c833955</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Define clusters using k-means with 20 clusters:</p>
 <pre class="r"><code>set.seed(10)
 
 clusters.20 &lt;- factor(kmeans(poisson2multinom(fit)$L,centers = 20)$cluster)
 print(sort(table(clusters.20),decreasing = TRUE))
 # clusters.20
-#  14   5   8   3   9  20  18  11   4  12  13   1  16   7  19  17  10   6   2  15 
-# 175 162 147 132 126 124 115 114 112 108 106  91  86  79  78  66  62  61  60  30</code></pre>
+#   6  18   9  14  16   4  20   3   8  10   7   1  13  12  15  11  19   2  17   5 
+# 194 145 143 127 117 116 114 111 107 107 101  96  78  76  76  73  71  68  66  48</code></pre>
 <p>Structure plot based on k-means clusters</p>
 <pre class="r"><code>p.structure.4 &lt;- structure_plot(poisson2multinom(fit),
                      grouping = clusters.20,
@@ -726,61 +982,139 @@ print(sort(table(clusters.20),decreasing = TRUE))
                      n = Inf,gap = 20,
                      perplexity = 50,topics = 1:11, colors = colors_topics,
                      num_threads = 4,verbose = FALSE)
-# Perplexity automatically changed to 29 because original setting of 50 was too large for the number of samples (91)
-# Perplexity automatically changed to 18 because original setting of 50 was too large for the number of samples (60)
-# Perplexity automatically changed to 42 because original setting of 50 was too large for the number of samples (132)
-# Perplexity automatically changed to 36 because original setting of 50 was too large for the number of samples (112)
-# Perplexity automatically changed to 19 because original setting of 50 was too large for the number of samples (61)
-# Perplexity automatically changed to 25 because original setting of 50 was too large for the number of samples (79)
-# Perplexity automatically changed to 47 because original setting of 50 was too large for the number of samples (147)
-# Perplexity automatically changed to 40 because original setting of 50 was too large for the number of samples (126)
-# Perplexity automatically changed to 19 because original setting of 50 was too large for the number of samples (62)
-# Perplexity automatically changed to 36 because original setting of 50 was too large for the number of samples (114)
-# Perplexity automatically changed to 34 because original setting of 50 was too large for the number of samples (108)
-# Perplexity automatically changed to 34 because original setting of 50 was too large for the number of samples (106)
-# Perplexity automatically changed to 8 because original setting of 50 was too large for the number of samples (30)
-# Perplexity automatically changed to 27 because original setting of 50 was too large for the number of samples (86)
-# Perplexity automatically changed to 20 because original setting of 50 was too large for the number of samples (66)
-# Perplexity automatically changed to 37 because original setting of 50 was too large for the number of samples (115)
+# Perplexity automatically changed to 30 because original setting of 50 was too large for the number of samples (96)
+# Perplexity automatically changed to 21 because original setting of 50 was too large for the number of samples (68)
+# Perplexity automatically changed to 35 because original setting of 50 was too large for the number of samples (111)
+# Perplexity automatically changed to 37 because original setting of 50 was too large for the number of samples (116)
+# Perplexity automatically changed to 14 because original setting of 50 was too large for the number of samples (48)
+# Perplexity automatically changed to 32 because original setting of 50 was too large for the number of samples (101)
+# Perplexity automatically changed to 34 because original setting of 50 was too large for the number of samples (107)
+# Perplexity automatically changed to 46 because original setting of 50 was too large for the number of samples (143)
+# Perplexity automatically changed to 34 because original setting of 50 was too large for the number of samples (107)
+# Perplexity automatically changed to 23 because original setting of 50 was too large for the number of samples (73)
+# Perplexity automatically changed to 24 because original setting of 50 was too large for the number of samples (76)
 # Perplexity automatically changed to 24 because original setting of 50 was too large for the number of samples (78)
-# Perplexity automatically changed to 40 because original setting of 50 was too large for the number of samples (124)
+# Perplexity automatically changed to 41 because original setting of 50 was too large for the number of samples (127)
+# Perplexity automatically changed to 24 because original setting of 50 was too large for the number of samples (76)
+# Perplexity automatically changed to 37 because original setting of 50 was too large for the number of samples (117)
+# Perplexity automatically changed to 20 because original setting of 50 was too large for the number of samples (66)
+# Perplexity automatically changed to 47 because original setting of 50 was too large for the number of samples (145)
+# Perplexity automatically changed to 22 because original setting of 50 was too large for the number of samples (71)
+# Perplexity automatically changed to 36 because original setting of 50 was too large for the number of samples (114)
 print(p.structure.4)</code></pre>
 <p><img src="figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/structure-plot-kmeans-unbinarized-3-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-kmeans-unbinarized-3-1">
+Past versions of structure-plot-kmeans-unbinarized-3-1.png
+</button>
+</p>
+<div id="fig-structure-plot-kmeans-unbinarized-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/c8339555178b0802d993186ef1fc94ced5abd406/docs/figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/structure-plot-kmeans-unbinarized-3-1.png" target="_blank">c833955</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="refine-clusters" class="section level3">
 <h3>Refine clusters</h3>
-<p>We then further refine the clusters based on k-means result with 20 clusters: merge clusters 3, 4; merge clusters 5, 6, 8, 19; merge clusters 14 and 18.</p>
+<p>We then further refine the clusters based on k-means result with 20 clusters: merge clusters 2, 10; merge clusters 5, 11</p>
 <pre class="r"><code>clusters.merged &lt;- clusters.20
-clusters.merged[clusters.20 %in% c(3,4)] &lt;- 3
-clusters.merged[clusters.20 %in% c(5,6,8,19)] &lt;- 5
-clusters.merged[clusters.20 %in% c(14,18)] &lt;- 14
+clusters.merged[clusters.20 %in% c(2,20)] &lt;- 2
+clusters.merged[clusters.20 %in% c(5,11)] &lt;- 5
 
 clusters.merged &lt;- factor(clusters.merged, labels = paste0(&quot;c&quot;, c(1:length(unique(clusters.merged)))))
 samples$cluster_kmeans &lt;- clusters.merged
 table(clusters.merged)
 # clusters.merged
-#  c1  c2  c3  c4  c5  c6  c7  c8  c9 c10 c11 c12 c13 c14 c15 
-#  91  60 244 448  79 126  62 114 108 106 290  30  86  66 124</code></pre>
+#  c1  c2  c3  c4  c5  c6  c7  c8  c9 c10 c11 c12 c13 c14 c15 c16 c17 c18 
+#  96 182 111 116 121 194 101 107 143 107  76  78 127  76 117  66 145  71</code></pre>
 <pre class="r"><code>p.structure.refined &lt;- structure_plot(poisson2multinom(fit),
                      grouping = clusters.merged,
                      # rows = order(samples$label), # samples are grouped by clusters first, then by celltype labels
                      n = Inf,gap = 20,
                      perplexity = 50,topics = 1:11,colors = colors_topics,
                      num_threads = 4,verbose = FALSE)
-# Perplexity automatically changed to 29 because original setting of 50 was too large for the number of samples (91)
-# Perplexity automatically changed to 18 because original setting of 50 was too large for the number of samples (60)
-# Perplexity automatically changed to 25 because original setting of 50 was too large for the number of samples (79)
-# Perplexity automatically changed to 40 because original setting of 50 was too large for the number of samples (126)
-# Perplexity automatically changed to 19 because original setting of 50 was too large for the number of samples (62)
-# Perplexity automatically changed to 36 because original setting of 50 was too large for the number of samples (114)
-# Perplexity automatically changed to 34 because original setting of 50 was too large for the number of samples (108)
-# Perplexity automatically changed to 34 because original setting of 50 was too large for the number of samples (106)
-# Perplexity automatically changed to 8 because original setting of 50 was too large for the number of samples (30)
-# Perplexity automatically changed to 27 because original setting of 50 was too large for the number of samples (86)
+# Perplexity automatically changed to 30 because original setting of 50 was too large for the number of samples (96)
+# Perplexity automatically changed to 35 because original setting of 50 was too large for the number of samples (111)
+# Perplexity automatically changed to 37 because original setting of 50 was too large for the number of samples (116)
+# Perplexity automatically changed to 39 because original setting of 50 was too large for the number of samples (121)
+# Perplexity automatically changed to 32 because original setting of 50 was too large for the number of samples (101)
+# Perplexity automatically changed to 34 because original setting of 50 was too large for the number of samples (107)
+# Perplexity automatically changed to 46 because original setting of 50 was too large for the number of samples (143)
+# Perplexity automatically changed to 34 because original setting of 50 was too large for the number of samples (107)
+# Perplexity automatically changed to 24 because original setting of 50 was too large for the number of samples (76)
+# Perplexity automatically changed to 24 because original setting of 50 was too large for the number of samples (78)
+# Perplexity automatically changed to 41 because original setting of 50 was too large for the number of samples (127)
+# Perplexity automatically changed to 24 because original setting of 50 was too large for the number of samples (76)
+# Perplexity automatically changed to 37 because original setting of 50 was too large for the number of samples (117)
 # Perplexity automatically changed to 20 because original setting of 50 was too large for the number of samples (66)
-# Perplexity automatically changed to 40 because original setting of 50 was too large for the number of samples (124)
+# Perplexity automatically changed to 47 because original setting of 50 was too large for the number of samples (145)
+# Perplexity automatically changed to 22 because original setting of 50 was too large for the number of samples (71)
 print(p.structure.refined)</code></pre>
 <p><img src="figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/refine-cluster-unbinarized-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-refine-cluster-unbinarized-2-1">
+Past versions of refine-cluster-unbinarized-2-1.png
+</button>
+</p>
+<div id="fig-refine-cluster-unbinarized-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/c8339555178b0802d993186ef1fc94ced5abd406/docs/figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/refine-cluster-unbinarized-2-1.png" target="_blank">c833955</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Group samples by k-means clusters first, then by celltype labels:</p>
 <pre class="r"><code>p.structure.refined &lt;- structure_plot(poisson2multinom(fit),
                      grouping = clusters.merged,
@@ -790,6 +1124,43 @@ print(p.structure.refined)</code></pre>
                      num_threads = 4,verbose = FALSE)
 print(p.structure.refined)</code></pre>
 <p><img src="figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/refine-cluster-unbinarized-3-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-refine-cluster-unbinarized-3-1">
+Past versions of refine-cluster-unbinarized-3-1.png
+</button>
+</p>
+<div id="fig-refine-cluster-unbinarized-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/c8339555178b0802d993186ef1fc94ced5abd406/docs/figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/refine-cluster-unbinarized-3-1.png" target="_blank">c833955</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>The clusters defined by k-means on topic proportions reasonably identify the clusters shown in the PCA hexbin plots (below).</p>
 <pre class="r"><code>p.pca.4.1 &lt;- labeled_pca_plot(fit,1:2,samples$cluster_kmeans,font_size = 7,
                        legend_label = &quot;cluster_kmeans&quot;)
@@ -803,8 +1174,82 @@ p.pca.4.5 &lt;- labeled_pca_plot(fit,9:10,samples$cluster_kmeans,font_size = 7,
                        legend_label = &quot;cluster_kmeans&quot;)
 plot_grid(p.pca.4.1,p.pca.4.2,p.pca.4.3,p.pca.4.4,p.pca.4.5)</code></pre>
 <p><img src="figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/pca-kmeans-unbinarized-1-1.png" width="1080" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-kmeans-unbinarized-1-1">
+Past versions of pca-kmeans-unbinarized-1-1.png
+</button>
+</p>
+<div id="fig-pca-kmeans-unbinarized-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/c8339555178b0802d993186ef1fc94ced5abd406/docs/figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/pca-kmeans-unbinarized-1-1.png" target="_blank">c833955</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4,p.pca2.5)</code></pre>
 <p><img src="figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/pca-kmeans-unbinarized-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-kmeans-unbinarized-2-1">
+Past versions of pca-kmeans-unbinarized-2-1.png
+</button>
+</p>
+<div id="fig-pca-kmeans-unbinarized-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/c8339555178b0802d993186ef1fc94ced5abd406/docs/figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/pca-kmeans-unbinarized-2-1.png" target="_blank">c833955</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>We then label the cells in each cluster with the known cell labels.</p>
 <p>Cell labels:</p>
 <pre class="r"><code>samples$label &lt;- as.factor(samples$label)
@@ -818,17 +1263,17 @@ table(samples$label)
 <pre class="r"><code>freq_cluster_cells &lt;- with(samples,table(label,cluster_kmeans))
 print(freq_cluster_cells)
 #       cluster_kmeans
-# label   c1  c2  c3  c4  c5  c6  c7  c8  c9 c10 c11 c12 c13 c14 c15
-#   CLP    0   0   0   0   7   0   0   0   0  69   0   0   2   0   0
-#   CMP    0   0 241  52   0   0   8 107  26   0   8   0  36   0  24
-#   GMP   60   0   0   1  17   0   0   2   1  10 281  15   9   2   4
-#   HSC    0   0   0 293   1   0  40   0   0   0   0   0  12   0   1
-#   LMPP   0   0   0   5  54   0   0   0   0  27   1   0   8   0  65
-#   MEP    0  56   1   0   0   0   0   1  80   0   0   0   0   0   0
-#   mono   0   0   0   0   0   0   0   0   0   0   0   0   0  64   0
-#   MPP    0   4   2  97   0   0  14   3   1   0   0   0  19   0   2
-#   pDC    0   0   0   0   0 126   0   0   0   0   0  15   0   0   0
-#   UNK   31   0   0   0   0   0   0   1   0   0   0   0   0   0  28</code></pre>
+# label   c1  c2  c3  c4  c5  c6  c7  c8  c9 c10 c11 c12 c13 c14 c15 c16 c17 c18
+#   CLP    0   0   0   0   0   0  16   0   0   3   0  59   0   0   0   0   0   0
+#   CMP    3  32 111  29 108   3   0   2   0  54   6   0  29   0 115   0   1   9
+#   GMP   36   0   0   5   1   0  18   0   6  12   0   9  95  76   1   2 141   0
+#   HSC    0  51   0   6   0 154   1  81   0  11   0   0   0   0   0   0   0  43
+#   LMPP   0   1   0  71   0   0  65   0   0   8   0  10   2   0   0   0   1   2
+#   MEP    0  61   0   0   6   0   0   0   0   1  70   0   0   0   0   0   0   0
+#   mono   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0  64   0   0
+#   MPP    0  37   0   5   6  37   0  24   0  15   0   0   0   0   1   0   0  17
+#   pDC    0   0   0   0   0   0   0   0 137   2   0   0   0   0   0   0   2   0
+#   UNK   57   0   0   0   0   0   1   0   0   1   0   0   1   0   0   0   0   0</code></pre>
 <p>Plot the distribution of cell labels by clusters.</p>
 <p>Stacked barplot for the counts of cell labels by clusters:</p>
 <pre class="r"><code>library(plyr);library(dplyr)
@@ -861,6 +1306,43 @@ p.barplot.1 &lt;- ggplot(freq_cluster_celltype, aes(fill=label, y=freq, x=cluste
   )
 print(p.barplot.1)</code></pre>
 <p><img src="figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/freq-cluster-cell-unbinarized-1-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-freq-cluster-cell-unbinarized-1-1">
+Past versions of freq-cluster-cell-unbinarized-1-1.png
+</button>
+</p>
+<div id="fig-freq-cluster-cell-unbinarized-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/c8339555178b0802d993186ef1fc94ced5abd406/docs/figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/freq-cluster-cell-unbinarized-1-1.png" target="_blank">c833955</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Percent stacked barplot for the counts of cell labels by clusters:</p>
 <pre class="r"><code>
 freq_cluster_celltype &lt;- count(samples, vars=c(&quot;cluster_kmeans&quot;,&quot;label&quot;)) 
@@ -878,6 +1360,43 @@ p.barplot.2 &lt;- ggplot(freq_cluster_celltype, aes(fill=label, y=freq, x=cluste
   )
 print(p.barplot.2)</code></pre>
 <p><img src="figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/freq-cluster-tissue-unbinarized-2-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-freq-cluster-tissue-unbinarized-2-1">
+Past versions of freq-cluster-tissue-unbinarized-2-1.png
+</button>
+</p>
+<div id="fig-freq-cluster-tissue-unbinarized-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/c8339555178b0802d993186ef1fc94ced5abd406/docs/figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/freq-cluster-tissue-unbinarized-2-1.png" target="_blank">c833955</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="binarized-counts" class="section level2">
@@ -907,6 +1426,43 @@ p.pca1.5 &lt;- pca_plot(poisson2multinom(fit),pcs = 9:10,fill = &quot;none&quot;
 
 plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4,p.pca1.5)</code></pre>
 <p><img src="figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/pca-binarized-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-binarized-1-1">
+Past versions of pca-binarized-1-1.png
+</button>
+</p>
+<div id="fig-pca-binarized-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/c8339555178b0802d993186ef1fc94ced5abd406/docs/figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/pca-binarized-1-1.png" target="_blank">c833955</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Some of the structure is more evident from “hexbin” plots showing the density of the points.</p>
 <pre class="r"><code>breaks &lt;- c(0,1,5,10,100,Inf)
 p.pca2.1 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 1:2, breaks = breaks) + guides(fill = &quot;none&quot;)
@@ -917,6 +1473,43 @@ p.pca2.5 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 9:10, breaks = break
 
 plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4,p.pca2.5)</code></pre>
 <p><img src="figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/pca-binarized-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-binarized-2-1">
+Past versions of pca-binarized-2-1.png
+</button>
+</p>
+<div id="fig-pca-binarized-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/c8339555178b0802d993186ef1fc94ced5abd406/docs/figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/pca-binarized-2-1.png" target="_blank">c833955</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="layer-the-cell-labels-onto-the-pc-plots-1" class="section level3">
 <h3>Layer the cell labels onto the PC plots</h3>
@@ -934,6 +1527,43 @@ p.pca3.5 &lt;- labeled_pca_plot(fit,9:10,samples$label,font_size = 7,
 
 plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4,p.pca3.5)</code></pre>
 <p><img src="figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/pca-binarized-3-1.png" width="1080" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-binarized-3-1">
+Past versions of pca-binarized-3-1.png
+</button>
+</p>
+<div id="fig-pca-binarized-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/c8339555178b0802d993186ef1fc94ced5abd406/docs/figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/pca-binarized-3-1.png" target="_blank">c833955</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Visualize by structure plot grouped by cell labels.</p>
 <pre class="r"><code>set.seed(10)
 
@@ -953,6 +1583,43 @@ p.structure.1 &lt;- structure_plot(poisson2multinom(fit),
 
 print(p.structure.1)</code></pre>
 <p><img src="figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/structure-plot-binarized-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-binarized-1-1">
+Past versions of structure-plot-binarized-1-1.png
+</button>
+</p>
+<div id="fig-structure-plot-binarized-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/c8339555178b0802d993186ef1fc94ced5abd406/docs/figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/structure-plot-binarized-1-1.png" target="_blank">c833955</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="k-means-clustering-on-topic-proportions-1" class="section level3">
 <h3>k-means clustering on topic proportions</h3>
@@ -976,6 +1643,43 @@ print(sort(table(clusters.10),decreasing = TRUE))
 # Perplexity automatically changed to 47 because original setting of 50 was too large for the number of samples (147)
 print(p.structure.2)</code></pre>
 <p><img src="figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/structure-plot-kmeans-binarized-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-kmeans-binarized-1-1">
+Past versions of structure-plot-kmeans-binarized-1-1.png
+</button>
+</p>
+<div id="fig-structure-plot-kmeans-binarized-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/c8339555178b0802d993186ef1fc94ced5abd406/docs/figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/structure-plot-kmeans-binarized-1-1.png" target="_blank">c833955</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Define clusters using k-means with 15 clusters:</p>
 <pre class="r"><code>set.seed(10)
 
@@ -1004,6 +1708,43 @@ print(sort(table(clusters.15),decreasing = TRUE))
 # Perplexity automatically changed to 36 because original setting of 50 was too large for the number of samples (113)
 print(p.structure.3)</code></pre>
 <p><img src="figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/structure-plot-kmeans-binarized-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-kmeans-binarized-2-1">
+Past versions of structure-plot-kmeans-binarized-2-1.png
+</button>
+</p>
+<div id="fig-structure-plot-kmeans-binarized-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/c8339555178b0802d993186ef1fc94ced5abd406/docs/figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/structure-plot-kmeans-binarized-2-1.png" target="_blank">c833955</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Define clusters using k-means with 20 clusters:</p>
 <pre class="r"><code>set.seed(10)
 
@@ -1041,6 +1782,43 @@ print(sort(table(clusters.20),decreasing = TRUE))
 # Perplexity automatically changed to 49 because original setting of 50 was too large for the number of samples (151)
 print(p.structure.4)</code></pre>
 <p><img src="figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/structure-plot-kmeans-binarized-3-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-kmeans-binarized-3-1">
+Past versions of structure-plot-kmeans-binarized-3-1.png
+</button>
+</p>
+<div id="fig-structure-plot-kmeans-binarized-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/c8339555178b0802d993186ef1fc94ced5abd406/docs/figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/structure-plot-kmeans-binarized-3-1.png" target="_blank">c833955</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="refine-clusters-1" class="section level3">
 <h3>Refine clusters</h3>
@@ -1080,6 +1858,43 @@ table(clusters.merged)
 # Perplexity automatically changed to 49 because original setting of 50 was too large for the number of samples (151)
 print(p.structure.refined)</code></pre>
 <p><img src="figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/refine-cluster-binarized-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-refine-cluster-binarized-2-1">
+Past versions of refine-cluster-binarized-2-1.png
+</button>
+</p>
+<div id="fig-refine-cluster-binarized-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/c8339555178b0802d993186ef1fc94ced5abd406/docs/figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/refine-cluster-binarized-2-1.png" target="_blank">c833955</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Group samples by k-means clusters first, then by celltype labels:</p>
 <pre class="r"><code>p.structure.refined &lt;- structure_plot(poisson2multinom(fit),
                      grouping = clusters.merged,
@@ -1089,6 +1904,43 @@ print(p.structure.refined)</code></pre>
                      num_threads = 4,verbose = FALSE)
 print(p.structure.refined)</code></pre>
 <p><img src="figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/refine-cluster-binarized-3-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-refine-cluster-binarized-3-1">
+Past versions of refine-cluster-binarized-3-1.png
+</button>
+</p>
+<div id="fig-refine-cluster-binarized-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/c8339555178b0802d993186ef1fc94ced5abd406/docs/figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/refine-cluster-binarized-3-1.png" target="_blank">c833955</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>The clusters defined by k-means on topic proportions reasonably identify the clusters shown in the PCA hexbin plots (below).</p>
 <pre class="r"><code>p.pca.4.1 &lt;- labeled_pca_plot(fit,1:2,samples$cluster_kmeans,font_size = 7,
                        legend_label = &quot;cluster_kmeans&quot;)
@@ -1102,8 +1954,82 @@ p.pca.4.5 &lt;- labeled_pca_plot(fit,9:10,samples$cluster_kmeans,font_size = 7,
                        legend_label = &quot;cluster_kmeans&quot;)
 plot_grid(p.pca.4.1,p.pca.4.2,p.pca.4.3,p.pca.4.4,p.pca.4.5)</code></pre>
 <p><img src="figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/pca-kmeans-binarized-1-1.png" width="1080" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-kmeans-binarized-1-1">
+Past versions of pca-kmeans-binarized-1-1.png
+</button>
+</p>
+<div id="fig-pca-kmeans-binarized-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/c8339555178b0802d993186ef1fc94ced5abd406/docs/figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/pca-kmeans-binarized-1-1.png" target="_blank">c833955</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4,p.pca2.5)</code></pre>
 <p><img src="figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/pca-kmeans-binarized-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-kmeans-binarized-2-1">
+Past versions of pca-kmeans-binarized-2-1.png
+</button>
+</p>
+<div id="fig-pca-kmeans-binarized-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/c8339555178b0802d993186ef1fc94ced5abd406/docs/figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/pca-kmeans-binarized-2-1.png" target="_blank">c833955</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>We then label the cells in each cluster with the known cell labels.</p>
 <p>Cell labels:</p>
 <pre class="r"><code>samples$label &lt;- as.factor(samples$label)
@@ -1161,6 +2087,43 @@ p.barplot.1 &lt;- ggplot(freq_cluster_celltype, aes(fill=label, y=freq, x=cluste
   )
 print(p.barplot.1)</code></pre>
 <p><img src="figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/freq-cluster-cell-binarized-1-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-freq-cluster-cell-binarized-1-1">
+Past versions of freq-cluster-cell-binarized-1-1.png
+</button>
+</p>
+<div id="fig-freq-cluster-cell-binarized-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/c8339555178b0802d993186ef1fc94ced5abd406/docs/figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/freq-cluster-cell-binarized-1-1.png" target="_blank">c833955</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Percent stacked barplot for the counts of cell labels by clusters:</p>
 <pre class="r"><code>
 freq_cluster_celltype &lt;- count(samples, vars=c(&quot;cluster_kmeans&quot;,&quot;label&quot;)) 
@@ -1178,6 +2141,43 @@ p.barplot.2 &lt;- ggplot(freq_cluster_celltype, aes(fill=label, y=freq, x=cluste
   )
 print(p.barplot.2)</code></pre>
 <p><img src="figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/freq-cluster-tissue-binarized-2-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-freq-cluster-tissue-binarized-2-1">
+Past versions of freq-cluster-tissue-binarized-2-1.png
+</button>
+</p>
+<div id="fig-freq-cluster-tissue-binarized-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/c8339555178b0802d993186ef1fc94ced5abd406/docs/figure/clusters_Buenrostro2018_chomVAR_scPeaks_filtered.Rmd/freq-cluster-tissue-binarized-2-1.png" target="_blank">c833955</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
