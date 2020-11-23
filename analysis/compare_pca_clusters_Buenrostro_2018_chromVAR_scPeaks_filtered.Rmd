@@ -335,7 +335,7 @@ multinomial topic model with different numbers of $k$:
 #### k = 10
 Load the $k = 10$ Poisson NMF fit.
 ```{r load-unbinarized-fit-k10}
-out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_chromVAR_scPeaks/unbinarized/"
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_chromVAR_scPeaks_filtered/unbinarized/"
 fit <- readRDS(file.path(out.dir, "/fit-Buenrostro2018-scd-ex-k=10.rds"))$fit
 ```
 
