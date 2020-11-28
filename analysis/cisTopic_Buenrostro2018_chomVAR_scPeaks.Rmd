@@ -232,7 +232,7 @@ However, many tools are limited to work with sets of regions rather than ranking
 * Select the top 2000 regions per topic.
 ```{r}
 par(mfrow=c(2,3))
-cisTopicObject <- binarizecisTopics(cisTopicObject, method="Predefined", cutoffs=2000, plot=TRUE)
+cisTopicObject <- binarizecisTopics(cisTopicObject, method="Predefined", cutoffs=2000, plot=FALSE)
 
 summary(cisTopicObject@binarized.cisTopics)
 ```
