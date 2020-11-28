@@ -1,0 +1,409 @@
+---
+title: "cisTopic analysis for Buenrostro *et al* (2018) scATAC-seq data based on chromVAR processed counts with scPeaks (> 1 sample)"
+author: Kaixuan Luo
+output:
+  workflowr::wflow_html:
+    toc: yes
+---
+
+Here we perform topic modeling analysis in the Buenrostro *et al* (2018) 
+scATAC-seq data based on chromVAR processed counts with scPeaks (> 1 sample).
+
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
+                      fig.align = "center",dpi = 120)
+```
+
+<!-- Install cisTopic and some additional packages in this analysis. -->
+<!-- ```{r load-pkgs-2, eval=FALSE, message=FALSE} -->
+<!-- devtools::install_github("aertslab/AUCell") -->
+<!-- devtools::install_github("aertslab/RcisTarget") -->
+<!-- devtools::install_github("aertslab/cisTopic") -->
+
+<!-- if (!requireNamespace("BiocManager", quietly = TRUE)) -->
+<!--     install.packages("BiocManager") -->
+
+<!-- BiocManager::install(c('Rsubread', 'umap', 'Rtsne', 'ComplexHeatmap', 'fastcluster', 'data.table','rGREAT', 'ChIPseeker', 'TxDb.Hsapiens.UCSC.hg19.knownGene', 'org.Hs.eg.db', 'densityClust')) -->
+
+<!-- ``` -->
+
+Load packages and functions
+```{r load-pkgs-1}
+suppressWarnings(library(cisTopic))
+source("code/motif_analysis.R")
+
+```
+
+## Fit cisTopic models (using WarpLDA method)
+
+### Initializing the cisTopic object
+
+* Load the binarized count matrix. 
+In cisTopic, the rownames of these matrix must contain the region coordinates in position format (e.g. chr1:123456-134567) 
+```{r, eval=FALSE}
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/chromVAR/"
+load(file.path(data.dir, "Buenrostro_2018_binarized_scPeaks.RData"))
+cat(sprintf("%d x %d counts matrix.\n",nrow(counts),ncol(counts)))
+counts <- t(counts)
+range(counts)
+rownames(counts) <- paste0(peaks$chr, ":", peaks$start, "-",peaks$end)
+cisTopicObject <- createcisTopicObject(counts, project.name='Buenrostro_2018_chromVAR_scPeaks')
+dim(cisTopicObject@count.matrix)
+```
+
+* Add metadata with the cell labels.
+```{r, eval=FALSE}
+cisTopicObject <- addCellMetadata(cisTopicObject, cell.data = samples)
+```
+
+* Fit cisTopic models (using WarpLDA).
+Fit 2 to 15 (by 1), and 20 to 50 (by 5) topics.
+See `scripts/fit_cisTopic_topics.R`, `scripts/fit_cisTopic_topics.sbatch` and `scripts/fit_cisTopic_Buenrostro_2018_chromVAR_scPeaks.sh` for details.
+```{r, eval=FALSE}
+cisTopicObject <- runWarpLDAModels(cisTopicObject, topic=c(2:15, 20, 25, 35, 40, 45, 50), seed=1, nCores=10, iterations = 1000, addModels=FALSE)
+```
+
+## Load cisTopic results
+```{r}
+dir.out <- "/project2/mstephens/kevinluo/scATACseq-topics/output/cisTopic_Buenrostro_2018_chromVAR_scPeaks/binarized/"
+cisTopicObject <- readRDS(paste0(dir.out, "/cisTopic-Buenrostro2018-binarized.rds"))
+cat(sprintf("%d x %d counts matrix.\n",nrow(cisTopicObject@count.matrix),ncol(cisTopicObject@count.matrix)))
+
+```
+
+## Select cisTopic model
+cisTopic (WarpLDA version) incorporates three different approaches (from left to right columns in the figure below) to select the best topic:
+From [cisTopic tutorial website](http://htmlpreview.github.io/?https://github.com/aertslab/cisTopic/blob/master/vignettes/WarpLDA_CompleteAnalysis.html):
+- The log likelihood can be used to estimate the plausibility of a model parameter value, given the observed data (i.e. the highest the likelihood, the better the model). This is not recommended when running WarpLDA, as the curves stabilize rather than reaching a maximum.
+
+- The second derivative in each point of the likelihood curve, as it measures the changed in the curvature from point to point (i.e. the highest the second derivative means that the next model is not improving much more the log-likelihood) . This is not recommended when running CGS, as the curves tend to be noisier or reach a maximum. This is the default in this version of cisTopic.
+
+- The perplexity of each model (only for WarpLDA models) measures how well the model predicts the sample. The lower the perplexity is, the better the model.
+
+```{r, fig.height=6, fig.width=5}
+par(mfrow=c(3,3))
+cisTopicObject <- selectModel(cisTopicObject, type='maximum')
+cisTopicObject <- selectModel(cisTopicObject, type='perplexity')
+cisTopicObject <- selectModel(cisTopicObject, type='derivative')
+```
+
+Based on the second derivative (default in the WarpLDA version of cisTopic), we selected the cisTopic model with 6 topics. 
+Alternatively, we can also manually select the number of topics with the parameter `select`.
+
+## Interpreting the cisTopic models
+### A. Identification of cell states using the cell-cisTopic distributions
+
+The topic assignments to the cells (topic-cell matrix) are stored in `cisTopicObject@selected.model$document_expects`, 
+with cells as columns, topics as rows.
+We can also retrieve the topic-cell and region-topic assignments using the function `modelMatSelection`.
+```{r}
+fit.L <- t(cisTopicObject@selected.model$document_expects)
+cellassign <- t(modelMatSelection(cisTopicObject, 'cell', 'Probability'))
+all(cellassign == fit.L)
+head(cellassign)
+```
+
+cisTopic includes wrapper functions to easily run Umap, tSNE, diffussion maps and PCA (the results are saved in the slot `@dr$cell`):
+```{r}
+# run Umap of the cells
+cisTopicObject <- runUmap(cisTopicObject, target='cell', seed=123, method='Probability')
+
+# run tSNE of the cells
+cisTopicObject <- runtSNE(cisTopicObject, target='cell', seed=123, pca=FALSE, method='Probability')
+
+summary(cisTopicObject@dr$cell)
+```
+
+cisTopic offers a unified visualization function (`plotFeatures`), which allows to visualize tSNE, diffussion maps, principal components and biplots (in 2/3D), colored by metadata and/or topic enrichment.
+
+* Umap of the cells
+```{r message=FALSE}
+par(mfrow=c(1,1))
+plotFeatures(cisTopicObject, method='Umap', target='cell', topic_contr=NULL, colorBy='label', 
+             cex.legend = 0.8, factor.max=.75, dim=2, legend=TRUE, 
+             col.low='darkgreen', col.mid='yellow', col.high='brown1', intervals=10)
+
+```
+
+Color the Umap by topic score (probability)
+```{r message=FALSE}
+par(mfrow=c(2,3))
+
+plotFeatures(cisTopicObject, method='Umap', target='cell', topic_contr='Probability', 
+             colorBy=NULL, cex.legend = 0.8, factor.max=.75, dim=2, legend=TRUE)
+```
+
+* tSNE of the cells
+```{r message=FALSE}
+par(mfrow=c(1,1))
+plotFeatures(cisTopicObject, method='tSNE', target='cell', topic_contr=NULL, colorBy='label', 
+             cex.legend = 0.8, factor.max=.75, dim=2, legend=TRUE, 
+             col.low='darkgreen', col.mid='yellow', col.high='brown1', intervals=10)
+
+```
+
+Color the tSNE by topic score (probability)
+```{r message=FALSE}
+par(mfrow=c(2,3))
+
+plotFeatures(cisTopicObject, method='tSNE', target='cell', topic_contr='Probability', 
+             colorBy=NULL, cex.legend = 0.8, factor.max=.75, dim=2, legend=TRUE)
+```
+
+- We can also generate a heatmap based on the cell-cisTopic distributions
+```{r message=FALSE}
+cellTopicHeatmap(cisTopicObject, method='Probability', colorBy=c('label'))
+
+cellTopicHeatmap(cisTopicObject, method='Z-score', colorBy=c('label'), col.low = "dodgerblue", col.mid = "floralwhite", col.high = "brown1")
+```
+
+Additionally, we can define clusters using the cell-topic matrix...
+[TO DO: add PCA plots and structure plots]
+
+### B. Analysis of the regulatory topics
+
+#### Defining topics
+
+To analyze the regions included in the cisTopics, the first step is always to derive a score that evaluates how likely is for a region to belong to a topic. `getRegionsScores()` calculates these scores based on the proportion of region specific assignments to a topic. These scores can be rescaled into the range [0,1], which will be useful for the binarization step (as it will force data to follow a gamma distribution shape). This information is stored in the region.data slot.
+
+`getRegionsScores` gets region scores per topic using three different methods: Z-score, Probability, and NormTop.
+- 'Z-score' computes the Z-score for each topic assingment per cell/region. 
+- 'Probability' divides the topic assignments by the total number of assignments in the cell/region in the last iteration plus alpha. 
+- If using 'NormTop', regions are given an score defined by: $β_{w, k} (\log β_{w,k} - 1 / K ∑_{k'} \log β_{w,k'})$.
+
+* method = 'Z-score', scale = FALSE
+```{r}
+cisTopicObject <- getRegionsScores(cisTopicObject, method='Z-score', scale=FALSE)
+region.zscore <- cisTopicObject@region.data
+print(head(region.zscore))
+```
+
+* method = 'Z-score', scale = TRUE
+```{r}
+cisTopicObject <- getRegionsScores(cisTopicObject, method='Z-score', scale=TRUE)
+region.zscore <- cisTopicObject@region.data
+print(head(region.zscore))
+```
+
+* method = 'Probability', scale = FALSE
+```{r}
+cisTopicObject <- getRegionsScores(cisTopicObject, method='Probability', scale=FALSE)
+region.probability <- cisTopicObject@region.data
+print(head(region.probability))
+```
+
+* method = 'Probability', scale = TRUE
+```{r}
+cisTopicObject <- getRegionsScores(cisTopicObject, method='Probability', scale=TRUE)
+region.probability <- cisTopicObject@region.data
+print(head(region.probability))
+```
+
+* method = 'NormTop', scale = FALSE
+```{r}
+cisTopicObject <- getRegionsScores(cisTopicObject, method='NormTop', scale=FALSE)
+region.NormTop <- cisTopicObject@region.data
+print(head(region.NormTop))
+```
+
+* method = 'NormTop', scale = TRUE
+```{r}
+cisTopicObject <- getRegionsScores(cisTopicObject, method='NormTop', scale=TRUE)
+region.NormTop <- cisTopicObject@region.data
+print(head(region.NormTop))
+```
+
+BigWig files for observing the scored regions in the genome can be generated. Note that information on the length of the chromosomes has to be provided. These files can be uploaded in IGV or UCSC for visualisation. 
+This information can be easily found in the TxDb objects of the *corresponding genomes*, for example.
+```{r, eval=FALSE, message=FALSE}
+## human hg19 gene annotation
+suppressMessages(library(TxDb.Hsapiens.UCSC.hg19.knownGene))
+txdb <- TxDb.Hsapiens.UCSC.hg19.knownGene
+
+getBigwigFiles(cisTopicObject, path=paste0(dir.out, '/cisTopics_regionscores_normTop_asBW'), seqlengths=seqlengths(txdb))
+```
+
+However, many tools are limited to work with sets of regions rather than rankings of regions. Keywords, or the most contributing regions in a topic, can be used as a representative set of regions of the topic. `binarizecisTopics()` allows to select the top regions based on two methods:
+
+- method = "Predefined": to select a predefined number of regions (determined by the `cutoffs` argument)
+
+- method = "GammaFit" (default): to automatically select a threshold based on a fit of the scores to a gamma distribution. This is recommended when using `method="NormTop" and scale=TRUE` in `getRegionScores()`. Note that the probability threshold must be provided by the user and it must be taken after the density (based on the fitted gamma distribution) is stabilised (i.e. in the tail of the distribution). Selected regions per topic will be stored as a list in `object@binarized.cisTopics`.
+
+* Select the top 2000 regions per topic.
+```{r}
+par(mfrow=c(2,3))
+cisTopicObject <- binarizecisTopics(cisTopicObject, method="Predefined", cutoffs=2000, plot=TRUE)
+
+summary(cisTopicObject@binarized.cisTopics)
+```
+
+* Select the regions based on the Gamma distributions fitted to the region scores.
+```{r}
+par(mfrow=c(2,3))
+cisTopicObject <- binarizecisTopics(cisTopicObject, method="GammaFit", thrP=0.99, plot=TRUE)
+
+summary(cisTopicObject@binarized.cisTopics)
+```
+
+The regions sets selected and distributions for each cisTopic can then be analized in different ways. They can also be exported to bed files to analyze with external tools:
+```{r}
+getBedFiles(cisTopicObject, path=paste0(dir.out, '/cisTopics_selected_regions_asBED'))
+```
+
+#### Topic visualization
+
+Based on the topic scores for each region, different methods can be used for clustering and/or visualization.
+
+cisTopic includes wrapper functions to easily run Umap, tSNE, diffussion maps and PCA (the results are saved in the slot `@dr$region`). 
+In the case of regions, only high confidence regions (i.e. that pass the binarization threshold at least in 1 topic) are used:
+
+```{r}
+cisTopicObject <- runtSNE(cisTopicObject, target='region', perplexity=200, check_duplicates=FALSE)
+summary(cisTopicObject@dr$region)
+```
+
+The function `plotFeatures` can also be used to visualize region-based tSNEs, diffussion maps, principal components and biplots (in 2/3D), 
+colored by metadata and/or topic enrichment.
+
+- tSNE plot of the regions
+```{r}
+par(mfrow=c(1,1))
+plotFeatures(cisTopicObject, method='tSNE', target='region', topic_contr=NULL, colorBy=c('nCells'), cex.legend = 0.8, factor.max=.75, dim=2, legend=TRUE, col.low='darkgreen', col.mid='yellow', col.high='brown1', intervals=10)
+```
+
+Color the tSNE plot of the regions by topic scores (Z-score or probability)
+```{r}
+# topic_contr: Color by topic distribution ('Z-score' or 'Probability').
+par(mfrow=c(2,3))
+plotFeatures(cisTopicObject, method='tSNE', target='region', topic_contr='Z-score', colorBy=NULL, cex.legend = 0.8, factor.max=.75, dim=2, legend=TRUE, col.low='darkgreen', col.mid='yellow', col.high='brown1')
+
+plotFeatures(cisTopicObject, method='tSNE', target='region', topic_contr='Probability', colorBy=NULL, cex.legend = 0.8, factor.max=.75, dim=2, legend=TRUE)
+```
+
+#### Annotation to genes and GO terms
+
+Another way of gaining insight on the topics is to link the regions to genes, and to determine GO terms (or pathways or any other type of gene-set) that are enriched within them. 
+
+cisTopic provides the function `annotateRegions()` to annotate regions to GO terms using the “TxDb” Bioconductor packages (replace ‘TxDb.Hsapiens.UCSC.hg19.knownGene’ by the appropiate organism package), and annotation databases (“OrgDb” packages).
+```{r}
+suppressMessages(library(TxDb.Hsapiens.UCSC.hg19.knownGene))
+suppressMessages(library(org.Hs.eg.db))
+cisTopicObject <- annotateRegions(cisTopicObject, txdb=TxDb.Hsapiens.UCSC.hg19.knownGene, annoDb='org.Hs.eg.db')
+```
+
+We can use the region type annotations as region sets/signatures to check whether a topic is more enriched in a certain type of region. 
+```{r}
+par(mfrow=c(1,1))
+signaturesHeatmap(cisTopicObject, selected.signatures = 'annotation')
+plotFeatures(cisTopicObject, method='tSNE', target='region', topic_contr=NULL, colorBy=c('annotation'), cex.legend = 0.8, factor.max=.75, dim=2, legend=TRUE, intervals=20)
+```
+
+Save cisTopicObject for further downstream analysis.
+```{r, eval=FALSE}
+saveRDS(cisTopicObject, paste0(dir.out, "/cisTopic-Buenrostro2018-binarized-processed-1.rds"))
+```
+
+##### GREAT GO annotation
+For identifying enriched GO terms per topic, cisTopic provides a wrapper over rGREAT (Gu Z, 2017)[This analysis takes longer time]. 
+The binarized topics (i.e. sets of top regions per topic) are used in this step. Results are stored in `object@binarized.rGREAT`.
+```{r, eval=FALSE}
+cisTopicObject <- GREAT(cisTopicObject, genome='hg19', fold_enrichment=2, geneHits=1, sign=0.05, request_interval=10)
+```
+
+We can visualize the enrichment results:
+```{r, eval=FALSE}
+ontologyDotPlot(cisTopicObject, top=5, topics=c(6,10), var.y='name', order.by='Binom_Adjp_BH')
+```
+
+#### Transcription factor motif enrichment
+
+##### RcisTarget
+It is also possible to identify enriched motifs within the topics and form cistromes (i.e. sets of sequences enriched for a given motif). To do this, we use RcisTarget (Aibar et al., 2017). 
+[RcisTarget tutorial](https://bioconductor.org/packages/devel/bioc/vignettes/RcisTarget/inst/doc/RcisTarget.html)
+
+You can find the region-based database at: https://resources.aertslab.org/cistarget/
+The list of all available databases is at https://resources.aertslab.org/cistarget/. Each database is stored in a .feather file.
+
+Download the database (region based) to `/project2/mstephens/kevinluo/cisTarget`
+```{r, eval=FALSE, include=FALSE}
+# Specify database name:
+feather_database_url <- 'https://resources.aertslab.org/cistarget/databases/homo_sapiens/hg19/refseq_r45/mc9nr/region_based/hg19-regions-9species.all_regions.mc9nr.feather'
+
+dir.cisTarget <- '/project2/mstephens/kevinluo/cisTarget'
+download.file(feather_database_url, destfile=file.path(dir.cisTarget, basename(feather_database_url)))
+
+```
+
+```{r, eval=FALSE, include=FALSE}
+# Specify database name:
+feather_database_url='https://resources.aertslab.org/cistarget/databases/homo_sapiens/hg19/refseq_r45/mc9nr/region_based/hg19-regions-9species.all_regions.mc9nr.feather'
+
+feather_database="${feather_database_url##*/}"
+
+# Download database directly (with wget or curl):
+wget "${feather_database_url}"
+# curl -O "${feather_database_url}"
+
+# Download sha256sum.txt (with wget or curl):
+wget https://resources.aertslab.org/cistarget/databases/sha256sum.txt
+# curl -O https://resources.aertslab.org/cistarget/databases/sha256sum.txt
+
+# Check if sha256 checksum matches for the downloaded database:
+awk -v feather_database=${feather_database} '$2 == feather_database' sha256sum.txt | sha256sum -c -
+
+# If you downloaded mulitple databases, you can check them all at onces with:
+sha256sum -c sha256sum.txt
+```
+
+```{r}
+dir.out <- "/project2/mstephens/kevinluo/scATACseq-topics/output/cisTopic_Buenrostro_2018_chromVAR_scPeaks/binarized/"
+cisTopicObject <- readRDS(paste0(dir.out, "/cisTopic-Buenrostro2018-binarized-processed-1.rds"))
+```
+
+
+For this analysis, we first need to convert the cisTopic regions to the regions in the cisTarget databases (“ctx regions”). 
+
+We can do this in two ways:
+
+a. binarized, converting the binarized topic to a set of equivalent ctx regions (a region can map to more than one ctx region, and all regions which overlap more than the given threshold are taken). Results are stored in object@binarized.regions.to.Rct.
+```{r}
+cisTopicObject <- binarizedcisTopicsToCtx(cisTopicObject, genome='hg19')
+summary(cisTopicObject@binarized.regions.to.Rct)
+head(cisTopicObject@binarized.regions.to.Rct[[1]])
+```
+
+b. Based on the maximum overlap. This is useful if we need to use the scores (a region is mapped to its most overlapping ctx region). This information is stored in object@region.data.
+```{r}
+cisTopicObject <- scoredRegionsToCtx(cisTopicObject, genome='hg19')
+dim(cisTopicObject@region.data)
+print(cisTopicObject@region.data[1:3,])
+```
+
+We can run RcisTarget in each topic using the wrapper function topicsRcisTarget(). 
+This function uses the binarized topic regions converted to ctx regions.
+```{r, eval=FALSE}
+pathToFeather <- "/project2/mstephens/kevinluo/cisTarget/hg19-regions-9species.all_regions.mc9nr.feather"
+cisTopicObject <- topicsRcisTarget(cisTopicObject, genome='hg19', pathToFeather, reduced_database=FALSE, nesThreshold=3, rocthr=0.005, maxRank=20000, nCores=5)
+```
+
+##### HOMER
+
+We can use HOMER to do TF motif enrichment for target regions (peaks)
+```{r}
+homer.result <- vector("list", length(cisTopicObject@binarized.cisTopics))
+for(i in 1:length(cisTopicObject@binarized.cisTopics)){
+  target_regions <- read.table(sprintf('%s/cisTopics_selected_regions_asBED/Topic_%s.bed', dir.out, i), sep = "\t", header =  FALSE, stringsAsFactors = FALSE)
+  target_regions[,4] <- paste0(target_regions[,1], ":",target_regions[,2], "-",target_regions[,3])
+  file.regions <- sprintf('%s/cisTopics_selected_regions_asBED/Topic_%s_regions.bed', dir.out, i)
+  write.table(target_regions, file.regions, col.names = FALSE, row.names = FALSE, quote = FALSE, sep = "\t")
+  homer.result[[i]] <- homer_motif_enrichment('/project2/xinhe/software/homer/bin/findMotifsGenome.pl',
+                                              file.regions,
+                                              genome = 'hg19',
+                                              result.dir = sprintf('%s/motif_enrichment_homer/Topic_%s/', dir.out, i),
+                                              region.size = 200,
+                                              n.cores = 5,
+                                              run = FALSE)
+}
+
+```
+
