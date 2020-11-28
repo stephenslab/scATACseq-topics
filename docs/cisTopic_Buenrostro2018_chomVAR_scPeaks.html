@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Kaixuan Luo" />
+
+
+<title>cisTopic analysis for Buenrostro et al (2018) scATAC-seq data based on chromVAR processed counts with scPeaks (&gt; 1 sample)</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/master/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">scATACseq-topics</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/stephenslab/scATACseq-topics">source</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">cisTopic analysis for Buenrostro <em>et al</em> (2018) scATAC-seq data based on chromVAR processed counts with scPeaks (&gt; 1 sample)</h1>
+<h4 class="author">Kaixuan Luo</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2020-11-27
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>scATACseq-topics/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.2). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it's best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20200729code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20200729)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20200729code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20200729)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree57e6ba9c5080c138c3655b305c0b2e7f0bd25f2btargetblank57e6ba9a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/57e6ba9c5080c138c3655b305c0b2e7f0bd25f2b" target="_blank">57e6ba9</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree57e6ba9c5080c138c3655b305c0b2e7f0bd25f2btargetblank57e6ba9a" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/57e6ba9c5080c138c3655b305c0b2e7f0bd25f2b" target="_blank">57e6ba9</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    analysis/figure/
+
+Untracked files:
+    Untracked:  analysis/clusters_pca_structure_Cusanovich2018.Rmd
+    Untracked:  analysis/motif_analysis_Buenrostro2018_chomVAR_scPeaks.Rmd
+    Untracked:  analysis/process_data_Buenrostro2018_Chen2019.Rmd
+    Untracked:  buenrostro2018.RData
+    Untracked:  scripts/fit_all_models_Buenrostro_2018_chromVar_scPeaks_filtered.sbatch
+
+Unstaged changes:
+    Modified:   analysis/plots_Lareau2019_bonemarrow.Rmd
+    Modified:   analysis/process_data_Buenrostro2018.Rmd
+    Modified:   code/motif_analysis.R
+    Modified:   code/plots.R
+    Modified:   scripts/fit_all_models_Buenrostro_2018.sbatch
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/cisTopic_Buenrostro2018_chomVAR_scPeaks.Rmd</code>) and HTML (<code>docs/cisTopic_Buenrostro2018_chomVAR_scPeaks.html</code>) files. If you've configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/57e6ba9c5080c138c3655b305c0b2e7f0bd25f2b/analysis/cisTopic_Buenrostro2018_chomVAR_scPeaks.Rmd" target="_blank">57e6ba9</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-27
+</td>
+<td>
+run cisTopic analysis on Buenrostro2018_chomVAR_scPeaks dataset
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<p>Here we perform topic modeling analysis in the Buenrostro <em>et al</em> (2018) scATAC-seq data based on chromVAR processed counts with scPeaks (&gt; 1 sample).</p>
+<!-- Install cisTopic and some additional packages in this analysis. -->
+<!-- ```{r load-pkgs-2, eval=FALSE, message=FALSE} -->
+<!-- devtools::install_github("aertslab/AUCell") -->
+<!-- devtools::install_github("aertslab/RcisTarget") -->
+<!-- devtools::install_github("aertslab/cisTopic") -->
+<!-- if (!requireNamespace("BiocManager", quietly = TRUE)) -->
+<!--     install.packages("BiocManager") -->
+<!-- BiocManager::install(c('Rsubread', 'umap', 'Rtsne', 'ComplexHeatmap', 'fastcluster', 'data.table','rGREAT', 'ChIPseeker', 'TxDb.Hsapiens.UCSC.hg19.knownGene', 'org.Hs.eg.db', 'densityClust')) -->
+<!-- ``` -->
+<p>Load packages and functions</p>
+<pre class="r"><code>suppressWarnings(library(cisTopic))
+source(&quot;code/motif_analysis.R&quot;)</code></pre>
+<div id="fit-cistopic-models-using-warplda-method" class="section level2">
+<h2>Fit cisTopic models (using WarpLDA method)</h2>
+<div id="initializing-the-cistopic-object" class="section level3">
+<h3>Initializing the cisTopic object</h3>
+<ul>
+<li>Load the binarized count matrix. In cisTopic, the rownames of these matrix must contain the region coordinates in position format (e.g. chr1:123456-134567)</li>
+</ul>
+<pre class="r"><code>data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/chromVAR/&quot;
+load(file.path(data.dir, &quot;Buenrostro_2018_binarized_scPeaks.RData&quot;))
+cat(sprintf(&quot;%d x %d counts matrix.\n&quot;,nrow(counts),ncol(counts)))
+counts &lt;- t(counts)
+range(counts)
+rownames(counts) &lt;- paste0(peaks$chr, &quot;:&quot;, peaks$start, &quot;-&quot;,peaks$end)
+cisTopicObject &lt;- createcisTopicObject(counts, project.name=&#39;Buenrostro_2018_chromVAR_scPeaks&#39;)
+dim(cisTopicObject@count.matrix)</code></pre>
+<ul>
+<li>Add metadata with the cell labels.</li>
+</ul>
+<pre class="r"><code>cisTopicObject &lt;- addCellMetadata(cisTopicObject, cell.data = samples)</code></pre>
+<ul>
+<li>Fit cisTopic models (using WarpLDA). Fit 2 to 15 (by 1), and 20 to 50 (by 5) topics. See <code>scripts/fit_cisTopic_topics.R</code>, <code>scripts/fit_cisTopic_topics.sbatch</code> and <code>scripts/fit_cisTopic_Buenrostro_2018_chromVAR_scPeaks.sh</code> for details.</li>
+</ul>
+<pre class="r"><code>cisTopicObject &lt;- runWarpLDAModels(cisTopicObject, topic=c(2:15, 20, 25, 35, 40, 45, 50), seed=1, nCores=10, iterations = 1000, addModels=FALSE)</code></pre>
+</div>
+</div>
+<div id="load-cistopic-results" class="section level2">
+<h2>Load cisTopic results</h2>
+<pre class="r"><code>dir.out &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/cisTopic_Buenrostro_2018_chromVAR_scPeaks/binarized/&quot;
+cisTopicObject &lt;- readRDS(paste0(dir.out, &quot;/cisTopic-Buenrostro2018-binarized.rds&quot;))
+cat(sprintf(&quot;%d x %d counts matrix.\n&quot;,nrow(cisTopicObject@count.matrix),ncol(cisTopicObject@count.matrix)))
+# 228965 x 2034 counts matrix.</code></pre>
+</div>
+<div id="select-cistopic-model" class="section level2">
+<h2>Select cisTopic model</h2>
+<p>cisTopic (WarpLDA version) incorporates three different approaches (from left to right columns in the figure below) to select the best topic: From <a href="http://htmlpreview.github.io/?https://github.com/aertslab/cisTopic/blob/master/vignettes/WarpLDA_CompleteAnalysis.html">cisTopic tutorial website</a>: - The log likelihood can be used to estimate the plausibility of a model parameter value, given the observed data (i.e. the highest the likelihood, the better the model). This is not recommended when running WarpLDA, as the curves stabilize rather than reaching a maximum.</p>
+<ul>
+<li><p>The second derivative in each point of the likelihood curve, as it measures the changed in the curvature from point to point (i.e. the highest the second derivative means that the next model is not improving much more the log-likelihood) . This is not recommended when running CGS, as the curves tend to be noisier or reach a maximum. This is the default in this version of cisTopic.</p></li>
+<li><p>The perplexity of each model (only for WarpLDA models) measures how well the model predicts the sample. The lower the perplexity is, the better the model.</p></li>
+</ul>
+<pre class="r"><code>par(mfrow=c(3,3))
+cisTopicObject &lt;- selectModel(cisTopicObject, type=&#39;maximum&#39;)
+cisTopicObject &lt;- selectModel(cisTopicObject, type=&#39;perplexity&#39;)
+cisTopicObject &lt;- selectModel(cisTopicObject, type=&#39;derivative&#39;)</code></pre>
+<p><img src="figure/cisTopic_Buenrostro2018_chomVAR_scPeaks.Rmd/unnamed-chunk-5-1.png" width="600" style="display: block; margin: auto;" /></p>
+<pre><code># [1] &quot;Are these CGS models? Please, use type=\&quot;maximum\&quot;&quot;</code></pre>
+<p>Based on the second derivative (default in the WarpLDA version of cisTopic), we selected the cisTopic model with 6 topics. Alternatively, we can also manually select the number of topics with the parameter <code>select</code>.</p>
+</div>
+<div id="interpreting-the-cistopic-models" class="section level2">
+<h2>Interpreting the cisTopic models</h2>
+<div id="a.-identification-of-cell-states-using-the-cell-cistopic-distributions" class="section level3">
+<h3>A. Identification of cell states using the cell-cisTopic distributions</h3>
+<p>The topic assignments to the cells (topic-cell matrix) are stored in <code>cisTopicObject@selected.model$document_expects</code>, with cells as columns, topics as rows. We can also retrieve the topic-cell and region-topic assignments using the function <code>modelMatSelection</code>.</p>
+<pre class="r"><code>fit.L &lt;- t(cisTopicObject@selected.model$document_expects)
+cellassign &lt;- t(modelMatSelection(cisTopicObject, &#39;cell&#39;, &#39;Probability&#39;))
+all(cellassign == fit.L)
+head(cellassign)
+# [1] TRUE
+#                                Topic1    Topic2    Topic3      Topic4
+# BM1077-CLP-Frozen-160106-13 0.2452459 0.2616393 0.4275410 0.010491803
+# BM1077-CLP-Frozen-160106-14 0.2354430 0.1932489 0.5181435 0.024472574
+# BM1077-CLP-Frozen-160106-2  0.2482993 0.2100340 0.4957483 0.008503401
+# BM1077-CLP-Frozen-160106-21 0.2216359 0.2357080 0.4028144 0.035180299
+# BM1077-CLP-Frozen-160106-27 0.3217260 0.1294474 0.4224073 0.009084027
+# BM1077-CLP-Frozen-160106-3  0.2869806 0.1351801 0.5252078 0.016066482
+#                                  Topic5     Topic6
+# BM1077-CLP-Frozen-160106-13 0.006557377 0.04852459
+# BM1077-CLP-Frozen-160106-14 0.012658228 0.01603376
+# BM1077-CLP-Frozen-160106-2  0.008503401 0.02891156
+# BM1077-CLP-Frozen-160106-21 0.027264732 0.07739666
+# BM1077-CLP-Frozen-160106-27 0.006056018 0.11127933
+# BM1077-CLP-Frozen-160106-3  0.016066482 0.02049861</code></pre>
+<p>cisTopic includes wrapper functions to easily run Umap, tSNE, diffussion maps and PCA (the results are saved in the slot <code>@dr$cell</code>):</p>
+<pre class="r"><code># run Umap of the cells
+cisTopicObject &lt;- runUmap(cisTopicObject, target=&#39;cell&#39;, seed=123, method=&#39;Probability&#39;)
+# Loading required package: umap
+
+# run tSNE of the cells
+cisTopicObject &lt;- runtSNE(cisTopicObject, target=&#39;cell&#39;, seed=123, pca=FALSE, method=&#39;Probability&#39;)
+# Loading required package: Rtsne
+
+summary(cisTopicObject@dr$cell)
+#      Length Class  Mode   
+# Umap 4068   -none- numeric
+# tSNE 4068   -none- numeric</code></pre>
+<p>cisTopic offers a unified visualization function (<code>plotFeatures</code>), which allows to visualize tSNE, diffussion maps, principal components and biplots (in 2/3D), colored by metadata and/or topic enrichment.</p>
+<ul>
+<li>Umap of the cells</li>
+</ul>
+<pre class="r"><code>par(mfrow=c(1,1))
+plotFeatures(cisTopicObject, method=&#39;Umap&#39;, target=&#39;cell&#39;, topic_contr=NULL, colorBy=&#39;label&#39;, 
+             cex.legend = 0.8, factor.max=.75, dim=2, legend=TRUE, 
+             col.low=&#39;darkgreen&#39;, col.mid=&#39;yellow&#39;, col.high=&#39;brown1&#39;, intervals=10)</code></pre>
+<p><img src="figure/cisTopic_Buenrostro2018_chomVAR_scPeaks.Rmd/unnamed-chunk-8-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>Color the Umap by topic score (probability)</p>
+<pre class="r"><code>par(mfrow=c(2,3))
+
+plotFeatures(cisTopicObject, method=&#39;Umap&#39;, target=&#39;cell&#39;, topic_contr=&#39;Probability&#39;, 
+             colorBy=NULL, cex.legend = 0.8, factor.max=.75, dim=2, legend=TRUE)</code></pre>
+<p><img src="figure/cisTopic_Buenrostro2018_chomVAR_scPeaks.Rmd/unnamed-chunk-9-1.png" width="840" style="display: block; margin: auto;" /></p>
+<ul>
+<li>tSNE of the cells</li>
+</ul>
+<pre class="r"><code>par(mfrow=c(1,1))
+plotFeatures(cisTopicObject, method=&#39;tSNE&#39;, target=&#39;cell&#39;, topic_contr=NULL, colorBy=&#39;label&#39;, 
+             cex.legend = 0.8, factor.max=.75, dim=2, legend=TRUE, 
+             col.low=&#39;darkgreen&#39;, col.mid=&#39;yellow&#39;, col.high=&#39;brown1&#39;, intervals=10)</code></pre>
+<p><img src="figure/cisTopic_Buenrostro2018_chomVAR_scPeaks.Rmd/unnamed-chunk-10-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>Color the tSNE by topic score (probability)</p>
+<pre class="r"><code>par(mfrow=c(2,3))
+
+plotFeatures(cisTopicObject, method=&#39;tSNE&#39;, target=&#39;cell&#39;, topic_contr=&#39;Probability&#39;, 
+             colorBy=NULL, cex.legend = 0.8, factor.max=.75, dim=2, legend=TRUE)</code></pre>
+<p><img src="figure/cisTopic_Buenrostro2018_chomVAR_scPeaks.Rmd/unnamed-chunk-11-1.png" width="840" style="display: block; margin: auto;" /></p>
+<ul>
+<li>We can also generate a heatmap based on the cell-cisTopic distributions</li>
+</ul>
+<pre class="r"><code>cellTopicHeatmap(cisTopicObject, method=&#39;Probability&#39;, colorBy=c(&#39;label&#39;))</code></pre>
+<p><img src="figure/cisTopic_Buenrostro2018_chomVAR_scPeaks.Rmd/unnamed-chunk-12-1.png" width="840" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>
+cellTopicHeatmap(cisTopicObject, method=&#39;Z-score&#39;, colorBy=c(&#39;label&#39;), col.low = &quot;dodgerblue&quot;, col.mid = &quot;floralwhite&quot;, col.high = &quot;brown1&quot;)</code></pre>
+<p><img src="figure/cisTopic_Buenrostro2018_chomVAR_scPeaks.Rmd/unnamed-chunk-12-2.png" width="840" style="display: block; margin: auto;" /></p>
+<p>Additionally, we can define clusters using the cell-topic matrix... [TO DO: add PCA plots and structure plots]</p>
+</div>
+<div id="b.-analysis-of-the-regulatory-topics" class="section level3">
+<h3>B. Analysis of the regulatory topics</h3>
+<div id="defining-topics" class="section level4">
+<h4>Defining topics</h4>
+<p>To analyze the regions included in the cisTopics, the first step is always to derive a score that evaluates how likely is for a region to belong to a topic. <code>getRegionsScores()</code> calculates these scores based on the proportion of region specific assignments to a topic. These scores can be rescaled into the range [0,1], which will be useful for the binarization step (as it will force data to follow a gamma distribution shape). This information is stored in the region.data slot.</p>
+<p><code>getRegionsScores</code> gets region scores per topic using three different methods: Z-score, Probability, and NormTop. - 'Z-score' computes the Z-score for each topic assingment per cell/region. - 'Probability' divides the topic assignments by the total number of assignments in the cell/region in the last iteration plus alpha. - If using 'NormTop', regions are given an score defined by: <span class="math inline">\(β_{w, k} (\log β_{w,k} - 1 / K ∑_{k&#39;} \log β_{w,k&#39;})\)</span>.</p>
+<ul>
+<li>method = 'Z-score', scale = FALSE</li>
+</ul>
+<pre class="r"><code>cisTopicObject &lt;- getRegionsScores(cisTopicObject, method=&#39;Z-score&#39;, scale=FALSE)
+region.zscore &lt;- cisTopicObject@region.data
+print(head(region.zscore))
+#                    seqnames  start    end width nCounts nCells Scores_Topic1
+# chr1:10270-10769       chr1  10270  10769   499     230    230     0.7802464
+# chr1:13253-13752       chr1  13253  13752   499      55     55    -0.5422576
+# chr1:16000-16499       chr1  16000  16499   499      60     60     1.8549556
+# chr1:96351-96850       chr1  96351  96850   499     107    107    -0.4175421
+# chr1:115482-115981     chr1 115482 115981   499      32     32    -0.3118308
+# chr1:237507-238006     chr1 237507 238006   499     111    111     1.8454276
+#                    Scores_Topic2 Scores_Topic3 Scores_Topic4 Scores_Topic5
+# chr1:10270-10769      -0.3356874    -1.0161348     0.1542347    1.46069380
+# chr1:13253-13752      -0.5422576    -0.5422576    -0.5422576    0.22676227
+# chr1:16000-16499      -0.5796736    -0.5796736     0.4637389   -0.57967362
+# chr1:96351-96850      -0.4175421    -0.4175421    -0.4175421    2.04088334
+# chr1:115482-115981    -0.4989292    -0.2182815     2.0269000   -0.49892923
+# chr1:237507-238006    -0.7039260    -0.7039260     0.3234255   -0.05707508
+#                    Scores_Topic6
+# chr1:10270-10769      -1.0433527
+# chr1:13253-13752       1.9422682
+# chr1:16000-16499      -0.5796736
+# chr1:96351-96850      -0.3707149
+# chr1:115482-115981    -0.4989292
+# chr1:237507-238006    -0.7039260</code></pre>
+<ul>
+<li>method = 'Z-score', scale = TRUE</li>
+</ul>
+<pre class="r"><code>cisTopicObject &lt;- getRegionsScores(cisTopicObject, method=&#39;Z-score&#39;, scale=TRUE)
+region.zscore &lt;- cisTopicObject@region.data
+print(head(region.zscore))
+#                    seqnames  start    end width nCounts nCells Scores_Topic1
+# chr1:10270-10769       chr1  10270  10769   499     230    230     0.6811759
+# chr1:13253-13752       chr1  13253  13752   499      55     55     0.3468002
+# chr1:16000-16499       chr1  16000  16499   499      60     60     0.9529004
+# chr1:96351-96850       chr1  96351  96850   499     107    107     0.3783326
+# chr1:115482-115981     chr1 115482 115981   499      32     32     0.4050602
+# chr1:237507-238006     chr1 237507 238006   499     111    111     0.9504913
+#                    Scores_Topic2 Scores_Topic3 Scores_Topic4 Scores_Topic5
+# chr1:10270-10769       0.3932414     0.2216613     0.5198107     0.8488098
+# chr1:13253-13752       0.3405103     0.3422997     0.3425733     0.5274608
+# chr1:16000-16499       0.3309591     0.3327744     0.5985707     0.3174432
+# chr1:96351-96850       0.3723464     0.3740494     0.3743099     0.9999067
+# chr1:115482-115981     0.3515707     0.4247767     0.9963505     0.3384712
+# chr1:237507-238006     0.2992412     0.3011426     0.5628649     0.4535419
+#                    Scores_Topic6
+# chr1:10270-10769       0.2197116
+# chr1:13253-13752       0.9749634
+# chr1:16000-16499       0.3370053
+# chr1:96351-96850       0.3898641
+# chr1:115482-115981     0.3574306
+# chr1:237507-238006     0.3055740</code></pre>
+<ul>
+<li>method = 'Probability', scale = FALSE</li>
+</ul>
+<pre class="r"><code>cisTopicObject &lt;- getRegionsScores(cisTopicObject, method=&#39;Probability&#39;, scale=FALSE)
+region.probability &lt;- cisTopicObject@region.data
+print(head(region.probability))
+#                    seqnames  start    end width nCounts nCells Scores_Topic1
+# chr1:10270-10769       chr1  10270  10769   499     230    230  2.818780e-05
+# chr1:13253-13752       chr1  13253  13752   499      55     55  4.200864e-08
+# chr1:16000-16499       chr1  16000  16499   499      60     60  1.768564e-05
+# chr1:96351-96850       chr1  96351  96850   499     107    107  4.200864e-08
+# chr1:115482-115981     chr1 115482 115981   499      32     32  8.821815e-07
+# chr1:237507-238006     chr1 237507 238006   499     111    111  2.818780e-05
+#                    Scores_Topic2 Scores_Topic3 Scores_Topic4 Scores_Topic5
+# chr1:10270-10769    2.324895e-05  2.563283e-07  3.995551e-05  6.214904e-05
+# chr1:13253-13752    8.907642e-08  2.330257e-08  9.060207e-08  8.839874e-06
+# chr1:16000-16499    8.907642e-08  2.330257e-08  1.639898e-05  6.747996e-08
+# chr1:96351-96850    8.907642e-08  2.330257e-08  9.060207e-08  7.092144e-05
+# chr1:115482-115981  8.907642e-08  7.223798e-07  2.455316e-05  6.747996e-08
+# chr1:237507-238006  8.907642e-08  2.330257e-08  2.455316e-05  1.153907e-05
+#                    Scores_Topic6
+# chr1:10270-10769    5.073988e-08
+# chr1:13253-13752    2.136149e-05
+# chr1:16000-16499    5.073988e-08
+# chr1:96351-96850    1.065537e-06
+# chr1:115482-115981  5.073988e-08
+# chr1:237507-238006  5.073988e-08</code></pre>
+<ul>
+<li>method = 'Probability', scale = TRUE</li>
+</ul>
+<pre class="r"><code>cisTopicObject &lt;- getRegionsScores(cisTopicObject, method=&#39;Probability&#39;, scale=TRUE)
+region.probability &lt;- cisTopicObject@region.data
+print(head(region.probability))
+#                    seqnames  start    end width nCounts nCells Scores_Topic1
+# chr1:10270-10769       chr1  10270  10769   499     230    230   0.119642857
+# chr1:13253-13752       chr1  13253  13752   499      55     55   0.000000000
+# chr1:16000-16499       chr1  16000  16499   499      60     60   0.075000000
+# chr1:96351-96850       chr1  96351  96850   499     107    107   0.000000000
+# chr1:115482-115981     chr1 115482 115981   499      32     32   0.003571429
+# chr1:237507-238006     chr1 237507 238006   499     111    111   0.119642857
+#                    Scores_Topic2 Scores_Topic3 Scores_Topic4 Scores_Topic5
+# chr1:10270-10769       0.1027668   0.000729927    0.19383260    0.28571429
+# chr1:13253-13752       0.0000000   0.000000000    0.00000000    0.04037267
+# chr1:16000-16499       0.0000000   0.000000000    0.07929515    0.00000000
+# chr1:96351-96850       0.0000000   0.000000000    0.00000000    0.32608696
+# chr1:115482-115981     0.0000000   0.002189781    0.11894273    0.00000000
+# chr1:237507-238006     0.0000000   0.000000000    0.11894273    0.05279503
+#                    Scores_Topic6
+# chr1:10270-10769     0.000000000
+# chr1:13253-13752     0.086419753
+# chr1:16000-16499     0.000000000
+# chr1:96351-96850     0.004115226
+# chr1:115482-115981   0.000000000
+# chr1:237507-238006   0.000000000</code></pre>
+<ul>
+<li>method = 'NormTop', scale = FALSE</li>
+</ul>
+<pre class="r"><code>cisTopicObject &lt;- getRegionsScores(cisTopicObject, method=&#39;NormTop&#39;, scale=FALSE)
+region.NormTop &lt;- cisTopicObject@region.data
+print(head(region.NormTop))
+#                    seqnames  start    end width nCounts nCells Scores_Topic1
+# chr1:10270-10769       chr1  10270  10769   499     230    230  8.911007e-06
+# chr1:13253-13752       chr1  13253  13752   499      55     55  0.000000e+00
+# chr1:16000-16499       chr1  16000  16499   499      60     60  1.227631e-05
+# chr1:96351-96850       chr1  96351  96850   499     107    107  0.000000e+00
+# chr1:115482-115981     chr1 115482 115981   499      32     32 -1.290886e-07
+# chr1:237507-238006     chr1 237507 238006   499     111    111  2.228603e-05
+#                    Scores_Topic2 Scores_Topic3 Scores_Topic4 Scores_Topic5
+# chr1:10270-10769    4.273959e-06 -2.364444e-07  2.406384e-05  6.029550e-05
+# chr1:13253-13752    0.000000e+00  0.000000e+00  0.000000e+00  3.023777e-06
+# chr1:16000-16499    0.000000e+00  0.000000e+00  1.076603e-05  0.000000e+00
+# chr1:96351-96850    0.000000e+00  0.000000e+00  0.000000e+00  1.249909e-04
+# chr1:115482-115981  0.000000e+00 -1.164380e-07  2.544592e-05  0.000000e+00
+# chr1:237507-238006  0.000000e+00  0.000000e+00  1.724757e-05  2.455172e-06
+#                    Scores_Topic6
+# chr1:10270-10769    0.000000e+00
+# chr1:13253-13752    1.836160e-05
+# chr1:16000-16499    0.000000e+00
+# chr1:96351-96850   -2.763661e-07
+# chr1:115482-115981  0.000000e+00
+# chr1:237507-238006  0.000000e+00</code></pre>
+<ul>
+<li>method = 'NormTop', scale = TRUE</li>
+</ul>
+<pre class="r"><code>cisTopicObject &lt;- getRegionsScores(cisTopicObject, method=&#39;NormTop&#39;, scale=TRUE)
+region.NormTop &lt;- cisTopicObject@region.data
+print(head(region.NormTop))
+#                    seqnames  start    end width nCounts nCells Scores_Topic1
+# chr1:10270-10769       chr1  10270  10769   499     230    230    0.04012664
+# chr1:13253-13752       chr1  13253  13752   499      55     55    0.02409664
+# chr1:16000-16499       chr1  16000  16499   499      60     60    0.04618047
+# chr1:96351-96850       chr1  96351  96850   499     107    107    0.02409664
+# chr1:115482-115981     chr1 115482 115981   499      32     32    0.02386442
+# chr1:237507-238006     chr1 237507 238006   499     111    111    0.06418694
+#                    Scores_Topic2 Scores_Topic3 Scores_Topic4 Scores_Topic5
+# chr1:10270-10769      0.03249664    0.01740609    0.07905513    0.13121317
+# chr1:13253-13752      0.02494510    0.01769429    0.02483142    0.03132216
+# chr1:16000-16499      0.02494510    0.01769429    0.04909081    0.02604821
+# chr1:96351-96850      0.02494510    0.01769429    0.02483142    0.24405234
+# chr1:115482-115981    0.02494510    0.01755237    0.08216941    0.02604821
+# chr1:237507-238006    0.02494510    0.01769429    0.06369585    0.03033042
+#                    Scores_Topic6
+# chr1:10270-10769      0.03183595
+# chr1:13253-13752      0.06227577
+# chr1:16000-16499      0.03183595
+# chr1:96351-96850      0.03137779
+# chr1:115482-115981    0.03183595
+# chr1:237507-238006    0.03183595</code></pre>
+<p>BigWig files for observing the scored regions in the genome can be generated. Note that information on the length of the chromosomes has to be provided. These files can be uploaded in IGV or UCSC for visualisation. This information can be easily found in the TxDb objects of the <em>corresponding genomes</em>, for example.</p>
+<pre class="r"><code>## human hg19 gene annotation
+suppressMessages(library(TxDb.Hsapiens.UCSC.hg19.knownGene))
+txdb &lt;- TxDb.Hsapiens.UCSC.hg19.knownGene
+
+getBigwigFiles(cisTopicObject, path=paste0(dir.out, &#39;/cisTopics_regionscores_normTop_asBW&#39;), seqlengths=seqlengths(txdb))</code></pre>
+<p>However, many tools are limited to work with sets of regions rather than rankings of regions. Keywords, or the most contributing regions in a topic, can be used as a representative set of regions of the topic. <code>binarizecisTopics()</code> allows to select the top regions based on two methods:</p>
+<ul>
+<li><p>method = &quot;Predefined&quot;: to select a predefined number of regions (determined by the <code>cutoffs</code> argument)</p></li>
+<li><p>method = &quot;GammaFit&quot; (default): to automatically select a threshold based on a fit of the scores to a gamma distribution. This is recommended when using <code>method=&quot;NormTop&quot; and scale=TRUE</code> in <code>getRegionScores()</code>. Note that the probability threshold must be provided by the user and it must be taken after the density (based on the fitted gamma distribution) is stabilised (i.e. in the tail of the distribution). Selected regions per topic will be stored as a list in <code>object@binarized.cisTopics</code>.</p></li>
+<li><p>Select the top 2000 regions per topic.</p></li>
+</ul>
+<pre class="r"><code>par(mfrow=c(2,3))
+cisTopicObject &lt;- binarizecisTopics(cisTopicObject, method=&quot;Predefined&quot;, cutoffs=2000, plot=TRUE)</code></pre>
+<p><img src="figure/cisTopic_Buenrostro2018_chomVAR_scPeaks.Rmd/unnamed-chunk-20-1.png" width="840" style="display: block; margin: auto;" /><img src="figure/cisTopic_Buenrostro2018_chomVAR_scPeaks.Rmd/unnamed-chunk-20-2.png" width="840" style="display: block; margin: auto;" /><img src="figure/cisTopic_Buenrostro2018_chomVAR_scPeaks.Rmd/unnamed-chunk-20-3.png" width="840" style="display: block; margin: auto;" /><img src="figure/cisTopic_Buenrostro2018_chomVAR_scPeaks.Rmd/unnamed-chunk-20-4.png" width="840" style="display: block; margin: auto;" /><img src="figure/cisTopic_Buenrostro2018_chomVAR_scPeaks.Rmd/unnamed-chunk-20-5.png" width="840" style="display: block; margin: auto;" /><img src="figure/cisTopic_Buenrostro2018_chomVAR_scPeaks.Rmd/unnamed-chunk-20-6.png" width="840" style="display: block; margin: auto;" /><img src="figure/cisTopic_Buenrostro2018_chomVAR_scPeaks.Rmd/unnamed-chunk-20-7.png" width="840" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>
+summary(cisTopicObject@binarized.cisTopics)
+#        Length Class      Mode
+# Topic1 1      data.frame list
+# Topic2 1      data.frame list
+# Topic3 1      data.frame list
+# Topic4 1      data.frame list
+# Topic5 1      data.frame list
+# Topic6 1      data.frame list</code></pre>
+<ul>
+<li>Select the regions based on the Gamma distributions fitted to the region scores.</li>
+</ul>
+<pre class="r"><code>par(mfrow=c(2,3))
+cisTopicObject &lt;- binarizecisTopics(cisTopicObject, method=&quot;GammaFit&quot;, thrP=0.99, plot=TRUE)
+# Loading required package: fitdistrplus
+# Loading required package: MASS
+# 
+# Attaching package: &#39;MASS&#39;
+# The following object is masked from &#39;package:plotly&#39;:
+# 
+#     select
+# Loading required package: survival
+# Loading required package: npsurv
+# Loading required package: lsei</code></pre>
+<p><img src="figure/cisTopic_Buenrostro2018_chomVAR_scPeaks.Rmd/unnamed-chunk-21-1.png" width="840" style="display: block; margin: auto;" /><img src="figure/cisTopic_Buenrostro2018_chomVAR_scPeaks.Rmd/unnamed-chunk-21-2.png" width="840" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>
+summary(cisTopicObject@binarized.cisTopics)
+#        Length Class      Mode
+# Topic1 1      data.frame list
+# Topic2 1      data.frame list
+# Topic3 1      data.frame list
+# Topic4 1      data.frame list
+# Topic5 1      data.frame list
+# Topic6 1      data.frame list</code></pre>
+<p>The regions sets selected and distributions for each cisTopic can then be analized in different ways. They can also be exported to bed files to analyze with external tools:</p>
+<pre class="r"><code>getBedFiles(cisTopicObject, path=paste0(dir.out, &#39;/cisTopics_selected_regions_asBED&#39;))</code></pre>
+</div>
+<div id="topic-visualization" class="section level4">
+<h4>Topic visualization</h4>
+<p>Based on the topic scores for each region, different methods can be used for clustering and/or visualization.</p>
+<p>cisTopic includes wrapper functions to easily run Umap, tSNE, diffussion maps and PCA (the results are saved in the slot <code>@dr$region</code>). In the case of regions, only high confidence regions (i.e. that pass the binarization threshold at least in 1 topic) are used:</p>
+<pre class="r"><code>cisTopicObject &lt;- runtSNE(cisTopicObject, target=&#39;region&#39;, perplexity=200, check_duplicates=FALSE)
+summary(cisTopicObject@dr$region)
+#      Length Class  Mode   
+# tSNE 37378  -none- numeric</code></pre>
+<p>The function <code>plotFeatures</code> can also be used to visualize region-based tSNEs, diffussion maps, principal components and biplots (in 2/3D), colored by metadata and/or topic enrichment.</p>
+<ul>
+<li>tSNE plot of the regions</li>
+</ul>
+<pre class="r"><code>par(mfrow=c(1,1))
+plotFeatures(cisTopicObject, method=&#39;tSNE&#39;, target=&#39;region&#39;, topic_contr=NULL, colorBy=c(&#39;nCells&#39;), cex.legend = 0.8, factor.max=.75, dim=2, legend=TRUE, col.low=&#39;darkgreen&#39;, col.mid=&#39;yellow&#39;, col.high=&#39;brown1&#39;, intervals=10)</code></pre>
+<p><img src="figure/cisTopic_Buenrostro2018_chomVAR_scPeaks.Rmd/unnamed-chunk-24-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>Color the tSNE plot of the regions by topic scores (Z-score or probability)</p>
+<pre class="r"><code># topic_contr: Color by topic distribution (&#39;Z-score&#39; or &#39;Probability&#39;).
+par(mfrow=c(2,3))
+plotFeatures(cisTopicObject, method=&#39;tSNE&#39;, target=&#39;region&#39;, topic_contr=&#39;Z-score&#39;, colorBy=NULL, cex.legend = 0.8, factor.max=.75, dim=2, legend=TRUE, col.low=&#39;darkgreen&#39;, col.mid=&#39;yellow&#39;, col.high=&#39;brown1&#39;)</code></pre>
+<p><img src="figure/cisTopic_Buenrostro2018_chomVAR_scPeaks.Rmd/unnamed-chunk-25-1.png" width="840" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>
+plotFeatures(cisTopicObject, method=&#39;tSNE&#39;, target=&#39;region&#39;, topic_contr=&#39;Probability&#39;, colorBy=NULL, cex.legend = 0.8, factor.max=.75, dim=2, legend=TRUE)</code></pre>
+<p><img src="figure/cisTopic_Buenrostro2018_chomVAR_scPeaks.Rmd/unnamed-chunk-25-2.png" width="840" style="display: block; margin: auto;" /></p>
+</div>
+<div id="annotation-to-genes-and-go-terms" class="section level4">
+<h4>Annotation to genes and GO terms</h4>
+<p>Another way of gaining insight on the topics is to link the regions to genes, and to determine GO terms (or pathways or any other type of gene-set) that are enriched within them.</p>
+<p>cisTopic provides the function <code>annotateRegions()</code> to annotate regions to GO terms using the “TxDb” Bioconductor packages (replace ‘TxDb.Hsapiens.UCSC.hg19.knownGene’ by the appropiate organism package), and annotation databases (“OrgDb” packages).</p>
+<pre class="r"><code>suppressMessages(library(TxDb.Hsapiens.UCSC.hg19.knownGene))
+suppressMessages(library(org.Hs.eg.db))
+cisTopicObject &lt;- annotateRegions(cisTopicObject, txdb=TxDb.Hsapiens.UCSC.hg19.knownGene, annoDb=&#39;org.Hs.eg.db&#39;)
+# Loading required package: ChIPseeker
+# 
+# Registered S3 method overwritten by &#39;enrichplot&#39;:
+#   method               from
+#   fortify.enrichResult DOSE
+# ChIPseeker v1.20.0  For help: https://guangchuangyu.github.io/ChIPseeker
+# 
+# If you use ChIPseeker in published research, please cite:
+# Guangchuang Yu, Li-Gen Wang, Qing-Yu He. ChIPseeker: an R/Bioconductor package for ChIP peak annotation, comparison and visualization. Bioinformatics 2015, 31(14):2382-2383
+# &#39;select()&#39; returned 1:many mapping between keys and columns
+# &gt;&gt; preparing features information...       2020-11-27 09:37:00 PM 
+# &gt;&gt; identifying nearest features...         2020-11-27 09:37:01 PM 
+# &gt;&gt; calculating distance from peak to TSS...    2020-11-27 09:37:05 PM 
+# &gt;&gt; assigning genomic annotation...         2020-11-27 09:37:05 PM 
+# &gt;&gt; adding gene annotation...           2020-11-27 09:37:20 PM 
+# &gt;&gt; assigning chromosome lengths            2020-11-27 09:37:21 PM 
+# &gt;&gt; done...                     2020-11-27 09:37:21 PM</code></pre>
+<p>We can use the region type annotations as region sets/signatures to check whether a topic is more enriched in a certain type of region.</p>
+<pre class="r"><code>par(mfrow=c(1,1))
+signaturesHeatmap(cisTopicObject, selected.signatures = &#39;annotation&#39;)</code></pre>
+<p><img src="figure/cisTopic_Buenrostro2018_chomVAR_scPeaks.Rmd/unnamed-chunk-27-1.png" width="840" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plotFeatures(cisTopicObject, method=&#39;tSNE&#39;, target=&#39;region&#39;, topic_contr=NULL, colorBy=c(&#39;annotation&#39;), cex.legend = 0.8, factor.max=.75, dim=2, legend=TRUE, intervals=20)</code></pre>
+<p><img src="figure/cisTopic_Buenrostro2018_chomVAR_scPeaks.Rmd/unnamed-chunk-27-2.png" width="840" style="display: block; margin: auto;" /></p>
+<p>Save cisTopicObject for further downstream analysis.</p>
+<pre class="r"><code>saveRDS(cisTopicObject, paste0(dir.out, &quot;/cisTopic-Buenrostro2018-binarized-processed-1.rds&quot;))</code></pre>
+<div id="great-go-annotation" class="section level5">
+<h5>GREAT GO annotation</h5>
+<p>For identifying enriched GO terms per topic, cisTopic provides a wrapper over rGREAT (Gu Z, 2017)[This analysis takes longer time]. The binarized topics (i.e. sets of top regions per topic) are used in this step. Results are stored in <code>object@binarized.rGREAT</code>.</p>
+<pre class="r"><code>cisTopicObject &lt;- GREAT(cisTopicObject, genome=&#39;hg19&#39;, fold_enrichment=2, geneHits=1, sign=0.05, request_interval=10)</code></pre>
+<p>We can visualize the enrichment results:</p>
+<pre class="r"><code>ontologyDotPlot(cisTopicObject, top=5, topics=c(6,10), var.y=&#39;name&#39;, order.by=&#39;Binom_Adjp_BH&#39;)</code></pre>
+</div>
+</div>
+<div id="transcription-factor-motif-enrichment" class="section level4">
+<h4>Transcription factor motif enrichment</h4>
+<div id="rcistarget" class="section level5">
+<h5>RcisTarget</h5>
+<p>It is also possible to identify enriched motifs within the topics and form cistromes (i.e. sets of sequences enriched for a given motif). To do this, we use RcisTarget (Aibar et al., 2017). <a href="https://bioconductor.org/packages/devel/bioc/vignettes/RcisTarget/inst/doc/RcisTarget.html">RcisTarget tutorial</a></p>
+<p>You can find the region-based database at: <a href="https://resources.aertslab.org/cistarget/" class="uri">https://resources.aertslab.org/cistarget/</a> The list of all available databases is at <a href="https://resources.aertslab.org/cistarget/" class="uri">https://resources.aertslab.org/cistarget/</a>. Each database is stored in a .feather file.</p>
+<p>Download the database (region based) to <code>/project2/mstephens/kevinluo/cisTarget</code></p>
+<pre class="r"><code>dir.out &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/cisTopic_Buenrostro_2018_chromVAR_scPeaks/binarized/&quot;
+cisTopicObject &lt;- readRDS(paste0(dir.out, &quot;/cisTopic-Buenrostro2018-binarized-processed-1.rds&quot;))</code></pre>
+<p>For this analysis, we first need to convert the cisTopic regions to the regions in the cisTarget databases (“ctx regions”).</p>
+<p>We can do this in two ways:</p>
+<ol style="list-style-type: lower-alpha">
+<li>binarized, converting the binarized topic to a set of equivalent ctx regions (a region can map to more than one ctx region, and all regions which overlap more than the given threshold are taken). Results are stored in <a href="mailto:object@binarized.regions.to.Rct">object@binarized.regions.to.Rct</a>.</li>
+</ol>
+<pre class="r"><code>cisTopicObject &lt;- binarizedcisTopicsToCtx(cisTopicObject, genome=&#39;hg19&#39;)
+# Number of regions selected: 3181
+# Number of regions selected: 3484
+# Number of regions selected: 2607
+# Number of regions selected: 3039
+# Number of regions selected: 3894
+# Number of regions selected: 3703
+summary(cisTopicObject@binarized.regions.to.Rct)
+head(cisTopicObject@binarized.regions.to.Rct[[1]])
+#        Length Class  Mode     
+# Topic1 3181   -none- character
+# Topic2 3484   -none- character
+# Topic3 2607   -none- character
+# Topic4 3039   -none- character
+# Topic5 3894   -none- character
+# Topic6 3703   -none- character
+# [1] &quot;chr1-reg212&quot; &quot;chr1-reg413&quot; &quot;chr1-reg422&quot; &quot;chr1-reg519&quot; &quot;chr1-reg534&quot;
+# [6] &quot;chr1-reg607&quot;</code></pre>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>Based on the maximum overlap. This is useful if we need to use the scores (a region is mapped to its most overlapping ctx region). This information is stored in <a href="mailto:object@region.data">object@region.data</a>.</li>
+</ol>
+<pre class="r"><code>cisTopicObject &lt;- scoredRegionsToCtx(cisTopicObject, genome=&#39;hg19&#39;)
+# Number of regions selected: 163147
+dim(cisTopicObject@region.data)
+print(cisTopicObject@region.data[1:3,])
+# [1] 228965     25
+#                  seqnames start   end width nCounts nCells Scores_Topic1
+# chr1:10270-10769     chr1 10270 10769   500     230    230    0.04012664
+# chr1:13253-13752     chr1 13253 13752   500      55     55    0.02409664
+# chr1:16000-16499     chr1 16000 16499   500      60     60    0.04618047
+#                  Scores_Topic2 Scores_Topic3 Scores_Topic4 Scores_Topic5
+# chr1:10270-10769    0.03249664    0.01740609    0.07905513    0.13121317
+# chr1:13253-13752    0.02494510    0.01769429    0.02483142    0.03132216
+# chr1:16000-16499    0.02494510    0.01769429    0.04909081    0.02604821
+#                  Scores_Topic6       annotation geneChr geneStart geneEnd
+# chr1:10270-10769    0.03183595 Promoter (1-2kb)       1     11874   14409
+# chr1:13253-13752    0.06227577 Promoter (1-2kb)       1     11874   14409
+# chr1:16000-16499    0.03183595 Promoter (&lt;=1kb)       1     14362   16765
+#                  geneLength geneStrand    geneId transcriptId distanceToTSS
+# chr1:10270-10769       2536          1 100287102   uc001aaa.3         -1105
+# chr1:13253-13752       2536          1 100287102   uc010nxr.1          1379
+# chr1:16000-16499       2404          2    653635   uc009vis.3           266
+#                          ENSEMBL  SYMBOL
+# chr1:10270-10769 ENSG00000223972 DDX11L1
+# chr1:13253-13752 ENSG00000223972 DDX11L1
+# chr1:16000-16499 ENSG00000227232  WASH7P
+#                                                  GENENAME CtxLabels
+# chr1:10270-10769            DEAD/H-box helicase 11 like 1 chr1-reg3
+# chr1:13253-13752            DEAD/H-box helicase 11 like 1      &lt;NA&gt;
+# chr1:16000-16499 WAS protein family homolog 7, pseudogene chr1-reg5</code></pre>
+<p>We can run RcisTarget in each topic using the wrapper function topicsRcisTarget(). This function uses the binarized topic regions converted to ctx regions.</p>
+<pre class="r"><code>pathToFeather &lt;- &quot;/project2/mstephens/kevinluo/cisTarget/hg19-regions-9species.all_regions.mc9nr.feather&quot;
+cisTopicObject &lt;- topicsRcisTarget(cisTopicObject, genome=&#39;hg19&#39;, pathToFeather, reduced_database=FALSE, nesThreshold=3, rocthr=0.005, maxRank=20000, nCores=5)</code></pre>
+</div>
+<div id="homer" class="section level5">
+<h5>HOMER</h5>
+<p>We can use HOMER to do TF motif enrichment for target regions (peaks)</p>
+<pre class="r"><code>homer.result &lt;- vector(&quot;list&quot;, length(cisTopicObject@binarized.cisTopics))
+for(i in 1:length(cisTopicObject@binarized.cisTopics)){
+  target_regions &lt;- read.table(sprintf(&#39;%s/cisTopics_selected_regions_asBED/Topic_%s.bed&#39;, dir.out, i), sep = &quot;\t&quot;, header =  FALSE, stringsAsFactors = FALSE)
+  target_regions[,4] &lt;- paste0(target_regions[,1], &quot;:&quot;,target_regions[,2], &quot;-&quot;,target_regions[,3])
+  file.regions &lt;- sprintf(&#39;%s/cisTopics_selected_regions_asBED/Topic_%s_regions.bed&#39;, dir.out, i)
+  write.table(target_regions, file.regions, col.names = FALSE, row.names = FALSE, quote = FALSE, sep = &quot;\t&quot;)
+  homer.result[[i]] &lt;- homer_motif_enrichment(&#39;/project2/xinhe/software/homer/bin/findMotifsGenome.pl&#39;,
+                                              file.regions,
+                                              genome = &#39;hg19&#39;,
+                                              result.dir = sprintf(&#39;%s/motif_enrichment_homer/Topic_%s/&#39;, dir.out, i),
+                                              region.size = 200,
+                                              n.cores = 5,
+                                              run = FALSE)
+}
+# 
+# HOMER command: 
+# /project2/xinhe/software/homer/bin/findMotifsGenome.pl /project2/mstephens/kevinluo/scATACseq-topics/output/cisTopic_Buenrostro_2018_chromVAR_scPeaks/binarized//cisTopics_selected_regions_asBED/Topic_1_regions.bed hg19 /project2/mstephens/kevinluo/scATACseq-topics/output/cisTopic_Buenrostro_2018_chromVAR_scPeaks/binarized//motif_enrichment_homer/Topic_1/ -len 8,10,12 -size 200 -mis 2 -S 25 -p 5 
+# 
+# HOMER command: 
+# /project2/xinhe/software/homer/bin/findMotifsGenome.pl /project2/mstephens/kevinluo/scATACseq-topics/output/cisTopic_Buenrostro_2018_chromVAR_scPeaks/binarized//cisTopics_selected_regions_asBED/Topic_2_regions.bed hg19 /project2/mstephens/kevinluo/scATACseq-topics/output/cisTopic_Buenrostro_2018_chromVAR_scPeaks/binarized//motif_enrichment_homer/Topic_2/ -len 8,10,12 -size 200 -mis 2 -S 25 -p 5 
+# 
+# HOMER command: 
+# /project2/xinhe/software/homer/bin/findMotifsGenome.pl /project2/mstephens/kevinluo/scATACseq-topics/output/cisTopic_Buenrostro_2018_chromVAR_scPeaks/binarized//cisTopics_selected_regions_asBED/Topic_3_regions.bed hg19 /project2/mstephens/kevinluo/scATACseq-topics/output/cisTopic_Buenrostro_2018_chromVAR_scPeaks/binarized//motif_enrichment_homer/Topic_3/ -len 8,10,12 -size 200 -mis 2 -S 25 -p 5 
+# 
+# HOMER command: 
+# /project2/xinhe/software/homer/bin/findMotifsGenome.pl /project2/mstephens/kevinluo/scATACseq-topics/output/cisTopic_Buenrostro_2018_chromVAR_scPeaks/binarized//cisTopics_selected_regions_asBED/Topic_4_regions.bed hg19 /project2/mstephens/kevinluo/scATACseq-topics/output/cisTopic_Buenrostro_2018_chromVAR_scPeaks/binarized//motif_enrichment_homer/Topic_4/ -len 8,10,12 -size 200 -mis 2 -S 25 -p 5 
+# 
+# HOMER command: 
+# /project2/xinhe/software/homer/bin/findMotifsGenome.pl /project2/mstephens/kevinluo/scATACseq-topics/output/cisTopic_Buenrostro_2018_chromVAR_scPeaks/binarized//cisTopics_selected_regions_asBED/Topic_5_regions.bed hg19 /project2/mstephens/kevinluo/scATACseq-topics/output/cisTopic_Buenrostro_2018_chromVAR_scPeaks/binarized//motif_enrichment_homer/Topic_5/ -len 8,10,12 -size 200 -mis 2 -S 25 -p 5 
+# 
+# HOMER command: 
+# /project2/xinhe/software/homer/bin/findMotifsGenome.pl /project2/mstephens/kevinluo/scATACseq-topics/output/cisTopic_Buenrostro_2018_chromVAR_scPeaks/binarized//cisTopics_selected_regions_asBED/Topic_6_regions.bed hg19 /project2/mstephens/kevinluo/scATACseq-topics/output/cisTopic_Buenrostro_2018_chromVAR_scPeaks/binarized//motif_enrichment_homer/Topic_6/ -len 8,10,12 -size 200 -mis 2 -S 25 -p 5</code></pre>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()
+# R version 3.6.1 (2019-07-05)
+# Platform: x86_64-pc-linux-gnu (64-bit)
+# Running under: Scientific Linux 7.4 (Nitrogen)
+# 
+# Matrix products: default
+# BLAS/LAPACK: /software/openblas-0.2.19-el7-x86_64/lib/libopenblas_haswellp-r0.2.19.so
+# 
+# locale:
+#  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+#  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+#  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+#  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+#  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+# [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+# 
+# attached base packages:
+#  [1] stats4    parallel  grid      stats     graphics  grDevices utils    
+#  [8] datasets  methods   base     
+# 
+# other attached packages:
+#  [1] doRNG_1.8.2                            
+#  [2] rngtools_1.5                           
+#  [3] foreach_1.5.1                          
+#  [4] ChIPseeker_1.20.0                      
+#  [5] org.Hs.eg.db_3.7.0                     
+#  [6] TxDb.Hsapiens.UCSC.hg19.knownGene_3.2.2
+#  [7] GenomicFeatures_1.36.3                 
+#  [8] AnnotationDbi_1.46.0                   
+#  [9] Biobase_2.42.0                         
+# [10] GenomicRanges_1.36.0                   
+# [11] GenomeInfoDb_1.20.0                    
+# [12] IRanges_2.18.1                         
+# [13] S4Vectors_0.22.1                       
+# [14] BiocGenerics_0.30.0                    
+# [15] fitdistrplus_1.0-14                    
+# [16] npsurv_0.4-0                           
+# [17] lsei_1.2-0                             
+# [18] survival_2.44-1.1                      
+# [19] MASS_7.3-53                            
+# [20] ComplexHeatmap_1.20.0                  
+# [21] fastcluster_1.1.25                     
+# [22] scatterplot3d_0.3-41                   
+# [23] plotly_4.9.0                           
+# [24] ggplot2_3.3.2                          
+# [25] Rtsne_0.15                             
+# [26] umap_0.2.7.0                           
+# [27] cisTopic_0.3.0                         
+# [28] workflowr_1.6.2                        
+# 
+# loaded via a namespace (and not attached):
+#   [1] reticulate_1.16             R.utils_2.10.1             
+#   [3] tidyselect_1.1.0            RSQLite_2.1.1              
+#   [5] htmlwidgets_1.5.2           BiocParallel_1.18.0        
+#   [7] munsell_0.5.0               codetools_0.2-16           
+#   [9] withr_2.3.0                 RcisTarget_1.9.2           
+#  [11] colorspace_2.0-0            GOSemSim_2.10.0            
+#  [13] knitr_1.30                  DOSE_3.10.2                
+#  [15] git2r_0.27.1                urltools_1.7.3             
+#  [17] GenomeInfoDbData_1.2.1      polyclip_1.10-0            
+#  [19] bit64_0.9-7                 farver_2.0.3               
+#  [21] rprojroot_1.3-2             vctrs_0.3.5                
+#  [23] generics_0.0.2              lambda.r_1.2.3             
+#  [25] xfun_0.19                   doParallel_1.0.14          
+#  [27] R6_2.5.0                    bitops_1.0-6               
+#  [29] fgsea_1.15.1                gridGraphics_0.4-1         
+#  [31] DelayedArray_0.10.0         promises_1.1.1             
+#  [33] scales_1.1.1                ggraph_1.0.2               
+#  [35] enrichplot_1.4.0            gtable_0.3.0               
+#  [37] rlang_0.4.8                 GlobalOptions_0.1.2        
+#  [39] text2vec_0.5.1              splines_3.6.1              
+#  [41] rtracklayer_1.44.0          lazyeval_0.2.2             
+#  [43] europepmc_0.3               yaml_2.2.0                 
+#  [45] reshape2_1.4.3              backports_1.2.0            
+#  [47] httpuv_1.5.4                qvalue_2.16.0              
+#  [49] tools_3.6.1                 feather_0.3.3              
+#  [51] gridBase_0.4-7              ggplotify_0.0.3            
+#  [53] ellipsis_0.3.1              gplots_3.0.1.1             
+#  [55] RColorBrewer_1.1-2          ggridges_0.5.1             
+#  [57] Rcpp_1.0.5                  plyr_1.8.6                 
+#  [59] doMC_1.3.7                  progress_1.2.2             
+#  [61] zlibbioc_1.30.0             purrr_0.3.4                
+#  [63] RCurl_1.98-1.1              prettyunits_1.1.1          
+#  [65] openssl_1.4.3               GetoptLong_1.0.4           
+#  [67] viridis_0.5.1               cowplot_1.1.0              
+#  [69] SummarizedExperiment_1.14.1 ggrepel_0.8.2              
+#  [71] fs_1.3.1                    magrittr_1.5               
+#  [73] data.table_1.13.2           RSpectra_0.15-0            
+#  [75] futile.options_1.0.1        DO.db_2.9                  
+#  [77] circlize_0.4.11             triebeard_0.3.0            
+#  [79] mlapi_0.1.0                 whisker_0.4                
+#  [81] matrixStats_0.57.0          hms_0.5.3                  
+#  [83] mime_0.9                    evaluate_0.14              
+#  [85] xtable_1.8-4                XML_3.98-1.20              
+#  [87] AUCell_1.13.0               gridExtra_2.3              
+#  [89] shape_1.4.5                 compiler_3.6.1             
+#  [91] biomaRt_2.40.1              tibble_3.0.4               
+#  [93] KernSmooth_2.23-15          crayon_1.3.4               
+#  [95] R.oo_1.24.0                 htmltools_0.5.0            
+#  [97] later_1.1.0.1               snow_0.4-3                 
+#  [99] tidyr_1.1.2                 RcppParallel_5.0.2         
+# [101] DBI_1.1.0                   tweenr_1.0.1               
+# [103] formatR_1.7                 boot_1.3-23                
+# [105] Matrix_1.2-18               gdata_2.18.0               
+# [107] R.methodsS3_1.8.1           igraph_1.2.4.1             
+# [109] pkgconfig_2.0.3             rvcheck_0.1.3              
+# [111] GenomicAlignments_1.20.1    xml2_1.3.2                 
+# [113] annotate_1.62.0             lda_1.4.2                  
+# [115] XVector_0.24.0              stringr_1.4.0              
+# [117] digest_0.6.27               graph_1.60.0               
+# [119] Biostrings_2.52.0           rmarkdown_2.5              
+# [121] fastmatch_1.1-0             GSEABase_1.44.0            
+# [123] shiny_1.5.0                 Rsamtools_2.0.0            
+# [125] gtools_3.8.1                rjson_0.2.20               
+# [127] lifecycle_0.2.0             jsonlite_1.6               
+# [129] futile.logger_1.4.3         viridisLite_0.3.0          
+# [131] askpass_1.1                 pillar_1.4.7               
+# [133] lattice_0.20-41             plotrix_3.7-6              
+# [135] fastmap_1.0.1               httr_1.4.2                 
+# [137] GO.db_3.8.2                 glue_1.4.2                 
+# [139] UpSetR_1.4.0                iterators_1.0.13           
+# [141] bit_1.1-14                  ggforce_0.2.2              
+# [143] stringi_1.5.3               blob_1.2.0                 
+# [145] caTools_1.17.1.2            doSNOW_1.0.18              
+# [147] memoise_1.1.0               dplyr_1.0.2</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
