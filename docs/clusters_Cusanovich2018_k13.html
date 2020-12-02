@@ -26,6 +26,8 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
 
 <link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/master/img/reproducible.png">
 <!-- Add a small amount of space between sections. -->
@@ -34,6 +36,15 @@ div.section {
   padding-top: 12px;
 }
 </style>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -361,7 +372,9 @@ div.tocify {
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/stephenslab/scATACseq-topics">source</a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -397,7 +410,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-10-21
+<strong>Last updated:</strong> 2020-12-01
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -433,7 +446,7 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 </div>
 <div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it's best to always run the code in an empty environment.</p>
 </div>
 </div>
 </div>
@@ -445,7 +458,7 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 </div>
 <div id="strongSeedstrongcodesetseed20200729code" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The command <code>set.seed(20200729)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+<p>The command <code>set.seed(20200729)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
 </div>
 </div>
 </div>
@@ -488,16 +501,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreea88649de20247ee325ab0d6ca22a45220d366e71targetblanka88649da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/a88649de20247ee325ab0d6ca22a45220d366e71" target="_blank">a88649d</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreeab321de6a609e3a8d406a6079e1ce26d269082aetargetblankab321dea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/ab321de6a609e3a8d406a6079e1ce26d269082ae" target="_blank">ab321de</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreea88649de20247ee325ab0d6ca22a45220d366e71targetblanka88649da" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreeab321de6a609e3a8d406a6079e1ce26d269082aetargetblankab321dea" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/a88649de20247ee325ab0d6ca22a45220d366e71" target="_blank">a88649d</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/ab321de6a609e3a8d406a6079e1ce26d269082ae" target="_blank">ab321de</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -506,18 +519,26 @@ Note that you need to be careful to ensure that all relevant files for the analy
 Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
+    Ignored:    analysis/figure/
 
 Untracked files:
     Untracked:  analysis/clusters_pca_structure_Cusanovich2018.Rmd
+    Untracked:  analysis/motif_analysis_Buenrostro2018_chomVAR_scPeaks.Rmd
+    Untracked:  analysis/process_data_Buenrostro2018_Chen2019.Rmd
+    Untracked:  buenrostro2018.RData
+    Untracked:  scripts/fit_all_models_Buenrostro_2018_chromVar_scPeaks_filtered.sbatch
 
 Unstaged changes:
+    Modified:   analysis/cisTopic_Buenrostro2018_chomVAR_scPeaks.Rmd
     Modified:   analysis/plots_Lareau2019_bonemarrow.Rmd
+    Modified:   analysis/process_data_Buenrostro2018.Rmd
+    Modified:   code/motif_analysis.R
     Modified:   code/plots.R
-    Modified:   scripts/fit_all_models_Lareau2019.sh
+    Modified:   scripts/fit_all_models_Buenrostro_2018.sbatch
 
 </code></pre>
 <p>
-Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
 </p>
 </div>
 </div>
@@ -528,7 +549,7 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <div id="versions" class="tab-pane fade">
 
 <p>
-These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/clusters_Cusanovich2018_k13.Rmd</code>) and HTML (<code>docs/clusters_Cusanovich2018_k13.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/clusters_Cusanovich2018_k13.Rmd</code>) and HTML (<code>docs/clusters_Cusanovich2018_k13.html</code>) files. If you've configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
 </p>
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
@@ -557,6 +578,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/ab321de6a609e3a8d406a6079e1ce26d269082ae/analysis/clusters_Cusanovich2018_k13.Rmd" target="_blank">ab321de</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-12-01
+</td>
+<td>
+refine kmeans clusters and add cell label distributions
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/e57dfd4474bd37d8c38a83cc50cefd969c3e704b/docs/clusters_Cusanovich2018_k13.html" target="_blank">e57dfd4</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-10-21
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/a88649de20247ee325ab0d6ca22a45220d366e71/analysis/clusters_Cusanovich2018_k13.Rmd" target="_blank">a88649d</a>
 </td>
 <td>
@@ -566,7 +621,7 @@ kevinlkx
 2020-10-21
 </td>
 <td>
-wflow_publish(“analysis/clusters_Cusanovich2018_k13.Rmd”)
+wflow_publish(&quot;analysis/clusters_Cusanovich2018_k13.Rmd&quot;)
 </td>
 </tr>
 <tr>
@@ -1170,80 +1225,41 @@ rows &lt;- sample(nrow(fit$L),4000)
 samples$tissue &lt;- as.factor(samples$tissue)
 
 p.structure.1 &lt;- structure_plot(select(poisson2multinom(fit),loadings = rows),
-                     grouping = samples[rows, &quot;tissue&quot;],n = Inf,gap = 20,
+                     grouping = samples[rows, &quot;tissue&quot;],n = Inf,gap = 40,
                      perplexity = 50,topics = 1:13,colors = colors_topics,
                      num_threads = 4,verbose = FALSE)
-# Perplexity automatically changed to 35 because original setting of 50 was too large for the number of samples (111)
-# Perplexity automatically changed to 41 because original setting of 50 was too large for the number of samples (128)
+# Perplexity automatically changed to 42 because original setting of 50 was too large for the number of samples (132)
+# Perplexity automatically changed to 40 because original setting of 50 was too large for the number of samples (124)
 
 print(p.structure.1)</code></pre>
-<p><img src="figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-1-1.png" width="840" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-1-1">
-Past versions of structure-plot-1-1.png
-</button>
-</p>
-<div id="fig-structure-plot-1-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/32ed5aea68036d63ab78e7d417a8067660328456/docs/figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-1-1.png" target="_blank">32ed5ae</a>
-</td>
-<td>
-kevinlkx
-</td>
-<td>
-2020-10-21
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-tissue-1.png" width="840" style="display: block; margin: auto;" /></p>
 </div>
 <div id="k-means-clustering-on-topic-proportions" class="section level2">
 <h2>k-means clustering on topic proportions</h2>
 <p>Define clusters using k-means, and then create structure plot based on the clusters from k-means.</p>
-<p>Define clusters using k-means with <span class="math inline">\(k = 14\)</span>:</p>
+<p>Define clusters using k-means with 15 clusters:</p>
 <pre class="r"><code>set.seed(10)
 
-clusters.14 &lt;- factor(kmeans(poisson2multinom(fit)$L,centers = 14)$cluster)
-print(sort(table(clusters.14),decreasing = TRUE))
-# clusters.14
-#    13     7     3     2     4     1    12    10     8    14     5     6    11 
-# 18096 10936  9331  7693  6077  5817  4184  3994  3627  3306  2964  2821  2073 
-#     9 
-#   254</code></pre>
-<p>Structure plot based on k-means clusters</p>
+clusters.15 &lt;- factor(kmeans(poisson2multinom(fit)$L,centers = 15)$cluster)
+print(table(clusters.15))
+# clusters.15
+#     1     2     3     4     5     6     7     8     9    10    11    12    13 
+#  2740  3868  3775  3879  3645  3651 12037  2955  6045 12026  6068  3582  9319 
+#    14    15 
+#  3411  4172</code></pre>
+<p>Structure plot based on 15 clusters</p>
 <pre class="r"><code>colors_topics &lt;- c(&quot;#a6cee3&quot;,&quot;#1f78b4&quot;,&quot;#b2df8a&quot;,&quot;#33a02c&quot;,&quot;#fb9a99&quot;,&quot;#e31a1c&quot;,
-                   &quot;#fdbf6f&quot;,&quot;#ff7f00&quot;,&quot;#cab2d6&quot;,&quot;#6a3d9a&quot;,&quot;#ffff99&quot;,&quot;#b15928&quot;,
-                   &quot;gray&quot;)
+            &quot;#fdbf6f&quot;,&quot;#ff7f00&quot;,&quot;#cab2d6&quot;,&quot;#6a3d9a&quot;,&quot;#ffff99&quot;,&quot;#b15928&quot;,
+            &quot;gray&quot;)
 rows &lt;- sample(nrow(fit$L),4000)
 
-p.structure.2 &lt;- structure_plot(select(poisson2multinom(fit),loadings = rows),
-                     grouping = clusters.14[rows],n = Inf,gap = 20,
-                     perplexity = 50,topics = 1:13,colors = colors_topics,
-                     num_threads = 4,verbose = FALSE)
-# Perplexity automatically changed to 42 because original setting of 50 was too large for the number of samples (131)
-# Perplexity automatically changed to 1 because original setting of 50 was too large for the number of samples (7)
-# Perplexity automatically changed to 26 because original setting of 50 was too large for the number of samples (82)
-# Perplexity automatically changed to 44 because original setting of 50 was too large for the number of samples (137)
-print(p.structure.2)</code></pre>
+p.structure.kmeans.15 &lt;- structure_plot(select(poisson2multinom(fit),loadings = rows),
+                                        grouping = clusters.15[rows],n = Inf,gap = 20,
+                                        perplexity = 50,topics = 1:13,colors = colors_topics,
+                                        num_threads = 4,verbose = FALSE)
+# Perplexity automatically changed to 42 because original setting of 50 was too large for the number of samples (130)
+# Perplexity automatically changed to 46 because original setting of 50 was too large for the number of samples (144)
+print(p.structure.kmeans.15)</code></pre>
 <p><img src="figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-kmeans-1-1.png" width="840" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-kmeans-1-1">
@@ -1304,267 +1320,46 @@ kevinlkx
 </table>
 </div>
 </div>
-<p>Define clusters using k-means with <span class="math inline">\(k = 15\)</span>:</p>
+<p>Refine k-means clusters: - Split cluster 10 into two clusters. - (maybe also merge cluster 4 and 9)</p>
 <pre class="r"><code>set.seed(10)
+clusters.refined &lt;- as.numeric(clusters.15)
 
-clusters.15 &lt;- factor(kmeans(poisson2multinom(fit)$L,centers = 15)$cluster)
-print(sort(table(clusters.15),decreasing = TRUE))
-# clusters.15
-#    13     7     3     9     8     4     1    14    12     2    15     5     6 
-# 14936  8426  8043  6796  6757  5951  5784  4314  4168  3657  3649  2960  2738 
-#    10    11 
-#  1697  1297</code></pre>
-<p>Structure plot based on k-means clusters</p>
+idx_cluster10 &lt;- which(clusters.15 == 10)
+cluster10.refined &lt;- kmeans(poisson2multinom(fit)$L[idx_cluster10, ],centers = 2)$cluster+15
+clusters.refined[idx_cluster10] &lt;- cluster10.refined
+clusters.refined &lt;- factor(clusters.refined, labels = paste0(&quot;c&quot;, c(1:length(unique(clusters.refined)))))
+
+print(table(clusters.refined))
+
+samples$cluster_kmeans &lt;- clusters.refined
+# clusters.refined
+#    c1    c2    c3    c4    c5    c6    c7    c8    c9   c10   c11   c12   c13 
+#  2740  3868  3775  3879  3645  3651 12037  2955  6045  6068  3582  9319  3411 
+#   c14   c15   c16 
+#  4172  6423  5603</code></pre>
+<p>Structure plot based on refined clusters</p>
 <pre class="r"><code>colors_topics &lt;- c(&quot;#a6cee3&quot;,&quot;#1f78b4&quot;,&quot;#b2df8a&quot;,&quot;#33a02c&quot;,&quot;#fb9a99&quot;,&quot;#e31a1c&quot;,
             &quot;#fdbf6f&quot;,&quot;#ff7f00&quot;,&quot;#cab2d6&quot;,&quot;#6a3d9a&quot;,&quot;#ffff99&quot;,&quot;#b15928&quot;,
             &quot;gray&quot;)
 rows &lt;- sample(nrow(fit$L),4000)
 
-p.structure.3 &lt;- structure_plot(select(poisson2multinom(fit),loadings = rows),
-                     grouping = clusters.15[rows],n = Inf,gap = 20,
+p.structure.kmeans.refined &lt;- structure_plot(select(poisson2multinom(fit),loadings = rows),
+                                             grouping = clusters.refined[rows],n = Inf,gap = 40,
+                                             perplexity = 50,topics = 1:13,colors = colors_topics,
+                                             num_threads = 4,verbose = FALSE)
+# Perplexity automatically changed to 41 because original setting of 50 was too large for the number of samples (129)
+# Perplexity automatically changed to 46 because original setting of 50 was too large for the number of samples (144)
+print(p.structure.kmeans.refined)</code></pre>
+<p><img src="figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-kmeans-refined-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>Group samples by k-means clusters first, then by tissue labels:</p>
+<pre class="r"><code>p.structure.kmeans.refined &lt;- structure_plot(select(poisson2multinom(fit),loadings = rows),
+                     grouping = clusters.refined[rows],
+                     rows = order(samples[rows, &quot;tissue&quot;]), # samples are grouped by clusters first, then by tissue labels
+                     n = Inf,gap = 40,
                      perplexity = 50,topics = 1:13,colors = colors_topics,
                      num_threads = 4,verbose = FALSE)
-# Perplexity automatically changed to 42 because original setting of 50 was too large for the number of samples (131)
-# Perplexity automatically changed to 48 because original setting of 50 was too large for the number of samples (149)
-# Perplexity automatically changed to 23 because original setting of 50 was too large for the number of samples (75)
-# Perplexity automatically changed to 13 because original setting of 50 was too large for the number of samples (44)
-print(p.structure.3)</code></pre>
-<p><img src="figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-kmeans-2-1.png" width="840" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-kmeans-2-1">
-Past versions of structure-plot-kmeans-2-1.png
-</button>
-</p>
-<div id="fig-structure-plot-kmeans-2-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/9d31a9fba6cedf2b9b3ee1072364767c4156ad73/docs/figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-kmeans-2-1.png" target="_blank">9d31a9f</a>
-</td>
-<td>
-kevinlkx
-</td>
-<td>
-2020-10-21
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/32ed5aea68036d63ab78e7d417a8067660328456/docs/figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-kmeans-2-1.png" target="_blank">32ed5ae</a>
-</td>
-<td>
-kevinlkx
-</td>
-<td>
-2020-10-21
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/a38788b2e6ab19366c8d3bc9e45dc9844fde044d/docs/figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-kmeans-2-1.png" target="_blank">a38788b</a>
-</td>
-<td>
-kevinlkx
-</td>
-<td>
-2020-10-20
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>Define clusters using k-means with <span class="math inline">\(k = 20\)</span>:</p>
-<pre class="r"><code>set.seed(10)
-
-clusters.20 &lt;- factor(kmeans(poisson2multinom(fit)$L,centers = 20)$cluster)
-print(sort(table(clusters.20),decreasing = TRUE))
-# clusters.20
-#    17    13     4     1     3    20     8    12     7     2    15    14    18 
-# 13635  6703  5963  5809  5557  5057  5045  4012  3783  3492  3490  3147  2989 
-#     5     6    11    16    10    19     9 
-#  2958  2738  2158  1839  1756   721   321</code></pre>
-<p>Structure plot based on k-means clusters</p>
-<pre class="r"><code>colors_topics &lt;- c(&quot;#a6cee3&quot;,&quot;#1f78b4&quot;,&quot;#b2df8a&quot;,&quot;#33a02c&quot;,&quot;#fb9a99&quot;,&quot;#e31a1c&quot;,
-                   &quot;#fdbf6f&quot;,&quot;#ff7f00&quot;,&quot;#cab2d6&quot;,&quot;#6a3d9a&quot;,&quot;#ffff99&quot;,&quot;#b15928&quot;,
-                   &quot;gray&quot;)
-rows &lt;- sample(nrow(fit$L),4000)
-p.structure.4 &lt;- structure_plot(select(poisson2multinom(fit),loadings = rows),
-                     grouping = clusters.20[rows],n = Inf,gap = 20,
-                     perplexity = 50,topics = 1:13,colors = colors_topics,
-                     num_threads = 4,verbose = FALSE)
-# Perplexity automatically changed to 43 because original setting of 50 was too large for the number of samples (133)
-# Perplexity automatically changed to 1 because original setting of 50 was too large for the number of samples (9)
-# Perplexity automatically changed to 26 because original setting of 50 was too large for the number of samples (82)
-# Perplexity automatically changed to 25 because original setting of 50 was too large for the number of samples (81)
-# Perplexity automatically changed to 43 because original setting of 50 was too large for the number of samples (134)
-# Perplexity automatically changed to 27 because original setting of 50 was too large for the number of samples (86)
-# Perplexity automatically changed to 48 because original setting of 50 was too large for the number of samples (150)
-# Perplexity automatically changed to 10 because original setting of 50 was too large for the number of samples (35)
-print(p.structure.4)</code></pre>
-<p><img src="figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-kmeans-3-1.png" width="840" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-kmeans-3-1">
-Past versions of structure-plot-kmeans-3-1.png
-</button>
-</p>
-<div id="fig-structure-plot-kmeans-3-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/9d31a9fba6cedf2b9b3ee1072364767c4156ad73/docs/figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-kmeans-3-1.png" target="_blank">9d31a9f</a>
-</td>
-<td>
-kevinlkx
-</td>
-<td>
-2020-10-21
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/32ed5aea68036d63ab78e7d417a8067660328456/docs/figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-kmeans-3-1.png" target="_blank">32ed5ae</a>
-</td>
-<td>
-kevinlkx
-</td>
-<td>
-2020-10-21
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/a38788b2e6ab19366c8d3bc9e45dc9844fde044d/docs/figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-kmeans-3-1.png" target="_blank">a38788b</a>
-</td>
-<td>
-kevinlkx
-</td>
-<td>
-2020-10-20
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div id="refine-clusters" class="section level2">
-<h2>Refine clusters</h2>
-<p>We then further refine the clusters based on k-means result with <span class="math inline">\(k = 20\)</span>: merge “orange” clusters 9, 11, 14; merge “brown” clusters 3 and 10, 16, 19; merge “yellow” clusters 8 and 18. (maybe could also merge the “red” clusters 2 and 4)</p>
-<pre class="r"><code>clusters.merged &lt;- clusters.20
-clusters.merged[clusters.20 %in% c(9,11,14)] &lt;- 9
-clusters.merged[clusters.20 %in% c(3,10,16,19)] &lt;- 3
-clusters.merged[clusters.20 %in% c(8,18)] &lt;- 8
-clusters.merged &lt;- factor(clusters.merged, labels = paste0(&quot;c&quot;, c(1:length(unique(clusters.merged)))))
-print(sort(table(clusters.merged),decreasing = TRUE))
-
-samples$cluster_kmeans &lt;- clusters.merged
-# clusters.merged
-#   c13    c3    c8   c11    c4    c1    c9   c14   c10    c7    c2   c12    c5 
-# 13635  9873  8034  6703  5963  5809  5626  5057  4012  3783  3492  3490  2958 
-#    c6 
-#  2738</code></pre>
-<pre class="r"><code>colors_topics &lt;- c(&quot;#a6cee3&quot;,&quot;#1f78b4&quot;,&quot;#b2df8a&quot;,&quot;#33a02c&quot;,&quot;#fb9a99&quot;,&quot;#e31a1c&quot;,
-                   &quot;#fdbf6f&quot;,&quot;#ff7f00&quot;,&quot;#cab2d6&quot;,&quot;#6a3d9a&quot;,&quot;#ffff99&quot;,&quot;#b15928&quot;,
-                   &quot;gray&quot;)
-rows &lt;- sample(nrow(fit$L),4000)
-p.structure.5 &lt;- structure_plot(select(poisson2multinom(fit),loadings = rows),
-                     grouping = clusters.merged[rows],n = Inf,gap = 20,
-                     perplexity = 50,topics = 1:13,colors = colors_topics,
-                     num_threads = 4,verbose = FALSE)
-# Perplexity automatically changed to 43 because original setting of 50 was too large for the number of samples (134)
-# Perplexity automatically changed to 47 because original setting of 50 was too large for the number of samples (147)
-print(p.structure.5)</code></pre>
-<p><img src="figure/clusters_Cusanovich2018_k13.Rmd/refine-cluster-2-1.png" width="840" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-refine-cluster-2-1">
-Past versions of refine-cluster-2-1.png
-</button>
-</p>
-<div id="fig-refine-cluster-2-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/9d31a9fba6cedf2b9b3ee1072364767c4156ad73/docs/figure/clusters_Cusanovich2018_k13.Rmd/refine-cluster-2-1.png" target="_blank">9d31a9f</a>
-</td>
-<td>
-kevinlkx
-</td>
-<td>
-2020-10-21
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/32ed5aea68036d63ab78e7d417a8067660328456/docs/figure/clusters_Cusanovich2018_k13.Rmd/refine-cluster-2-1.png" target="_blank">32ed5ae</a>
-</td>
-<td>
-kevinlkx
-</td>
-<td>
-2020-10-21
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/a38788b2e6ab19366c8d3bc9e45dc9844fde044d/docs/figure/clusters_Cusanovich2018_k13.Rmd/refine-cluster-2-1.png" target="_blank">a38788b</a>
-</td>
-<td>
-kevinlkx
-</td>
-<td>
-2020-10-20
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+print(p.structure.kmeans.refined)</code></pre>
+<p><img src="figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-kmeans-refined-2-1.png" width="840" style="display: block; margin: auto;" /></p>
 <p>The clusters defined by k-means on topic proportions reasonably identify the clusters shown in the PCA hexbin plots (below).</p>
 <pre class="r"><code>p.pca.4.1 &lt;- labeled_pca_plot(fit,1:2,samples$cluster_kmeans,font_size = 7,
                        legend_label = &quot;cluster_kmeans&quot;)
@@ -1683,6 +1478,9 @@ kevinlkx
 <pre class="r"><code>samples$tissue &lt;- as.factor(samples$tissue)
 cat(length(levels(samples$tissue)), &quot;tissues. \n&quot;)
 table(samples$tissue)
+
+colors_tissues &lt;- c(&quot;darkblue&quot;, &quot;darkgray&quot;, &quot;red&quot;, &quot;lightgreen&quot;, &quot;brown&quot;, &quot;purple&quot;, &quot;skyblue&quot;, &quot;black&quot;,
+                    &quot;darkgreen&quot;, &quot;pink&quot;, &quot;yellow&quot;, &quot;orange&quot;, &quot;lightgray&quot;)
 # 13 tissues. 
 # 
 #       BoneMarrow       Cerebellum            Heart           Kidney 
@@ -1693,7 +1491,8 @@ table(samples$tissue)
 #             4077             4020             2723             7617 
 #       WholeBrain 
 #             8766</code></pre>
-<p>Plot the distribution of tissues by cluster.</p>
+<div id="plot-the-distribution-of-tissues-by-cluster." class="section level3">
+<h3>Plot the distribution of tissues by cluster.</h3>
 <p>Stacked barplot for the counts of tissues by clusters:</p>
 <pre class="r"><code>library(plyr);library(dplyr)
 # ------------------------------------------------------------------------------
@@ -1710,8 +1509,6 @@ table(samples$tissue)
 library(RColorBrewer)
 
 freq_cluster_tissue &lt;- count(samples, vars=c(&quot;cluster_kmeans&quot;,&quot;tissue&quot;)) 
-
-colors_tissues &lt;- colorRampPalette(brewer.pal(9, &quot;Set1&quot;))(13)
 
 # stacked barplot for the counts of tissues by clusters
 p.barplot.1 &lt;- ggplot(freq_cluster_tissue, aes(fill=tissue, y=freq, x=cluster_kmeans)) + 
@@ -1775,10 +1572,6 @@ kevinlkx
 </div>
 <p>Percent stacked barplot for the counts of tissues by clusters:</p>
 <pre class="r"><code>
-freq_cluster_tissue &lt;- count(samples, vars=c(&quot;cluster_kmeans&quot;,&quot;tissue&quot;)) 
-
-colors_tissues &lt;- colorRampPalette(brewer.pal(9, &quot;Set1&quot;))(13)
-
 p.barplot.2 &lt;- ggplot(freq_cluster_tissue, aes(fill=tissue, y=freq, x=cluster_kmeans)) + 
   geom_bar(position=&quot;fill&quot;, stat=&quot;identity&quot;) +
   theme_classic() + xlab(&quot;Cluster&quot;) + ylab(&quot;Proportion of cells&quot;) +
@@ -1838,41 +1631,167 @@ kevinlkx
 </table>
 </div>
 </div>
-<p>We can see a few clusters are tissue specific: cluster c5 is kidney specific; cluster c7 is heart specific; cluster c9 is liver specific; cluster c3 is primarily thymus; cluster c6 is primarily bone marrow.</p>
-<p>Some clusters are combinations of related tissues: cluster c4 is half lung and half spleen; cluster c8 and c12 are mainly from pre-frontal cortex, whole brain (and cerebellum) – all neuron related. cluster c10 is also from whole brain and cerebellum. cluster c14 is mainly from Kidney, LargeIntestine, and Lung.</p>
-<p>Some clusters are more heterogeneous mixtures of different tissues: e.g. c1, c2, c11, c13.</p>
-<pre class="r"><code>freq_cluster_tissue &lt;- with(samples,table(tissue,cluster_kmeans))
-print(freq_cluster_tissue)
+<ul>
+<li>We can see a few clusters are tissue specific:</li>
+<li>cluster c3 is heart specific;</li>
+<li>cluster c8 is kidney specific;</li>
+<li>cluster c16 is liver specific;</li>
+<li>cluster c1 is primarily bone marrow;</li>
+<li>cluster c12 is primarily thymus.</li>
+</ul>
+<p>Some clusters are combinations of related tissues: - cluster c9 is half lung and half spleen; - cluster c5 and c15 are mainly from pre-frontal cortex, whole brain (and cerebellum) -- all neuron related. - cluster c14 is also from whole brain and cerebellum. - cluster c11 is mainly from Kidney, LargeIntestine, and Lung.</p>
+<p>Some clusters are more heterogeneous mixtures of different tissues: e.g. c2, c6, c7, c12.</p>
+<pre class="r"><code>freq_table_cluster_tissue &lt;- with(samples,table(tissue,cluster_kmeans))
+print(freq_table_cluster_tissue)
 #                   cluster_kmeans
 # tissue               c1   c2   c3   c4   c5   c6   c7   c8   c9  c10  c11  c12
-#   BoneMarrow         33 1342  174  259    0 2453    0    1    0    0 3085    0
-#   Cerebellum         80    8    0   29    0    0    0  387    0 1140   47  510
-#   Heart            2084  128   15   64    5    0 3776   14    0    0  442    4
-#   Kidney           1047   45   27   48 2953    0    0    4    3    0  347    1
-#   LargeIntestine    328  107  109   70    0    0    1   32    0    0  310    5
-#   Liver             334   96   41   36    0    0    0    0 5577    1   47    0
-#   Lung             1468 1143 1017 2647    0    2    5   28   28    2  552    2
-#   PreFrontalCortex   97   84    1  127    0    0    0 4453    0    2   39 1115
-#   SmallIntestine    112   71   49    9    0    0    0    3   15    0 1601    0
-#   Spleen              8  302 1033 2498    0   43    0    0    0    0  114    0
-#   Testes             34    1    0    2    0  240    0   30    3    0   43    0
-#   Thymus              6   56 7406   88    0    0    1    0    0    0   25    0
-#   WholeBrain        178  109    1   86    0    0    0 3082    0 2867   51 1853
+#   BoneMarrow       2455   15    0 1399    0   33 1060    0  276 3063    0  102
+#   Cerebellum          0   51    0    7  525   44  191    0   30   42    0    0
+#   Heart               0 1374 3768  126    3 1225  803    5   68  259    3   13
+#   Kidney              0  757    0   47    0  402   98 2950   48  280 1614   19
+#   LargeIntestine      0   73    1  107    4  665 2778    0   71  172  441   94
+#   Liver               0  268    0   97    0   84   31    0   39   50    1   34
+#   Lung                2 1093    5 1324    2  659 1010    0 2678  465 1521  773
+#   PreFrontalCortex    0   75    0   84 1169   48  118    0  131   49    0    1
+#   SmallIntestine      0   22    0   75    0  341 2112    0    9 1457    1   27
+#   Spleen             43    3    0  427    0    5   24    0 2510  116    0  892
+#   Testes            240   19    0    1    0   37 2379    0    2   38    0    0
+#   Thymus              0    2    1   82    0    9   32    0   90   30    1 7363
+#   WholeBrain          0  116    0  103 1942   99 1401    0   93   47    0    1
 #                   cluster_kmeans
-# tissue              c13  c14
-#   BoneMarrow       1056    0
-#   Cerebellum         73    4
-#   Heart            1113    5
-#   Kidney            158 1798
-#   LargeIntestine   4617 1507
-#   Liver              31    4
-#   Lung             1378 1724
-#   PreFrontalCortex   38    3
-#   SmallIntestine   2212    5
-#   Spleen             22    0
-#   Testes           2367    3
-#   Thymus             31    4
-#   WholeBrain        539    0</code></pre>
+# tissue              c13  c14  c15  c16
+#   BoneMarrow          0    0    0    0
+#   Cerebellum         15 1177  196    0
+#   Heart               3    0    0    0
+#   Kidney            215    0    0    1
+#   LargeIntestine   2680    0    0    0
+#   Liver               4    1    0 5558
+#   Lung              434    2    2   26
+#   PreFrontalCortex   19    4 4261    0
+#   SmallIntestine     18    0    0   15
+#   Spleen              0    0    0    0
+#   Testes              4    0    0    3
+#   Thymus              7    0    0    0
+#   WholeBrain         12 2988 1964    0</code></pre>
+</div>
+<div id="plot-the-distribution-of-cell-labels-by-cluster." class="section level3">
+<h3>Plot the distribution of cell labels by cluster.</h3>
+<p>Stacked barplot for the counts of cell labels by clusters:</p>
+<pre class="r"><code>freq_cluster_celllabel &lt;- count(samples, vars=c(&quot;cluster_kmeans&quot;,&quot;cell_label&quot;)) 
+
+colors_celllabels &lt;- colorRampPalette(brewer.pal(12, &quot;Set3&quot;))(40)
+
+# stacked barplot for the counts of tissues by clusters
+p.barplot.3 &lt;- ggplot(freq_cluster_celllabel, aes(fill=cell_label, y=freq, x=cluster_kmeans)) + 
+  geom_bar(position=&quot;stack&quot;, stat=&quot;identity&quot;) +
+  theme_classic() + xlab(&quot;Cluster&quot;) + ylab(&quot;Number of cells&quot;) +
+  scale_fill_manual(values = colors_celllabels) +
+  guides(fill=guide_legend(ncol=3)) +
+  theme(
+  legend.title = element_text(size = 9),
+  legend.text = element_text(size = 7)
+  )
+print(p.barplot.3)</code></pre>
+<p><img src="figure/clusters_Cusanovich2018_k13.Rmd/freq-cluster-celllabel-1-1.png" width="1200" style="display: block; margin: auto;" /></p>
+<p>Percent stacked barplot for the counts of tissues by clusters:</p>
+<pre class="r"><code>
+p.barplot.4 &lt;- ggplot(freq_cluster_celllabel, aes(fill=cell_label, y=freq, x=cluster_kmeans)) + 
+  geom_bar(position=&quot;fill&quot;, stat=&quot;identity&quot;) +
+  theme_classic() + xlab(&quot;Cluster&quot;) + ylab(&quot;Proportion of cells&quot;) +
+  scale_fill_manual(values = colors_celllabels) +
+  guides(fill=guide_legend(ncol=3)) +
+  theme(
+  legend.title = element_text(size = 9),
+  legend.text = element_text(size = 7)
+  )
+print(p.barplot.4)</code></pre>
+<p><img src="figure/clusters_Cusanovich2018_k13.Rmd/freq-cluster-celllabel-2-1.png" width="1200" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>freq_table_cluster_celllabel &lt;- with(samples,table(cell_label,cluster_kmeans))
+print(freq_table_cluster_celllabel)
+#                             cluster_kmeans
+# cell_label                     c1   c2   c3   c4   c5   c6   c7   c8   c9  c10
+#   Activated B cells             0    0    0  146    0    0    0    0  331   23
+#   Alveolar macrophages          0    0    0  322    0    2   16    0  185   34
+#   Astrocytes                    0    0    0    0 1574   11   58    0    0   20
+#   B cells                       0    0    0  470    0    3  648    0 4616   34
+#   Cardiomyocytes                0   15 3773    1    0   42  169    0    0   76
+#   Cerebellar granule cells      0    0    0    9    0    3  306    0    0   19
+#   Collecting duct               0    0    0    0    0   10    0    0    0    5
+#   Collisions                    6    2    0  296  423   15  166    0   44   64
+#   DCT/CD                        0    0    0    0    0    1    0    1    0    6
+#   Dendritic cells               1    0    0  416    0    2   12    0  424  102
+#   Distal convoluted tubule      0    0    0    0    0    0    0    0    0    6
+#   Endothelial I (glomerular)    0  386    0    0    0  158    0    0    0    8
+#   Endothelial I cells           0  512    0    0    0  438    1    0    0    1
+#   Endothelial II cells          0 2405    0   15    0  574    7    0    0   15
+#   Enterocytes                   0    0    0    0    1   11 1585    0    0   54
+#   Erythroblasts              2420    0    0   37    0    0   79    0    0  275
+#   Ex. neurons CPN               0    0    0    0    0    0   10    0    0    0
+#   Ex. neurons CThPN             0    0    0    0    0    0   91    0    0    0
+#   Ex. neurons SCPN              0    0    0    0    0    0   40    0    0   32
+#   Hematopoietic progenitors     0    0    0   26    0    1  899    0    0 2499
+#   Hepatocytes                   0    0    0    2    0    5   11    0    0   44
+#   Immature B cells              0    0    0  285    0    0    0    0   68  218
+#   Inhibitory neurons            0    0    0    3   68   27  754    0    0    8
+#   Loop of henle                 0    1    0    0    0    8    2    1    0   11
+#   Macrophages                   0    0    0  337    0   14  191    0  127   42
+#   Microglia                     0    1    0  159    1    3   31    0  226    1
+#   Monocytes                    69    0    0 1010    0    1   50    0    9   32
+#   NK cells                      0    0    0  231    0    1    2    0    0   16
+#   Oligodendrocytes              0    0    0    1 1506    1   30    0    0   17
+#   Podocytes                     0  369    0    0    0  113    0    0    0   16
+#   Proximal tubule               0    1    0    1    0   16   33 2361    0  132
+#   Proximal tubule S3            0    0    0    0    0    0    2  592    0    0
+#   Purkinje cells                0    0    0    0    1    2   50    0    0    0
+#   Regulatory T cells            3    0    0   17    0    1    7    0    0    4
+#   SOM+ Interneurons             0    0    0    0    7    8   66    0    0    5
+#   Sperm                       240    0    0    0    0    1 1814    0    0   32
+#   T cells                       1    1    0   35    1    7  104    0    0   50
+#   Type I pneumocytes            0    0    0    1    0    3    0    0    0   27
+#   Type II pneumocytes           0    8    0    0    0   14    0    0    0    1
+#   Unknown                       0  167    2   59   63 2155 4803    0   15 2139
+#                             cluster_kmeans
+# cell_label                    c11  c12  c13  c14  c15  c16
+#   Activated B cells             0    0    0    0    0    0
+#   Alveolar macrophages          0    0    0    0    0    0
+#   Astrocytes                    0    0    0    0    3    0
+#   B cells                       0    0    1    0    0    0
+#   Cardiomyocytes                0    0    0    0    0    0
+#   Cerebellar granule cells      0    0    0 3762    0    0
+#   Collecting duct             124    0   25    0    0    0
+#   Collisions                    0   11    8   97   86    0
+#   DCT/CD                      441    0   57    0    0    0
+#   Dendritic cells               0    0    1    0    0    0
+#   Distal convoluted tubule    301    0   12    0    0    0
+#   Endothelial I (glomerular)    0    0    0    0    0    0
+#   Endothelial I cells           0    0    0    0    0    0
+#   Endothelial II cells          0    1    1    1    0    0
+#   Enterocytes                 442    0 2690    0    0    0
+#   Erythroblasts                 0    0    0    0    0    0
+#   Ex. neurons CPN               0    0    0    0 1822    0
+#   Ex. neurons CThPN             0    0    0    0 1449    0
+#   Ex. neurons SCPN              0    0    0    0 1394    0
+#   Hematopoietic progenitors     0    0    0    0    0    0
+#   Hepatocytes                   0    0    0    0    0 5602
+#   Immature B cells              0    0    0    0    0    0
+#   Inhibitory neurons            0    0    0    3  965    0
+#   Loop of henle               718    0   74    0    0    0
+#   Macrophages                   0    0    0    0    0    0
+#   Microglia                     0    0    0    0    0    0
+#   Monocytes                     0    2    0    0    0    0
+#   NK cells                      0   71    0    0    0    0
+#   Oligodendrocytes              0    0    0    0    3    0
+#   Podocytes                     0    0    0    0    0    0
+#   Proximal tubule               7    0   19    0    0    0
+#   Proximal tubule S3            0    0    0    0    0    0
+#   Purkinje cells                0    0    0  262    5    0
+#   Regulatory T cells            0  475    0    0    0    0
+#   SOM+ Interneurons             0    0    0    1  466    0
+#   Sperm                         0    0    2    0    0    0
+#   T cells                       0 8753    2    0    0    0
+#   Type I pneumocytes         1415    6  170    0    0    0
+#   Type II pneumocytes          66    0   68    0    0    0
+#   Unknown                      68    0  281   46  230    1</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1881,7 +1800,7 @@ print(freq_cluster_tissue)
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()
-# R version 3.5.1 (2018-07-02)
+# R version 3.6.1 (2019-07-05)
 # Platform: x86_64-pc-linux-gnu (64-bit)
 # Running under: Scientific Linux 7.4 (Nitrogen)
 # 
@@ -1900,27 +1819,28 @@ print(freq_cluster_tissue)
 # [1] stats     graphics  grDevices utils     datasets  methods   base     
 # 
 # other attached packages:
-# [1] RColorBrewer_1.1-2 plyr_1.8.6         fastTopics_0.3-180 cowplot_1.0.0     
-# [5] ggplot2_3.3.0      dplyr_0.8.5        Matrix_1.2-15      workflowr_1.6.2   
+# [1] RColorBrewer_1.1-2 plyr_1.8.6         fastTopics_0.3-180 cowplot_1.1.0     
+# [5] ggplot2_3.3.2      dplyr_1.0.2        Matrix_1.2-18      workflowr_1.6.2   
 # 
 # loaded via a namespace (and not attached):
-#  [1] ggrepel_0.8.2      Rcpp_1.0.4.6       lattice_0.20-38    tidyr_0.8.3       
-#  [5] prettyunits_1.1.1  assertthat_0.2.1   rprojroot_1.3-2    digest_0.6.25     
-#  [9] R6_2.4.1           backports_1.1.7    MatrixModels_0.4-1 evaluate_0.14     
-# [13] coda_0.19-2        httr_1.4.1         pillar_1.4.4       rlang_0.4.6       
-# [17] progress_1.2.2     lazyeval_0.2.2     data.table_1.12.8  irlba_2.3.3       
-# [21] SparseM_1.77       whisker_0.4        hexbin_1.28.1      rmarkdown_2.1     
-# [25] labeling_0.3       Rtsne_0.15         stringr_1.4.0      htmlwidgets_1.5.1 
-# [29] munsell_0.5.0      compiler_3.5.1     httpuv_1.5.3.1     xfun_0.14         
-# [33] pkgconfig_2.0.3    mcmc_0.9-7         htmltools_0.4.0    tidyselect_0.2.5  
-# [37] tibble_3.0.1       quadprog_1.5-5     viridisLite_0.3.0  crayon_1.3.4      
-# [41] withr_2.1.2        later_1.0.0        MASS_7.3-51.6      grid_3.5.1        
-# [45] jsonlite_1.6       gtable_0.3.0       lifecycle_0.2.0    git2r_0.27.1      
-# [49] magrittr_1.5       scales_1.1.1       RcppParallel_4.4.3 stringi_1.4.6     
-# [53] farver_2.0.3       fs_1.3.1           promises_1.1.0     ellipsis_0.3.1    
-# [57] vctrs_0.3.0        tools_3.5.1        glue_1.4.1         purrr_0.3.4       
-# [61] hms_0.4.2          yaml_2.2.0         colorspace_1.4-1   plotly_4.8.0      
-# [65] knitr_1.28         quantreg_5.36      MCMCpack_1.4-4</code></pre>
+#  [1] ggrepel_0.8.2      Rcpp_1.0.5         lattice_0.20-41    tidyr_1.1.2       
+#  [5] prettyunits_1.1.1  rprojroot_1.3-2    digest_0.6.27      R6_2.5.0          
+#  [9] backports_1.2.0    MatrixModels_0.4-1 evaluate_0.14      coda_0.19-3       
+# [13] httr_1.4.2         pillar_1.4.7       rlang_0.4.8        progress_1.2.2    
+# [17] lazyeval_0.2.2     data.table_1.13.2  irlba_2.3.3        SparseM_1.77      
+# [21] whisker_0.4        hexbin_1.28.1      rmarkdown_2.5      labeling_0.4.2    
+# [25] Rtsne_0.15         stringr_1.4.0      htmlwidgets_1.5.2  munsell_0.5.0     
+# [29] compiler_3.6.1     httpuv_1.5.4       xfun_0.19          pkgconfig_2.0.3   
+# [33] mcmc_0.9-7         htmltools_0.5.0    tidyselect_1.1.0   tibble_3.0.4      
+# [37] quadprog_1.5-7     viridisLite_0.3.0  crayon_1.3.4       withr_2.3.0       
+# [41] later_1.1.0.1      MASS_7.3-53        grid_3.6.1         jsonlite_1.6      
+# [45] gtable_0.3.0       lifecycle_0.2.0    git2r_0.27.1       magrittr_1.5      
+# [49] scales_1.1.1       RcppParallel_5.0.2 stringi_1.5.3      farver_2.0.3      
+# [53] fs_1.3.1           promises_1.1.1     ellipsis_0.3.1     generics_0.0.2    
+# [57] vctrs_0.3.5        tools_3.6.1        glue_1.4.2         purrr_0.3.4       
+# [61] hms_0.5.3          yaml_2.2.0         colorspace_2.0-0   plotly_4.9.0      
+# [65] knitr_1.30         quantreg_5.41      MCMCpack_1.4-4</code></pre>
+</div>
 </div>
 </div>
 
@@ -1947,7 +1867,7 @@ footer is added to webpages before the MathJax javascript. -->
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -1986,7 +1906,7 @@ $(document).ready(function ()  {
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
       },
       ignoreSelector: ".toc-ignore",
       scrollTo: 0
