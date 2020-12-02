@@ -26,6 +26,8 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
 
 <link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/master/img/reproducible.png">
 <!-- Add a small amount of space between sections. -->
@@ -34,6 +36,15 @@ div.section {
   padding-top: 12px;
 }
 </style>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -361,7 +372,9 @@ div.tocify {
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/stephenslab/scATACseq-topics">source</a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -397,7 +410,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-11-06
+<strong>Last updated:</strong> 2020-12-02
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -433,7 +446,7 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 </div>
 <div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it's best to always run the code in an empty environment.</p>
 </div>
 </div>
 </div>
@@ -445,7 +458,7 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 </div>
 <div id="strongSeedstrongcodesetseed20200729code" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The command <code>set.seed(20200729)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+<p>The command <code>set.seed(20200729)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
 </div>
 </div>
 </div>
@@ -488,16 +501,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreeb1df991f5301a576fc9edc975b6ad0a755f76440targetblankb1df991a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/b1df991f5301a576fc9edc975b6ad0a755f76440" target="_blank">b1df991</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree6f28b44a93ec019223d4fabb845a23f2f94f4c3etargetblank6f28b44a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/6f28b44a93ec019223d4fabb845a23f2f94f4c3e" target="_blank">6f28b44</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreeb1df991f5301a576fc9edc975b6ad0a755f76440targetblankb1df991a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree6f28b44a93ec019223d4fabb845a23f2f94f4c3etargetblank6f28b44a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/b1df991f5301a576fc9edc975b6ad0a755f76440" target="_blank">b1df991</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/6f28b44a93ec019223d4fabb845a23f2f94f4c3e" target="_blank">6f28b44</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -509,15 +522,23 @@ Ignored files:
 
 Untracked files:
     Untracked:  analysis/clusters_pca_structure_Cusanovich2018.Rmd
+    Untracked:  analysis/motif_analysis_Buenrostro2018_chomVAR_scPeaks.Rmd
+    Untracked:  analysis/process_data_Buenrostro2018_Chen2019.Rmd
+    Untracked:  buenrostro2018.RData
+    Untracked:  output/clustering-Cusanovich2018.rds
+    Untracked:  scripts/fit_all_models_Buenrostro_2018_chromVar_scPeaks_filtered.sbatch
 
 Unstaged changes:
-    Modified:   analysis/index.Rmd
+    Modified:   analysis/cisTopic_Buenrostro2018_chomVAR_scPeaks.Rmd
     Modified:   analysis/plots_Lareau2019_bonemarrow.Rmd
-    Modified:   scripts/fit_all_models_Lareau2019.sh
+    Modified:   analysis/process_data_Buenrostro2018.Rmd
+    Modified:   code/motif_analysis.R
+    Modified:   code/plots.R
+    Modified:   scripts/fit_all_models_Buenrostro_2018.sbatch
 
 </code></pre>
 <p>
-Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
 </p>
 </div>
 </div>
@@ -528,7 +549,7 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <div id="versions" class="tab-pane fade">
 
 <p>
-These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/clusters_Buenrostro2018_k11.Rmd</code>) and HTML (<code>docs/clusters_Buenrostro2018_k11.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd</code>) and HTML (<code>docs/clusters_Buenrostro2018_k11_Chen2019pipeline.html</code>) files. If you've configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
 </p>
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
@@ -557,16 +578,50 @@ Message
 Rmd
 </td>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/b1df991f5301a576fc9edc975b6ad0a755f76440/analysis/clusters_Buenrostro2018_k11.Rmd" target="_blank">b1df991</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/6f28b44a93ec019223d4fabb845a23f2f94f4c3e/analysis/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd" target="_blank">6f28b44</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-06
+2020-12-02
 </td>
 <td>
-cluster Buenrostro2018 results with 11 topics
+update data.dir and out.dir
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/6a9deadf435cdbd80948f25740179eb173ee71ad/analysis/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd" target="_blank">6a9dead</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-19
+</td>
+<td>
+wflow_rename(&quot;analysis/clusters_Buenrostro2018_k11.Rmd&quot;, &quot;analysis/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd&quot;)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/6a9deadf435cdbd80948f25740179eb173ee71ad/docs/clusters_Buenrostro2018_k11_Chen2019pipeline.html" target="_blank">6a9dead</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-19
+</td>
+<td>
+wflow_rename(&quot;analysis/clusters_Buenrostro2018_k11.Rmd&quot;, &quot;analysis/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd&quot;)
 </td>
 </tr>
 </tbody>
@@ -588,7 +643,7 @@ source(&quot;code/plots.R&quot;)</code></pre>
 <div id="unbinarized-counts" class="section level2">
 <h2>Unbinarized counts</h2>
 <p>Load the <strong>unbinarized</strong> data</p>
-<pre class="r"><code>data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/&quot;
+<pre class="r"><code>data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/&quot;
 load(file.path(data.dir, &quot;Buenrostro_2018_counts.RData&quot;))
 cat(sprintf(&quot;%d x %d counts matrix.\n&quot;,nrow(counts),ncol(counts)))
 rm(counts)
@@ -598,7 +653,7 @@ samples$label &lt;- as.factor(samples$label)
 <div id="plot-pcs-of-the-topic-proportions" class="section level3">
 <h3>Plot PCs of the topic proportions</h3>
 <p>We first use PCA to explore the structure inferred from the multinomial topic model with <span class="math inline">\(k = 11\)</span>:</p>
-<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/unbinarized/&quot;
+<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/unbinarized/&quot;
 fit &lt;- readRDS(file.path(out.dir, &quot;/fit-Buenrostro2018-scd-ex-k=11.rds&quot;))$fit
 
 colors_topics &lt;- c(&quot;#a6cee3&quot;,&quot;#1f78b4&quot;,&quot;#b2df8a&quot;,&quot;#33a02c&quot;,&quot;#fb9a99&quot;,&quot;#e31a1c&quot;,
@@ -611,7 +666,44 @@ p.pca1.4 &lt;- pca_plot(poisson2multinom(fit),pcs = 7:8,fill = &quot;none&quot;)
 p.pca1.5 &lt;- pca_plot(poisson2multinom(fit),pcs = 9:10,fill = &quot;none&quot;)
 
 plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4,p.pca1.5)</code></pre>
-<p><img src="figure/clusters_Buenrostro2018_k11.Rmd/pca-unbinarized-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/pca-unbinarized-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-unbinarized-1-1">
+Past versions of pca-unbinarized-1-1.png
+</button>
+</p>
+<div id="fig-pca-unbinarized-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/6a9deadf435cdbd80948f25740179eb173ee71ad/docs/figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/pca-unbinarized-1-1.png" target="_blank">6a9dead</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Some of the structure is more evident from “hexbin” plots showing the density of the points.</p>
 <pre class="r"><code>breaks &lt;- c(0,1,5,10,100,Inf)
 p.pca2.1 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 1:2, breaks = breaks) + guides(fill = &quot;none&quot;)
@@ -621,7 +713,44 @@ p.pca2.4 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 7:8, breaks = breaks
 p.pca2.5 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 9:10, breaks = breaks) + guides(fill = &quot;none&quot;)
 
 plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4,p.pca2.5)</code></pre>
-<p><img src="figure/clusters_Buenrostro2018_k11.Rmd/pca-unbinarized-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/pca-unbinarized-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-unbinarized-2-1">
+Past versions of pca-unbinarized-2-1.png
+</button>
+</p>
+<div id="fig-pca-unbinarized-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/6a9deadf435cdbd80948f25740179eb173ee71ad/docs/figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/pca-unbinarized-2-1.png" target="_blank">6a9dead</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="layer-the-cell-labels-onto-the-pc-plots" class="section level3">
 <h3>Layer the cell labels onto the PC plots</h3>
@@ -637,7 +766,44 @@ p.pca3.4 &lt;- labeled_pca_plot(fit,7:8,samples$label,font_size = 7,
 p.pca3.5 &lt;- labeled_pca_plot(fit,9:10,samples$label,font_size = 7,
                        legend_label = &quot;Cell labels&quot;)
 plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4,p.pca3.5)</code></pre>
-<p><img src="figure/clusters_Buenrostro2018_k11.Rmd/pca-unbinarized-3-1.png" width="1080" style="display: block; margin: auto;" /></p>
+<p><img src="figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/pca-unbinarized-3-1.png" width="1080" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-unbinarized-3-1">
+Past versions of pca-unbinarized-3-1.png
+</button>
+</p>
+<div id="fig-pca-unbinarized-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/6a9deadf435cdbd80948f25740179eb173ee71ad/docs/figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/pca-unbinarized-3-1.png" target="_blank">6a9dead</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Visualize by structure plot grouped by cell labels.</p>
 <pre class="r"><code>set.seed(10)
 
@@ -655,7 +821,44 @@ p.structure.1 &lt;- structure_plot(poisson2multinom(fit),
 # Perplexity automatically changed to 18 because original setting of 50 was too large for the number of samples (60)
 
 print(p.structure.1)</code></pre>
-<p><img src="figure/clusters_Buenrostro2018_k11.Rmd/structure-plot-unbinarized-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/structure-plot-unbinarized-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-unbinarized-1-1">
+Past versions of structure-plot-unbinarized-1-1.png
+</button>
+</p>
+<div id="fig-structure-plot-unbinarized-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/6a9deadf435cdbd80948f25740179eb173ee71ad/docs/figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/structure-plot-unbinarized-1-1.png" target="_blank">6a9dead</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="k-means-clustering-on-topic-proportions" class="section level3">
 <h3>k-means clustering on topic proportions</h3>
@@ -679,7 +882,44 @@ print(sort(table(clusters.10),decreasing = TRUE))
 # Perplexity automatically changed to 26 because original setting of 50 was too large for the number of samples (84)
 # Perplexity automatically changed to 46 because original setting of 50 was too large for the number of samples (143)
 print(p.structure.2)</code></pre>
-<p><img src="figure/clusters_Buenrostro2018_k11.Rmd/structure-plot-kmeans-unbinarized-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/structure-plot-kmeans-unbinarized-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-kmeans-unbinarized-1-1">
+Past versions of structure-plot-kmeans-unbinarized-1-1.png
+</button>
+</p>
+<div id="fig-structure-plot-kmeans-unbinarized-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/6a9deadf435cdbd80948f25740179eb173ee71ad/docs/figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/structure-plot-kmeans-unbinarized-1-1.png" target="_blank">6a9dead</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Define clusters using k-means with <span class="math inline">\(k = 15\)</span>:</p>
 <pre class="r"><code>set.seed(10)
 
@@ -708,7 +948,44 @@ print(sort(table(clusters.15),decreasing = TRUE))
 # Perplexity automatically changed to 21 because original setting of 50 was too large for the number of samples (67)
 # Perplexity automatically changed to 20 because original setting of 50 was too large for the number of samples (66)
 print(p.structure.3)</code></pre>
-<p><img src="figure/clusters_Buenrostro2018_k11.Rmd/structure-plot-kmeans-unbinarized-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/structure-plot-kmeans-unbinarized-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-kmeans-unbinarized-2-1">
+Past versions of structure-plot-kmeans-unbinarized-2-1.png
+</button>
+</p>
+<div id="fig-structure-plot-kmeans-unbinarized-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/6a9deadf435cdbd80948f25740179eb173ee71ad/docs/figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/structure-plot-kmeans-unbinarized-2-1.png" target="_blank">6a9dead</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Define clusters using k-means with <span class="math inline">\(k = 20\)</span>:</p>
 <pre class="r"><code>set.seed(10)
 
@@ -744,7 +1021,44 @@ print(sort(table(clusters.20),decreasing = TRUE))
 # Perplexity automatically changed to 45 because original setting of 50 was too large for the number of samples (139)
 # Perplexity automatically changed to 18 because original setting of 50 was too large for the number of samples (59)
 print(p.structure.4)</code></pre>
-<p><img src="figure/clusters_Buenrostro2018_k11.Rmd/structure-plot-kmeans-unbinarized-3-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/structure-plot-kmeans-unbinarized-3-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-kmeans-unbinarized-3-1">
+Past versions of structure-plot-kmeans-unbinarized-3-1.png
+</button>
+</p>
+<div id="fig-structure-plot-kmeans-unbinarized-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/6a9deadf435cdbd80948f25740179eb173ee71ad/docs/figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/structure-plot-kmeans-unbinarized-3-1.png" target="_blank">6a9dead</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="refine-clusters" class="section level3">
 <h3>Refine clusters</h3>
@@ -780,7 +1094,44 @@ table(clusters.merged)
 # Perplexity automatically changed to 20 because original setting of 50 was too large for the number of samples (66)
 # Perplexity automatically changed to 18 because original setting of 50 was too large for the number of samples (59)
 print(p.structure.refined)</code></pre>
-<p><img src="figure/clusters_Buenrostro2018_k11.Rmd/refine-cluster-unbinarized-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/refine-cluster-unbinarized-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-refine-cluster-unbinarized-2-1">
+Past versions of refine-cluster-unbinarized-2-1.png
+</button>
+</p>
+<div id="fig-refine-cluster-unbinarized-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/6a9deadf435cdbd80948f25740179eb173ee71ad/docs/figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/refine-cluster-unbinarized-2-1.png" target="_blank">6a9dead</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Group samples by k-means clusters first, then by celltype labels:</p>
 <pre class="r"><code>p.structure.refined &lt;- structure_plot(poisson2multinom(fit),
                      grouping = clusters.merged,
@@ -789,7 +1140,44 @@ print(p.structure.refined)</code></pre>
                      perplexity = 50,topics = 1:11,colors = colors_topics,
                      num_threads = 4,verbose = FALSE)
 print(p.structure.refined)</code></pre>
-<p><img src="figure/clusters_Buenrostro2018_k11.Rmd/refine-cluster-unbinarized-3-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/refine-cluster-unbinarized-3-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-refine-cluster-unbinarized-3-1">
+Past versions of refine-cluster-unbinarized-3-1.png
+</button>
+</p>
+<div id="fig-refine-cluster-unbinarized-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/6a9deadf435cdbd80948f25740179eb173ee71ad/docs/figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/refine-cluster-unbinarized-3-1.png" target="_blank">6a9dead</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>The clusters defined by k-means on topic proportions reasonably identify the clusters shown in the PCA hexbin plots (below).</p>
 <pre class="r"><code>p.pca.4.1 &lt;- labeled_pca_plot(fit,1:2,samples$cluster_kmeans,font_size = 7,
                        legend_label = &quot;cluster_kmeans&quot;)
@@ -802,9 +1190,83 @@ p.pca.4.4 &lt;- labeled_pca_plot(fit,7:8,samples$cluster_kmeans,font_size = 7,
 p.pca.4.5 &lt;- labeled_pca_plot(fit,9:10,samples$cluster_kmeans,font_size = 7,
                        legend_label = &quot;cluster_kmeans&quot;)
 plot_grid(p.pca.4.1,p.pca.4.2,p.pca.4.3,p.pca.4.4,p.pca.4.5)</code></pre>
-<p><img src="figure/clusters_Buenrostro2018_k11.Rmd/pca-kmeans-unbinarized-1-1.png" width="1080" style="display: block; margin: auto;" /></p>
+<p><img src="figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/pca-kmeans-unbinarized-1-1.png" width="1080" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-kmeans-unbinarized-1-1">
+Past versions of pca-kmeans-unbinarized-1-1.png
+</button>
+</p>
+<div id="fig-pca-kmeans-unbinarized-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/6a9deadf435cdbd80948f25740179eb173ee71ad/docs/figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/pca-kmeans-unbinarized-1-1.png" target="_blank">6a9dead</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4,p.pca2.5)</code></pre>
-<p><img src="figure/clusters_Buenrostro2018_k11.Rmd/pca-kmeans-unbinarized-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/pca-kmeans-unbinarized-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-kmeans-unbinarized-2-1">
+Past versions of pca-kmeans-unbinarized-2-1.png
+</button>
+</p>
+<div id="fig-pca-kmeans-unbinarized-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/6a9deadf435cdbd80948f25740179eb173ee71ad/docs/figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/pca-kmeans-unbinarized-2-1.png" target="_blank">6a9dead</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>We then label the cells in each cluster with the known cell labels.</p>
 <p>Cell labels:</p>
 <pre class="r"><code>samples$label &lt;- as.factor(samples$label)
@@ -860,7 +1322,44 @@ p.barplot.1 &lt;- ggplot(freq_cluster_celltype, aes(fill=label, y=freq, x=cluste
   legend.text = element_text(size = 8)
   )
 print(p.barplot.1)</code></pre>
-<p><img src="figure/clusters_Buenrostro2018_k11.Rmd/freq-cluster-cell-unbinarized-1-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><img src="figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/freq-cluster-cell-unbinarized-1-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-freq-cluster-cell-unbinarized-1-1">
+Past versions of freq-cluster-cell-unbinarized-1-1.png
+</button>
+</p>
+<div id="fig-freq-cluster-cell-unbinarized-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/6a9deadf435cdbd80948f25740179eb173ee71ad/docs/figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/freq-cluster-cell-unbinarized-1-1.png" target="_blank">6a9dead</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Percent stacked barplot for the counts of cell labels by clusters:</p>
 <pre class="r"><code>
 freq_cluster_celltype &lt;- count(samples, vars=c(&quot;cluster_kmeans&quot;,&quot;label&quot;)) 
@@ -877,13 +1376,50 @@ p.barplot.2 &lt;- ggplot(freq_cluster_celltype, aes(fill=label, y=freq, x=cluste
   legend.text = element_text(size = 8)
   )
 print(p.barplot.2)</code></pre>
-<p><img src="figure/clusters_Buenrostro2018_k11.Rmd/freq-cluster-tissue-unbinarized-2-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><img src="figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/freq-cluster-tissue-unbinarized-2-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-freq-cluster-tissue-unbinarized-2-1">
+Past versions of freq-cluster-tissue-unbinarized-2-1.png
+</button>
+</p>
+<div id="fig-freq-cluster-tissue-unbinarized-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/6a9deadf435cdbd80948f25740179eb173ee71ad/docs/figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/freq-cluster-tissue-unbinarized-2-1.png" target="_blank">6a9dead</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="binarized-counts" class="section level2">
 <h2>Binarized counts</h2>
 <p>Load the <strong>binarized</strong> data</p>
-<pre class="r"><code>data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/&quot;
+<pre class="r"><code>data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/&quot;
 load(file.path(data.dir, &quot;Buenrostro_2018_binarized_counts.RData&quot;))
 cat(sprintf(&quot;%d x %d counts matrix.\n&quot;,nrow(counts),ncol(counts)))
 rm(counts)
@@ -893,7 +1429,7 @@ samples$label &lt;- as.factor(samples$label)
 <div id="plot-pcs-of-the-topic-proportions-1" class="section level3">
 <h3>Plot PCs of the topic proportions</h3>
 <p>We first use PCA to explore the structure inferred from the multinomial topic model with <span class="math inline">\(k = 11\)</span>:</p>
-<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/&quot;
+<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/&quot;
 fit &lt;- readRDS(file.path(out.dir, &quot;/fit-Buenrostro2018-binarized-scd-ex-k=11.rds&quot;))$fit
 
 colors_topics &lt;- c(&quot;#a6cee3&quot;,&quot;#1f78b4&quot;,&quot;#b2df8a&quot;,&quot;#33a02c&quot;,&quot;#fb9a99&quot;,&quot;#e31a1c&quot;,
@@ -906,7 +1442,44 @@ p.pca1.4 &lt;- pca_plot(poisson2multinom(fit),pcs = 7:8,fill = &quot;none&quot;)
 p.pca1.5 &lt;- pca_plot(poisson2multinom(fit),pcs = 9:10,fill = &quot;none&quot;)
 
 plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4,p.pca1.5)</code></pre>
-<p><img src="figure/clusters_Buenrostro2018_k11.Rmd/pca-binarized-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/pca-binarized-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-binarized-1-1">
+Past versions of pca-binarized-1-1.png
+</button>
+</p>
+<div id="fig-pca-binarized-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/6a9deadf435cdbd80948f25740179eb173ee71ad/docs/figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/pca-binarized-1-1.png" target="_blank">6a9dead</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Some of the structure is more evident from “hexbin” plots showing the density of the points.</p>
 <pre class="r"><code>breaks &lt;- c(0,1,5,10,100,Inf)
 p.pca2.1 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 1:2, breaks = breaks) + guides(fill = &quot;none&quot;)
@@ -916,7 +1489,44 @@ p.pca2.4 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 7:8, breaks = breaks
 p.pca2.5 &lt;- pca_hexbin_plot(poisson2multinom(fit), pcs = 9:10, breaks = breaks) + guides(fill = &quot;none&quot;)
 
 plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4,p.pca2.5)</code></pre>
-<p><img src="figure/clusters_Buenrostro2018_k11.Rmd/pca-binarized-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/pca-binarized-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-binarized-2-1">
+Past versions of pca-binarized-2-1.png
+</button>
+</p>
+<div id="fig-pca-binarized-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/6a9deadf435cdbd80948f25740179eb173ee71ad/docs/figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/pca-binarized-2-1.png" target="_blank">6a9dead</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="layer-the-cell-labels-onto-the-pc-plots-1" class="section level3">
 <h3>Layer the cell labels onto the PC plots</h3>
@@ -933,7 +1543,44 @@ p.pca3.5 &lt;- labeled_pca_plot(fit,9:10,samples$label,font_size = 7,
                        legend_label = &quot;Cell labels&quot;)
 
 plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4,p.pca3.5)</code></pre>
-<p><img src="figure/clusters_Buenrostro2018_k11.Rmd/pca-binarized-3-1.png" width="1080" style="display: block; margin: auto;" /></p>
+<p><img src="figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/pca-binarized-3-1.png" width="1080" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-binarized-3-1">
+Past versions of pca-binarized-3-1.png
+</button>
+</p>
+<div id="fig-pca-binarized-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/6a9deadf435cdbd80948f25740179eb173ee71ad/docs/figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/pca-binarized-3-1.png" target="_blank">6a9dead</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Visualize by structure plot grouped by cell labels.</p>
 <pre class="r"><code>set.seed(10)
 
@@ -952,7 +1599,44 @@ p.structure.1 &lt;- structure_plot(poisson2multinom(fit),
 # Perplexity automatically changed to 18 because original setting of 50 was too large for the number of samples (60)
 
 print(p.structure.1)</code></pre>
-<p><img src="figure/clusters_Buenrostro2018_k11.Rmd/structure-plot-binarized-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/structure-plot-binarized-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-binarized-1-1">
+Past versions of structure-plot-binarized-1-1.png
+</button>
+</p>
+<div id="fig-structure-plot-binarized-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/6a9deadf435cdbd80948f25740179eb173ee71ad/docs/figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/structure-plot-binarized-1-1.png" target="_blank">6a9dead</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="k-means-clustering-on-topic-proportions-1" class="section level3">
 <h3>k-means clustering on topic proportions</h3>
@@ -976,7 +1660,44 @@ print(sort(table(clusters.10),decreasing = TRUE))
 # Perplexity automatically changed to 34 because original setting of 50 was too large for the number of samples (108)
 # Perplexity automatically changed to 42 because original setting of 50 was too large for the number of samples (132)
 print(p.structure.2)</code></pre>
-<p><img src="figure/clusters_Buenrostro2018_k11.Rmd/structure-plot-kmeans-binarized-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/structure-plot-kmeans-binarized-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-kmeans-binarized-1-1">
+Past versions of structure-plot-kmeans-binarized-1-1.png
+</button>
+</p>
+<div id="fig-structure-plot-kmeans-binarized-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/6a9deadf435cdbd80948f25740179eb173ee71ad/docs/figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/structure-plot-kmeans-binarized-1-1.png" target="_blank">6a9dead</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Define clusters using k-means with <span class="math inline">\(k = 15\)</span>:</p>
 <pre class="r"><code>set.seed(10)
 
@@ -1004,7 +1725,44 @@ print(sort(table(clusters.15),decreasing = TRUE))
 # Perplexity automatically changed to 22 because original setting of 50 was too large for the number of samples (71)
 # Perplexity automatically changed to 38 because original setting of 50 was too large for the number of samples (119)
 print(p.structure.3)</code></pre>
-<p><img src="figure/clusters_Buenrostro2018_k11.Rmd/structure-plot-kmeans-binarized-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/structure-plot-kmeans-binarized-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-kmeans-binarized-2-1">
+Past versions of structure-plot-kmeans-binarized-2-1.png
+</button>
+</p>
+<div id="fig-structure-plot-kmeans-binarized-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/6a9deadf435cdbd80948f25740179eb173ee71ad/docs/figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/structure-plot-kmeans-binarized-2-1.png" target="_blank">6a9dead</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Define clusters using k-means with <span class="math inline">\(k = 20\)</span>:</p>
 <pre class="r"><code>set.seed(10)
 
@@ -1038,7 +1796,44 @@ print(sort(table(clusters.20),decreasing = TRUE))
 # Perplexity automatically changed to 15 because original setting of 50 was too large for the number of samples (51)
 # Perplexity automatically changed to 24 because original setting of 50 was too large for the number of samples (76)
 print(p.structure.4)</code></pre>
-<p><img src="figure/clusters_Buenrostro2018_k11.Rmd/structure-plot-kmeans-binarized-3-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/structure-plot-kmeans-binarized-3-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-kmeans-binarized-3-1">
+Past versions of structure-plot-kmeans-binarized-3-1.png
+</button>
+</p>
+<div id="fig-structure-plot-kmeans-binarized-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/6a9deadf435cdbd80948f25740179eb173ee71ad/docs/figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/structure-plot-kmeans-binarized-3-1.png" target="_blank">6a9dead</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="refine-clusters-1" class="section level3">
 <h3>Refine clusters</h3>
@@ -1073,7 +1868,44 @@ table(clusters.merged)
 # Perplexity automatically changed to 49 because original setting of 50 was too large for the number of samples (151)
 # Perplexity automatically changed to 20 because original setting of 50 was too large for the number of samples (66)
 print(p.structure.refined)</code></pre>
-<p><img src="figure/clusters_Buenrostro2018_k11.Rmd/refine-cluster-binarized-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/refine-cluster-binarized-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-refine-cluster-binarized-2-1">
+Past versions of refine-cluster-binarized-2-1.png
+</button>
+</p>
+<div id="fig-refine-cluster-binarized-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/6a9deadf435cdbd80948f25740179eb173ee71ad/docs/figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/refine-cluster-binarized-2-1.png" target="_blank">6a9dead</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Group samples by k-means clusters first, then by celltype labels:</p>
 <pre class="r"><code>p.structure.refined &lt;- structure_plot(poisson2multinom(fit),
                      grouping = clusters.merged,
@@ -1082,7 +1914,44 @@ print(p.structure.refined)</code></pre>
                      perplexity = 50,topics = 1:11,colors = colors_topics,
                      num_threads = 4,verbose = FALSE)
 print(p.structure.refined)</code></pre>
-<p><img src="figure/clusters_Buenrostro2018_k11.Rmd/refine-cluster-binarized-3-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/refine-cluster-binarized-3-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-refine-cluster-binarized-3-1">
+Past versions of refine-cluster-binarized-3-1.png
+</button>
+</p>
+<div id="fig-refine-cluster-binarized-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/6a9deadf435cdbd80948f25740179eb173ee71ad/docs/figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/refine-cluster-binarized-3-1.png" target="_blank">6a9dead</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>The clusters defined by k-means on topic proportions reasonably identify the clusters shown in the PCA hexbin plots (below).</p>
 <pre class="r"><code>p.pca.4.1 &lt;- labeled_pca_plot(fit,1:2,samples$cluster_kmeans,font_size = 7,
                        legend_label = &quot;cluster_kmeans&quot;)
@@ -1095,9 +1964,83 @@ p.pca.4.4 &lt;- labeled_pca_plot(fit,7:8,samples$cluster_kmeans,font_size = 7,
 p.pca.4.5 &lt;- labeled_pca_plot(fit,9:10,samples$cluster_kmeans,font_size = 7,
                        legend_label = &quot;cluster_kmeans&quot;)
 plot_grid(p.pca.4.1,p.pca.4.2,p.pca.4.3,p.pca.4.4,p.pca.4.5)</code></pre>
-<p><img src="figure/clusters_Buenrostro2018_k11.Rmd/pca-kmeans-binarized-1-1.png" width="1080" style="display: block; margin: auto;" /></p>
+<p><img src="figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/pca-kmeans-binarized-1-1.png" width="1080" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-kmeans-binarized-1-1">
+Past versions of pca-kmeans-binarized-1-1.png
+</button>
+</p>
+<div id="fig-pca-kmeans-binarized-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/6a9deadf435cdbd80948f25740179eb173ee71ad/docs/figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/pca-kmeans-binarized-1-1.png" target="_blank">6a9dead</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4,p.pca2.5)</code></pre>
-<p><img src="figure/clusters_Buenrostro2018_k11.Rmd/pca-kmeans-binarized-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p><img src="figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/pca-kmeans-binarized-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-kmeans-binarized-2-1">
+Past versions of pca-kmeans-binarized-2-1.png
+</button>
+</p>
+<div id="fig-pca-kmeans-binarized-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/6a9deadf435cdbd80948f25740179eb173ee71ad/docs/figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/pca-kmeans-binarized-2-1.png" target="_blank">6a9dead</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>We then label the cells in each cluster with the known cell labels.</p>
 <p>Cell labels:</p>
 <pre class="r"><code>samples$label &lt;- as.factor(samples$label)
@@ -1142,7 +2085,44 @@ p.barplot.1 &lt;- ggplot(freq_cluster_celltype, aes(fill=label, y=freq, x=cluste
   legend.text = element_text(size = 8)
   )
 print(p.barplot.1)</code></pre>
-<p><img src="figure/clusters_Buenrostro2018_k11.Rmd/freq-cluster-cell-binarized-1-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><img src="figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/freq-cluster-cell-binarized-1-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-freq-cluster-cell-binarized-1-1">
+Past versions of freq-cluster-cell-binarized-1-1.png
+</button>
+</p>
+<div id="fig-freq-cluster-cell-binarized-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/6a9deadf435cdbd80948f25740179eb173ee71ad/docs/figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/freq-cluster-cell-binarized-1-1.png" target="_blank">6a9dead</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Percent stacked barplot for the counts of cell labels by clusters:</p>
 <pre class="r"><code>
 freq_cluster_celltype &lt;- count(samples, vars=c(&quot;cluster_kmeans&quot;,&quot;label&quot;)) 
@@ -1159,7 +2139,44 @@ p.barplot.2 &lt;- ggplot(freq_cluster_celltype, aes(fill=label, y=freq, x=cluste
   legend.text = element_text(size = 8)
   )
 print(p.barplot.2)</code></pre>
-<p><img src="figure/clusters_Buenrostro2018_k11.Rmd/freq-cluster-tissue-binarized-2-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><img src="figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/freq-cluster-tissue-binarized-2-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-freq-cluster-tissue-binarized-2-1">
+Past versions of freq-cluster-tissue-binarized-2-1.png
+</button>
+</p>
+<div id="fig-freq-cluster-tissue-binarized-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/6a9deadf435cdbd80948f25740179eb173ee71ad/docs/figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/freq-cluster-tissue-binarized-2-1.png" target="_blank">6a9dead</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1187,27 +2204,27 @@ print(p.barplot.2)</code></pre>
 # [1] stats     graphics  grDevices utils     datasets  methods   base     
 # 
 # other attached packages:
-# [1] RColorBrewer_1.1-2 plyr_1.8.6         fastTopics_0.3-180 cowplot_1.0.0     
-# [5] ggplot2_3.3.2      dplyr_0.8.5        Matrix_1.2-18      workflowr_1.6.2   
+# [1] RColorBrewer_1.1-2 plyr_1.8.6         fastTopics_0.3-180 cowplot_1.1.0     
+# [5] ggplot2_3.3.2      dplyr_1.0.2        Matrix_1.2-18      workflowr_1.6.2   
 # 
 # loaded via a namespace (and not attached):
-#  [1] ggrepel_0.8.2      Rcpp_1.0.5         lattice_0.20-38    tidyr_1.1.0       
-#  [5] prettyunits_1.1.1  assertthat_0.2.1   rprojroot_1.3-2    digest_0.6.27     
-#  [9] R6_2.5.0           backports_1.1.10   MatrixModels_0.4-1 evaluate_0.14     
-# [13] coda_0.19-3        httr_1.4.1         pillar_1.4.6       rlang_0.4.8       
-# [17] progress_1.2.2     lazyeval_0.2.2     data.table_1.12.8  irlba_2.3.3       
-# [21] SparseM_1.77       whisker_0.4        hexbin_1.28.1      rmarkdown_2.1     
-# [25] labeling_0.4.2     Rtsne_0.15         stringr_1.4.0      htmlwidgets_1.5.1 
-# [29] munsell_0.5.0      compiler_3.6.1     httpuv_1.5.3.1     xfun_0.14         
-# [33] pkgconfig_2.0.3    mcmc_0.9-7         htmltools_0.4.0    tidyselect_1.1.0  
-# [37] tibble_3.0.4       quadprog_1.5-7     viridisLite_0.3.0  crayon_1.3.4      
-# [41] withr_2.3.0        later_1.0.0        MASS_7.3-51.6      grid_3.6.1        
-# [45] jsonlite_1.6       gtable_0.3.0       lifecycle_0.2.0    git2r_0.27.1      
-# [49] magrittr_1.5       scales_1.1.1       RcppParallel_4.4.3 stringi_1.4.6     
-# [53] farver_2.0.3       fs_1.3.1           promises_1.1.0     ellipsis_0.3.1    
-# [57] vctrs_0.3.4        tools_3.6.1        glue_1.4.2         purrr_0.3.4       
-# [61] hms_0.5.3          yaml_2.2.0         colorspace_1.4-1   plotly_4.9.0      
-# [65] knitr_1.28         quantreg_5.41      MCMCpack_1.4-4</code></pre>
+#  [1] ggrepel_0.8.2      Rcpp_1.0.5         lattice_0.20-41    tidyr_1.1.2       
+#  [5] prettyunits_1.1.1  rprojroot_1.3-2    digest_0.6.27      R6_2.5.0          
+#  [9] backports_1.2.0    MatrixModels_0.4-1 evaluate_0.14      coda_0.19-3       
+# [13] httr_1.4.2         pillar_1.4.7       rlang_0.4.8        progress_1.2.2    
+# [17] lazyeval_0.2.2     data.table_1.13.2  irlba_2.3.3        SparseM_1.77      
+# [21] whisker_0.4        hexbin_1.28.1      rmarkdown_2.5      labeling_0.4.2    
+# [25] Rtsne_0.15         stringr_1.4.0      htmlwidgets_1.5.2  munsell_0.5.0     
+# [29] compiler_3.6.1     httpuv_1.5.4       xfun_0.19          pkgconfig_2.0.3   
+# [33] mcmc_0.9-7         htmltools_0.5.0    tidyselect_1.1.0   tibble_3.0.4      
+# [37] quadprog_1.5-7     viridisLite_0.3.0  crayon_1.3.4       withr_2.3.0       
+# [41] later_1.1.0.1      MASS_7.3-53        grid_3.6.1         jsonlite_1.6      
+# [45] gtable_0.3.0       lifecycle_0.2.0    git2r_0.27.1       magrittr_1.5      
+# [49] scales_1.1.1       RcppParallel_5.0.2 stringi_1.5.3      farver_2.0.3      
+# [53] fs_1.3.1           promises_1.1.1     ellipsis_0.3.1     generics_0.0.2    
+# [57] vctrs_0.3.5        tools_3.6.1        glue_1.4.2         purrr_0.3.4       
+# [61] hms_0.5.3          yaml_2.2.0         colorspace_2.0-0   plotly_4.9.0      
+# [65] knitr_1.30         quantreg_5.41      MCMCpack_1.4-4</code></pre>
 </div>
 </div>
 </div>
@@ -1235,7 +2252,7 @@ footer is added to webpages before the MathJax javascript. -->
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -1274,7 +2291,7 @@ $(document).ready(function ()  {
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
       },
       ignoreSelector: ".toc-ignore",
       scrollTo: 0
