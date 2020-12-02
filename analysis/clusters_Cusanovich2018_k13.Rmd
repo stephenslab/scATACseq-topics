@@ -299,7 +299,8 @@ print(p.barplot.2)
 
 ```
 
-* We can see a few clusters are tissue specific:
+We can see a few clusters are tissue specific:
+
 - cluster c3 is heart specific;
 - cluster c8 is kidney specific;
 - cluster c16 is liver specific;
@@ -307,6 +308,7 @@ print(p.barplot.2)
 - cluster c12 is primarily thymus.
 
 Some clusters are combinations of related tissues:
+
 - cluster c9 is half lung and half spleen;
 - cluster c5 and c15 are mainly from pre-frontal cortex, whole brain (and cerebellum) -- all neuron related. 
 - cluster c14 is also from whole brain and cerebellum.
