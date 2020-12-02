@@ -31,7 +31,7 @@ We applied the analysis both **unbinarized** counts and **binarized** scATAC-seq
 ## Unbinarized counts
 Load the **unbinarized** data
 ```{r load-unbinarized-data}
-data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/"
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/"
 load(file.path(data.dir, "Buenrostro_2018_counts.RData"))
 cat(sprintf("%d x %d counts matrix.\n",nrow(counts),ncol(counts)))
 rm(counts)
@@ -45,7 +45,7 @@ We first use PCA to explore the structure inferred from the
 multinomial topic model with $k = 11$:
 
 ```{r load-unbinarized-fit}
-out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/unbinarized/"
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/unbinarized/"
 fit <- readRDS(file.path(out.dir, "/fit-Buenrostro2018-scd-ex-k=11.rds"))$fit
 
 colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
@@ -300,7 +300,7 @@ print(p.barplot.2)
 ## Binarized counts
 Load the **binarized** data
 ```{r load-binarized-data}
-data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/"
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/"
 load(file.path(data.dir, "Buenrostro_2018_binarized_counts.RData"))
 cat(sprintf("%d x %d counts matrix.\n",nrow(counts),ncol(counts)))
 rm(counts)
@@ -313,7 +313,7 @@ We first use PCA to explore the structure inferred from the
 multinomial topic model with $k = 11$:
 
 ```{r load-binarized-fit}
-out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/"
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/"
 fit <- readRDS(file.path(out.dir, "/fit-Buenrostro2018-binarized-scd-ex-k=11.rds"))$fit
 
 colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
