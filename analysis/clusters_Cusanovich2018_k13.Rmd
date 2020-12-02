@@ -256,8 +256,8 @@ samples$tissue <- as.factor(samples$tissue)
 cat(length(levels(samples$tissue)), "tissues. \n")
 table(samples$tissue)
 
-colors_tissues <- c("darkblue", "darkgray", "red", "lightgreen", "brown", "purple", "skyblue", "black",
-                    "darkgreen", "pink", "yellow", "orange", "lightgray")
+colors_tissues <- c("darkblue", "darkgray", "red", "springgreen", "brown", "purple", "skyblue", "black",
+                    "darkgreen", "plum", "yellow", "orange", "lightgray")
 ```
 
 ### Plot the distribution of tissues by cluster.
@@ -363,3 +363,10 @@ print(p.barplot.4)
 freq_table_cluster_celllabel <- with(samples,table(cell_label,cluster_kmeans))
 print(freq_table_cluster_celllabel)
 ```
+
+Save the clustering results to an RDS file
+```{r}
+saveRDS(samples, "output/clustering-Cusanovich2018.rds")
+
+```
+
