@@ -137,7 +137,7 @@ plot_grid(p.pca3.11,p.pca3.12,rel_widths = c(8,11))
 ```
 
 Visualize by structure plot grouped by tissues
-```{r structure-plot-1, fig.width=7, fig.height=2.5}
+```{r structure-plot-tissue, fig.width=7, fig.height=2.5}
 set.seed(10)
 colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
                    "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928",
@@ -146,7 +146,7 @@ rows <- sample(nrow(fit$L),4000)
 samples$tissue <- as.factor(samples$tissue)
 
 p.structure.1 <- structure_plot(select(poisson2multinom(fit),loadings = rows),
-                     grouping = samples[rows, "tissue"],n = Inf,gap = 20,
+                     grouping = samples[rows, "tissue"],n = Inf,gap = 40,
                      perplexity = 50,topics = 1:13,colors = colors_topics,
                      num_threads = 4,verbose = FALSE)
 
@@ -157,100 +157,71 @@ print(p.structure.1)
 Define clusters using k-means, and then create structure plot 
 based on the clusters from k-means.
 
-Define clusters using k-means with $k = 14$:
+Define clusters using k-means with 15 clusters:
 ```{r kmeans-1}
 set.seed(10)
 
-clusters.14 <- factor(kmeans(poisson2multinom(fit)$L,centers = 14)$cluster)
-print(sort(table(clusters.14),decreasing = TRUE))
-```
-
-Structure plot based on k-means clusters
-```{r structure-plot-kmeans-1, fig.width=7, fig.height=2}
-colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
-                   "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928",
-                   "gray")
-rows <- sample(nrow(fit$L),4000)
-
-p.structure.2 <- structure_plot(select(poisson2multinom(fit),loadings = rows),
-                     grouping = clusters.14[rows],n = Inf,gap = 20,
-                     perplexity = 50,topics = 1:13,colors = colors_topics,
-                     num_threads = 4,verbose = FALSE)
-print(p.structure.2)
-```
-
-Define clusters using k-means with $k = 15$:
-```{r kmeans-2}
-set.seed(10)
-
 clusters.15 <- factor(kmeans(poisson2multinom(fit)$L,centers = 15)$cluster)
-print(sort(table(clusters.15),decreasing = TRUE))
+print(table(clusters.15))
 
 ```
 
-Structure plot based on k-means clusters
-```{r structure-plot-kmeans-2, fig.width=7, fig.height=2}
+Structure plot based on 15 clusters
+```{r structure-plot-kmeans-1, fig.width=7, fig.height=2}
 colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
             "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928",
             "gray")
 rows <- sample(nrow(fit$L),4000)
 
-p.structure.3 <- structure_plot(select(poisson2multinom(fit),loadings = rows),
-                     grouping = clusters.15[rows],n = Inf,gap = 20,
-                     perplexity = 50,topics = 1:13,colors = colors_topics,
-                     num_threads = 4,verbose = FALSE)
-print(p.structure.3)
+p.structure.kmeans.15 <- structure_plot(select(poisson2multinom(fit),loadings = rows),
+                                        grouping = clusters.15[rows],n = Inf,gap = 20,
+                                        perplexity = 50,topics = 1:13,colors = colors_topics,
+                                        num_threads = 4,verbose = FALSE)
+print(p.structure.kmeans.15)
 ```
 
-Define clusters using k-means with $k = 20$:
-```{r kmeans-3}
+Refine k-means clusters:
+- Split cluster 10 into two clusters.
+- (maybe also merge cluster 4 and 9)
+```{r kmeans-refined}
 set.seed(10)
+clusters.refined <- as.numeric(clusters.15)
 
-clusters.20 <- factor(kmeans(poisson2multinom(fit)$L,centers = 20)$cluster)
-print(sort(table(clusters.20),decreasing = TRUE))
+idx_cluster10 <- which(clusters.15 == 10)
+cluster10.refined <- kmeans(poisson2multinom(fit)$L[idx_cluster10, ],centers = 2)$cluster+15
+clusters.refined[idx_cluster10] <- cluster10.refined
+clusters.refined <- factor(clusters.refined, labels = paste0("c", c(1:length(unique(clusters.refined)))))
+
+print(table(clusters.refined))
+
+samples$cluster_kmeans <- clusters.refined
 ```
 
-Structure plot based on k-means clusters
-```{r structure-plot-kmeans-3, fig.width=7, fig.height=2}
+Structure plot based on refined clusters
+```{r structure-plot-kmeans-refined-1, fig.width=7, fig.height=2}
 colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
-                   "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928",
-                   "gray")
+            "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928",
+            "gray")
 rows <- sample(nrow(fit$L),4000)
-p.structure.4 <- structure_plot(select(poisson2multinom(fit),loadings = rows),
-                     grouping = clusters.20[rows],n = Inf,gap = 20,
+
+p.structure.kmeans.refined <- structure_plot(select(poisson2multinom(fit),loadings = rows),
+                                             grouping = clusters.refined[rows],n = Inf,gap = 40,
+                                             perplexity = 50,topics = 1:13,colors = colors_topics,
+                                             num_threads = 4,verbose = FALSE)
+print(p.structure.kmeans.refined)
+
+```
+
+Group samples by k-means clusters first, then by tissue labels: 
+```{r structure-plot-kmeans-refined-2, fig.width=7, fig.height=2}
+p.structure.kmeans.refined <- structure_plot(select(poisson2multinom(fit),loadings = rows),
+                     grouping = clusters.refined[rows],
+                     rows = order(samples[rows, "tissue"]), # samples are grouped by clusters first, then by tissue labels
+                     n = Inf,gap = 40,
                      perplexity = 50,topics = 1:13,colors = colors_topics,
                      num_threads = 4,verbose = FALSE)
-print(p.structure.4)
-```
+print(p.structure.kmeans.refined)
 
-## Refine clusters
-We then further refine the clusters based on k-means result with $k = 20$:
-merge "orange" clusters 9, 11, 14;
-merge "brown" clusters 3 and 10, 16, 19;
-merge "yellow" clusters 8 and 18.
-(maybe could also merge the "red" clusters 2 and 4)
-```{r refine-cluster-1}
-clusters.merged <- clusters.20
-clusters.merged[clusters.20 %in% c(9,11,14)] <- 9
-clusters.merged[clusters.20 %in% c(3,10,16,19)] <- 3
-clusters.merged[clusters.20 %in% c(8,18)] <- 8
-clusters.merged <- factor(clusters.merged, labels = paste0("c", c(1:length(unique(clusters.merged)))))
-print(sort(table(clusters.merged),decreasing = TRUE))
-
-samples$cluster_kmeans <- clusters.merged
-
-```
-
-```{r refine-cluster-2, fig.width=7, fig.height=2}
-colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
-                   "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928",
-                   "gray")
-rows <- sample(nrow(fit$L),4000)
-p.structure.5 <- structure_plot(select(poisson2multinom(fit),loadings = rows),
-                     grouping = clusters.merged[rows],n = Inf,gap = 20,
-                     perplexity = 50,topics = 1:13,colors = colors_topics,
-                     num_threads = 4,verbose = FALSE)
-print(p.structure.5)
 ```
 
 The clusters defined by k-means on topic proportions
@@ -285,9 +256,11 @@ samples$tissue <- as.factor(samples$tissue)
 cat(length(levels(samples$tissue)), "tissues. \n")
 table(samples$tissue)
 
+colors_tissues <- c("darkblue", "darkgray", "red", "lightgreen", "brown", "purple", "skyblue", "black",
+                    "darkgreen", "pink", "yellow", "orange", "lightgray")
 ```
 
-Plot the distribution of tissues by cluster.
+### Plot the distribution of tissues by cluster.
 
 Stacked barplot for the counts of tissues by clusters:
 ```{r freq-cluster-tissue-1, fig.width=8, fig.height=3}
@@ -295,8 +268,6 @@ library(plyr);library(dplyr)
 library(RColorBrewer)
 
 freq_cluster_tissue <- count(samples, vars=c("cluster_kmeans","tissue")) 
-
-colors_tissues <- colorRampPalette(brewer.pal(9, "Set1"))(13)
 
 # stacked barplot for the counts of tissues by clusters
 p.barplot.1 <- ggplot(freq_cluster_tissue, aes(fill=tissue, y=freq, x=cluster_kmeans)) + 
@@ -315,10 +286,6 @@ print(p.barplot.1)
 Percent stacked barplot for the counts of tissues by clusters:
 ```{r freq-cluster-tissue-2, fig.width=8, fig.height=3}
 
-freq_cluster_tissue <- count(samples, vars=c("cluster_kmeans","tissue")) 
-
-colors_tissues <- colorRampPalette(brewer.pal(9, "Set1"))(13)
-
 p.barplot.2 <- ggplot(freq_cluster_tissue, aes(fill=tissue, y=freq, x=cluster_kmeans)) + 
   geom_bar(position="fill", stat="identity") +
   theme_classic() + xlab("Cluster") + ylab("Proportion of cells") +
@@ -332,24 +299,67 @@ print(p.barplot.2)
 
 ```
 
-We can see a few clusters are tissue specific:
-cluster c5 is kidney specific;
-cluster c7 is heart specific;
-cluster c9 is liver specific;
-cluster c3 is primarily thymus;
-cluster c6 is primarily bone marrow.
+* We can see a few clusters are tissue specific:
+- cluster c3 is heart specific;
+- cluster c8 is kidney specific;
+- cluster c16 is liver specific;
+- cluster c1 is primarily bone marrow;
+- cluster c12 is primarily thymus.
 
 Some clusters are combinations of related tissues:
-cluster c4 is half lung and half spleen;
-cluster c8 and c12 are mainly from pre-frontal cortex, whole brain (and cerebellum) -- all neuron related. 
-cluster c10 is also from whole brain and cerebellum.
-cluster c14 is mainly from Kidney, LargeIntestine, and Lung. 
+- cluster c9 is half lung and half spleen;
+- cluster c5 and c15 are mainly from pre-frontal cortex, whole brain (and cerebellum) -- all neuron related. 
+- cluster c14 is also from whole brain and cerebellum.
+- cluster c11 is mainly from Kidney, LargeIntestine, and Lung. 
 
 Some clusters are more heterogeneous mixtures of different tissues:
-e.g. c1, c2, c11, c13. 
+e.g. c2, c6, c7, c12. 
 
-```{r freq-cluster-tissue}
-freq_cluster_tissue <- with(samples,table(tissue,cluster_kmeans))
-print(freq_cluster_tissue)
+```{r freq-table-cluster-tissue}
+freq_table_cluster_tissue <- with(samples,table(tissue,cluster_kmeans))
+print(freq_table_cluster_tissue)
 ```
 
+###  Plot the distribution of cell labels by cluster.
+
+Stacked barplot for the counts of cell labels by clusters:
+```{r freq-cluster-celllabel-1, fig.width=10, fig.height=3}
+freq_cluster_celllabel <- count(samples, vars=c("cluster_kmeans","cell_label")) 
+
+colors_celllabels <- colorRampPalette(brewer.pal(12, "Set3"))(40)
+
+# stacked barplot for the counts of tissues by clusters
+p.barplot.3 <- ggplot(freq_cluster_celllabel, aes(fill=cell_label, y=freq, x=cluster_kmeans)) + 
+  geom_bar(position="stack", stat="identity") +
+  theme_classic() + xlab("Cluster") + ylab("Number of cells") +
+  scale_fill_manual(values = colors_celllabels) +
+  guides(fill=guide_legend(ncol=3)) +
+  theme(
+  legend.title = element_text(size = 9),
+  legend.text = element_text(size = 7)
+  )
+print(p.barplot.3)
+
+```
+
+Percent stacked barplot for the counts of tissues by clusters:
+```{r freq-cluster-celllabel-2, fig.width=10, fig.height=3}
+
+p.barplot.4 <- ggplot(freq_cluster_celllabel, aes(fill=cell_label, y=freq, x=cluster_kmeans)) + 
+  geom_bar(position="fill", stat="identity") +
+  theme_classic() + xlab("Cluster") + ylab("Proportion of cells") +
+  scale_fill_manual(values = colors_celllabels) +
+  guides(fill=guide_legend(ncol=3)) +
+  theme(
+  legend.title = element_text(size = 9),
+  legend.text = element_text(size = 7)
+  )
+print(p.barplot.4)
+
+```
+
+
+```{r freq-table-cluster-celllabel}
+freq_table_cluster_celllabel <- with(samples,table(cell_label,cluster_kmeans))
+print(freq_table_cluster_celllabel)
+```
