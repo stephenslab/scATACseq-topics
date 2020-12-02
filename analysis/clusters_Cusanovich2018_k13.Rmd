@@ -391,7 +391,7 @@ print(freq_table_cluster_celllabel)
 
 ### zoom into a few clusters:
 
-We now zoom into cluster "c2":
+#### zoom into cluster c2
 ```{r}
 rows.c2 <- which(samples$cluster_kmeans == "c2")
 
@@ -414,13 +414,19 @@ print(p.structure.c2.1)
 
 ```
 
-```{r pca-c2, fig.width=6, fig.height=3}
+```{r pca-c2, fig.width=5, fig.height=2.25}
 breaks <- c(0,1,5,10,100,Inf)
 
 fit.c2 <- select(poisson2multinom(fit),loadings = rows.c2)
 p.pca.c2 <- pca_plot(fit.c2,fill = "none")
 p.pca.hexbin.c2 <- pca_hexbin_plot(fit.c2,breaks = breaks) + guides(fill = "none")
 plot_grid(p.pca.c2, p.pca.hexbin.c2)
+```
+
+The variation in PCs 1 and 2 is mostly produced by topics 3,4,9,10,13
+```{r pca-c2-topics, fig.width=6, fig.height=3}
+p.pca.c2.topics <- pca_plot(fit.c2,k = c(3,4,9,10,13))
+print(p.pca.c2.topics)
 ```
 
 ```{r pca-labels-c2, fig.width=8, fig.height=2.25}
@@ -441,8 +447,7 @@ plot_grid(p.pca.c2.tissue,p.pca.c2.cell,rel_widths = c(8,9))
 ```
 
 
-
-We now zoom into cluster "c5":
+#### zoom into cluster c5
 ```{r}
 rows.c5 <- which(samples$cluster_kmeans == "c5")
 ```
@@ -463,13 +468,19 @@ print(p.structure.c5.1)
 
 ```
 
-```{r pca-c5, fig.width=6, fig.height=3}
+```{r pca-c5, fig.width=5, fig.height=2.25}
 breaks <- c(0,1,5,10,100,Inf)
 
 fit.c5 <- select(poisson2multinom(fit),loadings = rows.c5)
 p.pca.c5 <- pca_plot(fit.c5,fill = "none")
 p.pca.hexbin.c5 <- pca_hexbin_plot(fit.c5,breaks = breaks) + guides(fill = "none")
 plot_grid(p.pca.c5, p.pca.hexbin.c5)
+```
+
+The variation in PCs 1 and 2 is mostly produced by topics 2,9,10,11,13
+```{r pca-c5-topics, fig.width=6, fig.height=3}
+p.pca.c5.topics <- pca_plot(fit.c5,k = c(2,9,10,11,13))
+print(p.pca.c5.topics)
 ```
 
 ```{r pca-labels-c5, fig.width=8, fig.height=2.25}
@@ -488,7 +499,8 @@ p.pca.c5.cell <- labeled_pca_plot(fit.c5,1:2,samples[rows.c5, "cell_label"],font
 plot_grid(p.pca.c5.tissue,p.pca.c5.cell,rel_widths = c(8,11))
 ```
 
-We now zoom into cluster "c15":
+#### zoom into cluster c15
+
 ```{r}
 rows.c15 <- which(samples$cluster_kmeans == "c15")
 ```
@@ -509,13 +521,19 @@ print(p.structure.c15.1)
 
 ```
 
-```{r pca-c15, fig.width=6, fig.height=3}
+```{r pca-c15, fig.width=5, fig.height=2.25}
 breaks <- c(0,1,5,10,100,Inf)
 
 fit.c15 <- select(poisson2multinom(fit),loadings = rows.c15)
 p.pca.c15 <- pca_plot(fit.c15,fill = "none")
 p.pca.hexbin.c15 <- pca_hexbin_plot(fit.c15,breaks = breaks) + guides(fill = "none")
 plot_grid(p.pca.c15, p.pca.hexbin.c15)
+```
+
+The variation in PCs 1 and 2 is mostly produced by topics 9,10,11
+```{r pca-c15-topics, fig.width=6, fig.height=3}
+p.pca.c15.topics <- pca_plot(fit.c15,k = c(9,10,11))
+print(p.pca.c15.topics)
 ```
 
 ```{r pca-labels-c15, fig.width=8, fig.height=2.25}
@@ -535,7 +553,7 @@ plot_grid(p.pca.c15.tissue,p.pca.c15.cell,rel_widths = c(8,11))
 ```
 
 
-We now zoom into cluster "c6":
+#### zoom into cluster c6
 ```{r}
 rows.c6 <- which(samples$cluster_kmeans == "c6")
 ```
@@ -556,13 +574,19 @@ print(p.structure.c6.1)
 
 ```
 
-```{r pca-c6, fig.width=6, fig.height=3}
+```{r pca-c6, fig.width=5, fig.height=2.25}
 breaks <- c(0,1,5,10,100,Inf)
 
 fit.c6 <- select(poisson2multinom(fit),loadings = rows.c6)
 p.pca.c6 <- pca_plot(fit.c6,fill = "none")
 p.pca.hexbin.c6 <- pca_hexbin_plot(fit.c6,breaks = breaks) + guides(fill = "none")
 plot_grid(p.pca.c6, p.pca.hexbin.c6)
+```
+
+The variation in PCs 1 and 2 is mostly produced by topics 3,9,10,11,13
+```{r pca-c6-topics, fig.width=6, fig.height=3}
+p.pca.c6.topics <- pca_plot(fit.c6,k = c(3,9,10,11,13))
+print(p.pca.c6.topics)
 ```
 
 ```{r pca-labels-c6, fig.width=8, fig.height=2.25}
@@ -575,4 +599,52 @@ p.pca.c6.tissue <- labeled_pca_plot(fit.c6,1:2,samples[rows.c6, "tissue"],font_s
 p.pca.c6.cell <- labeled_pca_plot(fit.c6,1:2,samples[rows.c6, "cell_label"],font_size = 7,
                         legend_label = "cell_label")
 plot_grid(p.pca.c6.tissue,p.pca.c6.cell,rel_widths = c(8,11))
+```
+
+
+#### zoom into cluster c9
+```{r}
+rows.c9 <- which(samples$cluster_kmeans == "c9")
+```
+
+Structure plot of c9 cluster: 
+Group samples by tissue labels first, then by cell labels
+```{r structure-plot-c9-1, fig.width=7, fig.height=2}
+tissue_labels_c9 <- as.factor(as.character(samples[rows.c9, "tissue"]))
+cell_labels_c9 <- as.factor(as.character(samples[rows.c9, "cell_label"]))
+
+p.structure.c9.1 <- structure_plot(select(poisson2multinom(fit),loadings = rows.c9),
+                     grouping = tissue_labels_c9,
+                     rows = order(cell_labels_c9), 
+                     n = Inf,gap = 40,
+                     perplexity = 50,topics = 1:13,colors = colors_topics,
+                     num_threads = 4,verbose = FALSE)
+print(p.structure.c9.1)
+
+```
+
+```{r pca-c9, fig.width=5, fig.height=2.25}
+breaks <- c(0,1,5,10,100,Inf)
+
+fit.c9 <- select(poisson2multinom(fit),loadings = rows.c9)
+p.pca.c9 <- pca_plot(fit.c9,fill = "none")
+p.pca.hexbin.c9 <- pca_hexbin_plot(fit.c9,breaks = breaks) + guides(fill = "none")
+plot_grid(p.pca.c9, p.pca.hexbin.c9)
+```
+The variation in PCs 1 and 2 is mostly produced by topics 6,10,13.
+```{r pca-c9-topics, fig.width=6, fig.height=3}
+p.pca.c9.topics <- pca_plot(fit.c9,k = c(6,10,13))
+print(p.pca.c9.topics)
+```
+
+```{r pca-labels-c9, fig.width=8, fig.height=2.25}
+print(table(as.character(samples[rows.c9, "tissue"])))
+
+print(table(as.character(samples[rows.c9, "cell_label"])))
+
+p.pca.c9.tissue <- labeled_pca_plot(fit.c9,1:2,samples[rows.c9, "tissue"],font_size = 7,
+                       colors = colors_tissues, legend_label = "tissue")
+p.pca.c9.cell <- labeled_pca_plot(fit.c9,1:2,samples[rows.c9, "cell_label"],font_size = 7,
+                        legend_label = "cell_label")
+plot_grid(p.pca.c9.tissue,p.pca.c9.cell,rel_widths = c(8,11))
 ```
