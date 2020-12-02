@@ -422,9 +422,9 @@ p.pca.hexbin.c2 <- pca_hexbin_plot(fit.c2,breaks = breaks) + guides(fill = "none
 plot_grid(p.pca.c2, p.pca.hexbin.c2)
 ```
 
-The variation in PCs 1 and 2 is mostly produced by topics 3,4,9,10,13
-```{r pca-c2-topics, fig.width=6, fig.height=3}
-p.pca.c2.topics <- pca_plot(fit.c2,k = c(3,4,9,10,13))
+The variation in PCs 1 and 2 is mostly produced by topics 3,13
+```{r pca-c2-topics, fig.width=6, fig.height=2.25}
+p.pca.c2.topics <- pca_plot(fit.c2,k = c(3,13))
 print(p.pca.c2.topics)
 ```
 
@@ -549,8 +549,14 @@ p.pca.c15.tissue <- labeled_pca_plot(fit.c15,1:2,samples[rows.c15, "tissue"],fon
 p.pca.c15.cell <- labeled_pca_plot(fit.c15,1:2,samples[rows.c15, "cell_label"],font_size = 7,
                         colors = colors_celllabels_c15, legend_label = "cell_label")
 plot_grid(p.pca.c15.tissue,p.pca.c15.cell,rel_widths = c(8,11))
+
 ```
 
+```{r}
+
+print(samples[intersect(rows.c15, which(samples$tissue == "Lung")),])
+
+```
 
 #### zoom into cluster c6
 ```{r}
