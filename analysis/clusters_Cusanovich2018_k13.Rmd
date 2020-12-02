@@ -73,13 +73,22 @@ plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4,p.pca2.5,p.pca2.6)
 ```
 
 ## Layer the tissue and cell labels onto the PC plots
-Next, we layer the tissue and cell labels onto the PC plots.
+
+Tissues:
+```{r samples-tissues}
+samples$tissue <- as.factor(samples$tissue)
+cat(length(levels(samples$tissue)), "tissues. \n")
+table(samples$tissue)
+
+colors_tissues <- c("darkblue", "darkgray", "red", "springgreen", "brown", "purple", "skyblue", "black",
+                    "darkgreen", "plum", "yellow", "orange", "lightgray")
+```
 
 PCs 1 and 2:
 
 ```{r pca-labels-k13-1, fig.width=8, fig.height=2.25}
 p.pca3.1 <- labeled_pca_plot(fit,1:2,samples$tissue,font_size = 7,
-                       legend_label = "tissue")
+                       colors = colors_tissues, legend_label = "tissue")
 p.pca3.2 <- labeled_pca_plot(fit,1:2,samples$cell_label,font_size = 7,
                         legend_label = "cell_label")
 plot_grid(p.pca3.1,p.pca3.2,rel_widths = c(8,11))
@@ -89,7 +98,7 @@ PCs 3 and 4:
 
 ```{r pca-labels-k13-2, fig.width=8, fig.height=2.25}
 p.pca3.3 <- labeled_pca_plot(fit,3:4,samples$tissue,font_size = 7,
-                        legend_label = "tissue")
+                        colors = colors_tissues, legend_label = "tissue")
 p.pca3.4 <- labeled_pca_plot(fit,3:4,samples$cell_label,font_size = 7,
                         legend_label = "cell_label")
 plot_grid(p.pca3.3,p.pca3.4,rel_widths = c(8,11))
@@ -99,7 +108,7 @@ PCs 5 and 6:
 
 ```{r pca-labels-k13-3, fig.width=8, fig.height=2.25}
 p.pca3.5 <- labeled_pca_plot(fit,5:6,samples$tissue,font_size = 7,
-                       legend_label = "tissue")
+                       colors = colors_tissues, legend_label = "tissue")
 p.pca3.6 <- labeled_pca_plot(fit,5:6,samples$cell_label,font_size = 7,
                         legend_label = "cell_label")
 plot_grid(p.pca3.5,p.pca3.6,rel_widths = c(8,11))
@@ -109,7 +118,7 @@ PCs 7 and 8:
 
 ```{r pca-labels-k13-4, fig.width=8, fig.height=2.25}
 p.pca3.7 <- labeled_pca_plot(fit,7:8,samples$tissue,font_size = 7,
-                       legend_label = "tissue")
+                       colors = colors_tissues, legend_label = "tissue")
 p.pca3.8 <- labeled_pca_plot(fit,7:8,samples$cell_label,font_size = 7,
                         legend_label = "cell_label")
 plot_grid(p.pca3.7,p.pca3.8,rel_widths = c(8,11))
@@ -119,7 +128,7 @@ PCs 9 and 10:
 
 ```{r pca-labels-k13-5, fig.width=8, fig.height=2.25}
 p.pca3.9 <- labeled_pca_plot(fit,9:10,samples$tissue,font_size = 7,
-                       legend_label = "tissue")
+                       colors = colors_tissues, legend_label = "tissue")
 p.pca3.10 <- labeled_pca_plot(fit,9:10,samples$cell_label,font_size = 7,
                         legend_label = "cell_label")
 plot_grid(p.pca3.9,p.pca3.10,rel_widths = c(8,11))
@@ -158,16 +167,15 @@ Define clusters using k-means, and then create structure plot
 based on the clusters from k-means.
 
 Define clusters using k-means with 15 clusters:
-```{r kmeans-1}
+```{r kmeans-1, eval = FALSE}
 set.seed(10)
 
 clusters.15 <- factor(kmeans(poisson2multinom(fit)$L,centers = 15)$cluster)
-print(table(clusters.15))
 
 ```
 
 Structure plot based on 15 clusters
-```{r structure-plot-kmeans-1, fig.width=7, fig.height=2}
+```{r structure-plot-kmeans-1, eval = FALSE, fig.width=7, fig.height=2}
 colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
             "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928",
             "gray")
@@ -183,7 +191,7 @@ print(p.structure.kmeans.15)
 Refine k-means clusters:
 - Split cluster 10 into two clusters.
 - (maybe also merge cluster 4 and 9)
-```{r kmeans-refined}
+```{r kmeans-refined, eval = FALSE}
 set.seed(10)
 clusters.refined <- as.numeric(clusters.15)
 
@@ -192,13 +200,23 @@ cluster10.refined <- kmeans(poisson2multinom(fit)$L[idx_cluster10, ],centers = 2
 clusters.refined[idx_cluster10] <- cluster10.refined
 clusters.refined <- factor(clusters.refined, labels = paste0("c", c(1:length(unique(clusters.refined)))))
 
-print(table(clusters.refined))
-
 samples$cluster_kmeans <- clusters.refined
 ```
 
+Save the clustering results to an RDS file
+```{r, eval = FALSE}
+saveRDS(samples, "output/clustering-Cusanovich2018.rds")
+
+```
+
+```{r}
+samples <- readRDS("output/clustering-Cusanovich2018.rds")
+clusters.refined <- samples$cluster_kmeans
+print(table(samples$cluster_kmeans))
+```
+
 Structure plot based on refined clusters
-```{r structure-plot-kmeans-refined-1, fig.width=7, fig.height=2}
+```{r structure-plot-kmeans-refined-1, eval=FALSE, fig.width=7, fig.height=2}
 colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
             "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928",
             "gray")
@@ -250,15 +268,6 @@ plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4,p.pca2.5,p.pca2.6)
 
 We then label the cells in each cluster with the known tissue labels.
 
-Tissues:
-```{r samples-tissues}
-samples$tissue <- as.factor(samples$tissue)
-cat(length(levels(samples$tissue)), "tissues. \n")
-table(samples$tissue)
-
-colors_tissues <- c("darkblue", "darkgray", "red", "springgreen", "brown", "purple", "skyblue", "black",
-                    "darkgreen", "plum", "yellow", "orange", "lightgray")
-```
 
 ### Plot the distribution of tissues by cluster.
 
@@ -323,12 +332,25 @@ print(freq_table_cluster_tissue)
 ```
 
 ###  Plot the distribution of cell labels by cluster.
+Cell labels:
+```{r samples-celllabels}
+samples$cell_label <- as.factor(samples$cell_label)
+cat(length(levels(samples$cell_label)), "cell labels. \n")
+table(samples$cell_label)
+
+colors_celllabels <- c(colorRampPalette(brewer.pal(12, "Set3"))(39), "black")
+names(colors_celllabels) <- levels(samples$cell_label)
+colors_celllabels[grep("Cardio", names(colors_celllabels))] <- "red"
+colors_celllabels[grep("Endothelial", names(colors_celllabels))] <- "plum"
+colors_celllabels[grep("neuron", names(colors_celllabels))] <- "gray"
+colors_celllabels[grep("pneumocytes", names(colors_celllabels))] <- "skyblue"
+colors_celllabels[grep("tubule", names(colors_celllabels))] <- "purple"
+
+```
 
 Stacked barplot for the counts of cell labels by clusters:
-```{r freq-cluster-celllabel-1, fig.width=10, fig.height=3}
+```{r freq-cluster-celllabel-1, fig.width=10, fig.height=3.5}
 freq_cluster_celllabel <- count(samples, vars=c("cluster_kmeans","cell_label")) 
-
-colors_celllabels <- colorRampPalette(brewer.pal(12, "Set3"))(40)
 
 # stacked barplot for the counts of tissues by clusters
 p.barplot.3 <- ggplot(freq_cluster_celllabel, aes(fill=cell_label, y=freq, x=cluster_kmeans)) + 
@@ -366,9 +388,191 @@ freq_table_cluster_celllabel <- with(samples,table(cell_label,cluster_kmeans))
 print(freq_table_cluster_celllabel)
 ```
 
-Save the clustering results to an RDS file
+
+### zoom into a few clusters:
+
+We now zoom into cluster "c2":
 ```{r}
-saveRDS(samples, "output/clustering-Cusanovich2018.rds")
+rows.c2 <- which(samples$cluster_kmeans == "c2")
 
 ```
 
+Structure plot of c2 cluster: 
+Group samples by tissue labels first, then by cell labels
+```{r structure-plot-c2-1, fig.width=7, fig.height=2}
+
+tissue_labels_c2 <- as.factor(as.character(samples[rows.c2, "tissue"]))
+cell_labels_c2 <- as.factor(as.character(samples[rows.c2, "cell_label"]))
+
+p.structure.c2.1 <- structure_plot(select(poisson2multinom(fit),loadings = rows.c2),
+                     grouping = tissue_labels_c2,
+                     rows = order(cell_labels_c2), 
+                     n = Inf,gap = 40,
+                     perplexity = 50,topics = 1:13,colors = colors_topics,
+                     num_threads = 4,verbose = FALSE)
+print(p.structure.c2.1)
+
+```
+
+```{r pca-c2, fig.width=6, fig.height=3}
+breaks <- c(0,1,5,10,100,Inf)
+
+fit.c2 <- select(poisson2multinom(fit),loadings = rows.c2)
+p.pca.c2 <- pca_plot(fit.c2,fill = "none")
+p.pca.hexbin.c2 <- pca_hexbin_plot(fit.c2,breaks = breaks) + guides(fill = "none")
+plot_grid(p.pca.c2, p.pca.hexbin.c2)
+```
+
+```{r pca-labels-c2, fig.width=8, fig.height=2.25}
+print(table(as.character(samples[rows.c2, "tissue"])))
+
+print(table(as.character(samples[rows.c2, "cell_label"])))
+
+colors_celllabels_c2 <- c("firebrick","dodgerblue","forestgreen",
+                           "darkmagenta","darkorange","gold","darkblue",
+                           "peru","greenyellow","olivedrab", 
+                           "darkgray", "black")
+
+p.pca.c2.tissue <- labeled_pca_plot(fit.c2,1:2,samples[rows.c2, "tissue"],font_size = 7,
+                       colors = colors_tissues, legend_label = "tissue")
+p.pca.c2.cell <- labeled_pca_plot(fit.c2,1:2,samples[rows.c2, "cell_label"],font_size = 7,
+                        colors = colors_celllabels_c2, legend_label = "cell_label")
+plot_grid(p.pca.c2.tissue,p.pca.c2.cell,rel_widths = c(8,9))
+```
+
+
+
+We now zoom into cluster "c5":
+```{r}
+rows.c5 <- which(samples$cluster_kmeans == "c5")
+```
+
+Structure plot of c5 cluster: 
+Group samples by tissue labels first, then by cell labels
+```{r structure-plot-c5-1, fig.width=7, fig.height=2}
+tissue_labels_c5 <- as.factor(as.character(samples[rows.c5, "tissue"]))
+cell_labels_c5 <- as.factor(as.character(samples[rows.c5, "cell_label"]))
+
+p.structure.c5.1 <- structure_plot(select(poisson2multinom(fit),loadings = rows.c5),
+                     grouping = tissue_labels_c5,
+                     rows = order(cell_labels_c5),
+                     n = Inf,gap = 40,
+                     perplexity = 50,topics = 1:13,colors = colors_topics,
+                     num_threads = 4,verbose = FALSE)
+print(p.structure.c5.1)
+
+```
+
+```{r pca-c5, fig.width=6, fig.height=3}
+breaks <- c(0,1,5,10,100,Inf)
+
+fit.c5 <- select(poisson2multinom(fit),loadings = rows.c5)
+p.pca.c5 <- pca_plot(fit.c5,fill = "none")
+p.pca.hexbin.c5 <- pca_hexbin_plot(fit.c5,breaks = breaks) + guides(fill = "none")
+plot_grid(p.pca.c5, p.pca.hexbin.c5)
+```
+
+```{r pca-labels-c5, fig.width=8, fig.height=2.25}
+print(table(as.character(samples[rows.c5, "tissue"])))
+
+print(table(as.character(samples[rows.c5, "cell_label"])))
+
+colors_celllabels_c5 <- c("firebrick","dodgerblue","forestgreen",
+                           "darkmagenta","darkorange","gold","darkblue",
+                           "peru","greenyellow","black")
+
+p.pca.c5.tissue <- labeled_pca_plot(fit.c5,1:2,samples[rows.c5, "tissue"],font_size = 7,
+                       colors = colors_tissues, legend_label = "tissue")
+p.pca.c5.cell <- labeled_pca_plot(fit.c5,1:2,samples[rows.c5, "cell_label"],font_size = 7,
+                        colors = colors_celllabels_c5, legend_label = "cell_label")
+plot_grid(p.pca.c5.tissue,p.pca.c5.cell,rel_widths = c(8,11))
+```
+
+We now zoom into cluster "c15":
+```{r}
+rows.c15 <- which(samples$cluster_kmeans == "c15")
+```
+
+Structure plot of c15 cluster: 
+Group samples by tissue labels first, then by cell labels
+```{r structure-plot-c15-1, fig.width=7, fig.height=2}
+tissue_labels_c15 <- as.factor(as.character(samples[rows.c15, "tissue"]))
+cell_labels_c15 <- as.factor(as.character(samples[rows.c15, "cell_label"]))
+
+p.structure.c15.1 <- structure_plot(select(poisson2multinom(fit),loadings = rows.c15),
+                     grouping = tissue_labels_c15,
+                     rows = order(cell_labels_c15), 
+                     n = Inf,gap = 40,
+                     perplexity = 50,topics = 1:13,colors = colors_topics,
+                     num_threads = 4,verbose = FALSE)
+print(p.structure.c15.1)
+
+```
+
+```{r pca-c15, fig.width=6, fig.height=3}
+breaks <- c(0,1,5,10,100,Inf)
+
+fit.c15 <- select(poisson2multinom(fit),loadings = rows.c15)
+p.pca.c15 <- pca_plot(fit.c15,fill = "none")
+p.pca.hexbin.c15 <- pca_hexbin_plot(fit.c15,breaks = breaks) + guides(fill = "none")
+plot_grid(p.pca.c15, p.pca.hexbin.c15)
+```
+
+```{r pca-labels-c15, fig.width=8, fig.height=2.25}
+print(table(as.character(samples[rows.c15, "tissue"])))
+
+print(table(as.character(samples[rows.c15, "cell_label"])))
+
+colors_celllabels_c15 <- c("firebrick","dodgerblue","forestgreen",
+                           "darkmagenta","darkorange","gold","darkblue",
+                           "peru","greenyellow","black")
+
+p.pca.c15.tissue <- labeled_pca_plot(fit.c15,1:2,samples[rows.c15, "tissue"],font_size = 7,
+                       colors = colors_tissues, legend_label = "tissue")
+p.pca.c15.cell <- labeled_pca_plot(fit.c15,1:2,samples[rows.c15, "cell_label"],font_size = 7,
+                        colors = colors_celllabels_c15, legend_label = "cell_label")
+plot_grid(p.pca.c15.tissue,p.pca.c15.cell,rel_widths = c(8,11))
+```
+
+
+We now zoom into cluster "c6":
+```{r}
+rows.c6 <- which(samples$cluster_kmeans == "c6")
+```
+
+Structure plot of c6 cluster: 
+Group samples by tissue labels first, then by cell labels
+```{r structure-plot-c6-1, fig.width=7, fig.height=2}
+tissue_labels_c6 <- as.factor(as.character(samples[rows.c6, "tissue"]))
+cell_labels_c6 <- as.factor(as.character(samples[rows.c6, "cell_label"]))
+
+p.structure.c6.1 <- structure_plot(select(poisson2multinom(fit),loadings = rows.c6),
+                     grouping = tissue_labels_c6,
+                     rows = order(cell_labels_c6), 
+                     n = Inf,gap = 40,
+                     perplexity = 50,topics = 1:13,colors = colors_topics,
+                     num_threads = 4,verbose = FALSE)
+print(p.structure.c6.1)
+
+```
+
+```{r pca-c6, fig.width=6, fig.height=3}
+breaks <- c(0,1,5,10,100,Inf)
+
+fit.c6 <- select(poisson2multinom(fit),loadings = rows.c6)
+p.pca.c6 <- pca_plot(fit.c6,fill = "none")
+p.pca.hexbin.c6 <- pca_hexbin_plot(fit.c6,breaks = breaks) + guides(fill = "none")
+plot_grid(p.pca.c6, p.pca.hexbin.c6)
+```
+
+```{r pca-labels-c6, fig.width=8, fig.height=2.25}
+print(table(as.character(samples[rows.c6, "tissue"])))
+
+print(table(as.character(samples[rows.c6, "cell_label"])))
+
+p.pca.c6.tissue <- labeled_pca_plot(fit.c6,1:2,samples[rows.c6, "tissue"],font_size = 7,
+                       colors = colors_tissues, legend_label = "tissue")
+p.pca.c6.cell <- labeled_pca_plot(fit.c6,1:2,samples[rows.c6, "cell_label"],font_size = 7,
+                        legend_label = "cell_label")
+plot_grid(p.pca.c6.tissue,p.pca.c6.cell,rel_widths = c(8,11))
+```
