@@ -394,12 +394,11 @@ print(freq_table_cluster_celllabel)
 #### zoom into cluster c2
 ```{r}
 rows.c2 <- which(samples$cluster_kmeans == "c2")
-
 ```
 
 Structure plot of c2 cluster: 
 Group samples by tissue labels first, then by cell labels
-```{r structure-plot-c2-1, fig.width=7, fig.height=2}
+```{r structure-plot-c2-1, fig.width=7, fig.height=2.5}
 
 tissue_labels_c2 <- as.factor(as.character(samples[rows.c2, "tissue"]))
 cell_labels_c2 <- as.factor(as.character(samples[rows.c2, "cell_label"]))
@@ -454,7 +453,7 @@ rows.c5 <- which(samples$cluster_kmeans == "c5")
 
 Structure plot of c5 cluster: 
 Group samples by tissue labels first, then by cell labels
-```{r structure-plot-c5-1, fig.width=7, fig.height=2}
+```{r structure-plot-c5-1, fig.width=7, fig.height=2.5}
 tissue_labels_c5 <- as.factor(as.character(samples[rows.c5, "tissue"]))
 cell_labels_c5 <- as.factor(as.character(samples[rows.c5, "cell_label"]))
 
@@ -507,7 +506,7 @@ rows.c15 <- which(samples$cluster_kmeans == "c15")
 
 Structure plot of c15 cluster: 
 Group samples by tissue labels first, then by cell labels
-```{r structure-plot-c15-1, fig.width=7, fig.height=2}
+```{r structure-plot-c15-1, fig.width=7, fig.height=2.5}
 tissue_labels_c15 <- as.factor(as.character(samples[rows.c15, "tissue"]))
 cell_labels_c15 <- as.factor(as.character(samples[rows.c15, "cell_label"]))
 
@@ -560,7 +559,7 @@ rows.c6 <- which(samples$cluster_kmeans == "c6")
 
 Structure plot of c6 cluster: 
 Group samples by tissue labels first, then by cell labels
-```{r structure-plot-c6-1, fig.width=7, fig.height=2}
+```{r structure-plot-c6-1, fig.width=7, fig.height=2.5}
 tissue_labels_c6 <- as.factor(as.character(samples[rows.c6, "tissue"]))
 cell_labels_c6 <- as.factor(as.character(samples[rows.c6, "cell_label"]))
 
@@ -609,7 +608,7 @@ rows.c9 <- which(samples$cluster_kmeans == "c9")
 
 Structure plot of c9 cluster: 
 Group samples by tissue labels first, then by cell labels
-```{r structure-plot-c9-1, fig.width=7, fig.height=2}
+```{r structure-plot-c9-1, fig.width=7, fig.height=2.5}
 tissue_labels_c9 <- as.factor(as.character(samples[rows.c9, "tissue"]))
 cell_labels_c9 <- as.factor(as.character(samples[rows.c9, "cell_label"]))
 
