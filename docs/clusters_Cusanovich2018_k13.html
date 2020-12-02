@@ -410,7 +410,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-12-01
+<strong>Last updated:</strong> 2020-12-02
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -501,16 +501,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree2af43a81eb6052e61a85589f8d34d87398611a7atargetblank2af43a8a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/2af43a81eb6052e61a85589f8d34d87398611a7a" target="_blank">2af43a8</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree8db261b331997dba3f6b2d35570dc3a51f770c5atargetblank8db261ba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/8db261b331997dba3f6b2d35570dc3a51f770c5a" target="_blank">8db261b</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree2af43a81eb6052e61a85589f8d34d87398611a7atargetblank2af43a8a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree8db261b331997dba3f6b2d35570dc3a51f770c5atargetblank8db261ba" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/2af43a81eb6052e61a85589f8d34d87398611a7a" target="_blank">2af43a8</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/8db261b331997dba3f6b2d35570dc3a51f770c5a" target="_blank">8db261b</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -519,6 +519,7 @@ Note that you need to be careful to ensure that all relevant files for the analy
 Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
+    Ignored:    analysis/figure/
 
 Untracked files:
     Untracked:  analysis/clusters_pca_structure_Cusanovich2018.Rmd
@@ -573,6 +574,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/8db261b331997dba3f6b2d35570dc3a51f770c5a/analysis/clusters_Cusanovich2018_k13.Rmd" target="_blank">8db261b</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-12-02
+</td>
+<td>
+wflow_publish(&quot;analysis/clusters_Cusanovich2018_k13.Rmd&quot;)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/deead06d87929eb5b5f35792b463b3257513d2b4/docs/clusters_Cusanovich2018_k13.html" target="_blank">deead06</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-12-01
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1019,10 +1054,26 @@ kevinlkx
 </div>
 <div id="layer-the-tissue-and-cell-labels-onto-the-pc-plots" class="section level2">
 <h2>Layer the tissue and cell labels onto the PC plots</h2>
-<p>Next, we layer the tissue and cell labels onto the PC plots.</p>
+<p>Tissues:</p>
+<pre class="r"><code>samples$tissue &lt;- as.factor(samples$tissue)
+cat(length(levels(samples$tissue)), &quot;tissues. \n&quot;)
+table(samples$tissue)
+
+colors_tissues &lt;- c(&quot;darkblue&quot;, &quot;darkgray&quot;, &quot;red&quot;, &quot;springgreen&quot;, &quot;brown&quot;, &quot;purple&quot;, &quot;skyblue&quot;, &quot;black&quot;,
+                    &quot;darkgreen&quot;, &quot;plum&quot;, &quot;yellow&quot;, &quot;orange&quot;, &quot;lightgray&quot;)
+# 13 tissues. 
+# 
+#       BoneMarrow       Cerebellum            Heart           Kidney 
+#             8403             2278             7650             6431 
+#   LargeIntestine            Liver             Lung PreFrontalCortex 
+#             7086             6167             9996             5959 
+#   SmallIntestine           Spleen           Testes           Thymus 
+#             4077             4020             2723             7617 
+#       WholeBrain 
+#             8766</code></pre>
 <p>PCs 1 and 2:</p>
 <pre class="r"><code>p.pca3.1 &lt;- labeled_pca_plot(fit,1:2,samples$tissue,font_size = 7,
-                       legend_label = &quot;tissue&quot;)
+                       colors = colors_tissues, legend_label = &quot;tissue&quot;)
 p.pca3.2 &lt;- labeled_pca_plot(fit,1:2,samples$cell_label,font_size = 7,
                         legend_label = &quot;cell_label&quot;)
 plot_grid(p.pca3.1,p.pca3.2,rel_widths = c(8,11))</code></pre>
@@ -1066,7 +1117,7 @@ kevinlkx
 </div>
 <p>PCs 3 and 4:</p>
 <pre class="r"><code>p.pca3.3 &lt;- labeled_pca_plot(fit,3:4,samples$tissue,font_size = 7,
-                        legend_label = &quot;tissue&quot;)
+                        colors = colors_tissues, legend_label = &quot;tissue&quot;)
 p.pca3.4 &lt;- labeled_pca_plot(fit,3:4,samples$cell_label,font_size = 7,
                         legend_label = &quot;cell_label&quot;)
 plot_grid(p.pca3.3,p.pca3.4,rel_widths = c(8,11))</code></pre>
@@ -1110,7 +1161,7 @@ kevinlkx
 </div>
 <p>PCs 5 and 6:</p>
 <pre class="r"><code>p.pca3.5 &lt;- labeled_pca_plot(fit,5:6,samples$tissue,font_size = 7,
-                       legend_label = &quot;tissue&quot;)
+                       colors = colors_tissues, legend_label = &quot;tissue&quot;)
 p.pca3.6 &lt;- labeled_pca_plot(fit,5:6,samples$cell_label,font_size = 7,
                         legend_label = &quot;cell_label&quot;)
 plot_grid(p.pca3.5,p.pca3.6,rel_widths = c(8,11))</code></pre>
@@ -1154,7 +1205,7 @@ kevinlkx
 </div>
 <p>PCs 7 and 8:</p>
 <pre class="r"><code>p.pca3.7 &lt;- labeled_pca_plot(fit,7:8,samples$tissue,font_size = 7,
-                       legend_label = &quot;tissue&quot;)
+                       colors = colors_tissues, legend_label = &quot;tissue&quot;)
 p.pca3.8 &lt;- labeled_pca_plot(fit,7:8,samples$cell_label,font_size = 7,
                         legend_label = &quot;cell_label&quot;)
 plot_grid(p.pca3.7,p.pca3.8,rel_widths = c(8,11))</code></pre>
@@ -1198,7 +1249,7 @@ kevinlkx
 </div>
 <p>PCs 9 and 10:</p>
 <pre class="r"><code>p.pca3.9 &lt;- labeled_pca_plot(fit,9:10,samples$tissue,font_size = 7,
-                       legend_label = &quot;tissue&quot;)
+                       colors = colors_tissues, legend_label = &quot;tissue&quot;)
 p.pca3.10 &lt;- labeled_pca_plot(fit,9:10,samples$cell_label,font_size = 7,
                         legend_label = &quot;cell_label&quot;)
 plot_grid(p.pca3.9,p.pca3.10,rel_widths = c(8,11))</code></pre>
@@ -1346,12 +1397,7 @@ kevinlkx
 <pre class="r"><code>set.seed(10)
 
 clusters.15 &lt;- factor(kmeans(poisson2multinom(fit)$L,centers = 15)$cluster)
-print(table(clusters.15))
-# clusters.15
-#     1     2     3     4     5     6     7     8     9    10    11    12    13 
-#  2740  3868  3775  3879  3645  3651 12037  2955  6045 12026  6068  3582  9319 
-#    14    15 
-#  3411  4172</code></pre>
+</code></pre>
 <p>Structure plot based on 15 clusters</p>
 <pre class="r"><code>colors_topics &lt;- c(&quot;#a6cee3&quot;,&quot;#1f78b4&quot;,&quot;#b2df8a&quot;,&quot;#33a02c&quot;,&quot;#fb9a99&quot;,&quot;#e31a1c&quot;,
             &quot;#fdbf6f&quot;,&quot;#ff7f00&quot;,&quot;#cab2d6&quot;,&quot;#6a3d9a&quot;,&quot;#ffff99&quot;,&quot;#b15928&quot;,
@@ -1362,80 +1408,7 @@ p.structure.kmeans.15 &lt;- structure_plot(select(poisson2multinom(fit),loadings
                                         grouping = clusters.15[rows],n = Inf,gap = 20,
                                         perplexity = 50,topics = 1:13,colors = colors_topics,
                                         num_threads = 4,verbose = FALSE)
-# Perplexity automatically changed to 42 because original setting of 50 was too large for the number of samples (130)
-# Perplexity automatically changed to 46 because original setting of 50 was too large for the number of samples (144)
 print(p.structure.kmeans.15)</code></pre>
-<p><img src="figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-kmeans-1-1.png" width="840" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-kmeans-1-1">
-Past versions of structure-plot-kmeans-1-1.png
-</button>
-</p>
-<div id="fig-structure-plot-kmeans-1-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/6c97fa964f13b229dbb6321d162a33ae59fa52a0/docs/figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-kmeans-1-1.png" target="_blank">6c97fa9</a>
-</td>
-<td>
-kevinlkx
-</td>
-<td>
-2020-12-01
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/9d31a9fba6cedf2b9b3ee1072364767c4156ad73/docs/figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-kmeans-1-1.png" target="_blank">9d31a9f</a>
-</td>
-<td>
-kevinlkx
-</td>
-<td>
-2020-10-21
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/32ed5aea68036d63ab78e7d417a8067660328456/docs/figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-kmeans-1-1.png" target="_blank">32ed5ae</a>
-</td>
-<td>
-kevinlkx
-</td>
-<td>
-2020-10-21
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/a38788b2e6ab19366c8d3bc9e45dc9844fde044d/docs/figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-kmeans-1-1.png" target="_blank">a38788b</a>
-</td>
-<td>
-kevinlkx
-</td>
-<td>
-2020-10-20
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
 <p>Refine k-means clusters: - Split cluster 10 into two clusters. - (maybe also merge cluster 4 and 9)</p>
 <pre class="r"><code>set.seed(10)
 clusters.refined &lt;- as.numeric(clusters.15)
@@ -1445,10 +1418,14 @@ cluster10.refined &lt;- kmeans(poisson2multinom(fit)$L[idx_cluster10, ],centers 
 clusters.refined[idx_cluster10] &lt;- cluster10.refined
 clusters.refined &lt;- factor(clusters.refined, labels = paste0(&quot;c&quot;, c(1:length(unique(clusters.refined)))))
 
-print(table(clusters.refined))
-
-samples$cluster_kmeans &lt;- clusters.refined
-# clusters.refined
+samples$cluster_kmeans &lt;- clusters.refined</code></pre>
+<p>Save the clustering results to an RDS file</p>
+<pre class="r"><code>saveRDS(samples, &quot;output/clustering-Cusanovich2018.rds&quot;)
+</code></pre>
+<pre class="r"><code>samples &lt;- readRDS(&quot;output/clustering-Cusanovich2018.rds&quot;)
+clusters.refined &lt;- samples$cluster_kmeans
+print(table(samples$cluster_kmeans))
+# 
 #    c1    c2    c3    c4    c5    c6    c7    c8    c9   c10   c11   c12   c13 
 #  2740  3868  3775  3879  3645  3651 12037  2955  6045  6068  3582  9319  3411 
 #   c14   c15   c16 
@@ -1463,47 +1440,8 @@ p.structure.kmeans.refined &lt;- structure_plot(select(poisson2multinom(fit),loa
                                              grouping = clusters.refined[rows],n = Inf,gap = 40,
                                              perplexity = 50,topics = 1:13,colors = colors_topics,
                                              num_threads = 4,verbose = FALSE)
-# Perplexity automatically changed to 41 because original setting of 50 was too large for the number of samples (129)
-# Perplexity automatically changed to 46 because original setting of 50 was too large for the number of samples (144)
-print(p.structure.kmeans.refined)</code></pre>
-<p><img src="figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-kmeans-refined-1-1.png" width="840" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-kmeans-refined-1-1">
-Past versions of structure-plot-kmeans-refined-1-1.png
-</button>
-</p>
-<div id="fig-structure-plot-kmeans-refined-1-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/6c97fa964f13b229dbb6321d162a33ae59fa52a0/docs/figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-kmeans-refined-1-1.png" target="_blank">6c97fa9</a>
-</td>
-<td>
-kevinlkx
-</td>
-<td>
-2020-12-01
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+print(p.structure.kmeans.refined)
+</code></pre>
 <p>Group samples by k-means clusters first, then by tissue labels:</p>
 <pre class="r"><code>p.structure.kmeans.refined &lt;- structure_plot(select(poisson2multinom(fit),loadings = rows),
                      grouping = clusters.refined[rows],
@@ -1675,23 +1613,6 @@ kevinlkx
 </div>
 </div>
 <p>We then label the cells in each cluster with the known tissue labels.</p>
-<p>Tissues:</p>
-<pre class="r"><code>samples$tissue &lt;- as.factor(samples$tissue)
-cat(length(levels(samples$tissue)), &quot;tissues. \n&quot;)
-table(samples$tissue)
-
-colors_tissues &lt;- c(&quot;darkblue&quot;, &quot;darkgray&quot;, &quot;red&quot;, &quot;springgreen&quot;, &quot;brown&quot;, &quot;purple&quot;, &quot;skyblue&quot;, &quot;black&quot;,
-                    &quot;darkgreen&quot;, &quot;plum&quot;, &quot;yellow&quot;, &quot;orange&quot;, &quot;lightgray&quot;)
-# 13 tissues. 
-# 
-#       BoneMarrow       Cerebellum            Heart           Kidney 
-#             8403             2278             7650             6431 
-#   LargeIntestine            Liver             Lung PreFrontalCortex 
-#             7086             6167             9996             5959 
-#   SmallIntestine           Spleen           Testes           Thymus 
-#             4077             4020             2723             7617 
-#       WholeBrain 
-#             8766</code></pre>
 <div id="plot-the-distribution-of-tissues-by-cluster." class="section level3">
 <h3>Plot the distribution of tissues by cluster.</h3>
 <p>Stacked barplot for the counts of tissues by clusters:</p>
@@ -1927,10 +1848,62 @@ print(freq_table_cluster_tissue)
 </div>
 <div id="plot-the-distribution-of-cell-labels-by-cluster." class="section level3">
 <h3>Plot the distribution of cell labels by cluster.</h3>
+<p>Cell labels:</p>
+<pre class="r"><code>samples$cell_label &lt;- as.factor(samples$cell_label)
+cat(length(levels(samples$cell_label)), &quot;cell labels. \n&quot;)
+table(samples$cell_label)
+
+colors_celllabels &lt;- c(colorRampPalette(brewer.pal(12, &quot;Set3&quot;))(39), &quot;black&quot;)
+names(colors_celllabels) &lt;- levels(samples$cell_label)
+colors_celllabels[grep(&quot;Cardio&quot;, names(colors_celllabels))] &lt;- &quot;red&quot;
+colors_celllabels[grep(&quot;Endothelial&quot;, names(colors_celllabels))] &lt;- &quot;plum&quot;
+colors_celllabels[grep(&quot;neuron&quot;, names(colors_celllabels))] &lt;- &quot;gray&quot;
+colors_celllabels[grep(&quot;pneumocytes&quot;, names(colors_celllabels))] &lt;- &quot;skyblue&quot;
+colors_celllabels[grep(&quot;tubule&quot;, names(colors_celllabels))] &lt;- &quot;purple&quot;
+# 40 cell labels. 
+# 
+#          Activated B cells       Alveolar macrophages 
+#                        500                        559 
+#                 Astrocytes                    B cells 
+#                       1666                       5772 
+#             Cardiomyocytes   Cerebellar granule cells 
+#                       4076                       4099 
+#            Collecting duct                 Collisions 
+#                        164                       1218 
+#                     DCT/CD            Dendritic cells 
+#                        506                        958 
+#   Distal convoluted tubule Endothelial I (glomerular) 
+#                        319                        552 
+#        Endothelial I cells       Endothelial II cells 
+#                        952                       3019 
+#                Enterocytes              Erythroblasts 
+#                       4783                       2811 
+#            Ex. neurons CPN          Ex. neurons CThPN 
+#                       1832                       1540 
+#           Ex. neurons SCPN  Hematopoietic progenitors 
+#                       1466                       3425 
+#                Hepatocytes           Immature B cells 
+#                       5664                        571 
+#         Inhibitory neurons              Loop of henle 
+#                       1828                        815 
+#                Macrophages                  Microglia 
+#                        711                        422 
+#                  Monocytes                   NK cells 
+#                       1173                        321 
+#           Oligodendrocytes                  Podocytes 
+#                       1558                        498 
+#            Proximal tubule         Proximal tubule S3 
+#                       2570                        594 
+#             Purkinje cells         Regulatory T cells 
+#                        320                        507 
+#          SOM+ Interneurons                      Sperm 
+#                        553                       2089 
+#                    T cells         Type I pneumocytes 
+#                       8954                       1622 
+#        Type II pneumocytes                    Unknown 
+#                        157                      10029</code></pre>
 <p>Stacked barplot for the counts of cell labels by clusters:</p>
 <pre class="r"><code>freq_cluster_celllabel &lt;- count(samples, vars=c(&quot;cluster_kmeans&quot;,&quot;cell_label&quot;)) 
-
-colors_celllabels &lt;- colorRampPalette(brewer.pal(12, &quot;Set3&quot;))(40)
 
 # stacked barplot for the counts of tissues by clusters
 p.barplot.3 &lt;- ggplot(freq_cluster_celllabel, aes(fill=cell_label, y=freq, x=cluster_kmeans)) + 
@@ -2117,8 +2090,233 @@ print(freq_table_cluster_celllabel)
 #   Type I pneumocytes         1415    6  170    0    0    0
 #   Type II pneumocytes          66    0   68    0    0    0
 #   Unknown                      68    0  281   46  230    1</code></pre>
-<p>Save the clustering results to an RDS file</p>
-<pre class="r"><code>saveRDS(samples, &quot;output/clustering-Cusanovich2018.rds&quot;)</code></pre>
+</div>
+<div id="zoom-into-a-few-clusters" class="section level3">
+<h3>zoom into a few clusters:</h3>
+<p>We now zoom into cluster &quot;c2&quot;:</p>
+<pre class="r"><code>rows.c2 &lt;- which(samples$cluster_kmeans == &quot;c2&quot;)</code></pre>
+<p>Structure plot of c2 cluster: Group samples by tissue labels first, then by cell labels</p>
+<pre class="r"><code>
+tissue_labels_c2 &lt;- as.factor(as.character(samples[rows.c2, &quot;tissue&quot;]))
+cell_labels_c2 &lt;- as.factor(as.character(samples[rows.c2, &quot;cell_label&quot;]))
+
+p.structure.c2.1 &lt;- structure_plot(select(poisson2multinom(fit),loadings = rows.c2),
+                     grouping = tissue_labels_c2,
+                     rows = order(cell_labels_c2), 
+                     n = Inf,gap = 40,
+                     perplexity = 50,topics = 1:13,colors = colors_topics,
+                     num_threads = 4,verbose = FALSE)
+print(p.structure.c2.1)</code></pre>
+<p><img src="figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-c2-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>breaks &lt;- c(0,1,5,10,100,Inf)
+
+fit.c2 &lt;- select(poisson2multinom(fit),loadings = rows.c2)
+p.pca.c2 &lt;- pca_plot(fit.c2,fill = &quot;none&quot;)
+p.pca.hexbin.c2 &lt;- pca_hexbin_plot(fit.c2,breaks = breaks) + guides(fill = &quot;none&quot;)
+plot_grid(p.pca.c2, p.pca.hexbin.c2)</code></pre>
+<p><img src="figure/clusters_Cusanovich2018_k13.Rmd/pca-c2-1.png" width="720" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(table(as.character(samples[rows.c2, &quot;tissue&quot;])))
+
+print(table(as.character(samples[rows.c2, &quot;cell_label&quot;])))
+
+colors_celllabels_c2 &lt;- c(&quot;firebrick&quot;,&quot;dodgerblue&quot;,&quot;forestgreen&quot;,
+                           &quot;darkmagenta&quot;,&quot;darkorange&quot;,&quot;gold&quot;,&quot;darkblue&quot;,
+                           &quot;peru&quot;,&quot;greenyellow&quot;,&quot;olivedrab&quot;, 
+                           &quot;darkgray&quot;, &quot;black&quot;)
+
+p.pca.c2.tissue &lt;- labeled_pca_plot(fit.c2,1:2,samples[rows.c2, &quot;tissue&quot;],font_size = 7,
+                       colors = colors_tissues, legend_label = &quot;tissue&quot;)
+p.pca.c2.cell &lt;- labeled_pca_plot(fit.c2,1:2,samples[rows.c2, &quot;cell_label&quot;],font_size = 7,
+                        colors = colors_celllabels_c2, legend_label = &quot;cell_label&quot;)
+plot_grid(p.pca.c2.tissue,p.pca.c2.cell,rel_widths = c(8,9))</code></pre>
+<p><img src="figure/clusters_Cusanovich2018_k13.Rmd/pca-labels-c2-1.png" width="960" style="display: block; margin: auto;" /></p>
+<pre><code># 
+#       BoneMarrow       Cerebellum            Heart           Kidney 
+#               15               51             1374              757 
+#   LargeIntestine            Liver             Lung PreFrontalCortex 
+#               73              268             1093               75 
+#   SmallIntestine           Spleen           Testes           Thymus 
+#               22                3               19                2 
+#       WholeBrain 
+#              116 
+# 
+#             Cardiomyocytes                 Collisions 
+#                         15                          2 
+# Endothelial I (glomerular)        Endothelial I cells 
+#                        386                        512 
+#       Endothelial II cells              Loop of henle 
+#                       2405                          1 
+#                  Microglia                  Podocytes 
+#                          1                        369 
+#            Proximal tubule                    T cells 
+#                          1                          1 
+#        Type II pneumocytes                    Unknown 
+#                          8                        167</code></pre>
+<p>We now zoom into cluster &quot;c5&quot;:</p>
+<pre class="r"><code>rows.c5 &lt;- which(samples$cluster_kmeans == &quot;c5&quot;)</code></pre>
+<p>Structure plot of c5 cluster: Group samples by tissue labels first, then by cell labels</p>
+<pre class="r"><code>tissue_labels_c5 &lt;- as.factor(as.character(samples[rows.c5, &quot;tissue&quot;]))
+cell_labels_c5 &lt;- as.factor(as.character(samples[rows.c5, &quot;cell_label&quot;]))
+
+p.structure.c5.1 &lt;- structure_plot(select(poisson2multinom(fit),loadings = rows.c5),
+                     grouping = tissue_labels_c5,
+                     rows = order(cell_labels_c5),
+                     n = Inf,gap = 40,
+                     perplexity = 50,topics = 1:13,colors = colors_topics,
+                     num_threads = 4,verbose = FALSE)
+print(p.structure.c5.1)</code></pre>
+<p><img src="figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-c5-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>breaks &lt;- c(0,1,5,10,100,Inf)
+
+fit.c5 &lt;- select(poisson2multinom(fit),loadings = rows.c5)
+p.pca.c5 &lt;- pca_plot(fit.c5,fill = &quot;none&quot;)
+p.pca.hexbin.c5 &lt;- pca_hexbin_plot(fit.c5,breaks = breaks) + guides(fill = &quot;none&quot;)
+plot_grid(p.pca.c5, p.pca.hexbin.c5)</code></pre>
+<p><img src="figure/clusters_Cusanovich2018_k13.Rmd/pca-c5-1.png" width="720" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(table(as.character(samples[rows.c5, &quot;tissue&quot;])))
+
+print(table(as.character(samples[rows.c5, &quot;cell_label&quot;])))
+
+colors_celllabels_c5 &lt;- c(&quot;firebrick&quot;,&quot;dodgerblue&quot;,&quot;forestgreen&quot;,
+                           &quot;darkmagenta&quot;,&quot;darkorange&quot;,&quot;gold&quot;,&quot;darkblue&quot;,
+                           &quot;peru&quot;,&quot;greenyellow&quot;,&quot;black&quot;)
+
+p.pca.c5.tissue &lt;- labeled_pca_plot(fit.c5,1:2,samples[rows.c5, &quot;tissue&quot;],font_size = 7,
+                       colors = colors_tissues, legend_label = &quot;tissue&quot;)
+p.pca.c5.cell &lt;- labeled_pca_plot(fit.c5,1:2,samples[rows.c5, &quot;cell_label&quot;],font_size = 7,
+                        colors = colors_celllabels_c5, legend_label = &quot;cell_label&quot;)
+plot_grid(p.pca.c5.tissue,p.pca.c5.cell,rel_widths = c(8,11))</code></pre>
+<p><img src="figure/clusters_Cusanovich2018_k13.Rmd/pca-labels-c5-1.png" width="960" style="display: block; margin: auto;" /></p>
+<pre><code># 
+#       Cerebellum            Heart   LargeIntestine             Lung 
+#              525                3                4                2 
+# PreFrontalCortex       WholeBrain 
+#             1169             1942 
+# 
+#         Astrocytes         Collisions        Enterocytes Inhibitory neurons 
+#               1574                423                  1                 68 
+#          Microglia   Oligodendrocytes     Purkinje cells  SOM+ Interneurons 
+#                  1               1506                  1                  7 
+#            T cells            Unknown 
+#                  1                 63</code></pre>
+<p>We now zoom into cluster &quot;c15&quot;:</p>
+<pre class="r"><code>rows.c15 &lt;- which(samples$cluster_kmeans == &quot;c15&quot;)</code></pre>
+<p>Structure plot of c15 cluster: Group samples by tissue labels first, then by cell labels</p>
+<pre class="r"><code>tissue_labels_c15 &lt;- as.factor(as.character(samples[rows.c15, &quot;tissue&quot;]))
+cell_labels_c15 &lt;- as.factor(as.character(samples[rows.c15, &quot;cell_label&quot;]))
+
+p.structure.c15.1 &lt;- structure_plot(select(poisson2multinom(fit),loadings = rows.c15),
+                     grouping = tissue_labels_c15,
+                     rows = order(cell_labels_c15), 
+                     n = Inf,gap = 40,
+                     perplexity = 50,topics = 1:13,colors = colors_topics,
+                     num_threads = 4,verbose = FALSE)
+print(p.structure.c15.1)</code></pre>
+<p><img src="figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-c15-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>breaks &lt;- c(0,1,5,10,100,Inf)
+
+fit.c15 &lt;- select(poisson2multinom(fit),loadings = rows.c15)
+p.pca.c15 &lt;- pca_plot(fit.c15,fill = &quot;none&quot;)
+p.pca.hexbin.c15 &lt;- pca_hexbin_plot(fit.c15,breaks = breaks) + guides(fill = &quot;none&quot;)
+plot_grid(p.pca.c15, p.pca.hexbin.c15)</code></pre>
+<p><img src="figure/clusters_Cusanovich2018_k13.Rmd/pca-c15-1.png" width="720" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(table(as.character(samples[rows.c15, &quot;tissue&quot;])))
+
+print(table(as.character(samples[rows.c15, &quot;cell_label&quot;])))
+
+colors_celllabels_c15 &lt;- c(&quot;firebrick&quot;,&quot;dodgerblue&quot;,&quot;forestgreen&quot;,
+                           &quot;darkmagenta&quot;,&quot;darkorange&quot;,&quot;gold&quot;,&quot;darkblue&quot;,
+                           &quot;peru&quot;,&quot;greenyellow&quot;,&quot;black&quot;)
+
+p.pca.c15.tissue &lt;- labeled_pca_plot(fit.c15,1:2,samples[rows.c15, &quot;tissue&quot;],font_size = 7,
+                       colors = colors_tissues, legend_label = &quot;tissue&quot;)
+p.pca.c15.cell &lt;- labeled_pca_plot(fit.c15,1:2,samples[rows.c15, &quot;cell_label&quot;],font_size = 7,
+                        colors = colors_celllabels_c15, legend_label = &quot;cell_label&quot;)
+plot_grid(p.pca.c15.tissue,p.pca.c15.cell,rel_widths = c(8,11))</code></pre>
+<p><img src="figure/clusters_Cusanovich2018_k13.Rmd/pca-labels-c15-1.png" width="960" style="display: block; margin: auto;" /></p>
+<pre><code># 
+#       Cerebellum             Lung PreFrontalCortex       WholeBrain 
+#              196                2             4261             1964 
+# 
+#         Astrocytes         Collisions    Ex. neurons CPN  Ex. neurons CThPN 
+#                  3                 86               1822               1449 
+#   Ex. neurons SCPN Inhibitory neurons   Oligodendrocytes     Purkinje cells 
+#               1394                965                  3                  5 
+#  SOM+ Interneurons            Unknown 
+#                466                230</code></pre>
+<p>We now zoom into cluster &quot;c6&quot;:</p>
+<pre class="r"><code>rows.c6 &lt;- which(samples$cluster_kmeans == &quot;c6&quot;)</code></pre>
+<p>Structure plot of c6 cluster: Group samples by tissue labels first, then by cell labels</p>
+<pre class="r"><code>tissue_labels_c6 &lt;- as.factor(as.character(samples[rows.c6, &quot;tissue&quot;]))
+cell_labels_c6 &lt;- as.factor(as.character(samples[rows.c6, &quot;cell_label&quot;]))
+
+p.structure.c6.1 &lt;- structure_plot(select(poisson2multinom(fit),loadings = rows.c6),
+                     grouping = tissue_labels_c6,
+                     rows = order(cell_labels_c6), 
+                     n = Inf,gap = 40,
+                     perplexity = 50,topics = 1:13,colors = colors_topics,
+                     num_threads = 4,verbose = FALSE)
+print(p.structure.c6.1)</code></pre>
+<p><img src="figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-c6-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>breaks &lt;- c(0,1,5,10,100,Inf)
+
+fit.c6 &lt;- select(poisson2multinom(fit),loadings = rows.c6)
+p.pca.c6 &lt;- pca_plot(fit.c6,fill = &quot;none&quot;)
+p.pca.hexbin.c6 &lt;- pca_hexbin_plot(fit.c6,breaks = breaks) + guides(fill = &quot;none&quot;)
+plot_grid(p.pca.c6, p.pca.hexbin.c6)</code></pre>
+<p><img src="figure/clusters_Cusanovich2018_k13.Rmd/pca-c6-1.png" width="720" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(table(as.character(samples[rows.c6, &quot;tissue&quot;])))
+
+print(table(as.character(samples[rows.c6, &quot;cell_label&quot;])))
+
+p.pca.c6.tissue &lt;- labeled_pca_plot(fit.c6,1:2,samples[rows.c6, &quot;tissue&quot;],font_size = 7,
+                       colors = colors_tissues, legend_label = &quot;tissue&quot;)
+p.pca.c6.cell &lt;- labeled_pca_plot(fit.c6,1:2,samples[rows.c6, &quot;cell_label&quot;],font_size = 7,
+                        legend_label = &quot;cell_label&quot;)
+plot_grid(p.pca.c6.tissue,p.pca.c6.cell,rel_widths = c(8,11))</code></pre>
+<p><img src="figure/clusters_Cusanovich2018_k13.Rmd/pca-labels-c6-1.png" width="960" style="display: block; margin: auto;" /></p>
+<pre><code># 
+#       BoneMarrow       Cerebellum            Heart           Kidney 
+#               33               44             1225              402 
+#   LargeIntestine            Liver             Lung PreFrontalCortex 
+#              665               84              659               48 
+#   SmallIntestine           Spleen           Testes           Thymus 
+#              341                5               37                9 
+#       WholeBrain 
+#               99 
+# 
+#       Alveolar macrophages                 Astrocytes 
+#                          2                         11 
+#                    B cells             Cardiomyocytes 
+#                          3                         42 
+#   Cerebellar granule cells            Collecting duct 
+#                          3                         10 
+#                 Collisions                     DCT/CD 
+#                         15                          1 
+#            Dendritic cells Endothelial I (glomerular) 
+#                          2                        158 
+#        Endothelial I cells       Endothelial II cells 
+#                        438                        574 
+#                Enterocytes  Hematopoietic progenitors 
+#                         11                          1 
+#                Hepatocytes         Inhibitory neurons 
+#                          5                         27 
+#              Loop of henle                Macrophages 
+#                          8                         14 
+#                  Microglia                  Monocytes 
+#                          3                          1 
+#                   NK cells           Oligodendrocytes 
+#                          1                          1 
+#                  Podocytes            Proximal tubule 
+#                        113                         16 
+#             Purkinje cells         Regulatory T cells 
+#                          2                          1 
+#          SOM+ Interneurons                      Sperm 
+#                          8                          1 
+#                    T cells         Type I pneumocytes 
+#                          7                          3 
+#        Type II pneumocytes                    Unknown 
+#                         14                       2155</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
