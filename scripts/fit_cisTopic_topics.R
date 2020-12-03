@@ -54,7 +54,7 @@ tmp.dir <- paste0(dirname(outfile), "/tmp/", project.name, ".topics")
 dir.create(tmp.dir, showWarnings = F, recursive = T)
 
 timing <- system.time({
-  cisTopicObject <- runWarpLDAModels(cisTopicObject, topic=c(2:15, 20, 25, 35, 40, 45, 50), nCores=nc, seed=seed,
+  cisTopicObject <- runWarpLDAModels(cisTopicObject, topic=c(2:30, 50, 100, 200, 500), nCores=nc, seed=seed,
                                      iterations = numiter, addModels=FALSE, tmp = tmp.dir)
 
 })
