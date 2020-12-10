@@ -1,0 +1,56 @@
+---
+title: "Differential accessbility analysis for Cusanovich *et al* (2018) scATAC-seq data using fastTopics results"
+author: Kaixuan Luo
+output:
+  workflowr::wflow_html:
+    toc: yes
+---
+
+Here we perform differential accessbility analysis 
+for the Cusanovich *et al* (2018) scATAC-seq result inferred from the 
+multinomial topic model with $k = 13$.
+
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
+                      fig.align = "center",dpi = 120)
+```
+
+## Load packages and some functions used in this analysis.
+
+```{r load-pkgs, message=FALSE}
+library(Matrix)
+library(dplyr)
+library(fastTopics)
+library(tools)
+library(ggplot2)
+library(ggrepel)
+library(cowplot)
+source("code/plots.R")
+```
+
+## Load data and topic model results
+
+Load the data and the $k = 13$ Poisson NMF fit results.
+```{r load-data}
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/processed_data/"
+load(file.path(data.dir, "Cusanovich_2018.RData"))
+
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
+fit <- readRDS(file.path(out.dir, "/fit-Cusanovich2018-scd-ex-k=13.rds"))$fit
+```
+
+## Perform differential accessbility analysis for the topics
+
+Perform differential accessbility analysis using the multinomial topic model.
+[Computation took 3017.11 seconds.]
+```{r diff-count-analysis-topics, eval=FALSE}
+timing <- system.time(
+  diff_count_topics <- diff_count_analysis(fit,counts))
+cat(sprintf("Computation took %0.2f seconds.\n",timing["elapsed"]))
+```
+
+Save results of the differential accessbility analysis.
+```{r save-results, eval=FALSE}
+saveRDS(diff_count_topics, paste0(out.dir, "/diff-count-Cusanovich2018-13topics.rds"))
+```
+
