@@ -3,40 +3,44 @@
 #' Weight chromatin accessibility around gene promoters by distance to TSS.
 #' Adopted from Lareau et al. Nature Biotech, 2019.
 #'
-#' @param region.scores A matrix containing the scores (e.g. Z-scores) for the accessibility regions in each topic or cluster.
+#' @param Z A matrix containing the scores (e.g. Z-scores) for the accessibility regions in each topic or cluster.
 #' Rows are ATAC-seq regions, columns are topics or clusters.
 #' @param regions A data frame containing the coordinates (chr, start, end) of the accessibility regions.
-#' @param genes A data frame or `GRanges` object containing gene coordinates (chr, start, end, strand, gene_name, etc. ) .
+#' @param genes A data frame containing gene coordinates (chr, start, end, strand, gene_name, etc. ) .
+#' @param normalize logical indicating if the weights of the regions match to each gene should be normalized.
+#' @param method.normalization Normalization method. "l2": normalize by the l2 norm of the weights (default).
+#' "sum": normalize by the sum of weights.
 #' @param c scaling constant (default = 5000)
 #' @param gene.window size of the gene window around TSS (default = 100000, i.e. 100kb)
 #'
 #' @return Returns a matrix of gene scores. Rows are genes, columns are topics or clusters.
 #' @export
-compute_gene_scores_tss_model <- function(region.scores,
+compute_gene_scores_tss_model <- function(Z,
                                           regions,
                                           genes,
+                                          normalize = TRUE,
+                                          method.normalization = "l2",
                                           c = 5000,
                                           window.size = 100000
 ) {
 
-  # Get ATAC-seq regions/peaks
+  # Get ATAC-seq regions
   regions <- as.data.frame(regions)
-  cat(sprintf("load %d regions. \n", nrow(regions)))
-
-  if(nrow(region.scores) != nrow(regions)){
-    stop("The numbers of regions do not match!")
+  if(nrow(Z) != nrow(regions)){
+    stop("The number of regions should match with the number of rows in Z!")
   }
 
   colnames(regions)[1:3] <- c("chr", "start", "end")
   regions <- regions %>% mutate_at(c("start", "end"), as.numeric)
+  cat(sprintf("load %d regions. \n", nrow(regions)))
 
-  # Use ATAC-seq region/peak centers to represent the region/peaks
+  # Represent the region/peaks with the region/peak centers
   regions$center <- (regions$start + regions$end)/2
   regions <- makeGRangesFromDataFrame(regions, start.field = "center", end.field = "center")
 
   # Get gene windows around TSS
   genes <- as.data.frame(genes)
-  colnames(genes)[1:3] <- c("chr", "start", "end")
+  colnames(genes)[1:5] <- c("chr", "start", "end", "strand", "gene_name")
   genes <- genes %>% mutate_at(c("start", "end"), as.numeric)
   cat(sprintf("load %d genes \n", nrow(genes)))
 
@@ -53,24 +57,39 @@ compute_gene_scores_tss_model <- function(region.scores,
   cat("Compute gene scores. \n")
 
   # Overlap between ATAC-seq regions and genes
-  match_region2gene <- as.data.frame(findOverlaps(regions, gene.windows))
-  colnames(match_region2gene) <- c("region", "gene")
+  overlaps <- as.data.frame(findOverlaps(gene.windows, regions))
+  colnames(overlaps) <- c("gene", "region")
 
   # Compute weights using the simple distance decay model from TSS
-  distTSS <- mcols(gene.windows)$TSS[match_region2gene$gene] - start(regions)[match_region2gene$region]
+  distTSS <- mcols(gene.windows)$TSS[overlaps$gene] - start(regions)[overlaps$region]
+  overlaps$weight <- exp(-abs(distTSS/c))
 
-  match_region2gene$weight <- exp(-abs(distTSS/c))
+  # Weight matrix for genes x regions
+  W <- Matrix::sparseMatrix(i = overlaps$gene,
+                            j = overlaps$region,
+                            x = overlaps$weight,
+                            dims = c(length(gene.windows), length(regions)))
+  rownames(W) <- mcols(gene.windows)$gene_name
 
-  # Weight matrix for regions x genes
-  W <- Matrix::sparseMatrix(i = match_region2gene$region,
-                            j = match_region2gene$gene,
-                            x = match_region2gene$weight,
-                            dims = c(length(regions), length(gene.windows)))
-  colnames(W) <- genes$gene_name
+  # Compute gene scores
 
-  # Compute gene scores with the weights
-  gene.scores <- t(W) %*% region.scores
+  # filter out genes that do not match to any regions
+  W <- W[which(Matrix::rowSums(W) != 0), ]
 
-  return(gene.scores)
+  # set gene scores as the weighted sum
+  Z.genescore <- W %*% Z
+
+  # normalized scores
+  if (normalize == TRUE) {
+    if (method.normalization == "sum") {
+      # normalize by the sum of weights
+      Z.genescore <- Matrix::Diagonal(x = 1 / Matrix::rowSums(W)) %*% Z.genescore
+    } else {
+      # normalize by the l2 norm of weights, as in Stouffer's z-score method
+      Z.genescore <- Matrix::Diagonal(x = 1 / sqrt(Matrix::rowSums(W^2))) %*% Z.genescore
+    }
+  }
+
+  return(Z.genescore)
 
 }
