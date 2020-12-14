@@ -108,7 +108,6 @@ compute_gene_scores_tss_model <- function(Z,
 #' modified based on https://github.com/GreenleafLab/ArchR/blob/master/R/MatrixGeneScores.R
 #' The gene score model uses bi-directional exponential decays from the gene TSS (extended upstream by 5 kb by default)
 #' and the gene transcription termination site (TTS).
-#' gene model: "exp(-abs(distGB)/5000) + exp(-1)". distGB is the distance to gene body.
 #' Note: the current version of the function does not account for neighboring gene boundaries,
 #' and does not perform scaling by gene size.
 #'
@@ -119,6 +118,7 @@ compute_gene_scores_tss_model <- function(Z,
 #' @param use.ATAC.centers logical indicating whether to represent ATAC-seq positions by the centers of ATAC-seq regions
 #' @param weight.model A string for the weighting model for weighting ATAC-seq regions for gene score calculation.
 #' This string should be a function of `dist`, where `dist` is the distance from the ATAC-seq regions to the gene.
+#' Default gene model: "exp(-abs(dist)/5000) + exp(-1)". dist is the distance to gene body.
 #' @param distTo A string, genebody (default) or TSS. `genebody` will compute distances from the ATAC-seq regions to gene body.
 #' `TSS` will compute distances from the ATAC-seq regions to TSS.
 #' @param normalize logical indicating if the weights of the regions match to each gene should be normalized.
