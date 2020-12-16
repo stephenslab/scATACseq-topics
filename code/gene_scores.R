@@ -7,7 +7,7 @@
 #' @param Z A matrix containing the scores (e.g. Z-scores) for the accessibility regions in each topic or cluster.
 #' Rows are ATAC-seq regions, columns are topics or clusters.
 #' @param ATAC.regions A data frame containing the coordinates (chr, start, end) of the accessibility regions.
-#' @param genes A data frame containing gene coordinates (chr, start, end, strand, gene_name, etc. ).
+#' @param genes A data frame containing gene coordinates (chr, start, end, strand, gene_ID, etc. ).
 #' @param use.ATAC.centers logical indicating whether to represent ATAC-seq positions by the centers of ATAC-seq regions
 #' @param normalize logical indicating if the weights of the regions match to each gene should be normalized.
 #' @param method.normalization Normalization method. "l2": normalize by the l2 norm of the weights (default).
@@ -49,7 +49,7 @@ compute_gene_scores_tss_model <- function(Z,
 
   # Get gene windows around TSS
   genes <- as.data.frame(genes)
-  colnames(genes)[1:5] <- c("chr", "start", "end", "strand", "gene_name")
+  colnames(genes)[1:5] <- c("chr", "start", "end", "strand", "gene_ID")
   genes <- genes %>% mutate_at(c("start", "end"), as.numeric)
   cat(sprintf("load %d genes \n", nrow(genes)))
 
@@ -77,7 +77,7 @@ compute_gene_scores_tss_model <- function(Z,
                             j = overlaps$idx_ATAC,
                             x = weight,
                             dims = c(length(gene.windows), length(ATAC.regions)))
-  rownames(W) <- mcols(gene.windows)$gene_name
+  rownames(W) <- mcols(gene.windows)$gene_ID
 
   # Filter out genes that do not match to any ATAC regions
   W <- W[which(Matrix::rowSums(W) != 0), ]
@@ -114,7 +114,7 @@ compute_gene_scores_tss_model <- function(Z,
 #' @param Z A matrix containing the scores (e.g. Z-scores) for the accessibility regions in each topic or cluster.
 #' Rows are ATAC-seq regions, columns are topics or clusters.
 #' @param ATAC.regions A data frame containing the coordinates (chr, start, end) of the accessibility regions.
-#' @param genes A data frame containing gene coordinates (chr, start, end, strand, gene_name, etc. ) .
+#' @param genes A data frame containing gene coordinates (chr, start, end, strand, gene_ID, etc. ) .
 #' @param use.ATAC.centers logical indicating whether to represent ATAC-seq positions by the centers of ATAC-seq regions
 #' @param weight.model A string for the weighting model for weighting ATAC-seq regions for gene score calculation.
 #' This string should be a function of `dist`, where `dist` is the distance from the ATAC-seq regions to the gene.
@@ -165,7 +165,7 @@ compute_gene_scores_genebody_model <- function(Z,
 
   # Get gene windows around TSS
   genes <- as.data.frame(genes)
-  colnames(genes)[1:5] <- c("chr", "start", "end", "strand", "gene_name")
+  colnames(genes)[1:5] <- c("chr", "start", "end", "strand", "gene_ID")
   genes <- genes %>% mutate_at(c("start", "end"), as.numeric)
   cat(sprintf("load %d genes \n", nrow(genes)))
 
@@ -200,7 +200,7 @@ compute_gene_scores_genebody_model <- function(Z,
                             j = overlaps$idx_ATAC,
                             x = weight,
                             dims = c(length(gene.windows), length(ATAC.regions)))
-  rownames(W) <- mcols(gene.windows)$gene_name
+  rownames(W) <- mcols(gene.windows)$gene_ID
 
   # Filter out genes that do not match to any ATAC regions
   W <- W[which(Matrix::rowSums(W) != 0), ]
