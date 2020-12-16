@@ -260,7 +260,7 @@ distance_ranges <- function(regions, genes) {
   signDist <- sign(start(regions) - start(resize(genes,1,"start")))
 
   is_minus_strand <- which(strand(genes) == "-")
-  signDist[is_minus_strand] <- sign.dist[is_minus_strand] * -1
+  signDist[is_minus_strand] <- signDist[is_minus_strand] * -1
   dist <- absDist * signDist
 
   return(dist)
