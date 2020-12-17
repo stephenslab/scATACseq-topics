@@ -1,11 +1,9 @@
+#! /usr/bin/env Rscript
 # Perform differential accessbility analysis for ATAC-seq regions (peaks),
 # compute gene scores based on the weighted average of region scores,
 # and perform gene-set enrichment analysis based on a multinomial topic model.
-#
-# These are the Slurm settings I used:
-#
-#   sinteractive --mem=16G --cpus-per-task=8
-#
+
+library(optparse)
 library(tools)
 library(Matrix)
 library(fastTopics)
@@ -16,6 +14,27 @@ library(GenomicRanges)
 source("../code/gsea.R")
 source("../code/gene_annotation.R")
 source("../code/gene_scores.R")
+
+# Process the command-line arguments.
+parser <- OptionParser()
+parser <- add_option(parser,"--counts",type="character",default="counts.RData")
+parser <- add_option(parser,"--modelfit",type = "character",default="fit.rds")
+parser <- add_option(parser,"--genesets",type="character",default="gene_sets.RData")
+parser <- add_option(parser,c("--out","-o"),type="character",default="out.RData")
+parser <- add_option(parser,c("--genescore","-s"),type = "character",default = "genebody")
+parser <- add_option(parser,c("--numiter","-n"),type="integer",default=1000)
+parser <- add_option(parser,"--extrapolate",action = "store_true")
+parser <- add_option(parser,"--nc",type = "integer",default = 1)
+out    <- parse_args(parser)
+countsfile  <- out$counts
+prefitfile  <- out$prefit
+outfile     <- out$out
+method      <- out$method
+numiter     <- out$numiter
+extrapolate <- !is.null(out$extrapolate)
+nc          <- out$nc
+rm(parser,out)
+
 
 #The ATAC-seq data was from the `mm9` version of mouse genome, so we load the TxDb and OrgDb for mouse `mm9` from Bioconductor.
 suppressPackageStartupMessages(library(TxDb.Mmusculus.UCSC.mm9.knownGene))
