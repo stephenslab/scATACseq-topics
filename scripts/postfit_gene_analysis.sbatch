@@ -1,7 +1,7 @@
 #!/bin/bash
 
-#SBATCH --job-name=postfit_topics
-#SBATCH --output=postfit_topics_%J.out
+#SBATCH --job-name=gene_analysis
+#SBATCH --output=gene_analysis_%J.out
 #SBATCH --partition=broadwl
 #SBATCH --account=pi-mstephens
 #SBATCH --cpus-per-task=8
