@@ -10,48 +10,62 @@ library(fastTopics)
 library(fgsea)
 library(dplyr)
 library(tidyr)
-library(GenomicRanges)
-source("../code/gsea.R")
-source("../code/gene_annotation.R")
-source("../code/gene_scores.R")
+suppressPackageStartupMessages(library(GenomicRanges))
+suppressPackageStartupMessages(library(GenomicFeatures))
+source("~/projects/scATACseq-topics/code/gene_annotation.R")
+source("~/projects/scATACseq-topics/code/gene_scores.R")
+source("~/projects/scATACseq-topics/code/gsea.R")
 
 # Process the command-line arguments.
 parser <- OptionParser()
 parser <- add_option(parser,"--counts",type="character",default="counts.RData")
 parser <- add_option(parser,"--modelfit",type = "character",default="fit.rds")
-parser <- add_option(parser,"--genesets",type="character",default="gene_sets.RData")
-parser <- add_option(parser,c("--out","-o"),type="character",default="out.RData")
-parser <- add_option(parser,c("--genescore","-s"),type = "character",default = "genebody")
-parser <- add_option(parser,c("--numiter","-n"),type="integer",default=1000)
-parser <- add_option(parser,"--extrapolate",action = "store_true")
+parser <- add_option(parser,"--geneset",type="character",default="gene_sets.RData")
+parser <- add_option(parser,"--genome",type="character",default="hg19")
+parser <- add_option(parser,c("--genescoremethod","-s"),type = "character",default = "genebody")
+parser <- add_option(parser,c("--normalization","-n"),type = "character",default = "l2")
 parser <- add_option(parser,"--nc",type = "integer",default = 1)
+parser <- add_option(parser,c("--out","-o"),type="character",default="out")
 out    <- parse_args(parser)
-countsfile  <- out$counts
-prefitfile  <- out$prefit
-outfile     <- out$out
-method      <- out$method
-numiter     <- out$numiter
-extrapolate <- !is.null(out$extrapolate)
-nc          <- out$nc
+countsfile      <- out$counts
+modelfitfile    <- out$modelfit
+genesetfile     <- out$geneset
+genome          <- out$genome
+genescoremethod <- out$genescoremethod
+normalization   <- out$normalization
+nc              <- out$nc
+out.dir         <- out$out
 rm(parser,out)
 
+cat(sprintf("countsfile      = %s \n", countsfile))
+cat(sprintf("modelfitfile    = %s \n", modelfitfile))
+cat(sprintf("genesetfile     = %s \n", genesetfile))
+cat(sprintf("genome          = %s \n", genome))
+cat(sprintf("genescoremethod = %s \n", genescoremethod))
+cat(sprintf("normalization   = %s \n", normalization))
+cat(sprintf("nc              = %s \n", nc))
+cat(sprintf("out.dir         = %s \n", out.dir))
 
-#The ATAC-seq data was from the `mm9` version of mouse genome, so we load the TxDb and OrgDb for mouse `mm9` from Bioconductor.
-suppressPackageStartupMessages(library(TxDb.Mmusculus.UCSC.mm9.knownGene))
-suppressPackageStartupMessages(library(org.Mm.eg.db))
-TxDb  <- TxDb.Mmusculus.UCSC.mm9.knownGene
-OrgDb <- org.Mm.eg.db
-
-# SCRIPT SETTINGS
-# ---------------
-genesetfile  <- "/project2/mstephens/kevinluo/GSEA/pathways/output/gene_sets_mouse.RData"
-countsfile   <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/processed_data/Cusanovich_2018.RData"
-modelfitfile <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018/fit-Cusanovich2018-scd-ex-k=13.rds"
-out.dir      <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
-outfile      <- file.path(out.dir, "postfit-Cusanovich2018-scd-ex-k=13.RData")
+if(!dir.exists(out.dir))
+  dir.create(out.dir, showWarnings = FALSE, recursive = T)
 
 # LOAD DATA
 # ---------
+# Load gene annotation
+# genes is a data frame containing the gene information, including: chr, start, end, strand, and gene_id.
+cat("Load gene annotations.\n")
+if(tolower(genome) %in% c("hg19", "hg38", "mm9", "mm10")){
+  cat(sprintf("load TxDb and OrgDb for %s. \n", genome))
+  TxDb <- getTxDb(genome)
+  OrgDb <- getOrgDb(genome)
+  genes <- GenomicFeatures::genes(TxDb)
+  genes <- sort(sortSeqlevels(genes), ignore.strand = TRUE)
+  genes <- data.frame(genes, map.geneIDs(OrgDb, genes$gene_id, columns_extract = c("ENSEMBL", "SYMBOL")))
+  colnames(genes)[1] <- "chr"
+}else{
+  stop("Genome not recongized or included. Please provide your own gene annotation data.")
+}
+
 # Load the previously prepared count data.
 cat(sprintf("Loading data from %s.\n",countsfile))
 load(countsfile)
@@ -66,28 +80,34 @@ fit <- readRDS(modelfitfile)$fit
 # -----------------------
 # Perform differential accessbility analysis using the multinomial topic model.
 cat("Computing differential accessbility statistics from topic model.\n")
+outfile <- file.path(out.dir, "diffcount_regions_topics.rds")
 timing <- system.time(diff_count_res <- diff_count_analysis(fit,counts))
 cat(sprintf("Computation took %0.2f seconds.\n",timing["elapsed"]))
-saveRDS(diff_count_res, file.path(out.dir, "diff-count-Cusanovich2018-13topics.rds"))
-# diff_count_res <- readRDS(file.path(out.dir, "diff-count-Cusanovich2018-13topics.rds"))
+cat("Saving results.\n")
+saveRDS(diff_count_res, outfile)
 
 # COMPUTE GENE SCORES
 # -------------------
+# Prepare genes for computing gene scores, which requires the first 5 columns to be: chr, start, end, strand, gene_ID
+genes <- genes[,c("chr", "start", "end", "strand", "gene_id", "ENSEMBL", "SYMBOL")]
+# Filter out genes without matching Ensembl gene ID.
+genes <- genes[!grepl("^NA_", genes$ENSEMBL), ]
+
 # Extract genomic coordinates for ATAC-seq regions
 region_scores <- diff_count_res$Z
 regions <- data.frame(x = rownames(region_scores)) %>% separate(x, c("chr", "start", "end"), "_")
 regions <- regions %>% mutate_at(c("start", "end"), as.numeric)
 
-# Load gene annotations
-genes <- GenomicFeatures::genes(TxDb)
-genes <- as.data.frame(genes)
-genes <- genes[,c("seqnames", "start", "end", "strand", "gene_id")]
-colnames(genes) <- c("chr", "start", "end", "strand", "gene_id")
-
 # Compute the gene scores
-gene_scores <- compute_gene_scores_genebody_model(region_scores, regions, genes, normalize = TRUE, method.normalization = "l2")
-genes       <- genes[match(rownames(gene_scores), genes$gene_id), ]
-genes       <- cbind(genes, map.geneIDs(OrgDb, genes$gene_id, columns_extract = c("SYMBOL", "ENSEMBL")))
+if(toupper(genescoremethod) == "TSS"){
+  cat("Compute gene scores using the TSS model. \n")
+  gene_scores <- compute_gene_scores_tss_model(region.scores, regions, genes, normalize = TRUE, method.normalization = normalization)
+}else{
+  cat("Compute gene scores using the gene-body model. \n")
+  gene_scores <- compute_gene_scores_genebody_model(region_scores, regions, genes, normalize = TRUE, method.normalization = normalization)
+}
+
+genes <- genes[match(rownames(gene_scores), genes$gene_id), ]
 
 # PREPARE DATA FOR GSEA
 # ---------------------
@@ -100,7 +120,7 @@ cat(sprintf("Loaded data for %d gene sets.\n",nrow(gene_set_info)))
 # Prepare the gene-set data and gene-wise statistics for the gene-set
 # enrichment analysis. First, align the gene-set data with the
 # gene-wise statistics.
-rownames(gene_scores) <- genes$ENSEMBL
+rownames(gene_scores) <- genes[match(rownames(gene_scores), genes$gene_id), "ENSEMBL"]
 
 out            <- align_gene_data(gene_sets, gene_scores)
 gene_sets      <- out$gene_sets
@@ -119,33 +139,18 @@ gene_set_info <- gene_set_info[i,]
 gene_sets     <- gene_sets[,i]
 rm(i)
 
-# List top 5 genes per topic
-gene_scores_symbol <- gene_scores
-rownames(gene_scores_symbol) <- genes[match(rownames(gene_scores), genes$ENSEMBL), "SYMBOL"]
-top_genes_topics <- data.frame(matrix(nrow = 5, ncol = ncol(gene_scores_symbol)))
-colnames(top_genes_topics) <- colnames(gene_scores_symbol)
-for (k in colnames(gene_scores_symbol)) {
-  gene_scores_topic <- gene_scores_symbol[, k]
-  gene_scores_topic <- gene_scores_topic[order(abs(gene_scores_topic), decreasing = T)]
-  top_genes_topics[, k] <- names(gene_scores_topic[1:5])
-}
-
-print(top_genes_topics)
-
 # PERFORM GSEA
 # ------------
 # For each topic, perform a gene-set enrichment analysis using fgsea.
-# Computation took 1778.35 seconds for the 13 topics.
 cat("Performing gene-set enrichment analysis.\n")
 timing <- system.time(
-  gsea_res <- perform_gsea_all_topics(gene_sets,gene_scores,nproc = 8))
+  gsea_res <- perform_gsea_all_topics(gene_sets,gene_scores,nproc = nc))
 cat(sprintf("Computation took %0.2f seconds.\n",timing["elapsed"]))
 
-# SAVE RESULTS
-# ------------
-cat(sprintf("Saving results to %s. \n", outfile))
-save(list = c("gene_info","gene_set_info","gene_sets","genes",
-              "diff_count_res","gene_scores","gene_scores_symbol","gsea_res"),
+outfile <- file.path(out.dir, "genescores_gsea.Rdata")
+cat(sprintf("Saving gene scores and GSEA results to %s. \n", outfile))
+save(list = c("gene_info","gene_set_info","gene_sets",
+              "genes","gene_scores","gsea_res"),
      file = outfile)
 resaveRdaFiles(outfile)
 
