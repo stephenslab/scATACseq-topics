@@ -10,8 +10,8 @@
 #' @param genes A data frame containing gene coordinates (chr, start, end, strand, gene_ID, etc. ).
 #' @param use.ATAC.centers logical indicating whether to represent ATAC-seq positions by the centers of ATAC-seq regions
 #' @param normalize logical indicating if the weights of the regions match to each gene should be normalized.
-#' @param method.normalization Normalization method. "l2": normalize by the l2 norm of the weights (default).
-#' "sum": normalize by the sum of weights.
+#' @param method.normalization Normalization method (`l2` or `sum`). `l2: normalize by the l2 norm of the weights (default).
+#' `sum`: normalize by the sum of weights.
 #' @param c scaling constant (default = 5000)
 #' @param window.upstream An integer specifying the size of the window upstream of TSS (default = 100000, i.e. 100kb)
 #' @param window.downstream An integer specifying the size of the window downstream of TSS (default = 100000, i.e. 100kb)
@@ -37,7 +37,6 @@ compute_gene_scores_tss_model <- function(Z,
 
   colnames(ATAC.regions)[1:3] <- c("chr", "start", "end")
   ATAC.regions <- ATAC.regions %>% mutate_at(c("start", "end"), as.numeric)
-  cat(sprintf("load %d regions. \n", nrow(ATAC.regions)))
 
   if (use.ATAC.centers) {
     # Represent the region/peaks with the region/peak centers
@@ -51,7 +50,6 @@ compute_gene_scores_tss_model <- function(Z,
   genes <- as.data.frame(genes)
   colnames(genes)[1:5] <- c("chr", "start", "end", "strand", "gene_ID")
   genes <- genes %>% mutate_at(c("start", "end"), as.numeric)
-  cat(sprintf("load %d genes \n", nrow(genes)))
 
   genes <- makeGRangesFromDataFrame(genes, keep.extra.columns = TRUE)
 
@@ -61,11 +59,12 @@ compute_gene_scores_tss_model <- function(Z,
   # Get gene windows by extending upstream (and downstream) around the TSS
   gene.windows <- extend_ranges(genes.TSS, window.upstream, window.downstream)
 
-  cat("Compute gene scores. \n")
-
   # Find all ATAC-seq regions within the gene window
+  cat(sprintf("Match %d genes with %d ATAC regions. \n", length(gene.windows), length(ATAC.regions)))
   overlaps <- as.data.frame(findOverlaps(gene.windows, ATAC.regions))
   colnames(overlaps) <- c("idx_gene", "idx_ATAC")
+
+  cat("Compute gene scores. \n")
 
   # Compute distance from ATAC-seq regions to gene TSS
   dist <- distance_ranges(ATAC.regions[overlaps$idx_ATAC], genes.TSS[overlaps$idx_gene])
@@ -122,8 +121,8 @@ compute_gene_scores_tss_model <- function(Z,
 #' @param distTo A string, genebody (default) or TSS. `genebody` will compute distances from the ATAC-seq regions to gene body.
 #' `TSS` will compute distances from the ATAC-seq regions to TSS.
 #' @param normalize logical indicating if the weights of the regions match to each gene should be normalized.
-#' @param method.normalization Normalization method. "l2": normalize by the l2 norm of the weights (default).
-#' "sum": normalize by the sum of weights.
+#' @param method.normalization Normalization method (`l2` or `sum`). `l2: normalize by the l2 norm of the weights (default).
+#' `sum`: normalize by the sum of weights.
 #' @param window.upstream An integer specifying the size of the window upstream of TSS (default = 100000, i.e. 100kb)
 #' @param window.downstream An integer specifying the size of the window downstream of TSS (default = 100000, i.e. 100kb)
 #' @param gene.upstream An integer describing the number of bp upstream the gene to extend the gene body (default = 5000).
@@ -153,7 +152,6 @@ compute_gene_scores_genebody_model <- function(Z,
 
   colnames(ATAC.regions)[1:3] <- c("chr", "start", "end")
   ATAC.regions <- ATAC.regions %>% mutate_at(c("start", "end"), as.numeric)
-  cat(sprintf("load %d regions. \n", nrow(ATAC.regions)))
 
   if (use.ATAC.centers) {
     # Represent the region/peaks with the region/peak centers
@@ -167,7 +165,6 @@ compute_gene_scores_genebody_model <- function(Z,
   genes <- as.data.frame(genes)
   colnames(genes)[1:5] <- c("chr", "start", "end", "strand", "gene_ID")
   genes <- genes %>% mutate_at(c("start", "end"), as.numeric)
-  cat(sprintf("load %d genes \n", nrow(genes)))
 
   genes <- makeGRangesFromDataFrame(genes, keep.extra.columns = TRUE)
 
@@ -180,13 +177,14 @@ compute_gene_scores_genebody_model <- function(Z,
   # Get gene windows by extending upstream (and downstream) around the TSS
   gene.windows <- extend_ranges(genes.TSS, window.upstream, window.downstream)
 
-  cat("Compute gene scores. \n")
-
   # Find all ATAC-seq regions within the gene window
+  cat(sprintf("Match %d genes with %d ATAC regions. \n", length(gene.windows), length(ATAC.regions)))
+
   overlaps <- as.data.frame(findOverlaps(gene.windows, ATAC.regions))
   colnames(overlaps) <- c("idx_gene", "idx_ATAC")
 
   # Compute distance from ATAC-seq regions to genes
+  cat("Compute gene scores. \n")
   if (distTo == "TSS") {
     dist <- distance_ranges(ATAC.regions[overlaps$idx_ATAC], genes.TSS[overlaps$idx_gene])
   }else{

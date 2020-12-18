@@ -85,3 +85,83 @@ map.geneIDs <- function(
   return(geneID_map)
 
 }
+
+# load TxDb for human or mouse
+# modified based on https://github.com/GreenleafLab/ArchR/blob/master/R/AnnotationGenome.R
+getTxDb <- function(genome = NULL, install = TRUE){
+  if(toupper(genome) == "HG19"){
+    if(suppressWarnings(!require(TxDb.Hsapiens.UCSC.hg19.knownGene))){
+      if(install){
+        message("Package does not exist, now trying bioconductor..")
+        BiocManager::install("TxDb.Hsapiens.UCSC.hg19.knownGene", update=FALSE)
+      }else{
+        stop("TxDb.Hsapiens.UCSC.hg19.knownGene is not installed!")
+      }
+    }
+    library(TxDb.Hsapiens.UCSC.hg19.knownGene)
+    txdb <- TxDb.Hsapiens.UCSC.hg19.knownGene
+  }else if(toupper(genome) == "HG38"){
+    if(suppressWarnings(!require(TxDb.Hsapiens.UCSC.hg38.knownGene))){
+      if(install){
+        message("Package does not exist, now trying bioconductor..")
+        BiocManager::install("TxDb.Hsapiens.UCSC.hg38.knownGene", update=FALSE)
+      }else{
+        stop("TxDb.Hsapiens.UCSC.hg38.knownGene is not installed!")
+      }
+    }
+    library(TxDb.Hsapiens.UCSC.hg38.knownGene)
+    txdb <- TxDb.Hsapiens.UCSC.hg38.knownGene
+  }else if(toupper(genome) == "MM9"){
+    if(suppressWarnings(!require(TxDb.Mmusculus.UCSC.mm9.knownGene))){
+      if(install){
+        message("Package does not exist, now trying bioconductor..")
+        BiocManager::install("TxDb.Mmusculus.UCSC.mm9.knownGene", update=FALSE)
+      }else{
+        stop("TxDb.Mmusculus.UCSC.mm9.knownGene is not installed!")
+      }
+    }
+    library(TxDb.Mmusculus.UCSC.mm9.knownGene)
+    txdb <- TxDb.Mmusculus.UCSC.mm9.knownGene
+  }else if(toupper(genome) == "MM10"){
+    if(suppressWarnings(!require(TxDb.Mmusculus.UCSC.mm10.knownGene))){
+      if(install){
+        message("Package does not exist, now trying bioconductor..")
+        BiocManager::install("TxDb.Mmusculus.UCSC.mm10.knownGene", update=FALSE)
+      }else{
+        stop("TxDb.Mmusculus.UCSC.mm10.knownGene is not installed!")
+      }
+    }
+    library(TxDb.Mmusculus.UCSC.mm10.knownGene)
+    txdb <- TxDb.Mmusculus.UCSC.mm10.knownGene
+  }else{
+    stop("Genome not recognized!")
+  }
+
+  return(txdb)
+
+}
+
+# load OrgDb for human or mouse
+# modified based on https://github.com/GreenleafLab/ArchR/blob/master/R/AnnotationGenome.R
+getOrgDb <- function(genome = NULL){
+  if(toupper(genome) == "HG19" | toupper(genome) == "HG38"){
+    if(suppressWarnings(!require(org.Hs.eg.db))){
+      message("Package does not exist, now trying bioconductor..")
+      BiocManager::install("org.Hs.eg.db", update=FALSE)
+    }
+    library(org.Hs.eg.db)
+    OrgDb <- org.Hs.eg.db
+  }else if(toupper(genome) == "MM9" | toupper(genome) == "MM10"){
+    if(suppressWarnings(!require(org.Mm.eg.db))){
+      message("Package does not exist, now trying bioconductor..")
+      BiocManager::install("org.Mm.eg.db", update=FALSE)
+    }
+    library(org.Mm.eg.db)
+    OrgDb <- org.Mm.eg.db
+  }else{
+    stop("Genome not recognized!")
+  }
+  return(OrgDb)
+
+}
+
