@@ -14,6 +14,7 @@ parser <- OptionParser()
 parser <- add_option(parser,"--counts",type="character",default="counts.RData")
 parser <- add_option(parser,"--modelfit",type = "character",default="fit.rds")
 parser <- add_option(parser,"--genome",type="character",default="hg19")
+parser <- add_option(parser,"--selectmethod",type="character",default="FDR")
 parser <- add_option(parser,"--homerpath",type="character",default="findMotifsGenome.pl")
 parser <- add_option(parser,"--nc",type = "integer",default = 1)
 parser <- add_option(parser,c("--out","-o"),type="character",default="out")
@@ -22,6 +23,7 @@ out    <- parse_args(parser)
 countsfile      <- out$counts
 modelfitfile    <- out$modelfit
 genome          <- out$genome
+selectmethod    <- out$selectmethod
 homerpath       <- out$homerpath
 nc              <- out$nc
 out.dir         <- out$out
@@ -32,6 +34,7 @@ if(testrun){
   countsfile   <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/Buenrostro_2018_binarized_counts.RData"
   modelfitfile <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/fit-Buenrostro2018-binarized-scd-ex-k=11.rds"
   genome       <- "hg19"
+  selectmethod <- "FDR"
   homerpath    <- "/project2/xinhe/software/homer/bin/findMotifsGenome.pl"
   nc           <- 8
   out.dir      <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized"
@@ -41,6 +44,7 @@ cat(sprintf("countsfile   = %s \n", countsfile))
 cat(sprintf("modelfitfile = %s \n", modelfitfile))
 cat(sprintf("genome       = %s \n", genome))
 cat(sprintf("homerpath    = %s \n", homerpath))
+cat(sprintf("selectmethod = %s \n", selectmethod))
 cat(sprintf("nc           = %s \n", nc))
 cat(sprintf("out.dir      = %s \n", out.dir))
 
@@ -63,24 +67,28 @@ fit <- readRDS(modelfitfile)$fit
 # PERFORM DIFFERENTIAL ACCESSBILITY ANALYSIS
 # ------------------------------------------
 # Perform differential accessbility analysis using the multinomial topic model.
-cat("Computing differential accessbility statistics from topic model.\n")
 outfile <- file.path(out.dir, "diffcount_regions_topics.rds")
 if(file.exists(outfile)){
+  cat("Load precomputed differential accessbility statistics.\n")
   diff_count_res <- readRDS(outfile)
 }else{
+  cat("Computing differential accessbility statistics from topic model.\n")
   timing <- system.time(diff_count_res <- diff_count_analysis(fit,counts))
   cat(sprintf("Computation took %0.2f seconds.\n",timing["elapsed"]))
   cat("Saving results.\n")
   saveRDS(diff_count_res, outfile)
 }
 
+rm(counts, samples, fit)
+
 # SELECT REGIONS FOR MOTIF ENRICHMENT ANALYSIS
 # ------------------------------------------
 cat("Select regions. \n")
-homer.dir <- paste0(out.dir, "/HOMER")
-selected_regions <- select_regions(diff_count_res, method="FDR&logFC", out.dir = homer.dir,
-                           thresh.FDR = 0.05, thresh.logFC = 1, save.bed = TRUE)
-saveRDS(selected_regions, paste0(homer.dir, "/selected_regions_FDR0.05_logFC1.rds"))
+homer.dir <- paste0(out.dir, "/HOMER/", selectmethod)
+cat(sprintf("%d regions in total. \n", nrow(diff_count_res$Z)))
+selected_regions <- select_regions(diff_count_res, method=selectmethod, out.dir = homer.dir,
+                           thresh.FDR = 0.01, thresh.logFC = 1, thresh.quantile = 0.99, save.bed = TRUE)
+saveRDS(selected_regions, paste0(homer.dir, "/selected_regions.rds"))
 
 # PERFORM MOTIF ENRICHMENT ANALYSIS USING HOMER
 # ---------------------------------------------
@@ -95,7 +103,7 @@ for(k in 1:ncol(diff_count_res$Z)){
                               out.dir=paste0(homer.dir, "/homer_result_topic_", k),
                               n.cores=nc)
 }
-saveRDS(homer_res, paste0(homer.dir, "/homer_knownResults_topics.rds"))
+saveRDS(homer_res, paste0(homer.dir, "/homer_knownResults.rds"))
 
 # sessionInfo
 sessionInfo()
