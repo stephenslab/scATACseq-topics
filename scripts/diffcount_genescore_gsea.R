@@ -56,12 +56,9 @@ if(!dir.exists(out.dir))
 cat("Load gene annotations.\n")
 if(tolower(genome) %in% c("hg19", "hg38", "mm9", "mm10")){
   cat(sprintf("load TxDb and OrgDb for %s. \n", genome))
-  TxDb <- getTxDb(genome)
+  TxDb  <- getTxDb(genome)
   OrgDb <- getOrgDb(genome)
-  genes <- GenomicFeatures::genes(TxDb)
-  genes <- sort(sortSeqlevels(genes), ignore.strand = TRUE)
-  genes <- data.frame(genes, map.geneIDs(OrgDb, genes$gene_id, columns_extract = c("ENSEMBL", "SYMBOL")))
-  colnames(genes)[1] <- "chr"
+  genes <- get_gene_annotations(TxDb, OrgDb, columns_extract = c("ENSEMBL", "SYMBOL"))
 }else{
   stop("Genome not recongized or included. Please provide your own gene annotation data.")
 }
@@ -79,29 +76,35 @@ fit <- readRDS(modelfitfile)$fit
 # COMPUTE REGION Z-SCORES
 # -----------------------
 # Perform differential accessbility analysis using the multinomial topic model.
-cat("Computing differential accessbility statistics from topic model.\n")
 outfile <- file.path(out.dir, "diffcount_regions_topics.rds")
-timing <- system.time(diff_count_res <- diff_count_analysis(fit,counts))
-cat(sprintf("Computation took %0.2f seconds.\n",timing["elapsed"]))
-cat("Saving results.\n")
-saveRDS(diff_count_res, outfile)
+if(file.exists(outfile)){
+  cat("Load precomputed differential accessbility statistics.\n")
+  diff_count_res <- readRDS(outfile)
+}else{
+  cat("Computing differential accessbility statistics from topic model.\n")
+  timing <- system.time(diff_count_res <- diff_count_analysis(fit,counts))
+  cat(sprintf("Computation took %0.2f seconds.\n",timing["elapsed"]))
+  cat("Saving results.\n")
+  saveRDS(diff_count_res, outfile)
+}
 
 # COMPUTE GENE SCORES
 # -------------------
 # Prepare genes for computing gene scores, which requires the first 5 columns to be: chr, start, end, strand, gene_ID
+genes <- data.frame(genes)
+colnames(genes)[1] <- "chr"
 genes <- genes[,c("chr", "start", "end", "strand", "gene_id", "ENSEMBL", "SYMBOL")]
 # Filter out genes without matching Ensembl gene ID.
 genes <- genes[!grepl("^NA_", genes$ENSEMBL), ]
 
 # Extract genomic coordinates for ATAC-seq regions
 region_scores <- diff_count_res$Z
-regions <- data.frame(x = rownames(region_scores)) %>% separate(x, c("chr", "start", "end"), "_")
-regions <- regions %>% mutate_at(c("start", "end"), as.numeric)
+regions <- data.frame(x = rownames(region_scores)) %>% separate(x, c("chr", "start", "end"), "_") %>% mutate_at(c("start", "end"), as.numeric)
 
 # Compute the gene scores
 if(toupper(genescoremethod) == "TSS"){
   cat("Compute gene scores using the TSS model. \n")
-  gene_scores <- compute_gene_scores_tss_model(region.scores, regions, genes, normalize = TRUE, method.normalization = normalization)
+  gene_scores <- compute_gene_scores_tss_model(region_scores, regions, genes, normalize = TRUE, method.normalization = normalization)
 }else{
   cat("Compute gene scores using the gene-body model. \n")
   gene_scores <- compute_gene_scores_genebody_model(region_scores, regions, genes, normalize = TRUE, method.normalization = normalization)
