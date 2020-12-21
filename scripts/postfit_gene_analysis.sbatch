@@ -35,5 +35,5 @@ echo "Running diffcount_genescore_gsea.R"
 Rscript ~/projects/scATACseq-topics/scripts/diffcount_genescore_gsea.R \
   --counts ${DATFILE} --modelfit ${FITFILE} \
   --geneset ${GENESET} --genome ${GENOME} \
-  --genescoremethod {GENESCOREMETHOD} --normalization {NORMALIZATION} \
+  --genescoremethod ${GENESCOREMETHOD} --normalization ${NORMALIZATION} \
   --nc 8 -o ${OUTDIR} > ${OUTDIR}.Rout
