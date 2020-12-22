@@ -116,20 +116,24 @@ run_GREAT <- function(gr,
 
 
 #' Select regions based on differential accessbility result and save selected regions as BED files.
-#' @param diff_count_res differential accessbility result from `diff_count_analysis`
-#' @param method method to select regions, `FDR` selects based on FDR, `logFC` selects based on logFC,
-#' `FDR&logFC` selects based on FDR and logFC, quantile selectes regions above abs(z-score) quantile.
-#'
-#' @param our.dir Output directory.
-#' @param thresh.FDR Threshold of FDR, default = 0.01.
-#' @param thresh.logFC Threshold of abs(logFC), default = 1.
-#' @param thresh.quantile Threshold of abs(z-score) quantile, default = 0.99.
-#' @param save.bed If TRUE, save selected regions as BED files.
+#' @param diff_count_res Differential accessbility result from `diff_count_analysis`.
+#' @param method Method to select regions.
+#' `quantile` selects regions in which z-score quantile above `thresh.quantile`,
+#' `pvalue` selects regions in which p-value < `thresh.p`,
+#' `zscore` selects regions in which zscore > `thresh.z`,
+#' `logFC` selects regions in which beta > `thresh.logFC`.
+#' @param out.dir Output directory.
+#' @param thresh.nlog10P Threshold of -log10(p-value).
+#' @param thresh.z Threshold of z-score.
+#' @param thresh.logFC Threshold of logFC.
+#' @param thresh.quantile Threshold of z-score quantile, default = 0.99.
+#' @param save.bed If TRUE, save selected regions as BED files for downstream analysis.
 select_regions <- function(diff_count_res,
-                           method="FDR",
+                           method="quantile",
                            out.dir = "out",
-                           thresh.FDR = 0.01,
-                           thresh.logFC = 1,
+                           thresh.nlog10P = 10,
+                           thresh.z = 10,
+                           thresh.logFC = 4,
                            thresh.quantile = 0.99,
                            save.bed = TRUE) {
 
@@ -140,27 +144,20 @@ select_regions <- function(diff_count_res,
     z <- diff_count_res$Z[,k]
     beta <- diff_count_res$beta[,k]
     nlog10P <- diff_count_res$pval[,k]
-    p <- 10^(-nlog10P)
+    # p <- 10^(-nlog10P)
 
-    if(toupper(method) == "FDR"){
-      idx_regions_sig <- which(p.adjust(p, method = "fdr") < thresh.FDR)
-      cat(sprintf("%s: %d regions with FDR < %.3f. \n", k, length(idx_regions_sig), thresh.FDR))
-    }else if(tolower(method) == "bonferroni"){
-      idx_regions_sig <- which(p.adjust(p, method = "bonferroni") < thresh.FDR)
-      cat(sprintf("%s: %d regions with Bonferroni p.adj < %.3f. \n", k, length(idx_regions_sig), thresh.FDR))
-    }else if(method == "qvalue"){
-      library(qvalue)
-      idx_regions_sig <- which(qvalue(p)$qvalues < thresh.FDR)
-      cat(sprintf("%s: %d regions with qvalue < %.3f. \n", k, length(idx_regions_sig), thresh.FDR))
+    if(method == "quantile"){
+      idx_regions_sig <- which(z > quantile(z, thresh.quantile))
+      cat(sprintf("%s: %d regions selected. \n", k, length(idx_regions_sig)))
+    }else if(method == "pvalue"){
+      idx_regions_sig <- which(nlog10P > thresh.nlog10P & beta > 0)
+      cat(sprintf("%s: %d regions selected. \n", k, length(idx_regions_sig)))
+    }else if(method == "zscore"){
+      idx_regions_sig <- which(z > thresh.z)
+      cat(sprintf("%s: %d regions selected. \n", k, length(idx_regions_sig)))
     }else if(method == "logFC"){
-      idx_regions_sig <- which(abs(beta) > thresh.logFC)
-      cat(sprintf("%s: %d regions with abs(logFC) > %.1f. \n", k, length(idx_regions_sig), thresh.logFC))
-    }else if(method == "quantile"){
-      idx_regions_sig <- which(abs(z) > quantile(abs(z), thresh.quantile))
-      cat(sprintf("%s: %d regions above quantile of %.3f. \n", k, length(idx_regions_sig), thresh.quantile))
-    }else if(method == "FDR_logFC"){
-      idx_regions_sig <- which( (p.adjust(p, method = "BH") < thresh.FDR) & (abs(beta) > thresh.logFC) )
-      cat(sprintf("%s: %d regions with FDR < %.3f AND abs(logFC) > %.3f.\n", k, length(idx_regions_sig), thresh.FDR, thresh.logFC))
+      idx_regions_sig <- which(beta > thresh.logFC)
+      cat(sprintf("%s: %d regions selected. \n", k, length(idx_regions_sig)))
     }else{
       stop("Method not recognized!")
     }
