@@ -1,0 +1,346 @@
+---
+title: "Motif and gene analysis using topic modeling results for Buenrostro *et al* (2018) scATAC-seq result (data processed using chromVAR processed counts with scPeaks)"
+author: Kaixuan Luo
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: false
+---
+
+Here we perform TF motif and gene analysis
+for the Buenrostro *et al* (2018) scATAC-seq result inferred 
+from the multinomial topic model with $k = 11$.
+
+We use binarized scPeaks based on chromVAR processed counts with scPeaks (> 1 sample).
+
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
+                      fig.align = "center",dpi = 120)
+```
+
+## Load packages and some functions used in this analysis
+```{r load-pkgs, message=FALSE}
+library(Matrix)
+library(dplyr)
+library(ggplot2)
+library(cowplot)
+library(fastTopics)
+library(dplyr)
+library(tidyr)
+library(DT)
+library(reshape)
+
+```
+
+## Load data and topic model results
+Load the **binarized** data and the $k = 11$ Poisson NMF fit results 
+from Buenrostro *et al* 2018 dataset using binarized scPeaks 
+based on chromVAR processed counts with scPeaks (> 1 sample).
+
+```{r load-data}
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/chromVAR/"
+load(file.path(data.dir, "Buenrostro_2018_binarized_scPeaks.RData"))
+cat(sprintf("%d x %d counts matrix.\n",nrow(counts),ncol(counts)))
+```
+
+```{r load-fit}
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_chromVAR_scPeaks/binarized/"
+fit <- readRDS(file.path(out.dir, "/fit-Buenrostro2018-binarized-scd-ex-k=11.rds"))$fit
+fit_multinom <- poisson2multinom(fit)
+```
+
+## Visualize by Structure plot grouped by cell labels.
+```{r structure-plot, fig.width=7, fig.height=2.5}
+set.seed(10)
+colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
+                   "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928",
+                   "gray")
+samples$label <- as.factor(samples$label)
+
+p.structure <- structure_plot(fit_multinom,
+                     grouping = samples[, "label"],n = Inf,gap = 40,
+                     perplexity = 50,topics = 1:11,colors = colors_topics,
+                     num_threads = 4,verbose = FALSE)
+
+print(p.structure)
+```
+
+## Differential accessbility analysis of the ATAC-seq regions for the topics
+```{r diff_count_topics}
+diffcount_file <- file.path(out.dir, "diffcount-Buenrostro2018-11topics.rds")
+if(file.exists(diffcount_file)){
+  cat("Load precomputed differential accessbility statistics.\n")
+  diff_count_topics <- readRDS(diffcount_file)
+}else{
+  cat("Computing differential accessbility statistics from topic model.\n")
+  timing <- system.time(diff_count_topics <- diff_count_analysis(fit,counts))
+  cat(sprintf("Computation took %0.2f seconds.\n",timing["elapsed"]))
+  cat("Saving results.\n")
+  saveRDS(diff_count_topics, diffcount_file)
+}
+
+```
+
+Distribution of z-scores
+```{r hist-zscore, fig.width=7, fig.height=5}
+
+zscore_topics <-  melt(diff_count_topics$Z)
+colnames(zscore_topics) <- c("region", "topic", "zscore")
+levels(zscore_topics$topic) <- colnames(diff_count_topics$Z)
+
+z.quantile.99 <- apply(abs(diff_count_topics$Z), 2, quantile, 0.99)
+cat("z-score 99% quantile: \n")
+print(z.quantile.99)
+
+p.hist.zscores <- ggplot(zscore_topics, aes(x=zscore)) + 
+  geom_histogram(binwidth=1, color="black", fill="white") + 
+  coord_cartesian(xlim = c(-10, 20)) + theme_cowplot(font_size = 10) +
+  facet_wrap(~ topic, ncol=4)
+
+print(p.hist.zscores)
+
+```
+
+## Motif enrichment analysis using [HOMER](http://homer.ucsd.edu/homer/ngs/peakMotifs.html)
+
+* Details about HOMER motif analysis:
+http://homer.ucsd.edu/homer/motif/
+http://homer.ucsd.edu/homer/ngs/peakMotifs.html
+
+* Motif enrichment result using regions with z-score above 99% quantile.
+RCC: `/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_chromVAR_scPeaks/binarized/motifanalysis-Buenrostro2018-k=11-quantile/`
+```{r top-motifs-1}
+homer.dir <- paste0(out.dir, "/motifanalysis-Buenrostro2018-k=11-quantile/HOMER/quantile")
+homer_res <- readRDS(file.path(homer.dir, "/homer_knownResults.rds"))
+selected_regions <- readRDS(file.path(homer.dir, "/selected_regions.rds"))
+
+cat("Number of regions selected for each topic: \n")
+print(mapply(nrow, selected_regions[1:(length(selected_regions)-1)]))
+
+top_motifs <- data.frame(matrix(nrow=10, ncol = ncol(diff_count_topics$Z)))
+colnames(top_motifs) <- colnames(diff_count_topics$Z)
+for (k in colnames(top_motifs)){
+  homer_motifs <- homer_res[[k]]
+  colnames(homer_motifs) <- c("Motif.name", "Consensus", "P-value", "Log.P-value", "q-value (Benjamini)", 
+                              "# of Target Sequences with Motif", "% of Target Sequences with Motif",
+                              "# of Background Sequences with Motif", "% of Background Sequences with Motif")
+  homer_motifs <- homer_motifs %>% separate(Motif.name, c("motif", "experiment", "database"), "/")
+  top_motifs[,k] <- head(homer_motifs$motif, 10)
+}
+
+DT::datatable(data.frame(rank = 1:10, top_motifs), rownames = F,
+              caption = "Top 10 motifs enriched in each topic.")
+
+```
+
+## Top genes
+
+### Gene body model
+
+Gene scores were computed using the gene score model (model 42) in the `archR` paper with some modifications.
+This model uses bi-directional exponential decays from the gene TSS (extended upstream by 5 kb by default)
+and the gene transcription termination site (TTS).
+Note: the current version of the function does not account for neighboring gene boundaries.
+
+* Gene body model, normalized by the l2 norm of weights, as in Stouffer's z-score method. 
+```{r top-genes-1}
+gene.dir <- paste0(out.dir, "/geneanalysis-Buenrostro2018-k=11-genebody-l2")
+load(file.path(gene.dir, "genescores_gsea.Rdata"))
+
+top_genes <- data.frame(matrix(nrow=10, ncol = ncol(gene_scores)))
+colnames(top_genes) <- colnames(gene_scores)
+
+rownames(gene_scores) <- genes[match(rownames(gene_scores), genes$ENSEMBL), "SYMBOL"]
+
+for (k in colnames(top_genes)){
+  top_genes[,k] <- rownames(gene_scores)[head(order(abs(gene_scores[,k]), decreasing=TRUE), 10)]
+}
+
+DT::datatable(data.frame(rank = 1:10, top_genes), rownames = F,
+              caption = "Top 10 genes in each topic.")
+
+```
+
+* Gene body model, normalized by the total weights (i.e. weighted averge).
+```{r top-genes-2}
+gene.dir <- paste0(out.dir, "/geneanalysis-Buenrostro2018-k=11-genebody-sum")
+load(file.path(gene.dir, "genescores_gsea.Rdata"))
+
+top_genes <- data.frame(matrix(nrow=10, ncol = ncol(gene_scores)))
+colnames(top_genes) <- colnames(gene_scores)
+
+rownames(gene_scores) <- genes[match(rownames(gene_scores), genes$ENSEMBL), "SYMBOL"]
+
+for (k in colnames(top_genes)){
+  top_genes[,k] <- rownames(gene_scores)[head(order(abs(gene_scores[,k]), decreasing=TRUE), 10)]
+}
+
+DT::datatable(data.frame(rank = 1:10, top_genes), rownames = F,
+              caption = "Top 10 genes in each topic.")
+
+```
+
+### TSS model
+Gene scores were computed using TSS based method as in Lareau et al. Nature Biotech, 2019 as well as the `model 21` in `archR` paper.
+This model weights chromatin accessibility around gene promoters by using bi-directional exponential decays from the TSS.
+
+* TSS model, normalized by the l2 norm of weights, as in Stouffer's z-score method. 
+```{r top-genes-3}
+gene.dir <- paste0(out.dir, "/geneanalysis-Buenrostro2018-k=11-TSS-l2")
+load(file.path(gene.dir, "genescores_gsea.Rdata"))
+
+top_genes <- data.frame(matrix(nrow=10, ncol = ncol(gene_scores)))
+colnames(top_genes) <- colnames(gene_scores)
+
+rownames(gene_scores) <- genes[match(rownames(gene_scores), genes$ENSEMBL), "SYMBOL"]
+
+for (k in colnames(top_genes)){
+  top_genes[,k] <- rownames(gene_scores)[head(order(abs(gene_scores[,k]), decreasing=TRUE), 10)]
+}
+
+DT::datatable(data.frame(rank = 1:10, top_genes), rownames = F,
+              caption = "Top 10 genes in each topic.")
+```
+
+* TSS model, normalized by the total weights (i.e. weighted averge).
+```{r top-genes-4}
+gene.dir <- paste0(out.dir, "/geneanalysis-Buenrostro2018-k=11-TSS-sum")
+load(file.path(gene.dir, "genescores_gsea.Rdata"))
+
+top_genes <- data.frame(matrix(nrow=10, ncol = ncol(gene_scores)))
+colnames(top_genes) <- colnames(gene_scores)
+
+rownames(gene_scores) <- genes[match(rownames(gene_scores), genes$ENSEMBL), "SYMBOL"]
+
+for (k in colnames(top_genes)){
+  top_genes[,k] <- rownames(gene_scores)[head(order(abs(gene_scores[,k]), decreasing=TRUE), 10)]
+}
+
+DT::datatable(data.frame(rank = 1:10, top_genes), rownames = F,
+              caption = "Top 10 genes in each topic.")
+```
+
+## Gene-set enrichment analysis (GSEA)
+
+* Gene body model, normalized by the l2 norm of weights, as in Stouffer's z-score method. 
+```{r top-pathways-1}
+gene.dir <- paste0(out.dir, "/geneanalysis-Buenrostro2018-k=11-genebody-l2")
+load(file.path(gene.dir, "genescores_gsea.Rdata"))
+
+top_pathways_up <- top_pathways_down <- data.frame(matrix(nrow=10, ncol = ncol(gsea_res$pval)))
+colnames(top_pathways_up) <- colnames(top_pathways_down) <- colnames(gsea_res$pval)
+
+for (k in 1:ncol(gsea_res$pval)){
+  gsea_topic <- data.frame(pathway = rownames(gsea_res$pval),  
+                           pval = gsea_res$pval[,k],
+                           log2err = gsea_res$log2err[,k],
+                           ES = gsea_res$ES[,k],
+                           NES = gsea_res$NES[,k])
+  gsea_up <- gsea_topic[gsea_topic$ES > 0,]
+  top_IDs_up <- as.character(gsea_up[head(order(gsea_up$pval), 10), "pathway"])
+  top_pathways_up[,k] <- gene_set_info[match(top_IDs_up, gene_set_info$id),c("name", "id")] %>% 
+                     unite("pathway", c("name", "id"), sep = ".", remove = TRUE)
+  
+  gsea_down <- gsea_topic[gsea_topic$ES < 0,]
+  top_IDs_down <- as.character(gsea_down[head(order(gsea_down$pval), 10), "pathway"])
+  top_pathways_down[,k] <- gene_set_info[match(top_IDs_down, gene_set_info$id),c("name", "id")] %>% 
+                     unite("pathway", c("name", "id"), sep = ".", remove = TRUE)
+}
+
+DT::datatable(data.frame(rank = 1:10, top_pathways_up), rownames = F,
+              caption = "Top 10 pathways enriched at the top of the gene rank list.")
+
+```
+
+* Gene body model, normalized by the total weights (i.e. weighted averge).
+```{r top-pathways-2}
+gene.dir <- paste0(out.dir, "/geneanalysis-Buenrostro2018-k=11-genebody-sum")
+load(file.path(gene.dir, "genescores_gsea.Rdata"))
+
+top_pathways_up <- top_pathways_down <- data.frame(matrix(nrow=10, ncol = ncol(gsea_res$pval)))
+colnames(top_pathways_up) <- colnames(top_pathways_down) <- colnames(gsea_res$pval)
+
+for (k in 1:ncol(gsea_res$pval)){
+  gsea_topic <- data.frame(pathway = rownames(gsea_res$pval),  
+                           pval = gsea_res$pval[,k],
+                           log2err = gsea_res$log2err[,k],
+                           ES = gsea_res$ES[,k],
+                           NES = gsea_res$NES[,k])
+  gsea_up <- gsea_topic[gsea_topic$ES > 0,]
+  top_IDs_up <- as.character(gsea_up[head(order(gsea_up$pval), 10), "pathway"])
+  top_pathways_up[,k] <- gene_set_info[match(top_IDs_up, gene_set_info$id),c("name", "id")] %>% 
+                     unite("pathway", c("name", "id"), sep = ".", remove = TRUE)
+  
+  gsea_down <- gsea_topic[gsea_topic$ES < 0,]
+  top_IDs_down <- as.character(gsea_down[head(order(gsea_down$pval), 10), "pathway"])
+  top_pathways_down[,k] <- gene_set_info[match(top_IDs_down, gene_set_info$id),c("name", "id")] %>% 
+                     unite("pathway", c("name", "id"), sep = ".", remove = TRUE)
+}
+
+DT::datatable(data.frame(rank = 1:10, top_pathways_up), rownames = F,
+              caption = "Top 10 pathways enriched at the top of the gene rank list.")
+
+```
+
+* TSS model, normalized by the l2 norm of weights, as in Stouffer's z-score method. 
+```{r top-pathways-3}
+gene.dir <- paste0(out.dir, "/geneanalysis-Buenrostro2018-k=11-TSS-l2")
+load(file.path(gene.dir, "genescores_gsea.Rdata"))
+
+top_pathways_up <- top_pathways_down <- data.frame(matrix(nrow=10, ncol = ncol(gsea_res$pval)))
+colnames(top_pathways_up) <- colnames(top_pathways_down) <- colnames(gsea_res$pval)
+
+for (k in 1:ncol(gsea_res$pval)){
+  gsea_topic <- data.frame(pathway = rownames(gsea_res$pval),  
+                           pval = gsea_res$pval[,k],
+                           log2err = gsea_res$log2err[,k],
+                           ES = gsea_res$ES[,k],
+                           NES = gsea_res$NES[,k])
+  gsea_up <- gsea_topic[gsea_topic$ES > 0,]
+  top_IDs_up <- as.character(gsea_up[head(order(gsea_up$pval), 10), "pathway"])
+  top_IDs_up <- gene_set_info[match(top_IDs_up, gene_set_info$id),c("name", "id")]
+  top_pathways_up[,k] <- paste0(top_IDs_up$name, "(", top_IDs_up$id, ")")
+  
+  gsea_down <- gsea_topic[gsea_topic$ES < 0,]
+  top_IDs_down <- as.character(gsea_down[head(order(gsea_down$pval), 10), "pathway"])
+  top_IDs_down <- gene_set_info[match(top_IDs_down, gene_set_info$id),c("name", "id")]
+  top_pathways_down[,k] <- paste0(top_IDs_down$name, "(", top_IDs_down$id, ")")
+  
+}
+
+DT::datatable(data.frame(rank = 1:10, top_pathways_up), rownames = F,
+              caption = "Top 10 pathways enriched at the top of the gene rank list.")
+
+```
+
+* TSS model, normalized by the total weights (i.e. weighted averge).
+```{r top-pathways-4}
+gene.dir <- paste0(out.dir, "/geneanalysis-Buenrostro2018-k=11-TSS-sum")
+load(file.path(gene.dir, "genescores_gsea.Rdata"))
+
+top_pathways_up <- top_pathways_down <- data.frame(matrix(nrow=10, ncol = ncol(gsea_res$pval)))
+colnames(top_pathways_up) <- colnames(top_pathways_down) <- colnames(gsea_res$pval)
+
+for (k in 1:ncol(gsea_res$pval)){
+  gsea_topic <- data.frame(pathway = rownames(gsea_res$pval),  
+                           pval = gsea_res$pval[,k],
+                           log2err = gsea_res$log2err[,k],
+                           ES = gsea_res$ES[,k],
+                           NES = gsea_res$NES[,k])
+  gsea_up <- gsea_topic[gsea_topic$ES > 0,]
+  top_IDs_up <- as.character(gsea_up[head(order(gsea_up$pval), 10), "pathway"])
+  top_IDs_up <- gene_set_info[match(top_IDs_up, gene_set_info$id),c("name", "id")]
+  top_pathways_up[,k] <- paste0(top_IDs_up$name, "(", top_IDs_up$id, ")")
+  
+  gsea_down <- gsea_topic[gsea_topic$ES < 0,]
+  top_IDs_down <- as.character(gsea_down[head(order(gsea_down$pval), 10), "pathway"])
+  top_IDs_down <- gene_set_info[match(top_IDs_down, gene_set_info$id),c("name", "id")]
+  top_pathways_down[,k] <- paste0(top_IDs_down$name, "(", top_IDs_down$id, ")")
+  
+}
+
+DT::datatable(data.frame(rank = 1:10, top_pathways_up), rownames = F,
+              caption = "Top 10 pathways enriched at the top of the gene rank list.")
+
+
+```
