@@ -32,5 +32,5 @@ Rscript ~/projects/scATACseq-topics/scripts/diffcount_motif_analysis.R \
   --counts ${DATFILE} --modelfit ${FITFILE} \
   --genome ${GENOME} --selectmethod ${SELECTMETHOD} \
   --homerpath /project2/xinhe/software/homer/bin/findMotifsGenome.pl \
-  --nc 8 -o ${OUTDIR} > ${OUTDIR}.motif_analysis.Rout
+  --nc 8 -o ${OUTDIR} > ${OUTDIR}.Rout
 

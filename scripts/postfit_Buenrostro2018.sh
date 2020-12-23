@@ -104,12 +104,6 @@ OUT_DIR=/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Che
 mkdir -p /project2/mstephens/kevinluo/scATACseq-topics/log/Buenrostro_2018/postfit
 cd /project2/mstephens/kevinluo/scATACseq-topics/log/Buenrostro_2018/postfit
 
-## Compute motif enrichment for each topic using HOMER. Select regions by FDR 1% AND logFC>1
-sbatch --mem=20G ~/projects/scATACseq-topics/scripts/postfit_motif_analysis.sbatch \
-       ${DAT_DIR}/Buenrostro_2018_binarized_counts.RData \
-       ${OUT_DIR}/fit-Buenrostro2018-binarized-scd-ex-k=11.rds \
-       hg19 FDR_logFC ${OUT_DIR}/motifanalysis-Buenrostro2018-k=11-FDRlogFC
-
 ## Compute motif enrichment for each topic using HOMER. Select regions by quantile > 0.99
 sbatch --mem=20G ~/projects/scATACseq-topics/scripts/postfit_motif_analysis.sbatch \
        ${DAT_DIR}/Buenrostro_2018_binarized_counts.RData \
@@ -123,12 +117,6 @@ OUT_DIR=/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_chr
 
 mkdir -p /project2/mstephens/kevinluo/scATACseq-topics/log/Buenrostro_2018/postfit
 cd /project2/mstephens/kevinluo/scATACseq-topics/log/Buenrostro_2018/postfit
-
-## Compute motif enrichment for each topic using HOMER. Select regions by FDR 1% AND logFC>1
-sbatch --mem=20G ~/projects/scATACseq-topics/scripts/postfit_motif_analysis.sbatch \
-       ${DAT_DIR}/Buenrostro_2018_binarized_scPeaks.RData \
-       ${OUT_DIR}/fit-Buenrostro2018-binarized-scd-ex-k=11.rds \
-       hg19 FDR_logFC ${OUT_DIR}/motifanalysis-Buenrostro2018-k=11-FDRlogFC
 
 ## Compute motif enrichment for each topic using HOMER. Select regions by quantile > 0.99
 sbatch --mem=20G ~/projects/scATACseq-topics/scripts/postfit_motif_analysis.sbatch \

@@ -62,15 +62,6 @@ OUT_DIR=/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018
 mkdir -p /project2/mstephens/kevinluo/scATACseq-topics/log/Cusanovich_2018/postfit
 cd /project2/mstephens/kevinluo/scATACseq-topics/log/Cusanovich_2018/postfit
 
-## Compute motif enrichment for each topic using HOMER. Select regions by FDR 1% AND logFC>1
-POSTFIT_DIR=${OUT_DIR}/motifanalysis-Cusanovich2018-k=13-FDRlogFC
-ln -sf ${OUT_DIR}/diffcount-Cusanovich2018-13topics.rds ${POSTFIT_DIR}/diffcount_regions_topics.rds
-
-sbatch --mem=20G ~/projects/scATACseq-topics/scripts/postfit_motif_analysis.sbatch \
-       ${DAT_DIR}/Cusanovich_2018.RData \
-       ${OUT_DIR}/fit-Cusanovich2018-scd-ex-k=13.rds \
-       mm9 FDR_logFC ${POSTFIT_DIR}
-
 ## Compute motif enrichment for each topic using HOMER. Select regions by quantile
 POSTFIT_DIR=${OUT_DIR}/motifanalysis-Cusanovich2018-k=13-quantile
 ln -sf ${OUT_DIR}/diffcount-Cusanovich2018-13topics.rds ${POSTFIT_DIR}/diffcount_regions_topics.rds
@@ -79,4 +70,14 @@ sbatch --mem=20G ~/projects/scATACseq-topics/scripts/postfit_motif_analysis.sbat
        ${DAT_DIR}/Cusanovich_2018.RData \
        ${OUT_DIR}/fit-Cusanovich2018-scd-ex-k=13.rds \
        mm9 quantile ${POSTFIT_DIR}
+
+## Compute motif enrichment for each topic using HOMER. Select regions by zscore
+POSTFIT_DIR=${OUT_DIR}/motifanalysis-Cusanovich2018-k=13-zscore
+mkdir -p ${POSTFIT_DIR}
+ln -sf ${OUT_DIR}/diffcount-Cusanovich2018-13topics.rds ${POSTFIT_DIR}/diffcount_regions_topics.rds
+
+sbatch --mem=20G ~/projects/scATACseq-topics/scripts/postfit_motif_analysis.sbatch \
+       ${DAT_DIR}/Cusanovich_2018.RData \
+       ${OUT_DIR}/fit-Cusanovich2018-scd-ex-k=13.rds \
+       mm9 zscore ${POSTFIT_DIR}
 
