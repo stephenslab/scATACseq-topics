@@ -104,13 +104,13 @@ print(p.hist.zscores)
 ## Motif enrichment analysis using [HOMER](http://homer.ucsd.edu/homer/ngs/peakMotifs.html)
 
 * Details about HOMER motif analysis:
-http://homer.ucsd.edu/homer/motif/
-http://homer.ucsd.edu/homer/ngs/peakMotifs.html
+    - http://homer.ucsd.edu/homer/motif/
+    - http://homer.ucsd.edu/homer/ngs/peakMotifs.html
 
 * Motif enrichment result using regions with z-score above 99% quantile.
-RCC: `/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_chromVAR_scPeaks/binarized/motifanalysis-Buenrostro2018-k=11-quantile/`
 ```{r top-motifs-1}
 homer.dir <- paste0(out.dir, "/motifanalysis-Buenrostro2018-k=11-quantile/HOMER/quantile")
+cat(sprintf("Directory of motif analysis result: %s \n", homer.dir))
 homer_res <- readRDS(file.path(homer.dir, "/homer_knownResults.rds"))
 selected_regions <- readRDS(file.path(homer.dir, "/selected_regions.rds"))
 
@@ -145,6 +145,7 @@ Note: the current version of the function does not account for neighboring gene 
 * Gene body model, normalized by the l2 norm of weights, as in Stouffer's z-score method. 
 ```{r top-genes-1}
 gene.dir <- paste0(out.dir, "/geneanalysis-Buenrostro2018-k=11-genebody-l2")
+cat(sprintf("Directory of gene analysis result: %s \n", gene.dir))
 load(file.path(gene.dir, "genescores_gsea.Rdata"))
 
 top_genes <- data.frame(matrix(nrow=10, ncol = ncol(gene_scores)))
@@ -164,6 +165,7 @@ DT::datatable(data.frame(rank = 1:10, top_genes), rownames = F,
 * Gene body model, normalized by the total weights (i.e. weighted averge).
 ```{r top-genes-2}
 gene.dir <- paste0(out.dir, "/geneanalysis-Buenrostro2018-k=11-genebody-sum")
+cat(sprintf("Directory of gene analysis result: %s \n", gene.dir))
 load(file.path(gene.dir, "genescores_gsea.Rdata"))
 
 top_genes <- data.frame(matrix(nrow=10, ncol = ncol(gene_scores)))
@@ -187,6 +189,7 @@ This model weights chromatin accessibility around gene promoters by using bi-dir
 * TSS model, normalized by the l2 norm of weights, as in Stouffer's z-score method. 
 ```{r top-genes-3}
 gene.dir <- paste0(out.dir, "/geneanalysis-Buenrostro2018-k=11-TSS-l2")
+cat(sprintf("Directory of gene analysis result: %s \n", gene.dir))
 load(file.path(gene.dir, "genescores_gsea.Rdata"))
 
 top_genes <- data.frame(matrix(nrow=10, ncol = ncol(gene_scores)))
@@ -205,6 +208,7 @@ DT::datatable(data.frame(rank = 1:10, top_genes), rownames = F,
 * TSS model, normalized by the total weights (i.e. weighted averge).
 ```{r top-genes-4}
 gene.dir <- paste0(out.dir, "/geneanalysis-Buenrostro2018-k=11-TSS-sum")
+cat(sprintf("Directory of gene analysis result: %s \n", gene.dir))
 load(file.path(gene.dir, "genescores_gsea.Rdata"))
 
 top_genes <- data.frame(matrix(nrow=10, ncol = ncol(gene_scores)))
@@ -225,6 +229,7 @@ DT::datatable(data.frame(rank = 1:10, top_genes), rownames = F,
 * Gene body model, normalized by the l2 norm of weights, as in Stouffer's z-score method. 
 ```{r top-pathways-1}
 gene.dir <- paste0(out.dir, "/geneanalysis-Buenrostro2018-k=11-genebody-l2")
+cat(sprintf("Directory of gene analysis result: %s \n", gene.dir))
 load(file.path(gene.dir, "genescores_gsea.Rdata"))
 
 top_pathways_up <- top_pathways_down <- data.frame(matrix(nrow=10, ncol = ncol(gsea_res$pval)))
@@ -255,6 +260,7 @@ DT::datatable(data.frame(rank = 1:10, top_pathways_up), rownames = F,
 * Gene body model, normalized by the total weights (i.e. weighted averge).
 ```{r top-pathways-2}
 gene.dir <- paste0(out.dir, "/geneanalysis-Buenrostro2018-k=11-genebody-sum")
+cat(sprintf("Directory of gene analysis result: %s \n", gene.dir))
 load(file.path(gene.dir, "genescores_gsea.Rdata"))
 
 top_pathways_up <- top_pathways_down <- data.frame(matrix(nrow=10, ncol = ncol(gsea_res$pval)))
@@ -285,6 +291,7 @@ DT::datatable(data.frame(rank = 1:10, top_pathways_up), rownames = F,
 * TSS model, normalized by the l2 norm of weights, as in Stouffer's z-score method. 
 ```{r top-pathways-3}
 gene.dir <- paste0(out.dir, "/geneanalysis-Buenrostro2018-k=11-TSS-l2")
+cat(sprintf("Directory of gene analysis result: %s \n", gene.dir))
 load(file.path(gene.dir, "genescores_gsea.Rdata"))
 
 top_pathways_up <- top_pathways_down <- data.frame(matrix(nrow=10, ncol = ncol(gsea_res$pval)))
@@ -316,6 +323,7 @@ DT::datatable(data.frame(rank = 1:10, top_pathways_up), rownames = F,
 * TSS model, normalized by the total weights (i.e. weighted averge).
 ```{r top-pathways-4}
 gene.dir <- paste0(out.dir, "/geneanalysis-Buenrostro2018-k=11-TSS-sum")
+cat(sprintf("Directory of gene analysis result: %s \n", gene.dir))
 load(file.path(gene.dir, "genescores_gsea.Rdata"))
 
 top_pathways_up <- top_pathways_down <- data.frame(matrix(nrow=10, ncol = ncol(gsea_res$pval)))
