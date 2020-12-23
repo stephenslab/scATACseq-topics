@@ -132,7 +132,7 @@ select_regions <- function(diff_count_res,
                            method="quantile",
                            out.dir = "out",
                            thresh.nlog10P = 10,
-                           thresh.z = 10,
+                           thresh.z = 20,
                            thresh.logFC = 4,
                            thresh.quantile = 0.99,
                            save.bed = TRUE) {
