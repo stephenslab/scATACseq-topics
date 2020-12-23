@@ -77,3 +77,16 @@ labeled_pca_plot <-
 #          labs(fill = "count") +
 #          theme_cowplot(font_size = 10))
 # }
+
+# Create a basic density plot for the region probability for each topic.
+basic_density_plot <- function (fit, k = 1) {
+  if (inherits(fit,"poisson_nmf_fit"))
+    fit <- poisson2multinom(fit)
+  dat <- as.data.frame(fit$F)
+  if (is.numeric(k))
+    name_topic <- names(dat)[k]
+  return(ggplot(dat, aes_string(x=name_topic)) +
+           geom_density(color="black", fill="white") +
+           labs(x = "Probability", y = "Density", title = paste("Topic",k)) +
+           theme_cowplot(font_size = 10))
+}
