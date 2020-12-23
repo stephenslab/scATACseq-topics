@@ -8,7 +8,7 @@
 #' @param keytype_geneID Keytype of the gene ID from OrgDb (e.g. "ENTREZID", "ENSEMBL").
 #' @param columns_extract Other gene info columns to extract (e.g. "SYMBOL", "ENSEMBL").
 #' @export
-get.gene.annotations <- function(
+get_gene_annotations <- function(
   TxDb = NULL,
   OrgDb = NULL,
   keytype_geneID = "ENTREZID",
@@ -18,7 +18,7 @@ get.gene.annotations <- function(
   ###########################
   cat("Get genes from TxDb...")
   genes        <- GenomicFeatures::genes(TxDb)
-  geneID_map   <- map.geneIDs(OrgDb, genes$gene_id, keytype_geneID, columns_extract)
+  geneID_map   <- map_geneIDs(OrgDb, genes$gene_id, keytype_geneID, columns_extract)
   mcols(genes) <- cbind(mcols(genes), geneID_map[,columns_extract])
   names(genes) <- NULL
   genes <- sort(sortSeqlevels(genes), ignore.strand = TRUE)
@@ -36,7 +36,7 @@ get.gene.annotations <- function(
 #' @param keytype_geneID Keytype of the input gene IDs (e.g. "ENTREZID", "ENSEMBL").
 #' @param columns_extract Other gene ID columns to extract (e.g. "SYMBOL", "ENSEMBL").
 #' @export
-map.geneIDs <- function(
+map_geneIDs <- function(
   OrgDb = NULL,
   geneIDs = NULL,
   keytype_geneID = NULL,
