@@ -84,7 +84,7 @@ rm(counts, samples, fit)
 # SELECT REGIONS FOR MOTIF ENRICHMENT ANALYSIS
 # ------------------------------------------
 cat("Select regions. \n")
-homer.dir <- paste0(out.dir, "/HOMER/", selectmethod)
+homer.dir <- paste0(out.dir, "/HOMER/")
 cat(sprintf("%d regions in total. \n", nrow(diff_count_res$Z)))
 selected_regions <- select_regions(diff_count_res, method=selectmethod, out.dir = homer.dir,
                                    thresh.z = 20, thresh.logFC = 4, thresh.quantile = 0.99, save.bed = TRUE)
