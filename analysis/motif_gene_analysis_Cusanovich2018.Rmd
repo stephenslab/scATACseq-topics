@@ -26,18 +26,17 @@ library(fastTopics)
 library(dplyr)
 library(tidyr)
 library(DT)
+library(reshape)
 ```
 
 ## Load data and topic model results
-Load the data. The counts are no longer needed at this stage of the
-analysis.
+Load the data and the $k = 13$ Poisson NMF fit results.
 ```{r load-data}
 data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/processed_data/"
 load(file.path(data.dir, "Cusanovich_2018.RData"))
 rm(counts)
 ```
 
-Load the $k = 13$ Poisson NMF fit results.
 ```{r load-fit}
 out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
 fit <- readRDS(file.path(out.dir, "/fit-Cusanovich2018-scd-ex-k=13.rds"))$fit
@@ -53,12 +52,12 @@ colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
 rows <- sample(nrow(fit$L),4000)
 samples$tissue <- as.factor(samples$tissue)
 
-p.structure.1 <- structure_plot(select(fit_multinom,loadings = rows),
+p.structure <- structure_plot(select(fit_multinom,loadings = rows),
                                 grouping = samples[rows, "tissue"],n = Inf,gap = 40,
                                 perplexity = 50,topics = 1:13,colors = colors_topics,
                                 num_threads = 4,verbose = FALSE)
 
-print(p.structure.1)
+print(p.structure)
 ```
 
 ## Differential accessbility analysis of the ATAC-seq regions for the topics
@@ -69,19 +68,17 @@ diff_count_topics <- readRDS(file.path(out.dir, "/diffcount-Cusanovich2018-13top
 
 Distribution of z-scores
 ```{r hist-zscore, fig.width=7, fig.height=5}
-library(reshape)
 
 zscore_topics <-  melt(diff_count_topics$Z)
 colnames(zscore_topics) <- c("region", "topic", "zscore")
 levels(zscore_topics$topic) <- colnames(diff_count_topics$Z)
 
-# quantile_topics <- data.frame(topic = colnames(diff_count_topics$Z), 
-#                               quantile = apply(abs(diff_count_topics$Z), 2, quantile, 0.99))
+z.quantile.99 <- apply(abs(diff_count_topics$Z), 2, quantile, 0.99)
+cat("z-score 99% quantile: \n")
+print(z.quantile.99)
 
 p.hist.zscores <- ggplot(zscore_topics, aes(x=zscore)) + 
   geom_histogram(binwidth=1, color="black", fill="white") + 
-  # geom_vline(data = quantile_topics, aes(xintercept=quantile, color="red")) +
-  # scale_color_discrete(name = "", labels = c("99% quantile")) + 
   coord_cartesian(xlim = c(-10, 30)) + theme_cowplot(font_size = 10) +
   facet_wrap(~ topic, ncol=4)
 
@@ -91,14 +88,18 @@ print(p.hist.zscores)
 ## Motif enrichment analysis using [HOMER](http://homer.ucsd.edu/homer/ngs/peakMotifs.html)
 
 * Details about HOMER motif analysis:
-http://homer.ucsd.edu/homer/motif/
-http://homer.ucsd.edu/homer/ngs/peakMotifs.html
+    - http://homer.ucsd.edu/homer/motif/
+    - http://homer.ucsd.edu/homer/ngs/peakMotifs.html
 
-* Motif enrichment result using regions with abs(z-score) above 99% quantile.
-RCC: `/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018/motifanalysis-Cusanovich2018-k=13-quantile/`
+* Motif enrichment result using regions with z-score above 99% quantile.
 ```{r top-motifs-1}
 homer.dir <- paste0(out.dir, "/motifanalysis-Cusanovich2018-k=13-quantile/HOMER/quantile")
+cat(sprintf("Directory of motif analysis result: %s \n", homer.dir))
 homer_res <- readRDS(file.path(homer.dir, "/homer_knownResults.rds"))
+selected_regions <- readRDS(file.path(homer.dir, "/selected_regions.rds"))
+
+cat("Number of regions selected for each topic: \n")
+print(mapply(nrow, selected_regions[1:(length(selected_regions)-1)]))
 
 top_motifs <- data.frame(matrix(nrow=10, ncol = ncol(diff_count_topics$Z)))
 colnames(top_motifs) <- colnames(diff_count_topics$Z)
@@ -117,11 +118,14 @@ DT::datatable(data.frame(rank = 1:10, top_motifs), rownames = F,
 ```
 
 * Motif enrichment result using regions with zscore > 20.
-RCC: `/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018/motifanalysis-Cusanovich2018-k=13-zscore/`
 ```{r top-motifs-2}
-
 homer.dir <- paste0(out.dir, "/motifanalysis-Cusanovich2018-k=13-zscore/HOMER/zscore")
+cat(sprintf("Directory of motif analysis result: %s \n", homer.dir))
 homer_res <- readRDS(file.path(homer.dir, "/homer_knownResults.rds"))
+selected_regions <- readRDS(file.path(homer.dir, "/selected_regions.rds"))
+
+cat("Number of regions selected for each topic: \n")
+print(mapply(nrow, selected_regions[1:(length(selected_regions)-1)]))
 
 top_motifs <- data.frame(matrix(nrow=10, ncol = ncol(diff_count_topics$Z)))
 colnames(top_motifs) <- colnames(diff_count_topics$Z)
@@ -151,6 +155,7 @@ Note: the current version of the function does not account for neighboring gene 
 * Gene body model, normalized by the l2 norm of weights, as in Stouffer's z-score method. 
 ```{r top-genes-1}
 gene.dir <- paste0(out.dir, "/geneanalysis-Cusanovich2018-k=13-genebody-l2")
+cat(sprintf("Directory of gene analysis result: %s \n", gene.dir))
 load(file.path(gene.dir, "genescores_gsea.Rdata"))
 
 top_genes <- data.frame(matrix(nrow=10, ncol = ncol(gene_scores)))
@@ -170,6 +175,7 @@ DT::datatable(data.frame(rank = 1:10, top_genes), rownames = F,
 * Gene body model, normalized by the total weights (i.e. weighted averge).
 ```{r top-genes-2}
 gene.dir <- paste0(out.dir, "/geneanalysis-Cusanovich2018-k=13-genebody-sum")
+cat(sprintf("Directory of gene analysis result: %s \n", gene.dir))
 load(file.path(gene.dir, "genescores_gsea.Rdata"))
 
 top_genes <- data.frame(matrix(nrow=10, ncol = ncol(gene_scores)))
@@ -193,6 +199,7 @@ This model weights chromatin accessibility around gene promoters by using bi-dir
 * TSS model, normalized by the l2 norm of weights, as in Stouffer's z-score method. 
 ```{r top-genes-3}
 gene.dir <- paste0(out.dir, "/geneanalysis-Cusanovich2018-k=13-TSS-l2")
+cat(sprintf("Directory of gene analysis result: %s \n", gene.dir))
 load(file.path(gene.dir, "genescores_gsea.Rdata"))
 
 top_genes <- data.frame(matrix(nrow=10, ncol = ncol(gene_scores)))
@@ -211,6 +218,7 @@ DT::datatable(data.frame(rank = 1:10, top_genes), rownames = F,
 * TSS model, normalized by the total weights (i.e. weighted averge).
 ```{r top-genes-4}
 gene.dir <- paste0(out.dir, "/geneanalysis-Cusanovich2018-k=13-TSS-sum")
+cat(sprintf("Directory of gene analysis result: %s \n", gene.dir))
 load(file.path(gene.dir, "genescores_gsea.Rdata"))
 
 top_genes <- data.frame(matrix(nrow=10, ncol = ncol(gene_scores)))
@@ -231,6 +239,7 @@ DT::datatable(data.frame(rank = 1:10, top_genes), rownames = F,
 * Gene body model, normalized by the l2 norm of weights, as in Stouffer's z-score method. 
 ```{r top-pathways-1}
 gene.dir <- paste0(out.dir, "/geneanalysis-Cusanovich2018-k=13-genebody-l2")
+cat(sprintf("Directory of gene analysis result: %s \n", gene.dir))
 load(file.path(gene.dir, "genescores_gsea.Rdata"))
 
 top_pathways_up <- top_pathways_down <- data.frame(matrix(nrow=10, ncol = ncol(gsea_res$pval)))
@@ -261,6 +270,7 @@ DT::datatable(data.frame(rank = 1:10, top_pathways_up), rownames = F,
 * Gene body model, normalized by the total weights (i.e. weighted averge).
 ```{r top-pathways-2}
 gene.dir <- paste0(out.dir, "/geneanalysis-Cusanovich2018-k=13-genebody-sum")
+cat(sprintf("Directory of gene analysis result: %s \n", gene.dir))
 load(file.path(gene.dir, "genescores_gsea.Rdata"))
 
 top_pathways_up <- top_pathways_down <- data.frame(matrix(nrow=10, ncol = ncol(gsea_res$pval)))
@@ -291,6 +301,7 @@ DT::datatable(data.frame(rank = 1:10, top_pathways_up), rownames = F,
 * TSS model, normalized by the l2 norm of weights, as in Stouffer's z-score method. 
 ```{r top-pathways-3}
 gene.dir <- paste0(out.dir, "/geneanalysis-Cusanovich2018-k=13-TSS-l2")
+cat(sprintf("Directory of gene analysis result: %s \n", gene.dir))
 load(file.path(gene.dir, "genescores_gsea.Rdata"))
 
 top_pathways_up <- top_pathways_down <- data.frame(matrix(nrow=10, ncol = ncol(gsea_res$pval)))
@@ -322,6 +333,7 @@ DT::datatable(data.frame(rank = 1:10, top_pathways_up), rownames = F,
 * TSS model, normalized by the total weights (i.e. weighted averge).
 ```{r top-pathways-4}
 gene.dir <- paste0(out.dir, "/geneanalysis-Cusanovich2018-k=13-TSS-sum")
+cat(sprintf("Directory of gene analysis result: %s \n", gene.dir))
 load(file.path(gene.dir, "genescores_gsea.Rdata"))
 
 top_pathways_up <- top_pathways_down <- data.frame(matrix(nrow=10, ncol = ncol(gsea_res$pval)))
