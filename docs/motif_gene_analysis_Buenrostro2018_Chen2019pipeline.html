@@ -444,16 +444,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree6d52b2693305079660e949f889ea69be5c5165b2targetblank6d52b26a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/6d52b2693305079660e949f889ea69be5c5165b2" target="_blank">6d52b26</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree297a4696b6d24469c5b0208a262f39008d187122targetblank297a469a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/297a4696b6d24469c5b0208a262f39008d187122" target="_blank">297a469</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree6d52b2693305079660e949f889ea69be5c5165b2targetblank6d52b26a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree297a4696b6d24469c5b0208a262f39008d187122targetblank297a469a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/6d52b2693305079660e949f889ea69be5c5165b2" target="_blank">6d52b26</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/297a4696b6d24469c5b0208a262f39008d187122" target="_blank">297a469</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -474,13 +474,8 @@ Unstaged changes:
     Modified:   analysis/cisTopic_Buenrostro2018_chomVAR_scPeaks.Rmd
     Modified:   analysis/plots_Lareau2019_bonemarrow.Rmd
     Modified:   analysis/process_data_Buenrostro2018.Rmd
-    Modified:   code/motif_analysis.R
-    Modified:   scripts/diffcount_motif_analysis.R
     Modified:   scripts/fit_all_models_Buenrostro_2018.sbatch
     Modified:   scripts/fit_cisTopic_Buenrostro_2018_chromVAR_scPeaks.sh
-    Modified:   scripts/postfit_Buenrostro2018.sh
-    Modified:   scripts/postfit_gene_analysis.sbatch
-    Modified:   scripts/postfit_motif_analysis.sbatch
 
 </code></pre>
 <p>
@@ -519,6 +514,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/297a4696b6d24469c5b0208a262f39008d187122/analysis/motif_gene_analysis_Buenrostro2018_Chen2019pipeline.Rmd" target="_blank">297a469</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-01-05
+</td>
+<td>
+wflow_publish(&quot;motif_gene_analysis_Buenrostro2018_Chen2019pipeline.Rmd&quot;)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/5b255cdedaa1221366ddc1d7e17e6eb256ed25f0/docs/motif_gene_analysis_Buenrostro2018_Chen2019pipeline.html" target="_blank">5b255cd</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-01-05
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -663,7 +692,9 @@ library(reshape)</code></pre>
 <h2>Load data and topic model results</h2>
 <p>Load the <strong>binarized</strong> data and the <span class="math inline">\(k = 11\)</span> Poisson NMF fit results</p>
 <pre class="r"><code>data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/&quot;
-load(file.path(data.dir, &quot;Buenrostro_2018_binarized_counts.RData&quot;))</code></pre>
+load(file.path(data.dir, &quot;Buenrostro_2018_binarized_counts.RData&quot;))
+cat(sprintf(&quot;%d x %d counts matrix.\n&quot;,nrow(counts),ncol(counts)))</code></pre>
+<pre><code># 2034 x 101172 counts matrix.</code></pre>
 <pre class="r"><code>fit.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/&quot;
 fit &lt;- readRDS(file.path(fit.dir, &quot;/fit-Buenrostro2018-binarized-scd-ex-k=11.rds&quot;))$fit
 fit_multinom &lt;- poisson2multinom(fit)</code></pre>
