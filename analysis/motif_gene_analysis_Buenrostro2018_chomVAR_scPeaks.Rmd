@@ -66,7 +66,7 @@ print(p.structure)
 ```
 
 ## Differential accessbility analysis of the ATAC-seq regions for the topics
-```{r diff_count_topics}
+```{r diff_count_topics,message=FALSE}
 out.dir <- "/project2/xinhe/kevinluo/scATACseq-topics/output/Buenrostro_2018_chromVAR_scPeaks/binarized/"
 
 diffcount_file <- file.path(out.dir, "diffcount-Buenrostro2018-11topics.rds")
