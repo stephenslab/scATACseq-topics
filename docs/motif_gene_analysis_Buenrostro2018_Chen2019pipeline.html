@@ -444,16 +444,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree7873cd2ba33ffebfe83534b29b067481fae6b256targetblank7873cd2a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/7873cd2ba33ffebfe83534b29b067481fae6b256" target="_blank">7873cd2</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree6d52b2693305079660e949f889ea69be5c5165b2targetblank6d52b26a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/6d52b2693305079660e949f889ea69be5c5165b2" target="_blank">6d52b26</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree7873cd2ba33ffebfe83534b29b067481fae6b256targetblank7873cd2a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree6d52b2693305079660e949f889ea69be5c5165b2targetblank6d52b26a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/7873cd2ba33ffebfe83534b29b067481fae6b256" target="_blank">7873cd2</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/6d52b2693305079660e949f889ea69be5c5165b2" target="_blank">6d52b26</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -519,6 +519,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/6d52b2693305079660e949f889ea69be5c5165b2/analysis/motif_gene_analysis_Buenrostro2018_Chen2019pipeline.Rmd" target="_blank">6d52b26</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-01-05
+</td>
+<td>
+wflow_publish(&quot;motif_gene_analysis_Buenrostro2018_Chen2019pipeline.Rmd&quot;)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/0c24c8e13ebf2005d3e5394b9ff556599308ee00/docs/motif_gene_analysis_Buenrostro2018_Chen2019pipeline.html" target="_blank">0c24c8e</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-01-05
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -646,12 +680,6 @@ p.structure &lt;- structure_plot(fit_multinom,
                      grouping = samples[, &quot;label&quot;],n = Inf,gap = 40,
                      perplexity = 50,topics = 1:11,colors = colors_topics,
                      num_threads = 4,verbose = FALSE)
-# Perplexity automatically changed to 24 because original setting of 50 was too large for the number of samples (78)
-# Perplexity automatically changed to 44 because original setting of 50 was too large for the number of samples (138)
-# Perplexity automatically changed to 20 because original setting of 50 was too large for the number of samples (64)
-# Perplexity automatically changed to 46 because original setting of 50 was too large for the number of samples (142)
-# Perplexity automatically changed to 45 because original setting of 50 was too large for the number of samples (141)
-# Perplexity automatically changed to 18 because original setting of 50 was too large for the number of samples (60)
 
 print(p.structure)</code></pre>
 <p><img src="figure/motif_gene_analysis_Buenrostro2018_Chen2019pipeline.Rmd/structure-plot-1.png" width="840" style="display: block; margin: auto;" /></p>
@@ -706,11 +734,10 @@ if(file.exists(diffcount_file)){
   cat(sprintf(&quot;Computation took %0.2f seconds.\n&quot;,timing[&quot;elapsed&quot;]))
   cat(&quot;Saving results.\n&quot;)
   saveRDS(diff_count_topics, diffcount_file)
-}
-# Load precomputed differential accessbility statistics.</code></pre>
+}</code></pre>
+<pre><code># Load precomputed differential accessbility statistics.</code></pre>
 <p>Distribution of z-scores</p>
-<pre class="r"><code>
-zscore_topics &lt;-  melt(diff_count_topics$Z)
+<pre class="r"><code>zscore_topics &lt;-  melt(diff_count_topics$Z)
 colnames(zscore_topics) &lt;- c(&quot;region&quot;, &quot;topic&quot;, &quot;zscore&quot;)
 levels(zscore_topics$topic) &lt;- colnames(diff_count_topics$Z)
 
@@ -798,8 +825,8 @@ for (k in colnames(top_motifs)){
 }
 
 DT::datatable(data.frame(rank = 1:10, top_motifs), rownames = F,
-              caption = &quot;Top 10 motifs enriched in each topic.&quot;)
-# Directory of motif analysis result: /project2/xinhe/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized//motifanalysis-Buenrostro2018-k=11-quantile/HOMER/ 
+              caption = &quot;Top 10 motifs enriched in each topic.&quot;)</code></pre>
+<pre><code># Directory of motif analysis result: /project2/xinhe/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized//motifanalysis-Buenrostro2018-k=11-quantile/HOMER/ 
 # Number of regions selected for each topic: 
 #   k1   k2   k3   k4   k5   k6   k7   k8   k9  k10  k11 
 # 1012 1012 1012 1012 1012 1012 1012 1012 1012 1012 1012</code></pre>
@@ -828,8 +855,8 @@ for (k in colnames(top_motifs)){
 }
 
 DT::datatable(data.frame(rank = 1:10, top_motifs), rownames = F,
-              caption = &quot;Top 10 motifs enriched in each topic.&quot;)
-# Directory of motif analysis result: /project2/xinhe/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized//motifanalysis-Buenrostro2018-k=11-topN/HOMER/ 
+              caption = &quot;Top 10 motifs enriched in each topic.&quot;)</code></pre>
+<pre><code># Directory of motif analysis result: /project2/xinhe/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized//motifanalysis-Buenrostro2018-k=11-topN/HOMER/ 
 # Number of regions selected for each topic: 
 #   k1   k2   k3   k4   k5   k6   k7   k8   k9  k10  k11 
 # 2000 2000 2000 2000 2000 2000 2000 2000 2000 2000 2000</code></pre>
@@ -858,8 +885,8 @@ for (k in colnames(top_genes)){
 }
 
 DT::datatable(data.frame(rank = 1:10, top_genes), rownames = F,
-              caption = &quot;Top 10 genes in each topic.&quot;)
-# Directory of gene analysis result: /project2/xinhe/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized//geneanalysis-Buenrostro2018-k=11-genebody-l2</code></pre>
+              caption = &quot;Top 10 genes in each topic.&quot;)</code></pre>
+<pre><code># Directory of gene analysis result: /project2/xinhe/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized//geneanalysis-Buenrostro2018-k=11-genebody-l2</code></pre>
 <div id="htmlwidget-2b5ba16072c1c8b42672" style="width:100%;height:auto;" class="datatables html-widget"></div>
 <script type="application/json" data-for="htmlwidget-2b5ba16072c1c8b42672">{"x":{"filter":"none","caption":"<caption>Top 10 genes in each topic.<\/caption>","data":[[1,2,3,4,5,6,7,8,9,10],["CDH17","CRISPLD2","CEACAM4","MPO","AZU1","SNORA14A","DENND3","MIR4632","MAEA","NEDD9"],["FAM110B","LIMCH1","ELMO1","TRHR","CDH7","EFNB2","LINC01568","STXBP4","FOXO1","ALPG"],["ZNF446","TRIM28","SLC27A5","ZBTB45","MAP2K7","LONP1","ZNF324","MZF1-AS1","MZF1","TGFBR3L"],["RHBDL2","PGK2","UGT2A1","CSMD2-AS1","HMGB4","LCA5","LDLRAD4","UGT2A2","FCHO2","MIR4756"],["SMCO2","WDR33","PLXNA4","SCMH1","MYOM2","IL2RA","ABCG1","TNP2","LILRA4","PRM1"],["RNASEH2A","MED16","C19orf25","GCDH","RPS15","GRIN3B","PRDX2","WDR18","RTBDN","LOC100288123"],["ADGRE4P","NEDD9","MBD3L4","MBD3L2","LILRB4","MBD3L5","PRKCD","SCUBE2","MBD3L3","MAEA"],["TMEM212","C8orf86","RARRES1","IL13RA2","TM4SF1","TRHR","HERC2","CAMK1D","LINC01568","LINC01139"],["OR4N3P","LINC00426","RBM38","OR4M2","LINC02052","VPREB1","OR4N4","MIR5190","PPP1R14C","RPS6KA2-IT1"],["CRPPA-AS1","IL1RL1","DNAJB8","DNAJB8-AS1","REG3A","MIR4706","REG1B","MIR340","OR52D1","DDC"],["NEDD9","C15orf54","TGM3","SNORA14A","TEX41","P2RX7","KYNU","MIR4651","XCR1","HCK"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>rank<\/th>\n      <th>k1<\/th>\n      <th>k2<\/th>\n      <th>k3<\/th>\n      <th>k4<\/th>\n      <th>k5<\/th>\n      <th>k6<\/th>\n      <th>k7<\/th>\n      <th>k8<\/th>\n      <th>k9<\/th>\n      <th>k10<\/th>\n      <th>k11<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <ul>
@@ -879,8 +906,8 @@ for (k in colnames(top_genes)){
 }
 
 DT::datatable(data.frame(rank = 1:10, top_genes), rownames = F,
-              caption = &quot;Top 10 genes in each topic.&quot;)
-# Directory of gene analysis result: /project2/xinhe/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized//geneanalysis-Buenrostro2018-k=11-genebody-sum</code></pre>
+              caption = &quot;Top 10 genes in each topic.&quot;)</code></pre>
+<pre><code># Directory of gene analysis result: /project2/xinhe/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized//geneanalysis-Buenrostro2018-k=11-genebody-sum</code></pre>
 <div id="htmlwidget-c80327190d663c62c9c9" style="width:100%;height:auto;" class="datatables html-widget"></div>
 <script type="application/json" data-for="htmlwidget-c80327190d663c62c9c9">{"x":{"filter":"none","caption":"<caption>Top 10 genes in each topic.<\/caption>","data":[[1,2,3,4,5,6,7,8,9,10],["ZNF735","NDST4","MIR4535","MIR548M","MIR548AQ","FAM170A","LINC00977","ANGPTL1","OGDHL","CDH17"],["LINC01568","SNORA70C","FAM110B","ADAM5","PPDPFL","REG3A","IL13RA2","LINC00486","TRHR","PCDH20"],["MBD3L1","ZNF558","MIMT1","PEG3","ZIM2","NCOR1P1","MIR663AHG","MIR663A","USP17L17","SIN3A"],["RHBDL2","CSMD2-AS1","HMGB4","UGT2A1","PGK2","UGT2A2","PRL","EEA1","MIR4650-1","NUP62CL"],["DTX2P1-UPK3BP1-PMS2P11","KCNK1","MIR4427","TCL1B","TCL1A","NAALADL2-AS3","ZNF735","PRAMEF17","MTUS2","POTEB"],["MIR663AHG","MIR663A","NCOR1P1","CYP3A7","CYP3A5","CYP3A7-CYP3A51P","TBC1D3P2","GPR78","WSCD2","ELSPBP1"],["MIR4272","ADGRE4P","LINC00977","MIR3660","ZNF735","LOC339298","OR10J5","TRIM49","TRIM64B","LINC02203"],["LINC01568","IL13RA2","MIR4764","HCRTR2","HERC2","HYPM","SPANXN1","LINC01139","ADAM5","TRHR"],["TMPRSS15","MIR548Q","LINC00898","PRAMEF17","GRID1-AS1","NREP-AS1","BCHE","TRIM49C","NAALADL2-AS3","CYP2C19"],["REG3A","CRPPA-AS1","NOVA1","OR52D1","LRRTM4","REG1B","LINC00486","MIR4510","LINC01235","MIR508"],["C15orf54","KYNU","MIR4272","PIN1P1","FBN2","LINC00977","CD1C","CLEC19A","NEDD9","MIR218-1"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>rank<\/th>\n      <th>k1<\/th>\n      <th>k2<\/th>\n      <th>k3<\/th>\n      <th>k4<\/th>\n      <th>k5<\/th>\n      <th>k6<\/th>\n      <th>k7<\/th>\n      <th>k8<\/th>\n      <th>k9<\/th>\n      <th>k10<\/th>\n      <th>k11<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
@@ -904,8 +931,8 @@ for (k in colnames(top_genes)){
 }
 
 DT::datatable(data.frame(rank = 1:10, top_genes), rownames = F,
-              caption = &quot;Top 10 genes in each topic.&quot;)
-# Directory of gene analysis result: /project2/xinhe/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized//geneanalysis-Buenrostro2018-k=11-TSS-l2</code></pre>
+              caption = &quot;Top 10 genes in each topic.&quot;)</code></pre>
+<pre><code># Directory of gene analysis result: /project2/xinhe/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized//geneanalysis-Buenrostro2018-k=11-TSS-l2</code></pre>
 <div id="htmlwidget-7db0eac8347c9c29d3d2" style="width:100%;height:auto;" class="datatables html-widget"></div>
 <script type="application/json" data-for="htmlwidget-7db0eac8347c9c29d3d2">{"x":{"filter":"none","caption":"<caption>Top 10 genes in each topic.<\/caption>","data":[[1,2,3,4,5,6,7,8,9,10],["MIR4632","MIR4472-2","CEACAM4","AZU1","SIRPB2","OLR1","CRYBA1","MPO","TREM1","MFAP4"],["TRHR","LINC01568","CDH7","ALG1L2","HOOK1","RHAG","PEBP4","ALPG","MIR583","LOC284933"],["MNT","TRIM28","LYL1","MIDN","TBC1D17","AKT1S1","SIN3A","TMEM80","DEAF1","RAB4B"],["RHBDL2","ASTN2-AS1","MIR4756","PGK2","CRISP3","HMGB4","CSMD2-AS1","BCAS1","UGT2A2","UGT2A1"],["CNDP1","LILRB1","NAPSB","CLIC3","LOC100506801","SHANK1","RHEX","MIR4526","LY86","DTX2P1-UPK3BP1-PMS2P11"],["SNORD37","RTBDN","METRN","EEF2","ARHGAP45","KLF1","MIR126","CEACAM5","NME4","PRR36"],["ADGRE4P","MIR5191","LILRB4","NAPSB","MIR4632","DKFZp451B082","MIR3660","SLC46A2","LINC02171","LOC339298"],["TMEM212","C8orf86","LRMDA","CDRT4","IL13RA2","TRHR","LINC01139","LINC01568","OR56B1","OR52N4"],["STK17B","OR4N3P","MIR4752","VPREB1","LINC00426","KRTAP16-1","MZB1","SSTR3","LILRB1","CYFIP2"],["TMEM219","CRPPA-AS1","SMCO1","REG1B","REG1A","REG3A","DNAJB8","DNAJB8-AS1","UBQLNL","UBQLN3"],["TGM3","ODF3B","KYNU","MIR4632","TEX41","TREM1","ITGAX","TYMP","OR52W1","OR52B2"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>rank<\/th>\n      <th>k1<\/th>\n      <th>k2<\/th>\n      <th>k3<\/th>\n      <th>k4<\/th>\n      <th>k5<\/th>\n      <th>k6<\/th>\n      <th>k7<\/th>\n      <th>k8<\/th>\n      <th>k9<\/th>\n      <th>k10<\/th>\n      <th>k11<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <ul>
@@ -925,8 +952,8 @@ for (k in colnames(top_genes)){
 }
 
 DT::datatable(data.frame(rank = 1:10, top_genes), rownames = F,
-              caption = &quot;Top 10 genes in each topic.&quot;)
-# Directory of gene analysis result: /project2/xinhe/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized//geneanalysis-Buenrostro2018-k=11-TSS-sum</code></pre>
+              caption = &quot;Top 10 genes in each topic.&quot;)</code></pre>
+<pre><code># Directory of gene analysis result: /project2/xinhe/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized//geneanalysis-Buenrostro2018-k=11-TSS-sum</code></pre>
 <div id="htmlwidget-53847066bda55c91ee2c" style="width:100%;height:auto;" class="datatables html-widget"></div>
 <script type="application/json" data-for="htmlwidget-53847066bda55c91ee2c">{"x":{"filter":"none","caption":"<caption>Top 10 genes in each topic.<\/caption>","data":[[1,2,3,4,5,6,7,8,9,10],["OR4F5","GRAPL","ZNF735","AMY2A","CTSG","OR52W1","OR52B2","GRAP","DCT","CLEC9A"],["LINC01568","HOOK1","SNORA70C","PPDPFL","KIF4B","LINC01538","TRHR","CYP4F30P","GPR148","SMCO2"],["LONP1","CATSPERD","EVI5L","VMAC","CAPS","LSS","MCM3AP-AS1","PKNOX1","FXR2","FUT5"],["RHBDL2","ASTN2-AS1","CRISP3","PGK2","UGT2A2","UGT2A1","ST6GALNAC1","CSMD2-AS1","HMGB4","OR7E12P"],["CNDP1","DTX2P1-UPK3BP1-PMS2P11","MYO16-AS1","KCNK1","MIR4427","TCL1B","TCL1A","LILRB1","CD28","NAALADL2-AS3"],["NCOR1P1","MIR663AHG","MIR663A","WSCD2","KRT28","KRT27","KRT26","KRT25","SLC13A5","HGH1"],["ADGRE4P","LINC02171","MIR548AD","LRTM1","LINC01940","MYH15","MIR4272","MIR4468","LINC00977","FCRL1"],["C8orf86","LINC01568","OR56B1","ENKUR","IL13RA2","LRMDA","LY6K","LOC100507156","ADORA3","MIR100"],["OR4N3P","TMPRSS15","LOC728554","ZNF732","POU2AF1","VPREB1","MIR4491","MIR5186","KRTAP16-1","MTMR1"],["CRPPA-AS1","REG3A","REG1A","REG1B","OR52D1","HBE1","OR51B5","UBQLN3","UBQLNL","PMCHL2"],["OR52W1","OR52B2","OR4F5","TGM3","CCL20","PMFBP1","FAM157A","SFTPD","TREM1","CLEC6A"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>rank<\/th>\n      <th>k1<\/th>\n      <th>k2<\/th>\n      <th>k3<\/th>\n      <th>k4<\/th>\n      <th>k5<\/th>\n      <th>k6<\/th>\n      <th>k7<\/th>\n      <th>k8<\/th>\n      <th>k9<\/th>\n      <th>k10<\/th>\n      <th>k11<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
@@ -961,8 +988,8 @@ for (k in 1:ncol(gsea_res$pval)){
 }
 
 DT::datatable(data.frame(rank = 1:10, top_pathways_up), rownames = F,
-              caption = &quot;Top 10 pathways enriched at the top of the gene rank list.&quot;)
-# Directory of gene analysis result: /project2/xinhe/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized//geneanalysis-Buenrostro2018-k=11-genebody-l2</code></pre>
+              caption = &quot;Top 10 pathways enriched at the top of the gene rank list.&quot;)</code></pre>
+<pre><code># Directory of gene analysis result: /project2/xinhe/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized//geneanalysis-Buenrostro2018-k=11-genebody-l2</code></pre>
 <div id="htmlwidget-c6385dc0e77af21e76d8" style="width:100%;height:auto;" class="datatables html-widget"></div>
 <script type="application/json" data-for="htmlwidget-c6385dc0e77af21e76d8">{"x":{"filter":"none","caption":"<caption>Top 10 pathways enriched at the top of the gene rank list.<\/caption>","data":[[1,2,3,4,5,6,7,8,9,10],["GSE25123_CTRL_VS_ROSIGLITAZONE_STIM_PPARG_KO_MACROPHAGE_UP.M7977","GSE29618_MONOCYTE_VS_PDC_DAY7_FLU_VACCINE_UP.M4963","CUI_DEVELOPING_HEART_C8_MACROPHAGE.M39305","GSE10325_LUPUS_BCELL_VS_LUPUS_MYELOID_DN.M3091","GSE11057_PBMC_VS_MEM_CD4_TCELL_UP.M3120","GAO_LARGE_INTESTINE_24W_C11_PANETH_LIKE_CELL.M39160","GSE10325_LUPUS_CD4_TCELL_VS_LUPUS_MYELOID_DN.M3088","GSE29618_MONOCYTE_VS_PDC_UP.M4945","MULLIGHAN_MLL_SIGNATURE_1_UP.M17856","chr17q25.M8281"],["JAATINEN_HEMATOPOIETIC_STEM_CELL_UP.M15107","HAY_BONE_MARROW_CD34_POS_HSC.M39182","GSE9509_LPS_VS_LPS_AND_IL10_STIM_IL10_KO_MACROPHAGE_20MIN_UP.M6899","EPPERT_HSC_R.M19231","GSE9509_LPS_VS_LPS_AND_IL10_STIM_IL10_KO_MACROPHAGE_30MIN_UP.M6902","WANG_SMARCE1_TARGETS_UP.M1804","GRAHAM_CML_DIVIDING_VS_NORMAL_QUIESCENT_DN.M4235","HADDAD_T_LYMPHOCYTE_AND_NK_PROGENITOR_UP.M17082","TAKEDA_TARGETS_OF_NUP98_HOXA9_FUSION_3D_UP.M6670","LAKE_ADULT_KIDNEY_C15_CONNECTING_TUBULE.M39234"],["chr17p13.M9760","chr9q34.M2896","chr11q13.M11664","GSE9006_TYPE_1_VS_TYPE_2_DIABETES_PBMC_AT_DX_UP.M5797","chr17q25.M8281","AGUIRRE_PANCREATIC_CANCER_COPY_NUMBER_UP.M9565","chr1p36.M19292","GINESTIER_BREAST_CANCER_ZNF217_AMPLIFIED_DN.M17094","chr16p11.M13160","PGM3_TARGET_GENES.M34464"],["HALLMARK_HEME_METABOLISM.M5945","HU_FETAL_RETINA_BLOOD.M39263","ZHENG_CORD_BLOOD_C3_MEGAKARYOCYTE_ERYTHROID_PROGENITOR.M39212","GNF2_SPTA1.M13711","chr7q22.M3562","GO_DNA_PACKAGING_COMPLEX.M17506","GNF2_ANK1.M11900","GNF2_SPTB.M5633","GNF2_TAL1.M19762","ROSS_AML_OF_FAB_M7_TYPE.M4621"],["HAY_BONE_MARROW_DENDRITIC_CELL.M39194","GSE29618_PDC_VS_MDC_UP.M4951","GSE29618_MONOCYTE_VS_PDC_DAY7_FLU_VACCINE_DN.M4964","GSE29618_PDC_VS_MDC_DAY7_FLU_VACCINE_UP.M4970","GSE29618_MONOCYTE_VS_PDC_DN.M4946","GSE29618_BCELL_VS_PDC_DN.M4942","GSE29618_BCELL_VS_PDC_DAY7_FLU_VACCINE_DN.M4959","GAO_LARGE_INTESTINE_ADULT_CI_MESENCHYMAL_CELLS.M39166","GAO_LARGE_INTESTINE_24W_C11_PANETH_LIKE_CELL.M39160","GSE17301_ACD3_ACD28_VS_ACD3_ACD28_AND_IFNA5_STIM_CD8_TCELL_DN.M8033"],["chr16p13.M9048","chr17q25.M8281","chr17q21.M8783","chr1p36.M19292","chr17p13.M9760","NIKOLSKY_BREAST_CANCER_17Q21_Q25_AMPLICON.M15936","AGUIRRE_PANCREATIC_CANCER_COPY_NUMBER_UP.M9565","chr22q13.M17432","GINESTIER_BREAST_CANCER_ZNF217_AMPLIFIED_DN.M17094","GSE9006_TYPE_1_VS_TYPE_2_DIABETES_PBMC_AT_DX_UP.M5797"],["HU_FETAL_RETINA_MICROGLIA.M39266","GAO_LARGE_INTESTINE_24W_C11_PANETH_LIKE_CELL.M39160","GSE10325_LUPUS_CD4_TCELL_VS_LUPUS_MYELOID_DN.M3088","CUI_DEVELOPING_HEART_C8_MACROPHAGE.M39305","GSE29618_MONOCYTE_VS_PDC_DAY7_FLU_VACCINE_UP.M4963","GSE11057_PBMC_VS_MEM_CD4_TCELL_UP.M3120","MODULE_46.M15983","GSE10325_LUPUS_BCELL_VS_LUPUS_MYELOID_DN.M3091","GSE10325_BCELL_VS_MYELOID_DN.M3082","MODULE_75.M12401"],["MURARO_PANCREAS_ENDOTHELIAL_CELL.M39176","chr14q32.M16134","AIZARANI_LIVER_C29_MVECS_2.M39128","AIZARANI_LIVER_C20_LSECS_3.M39121","GSE9509_LPS_VS_LPS_AND_IL10_STIM_IL10_KO_MACROPHAGE_20MIN_UP.M6899","HAY_BONE_MARROW_CD34_POS_HSC.M39182","AIZARANI_LIVER_C9_LSECS_1.M39113","GRAHAM_CML_DIVIDING_VS_NORMAL_QUIESCENT_DN.M4235","AIZARANI_LIVER_C10_MVECS_1.M39114","EPPERT_HSC_R.M19231"],["HADDAD_B_LYMPHOCYTE_PROGENITOR.M939","GSE29618_MONOCYTE_VS_PDC_DAY7_FLU_VACCINE_DN.M4964","ZHENG_CORD_BLOOD_C10_MULTILYMPHOID_PROGENITOR.M39219","GSE9509_LPS_VS_LPS_AND_IL10_STIM_IL10_KO_MACROPHAGE_30MIN_DN.M6903","GSE29618_BCELL_VS_MDC_DAY7_FLU_VACCINE_UP.M4961","chr14q32.M16134","VERHAAK_AML_WITH_NPM1_MUTATED_DN.M10117","GSE10325_CD4_TCELL_VS_BCELL_DN.M3077","HAY_BONE_MARROW_CD34_POS_PRE_PC.M39191","GSE29618_BCELL_VS_MONOCYTE_DAY7_FLU_VACCINE_UP.M4954"],["HALLMARK_HEME_METABOLISM.M5945","HAY_BONE_MARROW_PLATELET.M39206","HU_FETAL_RETINA_BLOOD.M39263","Glucuronidation.http://identifiers.org/reactome/R-HSA-156588","GO_HAPTOGLOBIN_BINDING.M26544","KEGG_DRUG_METABOLISM_OTHER_ENZYMES.M17726","GO_HAPTOGLOBIN_HEMOGLOBIN_COMPLEX.M25753","GO_OXYGEN_CARRIER_ACTIVITY.M26254","GO_HEMOGLOBIN_COMPLEX.M17493","GO_OXYGEN_TRANSPORT.M13619"],["AIZARANI_LIVER_C6_KUPFFER_CELLS_2.M39110","GSE22886_NAIVE_CD8_TCELL_VS_MONOCYTE_DN.M4496","GSE29618_MONOCYTE_VS_PDC_UP.M4945","FAN_EMBRYONIC_CTX_BIG_GROUPS_MICROGLIA.M39022","GSE29618_MONOCYTE_VS_PDC_DAY7_FLU_VACCINE_UP.M4963","GSE29618_MONOCYTE_VS_MDC_UP.M4948","GSE10325_LUPUS_CD4_TCELL_VS_LUPUS_MYELOID_DN.M3088","AIZARANI_LIVER_C2_KUPFFER_CELLS_1.M39106","AIZARANI_LIVER_C25_KUPFFER_CELLS_4.M39126","GSE22886_NAIVE_TCELL_VS_MONOCYTE_DN.M4480"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>rank<\/th>\n      <th>k1<\/th>\n      <th>k2<\/th>\n      <th>k3<\/th>\n      <th>k4<\/th>\n      <th>k5<\/th>\n      <th>k6<\/th>\n      <th>k7<\/th>\n      <th>k8<\/th>\n      <th>k9<\/th>\n      <th>k10<\/th>\n      <th>k11<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <ul>
@@ -993,8 +1020,8 @@ for (k in 1:ncol(gsea_res$pval)){
 }
 
 DT::datatable(data.frame(rank = 1:10, top_pathways_up), rownames = F,
-              caption = &quot;Top 10 pathways enriched at the top of the gene rank list.&quot;)
-# Directory of gene analysis result: /project2/xinhe/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized//geneanalysis-Buenrostro2018-k=11-genebody-sum</code></pre>
+              caption = &quot;Top 10 pathways enriched at the top of the gene rank list.&quot;)</code></pre>
+<pre><code># Directory of gene analysis result: /project2/xinhe/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized//geneanalysis-Buenrostro2018-k=11-genebody-sum</code></pre>
 <div id="htmlwidget-c475d1395aac45d19559" style="width:100%;height:auto;" class="datatables html-widget"></div>
 <script type="application/json" data-for="htmlwidget-c475d1395aac45d19559">{"x":{"filter":"none","caption":"<caption>Top 10 pathways enriched at the top of the gene rank list.<\/caption>","data":[[1,2,3,4,5,6,7,8,9,10],["GO_KERATINIZATION.M15449","REACTOME_KERATINIZATION.M27640","Keratinization.1457790","GO_KERATINOCYTE_DIFFERENTIATION.M29131","GO_EPIDERMAL_CELL_DIFFERENTIATION.M12194","Keratinization.http://identifiers.org/reactome/R-HSA-6805567","REACTOME_FORMATION_OF_THE_CORNIFIED_ENVELOPE.M27649","GSE11057_PBMC_VS_MEM_CD4_TCELL_UP.M3120","GO_INTERMEDIATE_FILAMENT_CYTOSKELETON.M17620","GSE29618_MONOCYTE_VS_PDC_DAY7_FLU_VACCINE_UP.M4963"],["JAATINEN_HEMATOPOIETIC_STEM_CELL_UP.M15107","LAKE_ADULT_KIDNEY_C15_CONNECTING_TUBULE.M39234","HAY_BONE_MARROW_CD34_POS_HSC.M39182","MANNO_MIDBRAIN_NEUROTYPES_HRGL1.M39057","GSE9509_LPS_VS_LPS_AND_IL10_STIM_IL10_KO_MACROPHAGE_20MIN_UP.M6899","chrXq22.M22117","MURARO_PANCREAS_DELTA_CELL.M39170","ACEVEDO_LIVER_CANCER_WITH_H3K27ME3_UP.M11616","WANG_SMARCE1_TARGETS_UP.M1804","SENGUPTA_NASOPHARYNGEAL_CARCINOMA_WITH_LMP1_UP.M19488"],["chr17p13.M9760","chr11q13.M11664","chr9q34.M2896","chr1p36.M19292","PGM3_TARGET_GENES.M34464","GSE9006_TYPE_1_VS_TYPE_2_DIABETES_PBMC_AT_DX_UP.M5797","GINESTIER_BREAST_CANCER_ZNF217_AMPLIFIED_DN.M17094","AGUIRRE_PANCREATIC_CANCER_COPY_NUMBER_UP.M9565","Generic Transcription Pathway.http://identifiers.org/reactome/R-HSA-212436","chr17q25.M8281"],["KEGG_OLFACTORY_TRANSDUCTION.M14091","GO_SENSORY_PERCEPTION_OF_CHEMICAL_STIMULUS.M11231","Olfactory transduction.83087","GO_OLFACTORY_RECEPTOR_ACTIVITY.M17885","GO_SENSORY_PERCEPTION_OF_SMELL.M22538","REACTOME_OLFACTORY_SIGNALING_PATHWAY.M4072","Olfactory Signaling Pathway.1269583","Olfactory Signaling Pathway.http://identifiers.org/reactome/R-HSA-381753","GO_DETECTION_OF_STIMULUS_INVOLVED_IN_SENSORY_PERCEPTION.M23924","ZHENG_CORD_BLOOD_C3_MEGAKARYOCYTE_ERYTHROID_PROGENITOR.M39212"],["GSE29618_PDC_VS_MDC_UP.M4951","HAY_BONE_MARROW_DENDRITIC_CELL.M39194","GSE29618_MONOCYTE_VS_PDC_DAY7_FLU_VACCINE_DN.M4964","GSE29618_PDC_VS_MDC_DAY7_FLU_VACCINE_UP.M4970","GSE29618_MONOCYTE_VS_PDC_DN.M4946","GSE29618_BCELL_VS_PDC_DN.M4942","GSE29618_BCELL_VS_PDC_DAY7_FLU_VACCINE_DN.M4959","GAO_LARGE_INTESTINE_ADULT_CI_MESENCHYMAL_CELLS.M39166","GSE17301_ACD3_ACD28_VS_ACD3_ACD28_AND_IFNA5_STIM_CD8_TCELL_DN.M8033","RYAN_MANTLE_CELL_LYMPHOMA_NOTCH_DIRECT_UP.M39016"],["chr1p36.M19292","chr17p13.M9760","chr17q25.M8281","REACTOME_KERATINIZATION.M27640","Keratinization.1457790","chr22q13.M17432","GO_KERATINIZATION.M15449","Keratinization.http://identifiers.org/reactome/R-HSA-6805567","GO_INTERMEDIATE_FILAMENT_CYTOSKELETON.M17620","NIKOLSKY_BREAST_CANCER_17Q21_Q25_AMPLICON.M15936"],["GSE11057_PBMC_VS_MEM_CD4_TCELL_UP.M3120","GSE29618_MONOCYTE_VS_PDC_DAY7_FLU_VACCINE_UP.M4963","GSE10325_LUPUS_CD4_TCELL_VS_LUPUS_MYELOID_DN.M3088","MODULE_46.M15983","GSE10325_LUPUS_BCELL_VS_LUPUS_MYELOID_DN.M3091","HU_FETAL_RETINA_MICROGLIA.M39266","GSE29618_MONOCYTE_VS_PDC_UP.M4945","CUI_DEVELOPING_HEART_C8_MACROPHAGE.M39305","MODULE_75.M12401","GSE10325_BCELL_VS_MYELOID_DN.M3082"],["chr14q32.M16134","JAATINEN_HEMATOPOIETIC_STEM_CELL_UP.M15107","HAY_BONE_MARROW_CD34_POS_HSC.M39182","MURARO_PANCREAS_ENDOTHELIAL_CELL.M39176","AIZARANI_LIVER_C29_MVECS_2.M39128","GRAHAM_CML_DIVIDING_VS_NORMAL_QUIESCENT_DN.M4235","GSE9509_LPS_VS_LPS_AND_IL10_STIM_IL10_KO_MACROPHAGE_20MIN_UP.M6899","AIZARANI_LIVER_C10_MVECS_1.M39114","MANNO_MIDBRAIN_NEUROTYPES_HRGL1.M39057","chrXq21.M22116"],["GO_KERATIN_FILAMENT.M17671","Keratinization.http://identifiers.org/reactome/R-HSA-6805567","Keratinization.1457790","REACTOME_KERATINIZATION.M27640","HADDAD_B_LYMPHOCYTE_PROGENITOR.M939","GO_KERATINIZATION.M15449","GSE9509_LPS_VS_LPS_AND_IL10_STIM_IL10_KO_MACROPHAGE_30MIN_DN.M6903","HAY_BONE_MARROW_CD34_POS_PRE_PC.M39191","ZHENG_CORD_BLOOD_C10_MULTILYMPHOID_PROGENITOR.M39219","GO_KERATINOCYTE_DIFFERENTIATION.M29131"],["Olfactory Signaling Pathway.http://identifiers.org/reactome/R-HSA-381753","GO_OLFACTORY_RECEPTOR_ACTIVITY.M17885","REACTOME_OLFACTORY_SIGNALING_PATHWAY.M4072","Olfactory Signaling Pathway.1269583","KEGG_OLFACTORY_TRANSDUCTION.M14091","GO_SENSORY_PERCEPTION_OF_SMELL.M22538","Olfactory transduction.83087","GO_DETECTION_OF_STIMULUS_INVOLVED_IN_SENSORY_PERCEPTION.M23924","GO_SENSORY_PERCEPTION_OF_CHEMICAL_STIMULUS.M11231","chrXq27.M22122"],["AIZARANI_LIVER_C23_KUPFFER_CELLS_3.M39124","GAO_LARGE_INTESTINE_24W_C11_PANETH_LIKE_CELL.M39160","GSE29618_MONOCYTE_VS_PDC_DAY7_FLU_VACCINE_UP.M4963","GSE29618_MONOCYTE_VS_PDC_UP.M4945","HU_FETAL_RETINA_MICROGLIA.M39266","GSE29618_MONOCYTE_VS_MDC_UP.M4948","GSE29618_MONOCYTE_VS_MDC_DAY7_FLU_VACCINE_UP.M4966","CUI_DEVELOPING_HEART_C8_MACROPHAGE.M39305","GSE22886_NAIVE_CD8_TCELL_VS_MONOCYTE_DN.M4496","GSE11057_PBMC_VS_MEM_CD4_TCELL_UP.M3120"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>rank<\/th>\n      <th>k1<\/th>\n      <th>k2<\/th>\n      <th>k3<\/th>\n      <th>k4<\/th>\n      <th>k5<\/th>\n      <th>k6<\/th>\n      <th>k7<\/th>\n      <th>k8<\/th>\n      <th>k9<\/th>\n      <th>k10<\/th>\n      <th>k11<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <ul>
@@ -1026,8 +1053,8 @@ for (k in 1:ncol(gsea_res$pval)){
 }
 
 DT::datatable(data.frame(rank = 1:10, top_pathways_up), rownames = F,
-              caption = &quot;Top 10 pathways enriched at the top of the gene rank list.&quot;)
-# Directory of gene analysis result: /project2/xinhe/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized//geneanalysis-Buenrostro2018-k=11-TSS-l2</code></pre>
+              caption = &quot;Top 10 pathways enriched at the top of the gene rank list.&quot;)</code></pre>
+<pre><code># Directory of gene analysis result: /project2/xinhe/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized//geneanalysis-Buenrostro2018-k=11-TSS-l2</code></pre>
 <div id="htmlwidget-cbe6b4412fbdb9a1f341" style="width:100%;height:auto;" class="datatables html-widget"></div>
 <script type="application/json" data-for="htmlwidget-cbe6b4412fbdb9a1f341">{"x":{"filter":"none","caption":"<caption>Top 10 pathways enriched at the top of the gene rank list.<\/caption>","data":[[1,2,3,4,5,6,7,8,9,10],["REACTOME_KERATINIZATION(M27640)","GO_KERATINIZATION(M15449)","Keratinization(1457790)","GO_KERATINOCYTE_DIFFERENTIATION(M29131)","GSE11057_PBMC_VS_MEM_CD4_TCELL_UP(M3120)","MODULE_46(M15983)","MODULE_75(M12401)","REACTOME_CLASS_A_1_RHODOPSIN_LIKE_RECEPTORS_(M18334)","Keratinization(http://identifiers.org/reactome/R-HSA-6805567)","MCLACHLAN_DENTAL_CARIES_UP(M10454)"],["GSE9509_LPS_VS_LPS_AND_IL10_STIM_IL10_KO_MACROPHAGE_20MIN_UP(M6899)","JAATINEN_HEMATOPOIETIC_STEM_CELL_UP(M15107)","HAY_BONE_MARROW_CD34_POS_HSC(M39182)","PLASARI_TGFB1_TARGETS_10HR_DN(M2446)","WANG_SMARCE1_TARGETS_UP(M1804)","MANNO_MIDBRAIN_NEUROTYPES_HRGL1(M39057)","TAKEDA_TARGETS_OF_NUP98_HOXA9_FUSION_3D_UP(M6670)","LAKE_ADULT_KIDNEY_C15_CONNECTING_TUBULE(M39234)","VECCHI_GASTRIC_CANCER_EARLY_DN(M15472)","LAKE_ADULT_KIDNEY_C14_DISTAL_CONVOLUTED_TUBULE(M39233)"],["chr17p13(M9760)","chr16p13(M9048)","PGM3_TARGET_GENES(M34464)","GSE9006_TYPE_1_VS_TYPE_2_DIABETES_PBMC_AT_DX_UP(M5797)","GINESTIER_BREAST_CANCER_ZNF217_AMPLIFIED_DN(M17094)","chr11q13(M11664)","NIKOLSKY_BREAST_CANCER_16P13_AMPLICON(M1788)","MORF_UBE2I(M10939)","GSE36527_CD69_NEG_VS_POS_TREG_CD62L_LOS_KLRG1_NEG_DN(M9029)","PSMB5_TARGET_GENES(M30131)"],["HALLMARK_HEME_METABOLISM(M5945)","HU_FETAL_RETINA_BLOOD(M39263)","GNF2_ANK1(M11900)","GNF2_SPTB(M5633)","ZHENG_CORD_BLOOD_C3_MEGAKARYOCYTE_ERYTHROID_PROGENITOR(M39212)","Retinol metabolism(83020)","KEGG_OLFACTORY_TRANSDUCTION(M14091)","HAY_BONE_MARROW_PLATELET(M39206)","GNF2_SPTA1(M13711)","PHB2_TARGET_GENES(M30119)"],["HAY_BONE_MARROW_DENDRITIC_CELL(M39194)","GAO_LARGE_INTESTINE_ADULT_CI_MESENCHYMAL_CELLS(M39166)","MAML1_TARGET_GENES(M30054)","GAO_LARGE_INTESTINE_24W_C11_PANETH_LIKE_CELL(M39160)","GSE29618_PDC_VS_MDC_UP(M4951)","RYAN_MANTLE_CELL_LYMPHOMA_NOTCH_DIRECT_UP(M39016)","GSE29618_MONOCYTE_VS_PDC_DN(M4946)","GSE29618_BCELL_VS_PDC_DN(M4942)","GSE29618_PDC_VS_MDC_DAY7_FLU_VACCINE_UP(M4970)","GSE29618_BCELL_VS_PDC_DAY7_FLU_VACCINE_DN(M4959)"],["chr9q34(M2896)","chr16p13(M9048)","NIKOLSKY_BREAST_CANCER_16P13_AMPLICON(M1788)","chr1p36(M19292)","chr17p13(M9760)","chr17q25(M8281)","chr17q21(M8783)","NIKOLSKY_BREAST_CANCER_17Q21_Q25_AMPLICON(M15936)","chr22q13(M17432)","GO_RNA_BINDING_INVOLVED_IN_POSTTRANSCRIPTIONAL_GENE_SILENCING(M29524)"],["MODULE_46(M15983)","MODULE_75(M12401)","GSE11057_PBMC_VS_MEM_CD4_TCELL_UP(M3120)","chr14q32(M16134)","FAN_EMBRYONIC_CTX_BIG_GROUPS_MICROGLIA(M39022)","GSE25123_CTRL_VS_ROSIGLITAZONE_STIM_PPARG_KO_MACROPHAGE_UP(M7977)","HU_FETAL_RETINA_MICROGLIA(M39266)","REACTOME_CLASS_A_1_RHODOPSIN_LIKE_RECEPTORS_(M18334)","AIZARANI_LIVER_C6_KUPFFER_CELLS_2(M39110)","MCLACHLAN_DENTAL_CARIES_UP(M10454)"],["AIZARANI_LIVER_C29_MVECS_2(M39128)","AIZARANI_LIVER_C10_MVECS_1(M39114)","HAY_BONE_MARROW_CD34_POS_HSC(M39182)","AIZARANI_LIVER_C13_LSECS_2(M39117)","AIZARANI_LIVER_C9_LSECS_1(M39113)","GSE9509_LPS_VS_LPS_AND_IL10_STIM_IL10_KO_MACROPHAGE_20MIN_UP(M6899)","SCHUETZ_BREAST_CANCER_DUCTAL_INVASIVE_UP(M17471)","BLANCO_MELO_RESPIRATORY_SYNCYTIAL_VIRUS_INFECTION_A594_CELLS_UP(M34008)","KRAS.600.LUNG.BREAST_UP.V1_UP(M2886)","FAN_EMBRYONIC_CTX_BIG_GROUPS_BRAIN_ENDOTHELIAL(M39018)"],["HADDAD_B_LYMPHOCYTE_PROGENITOR(M939)","GSE9509_LPS_VS_LPS_AND_IL10_STIM_IL10_KO_MACROPHAGE_30MIN_DN(M6903)","GAO_LARGE_INTESTINE_ADULT_CI_MESENCHYMAL_CELLS(M39166)","GSE39556_UNTREATED_VS_3H_POLYIC_INJ_MOUSE_CD8A_DC_DN(M9408)","MAML1_TARGET_GENES(M30054)","GSE9509_10MIN_VS_30MIN_LPS_STIM_IL10_KO_MACROPHAGE_DN(M6908)","HAY_BONE_MARROW_CD34_POS_PRE_PC(M39191)","PASQUALUCCI_LYMPHOMA_BY_GC_STAGE_DN(M17811)","GSE29618_PDC_VS_MDC_UP(M4951)","GSE29618_BCELL_VS_MDC_DAY7_FLU_VACCINE_UP(M4961)"],["GO_SENSORY_PERCEPTION_OF_CHEMICAL_STIMULUS(M11231)","MEISSNER_BRAIN_HCP_WITH_H3K27ME3(M1938)","KEGG_OLFACTORY_TRANSDUCTION(M14091)","GO_DETECTION_OF_STIMULUS_INVOLVED_IN_SENSORY_PERCEPTION(M23924)","Chemical carcinogenesis(673221)","REACTOME_OLFACTORY_SIGNALING_PATHWAY(M4072)","Olfactory transduction(83087)","Keratinization(http://identifiers.org/reactome/R-HSA-6805567)","Generic Transcription Pathway(http://identifiers.org/reactome/R-HSA-212436)","GO_OLFACTORY_RECEPTOR_ACTIVITY(M17885)"],["FAN_EMBRYONIC_CTX_BIG_GROUPS_MICROGLIA(M39022)","GSE29618_MONOCYTE_VS_PDC_UP(M4945)","GSE10325_LUPUS_CD4_TCELL_VS_LUPUS_MYELOID_DN(M3088)","GSE22886_NAIVE_CD8_TCELL_VS_MONOCYTE_DN(M4496)","AIZARANI_LIVER_C2_KUPFFER_CELLS_1(M39106)","AIZARANI_LIVER_C25_KUPFFER_CELLS_4(M39126)","MCLACHLAN_DENTAL_CARIES_UP(M10454)","GSE29618_MONOCYTE_VS_MDC_UP(M4948)","GSE22886_NAIVE_TCELL_VS_MONOCYTE_DN(M4480)","GSE34156_TLR1_TLR2_LIGAND_VS_NOD2_AND_TLR1_TLR2_LIGAND_24H_TREATED_MONOCYTE_UP(M8676)"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>rank<\/th>\n      <th>k1<\/th>\n      <th>k2<\/th>\n      <th>k3<\/th>\n      <th>k4<\/th>\n      <th>k5<\/th>\n      <th>k6<\/th>\n      <th>k7<\/th>\n      <th>k8<\/th>\n      <th>k9<\/th>\n      <th>k10<\/th>\n      <th>k11<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <ul>
@@ -1059,9 +1086,8 @@ for (k in 1:ncol(gsea_res$pval)){
 }
 
 DT::datatable(data.frame(rank = 1:10, top_pathways_up), rownames = F,
-              caption = &quot;Top 10 pathways enriched at the top of the gene rank list.&quot;)
-
-# Directory of gene analysis result: /project2/xinhe/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized//geneanalysis-Buenrostro2018-k=11-TSS-sum</code></pre>
+              caption = &quot;Top 10 pathways enriched at the top of the gene rank list.&quot;)</code></pre>
+<pre><code># Directory of gene analysis result: /project2/xinhe/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized//geneanalysis-Buenrostro2018-k=11-TSS-sum</code></pre>
 <div id="htmlwidget-a4360eb23cd55da68672" style="width:100%;height:auto;" class="datatables html-widget"></div>
 <script type="application/json" data-for="htmlwidget-a4360eb23cd55da68672">{"x":{"filter":"none","caption":"<caption>Top 10 pathways enriched at the top of the gene rank list.<\/caption>","data":[[1,2,3,4,5,6,7,8,9,10],["REACTOME_KERATINIZATION(M27640)","GO_KERATINIZATION(M15449)","Keratinization(1457790)","GO_KERATINOCYTE_DIFFERENTIATION(M29131)","Keratinization(http://identifiers.org/reactome/R-HSA-6805567)","GO_EPIDERMAL_CELL_DIFFERENTIATION(M12194)","GO_INTERMEDIATE_FILAMENT_CYTOSKELETON(M17620)","GO_SENSORY_PERCEPTION_OF_CHEMICAL_STIMULUS(M11231)","BLANCO_MELO_COVID19_SARS_COV_2_POS_PATIENT_LUNG_TISSUE_UP(M34028)","REACTOME_FORMATION_OF_THE_CORNIFIED_ENVELOPE(M27649)"],["JAATINEN_HEMATOPOIETIC_STEM_CELL_UP(M15107)","VECCHI_GASTRIC_CANCER_EARLY_DN(M15472)","GSE9509_LPS_VS_LPS_AND_IL10_STIM_IL10_KO_MACROPHAGE_20MIN_UP(M6899)","MANNO_MIDBRAIN_NEUROTYPES_HRGL1(M39057)","LAKE_ADULT_KIDNEY_C15_CONNECTING_TUBULE(M39234)","LAKE_ADULT_KIDNEY_C20_COLLECTING_DUCT_INTERCALATED_CELLS_TYPE_A_CORTEX(M39239)","HAY_BONE_MARROW_CD34_POS_HSC(M39182)","WANG_SMARCE1_TARGETS_UP(M1804)","TORCHIA_TARGETS_OF_EWSR1_FLI1_FUSION_DN(M2351)","TAKEDA_TARGETS_OF_NUP98_HOXA9_FUSION_6HR_UP(M18559)"],["PGM3_TARGET_GENES(M34464)","chr17p13(M9760)","chr16p13(M9048)","MORF_RAN(M17615)","MORF_UBE2I(M10939)","GINESTIER_BREAST_CANCER_ZNF217_AMPLIFIED_DN(M17094)","NRF1_Q6(M2907)","GSE9006_TYPE_1_VS_TYPE_2_DIABETES_PBMC_AT_DX_UP(M5797)","MORF_CSNK2B(M18002)","chr1p36(M19292)"],["GO_SENSORY_PERCEPTION_OF_CHEMICAL_STIMULUS(M11231)","GO_DETECTION_OF_STIMULUS_INVOLVED_IN_SENSORY_PERCEPTION(M23924)","KEGG_OLFACTORY_TRANSDUCTION(M14091)","Olfactory transduction(83087)","Keratinization(http://identifiers.org/reactome/R-HSA-6805567)","GO_KERATINIZATION(M15449)","GO_SENSORY_PERCEPTION_OF_SMELL(M22538)","Olfactory Signaling Pathway(http://identifiers.org/reactome/R-HSA-381753)","REACTOME_OLFACTORY_SIGNALING_PATHWAY(M4072)","Olfactory Signaling Pathway(1269583)"],["HAY_BONE_MARROW_DENDRITIC_CELL(M39194)","GSE29618_PDC_VS_MDC_UP(M4951)","MAML1_TARGET_GENES(M30054)","GAO_LARGE_INTESTINE_ADULT_CI_MESENCHYMAL_CELLS(M39166)","GAO_LARGE_INTESTINE_24W_C11_PANETH_LIKE_CELL(M39160)","RYAN_MANTLE_CELL_LYMPHOMA_NOTCH_DIRECT_UP(M39016)","GSE29618_MONOCYTE_VS_PDC_DN(M4946)","GSE29618_PDC_VS_MDC_DAY7_FLU_VACCINE_UP(M4970)","GSE29618_MONOCYTE_VS_PDC_DAY7_FLU_VACCINE_DN(M4964)","GSE29618_BCELL_VS_PDC_DN(M4942)"],["chr9q34(M2896)","chr16p13(M9048)","chr1p36(M19292)","chr17q21(M8783)","NIKOLSKY_BREAST_CANCER_16P13_AMPLICON(M1788)","chr17p13(M9760)","chr17q25(M8281)","chr14q32(M16134)","MIR3960_MIR8072(M32677)","MIKKELSEN_NPC_HCP_WITH_H3K27ME3(M2009)"],["MODULE_46(M15983)","chr14q32(M16134)","MODULE_75(M12401)","GSE11057_PBMC_VS_MEM_CD4_TCELL_UP(M3120)","GO_DETECTION_OF_STIMULUS_INVOLVED_IN_SENSORY_PERCEPTION(M23924)","REACTOME_CLASS_A_1_RHODOPSIN_LIKE_RECEPTORS_(M18334)","GO_SENSORY_PERCEPTION_OF_CHEMICAL_STIMULUS(M11231)","Olfactory Signaling Pathway(1269583)","Olfactory Signaling Pathway(http://identifiers.org/reactome/R-HSA-381753)","GO_OLFACTORY_RECEPTOR_ACTIVITY(M17885)"],["AIZARANI_LIVER_C10_MVECS_1(M39114)","AIZARANI_LIVER_C29_MVECS_2(M39128)","Keratinization(1457790)","VECCHI_GASTRIC_CANCER_EARLY_DN(M15472)","KRAS.600_UP.V1_UP(M2882)","AIZARANI_LIVER_C13_LSECS_2(M39117)","BLANCO_MELO_BETA_INTERFERON_TREATED_BRONCHIAL_EPITHELIAL_CELLS_UP(M34022)","SCHUETZ_BREAST_CANCER_DUCTAL_INVASIVE_UP(M17471)","AIZARANI_LIVER_C9_LSECS_1(M39113)","REACTOME_KERATINIZATION(M27640)"],["HADDAD_B_LYMPHOCYTE_PROGENITOR(M939)","GSE9509_LPS_VS_LPS_AND_IL10_STIM_IL10_KO_MACROPHAGE_30MIN_DN(M6903)","HAY_BONE_MARROW_CD34_POS_PRE_PC(M39191)","MIR8063(M30640)","JAATINEN_HEMATOPOIETIC_STEM_CELL_UP(M15107)","TAKEDA_TARGETS_OF_NUP98_HOXA9_FUSION_10D_UP(M13479)","MAML1_TARGET_GENES(M30054)","MIR548L(M30634)","ACEVEDO_LIVER_CANCER_WITH_H3K27ME3_UP(M11616)","GSE9509_10MIN_VS_30MIN_LPS_STIM_IL10_KO_MACROPHAGE_DN(M6908)"],["GO_SENSORY_PERCEPTION_OF_CHEMICAL_STIMULUS(M11231)","GO_SENSORY_PERCEPTION_OF_SMELL(M22538)","GO_OLFACTORY_RECEPTOR_ACTIVITY(M17885)","Olfactory Signaling Pathway(1269583)","Olfactory Signaling Pathway(http://identifiers.org/reactome/R-HSA-381753)","GO_DETECTION_OF_STIMULUS_INVOLVED_IN_SENSORY_PERCEPTION(M23924)","KEGG_OLFACTORY_TRANSDUCTION(M14091)","Olfactory transduction(83087)","REACTOME_OLFACTORY_SIGNALING_PATHWAY(M4072)","Generic Transcription Pathway(http://identifiers.org/reactome/R-HSA-212436)"],["AIZARANI_LIVER_C23_KUPFFER_CELLS_3(M39124)","HU_FETAL_RETINA_MICROGLIA(M39266)","GAO_LARGE_INTESTINE_24W_C11_PANETH_LIKE_CELL(M39160)","CUI_DEVELOPING_HEART_C8_MACROPHAGE(M39305)","GSE29618_MONOCYTE_VS_PDC_UP(M4945)","GSE22886_NAIVE_CD8_TCELL_VS_MONOCYTE_DN(M4496)","FAN_EMBRYONIC_CTX_BIG_GROUPS_MICROGLIA(M39022)","GSE10325_LUPUS_CD4_TCELL_VS_LUPUS_MYELOID_DN(M3088)","GSE29618_MONOCYTE_VS_MDC_DAY7_FLU_VACCINE_UP(M4966)","MCLACHLAN_DENTAL_CARIES_UP(M10454)"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>rank<\/th>\n      <th>k1<\/th>\n      <th>k2<\/th>\n      <th>k3<\/th>\n      <th>k4<\/th>\n      <th>k5<\/th>\n      <th>k6<\/th>\n      <th>k7<\/th>\n      <th>k8<\/th>\n      <th>k9<\/th>\n      <th>k10<\/th>\n      <th>k11<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <br>
@@ -1071,8 +1097,8 @@ DT::datatable(data.frame(rank = 1:10, top_pathways_up), rownames = F,
 </button>
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
-<pre class="r"><code>sessionInfo()
-# R version 3.6.1 (2019-07-05)
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code># R version 3.6.1 (2019-07-05)
 # Platform: x86_64-pc-linux-gnu (64-bit)
 # Running under: Scientific Linux 7.4 (Nitrogen)
 # 
