@@ -14,7 +14,7 @@ from the multinomial topic model with $k = 11$.
 We use binarized scPeaks based on chromVAR processed counts with scPeaks (> 1 sample).
 
 ```{r knitr-opts, include=FALSE}
-knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
+knitr::opts_chunk$set(comment = "#",collapse = FALSE,results = "hold",
                       fig.align = "center",dpi = 120)
 ```
 
@@ -50,7 +50,7 @@ fit_multinom <- poisson2multinom(fit)
 ```
 
 ## Visualize by Structure plot grouped by cell labels.
-```{r structure-plot, fig.width=7, fig.height=2.5}
+```{r structure-plot, fig.width=7, fig.height=2.5, message=FALSE}
 set.seed(10)
 colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
                    "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928",
