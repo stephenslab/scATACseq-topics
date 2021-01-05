@@ -127,6 +127,7 @@ run_GREAT <- function(gr,
 #' @param thresh.z Threshold of z-score.
 #' @param thresh.logFC Threshold of logFC.
 #' @param thresh.quantile Threshold of z-score quantile, default = 0.99.
+#' @param N.regions Number of top regions to select.
 #' @param save.bed If TRUE, save selected regions as BED files for downstream analysis.
 select_regions <- function(diff_count_res,
                            method="quantile",
@@ -135,6 +136,7 @@ select_regions <- function(diff_count_res,
                            thresh.z = 20,
                            thresh.logFC = 4,
                            thresh.quantile = 0.99,
+                           N.regions = 2000,
                            save.bed = TRUE) {
 
   selected_regions <- vector("list", length = ncol(diff_count_res$Z))
@@ -157,6 +159,9 @@ select_regions <- function(diff_count_res,
       cat(sprintf("%s: %d regions selected. \n", k, length(idx_regions_sig)))
     }else if(method == "logFC"){
       idx_regions_sig <- which(beta > thresh.logFC)
+      cat(sprintf("%s: %d regions selected. \n", k, length(idx_regions_sig)))
+    }else if(method == "topN"){
+      idx_regions_sig <- head(order(z, decreasing = T), N.regions)
       cat(sprintf("%s: %d regions selected. \n", k, length(idx_regions_sig)))
     }else{
       stop("Method not recognized!")
