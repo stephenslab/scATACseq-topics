@@ -12,7 +12,7 @@ for the Cusanovich *et al* (2018) scATAC-seq result inferred
 from the multinomial topic model with $k = 13$.
 
 ```{r knitr-opts, include=FALSE}
-knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
+knitr::opts_chunk$set(comment = "#",collapse = FALSE,results = "hold",
                       fig.align = "center",dpi = 120)
 ```
 
@@ -44,7 +44,7 @@ fit_multinom <- poisson2multinom(fit)
 ```
 
 ## Visualize by Structure plot grouped by tissues
-```{r structure-plot-tissue, fig.width=7, fig.height=2.5}
+```{r structure-plot-tissue, fig.width=7, fig.height=2.5, message=FALSE}
 set.seed(10)
 colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
                    "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928",
@@ -92,8 +92,8 @@ print(p.hist.zscores)
     - http://homer.ucsd.edu/homer/ngs/peakMotifs.html
 
 * Motif enrichment result using regions with z-score above 99% quantile.
-```{r top-motifs-1}
-homer.dir <- paste0(out.dir, "/motifanalysis-Cusanovich2018-k=13-quantile/HOMER/quantile")
+```{r top-motifs-quantile}
+homer.dir <- paste0(out.dir, "/motifanalysis-Cusanovich2018-k=13-quantile/HOMER/")
 cat(sprintf("Directory of motif analysis result: %s \n", homer.dir))
 homer_res <- readRDS(file.path(homer.dir, "/homer_knownResults.rds"))
 selected_regions <- readRDS(file.path(homer.dir, "/selected_regions.rds"))
@@ -118,8 +118,8 @@ DT::datatable(data.frame(rank = 1:10, top_motifs), rownames = F,
 ```
 
 * Motif enrichment result using regions with zscore > 20.
-```{r top-motifs-2}
-homer.dir <- paste0(out.dir, "/motifanalysis-Cusanovich2018-k=13-zscore/HOMER/zscore")
+```{r top-motifs-zscore}
+homer.dir <- paste0(out.dir, "/motifanalysis-Cusanovich2018-k=13-zscore/HOMER/")
 cat(sprintf("Directory of motif analysis result: %s \n", homer.dir))
 homer_res <- readRDS(file.path(homer.dir, "/homer_knownResults.rds"))
 selected_regions <- readRDS(file.path(homer.dir, "/selected_regions.rds"))
