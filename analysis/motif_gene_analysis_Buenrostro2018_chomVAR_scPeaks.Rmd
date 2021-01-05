@@ -44,8 +44,8 @@ cat(sprintf("%d x %d counts matrix.\n",nrow(counts),ncol(counts)))
 ```
 
 ```{r load-fit}
-out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_chromVAR_scPeaks/binarized/"
-fit <- readRDS(file.path(out.dir, "/fit-Buenrostro2018-binarized-scd-ex-k=11.rds"))$fit
+fit.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_chromVAR_scPeaks/binarized/"
+fit <- readRDS(file.path(fit.dir, "/fit-Buenrostro2018-binarized-scd-ex-k=11.rds"))$fit
 fit_multinom <- poisson2multinom(fit)
 ```
 
@@ -67,6 +67,8 @@ print(p.structure)
 
 ## Differential accessbility analysis of the ATAC-seq regions for the topics
 ```{r diff_count_topics}
+out.dir <- "/project2/xinhe/kevinluo/scATACseq-topics/output/Buenrostro_2018_chromVAR_scPeaks/binarized/"
+
 diffcount_file <- file.path(out.dir, "diffcount-Buenrostro2018-11topics.rds")
 if(file.exists(diffcount_file)){
   cat("Load precomputed differential accessbility statistics.\n")
@@ -108,8 +110,35 @@ print(p.hist.zscores)
     - http://homer.ucsd.edu/homer/ngs/peakMotifs.html
 
 * Motif enrichment result using regions with z-score above 99% quantile.
-```{r top-motifs-1}
-homer.dir <- paste0(out.dir, "/motifanalysis-Buenrostro2018-k=11-quantile/HOMER/quantile")
+```{r top-motifs-quantile}
+homer.dir <- paste0(out.dir, "/motifanalysis-Buenrostro2018-k=11-quantile/HOMER/")
+cat(sprintf("Directory of motif analysis result: %s \n", homer.dir))
+homer_res <- readRDS(file.path(homer.dir, "/homer_knownResults.rds"))
+selected_regions <- readRDS(file.path(homer.dir, "/selected_regions.rds"))
+
+cat("Number of regions selected for each topic: \n")
+print(mapply(nrow, selected_regions[1:(length(selected_regions)-1)]))
+
+top_motifs <- data.frame(matrix(nrow=10, ncol = ncol(diff_count_topics$Z)))
+colnames(top_motifs) <- colnames(diff_count_topics$Z)
+for (k in colnames(top_motifs)){
+  homer_motifs <- homer_res[[k]]
+  colnames(homer_motifs) <- c("Motif.name", "Consensus", "P-value", "Log.P-value", "q-value (Benjamini)", 
+                              "# of Target Sequences with Motif", "% of Target Sequences with Motif",
+                              "# of Background Sequences with Motif", "% of Background Sequences with Motif")
+  homer_motifs <- homer_motifs %>% separate(Motif.name, c("motif", "experiment", "database"), "/")
+  top_motifs[,k] <- head(homer_motifs$motif, 10)
+}
+
+DT::datatable(data.frame(rank = 1:10, top_motifs), rownames = F,
+              caption = "Top 10 motifs enriched in each topic.")
+
+```
+
+
+* Motif enrichment result using regions with top 2000 regions with the highest z-score.
+```{r top-motifs-topN}
+homer.dir <- paste0(out.dir, "/motifanalysis-Buenrostro2018-k=11-topN/HOMER/")
 cat(sprintf("Directory of motif analysis result: %s \n", homer.dir))
 homer_res <- readRDS(file.path(homer.dir, "/homer_knownResults.rds"))
 selected_regions <- readRDS(file.path(homer.dir, "/selected_regions.rds"))
