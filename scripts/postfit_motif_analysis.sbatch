@@ -28,6 +28,8 @@ module load R/3.6.1
 
 # Run the R script.
 echo "Running diffcount_motif_analysis.R"
+mkdir -p ${OUTDIR}
+
 Rscript ~/projects/scATACseq-topics/scripts/diffcount_motif_analysis.R \
   --counts ${DATFILE} --modelfit ${FITFILE} \
   --genome ${GENOME} --selectmethod ${SELECTMETHOD} \

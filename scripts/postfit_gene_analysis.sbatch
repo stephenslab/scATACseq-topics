@@ -32,6 +32,8 @@ module load R/3.6.1
 
 # Run the R script.
 echo "Running diffcount_genescore_gsea.R"
+mkdir -p ${OUTDIR}
+
 Rscript ~/projects/scATACseq-topics/scripts/diffcount_genescore_gsea.R \
   --counts ${DATFILE} --modelfit ${FITFILE} \
   --geneset ${GENESET} --genome ${GENOME} \
