@@ -14,7 +14,7 @@ parser <- OptionParser()
 parser <- add_option(parser,"--counts",type="character",default="counts.RData")
 parser <- add_option(parser,"--modelfit",type = "character",default="fit.rds")
 parser <- add_option(parser,"--genome",type="character",default="hg19")
-parser <- add_option(parser,"--selectmethod",type="character",default="FDR")
+parser <- add_option(parser,"--selectmethod",type="character",default="quantile")
 parser <- add_option(parser,"--homerpath",type="character",default="findMotifsGenome.pl")
 parser <- add_option(parser,"--nc",type = "integer",default = 1)
 parser <- add_option(parser,c("--out","-o"),type="character",default="out")
@@ -86,8 +86,15 @@ rm(counts, samples, fit)
 cat("Select regions. \n")
 homer.dir <- paste0(out.dir, "/HOMER/")
 cat(sprintf("%d regions in total. \n", nrow(diff_count_res$Z)))
-selected_regions <- select_regions(diff_count_res, method=selectmethod, out.dir = homer.dir,
-                                   thresh.z = 20, thresh.logFC = 4, thresh.quantile = 0.99, save.bed = TRUE)
+
+if(selectmethod == "topN") {
+  selected_regions <- select_regions(diff_count_res, method="topN", N.regions = 2000,
+                                     out.dir = homer.dir, save.bed = TRUE)
+}else{
+  selected_regions <- select_regions(diff_count_res, method="quantile", thresh.quantile = 0.99,
+                                     out.dir = homer.dir, save.bed = TRUE)
+}
+
 saveRDS(selected_regions, paste0(homer.dir, "/selected_regions.rds"))
 
 # PERFORM MOTIF ENRICHMENT ANALYSIS USING HOMER
