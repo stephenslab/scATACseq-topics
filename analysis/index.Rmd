@@ -23,8 +23,7 @@ Topic modeling analysis of single-cell ATAC-seq data
 
 * Topic modeling analysis for Buenrostro 2018 single cell ATAC-seq dataset
     - [Process Buenrostro 2018 dataset](process_data_Buenrostro2018.html)
-    - [Assess model fits](assess_fits_Buenrostro2018.html)
-    - [PCA plots of topic proportions](compare_pca_clusters_Buenrostro_2018.html)
+    - [Assess model fits](assess_fits_Buenrostro2018_Chen2019pipeline.html)
     - [Clustering by topic proportions (K=11) with Chen2019 processed data (regions accessible in > 1% samples)](clusters_Buenrostro2018_k11_Chen2019pipeline.html)
     - [Clustering by topic proportions (K=11) with chromVAR processed data (regions accessible in at least 1 sample)](clusters_Buenrostro2018_chomVAR_scPeaks.html)
     - [Clustering by topic proportions (K=11) with chromVAR processed data (regions accessible in > 1% samples)](clusters_Buenrostro2018_chomVAR_scPeaks_filtered.html)
