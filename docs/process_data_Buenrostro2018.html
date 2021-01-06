@@ -12,7 +12,7 @@
 <meta name="author" content="Kaixuan Luo" />
 
 
-<title>Process data for Buenrostro 2018 scATAC-seq dataset</title>
+<title>Process data for Buenrostro et al (2018) scATAC-seq dataset</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -34,6 +34,15 @@ div.section {
   padding-top: 12px;
 }
 </style>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -79,6 +88,7 @@ h6 {
   text-align: left;
 }
 </style>
+
 
 
 
@@ -373,7 +383,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Process data for Buenrostro 2018 scATAC-seq dataset</h1>
+<h1 class="title toc-ignore">Process data for Buenrostro <em>et al</em> (2018) scATAC-seq dataset</h1>
 <h4 class="author">Kaixuan Luo</h4>
 
 </div>
@@ -399,7 +409,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-11-19
+<strong>Last updated:</strong> 2021-01-06
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -435,7 +445,7 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 </div>
 <div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it's best to always run the code in an empty environment.</p>
 </div>
 </div>
 </div>
@@ -447,7 +457,7 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 </div>
 <div id="strongSeedstrongcodesetseed20200729code" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The command <code>set.seed(20200729)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+<p>The command <code>set.seed(20200729)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
 </div>
 </div>
 </div>
@@ -490,16 +500,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree4b7d5faa1e1b0bd86ed0a6df22240335b52aa845targetblank4b7d5faa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/4b7d5faa1e1b0bd86ed0a6df22240335b52aa845" target="_blank">4b7d5fa</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree97c421dcd6a971b87fad64ea010e9032c892af76targetblank97c421da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/97c421dcd6a971b87fad64ea010e9032c892af76" target="_blank">97c421d</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree4b7d5faa1e1b0bd86ed0a6df22240335b52aa845targetblank4b7d5faa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree97c421dcd6a971b87fad64ea010e9032c892af76targetblank97c421da" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/4b7d5faa1e1b0bd86ed0a6df22240335b52aa845" target="_blank">4b7d5fa</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/97c421dcd6a971b87fad64ea010e9032c892af76" target="_blank">97c421d</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -510,17 +520,22 @@ Ignored files:
     Ignored:    .Rproj.user/
 
 Untracked files:
-    Untracked:  analysis/clusters_pca_structure_Cusanovich2018.Rmd
+    Untracked:  analysis/diff_count_Buenrostro2018_chomVAR_scPeaks.Rmd
     Untracked:  analysis/process_data_Buenrostro2018_Chen2019.Rmd
-    Untracked:  buenrostro2018.RData
+    Untracked:  analysis/single_cell_rnaseq_demo.Rmd
+    Untracked:  output/clustering-Cusanovich2018.rds
+    Untracked:  scripts/fit_all_models_Buenrostro_2018_chromVar_scPeaks_filtered.sbatch
 
 Unstaged changes:
+    Modified:   analysis/cisTopic_Buenrostro2018_chomVAR_scPeaks.Rmd
     Modified:   analysis/plots_Lareau2019_bonemarrow.Rmd
     Modified:   scripts/fit_all_models_Buenrostro_2018.sbatch
+    Modified:   scripts/fit_cisTopic_Buenrostro_2018_chromVAR_scPeaks.sh
+    Modified:   scripts/postfit_Buenrostro2018.sh
 
 </code></pre>
 <p>
-Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
 </p>
 </div>
 </div>
@@ -531,7 +546,7 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <div id="versions" class="tab-pane fade">
 
 <p>
-These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/process_data_Buenrostro2018.Rmd</code>) and HTML (<code>docs/process_data_Buenrostro2018.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/process_data_Buenrostro2018.Rmd</code>) and HTML (<code>docs/process_data_Buenrostro2018.html</code>) files. If you've configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
 </p>
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
@@ -555,6 +570,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/97c421dcd6a971b87fad64ea010e9032c892af76/analysis/process_data_Buenrostro2018.Rmd" target="_blank">97c421d</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-01-06
+</td>
+<td>
+put all four data processing options together
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/694fd3b6a6d4cd50b0b97af5f6f99b3252cb155f/docs/process_data_Buenrostro2018.html" target="_blank">694fd3b</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-11-19
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -654,7 +703,7 @@ kevinlkx
 2020-11-10
 </td>
 <td>
-wflow_rename(“analysis/process_data_Buenrostro2018.Rmd”, “analysis/process_data_Buenrostro2018_Chen2019pipeline.Rmd”)
+wflow_rename(&quot;analysis/process_data_Buenrostro2018.Rmd&quot;, &quot;analysis/process_data_Buenrostro2018_Chen2019pipeline.Rmd&quot;)
 </td>
 </tr>
 <tr>
@@ -671,7 +720,7 @@ kevinlkx
 2020-11-10
 </td>
 <td>
-wflow_rename(“analysis/process_data_Buenrostro2018.Rmd”, “analysis/process_data_Buenrostro2018_Chen2019pipeline.Rmd”)
+wflow_rename(&quot;analysis/process_data_Buenrostro2018.Rmd&quot;, &quot;analysis/process_data_Buenrostro2018_Chen2019pipeline.Rmd&quot;)
 </td>
 </tr>
 <tr>
@@ -786,14 +835,23 @@ process data from Buenrostro 2018 paper
 <div id="about-buenrostro-2018-dataset" class="section level2">
 <h2>About Buenrostro 2018 dataset</h2>
 <p>Reference: Buenrostro, J. D. et al. Integrated Single-Cell Analysis Maps the Continuous Regulatory Landscape of Human Hematopoietic Differentiation. Cell 173, 1535–1548.e16 (2018).</p>
-<p>Data were downloaded from GEO: <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE96772">GSE96772</a></p>
-<p>RCC directory: <code>/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/</code></p>
+<p>Data were downloaded from GEO: <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE96772">GSE96772</a> More details about the samples: <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2540299" class="uri">https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2540299</a> RCC directory: <code>/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/</code></p>
 </div>
 <div id="prepare-data-for-topic-modeling" class="section level2">
 <h2>Prepare data for topic modeling</h2>
-<div id="using-peaks-called-from-bulk-atac-seq-samples" class="section level3">
-<h3>Using peaks called from bulk ATAC-seq samples</h3>
-<p>The Buenrostro et al paper called ATAC-seq peaks from the bulk ATAC-seq samples. Downloaded scATAC-seq processed data from GEO: <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE96769">GSE96769</a></p>
+<p>Here we tried four different options to process the scATAC-seq data.</p>
+<p>In option 1, we used the processed counts and peaks from Buenrostro <em>et al</em> (2018) paper. However, the ATAC-seq peaks were defined using the bulk ATAC-seq samples. This may not be ideal as this approach may miss cell-type specific peaks that do not pass the peak calling threshold using all the bulk ATAC-seq samples. Thus, we did not use this option in our topic modeling of the dataset.</p>
+<p>In option 2-4, we obtained the processed counts using the BAM reads and peaks from aggregated single cell ATAC-seq data. The processed peaks and BAM files were downloaded from <a href="https://github.com/pinellolab/scATAC-benchmarking/">scATAC-benchmarking website from Chen <em>et al</em></a></p>
+<p>Reference: Chen, H. et al. Assessment of computational methods for the analysis of single-cell ATAC-seq data. Genome Biol. 20, 241 (2019).</p>
+<p>In option 2, we used the read count processing pipeline from Chen <em>et al</em> (2019), which uses <code>bedtools</code> to count reads in peaks. But it seems they did not consider the paired-end reads from the ATAC-seq data, i.e. they treated the paired-end reads as independent reads. This would bias the actual read counts, but should not affect the binarized counts (which we used in our topic modeling). The count processing pipeline from Chen <em>et al</em> (2019) also filtered peaks by requring peaks to be accessbile in at least 1% samples.</p>
+<p>In option 3 and 4, we used <code>chromVAR</code> to count the reads in peaks, which considers the paired-end reads. In option 4, we further filtered the peaks by requring peaks to be accessbile in at least 1% samples. This filtering was also done using <code>chormVAR</code>.</p>
+<div id="option-1.-using-peaks-called-from-bulk-atac-seq-samples" class="section level3">
+<h3>Option 1. Using peaks called from bulk ATAC-seq samples</h3>
+<p>The Buenrostro <em>et al</em> (2018) paper called ATAC-seq peaks from the bulk ATAC-seq samples.</p>
+<blockquote>
+<p>Using the previously described approach (Corces et al., 2016), we defined a peak list using all bulk hematopoietic data analyzed here, resulting in 491,437 500bp non-overlapping peaks which we use for the remainder of this study.</p>
+</blockquote>
+<p>Downloaded scATAC-seq processed data from GEO: <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE96769">GSE96769</a></p>
 <ul>
 <li>Peaks called from bulk ATAC-seq samples <code>GSE96769_PeakFile_20160207.bed.gz</code></li>
 <li>scATAC-seq sparse count matrix <code>GSE96769_scATACseq_counts.txt.gz</code></li>
@@ -818,14 +876,13 @@ counts &lt;- sparseMatrix(i = dat$i,j = dat$j,x = dat$x)
 counts &lt;- t(counts)
 rownames(counts) &lt;- sample_names
 dim(counts)</code></pre>
-<pre><code>[1]   2953 491437</code></pre>
-<p>peaks</p>
+<p>peaks (from bulk ATAC-seq)</p>
 <pre class="r"><code>peaks &lt;- fread(&quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/GEO_data/GSE96769_PeakFile_20160207.bed.gz&quot;)
 peak_names &lt;- paste(peaks$V1,peaks$V2,peaks$V3,sep = &quot;_&quot;)
 rownames(peaks) &lt;- peak_names
-cat(sprintf(&quot;Number of peaks: %d\n&quot;,nrow(peaks)))</code></pre>
-<pre><code>Number of peaks: 491437</code></pre>
-<pre class="r"><code>colnames(counts) &lt;- peak_names</code></pre>
+cat(sprintf(&quot;Number of peaks: %d\n&quot;,nrow(peaks)))
+
+colnames(counts) &lt;- peak_names</code></pre>
 <p>Plot the distribution of fragment counts.</p>
 <pre class="r"><code>y &lt;- table(summary(counts)$x)
 x &lt;- names(y)
@@ -834,46 +891,15 @@ plot(x,y,pch = 20,log = &quot;y&quot;,cex = 0.65,
      xlab = &quot;number of fragments mapping to peak&quot;,
      ylab = &quot;number of peaks&quot;)
 lines(x,y)</code></pre>
-<p><img src="figure/process_data_Buenrostro2018.Rmd/plot-distribution-1-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-distribution-1-1">
-Past versions of plot-distribution-1-1.png
-</button>
-</p>
-<div id="fig-plot-distribution-1-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/594fd86c6639a42167492e74bc21802c3fe1eb06/docs/figure/process_data_Buenrostro2018.Rmd/plot-distribution-1-1.png" target="_blank">594fd86</a>
-</td>
-<td>
-kevinlkx
-</td>
-<td>
-2020-11-10
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
 <p>The supplementary Table S1 provides more details about these samples. <a href="https://ars.els-cdn.com/content/image/1-s2.0-S009286741830446X-mmc1.xlsx" class="uri">https://ars.els-cdn.com/content/image/1-s2.0-S009286741830446X-mmc1.xlsx</a></p>
-<p>Use the metadata.tsv from Chen et al. Genome Biology 2019 paper <a href="https://github.com/pinellolab/scATAC-benchmarking/tree/master/Real_Data/Buenrostro_2018/input/metadata.tsv" class="uri">https://github.com/pinellolab/scATAC-benchmarking/tree/master/Real_Data/Buenrostro_2018/input/metadata.tsv</a>)</p>
+<p>Select the 2,034 samples (cells) passing quality filtering</p>
+<blockquote>
+<p>Single-cell profiles were of consistent high-quality with 2,034 cells passing stringent quality filtering, yielding a median of 8,268 fragments per cell with 76% of those fragments mapping to peaks, resulting in a median of 6,442 fragments in peaks per cell (figure 1E).</p>
+</blockquote>
+<blockquote>
+<p>Single-cells were filtered for quality requiring at least 60% of fragments in peaks and requiring greater than 1,000 fragments passing quality filters, quality filters are previously described (Corces et al., 2016) which includes removal of mitochondrial reads and low alignment quality (Q30).</p>
+</blockquote>
+<p>The 2,034 samples (pass filter) were included in the <code>metadata.tsv</code> file on the scATAC-benchmarking website from Chen <em>et al</em>.</p>
 <pre class="r"><code>samples_filtered &lt;- read.table(&#39;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/input_Chen_2019/metadata.tsv&#39;, header = TRUE, stringsAsFactors=FALSE, quote=&quot;&quot;,row.names=1)
 samples_filtered$name &lt;- rownames(samples_filtered)
 
@@ -882,13 +908,11 @@ sample_names_filtered &lt;- sample_names[idx_samples_filtered]
 counts &lt;- counts[idx_samples_filtered,]
 samples &lt;- samples_filtered[,c(&quot;name&quot;, &quot;label&quot;)]
 dim(counts)</code></pre>
-<pre><code>[1]   2034 491437</code></pre>
 <p>Remove peaks not exist in any of the cells</p>
 <pre class="r"><code>j &lt;- which(colSums(counts &gt; 0) &gt;= 1)
 peaks &lt;- peaks[j,]
 counts &lt;- counts[,j]
 cat(length(j), &quot;peaks after filtering.  \n&quot;)</code></pre>
-<pre><code>465536 peaks after filtering.  </code></pre>
 <p>Plot the distribution of filtered fragment counts.</p>
 <pre class="r"><code>y &lt;- table(summary(counts)$x)
 x &lt;- names(y)
@@ -897,50 +921,12 @@ plot(x,y,pch = 20,log = &quot;y&quot;,cex = 0.65,
      xlab = &quot;number of fragments mapping to peak&quot;,
      ylab = &quot;number of peaks&quot;)
 lines(x,y)</code></pre>
-<p><img src="figure/process_data_Buenrostro2018.Rmd/plot-distribution-2-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-distribution-2-1">
-Past versions of plot-distribution-2-1.png
-</button>
-</p>
-<div id="fig-plot-distribution-2-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/594fd86c6639a42167492e74bc21802c3fe1eb06/docs/figure/process_data_Buenrostro2018.Rmd/plot-distribution-2-1.png" target="_blank">594fd86</a>
-</td>
-<td>
-kevinlkx
-</td>
-<td>
-2020-11-10
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
 <p>Binarize counts</p>
 <pre class="r"><code>binarized_counts &lt;- as.matrix((counts &gt; 0) + 0)
 binarized_counts &lt;- Matrix(binarized_counts, sparse = TRUE) 
 
 dim(binarized_counts)</code></pre>
-<pre><code>[1]   2034 465536</code></pre>
+<p>Save processed data</p>
 <pre class="r"><code>data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/&quot;
 dir.create(data.dir, showWarnings = FALSE, recursive = TRUE)
 
@@ -955,246 +941,107 @@ save(list = c(&quot;samples&quot;, &quot;peaks&quot;, &quot;counts&quot;),
      file = file.path(data.dir, &quot;Buenrostro_2018_binarized.RData&quot;))</code></pre>
 <pre class="r"><code>data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/&quot;
 load(file.path(data.dir, &quot;Buenrostro_2018.RData&quot;))
-cat(sprintf(&quot;Loaded %d x %d counts matrix.\n&quot;,nrow(counts),ncol(counts)))</code></pre>
-<pre><code>Loaded 2034 x 465536 counts matrix.</code></pre>
-<pre class="r"><code>cat(sprintf(&quot;Number of samples (cells): %d\n&quot;,nrow(counts)))</code></pre>
-<pre><code>Number of samples (cells): 2034</code></pre>
-<pre class="r"><code>cat(sprintf(&quot;Number of peaks: %d\n&quot;,ncol(counts)))</code></pre>
-<pre><code>Number of peaks: 465536</code></pre>
-<pre class="r"><code>cat(sprintf(&quot;Proportion of counts that are non-zero: %0.1f%%.\n&quot;,
+cat(sprintf(&quot;Loaded %d x %d counts matrix.\n&quot;,nrow(counts),ncol(counts)))
+
+cat(sprintf(&quot;Number of samples (cells): %d\n&quot;,nrow(counts)))
+cat(sprintf(&quot;Number of peaks: %d\n&quot;,ncol(counts)))
+cat(sprintf(&quot;Proportion of counts that are non-zero: %0.1f%%.\n&quot;,
             100*mean(counts &gt; 0)))</code></pre>
-<pre><code>Proportion of counts that are non-zero: 1.5%.</code></pre>
 </div>
-<div id="using-peaks-called-from-aggregated-single-cell-atac-seq-data-processed-by-chen-et-al.-genome-biology-2019" class="section level3">
-<h3>Using peaks called from aggregated single-cell ATAC-seq data processed by Chen et al. Genome Biology 2019</h3>
+<div id="option-2.-using-the-single-cell-atac-seq-data-processing-pipeline-adapted-from-chen-et-al-2019" class="section level3">
+<h3>Option 2. Using the single-cell ATAC-seq data processing pipeline adapted from Chen <em>et al</em> (2019)</h3>
 <ul>
-<li>Downloaded processed peaks and BAM files from the scATAC-benchmarking website (Chen et al. Genome Biology 2019) (<a href="https://github.com/pinellolab/scATAC-benchmarking/" class="uri">https://github.com/pinellolab/scATAC-benchmarking/</a>)</li>
-<li>Count paired-end scATAC-seq reads in peaks using <code>chromVAR</code>, following the pipeline at <a href="https://nbviewer.jupyter.org/github/pinellolab/scATAC-benchmarking/blob/master/Real_Data/Buenrostro_2018/run_methods/chromVAR/chromVAR_buenrostro2018_motifs.ipynb?flush_cache=true" class="uri">https://nbviewer.jupyter.org/github/pinellolab/scATAC-benchmarking/blob/master/Real_Data/Buenrostro_2018/run_methods/chromVAR/chromVAR_buenrostro2018_motifs.ipynb?flush_cache=true</a></li>
+<li><p>Processed peaks (from aggregated single cell ATAC-seq data) and BAM files were downloaded from the scATAC-benchmarking website (Chen <em>et al</em> 2019) (<a href="https://github.com/pinellolab/scATAC-benchmarking/" class="uri">https://github.com/pinellolab/scATAC-benchmarking/</a>)</p></li>
+<li><p>Process counts using <a href="https://github.com/pinellolab/scATAC-benchmarking/blob/master/Real_Data/Buenrostro_2018/run_methods/Control/Control_buenrostro2018.ipynb">Chen <em>et al</em> pipeline</a></p></li>
 </ul>
-<p>Load chromVAR and related packages</p>
-<pre class="r"><code># if (!requireNamespace(&quot;BiocManager&quot;, quietly = TRUE))
-#     install.packages(&quot;BiocManager&quot;)
-# BiocManager::install(&quot;chromVAR&quot;)
-# BiocManager::install(&quot;motifmatchr&quot;)
-# BiocManager::install(&quot;BSgenome.Hsapiens.UCSC.hg19&quot;)
-# BiocManager::install(&quot;JASPAR2016&quot;)</code></pre>
-<pre class="r"><code>library(chromVAR)</code></pre>
-<pre><code></code></pre>
-<pre class="r"><code>library(motifmatchr)
-library(Matrix)
-library(SummarizedExperiment)</code></pre>
-<pre><code>Loading required package: GenomicRanges</code></pre>
-<pre><code>Loading required package: stats4</code></pre>
-<pre><code>Loading required package: BiocGenerics</code></pre>
-<pre><code>Loading required package: parallel</code></pre>
-<pre><code>
-Attaching package: &#39;BiocGenerics&#39;</code></pre>
-<pre><code>The following objects are masked from &#39;package:parallel&#39;:
+<pre class="r"><code>library(Matrix)
+library(tools)
+library(readr)
+library(data.table)</code></pre>
+<p>count scATAC-seq reads in peaks</p>
+<pre class="bash"><code>sbatch ~/projects/scATACseq-topics/scripts/count_reads_peaks_Buenrostro_2018.sbatch</code></pre>
+<p>combine counts from all samples</p>
+<pre class="r"><code>dir_readcount_output &lt;- &#39;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/count_reads_peaks_output/&#39;
+files &lt;- list.files(dir_readcount_output, pattern = &quot;\\.txt$&quot;)
+sample_names &lt;- sapply(strsplit(files,&#39;\\.&#39;),&#39;[&#39;, 1)
+cat(length(sample_names), &quot;samples. \n&quot;)</code></pre>
+<pre class="r"><code>datalist &lt;- lapply(files, function(x)fread(file.path(dir_readcount_output,x))$V4)
+counts &lt;- do.call(&quot;cbind&quot;, datalist)</code></pre>
+<pre class="r"><code>data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/&quot;
+dir.create(data.dir, showWarnings = FALSE, recursive = TRUE)
 
-    clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
-    clusterExport, clusterMap, parApply, parCapply, parLapply,
-    parLapplyLB, parRapply, parSapply, parSapplyLB</code></pre>
-<pre><code>The following object is masked from &#39;package:Matrix&#39;:
+# saveRDS(counts, file.path(data.dir, &quot;raw_counts_Buenrostro_2018.rds&quot;))
+counts &lt;- readRDS(file.path(data.dir, &quot;raw_counts_Buenrostro_2018.rds&quot;))</code></pre>
+<p>Peaks</p>
+<pre class="r"><code>peaks &lt;- read.csv(&quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/input_Chen_2019/combined.sorted.merged.bed&quot;,
+                      sep = &#39;\t&#39;,header=FALSE,stringsAsFactors=FALSE)
+peaknames &lt;- paste(peaks$V1,peaks$V2,peaks$V3,sep = &quot;_&quot;)
+rownames(peaks) &lt;- peaknames
+cat(sprintf(&quot;Number of peaks: %d\n&quot;,nrow(peaks)))
 
-    which</code></pre>
-<pre><code>The following objects are masked from &#39;package:stats&#39;:
+head(peaknames)
 
-    IQR, mad, sd, var, xtabs</code></pre>
-<pre><code>The following objects are masked from &#39;package:base&#39;:
+colnames(counts) &lt;- sample_names
+rownames(counts) &lt;- peaknames
 
-    anyDuplicated, append, as.data.frame, basename, cbind, colnames,
-    dirname, do.call, duplicated, eval, evalq, Filter, Find, get, grep,
-    grepl, intersect, is.unsorted, lapply, Map, mapply, match, mget,
-    order, paste, pmax, pmax.int, pmin, pmin.int, Position, rank,
-    rbind, Reduce, rownames, sapply, setdiff, sort, table, tapply,
-    union, unique, unsplit, which, which.max, which.min</code></pre>
-<pre><code>Loading required package: S4Vectors</code></pre>
-<pre><code>
-Attaching package: &#39;S4Vectors&#39;</code></pre>
-<pre><code>The following objects are masked from &#39;package:data.table&#39;:
+dim(counts)</code></pre>
+<p>Samples metadata</p>
+<pre class="r"><code>samples &lt;- read.table(&#39;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/input_Chen_2019/metadata.tsv&#39;, header = TRUE, stringsAsFactors=FALSE, quote=&quot;&quot;,row.names=1)
 
-    first, second</code></pre>
-<pre><code>The following object is masked from &#39;package:Matrix&#39;:
+head(samples)</code></pre>
+<p>Filter peaks (filter out peaks with counts in &lt; 1% samples)</p>
+<pre class="r"><code># adapted from Chen et al. Genome Biology 2019 paper https://github.com/pinellolab/scATAC-benchmarking/blob/master/Real_Data/Buenrostro_2018/run_methods/Control/Control_buenrostro2018.ipynb
+# filter peaks with counts in at least 1% samples
+filter_peaks &lt;- function (datafr,cutoff = 0.01){
+    binary_mat = as.matrix((datafr &gt; 0) + 0)
+    binary_mat = Matrix(binary_mat, sparse = TRUE) 
+    num_cells_ncounted = Matrix::rowSums(binary_mat)
+    ncounts = binary_mat[num_cells_ncounted &gt;= dim(binary_mat)[2]*cutoff,]
+    ncounts = ncounts[rowSums(ncounts) &gt; 0,] 
+    
+    options(repr.plot.width=4, repr.plot.height=4)
+    hist(log10(num_cells_ncounted),main=&quot;No. of Cells Each Site is Observed In&quot;,breaks=50)
+    abline(v=log10(min(num_cells_ncounted[num_cells_ncounted &gt;= dim(binary_mat)[2]*cutoff])),lwd=2,col=&quot;indianred&quot;)
+#     hist(log10(new_counts),main=&quot;Number of Sites Each Cell Uses&quot;,breaks=50)
+    peaks_selected = rownames(ncounts)
+    return(peaks_selected)
+}</code></pre>
+<pre class="r"><code>peaks_selected &lt;- filter_peaks(counts)
+counts &lt;- counts[peaks_selected,]
+peaks &lt;- peaks[peaks_selected, ]
 
-    expand</code></pre>
-<pre><code>The following object is masked from &#39;package:base&#39;:
-
-    expand.grid</code></pre>
-<pre><code>Loading required package: IRanges</code></pre>
-<pre><code>
-Attaching package: &#39;IRanges&#39;</code></pre>
-<pre><code>The following object is masked from &#39;package:data.table&#39;:
-
-    shift</code></pre>
-<pre><code>Loading required package: GenomeInfoDb</code></pre>
-<pre><code>Loading required package: Biobase</code></pre>
-<pre><code>Welcome to Bioconductor
-
-    Vignettes contain introductory material; view with
-    &#39;browseVignettes()&#39;. To cite Bioconductor, see
-    &#39;citation(&quot;Biobase&quot;)&#39;, and for packages &#39;citation(&quot;pkgname&quot;)&#39;.</code></pre>
-<pre><code>Loading required package: DelayedArray</code></pre>
-<pre><code>Loading required package: matrixStats</code></pre>
-<pre><code>
-Attaching package: &#39;matrixStats&#39;</code></pre>
-<pre><code>The following objects are masked from &#39;package:Biobase&#39;:
-
-    anyMissing, rowMedians</code></pre>
-<pre><code>Loading required package: BiocParallel</code></pre>
-<pre><code>
-Attaching package: &#39;DelayedArray&#39;</code></pre>
-<pre><code>The following objects are masked from &#39;package:matrixStats&#39;:
-
-    colMaxs, colMins, colRanges, rowMaxs, rowMins, rowRanges</code></pre>
-<pre><code>The following objects are masked from &#39;package:base&#39;:
-
-    aperm, apply, rowsum</code></pre>
-<pre class="r"><code>library(BiocParallel)
-library(&#39;JASPAR2016&#39;)
-library(BSgenome.Hsapiens.UCSC.hg19)</code></pre>
-<pre><code>Loading required package: BSgenome</code></pre>
-<pre><code>Loading required package: Biostrings</code></pre>
-<pre><code>Loading required package: XVector</code></pre>
-<pre><code>
-Attaching package: &#39;Biostrings&#39;</code></pre>
-<pre><code>The following object is masked from &#39;package:DelayedArray&#39;:
-
-    type</code></pre>
-<pre><code>The following object is masked from &#39;package:base&#39;:
-
-    strsplit</code></pre>
-<pre><code>Loading required package: rtracklayer</code></pre>
-<pre class="r"><code>register(MulticoreParam(10))
-
-data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/chromVAR/&quot;
-dir.create(data.dir, showWarnings = FALSE, recursive = TRUE)</code></pre>
-<pre class="r"><code>samples &lt;- read.table(&#39;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/input_Chen_2019/metadata.tsv&#39;, header = TRUE, stringsAsFactors=FALSE, quote=&quot;&quot;,row.names=1)</code></pre>
-<pre class="r"><code>peakfile &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/input_Chen_2019/combined.sorted.merged.bed&quot;
-peaks &lt;- getPeaks(peakfile, sort_peaks = TRUE)</code></pre>
-<pre><code>Warning in getPeaks(peakfile, sort_peaks = TRUE): Peaks are not equal width!Use
-resize(peaks, width = x, fix = &quot;center&quot;) to make peaks equal in size, where x is
-the desired size of the peaks)</code></pre>
-<pre><code>Peaks sorted</code></pre>
-<pre class="r"><code>peaks &lt;- resize(peaks, width = 500, fix = &quot;center&quot;)
-
-cat(length(peaks), &quot;peaks \n&quot;)</code></pre>
-<pre><code>237450 peaks </code></pre>
-<pre class="r"><code>dir_bamfiles &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/input_Chen_2019/sc-bams_nodup/&quot;
-bamfiles &lt;- list.files(path = dir_bamfiles, pattern = &quot;\\.bam$&quot;)
-cellnames &lt;- sapply(strsplit(bamfiles,&#39;.&#39;,fixed = TRUE), &quot;[[&quot;, 1)
-sum(cellnames == rownames(samples))</code></pre>
-<pre><code>[1] 2034</code></pre>
-<p>count scATAC-seq paired-end fragments in the peaks</p>
-<pre class="r"><code>fragment_counts &lt;- getCounts(file.path(dir_bamfiles,bamfile), 
-                             peaks, 
-                             paired = TRUE, 
-                             by_rg = TRUE, 
-                             format = &quot;bam&quot;, 
-                             colData = data.frame(celltype = cellnames))
-
-saveRDS(fragment_counts, file.path(data.dir, &quot;fragment_counts_scPeaks_chromVAR_Buenrostro_2018.rds&quot;))</code></pre>
-<pre class="r"><code>fragment_counts &lt;- readRDS(file.path(data.dir, &quot;fragment_counts_scPeaks_chromVAR_Buenrostro_2018.rds&quot;))
-fragment_counts</code></pre>
-<pre><code>class: RangedSummarizedExperiment 
-dim: 237450 2034 
-metadata(0):
-assays(1): counts
-rownames: NULL
-rowData names(0):
-colnames(2034): BM1077-CLP-Frozen-160106-13 BM1077-CLP-Frozen-160106-14
-  ... singles-PB1022-mono-160128-95 singles-PB1022-mono-160128-96
-colData names(2): celltype depth</code></pre>
-<pre class="r"><code>counts &lt;- assay(fragment_counts)
 counts &lt;- t(counts)
-
-peaks &lt;- as.data.frame(peaks)[,1:3]
-colnames(peaks) &lt;- c(&quot;chr&quot;, &quot;start&quot;, &quot;end&quot;)
-peak_names &lt;- paste(peaks$chr, peaks$start, peaks$end, sep = &quot;_&quot;)
-colnames(counts) &lt;- peak_names</code></pre>
-<p>Filter peaks using <code>filterPeaks</code> in <code>chromVAR</code></p>
-<pre class="r"><code>idx_peaks_filtered &lt;- filterPeaks(fragment_counts, min_fragments_per_peak = 1, non_overlapping = TRUE, ix_return = TRUE)
-peaks &lt;- peaks[idx_peaks_filtered,]
-counts &lt;- counts[,idx_peaks_filtered]
-cat(length(idx_peaks_filtered), &quot;peaks after filtering.  \n&quot;)</code></pre>
-<pre><code>228965 peaks after filtering.  </code></pre>
-<p>Plot the distribution of filtered fragment counts.</p>
-<pre class="r"><code>y &lt;- table(summary(counts)$x)
-x &lt;- names(y)
-y &lt;- as.numeric(y)
-plot(x,y,pch = 20,log = &quot;y&quot;,cex = 0.65,
-     xlab = &quot;number of fragments mapping to peak&quot;,
-     ylab = &quot;number of peaks&quot;)
-lines(x,y)</code></pre>
-<p><img src="figure/process_data_Buenrostro2018.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-12-1">
-Past versions of unnamed-chunk-12-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-12-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/d5b411d2d0713a8d7ce10e76cde7d22316c16eb9/docs/figure/process_data_Buenrostro2018.Rmd/unnamed-chunk-12-1.png" target="_blank">d5b411d</a>
-</td>
-<td>
-kevinlkx
-</td>
-<td>
-2020-11-18
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+counts &lt;- Matrix(counts, sparse = TRUE) 
+dim(counts)</code></pre>
 <p>Binarize counts</p>
 <pre class="r"><code>binarized_counts &lt;- as.matrix((counts &gt; 0) + 0)
 binarized_counts &lt;- Matrix(binarized_counts, sparse = TRUE) 
+
 dim(binarized_counts)</code></pre>
-<pre><code>[1]   2034 228965</code></pre>
-<pre class="r"><code>saveRDS(counts, file.path(data.dir, &quot;counts_scPeaks_Buenrostro_2018.rds&quot;))
-saveRDS(binarized_counts, file.path(data.dir, &quot;binarized_counts_scPeaks_Buenrostro_2018.rds&quot;))
+<p>Save processed data</p>
+<pre class="r"><code>saveRDS(counts, file.path(data.dir, &quot;counts_Buenrostro_2018.rds&quot;))
+saveRDS(binarized_counts, file.path(data.dir, &quot;binarized_counts_Buenrostro_2018.rds&quot;))
 
 save(list = c(&quot;samples&quot;, &quot;peaks&quot;, &quot;counts&quot;), 
-     file = file.path(data.dir, &quot;Buenrostro_2018_scPeaks.RData&quot;))
+     file = file.path(data.dir, &quot;Buenrostro_2018_counts.RData&quot;))
 
 counts &lt;- binarized_counts
 save(list = c(&quot;samples&quot;, &quot;peaks&quot;, &quot;counts&quot;), 
-     file = file.path(data.dir, &quot;Buenrostro_2018_binarized_scPeaks.RData&quot;))</code></pre>
-<pre class="r"><code>data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/chromVAR/&quot;
+     file = file.path(data.dir, &quot;Buenrostro_2018_binarized_counts.RData&quot;))</code></pre>
+<pre class="r"><code>data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/&quot;
+load(file.path(data.dir, &quot;Buenrostro_2018_counts.RData&quot;))
+cat(sprintf(&quot;Loaded %d x %d counts matrix.\n&quot;,nrow(counts),ncol(counts)))
 
-load(file.path(data.dir, &quot;Buenrostro_2018_binarized_scPeaks.RData&quot;))
-cat(sprintf(&quot;Loaded %d x %d counts matrix.\n&quot;,nrow(counts),ncol(counts)))</code></pre>
-<pre><code>Loaded 2034 x 228965 counts matrix.</code></pre>
-<pre class="r"><code>cat(sprintf(&quot;Number of samples (cells): %d\n&quot;,nrow(counts)))</code></pre>
-<pre><code>Number of samples (cells): 2034</code></pre>
-<pre class="r"><code>cat(sprintf(&quot;Number of peaks: %d\n&quot;,ncol(counts)))</code></pre>
-<pre><code>Number of peaks: 228965</code></pre>
-<pre class="r"><code>cat(sprintf(&quot;Proportion of counts that are non-zero: %0.1f%%.\n&quot;,
+cat(sprintf(&quot;Number of samples (cells): %d\n&quot;,nrow(counts)))
+cat(sprintf(&quot;Number of peaks: %d\n&quot;,ncol(counts)))
+cat(sprintf(&quot;Proportion of counts that are non-zero: %0.1f%%.\n&quot;,
             100*mean(counts &gt; 0)))</code></pre>
-<pre><code>Proportion of counts that are non-zero: 2.6%.</code></pre>
 </div>
-<div id="using-peaks-called-from-aggregated-single-cell-atac-seq-data-and-filter-peaks-with-less-than-1-samples" class="section level3">
-<h3>Using peaks called from aggregated single-cell ATAC-seq data and filter peaks with less than 1% samples</h3>
+<div id="option-3.-using-bam-reads-and-peaks-called-from-aggregated-single-cell-atac-seq-data-processed-by-chen-et-al-2019" class="section level3">
+<h3>Option 3. Using BAM reads and peaks called from aggregated single-cell ATAC-seq data processed by Chen <em>et al</em> (2019)</h3>
 <ul>
-<li>Downloaded processed peaks and BAM files from the scATAC-benchmarking website (Chen et al. Genome Biology 2019) (<a href="https://github.com/pinellolab/scATAC-benchmarking/" class="uri">https://github.com/pinellolab/scATAC-benchmarking/</a>)</li>
-<li>Count paired-end scATAC-seq reads in peaks using <code>chromVAR</code>, following the pipeline at <a href="https://nbviewer.jupyter.org/github/pinellolab/scATAC-benchmarking/blob/master/Real_Data/Buenrostro_2018/run_methods/chromVAR/chromVAR_buenrostro2018_motifs.ipynb?flush_cache=true" class="uri">https://nbviewer.jupyter.org/github/pinellolab/scATAC-benchmarking/blob/master/Real_Data/Buenrostro_2018/run_methods/chromVAR/chromVAR_buenrostro2018_motifs.ipynb?flush_cache=true</a></li>
+<li><p>Processed peaks (from aggregated scATAC-seq) and BAM files were downloaded from the scATAC-benchmarking website (Chen <em>et al</em> 2019) (<a href="https://github.com/pinellolab/scATAC-benchmarking/" class="uri">https://github.com/pinellolab/scATAC-benchmarking/</a>)</p></li>
+<li><p>Count paired-end scATAC-seq reads in peaks using <code>chromVAR</code>, following the <a href="https://nbviewer.jupyter.org/github/pinellolab/scATAC-benchmarking/blob/master/Real_Data/Buenrostro_2018/run_methods/chromVAR/chromVAR_buenrostro2018_motifs.ipynb?flush_cache=true">pipeline</a></p></li>
 </ul>
 <p>Load chromVAR and related packages</p>
 <pre class="r"><code># if (!requireNamespace(&quot;BiocManager&quot;, quietly = TRUE))
@@ -1215,22 +1062,106 @@ register(MulticoreParam(10))
 
 data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/chromVAR/&quot;
 dir.create(data.dir, showWarnings = FALSE, recursive = TRUE)</code></pre>
+<p>samples metadata</p>
 <pre class="r"><code>samples &lt;- read.table(&#39;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/input_Chen_2019/metadata.tsv&#39;, header = TRUE, stringsAsFactors=FALSE, quote=&quot;&quot;,row.names=1)</code></pre>
+<p>peaks (from aggregated scATAC-seq)</p>
 <pre class="r"><code>peakfile &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/input_Chen_2019/combined.sorted.merged.bed&quot;
-peaks &lt;- getPeaks(peakfile, sort_peaks = TRUE)</code></pre>
-<pre><code>Warning in getPeaks(peakfile, sort_peaks = TRUE): Peaks are not equal width!Use
-resize(peaks, width = x, fix = &quot;center&quot;) to make peaks equal in size, where x is
-the desired size of the peaks)</code></pre>
-<pre><code>Peaks sorted</code></pre>
-<pre class="r"><code>peaks &lt;- resize(peaks, width = 500, fix = &quot;center&quot;)
+peaks &lt;- getPeaks(peakfile, sort_peaks = TRUE)
+peaks &lt;- resize(peaks, width = 500, fix = &quot;center&quot;)
 
 cat(length(peaks), &quot;peaks \n&quot;)</code></pre>
-<pre><code>237450 peaks </code></pre>
+<p>BAM files of scATAC-seq reads</p>
 <pre class="r"><code>dir_bamfiles &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/input_Chen_2019/sc-bams_nodup/&quot;
 bamfiles &lt;- list.files(path = dir_bamfiles, pattern = &quot;\\.bam$&quot;)
 cellnames &lt;- sapply(strsplit(bamfiles,&#39;.&#39;,fixed = TRUE), &quot;[[&quot;, 1)
 sum(cellnames == rownames(samples))</code></pre>
-<pre><code>[1] 2034</code></pre>
+<p>count scATAC-seq paired-end fragments in the peaks using <code>chromVAR</code></p>
+<pre class="r"><code>fragment_counts &lt;- getCounts(file.path(dir_bamfiles,bamfile), 
+                             peaks, 
+                             paired = TRUE, 
+                             by_rg = TRUE, 
+                             format = &quot;bam&quot;, 
+                             colData = data.frame(celltype = cellnames))
+
+saveRDS(fragment_counts, file.path(data.dir, &quot;fragment_counts_scPeaks_chromVAR_Buenrostro_2018.rds&quot;))</code></pre>
+<pre class="r"><code>fragment_counts &lt;- readRDS(file.path(data.dir, &quot;fragment_counts_scPeaks_chromVAR_Buenrostro_2018.rds&quot;))
+fragment_counts</code></pre>
+<pre class="r"><code>counts &lt;- assay(fragment_counts)
+counts &lt;- t(counts)
+
+peaks &lt;- as.data.frame(peaks)[,1:3]
+colnames(peaks) &lt;- c(&quot;chr&quot;, &quot;start&quot;, &quot;end&quot;)
+peak_names &lt;- paste(peaks$chr, peaks$start, peaks$end, sep = &quot;_&quot;)
+colnames(counts) &lt;- peak_names</code></pre>
+<p>Filter peaks (accessible in at least 1 sample) using <code>filterPeaks</code> in <code>chromVAR</code></p>
+<pre class="r"><code>idx_peaks_filtered &lt;- filterPeaks(fragment_counts, min_fragments_per_peak = 1, non_overlapping = TRUE, ix_return = TRUE)
+peaks &lt;- peaks[idx_peaks_filtered,]
+counts &lt;- counts[,idx_peaks_filtered]
+cat(length(idx_peaks_filtered), &quot;peaks after filtering.  \n&quot;)</code></pre>
+<p>Plot the distribution of filtered fragment counts.</p>
+<pre class="r"><code>y &lt;- table(summary(counts)$x)
+x &lt;- names(y)
+y &lt;- as.numeric(y)
+plot(x,y,pch = 20,log = &quot;y&quot;,cex = 0.65,
+     xlab = &quot;number of fragments mapping to peak&quot;,
+     ylab = &quot;number of peaks&quot;)
+lines(x,y)</code></pre>
+<p>Binarize counts</p>
+<pre class="r"><code>binarized_counts &lt;- as.matrix((counts &gt; 0) + 0)
+binarized_counts &lt;- Matrix(binarized_counts, sparse = TRUE) 
+dim(binarized_counts)</code></pre>
+<p>Save processed data</p>
+<pre class="r"><code>saveRDS(counts, file.path(data.dir, &quot;counts_scPeaks_Buenrostro_2018.rds&quot;))
+saveRDS(binarized_counts, file.path(data.dir, &quot;binarized_counts_scPeaks_Buenrostro_2018.rds&quot;))
+
+save(list = c(&quot;samples&quot;, &quot;peaks&quot;, &quot;counts&quot;), 
+     file = file.path(data.dir, &quot;Buenrostro_2018_scPeaks.RData&quot;))
+
+counts &lt;- binarized_counts
+save(list = c(&quot;samples&quot;, &quot;peaks&quot;, &quot;counts&quot;), 
+     file = file.path(data.dir, &quot;Buenrostro_2018_binarized_scPeaks.RData&quot;))</code></pre>
+<pre class="r"><code>data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/chromVAR/&quot;
+
+load(file.path(data.dir, &quot;Buenrostro_2018_binarized_scPeaks.RData&quot;))
+cat(sprintf(&quot;Loaded %d x %d counts matrix.\n&quot;,nrow(counts),ncol(counts)))
+
+cat(sprintf(&quot;Number of samples (cells): %d\n&quot;,nrow(counts)))
+cat(sprintf(&quot;Number of peaks: %d\n&quot;,ncol(counts)))
+cat(sprintf(&quot;Proportion of counts that are non-zero: %0.1f%%.\n&quot;,
+            100*mean(counts &gt; 0)))</code></pre>
+</div>
+<div id="option-4.-using-bam-reads-and-peaks-called-from-aggregated-single-cell-atac-seq-data-processed-by-chen-et-al-2019-and-filter-peaks-that-are-accessible-in-less-than-1-samples" class="section level3">
+<h3>Option 4. Using BAM reads and peaks called from aggregated single-cell ATAC-seq data processed by Chen <em>et al</em> (2019) and filter peaks that are accessible in less than 1% samples</h3>
+<ul>
+<li><p>Processed peaks (from aggregated scATAC-seq) and BAM files were downloaded from the scATAC-benchmarking website (Chen <em>et al</em> 2019) (<a href="https://github.com/pinellolab/scATAC-benchmarking/" class="uri">https://github.com/pinellolab/scATAC-benchmarking/</a>)</p></li>
+<li><p>Count paired-end scATAC-seq reads in peaks using <code>chromVAR</code>, following the <a href="https://nbviewer.jupyter.org/github/pinellolab/scATAC-benchmarking/blob/master/Real_Data/Buenrostro_2018/run_methods/chromVAR/chromVAR_buenrostro2018_motifs.ipynb?flush_cache=true">pipeline</a></p></li>
+</ul>
+<p>Load chromVAR and related packages</p>
+<pre class="r"><code>library(chromVAR)
+library(motifmatchr)
+library(Matrix)
+library(SummarizedExperiment)
+library(BiocParallel)
+library(&#39;JASPAR2016&#39;)
+library(BSgenome.Hsapiens.UCSC.hg19)
+
+register(MulticoreParam(10))
+
+data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/chromVAR/&quot;
+dir.create(data.dir, showWarnings = FALSE, recursive = TRUE)</code></pre>
+<p>samples metadata</p>
+<pre class="r"><code>samples &lt;- read.table(&#39;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/input_Chen_2019/metadata.tsv&#39;, header = TRUE, stringsAsFactors=FALSE, quote=&quot;&quot;,row.names=1)</code></pre>
+<p>peaks (from aggregated scATAC-seq)</p>
+<pre class="r"><code>peakfile &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/input_Chen_2019/combined.sorted.merged.bed&quot;
+peaks &lt;- getPeaks(peakfile, sort_peaks = TRUE)
+peaks &lt;- resize(peaks, width = 500, fix = &quot;center&quot;)
+
+cat(length(peaks), &quot;peaks \n&quot;)</code></pre>
+<p>BAM reads</p>
+<pre class="r"><code>dir_bamfiles &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/input_Chen_2019/sc-bams_nodup/&quot;
+bamfiles &lt;- list.files(path = dir_bamfiles, pattern = &quot;\\.bam$&quot;)
+cellnames &lt;- sapply(strsplit(bamfiles,&#39;.&#39;,fixed = TRUE), &quot;[[&quot;, 1)
+sum(cellnames == rownames(samples))</code></pre>
 <p>count scATAC-seq paired-end fragments in the peaks</p>
 <pre class="r"><code>fragment_counts &lt;- getCounts(file.path(dir_bamfiles,bamfile), 
                              peaks, 
@@ -1242,15 +1173,6 @@ sum(cellnames == rownames(samples))</code></pre>
 saveRDS(fragment_counts, file.path(data.dir, &quot;fragment_counts_scPeaks_chromVAR_Buenrostro_2018.rds&quot;))</code></pre>
 <pre class="r"><code>fragment_counts &lt;- readRDS(file.path(data.dir, &quot;fragment_counts_scPeaks_chromVAR_Buenrostro_2018.rds&quot;))
 fragment_counts</code></pre>
-<pre><code>class: RangedSummarizedExperiment 
-dim: 237450 2034 
-metadata(0):
-assays(1): counts
-rownames: NULL
-rowData names(0):
-colnames(2034): BM1077-CLP-Frozen-160106-13 BM1077-CLP-Frozen-160106-14
-  ... singles-PB1022-mono-160128-95 singles-PB1022-mono-160128-96
-colData names(2): celltype depth</code></pre>
 <pre class="r"><code>counts &lt;- assay(fragment_counts)
 counts &lt;- t(counts)
 
@@ -1258,12 +1180,13 @@ peaks &lt;- as.data.frame(peaks)[,1:3]
 colnames(peaks) &lt;- c(&quot;chr&quot;, &quot;start&quot;, &quot;end&quot;)
 peak_names &lt;- paste(peaks$chr, peaks$start, peaks$end, sep = &quot;_&quot;)
 colnames(counts) &lt;- peak_names</code></pre>
+<p>Filter peaks (filter out peaks with fragments in &lt; 1% samples)</p>
 <pre class="r"><code>fragment_binarized_counts &lt;- fragment_counts
 assay(fragment_binarized_counts) &lt;- Matrix(as.matrix((assay(fragment_binarized_counts) &gt; 0) + 0), sparse = TRUE)
 idx_peaks_filtered &lt;- filterPeaks(fragment_binarized_counts, min_fragments_per_peak = floor(nrow(samples)*0.01), non_overlapping = TRUE, ix_return = TRUE)
-cat(length(idx_peaks_filtered), &quot;peaks selected after filtering.  \n&quot;)</code></pre>
-<pre><code>104502 peaks selected after filtering.  </code></pre>
-<pre class="r"><code>peaks &lt;- peaks[idx_peaks_filtered,]
+cat(length(idx_peaks_filtered), &quot;peaks selected after filtering.  \n&quot;)
+
+peaks &lt;- peaks[idx_peaks_filtered,]
 counts &lt;- counts[,idx_peaks_filtered]</code></pre>
 <p>Plot the distribution of filtered fragment counts.</p>
 <pre class="r"><code>y &lt;- table(summary(counts)$x)
@@ -1273,12 +1196,11 @@ plot(x,y,pch = 20,log = &quot;y&quot;,cex = 0.65,
      xlab = &quot;number of fragments mapping to peak&quot;,
      ylab = &quot;number of peaks&quot;)
 lines(x,y)</code></pre>
-<p><img src="figure/process_data_Buenrostro2018.Rmd/unnamed-chunk-25-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Binarize counts</p>
 <pre class="r"><code>binarized_counts &lt;- as.matrix((counts &gt; 0) + 0)
 binarized_counts &lt;- Matrix(binarized_counts, sparse = TRUE) 
 dim(binarized_counts)</code></pre>
-<pre><code>[1]   2034 104502</code></pre>
+<p>Save processed data</p>
 <pre class="r"><code>save(list = c(&quot;samples&quot;, &quot;peaks&quot;, &quot;counts&quot;), 
      file = file.path(data.dir, &quot;Buenrostro_2018_scPeaks_filtered.RData&quot;))
 
@@ -1288,15 +1210,12 @@ save(list = c(&quot;samples&quot;, &quot;peaks&quot;, &quot;counts&quot;),
 <pre class="r"><code>data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/chromVAR/&quot;
 
 load(file.path(data.dir, &quot;Buenrostro_2018_binarized_scPeaks_filtered.RData&quot;))
-cat(sprintf(&quot;Loaded %d x %d counts matrix.\n&quot;,nrow(counts),ncol(counts)))</code></pre>
-<pre><code>Loaded 2034 x 104502 counts matrix.</code></pre>
-<pre class="r"><code>cat(sprintf(&quot;Number of samples (cells): %d\n&quot;,nrow(counts)))</code></pre>
-<pre><code>Number of samples (cells): 2034</code></pre>
-<pre class="r"><code>cat(sprintf(&quot;Number of peaks: %d\n&quot;,ncol(counts)))</code></pre>
-<pre><code>Number of peaks: 104502</code></pre>
-<pre class="r"><code>cat(sprintf(&quot;Proportion of counts that are non-zero: %0.1f%%.\n&quot;,
+cat(sprintf(&quot;Loaded %d x %d counts matrix.\n&quot;,nrow(counts),ncol(counts)))
+
+cat(sprintf(&quot;Number of samples (cells): %d\n&quot;,nrow(counts)))
+cat(sprintf(&quot;Number of peaks: %d\n&quot;,ncol(counts)))
+cat(sprintf(&quot;Proportion of counts that are non-zero: %0.1f%%.\n&quot;,
             100*mean(counts &gt; 0)))</code></pre>
-<pre><code>Proportion of counts that are non-zero: 5.3%.</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1305,83 +1224,6 @@ cat(sprintf(&quot;Loaded %d x %d counts matrix.\n&quot;,nrow(counts),ncol(counts
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>R version 3.6.1 (2019-07-05)
-Platform: x86_64-pc-linux-gnu (64-bit)
-Running under: Scientific Linux 7.4 (Nitrogen)
-
-Matrix products: default
-BLAS/LAPACK: /software/openblas-0.2.19-el7-x86_64/lib/libopenblas_haswellp-r0.2.19.so
-
-locale:
- [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
- [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
- [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
- [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
- [9] LC_ADDRESS=C               LC_TELEPHONE=C            
-[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
-
-attached base packages:
- [1] parallel  stats4    tools     stats     graphics  grDevices utils    
- [8] datasets  methods   base     
-
-other attached packages:
- [1] BSgenome.Hsapiens.UCSC.hg19_1.4.0 BSgenome_1.52.0                  
- [3] rtracklayer_1.44.0                Biostrings_2.52.0                
- [5] XVector_0.24.0                    JASPAR2016_1.12.0                
- [7] SummarizedExperiment_1.14.1       DelayedArray_0.10.0              
- [9] BiocParallel_1.18.0               matrixStats_0.57.0               
-[11] Biobase_2.42.0                    GenomicRanges_1.36.0             
-[13] GenomeInfoDb_1.20.0               IRanges_2.18.1                   
-[15] S4Vectors_0.22.1                  BiocGenerics_0.30.0              
-[17] motifmatchr_1.4.0                 chromVAR_1.4.1                   
-[19] data.table_1.12.8                 readr_1.3.1                      
-[21] Matrix_1.2-18                     workflowr_1.6.2                  
-
-loaded via a namespace (and not attached):
- [1] bitops_1.0-6                fs_1.3.1                   
- [3] DirichletMultinomial_1.26.0 TFBSTools_1.22.0           
- [5] bit64_0.9-7                 httr_1.4.1                 
- [7] rprojroot_1.3-2             backports_1.1.10           
- [9] R6_2.5.0                    DT_0.13                    
-[11] lazyeval_0.2.2              seqLogo_1.50.0             
-[13] DBI_1.1.0                   colorspace_1.4-1           
-[15] tidyselect_1.1.0            bit_1.1-14                 
-[17] compiler_3.6.1              git2r_0.27.1               
-[19] plotly_4.9.0                caTools_1.17.1.2           
-[21] scales_1.1.1                stringr_1.4.0              
-[23] digest_0.6.27               Rsamtools_2.0.0            
-[25] rmarkdown_2.1               R.utils_2.9.2              
-[27] pkgconfig_2.0.3             htmltools_0.4.0            
-[29] fastmap_1.0.1               htmlwidgets_1.5.1          
-[31] rlang_0.4.8                 VGAM_1.1-1                 
-[33] RSQLite_2.1.1               shiny_1.4.0.2              
-[35] jsonlite_1.6                gtools_3.8.1               
-[37] dplyr_0.8.5                 R.oo_1.23.0                
-[39] RCurl_1.98-1.1              magrittr_1.5               
-[41] GO.db_3.8.2                 GenomeInfoDbData_1.2.1     
-[43] Rcpp_1.0.5                  munsell_0.5.0              
-[45] lifecycle_0.2.0             R.methodsS3_1.7.1          
-[47] stringi_1.4.6               whisker_0.4                
-[49] yaml_2.2.0                  zlibbioc_1.30.0            
-[51] plyr_1.8.6                  grid_3.6.1                 
-[53] blob_1.2.0                  promises_1.1.0             
-[55] crayon_1.3.4                miniUI_0.1.1.1             
-[57] CNEr_1.20.0                 lattice_0.20-38            
-[59] splines_3.6.1               annotate_1.62.0            
-[61] KEGGREST_1.24.0             hms_0.5.3                  
-[63] knitr_1.28                  pillar_1.4.6               
-[65] reshape2_1.4.3              TFMPvalue_0.0.8            
-[67] XML_3.98-1.20               glue_1.4.2                 
-[69] evaluate_0.14               png_0.1-7                  
-[71] vctrs_0.3.4                 httpuv_1.5.3.1             
-[73] tidyr_1.1.0                 gtable_0.3.0               
-[75] poweRlaw_0.70.2             purrr_0.3.4                
-[77] assertthat_0.2.1            ggplot2_3.3.2              
-[79] xfun_0.14                   mime_0.9                   
-[81] xtable_1.8-4                later_1.0.0                
-[83] viridisLite_0.3.0           tibble_3.0.4               
-[85] AnnotationDbi_1.46.0        GenomicAlignments_1.20.1   
-[87] memoise_1.1.0               ellipsis_0.3.1             </code></pre>
 </div>
 </div>
 </div>
@@ -1409,7 +1251,7 @@ footer is added to webpages before the MathJax javascript. -->
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -1448,7 +1290,7 @@ $(document).ready(function ()  {
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
       },
       ignoreSelector: ".toc-ignore",
       scrollTo: 0
