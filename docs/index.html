@@ -313,7 +313,7 @@ $(document).ready(function () {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -322,7 +322,7 @@ $(document).ready(function () {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -334,7 +334,7 @@ $(document).ready(function () {
 <strong>Last updated:</strong> 2021-01-05
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 1 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>scATACseq-topics/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -350,28 +350,28 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you'll want to first commit it to the Git repo. If you're still working on the analysis, you can ignore this warning. When you're finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree322233d1a0b40f6281513b17b0319d9afe7b7aa6targetblank322233da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/322233d1a0b40f6281513b17b0319d9afe7b7aa6" target="_blank">322233d</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreed96bcdc2ac8f2aedf814cbe4559e40490ec8d89etargetblankd96bcdca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/d96bcdc2ac8f2aedf814cbe4559e40490ec8d89e" target="_blank">d96bcdc</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree322233d1a0b40f6281513b17b0319d9afe7b7aa6targetblank322233da" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreed96bcdc2ac8f2aedf814cbe4559e40490ec8d89etargetblankd96bcdca" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/322233d1a0b40f6281513b17b0319d9afe7b7aa6" target="_blank">322233d</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/d96bcdc2ac8f2aedf814cbe4559e40490ec8d89e" target="_blank">d96bcdc</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -390,7 +390,6 @@ Untracked files:
 
 Unstaged changes:
     Modified:   analysis/cisTopic_Buenrostro2018_chomVAR_scPeaks.Rmd
-    Modified:   analysis/index.Rmd
     Modified:   analysis/plots_Lareau2019_bonemarrow.Rmd
     Modified:   analysis/process_data_Buenrostro2018.Rmd
     Modified:   scripts/fit_all_models_Buenrostro_2018.sbatch
@@ -434,6 +433,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/d96bcdc2ac8f2aedf814cbe4559e40490ec8d89e/analysis/index.Rmd" target="_blank">d96bcdc</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-01-05
+</td>
+<td>
+wflow_publish(&quot;analysis/index.Rmd&quot;)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/7ba8b9d5ba5543b91be39ebdccad21b2658167b7/docs/index.html" target="_blank">7ba8b9d</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-01-05
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -984,7 +1017,7 @@ Start workflowr project.
 <li>Topic modeling analysis for Buenrostro 2018 single cell ATAC-seq dataset
 <ul>
 <li><a href="process_data_Buenrostro2018.html">Process Buenrostro 2018 dataset</a></li>
-<li><a href="assess_fits_Buenrostro2018.html">Assess model fits</a></li>
+<li><a href="assess_fits_Buenrostro2018_Chen2019pipeline.html">Assess model fits</a></li>
 <li><a href="clusters_Buenrostro2018_k11_Chen2019pipeline.html">Clustering by topic proportions (K=11) with Chen2019 processed data (regions accessible in &gt; 1% samples)</a></li>
 <li><a href="clusters_Buenrostro2018_chomVAR_scPeaks.html">Clustering by topic proportions (K=11) with chromVAR processed data (regions accessible in at least 1 sample)</a></li>
 <li><a href="clusters_Buenrostro2018_chomVAR_scPeaks_filtered.html">Clustering by topic proportions (K=11) with chromVAR processed data (regions accessible in &gt; 1% samples)</a></li>
