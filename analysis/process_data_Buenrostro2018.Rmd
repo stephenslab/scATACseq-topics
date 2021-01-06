@@ -1,29 +1,52 @@
 ---
-title: "Process data for Buenrostro 2018 scATAC-seq dataset"
+title: "Process data for Buenrostro *et al* (2018) scATAC-seq dataset"
 author: "Kaixuan Luo"
 output: workflowr::wflow_html
 editor_options:
   chunk_output_type: console
 ---
 
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(eval=FALSE,comment = "#",collapse = FALSE,results = "hold",
+                      fig.align = "center",dpi = 120)
+```
+
 ## About Buenrostro 2018 dataset
 
 Reference: Buenrostro, J. D. et al. Integrated Single-Cell Analysis Maps the Continuous Regulatory Landscape of Human Hematopoietic Differentiation. Cell 173, 1535–1548.e16 (2018).
 
 Data were downloaded from GEO: [GSE96772](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE96772)
-
+More details about the samples: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2540299
 RCC directory: `/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/`
 
 ## Prepare data for topic modeling
 
-### Using peaks called from bulk ATAC-seq samples
+Here we tried four different options to process the scATAC-seq data. 
 
-The Buenrostro et al paper called ATAC-seq peaks from the bulk ATAC-seq samples. 
+In option 1, we used the processed counts and peaks from Buenrostro *et al* (2018) paper. 
+However, the ATAC-seq peaks were defined using the bulk ATAC-seq samples. This may not be ideal 
+as this approach may miss cell-type specific peaks that do not pass the peak calling threshold 
+using all the bulk ATAC-seq samples. Thus, we did not use this option in our topic modeling of the dataset. 
+
+In option 2-4, we obtained the processed counts using the BAM reads and peaks from aggregated single cell ATAC-seq data. 
+The processed peaks and BAM files were downloaded from [scATAC-benchmarking website from Chen *et al*](https://github.com/pinellolab/scATAC-benchmarking/)
+
+Reference:	Chen, H. et al. Assessment of computational methods for the analysis of single-cell ATAC-seq data. Genome Biol. 20, 241 (2019).
+
+In option 2, we used the read count processing pipeline from Chen *et al* (2019), which uses `bedtools` to count reads in peaks. But it seems they did not consider the paired-end reads from the ATAC-seq data, i.e. they treated the paired-end reads as independent reads. This would bias the actual read counts, but should not affect the binarized counts (which we used in our topic modeling). The count processing pipeline from Chen *et al* (2019) also filtered peaks by requring peaks to be accessbile in at least 1% samples.
+
+In option 3 and 4, we used `chromVAR` to count the reads in peaks, which considers the paired-end reads. In option 4, we further filtered the peaks by requring peaks to be accessbile in at least 1% samples. This filtering was also done using `chormVAR`.
+
+### Option 1. Using peaks called from bulk ATAC-seq samples
+
+The Buenrostro *et al* (2018) paper called ATAC-seq peaks from the bulk ATAC-seq samples.
+
+> Using the previously described approach (Corces et al., 2016), we defined a peak list using all bulk hematopoietic data analyzed here, resulting in 491,437 500bp non-overlapping peaks which we use for the remainder of this study.
+
 Downloaded scATAC-seq processed data from GEO: [GSE96769](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE96769)
 
 * Peaks called from bulk ATAC-seq samples `GSE96769_PeakFile_20160207.bed.gz`
 * scATAC-seq sparse count matrix `GSE96769_scATACseq_counts.txt.gz`
-
 
 ```{r}
 library(Matrix)
@@ -51,7 +74,7 @@ rownames(counts) <- sample_names
 dim(counts)
 ```
 
-peaks
+peaks (from bulk ATAC-seq)
 ```{r load-peaks}
 peaks <- fread("/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/GEO_data/GSE96769_PeakFile_20160207.bed.gz")
 peak_names <- paste(peaks$V1,peaks$V2,peaks$V3,sep = "_")
@@ -77,7 +100,13 @@ lines(x,y)
 The supplementary Table S1 provides more details about these samples. 
 https://ars.els-cdn.com/content/image/1-s2.0-S009286741830446X-mmc1.xlsx
 
-Use the metadata.tsv from Chen et al. Genome Biology 2019 paper https://github.com/pinellolab/scATAC-benchmarking/tree/master/Real_Data/Buenrostro_2018/input/metadata.tsv)
+Select the 2,034 samples (cells) passing quality filtering
+
+> Single-cell profiles were of consistent high-quality with 2,034 cells passing stringent quality filtering, yielding a median of 8,268 fragments per cell with 76% of those fragments mapping to peaks, resulting in a median of 6,442 fragments in peaks per cell (figure 1E).
+
+> Single-cells were filtered for quality requiring at least 60% of fragments in peaks and requiring greater than 1,000 fragments passing quality filters, quality filters are previously described (Corces et al., 2016) which includes removal of mitochondrial reads and low alignment quality (Q30).
+
+The 2,034 samples (pass filter) were included in the `metadata.tsv` file on the scATAC-benchmarking website from Chen *et al*.
 
 ```{r filter-samples}
 samples_filtered <- read.table('/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/input_Chen_2019/metadata.tsv', header = TRUE, stringsAsFactors=FALSE, quote="",row.names=1)
@@ -119,6 +148,7 @@ binarized_counts <- Matrix(binarized_counts, sparse = TRUE)
 dim(binarized_counts)
 ```
 
+Save processed data
 ```{r save-data}
 data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/"
 dir.create(data.dir, showWarnings = FALSE, recursive = TRUE)
@@ -147,9 +177,139 @@ cat(sprintf("Proportion of counts that are non-zero: %0.1f%%.\n",
 
 ```
 
-### Using peaks called from aggregated single-cell ATAC-seq data processed by Chen et al. Genome Biology 2019
-* Downloaded processed peaks and BAM files from the scATAC-benchmarking website (Chen et al. Genome Biology 2019) (https://github.com/pinellolab/scATAC-benchmarking/)
-* Count paired-end scATAC-seq reads in peaks using `chromVAR`, following the pipeline at https://nbviewer.jupyter.org/github/pinellolab/scATAC-benchmarking/blob/master/Real_Data/Buenrostro_2018/run_methods/chromVAR/chromVAR_buenrostro2018_motifs.ipynb?flush_cache=true
+### Option 2. Using the single-cell ATAC-seq data processing pipeline adapted from Chen *et al* (2019)
+
+* Processed peaks (from aggregated single cell ATAC-seq data) and BAM files were downloaded from the scATAC-benchmarking website (Chen *et al* 2019) (https://github.com/pinellolab/scATAC-benchmarking/)
+
+* Process counts using [Chen *et al* pipeline](https://github.com/pinellolab/scATAC-benchmarking/blob/master/Real_Data/Buenrostro_2018/run_methods/Control/Control_buenrostro2018.ipynb)
+
+```{r}
+library(Matrix)
+library(tools)
+library(readr)
+library(data.table)
+```
+
+count scATAC-seq reads in peaks
+```{bash, eval=FALSE}
+sbatch ~/projects/scATACseq-topics/scripts/count_reads_peaks_Buenrostro_2018.sbatch
+```
+
+combine counts from all samples
+```{r}
+dir_readcount_output <- '/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/count_reads_peaks_output/'
+files <- list.files(dir_readcount_output, pattern = "\\.txt$")
+sample_names <- sapply(strsplit(files,'\\.'),'[', 1)
+cat(length(sample_names), "samples. \n")
+```
+
+```{r, eval=FALSE}
+datalist <- lapply(files, function(x)fread(file.path(dir_readcount_output,x))$V4)
+counts <- do.call("cbind", datalist)
+```
+
+```{r}
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/"
+dir.create(data.dir, showWarnings = FALSE, recursive = TRUE)
+
+# saveRDS(counts, file.path(data.dir, "raw_counts_Buenrostro_2018.rds"))
+counts <- readRDS(file.path(data.dir, "raw_counts_Buenrostro_2018.rds"))
+```
+
+Peaks
+```{r}
+peaks <- read.csv("/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/input_Chen_2019/combined.sorted.merged.bed",
+                      sep = '\t',header=FALSE,stringsAsFactors=FALSE)
+peaknames <- paste(peaks$V1,peaks$V2,peaks$V3,sep = "_")
+rownames(peaks) <- peaknames
+cat(sprintf("Number of peaks: %d\n",nrow(peaks)))
+
+head(peaknames)
+
+colnames(counts) <- sample_names
+rownames(counts) <- peaknames
+
+dim(counts)
+```
+
+Samples metadata
+```{r}
+samples <- read.table('/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/input_Chen_2019/metadata.tsv', header = TRUE, stringsAsFactors=FALSE, quote="",row.names=1)
+
+head(samples)
+```
+
+Filter peaks (filter out peaks with counts in < 1% samples)
+```{r}
+# adapted from Chen et al. Genome Biology 2019 paper https://github.com/pinellolab/scATAC-benchmarking/blob/master/Real_Data/Buenrostro_2018/run_methods/Control/Control_buenrostro2018.ipynb
+# filter peaks with counts in at least 1% samples
+filter_peaks <- function (datafr,cutoff = 0.01){
+    binary_mat = as.matrix((datafr > 0) + 0)
+    binary_mat = Matrix(binary_mat, sparse = TRUE) 
+    num_cells_ncounted = Matrix::rowSums(binary_mat)
+    ncounts = binary_mat[num_cells_ncounted >= dim(binary_mat)[2]*cutoff,]
+    ncounts = ncounts[rowSums(ncounts) > 0,] 
+    
+    options(repr.plot.width=4, repr.plot.height=4)
+    hist(log10(num_cells_ncounted),main="No. of Cells Each Site is Observed In",breaks=50)
+    abline(v=log10(min(num_cells_ncounted[num_cells_ncounted >= dim(binary_mat)[2]*cutoff])),lwd=2,col="indianred")
+#     hist(log10(new_counts),main="Number of Sites Each Cell Uses",breaks=50)
+    peaks_selected = rownames(ncounts)
+    return(peaks_selected)
+}
+```
+
+```{r}
+peaks_selected <- filter_peaks(counts)
+counts <- counts[peaks_selected,]
+peaks <- peaks[peaks_selected, ]
+
+counts <- t(counts)
+counts <- Matrix(counts, sparse = TRUE) 
+dim(counts)
+
+```
+
+Binarize counts
+```{r}
+binarized_counts <- as.matrix((counts > 0) + 0)
+binarized_counts <- Matrix(binarized_counts, sparse = TRUE) 
+
+dim(binarized_counts)
+```
+
+Save processed data
+```{r}
+saveRDS(counts, file.path(data.dir, "counts_Buenrostro_2018.rds"))
+saveRDS(binarized_counts, file.path(data.dir, "binarized_counts_Buenrostro_2018.rds"))
+
+save(list = c("samples", "peaks", "counts"), 
+     file = file.path(data.dir, "Buenrostro_2018_counts.RData"))
+
+counts <- binarized_counts
+save(list = c("samples", "peaks", "counts"), 
+     file = file.path(data.dir, "Buenrostro_2018_binarized_counts.RData"))
+
+```
+
+```{r}
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/"
+load(file.path(data.dir, "Buenrostro_2018_counts.RData"))
+cat(sprintf("Loaded %d x %d counts matrix.\n",nrow(counts),ncol(counts)))
+
+cat(sprintf("Number of samples (cells): %d\n",nrow(counts)))
+cat(sprintf("Number of peaks: %d\n",ncol(counts)))
+cat(sprintf("Proportion of counts that are non-zero: %0.1f%%.\n",
+            100*mean(counts > 0)))
+
+```
+
+### Option 3. Using BAM reads and peaks called from aggregated single-cell ATAC-seq data processed by Chen *et al* (2019)
+
+* Processed peaks (from aggregated scATAC-seq) and BAM files were downloaded from the scATAC-benchmarking website (Chen *et al* 2019) (https://github.com/pinellolab/scATAC-benchmarking/)
+
+* Count paired-end scATAC-seq reads in peaks using `chromVAR`, 
+following the [pipeline](https://nbviewer.jupyter.org/github/pinellolab/scATAC-benchmarking/blob/master/Real_Data/Buenrostro_2018/run_methods/chromVAR/chromVAR_buenrostro2018_motifs.ipynb?flush_cache=true)
 
 Load chromVAR and related packages
 ```{r}
@@ -176,10 +336,12 @@ data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/
 dir.create(data.dir, showWarnings = FALSE, recursive = TRUE)
 ```
 
+samples metadata
 ```{r}
 samples <- read.table('/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/input_Chen_2019/metadata.tsv', header = TRUE, stringsAsFactors=FALSE, quote="",row.names=1)
 ```
 
+peaks (from aggregated scATAC-seq)
 ```{r}
 peakfile <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/input_Chen_2019/combined.sorted.merged.bed"
 peaks <- getPeaks(peakfile, sort_peaks = TRUE)
@@ -188,6 +350,7 @@ peaks <- resize(peaks, width = 500, fix = "center")
 cat(length(peaks), "peaks \n")
 ```
 
+BAM files of scATAC-seq reads
 ```{r}
 dir_bamfiles <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/input_Chen_2019/sc-bams_nodup/"
 bamfiles <- list.files(path = dir_bamfiles, pattern = "\\.bam$")
@@ -195,7 +358,7 @@ cellnames <- sapply(strsplit(bamfiles,'.',fixed = TRUE), "[[", 1)
 sum(cellnames == rownames(samples))
 ```
 
-count scATAC-seq paired-end fragments in the peaks
+count scATAC-seq paired-end fragments in the peaks using `chromVAR`
 ```{r, eval=FALSE}
 fragment_counts <- getCounts(file.path(dir_bamfiles,bamfile), 
                              peaks, 
@@ -211,7 +374,6 @@ saveRDS(fragment_counts, file.path(data.dir, "fragment_counts_scPeaks_chromVAR_B
 ```{r}
 fragment_counts <- readRDS(file.path(data.dir, "fragment_counts_scPeaks_chromVAR_Buenrostro_2018.rds"))
 fragment_counts
-
 ```
 
 ```{r}
@@ -222,10 +384,9 @@ peaks <- as.data.frame(peaks)[,1:3]
 colnames(peaks) <- c("chr", "start", "end")
 peak_names <- paste(peaks$chr, peaks$start, peaks$end, sep = "_")
 colnames(counts) <- peak_names
-
 ```
 
-Filter peaks using `filterPeaks` in `chromVAR`
+Filter peaks (accessible in at least 1 sample) using `filterPeaks` in `chromVAR`
 ```{r}
 idx_peaks_filtered <- filterPeaks(fragment_counts, min_fragments_per_peak = 1, non_overlapping = TRUE, ix_return = TRUE)
 peaks <- peaks[idx_peaks_filtered,]
@@ -253,6 +414,7 @@ binarized_counts <- Matrix(binarized_counts, sparse = TRUE)
 dim(binarized_counts)
 ```
 
+Save processed data
 ```{r}
 saveRDS(counts, file.path(data.dir, "counts_scPeaks_Buenrostro_2018.rds"))
 saveRDS(binarized_counts, file.path(data.dir, "binarized_counts_scPeaks_Buenrostro_2018.rds"))
@@ -280,21 +442,14 @@ cat(sprintf("Proportion of counts that are non-zero: %0.1f%%.\n",
 ```
 
 
+### Option 4. Using BAM reads and peaks called from aggregated single-cell ATAC-seq data processed by Chen *et al* (2019) and filter peaks that are accessible in less than 1% samples
 
-### Using peaks called from aggregated single-cell ATAC-seq data and filter peaks with less than 1% samples
-* Downloaded processed peaks and BAM files from the scATAC-benchmarking website (Chen et al. Genome Biology 2019) (https://github.com/pinellolab/scATAC-benchmarking/)
-* Count paired-end scATAC-seq reads in peaks using `chromVAR`, following the pipeline at https://nbviewer.jupyter.org/github/pinellolab/scATAC-benchmarking/blob/master/Real_Data/Buenrostro_2018/run_methods/chromVAR/chromVAR_buenrostro2018_motifs.ipynb?flush_cache=true
+* Processed peaks (from aggregated scATAC-seq) and BAM files were downloaded from the scATAC-benchmarking website (Chen *et al* 2019) (https://github.com/pinellolab/scATAC-benchmarking/)
+
+* Count paired-end scATAC-seq reads in peaks using `chromVAR`, 
+following the [pipeline](https://nbviewer.jupyter.org/github/pinellolab/scATAC-benchmarking/blob/master/Real_Data/Buenrostro_2018/run_methods/chromVAR/chromVAR_buenrostro2018_motifs.ipynb?flush_cache=true)
 
 Load chromVAR and related packages
-```{r}
-# if (!requireNamespace("BiocManager", quietly = TRUE))
-#     install.packages("BiocManager")
-# BiocManager::install("chromVAR")
-# BiocManager::install("motifmatchr")
-# BiocManager::install("BSgenome.Hsapiens.UCSC.hg19")
-# BiocManager::install("JASPAR2016")
-```
-
 ```{r}
 library(chromVAR)
 library(motifmatchr)
@@ -310,10 +465,12 @@ data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/
 dir.create(data.dir, showWarnings = FALSE, recursive = TRUE)
 ```
 
+samples metadata
 ```{r}
 samples <- read.table('/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/input_Chen_2019/metadata.tsv', header = TRUE, stringsAsFactors=FALSE, quote="",row.names=1)
 ```
 
+peaks (from aggregated scATAC-seq)
 ```{r}
 peakfile <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/input_Chen_2019/combined.sorted.merged.bed"
 peaks <- getPeaks(peakfile, sort_peaks = TRUE)
@@ -322,6 +479,7 @@ peaks <- resize(peaks, width = 500, fix = "center")
 cat(length(peaks), "peaks \n")
 ```
 
+BAM reads
 ```{r}
 dir_bamfiles <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/input_Chen_2019/sc-bams_nodup/"
 bamfiles <- list.files(path = dir_bamfiles, pattern = "\\.bam$")
@@ -358,6 +516,7 @@ colnames(counts) <- peak_names
 
 ```
 
+Filter peaks (filter out peaks with fragments in < 1% samples)
 ```{r}
 fragment_binarized_counts <- fragment_counts
 assay(fragment_binarized_counts) <- Matrix(as.matrix((assay(fragment_binarized_counts) > 0) + 0), sparse = TRUE)
@@ -388,6 +547,7 @@ binarized_counts <- Matrix(binarized_counts, sparse = TRUE)
 dim(binarized_counts)
 ```
 
+Save processed data
 ```{r}
 save(list = c("samples", "peaks", "counts"), 
      file = file.path(data.dir, "Buenrostro_2018_scPeaks_filtered.RData"))
