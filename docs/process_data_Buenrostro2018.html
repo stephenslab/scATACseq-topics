@@ -500,16 +500,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree0c32e6ac7fa0f7e0ddd0e5a9c3eb78254b5f2f72targetblank0c32e6aa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/0c32e6ac7fa0f7e0ddd0e5a9c3eb78254b5f2f72" target="_blank">0c32e6a</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree3890d389a01fdc0fc92080e5aedf40d3a9dca006targetblank3890d38a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/3890d389a01fdc0fc92080e5aedf40d3a9dca006" target="_blank">3890d38</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree0c32e6ac7fa0f7e0ddd0e5a9c3eb78254b5f2f72targetblank0c32e6aa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree3890d389a01fdc0fc92080e5aedf40d3a9dca006targetblank3890d38a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/0c32e6ac7fa0f7e0ddd0e5a9c3eb78254b5f2f72" target="_blank">0c32e6a</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/3890d389a01fdc0fc92080e5aedf40d3a9dca006" target="_blank">3890d38</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -570,6 +570,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/3890d389a01fdc0fc92080e5aedf40d3a9dca006/analysis/process_data_Buenrostro2018.Rmd" target="_blank">3890d38</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-01-06
+</td>
+<td>
+wflow_publish(&quot;analysis/process_data_Buenrostro2018.Rmd&quot;)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/17fc08a917f8d5e94ad1f01eb759474862f7f74f/docs/process_data_Buenrostro2018.html" target="_blank">17fc08a</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-01-06
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -869,7 +903,9 @@ process data from Buenrostro 2018 paper
 <div id="about-buenrostro-2018-dataset" class="section level2">
 <h2>About Buenrostro 2018 dataset</h2>
 <p>Reference: Buenrostro, J. D. et al. Integrated Single-Cell Analysis Maps the Continuous Regulatory Landscape of Human Hematopoietic Differentiation. Cell 173, 1535–1548.e16 (2018).</p>
-<p>Data were downloaded from GEO: <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE96772">GSE96772</a> More details about the samples: <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2540299" class="uri">https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2540299</a> RCC directory: <code>/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/</code></p>
+<p>Data were downloaded from GEO: <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE96772">GSE96772</a></p>
+<p>More details about the samples: <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2540299" class="uri">https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2540299</a></p>
+<p>RCC directory: <code>/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/</code></p>
 </div>
 <div id="prepare-data-for-topic-modeling" class="section level2">
 <h2>Prepare data for topic modeling</h2>
@@ -944,7 +980,7 @@ cat(length(j), &quot;peaks after filtering.  \n&quot;)</code></pre>
 binarized_counts &lt;- Matrix(binarized_counts, sparse = TRUE) 
 
 dim(binarized_counts)</code></pre>
-<p>Save processed data</p>
+<p>Save processed data: <code>/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/</code></p>
 <pre class="r"><code>data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/&quot;
 dir.create(data.dir, showWarnings = FALSE, recursive = TRUE)
 
@@ -985,7 +1021,7 @@ sample_names &lt;- sapply(strsplit(files,&#39;\\.&#39;),&#39;[&#39;, 1)
 cat(length(sample_names), &quot;samples. \n&quot;)</code></pre>
 <pre class="r"><code>datalist &lt;- lapply(files, function(x)fread(file.path(dir_readcount_output,x))$V4)
 counts &lt;- do.call(&quot;cbind&quot;, datalist)</code></pre>
-<pre class="r"><code>data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/&quot;
+<pre class="r"><code>data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/&quot;
 dir.create(data.dir, showWarnings = FALSE, recursive = TRUE)
 
 # saveRDS(counts, file.path(data.dir, &quot;raw_counts_Buenrostro_2018.rds&quot;))
@@ -1036,7 +1072,7 @@ dim(counts)</code></pre>
 binarized_counts &lt;- Matrix(binarized_counts, sparse = TRUE) 
 
 dim(binarized_counts)</code></pre>
-<p>Save processed data</p>
+<p>Save processed data: <code>/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/</code></p>
 <pre class="r"><code>saveRDS(counts, file.path(data.dir, &quot;counts_Buenrostro_2018.rds&quot;))
 saveRDS(binarized_counts, file.path(data.dir, &quot;binarized_counts_Buenrostro_2018.rds&quot;))
 
@@ -1120,7 +1156,7 @@ cat(length(idx_peaks_filtered), &quot;peaks after filtering.  \n&quot;)</code></
 <pre class="r"><code>binarized_counts &lt;- as.matrix((counts &gt; 0) + 0)
 binarized_counts &lt;- Matrix(binarized_counts, sparse = TRUE) 
 dim(binarized_counts)</code></pre>
-<p>Save processed data</p>
+<p>Save processed data: <code>/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/chromVAR/</code></p>
 <pre class="r"><code>saveRDS(counts, file.path(data.dir, &quot;counts_scPeaks_Buenrostro_2018.rds&quot;))
 saveRDS(binarized_counts, file.path(data.dir, &quot;binarized_counts_scPeaks_Buenrostro_2018.rds&quot;))
 
@@ -1202,7 +1238,7 @@ counts &lt;- counts[,idx_peaks_filtered]</code></pre>
 <pre class="r"><code>binarized_counts &lt;- as.matrix((counts &gt; 0) + 0)
 binarized_counts &lt;- Matrix(binarized_counts, sparse = TRUE) 
 dim(binarized_counts)</code></pre>
-<p>Save processed data</p>
+<p>Save processed data: <code>/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/chromVAR/</code></p>
 <pre class="r"><code>save(list = c(&quot;samples&quot;, &quot;peaks&quot;, &quot;counts&quot;), 
      file = file.path(data.dir, &quot;Buenrostro_2018_scPeaks_filtered.RData&quot;))
 
