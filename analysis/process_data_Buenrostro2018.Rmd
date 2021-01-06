@@ -85,8 +85,7 @@ colnames(counts) <- peak_names
 
 ```
 
-Plot the distribution of fragment counts.
-```{r plot-distribution-1}
+```{r plot-distribution-1, include=FALSE}
 y <- table(summary(counts)$x)
 x <- names(y)
 y <- as.numeric(y)
@@ -128,8 +127,7 @@ cat(length(j), "peaks after filtering.  \n")
 
 ```
 
-Plot the distribution of filtered fragment counts.
-```{r plot-distribution-2}
+```{r plot-distribution-2, include=FALSE}
 y <- table(summary(counts)$x)
 x <- names(y)
 y <- as.numeric(y)
@@ -270,6 +268,17 @@ dim(counts)
 
 ```
 
+```{r plot-distribution-3, include=FALSE}
+y <- table(summary(counts)$x)
+x <- names(y)
+y <- as.numeric(y)
+plot(x,y,pch = 20,log = "y",cex = 0.65,
+     xlab = "number of fragments mapping to peak",
+     ylab = "number of peaks")
+lines(x,y)
+
+```
+
 Binarize counts
 ```{r}
 binarized_counts <- as.matrix((counts > 0) + 0)
@@ -395,8 +404,7 @@ cat(length(idx_peaks_filtered), "peaks after filtering.  \n")
 
 ```
 
-Plot the distribution of filtered fragment counts.
-```{r}
+```{r plot-distribution-4, include=FALSE}
 y <- table(summary(counts)$x)
 x <- names(y)
 y <- as.numeric(y)
@@ -528,8 +536,7 @@ counts <- counts[,idx_peaks_filtered]
 
 ```
 
-Plot the distribution of filtered fragment counts.
-```{r}
+```{r plot-distribution-5, include=FALSE}
 y <- table(summary(counts)$x)
 x <- names(y)
 y <- as.numeric(y)
