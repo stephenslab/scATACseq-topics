@@ -500,16 +500,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree97c421dcd6a971b87fad64ea010e9032c892af76targetblank97c421da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/97c421dcd6a971b87fad64ea010e9032c892af76" target="_blank">97c421d</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree0c32e6ac7fa0f7e0ddd0e5a9c3eb78254b5f2f72targetblank0c32e6aa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/0c32e6ac7fa0f7e0ddd0e5a9c3eb78254b5f2f72" target="_blank">0c32e6a</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree97c421dcd6a971b87fad64ea010e9032c892af76targetblank97c421da" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree0c32e6ac7fa0f7e0ddd0e5a9c3eb78254b5f2f72targetblank0c32e6aa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/97c421dcd6a971b87fad64ea010e9032c892af76" target="_blank">97c421d</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/0c32e6ac7fa0f7e0ddd0e5a9c3eb78254b5f2f72" target="_blank">0c32e6a</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -570,6 +570,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/0c32e6ac7fa0f7e0ddd0e5a9c3eb78254b5f2f72/analysis/process_data_Buenrostro2018.Rmd" target="_blank">0c32e6a</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-01-06
+</td>
+<td>
+wflow_publish(&quot;analysis/process_data_Buenrostro2018.Rmd&quot;)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/04cb7673cf037042835f1261e1ebcb15b4c4e736/docs/process_data_Buenrostro2018.html" target="_blank">04cb767</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-01-06
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -883,14 +917,6 @@ rownames(peaks) &lt;- peak_names
 cat(sprintf(&quot;Number of peaks: %d\n&quot;,nrow(peaks)))
 
 colnames(counts) &lt;- peak_names</code></pre>
-<p>Plot the distribution of fragment counts.</p>
-<pre class="r"><code>y &lt;- table(summary(counts)$x)
-x &lt;- names(y)
-y &lt;- as.numeric(y)
-plot(x,y,pch = 20,log = &quot;y&quot;,cex = 0.65,
-     xlab = &quot;number of fragments mapping to peak&quot;,
-     ylab = &quot;number of peaks&quot;)
-lines(x,y)</code></pre>
 <p>The supplementary Table S1 provides more details about these samples. <a href="https://ars.els-cdn.com/content/image/1-s2.0-S009286741830446X-mmc1.xlsx" class="uri">https://ars.els-cdn.com/content/image/1-s2.0-S009286741830446X-mmc1.xlsx</a></p>
 <p>Select the 2,034 samples (cells) passing quality filtering</p>
 <blockquote>
@@ -913,14 +939,6 @@ dim(counts)</code></pre>
 peaks &lt;- peaks[j,]
 counts &lt;- counts[,j]
 cat(length(j), &quot;peaks after filtering.  \n&quot;)</code></pre>
-<p>Plot the distribution of filtered fragment counts.</p>
-<pre class="r"><code>y &lt;- table(summary(counts)$x)
-x &lt;- names(y)
-y &lt;- as.numeric(y)
-plot(x,y,pch = 20,log = &quot;y&quot;,cex = 0.65,
-     xlab = &quot;number of fragments mapping to peak&quot;,
-     ylab = &quot;number of peaks&quot;)
-lines(x,y)</code></pre>
 <p>Binarize counts</p>
 <pre class="r"><code>binarized_counts &lt;- as.matrix((counts &gt; 0) + 0)
 binarized_counts &lt;- Matrix(binarized_counts, sparse = TRUE) 
@@ -1098,14 +1116,6 @@ colnames(counts) &lt;- peak_names</code></pre>
 peaks &lt;- peaks[idx_peaks_filtered,]
 counts &lt;- counts[,idx_peaks_filtered]
 cat(length(idx_peaks_filtered), &quot;peaks after filtering.  \n&quot;)</code></pre>
-<p>Plot the distribution of filtered fragment counts.</p>
-<pre class="r"><code>y &lt;- table(summary(counts)$x)
-x &lt;- names(y)
-y &lt;- as.numeric(y)
-plot(x,y,pch = 20,log = &quot;y&quot;,cex = 0.65,
-     xlab = &quot;number of fragments mapping to peak&quot;,
-     ylab = &quot;number of peaks&quot;)
-lines(x,y)</code></pre>
 <p>Binarize counts</p>
 <pre class="r"><code>binarized_counts &lt;- as.matrix((counts &gt; 0) + 0)
 binarized_counts &lt;- Matrix(binarized_counts, sparse = TRUE) 
@@ -1188,14 +1198,6 @@ cat(length(idx_peaks_filtered), &quot;peaks selected after filtering.  \n&quot;)
 
 peaks &lt;- peaks[idx_peaks_filtered,]
 counts &lt;- counts[,idx_peaks_filtered]</code></pre>
-<p>Plot the distribution of filtered fragment counts.</p>
-<pre class="r"><code>y &lt;- table(summary(counts)$x)
-x &lt;- names(y)
-y &lt;- as.numeric(y)
-plot(x,y,pch = 20,log = &quot;y&quot;,cex = 0.65,
-     xlab = &quot;number of fragments mapping to peak&quot;,
-     ylab = &quot;number of peaks&quot;)
-lines(x,y)</code></pre>
 <p>Binarize counts</p>
 <pre class="r"><code>binarized_counts &lt;- as.matrix((counts &gt; 0) + 0)
 binarized_counts &lt;- Matrix(binarized_counts, sparse = TRUE) 
