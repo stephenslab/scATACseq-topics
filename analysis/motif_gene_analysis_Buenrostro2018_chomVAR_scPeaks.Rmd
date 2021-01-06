@@ -11,7 +11,8 @@ Here we perform TF motif and gene analysis
 for the Buenrostro *et al* (2018) scATAC-seq result inferred 
 from the multinomial topic model with $k = 11$.
 
-We use binarized scPeaks based on chromVAR processed counts with scPeaks (> 1 sample).
+We use binarized scPeaks based on chromVAR processed counts with 
+peaks accessible in at least 1 sample.
 
 ```{r knitr-opts, include=FALSE}
 knitr::opts_chunk$set(comment = "#",collapse = FALSE,results = "hold",
@@ -35,7 +36,7 @@ library(reshape)
 ## Load data and topic model results
 Load the **binarized** data and the $k = 11$ Poisson NMF fit results 
 from Buenrostro *et al* 2018 dataset using binarized scPeaks 
-based on chromVAR processed counts with scPeaks (> 1 sample).
+based on chromVAR processed counts with peaks accessible in at least 1 sample.
 
 ```{r load-data}
 data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/chromVAR/"
