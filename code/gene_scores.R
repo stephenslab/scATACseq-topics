@@ -7,7 +7,7 @@
 #' @param Z A matrix containing the scores (e.g. Z-scores) for the accessibility regions in each topic or cluster.
 #' Rows are ATAC-seq regions, columns are topics or clusters.
 #' @param ATAC.regions A data frame containing the coordinates (chr, start, end) of the accessibility regions.
-#' @param genes A data frame containing gene coordinates (chr, start, end, strand, gene_ID, etc. ).
+#' @param genes A data frame containing gene coordinates (chr, start, end, strand, GeneID, etc. ).
 #' @param use.ATAC.centers logical indicating whether to represent ATAC-seq positions by the centers of ATAC-seq regions
 #' @param normalize logical indicating if the weights of the regions match to each gene should be normalized.
 #' @param method.normalization Normalization method (`l2` or `sum`). `l2: normalize by the l2 norm of the weights (default).
@@ -29,6 +29,10 @@ compute_gene_scores_tss_model <- function(Z,
                                           window.downstream = 100000
 ) {
 
+  if(is.matrix(Z)){
+    Z <- as.matrix(Z)
+  }
+
   # Get ATAC-seq regions
   ATAC.regions <- as.data.frame(ATAC.regions)
   if(nrow(Z) != nrow(ATAC.regions)){
@@ -48,7 +52,7 @@ compute_gene_scores_tss_model <- function(Z,
 
   # Get gene windows around TSS
   genes <- as.data.frame(genes)
-  colnames(genes)[1:5] <- c("chr", "start", "end", "strand", "gene_ID")
+  colnames(genes)[1:5] <- c("chr", "start", "end", "strand", "GeneID")
   genes <- genes %>% mutate_at(c("start", "end"), as.numeric)
 
   genes <- makeGRangesFromDataFrame(genes, keep.extra.columns = TRUE)
@@ -76,22 +80,22 @@ compute_gene_scores_tss_model <- function(Z,
                             j = overlaps$idx_ATAC,
                             x = weight,
                             dims = c(length(gene.windows), length(ATAC.regions)))
-  rownames(W) <- mcols(gene.windows)$gene_ID
+  rownames(W) <- mcols(gene.windows)$GeneID
 
   # Filter out genes that do not match to any ATAC regions
   W <- W[which(Matrix::rowSums(W) != 0), ]
 
-  # weighted sum
+  # Compute the weighted sum of region scores
   Z.genescore <- W %*% Z
 
-  # normalized scores
+  # Normalize gene scores
   if (normalize == TRUE) {
-    if (method.normalization == "sum") {
-      # normalize by the sum of weights
-      Z.genescore <- Matrix::Diagonal(x = 1 / Matrix::rowSums(W)) %*% Z.genescore
-    } else {
+    if (method.normalization == "l2") {
       # normalize by the l2 norm of weights, as in Stouffer's z-score method
       Z.genescore <- Matrix::Diagonal(x = 1 / sqrt(Matrix::rowSums(W^2))) %*% Z.genescore
+    } else {
+      # normalize by the sum of weights
+      Z.genescore <- Matrix::Diagonal(x = 1 / Matrix::rowSums(W)) %*% Z.genescore
     }
   }
 
@@ -113,7 +117,7 @@ compute_gene_scores_tss_model <- function(Z,
 #' @param Z A matrix containing the scores (e.g. Z-scores) for the accessibility regions in each topic or cluster.
 #' Rows are ATAC-seq regions, columns are topics or clusters.
 #' @param ATAC.regions A data frame containing the coordinates (chr, start, end) of the accessibility regions.
-#' @param genes A data frame containing gene coordinates (chr, start, end, strand, gene_ID, etc. ) .
+#' @param genes A data frame containing gene coordinates (chr, start, end, strand, GeneID, etc. ) .
 #' @param use.ATAC.centers logical indicating whether to represent ATAC-seq positions by the centers of ATAC-seq regions
 #' @param weight.model A string for the weighting model for weighting ATAC-seq regions for gene score calculation.
 #' This string should be a function of `dist`, where `dist` is the distance from the ATAC-seq regions to the gene.
@@ -144,6 +148,10 @@ compute_gene_scores_genebody_model <- function(Z,
                                                gene.downstream = 0
 ) {
 
+  if(is.matrix(Z)){
+    Z <- as.matrix(Z)
+  }
+
   # Get ATAC-seq regions
   ATAC.regions <- as.data.frame(ATAC.regions)
   if(nrow(Z) != nrow(ATAC.regions)){
@@ -163,7 +171,7 @@ compute_gene_scores_genebody_model <- function(Z,
 
   # Get gene windows around TSS
   genes <- as.data.frame(genes)
-  colnames(genes)[1:5] <- c("chr", "start", "end", "strand", "gene_ID")
+  colnames(genes)[1:5] <- c("chr", "start", "end", "strand", "GeneID")
   genes <- genes %>% mutate_at(c("start", "end"), as.numeric)
 
   genes <- makeGRangesFromDataFrame(genes, keep.extra.columns = TRUE)
@@ -198,22 +206,22 @@ compute_gene_scores_genebody_model <- function(Z,
                             j = overlaps$idx_ATAC,
                             x = weight,
                             dims = c(length(gene.windows), length(ATAC.regions)))
-  rownames(W) <- mcols(gene.windows)$gene_ID
+  rownames(W) <- mcols(gene.windows)$GeneID
 
   # Filter out genes that do not match to any ATAC regions
   W <- W[which(Matrix::rowSums(W) != 0), ]
 
-  # weighted sum
+  # Compute the weighted sum of region scores
   Z.genescore <- W %*% Z
 
-  # normalized scores
+  # Normalize gene scores
   if (normalize == TRUE) {
-    if (method.normalization == "sum") {
-      # normalize by the sum of weights
-      Z.genescore <- Matrix::Diagonal(x = 1 / Matrix::rowSums(W)) %*% Z.genescore
-    } else {
+    if (method.normalization == "l2") {
       # normalize by the l2 norm of weights, as in Stouffer's z-score method
       Z.genescore <- Matrix::Diagonal(x = 1 / sqrt(Matrix::rowSums(W^2))) %*% Z.genescore
+    } else {
+      # normalize by the sum of weights
+      Z.genescore <- Matrix::Diagonal(x = 1 / Matrix::rowSums(W)) %*% Z.genescore
     }
   }
 
