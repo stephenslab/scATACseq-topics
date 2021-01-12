@@ -10,8 +10,8 @@
 #' @param genes A data frame containing gene coordinates (chr, start, end, strand, GeneID, etc. ).
 #' @param use.ATAC.centers logical indicating whether to represent ATAC-seq positions by the centers of ATAC-seq regions
 #' @param normalize logical indicating if the weights of the regions match to each gene should be normalized.
-#' @param method.normalization Normalization method (`l2` or `sum`). `l2: normalize by the l2 norm of the weights (default).
-#' `sum`: normalize by the sum of weights.
+#' @param method.normalization Normalization method (`sum` or `l2`).
+#' `sum`: normalize by the sum of weights (default). `l2: normalize by the l2 norm of the weights.
 #' @param c scaling constant (default = 5000)
 #' @param window.upstream An integer specifying the size of the window upstream of TSS (default = 100000, i.e. 100kb)
 #' @param window.downstream An integer specifying the size of the window downstream of TSS (default = 100000, i.e. 100kb)
@@ -23,7 +23,7 @@ compute_gene_scores_tss_model <- function(Z,
                                           genes,
                                           use.ATAC.centers = TRUE,
                                           normalize = TRUE,
-                                          method.normalization = "l2",
+                                          method.normalization = "sum",
                                           c = 5000,
                                           window.upstream = 100000,
                                           window.downstream = 100000
@@ -125,8 +125,8 @@ compute_gene_scores_tss_model <- function(Z,
 #' @param distTo A string, genebody (default) or TSS. `genebody` will compute distances from the ATAC-seq regions to gene body.
 #' `TSS` will compute distances from the ATAC-seq regions to TSS.
 #' @param normalize logical indicating if the weights of the regions match to each gene should be normalized.
-#' @param method.normalization Normalization method (`l2` or `sum`). `l2: normalize by the l2 norm of the weights (default).
-#' `sum`: normalize by the sum of weights.
+#' @param method.normalization Normalization method (`sum` or `l2`).
+#' `sum`: normalize by the sum of weights (default). `l2: normalize by the l2 norm of the weights.
 #' @param window.upstream An integer specifying the size of the window upstream of TSS (default = 100000, i.e. 100kb)
 #' @param window.downstream An integer specifying the size of the window downstream of TSS (default = 100000, i.e. 100kb)
 #' @param gene.upstream An integer describing the number of bp upstream the gene to extend the gene body (default = 5000).
@@ -141,7 +141,7 @@ compute_gene_scores_genebody_model <- function(Z,
                                                weight.model = "exp(-abs(dist)/5000) + exp(-1)",
                                                distTo = "genebody",
                                                normalize = TRUE,
-                                               method.normalization = "l2",
+                                               method.normalization = "sum",
                                                window.upstream = 100000,
                                                window.downstream = 100000,
                                                gene.upstream = 5000,
