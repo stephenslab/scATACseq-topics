@@ -96,9 +96,9 @@ print(p.hist.zscores)
 ```
 
 Volcano plot of the regions for topic 1
-```{r region-volcano-plot}
+```{r region-volcano-plot, fig.width=4, fig.height=3.5}
 volcano_plot(diff_count_topics,k = 1,label_above_quantile = Inf, 
-             subsample_below_quantile = 0.8, subsample_rate = 0.1)
+             subsample_below_quantile = 0.7, subsample_rate = 0.1)
 ```
 
 ## Motif enrichment analysis using [HOMER](http://homer.ucsd.edu/homer/ngs/peakMotifs.html)
@@ -111,7 +111,7 @@ volcano_plot(diff_count_topics,k = 1,label_above_quantile = Inf,
 
 Compile Homer results across topics
 ```{r compile-homer-motif-results}
-homer.dir <- paste0(out.dir, "/motifanalysis-Cusanovich2018-k=13-quantile/HOMER/")
+homer.dir <- paste0(out.dir, "/motifanalysis-Cusanovich2018-k=13-quantile/HOMER")
 cat(sprintf("Directory of motif analysis result: %s \n", homer.dir))
 homer_res_topics <- readRDS(file.path(homer.dir, "/homer_knownResults.rds"))
 selected_regions <- readRDS(file.path(homer.dir, "/selected_regions.rds"))
@@ -119,6 +119,7 @@ selected_regions <- readRDS(file.path(homer.dir, "/selected_regions.rds"))
 # Compile Homer results (pvalue and ranking) across topics
 motif_res <- compile_homer_motif_res(homer_res_topics)
 saveRDS(motif_res, paste0(homer.dir, "/homer_motif_enrichment_results.rds"))
+cat("compiled homer motif results are saved in", paste0(homer.dir, "/homer_motif_enrichment_results.rds"))
 
 motif_table <- data.frame(motif = gsub("/.*", "", rownames(motif_res$mlog10P)),
                           motif_res$mlog10P)
@@ -150,14 +151,14 @@ DT::datatable(data.frame(rank = 1:10, top_motifs), rownames = F, caption = "Top 
 Clustering motifs by hierarchical clustering (motifs with similar enrichment across topics are plotted together)
 ```{r motif-heatmap-1, fig.height=10, fig.width=7}
 create_motif_enrichment_heatmap(motif_res, cluster_motifs = TRUE, cluster_topics = FALSE, filter_motifs = TRUE, min_enrichment = 50, 
-                                max_enrichment = 100, method_cluster = "average", font.size.motifs = 5, font.size.topics = 9)
+                                max_enrichment = 100, method_cluster = "average", font.size.motifs = 4, font.size.topics = 9)
 
 ```
 
 Cluster both motifs and topics by hierarchical clustering
 ```{r motif-heatmap-2, fig.height=10, fig.width=7}
 create_motif_enrichment_heatmap(motif_res, cluster_motifs = TRUE, cluster_topics = TRUE, filter_motifs = TRUE, min_enrichment = 50, 
-                                max_enrichment = 100, method_cluster = "average", font.size.motifs = 5, font.size.topics = 9)
+                                max_enrichment = 100, method_cluster = "average", font.size.motifs = 4, font.size.topics = 9)
 
 ```
 
@@ -235,17 +236,26 @@ motif_gene_mapping <- create_motif_enrichment_cor_plot(motif_res$mlog10P, gene_s
                                                        cor.method = "pearson", max.overlaps = 15)
 
 motif_gene_mapping <- motif_gene_mapping[with(motif_gene_mapping, order(motif.mlog10P1*cor, decreasing = T)),]
-head(motif_gene_mapping)
+
+cat("Top motifs by motif enrichment (-log10 p-value) and correlation to gene scores: \n")
+rownames(motif_gene_mapping) <- 1:nrow(motif_gene_mapping)
+print(head(motif_gene_mapping, 10))
 ```
 
 Plot motif enrichment (-log10 p-value) and gene scores for GATA genes
 ```{r motif-gene-plot-1}
+colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
+                   "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928",
+                   "gray")
+
 GATA_genes <- grep("GATA", TF_genes, ignore.case=T, value=T)
 
 plots <- create_motif_gene_scatterplot(motif_matrix = motif_res$mlog10P,
                                        gene_matrix = gene_scores, 
                                        motif_names, gene_names, 
-                                       GATA_genes)
+                                       selected_genes = GATA_genes,
+                                       colors = colors_topics,
+                                       max.overlaps = 10)
 
 do.call(plot_grid,plots)
 ```
