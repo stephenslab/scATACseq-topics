@@ -19,7 +19,8 @@ Topic modeling analysis of single-cell ATAC-seq data
     - [PCA plots of topic proportions](compare_pca_clusters_Cusanovich2018.html)
     - [Visualize topics](plots_Cusanovich2018.html)
     - [Clustering by topic proportions (K=13)](clusters_Cusanovich2018_k13.html)
-    - [Motif enrichment and gene analysis (K=13)](motif_gene_analysis_Cusanovich2018.html)
+    - [Gene analysis (K=13)](motif_analysis_Cusanovich2018.html)
+    - [Motif analysis (K=13)](motif_analysis_Cusanovich2018.html)
 
 * Topic modeling analysis for Buenrostro 2018 single cell ATAC-seq dataset
     - [Process Buenrostro 2018 dataset](process_data_Buenrostro2018.html)
