@@ -61,7 +61,7 @@ run_homer <- function(regions.file = "peaks.bed",
       stop(homer.path, " does not exist or is not executable!")
     }
     system(cmd)
-    res <- read.csv(file.path(out.dir, "knownResults.txt"), sep="\t", header=TRUE)
+    res <- read.csv(file.path(out.dir, "knownResults.txt"), sep="\t", header=TRUE, check.names = F, stringsAsFactors = F)
     return(res)
   }
 
