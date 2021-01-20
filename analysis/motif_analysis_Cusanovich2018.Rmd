@@ -126,7 +126,7 @@ motif_table <- data.frame(motif = gsub("/.*", "", rownames(motif_res$mlog10P)),
 DT::datatable(motif_table, rownames = F, caption = "Motif enrichment (-log10P)")
 ```
 
-### Top 10 motifs
+### Top 10 motifs in each topic
 ```{r top-motifs}
 cat("Number of regions selected for each topic: \n")
 print(mapply(nrow, selected_regions[1:(length(selected_regions)-1)]))
@@ -149,14 +149,14 @@ DT::datatable(data.frame(rank = 1:10, top_motifs), rownames = F, caption = "Top 
 ### Heatmap of motif enrichment across topics
 
 Clustering motifs by hierarchical clustering (motifs with similar enrichment across topics are plotted together)
-```{r motif-heatmap-1, fig.height=10, fig.width=7}
+```{r motif-heatmap-1, fig.width=7, fig.height=11}
 create_motif_enrichment_heatmap(motif_res, cluster_motifs = TRUE, cluster_topics = FALSE, filter_motifs = TRUE, min_enrichment = 50, 
                                 max_enrichment = 100, method_cluster = "average", font.size.motifs = 4, font.size.topics = 9)
 
 ```
 
 Cluster both motifs and topics by hierarchical clustering
-```{r motif-heatmap-2, fig.height=10, fig.width=7}
+```{r motif-heatmap-2, fig.width=7, fig.height=11}
 create_motif_enrichment_heatmap(motif_res, cluster_motifs = TRUE, cluster_topics = TRUE, filter_motifs = TRUE, min_enrichment = 50, 
                                 max_enrichment = 100, method_cluster = "average", font.size.motifs = 4, font.size.topics = 9)
 
@@ -164,8 +164,9 @@ create_motif_enrichment_heatmap(motif_res, cluster_motifs = TRUE, cluster_topics
 
 ### Scatterplots of motif enrichment
 
-Plot enrichment (-log10 p-value) and ranking of the motifs
 ```{r motif-enrichment-ranking-plot-1, warning=FALSE}
+#Plot enrichment (-log10 p-value) and ranking of the motifs
+
 plots <- vector("list", ncol(motif_res$mlog10P))
 names(plots) <- colnames(motif_res$mlog10P)
 
@@ -178,12 +179,13 @@ for( i in 1:length(plots)){
 ```
 
 Plot motif enrichment (-log10 p-value) and ranking in topic 1
-```{r motif-enrichment-ranking-plot-2, warning=FALSE}
+```{r motif-enrichment-ranking-plot-2, fig.width=4, fig.height=3.5, warning=FALSE}
 print(plots[[1]])
 ```
 
-Plot motif enrichment (-log10 p-value) in each topic vs other topics
 ```{r motif-enrichment-plot-1, warning=FALSE}
+# Plot motif enrichment (-log10 p-value) in each topic vs other topics
+
 plots <- vector("list", ncol(motif_res$mlog10P))
 names(plots) <- colnames(motif_res$mlog10P)
 
@@ -197,7 +199,7 @@ for( i in 1:length(homer_res_topics)){
 ```
 
 Plot motif enrichment (-log10 p-value) in topic 1 vs other topics
-```{r motif-enrichment-plot-2, warning=FALSE}
+```{r motif-enrichment-plot-2, fig.width=4, fig.height=3.5, warning=FALSE}
 print(plots[[1]])
 ```
 
@@ -230,7 +232,7 @@ cat(sprintf("%s TF genes mapped between motif names and gene symbol. \n", length
 Compute correlation between motif enrichment and gene score:
 
 Plot motif enrichment (-log10 p-value) and correlation to gene scores for topic 1
-```{r motif-cor-plot}
+```{r motif-cor-plot, fig.width=4, fig.height=3.5, warning=FALSE}
 
 motif_gene_mapping <- create_motif_enrichment_cor_plot(motif_res$mlog10P, gene_scores, motif_names, gene_names, TF_genes, k = 1, 
                                                        cor.method = "pearson", max.overlaps = 15)
@@ -243,7 +245,7 @@ print(head(motif_gene_mapping, 10))
 ```
 
 Plot motif enrichment (-log10 p-value) and gene scores for GATA genes
-```{r motif-gene-plot-1}
+```{r motif-gene-plot-1, warning=FALSE}
 colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
                    "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928",
                    "gray")
