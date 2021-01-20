@@ -760,10 +760,9 @@ create_motif_gene_scatterplot <-
                         y = motif_matrix_matched[i,],
                         topics = factor(colnames(gene_matrix), levels = colnames(gene_matrix)))
 
-      plots[[i]] <-
-        ggplot(dat,aes_string(x = "x",y = "y", label = "topics", color = "topics")) +
+      plots[[i]] <- ggplot(dat,aes_string(x = "x",y = "y", label = "topics", color = "topics")) +
         geom_point(size = 2,stroke = 0.3) +
-        scale_fill_manual(values = colors) +
+        scale_color_manual(values = colors) +
         geom_text_repel(color = "black",size = 2.25,fontface = "italic",
                         segment.color = "black",segment.size = 0.25,
                         max.overlaps = max.overlaps,na.rm = TRUE) +
