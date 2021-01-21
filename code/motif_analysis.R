@@ -202,6 +202,7 @@ select_regions <- function(diff_count_res,
 test_motif_enrichment <- function(targetValue, numTargets,
                                   bgValue, numBackground,
                                   method = c("binomial", "hypergeometric", "normal")){
+  method <- match.arg(method)
 
   cat(sprintf("%.2f%% in target",targetValue/numTargets*100))
   cat(sprintf("%.2f%% in background",bgValue/numBackground*100))
