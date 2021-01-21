@@ -29,6 +29,8 @@ library(plotly)
 library(htmlwidgets)
 library(DT)
 library(reshape2)
+library(Logolas)
+library(grid)
 source("code/motif_analysis.R")
 source("code/plots.R")
 ```
@@ -58,9 +60,9 @@ rows <- sample(nrow(fit$L),4000)
 samples$tissue <- as.factor(samples$tissue)
 
 p.structure <- structure_plot(select(fit_multinom,loadings = rows),
-                                grouping = samples[rows, "tissue"],n = Inf,gap = 40,
-                                perplexity = 50,topics = 1:13,colors = colors_topics,
-                                num_threads = 4,verbose = FALSE)
+                              grouping = samples[rows, "tissue"],n = Inf,gap = 40,
+                              perplexity = 50,topics = 1:13,colors = colors_topics,
+                              num_threads = 4,verbose = FALSE)
 
 print(p.structure)
 ```
@@ -98,8 +100,8 @@ print(p.hist.zscores)
 
 Volcano plot of the regions
 
-**topic 1 examples**
-```{r region-volcano-plot, fig.width=4, fig.height=3.5}
+**topic 1 example**
+```{r region-volcano-plot, fig.width=5, fig.height=4}
 volcano_plot(diff_count_topics,k = 1,label_above_quantile = Inf, 
              subsample_below_quantile = 0.7, subsample_rate = 0.1)
 ```
@@ -107,8 +109,8 @@ volcano_plot(diff_count_topics,k = 1,label_above_quantile = Inf,
 ## Motif enrichment analysis using [HOMER](http://homer.ucsd.edu/homer/ngs/peakMotifs.html)
 
 * Details about HOMER motif analysis:
-    - http://homer.ucsd.edu/homer/motif/
-    - http://homer.ucsd.edu/homer/ngs/peakMotifs.html
+- http://homer.ucsd.edu/homer/motif/
+- http://homer.ucsd.edu/homer/ngs/peakMotifs.html
 
 * Motif enrichment result using regions with z-score above 99% quantile.
 
@@ -125,9 +127,10 @@ saveRDS(motif_res, paste0(homer.dir, "/homer_motif_enrichment_results.rds"))
 cat("compiled homer motif results are saved in", paste0(homer.dir, "/homer_motif_enrichment_results.rds"))
 
 motif_table <- data.frame(motif = gsub("/.*", "", rownames(motif_res$mlog10P)),
-                          motif_res$mlog10P)
+                          round(motif_res$mlog10P,2))
 DT::datatable(motif_table, rownames = F, caption = "Motif enrichment (-log10P)")
 ```
+
 
 ### Top 10 motifs in each topic
 ```{r top-motifs}
@@ -174,8 +177,8 @@ plots <- vector("list", ncol(motif_res$mlog10P))
 names(plots) <- colnames(motif_res$mlog10P)
 
 for( i in 1:length(plots)){
- plots[[i]] <- create_motif_enrichment_ranking_plot(motif_res, k = i, 
-                                                    max.overlaps = 20, subsample = FALSE)
+  plots[[i]] <- create_motif_enrichment_ranking_plot(motif_res, k = i, 
+                                                     max.overlaps = 20, subsample = FALSE)
 }
 
 # do.call(plot_grid,plots)
@@ -197,8 +200,8 @@ plots <- vector("list", ncol(motif_res$mlog10P))
 names(plots) <- colnames(motif_res$mlog10P)
 
 for( i in 1:length(homer_res_topics)){
- plots[[i]] <- create_motif_enrichment_plot(motif_res, k = i, 
-                                            max.overlaps = 20, subsample = TRUE)
+  plots[[i]] <- create_motif_enrichment_plot(motif_res, k = i, 
+                                             max.overlaps = 20, subsample = TRUE)
 }
 
 # do.call(plot_grid,plots)
@@ -274,12 +277,24 @@ print(head(motif_gene_mapping[,c("motif","motif_mlog10P", "gene_score", "cor_mlo
 ```
 
 **GATA family**
+```{r select-GATA-genes}
+GATA_genes <- grep("^GATA\\d*$", TF_genes, ignore.case=T, value=T)
+```
+
+Plot GATA motifs in topic 1
+```{r plot-GATA-logos-1, fig.width=5, fig.height=2, warning=FALSE, message=FALSE}
+k = 1
+selected_motifs <- rownames(motif_res$motifs)[match(toupper(GATA_genes), toupper(motif_names))]
+motif.dir <- paste0(homer.dir, "/homer_result_topic_", k, "/knownResults/")
+
+for (i in 1:length(selected_motifs)){
+  plot_motif_logo(homer_res_topics, selected_motifs[i], k, motif.dir, type = "both")
+}
+
+```
 
 * Plot motif enrichment (-log10 p-value) and gene scores
 ```{r motif-gene-plot-1, fig.width=8, fig.height=6, warning=FALSE}
-
-GATA_genes <- grep("^GATA\\d*$", TF_genes, ignore.case=T, value=T)
-
 plots <- create_motif_gene_scatterplot(motif_res, gene_scores, 
                                        motif_names, gene_names, 
                                        selected_genes = GATA_genes,
@@ -305,17 +320,41 @@ do.call(plot_grid,plots)
 ```
 
 **KLF/SP family**
+```{r select-KLF-SP-genes}
+KLF_genes <- grep("^KLF\\d*$", TF_genes, ignore.case=T, value=T)
+SP_genes <- grep("^SP\\d*$", TF_genes, ignore.case=T, value=T)
+
+```
+
+Plot KLF motif logos in topic 1
+```{r plot-KLF-logos-1, fig.width=5, fig.height=2, warning=FALSE, message=FALSE}
+k = 1
+selected_motifs <- rownames(motif_res$motifs)[match(toupper(KLF_genes), toupper(motif_names))]
+motif.dir <- paste0(homer.dir, "/homer_result_topic_", k, "/knownResults/")
+for (i in 1:length(selected_motifs)){
+  plot_motif_logo(homer_res_topics, selected_motifs[i], k, motif.dir, type = "both")
+}
+
+```
+
+Plot SP motif logos in topic 1
+```{r plot-SP-logos-1, fig.width=5, fig.height=2, warning=FALSE, message=FALSE}
+k = 1
+selected_motifs <- rownames(motif_res$motifs)[match(toupper(SP_genes), toupper(motif_names))]
+motif.dir <- paste0(homer.dir, "/homer_result_topic_", k, "/knownResults/")
+for (i in 1:length(selected_motifs)){
+  plot_motif_logo(homer_res_topics, selected_motifs[i], k, motif.dir, type = "both")
+}
+
+```
 
 * Plot motif enrichment (-log10 p-value) and gene scores
 ```{r motif-gene-plot-3, fig.width=12, fig.height=8, warning=FALSE}
 
-KLF_genes <- grep("^KLF\\d*$", TF_genes, ignore.case=T, value=T)
-SP_genes <- grep("^SP\\d*$", TF_genes, ignore.case=T, value=T)
-
-plots <- create_motif_gene_scatterplot(motif_res, gene_scores, 
-                                       motif_names, gene_names, 
+plots <- create_motif_gene_scatterplot(motif_res, gene_scores,
+                                       motif_names, gene_names,
                                        selected_genes = c(KLF_genes, SP_genes),
-                                       y = "-log10(p-value)", 
+                                       y = "-log10(p-value)",
                                        colors = colors_topics,
                                        max.overlaps = 10)
 
@@ -325,10 +364,10 @@ do.call(plot_grid, plots)
 * Plot motif enrichment (zscore) and gene scores
 ```{r motif-gene-plot-4, fig.width=12, fig.height=8, warning=FALSE}
 
-plots <- create_motif_gene_scatterplot(motif_res, gene_scores, 
-                                       motif_names, gene_names, 
+plots <- create_motif_gene_scatterplot(motif_res, gene_scores,
+                                       motif_names, gene_names,
                                        selected_genes = c(KLF_genes, SP_genes),
-                                       y = "z-score", 
+                                       y = "z-score",
                                        colors = colors_topics,
                                        max.overlaps = 10)
 
