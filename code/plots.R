@@ -531,7 +531,14 @@ create_genescore_gsea_plotly <- function (gene_set_info, gsea_res, k, margin = 1
 }
 
 
-# Compile HOMER motif enrichment results
+#' Compile HOMER motif enrichment results
+#'
+#' @param homer_res_topics a list of Homer results,
+#' each contains the Homer motif enrichment results for a topic after
+#' running the `run_homer()` function in `motif_analysis.R`.
+#'
+#' @export
+#'
 compile_homer_motif_res <- function(homer_res_topics) {
 
   motif_names <- sort(unique(as.character(sapply(homer_res_topics, function(x) x[,1]))))
@@ -552,8 +559,10 @@ compile_homer_motif_res <- function(homer_res_topics) {
 
   motif_ranks <- apply(-1*motif_mlog10P, 2, rank, ties.method = "min")
 
-  motif_names <- data.frame(x = motif_names) %>% separate(x, c("motif", "origin", "database"), "/")
-  motif_res <- list(motifs = motif_names,
+  motifs <- data.frame(x = motif_names) %>% separate(x, c("motif", "origin", "database"), "/")
+  rownames(motifs) <- motif_names
+
+  motif_res <- list(motifs = motifs,
                     mlog10P = motif_mlog10P,
                     Padj = motif_Padj,
                     rank = motif_ranks)
@@ -910,3 +919,48 @@ pval_to_zscore <- function(p, direction=NULL, tails=2, log.p=FALSE, p.limit=.Mac
   return(z)
 }
 
+# Make motif logo plots using `Logolas` package
+plot_motif_logo <- function(homer_res_topics, motif_name, k, motif.dir,
+                            type = c("Logo", "EDLogo", "both"),
+                            colors = c("green", "blue", "orange", "red"),
+                            xaxis_fontsize = 10, y_fontsize=10, main_fontsize=12, ...) {
+
+  type <- match.arg(type)
+
+  homer_res <- homer_res_topics[[k]]
+  colnames(homer_res) <- c("motif_name", "consensus", "P", "logP", "Padj",  "num_target", "percent_target", "num_bg", "percent_bg")
+
+  idx_motif <- which(homer_res$motif_name == motif_name)
+  motif_pwm <- read.table(sprintf("%s/known%d.motif", motif.dir,idx_motif),
+                          header = F, comment.char = ">")
+  colnames(motif_pwm) <- c("A", "C", "G", "T")
+
+  motif_pwm <- t(motif_pwm)
+
+  motif <- gsub("/.*", "", motif_name)
+  pval  <- homer_res[idx_motif, "P"]
+  mlog10P <- -1*homer_res[idx_motif, "logP"]/log(10)
+  # title <- sprintf("%s -log10(p-value) = %.1f", motif, mlog10P)
+
+  if (type == "Logo") {
+    logomaker(motif_pwm, type = "Logo", color_type = "per_row", colors = colors,
+              logo_control = list(pop_name = paste(motif, "logo"),
+                                  xaxis_fontsize = xaxis_fontsize, y_fontsize = y_fontsize, main_fontsize = main_fontsize))
+  }else if (type == "EDLogo") {
+    logomaker(motif_pwm, type = "EDLogo", color_type = "per_row", colors = colors,
+              logo_control = list(pop_name = paste(motif, "ED logo"),
+                                  xaxis_fontsize = xaxis_fontsize, y_fontsize = y_fontsize, main_fontsize = main_fontsize))
+  }else if (type == "both") {
+    Logolas::get_viewport_logo(1, 2)
+    seekViewport(paste0("plotlogo", 1))
+    logomaker(motif_pwm, type = "Logo", color_type = "per_row", colors = colors,
+              logo_control = list(newpage = FALSE, pop_name = paste(motif, "logo"),
+                                  xaxis_fontsize = xaxis_fontsize, y_fontsize = y_fontsize, main_fontsize = main_fontsize))
+
+    seekViewport(paste0("plotlogo", 2))
+    logomaker(motif_pwm, type = "EDLogo", color_type = "per_row", colors = colors,
+              logo_control = list(newpage = FALSE, pop_name = paste(motif, "ED logo"),
+                                  xaxis_fontsize = xaxis_fontsize, y_fontsize = y_fontsize, main_fontsize = main_fontsize))
+  }
+
+}
