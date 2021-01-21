@@ -187,3 +187,46 @@ select_regions <- function(diff_count_res,
 
   return(selected_regions)
 }
+
+
+#' Test motif enrichment
+#'
+#' @param targetValue Number of successes in target
+#' @param numTargets Total number in target
+#' @param bgValue Number of successes in background
+#' @param numBackground Total number in background
+#' @param method The statistical test to perform,
+#' must be one of "binomial", "hypergeometric" or "normal"
+#'
+#' @export
+test_motif_enrichment <- function(targetValue, numTargets,
+                                  bgValue, numBackground,
+                                  method = c("binomial", "hypergeometric", "normal")){
+
+  cat(sprintf("%.2f%% in target",targetValue/numTargets*100))
+  cat(sprintf("%.2f%% in background",bgValue/numBackground*100))
+
+  bgProb <- bgValue/numBackground
+
+  if(method == "binomial"){
+
+    logP <- pbinom(targetValue - 1, numTargets, bgProb, lower.tail = FALSE, log.p = TRUE)
+
+  }else if(method == "hypergeometric"){
+
+    logP <- phyper(targetValue - 1, # Number of Successes the -1 is due to cdf integration
+                   bgValue, # Number of all successes in background
+                   numBackground - bgValue, # Number of non successes in background
+                   numTargets, # Number that were drawn
+                   lower.tail = FALSE, log.p = TRUE)
+
+  }else if(method == "normal"){
+
+    mu <- numTargets*bgProb
+    sigma <- sqrt(numTargets*bgProb*(1-bgProb))
+    z <- (targetValue-mu)/sigma
+    logP <- pnorm(z, lower.tail = FALSE, log.p = TRUE)
+  }
+
+  return(logP)
+}
