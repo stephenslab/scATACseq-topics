@@ -541,12 +541,12 @@ compile_homer_motif_res <- function(homer_res_topics) {
   rownames(motif_mlog10P) <- motif_names
 
   motif_Padj <- motif_mlog10P
-  colnames_homer <- c("motif_name", "consensus", "P", "log10P", "Padj",  "num_target", "percent_target", "num_bg", "percent_bg")
+  colnames_homer <- c("motif_name", "consensus", "P", "logP", "Padj",  "num_target", "percent_target", "num_bg", "percent_bg")
 
   for (k in 1:length(homer_res_topics)){
     homer_res <- homer_res_topics[[k]]
     colnames(homer_res) <- colnames_homer
-    motif_mlog10P[,k] <- homer_res[match(motif_names, homer_res$motif_name), "log10P"] * -1
+    motif_mlog10P[,k] <- -1 * homer_res[match(motif_names, homer_res$motif_name), "logP"]/log(10)
     motif_Padj[,k] <- homer_res[match(motif_names, homer_res$motif_name), "Padj"]
   }
 
@@ -733,32 +733,58 @@ create_motif_enrichment_heatmap <- function (motif_res,
 
 }
 
+# Create a scatterplot to visualize the motif enrichment and gene scores
+# for a given topic k.
 create_motif_gene_scatterplot <-
-  function (motif_matrix, gene_matrix,
-            motif_names, gene_names,
+  function (motif_res,
+            gene_scores,
+            motif_names,
+            gene_names,
             selected_genes,
-            x.label = "gene score",
-            y.label = "motif enrichment -log10(p-value)",
+            y = c("-log10(p-value)", "z-score"),
+            cor.method = "pearson",
             colors,
             max.overlaps = 15,
             font.size = 9) {
 
-    motif_matrix_matched <- matrix(motif_matrix[match(toupper(selected_genes), toupper(motif_names)), ],
-                                   nrow = length(selected_genes))
-    gene_matrix_matched <- matrix(gene_matrix[match(toupper(selected_genes), toupper(gene_names)), ],
-                                  nrow = length(selected_genes))
+    # Check and process input arguments.
+    y <- match.arg(y)
 
-    motif_names_matched <- motif_names[match(toupper(selected_genes), toupper(motif_names))]
-    gene_names_matched <- gene_names[match(toupper(selected_genes), toupper(gene_names))]
+    idx_motifs <- match(toupper(selected_genes), toupper(motif_names))
+    idx_genes <- match(toupper(selected_genes), toupper(gene_names))
+
+    motif_mlog10P <- motif_res$mlog10P
+    motif_logP <- -1*motif_mlog10P * log(10)
+    motif_zscore <- pval_to_zscore(motif_logP, tails=1, log.p=TRUE)
+
+    motif_mlog10P_matched <- matrix(motif_mlog10P[idx_motifs, ], nrow = length(selected_genes))
+    motif_zscore_matched <- matrix(motif_zscore[idx_motifs, ], nrow = length(selected_genes))
+    gene_scores_matched <- matrix(gene_scores[idx_genes, ], nrow = length(selected_genes))
+
+    motif_names_matched <- motif_names[idx_motifs]
+    gene_names_matched <- gene_names[idx_genes]
 
     plots <- vector("list", length(selected_genes))
     names(plots) <- selected_genes
 
     for( i in 1:length(selected_genes)){
       gene.label <- gene_names_matched[i]
-      dat <- data.frame(x = gene_matrix_matched[i,],
-                        y = motif_matrix_matched[i,],
-                        topics = factor(colnames(gene_matrix), levels = colnames(gene_matrix)))
+
+      if (y == "-log10(p-value)"){
+        dat <- data.frame(x = gene_scores_matched[i,],
+                          y = motif_mlog10P_matched[i,],
+                          topics = factor(colnames(gene_scores), levels = colnames(gene_scores)))
+        y.label <- "motif enrichment -log10(p-value)"
+        title <- sprintf("%s (r = %.2f)", gene.label, cor(dat$x, dat$y, method = cor.method))
+      }else if (y == "z-score"){
+        dat <- data.frame(x = gene_scores_matched[i,],
+                          y = motif_zscore_matched[i,],
+                          topics = factor(colnames(gene_scores), levels = colnames(gene_scores)))
+        y.label <- "motif enrichment z-score"
+        title <- sprintf("%s (r = %.2f)", gene.label, cor(dat$x, dat$y, method = cor.method))
+      }
+
+      x.label <- "gene score"
 
       plots[[i]] <- ggplot(dat,aes_string(x = "x",y = "y", label = "topics", color = "topics")) +
         geom_point(size = 2,stroke = 0.3) +
@@ -768,71 +794,119 @@ create_motif_gene_scatterplot <-
                         max.overlaps = max.overlaps,na.rm = TRUE) +
         labs(x = x.label,
              y = y.label,
-             title = gene.label) +
+             title = title) +
         theme_cowplot(font.size)
     }
 
     return(plots)
   }
 
-# Create a scatterplot to visualize the motif enrichment results
+# Create a scatterplot to visualize the motif enrichment and correlation with gene scores
 # for a given topic k.
-create_motif_enrichment_cor_plot <- function (motif_matrix,
-                                              gene_matrix,
-                                              motif_names,
-                                              gene_names,
-                                              selected_genes,
-                                              k,
-                                              cor.method = "pearson",
-                                              title = paste("topic",k),
-                                              max.overlaps = 15,
-                                              font.size = 9) {
+create_motif_gene_cor_scatterplot <- function (motif_res,
+                                               gene_scores,
+                                               motif_names,
+                                               gene_names,
+                                               selected_genes,
+                                               k,
+                                               cor.motif = c("z-score","-log10(p-value)"),
+                                               cor.method = c("pearson", "spearman"),
+                                               title = paste("topic",k),
+                                               max.overlaps = 15,
+                                               font.size = 9) {
 
-  motif_matrix_matched <- motif_matrix[match(toupper(selected_genes), toupper(motif_names)), ]
-  gene_matrix_matched <- gene_matrix[match(toupper(selected_genes), toupper(gene_names)), ]
+  # Check and process input arguments.
+  cor.motif <- match.arg(cor.motif)
+  cor.method <- match.arg(cor.method)
 
-  motif_names_matched <- rownames(motif_matrix)[match(toupper(selected_genes), toupper(motif_names))]
-  motif_names_matched <- gsub("/.*", "", motif_names_matched)
-  gene_names_matched <- gene_names[match(toupper(selected_genes), toupper(gene_names))]
+  idx_motifs <- match(toupper(selected_genes), toupper(motif_names))
+  idx_genes <- match(toupper(selected_genes), toupper(gene_names))
 
-  motif_gene_mapping <- data.frame(gene = gene_names_matched,
-                                   motif = motif_names_matched,
-                                   motif.mlog10P1 = motif_matrix_matched[,k],
-                                   motif.mlog10P0 = apply(motif_matrix_matched[,-k], 1, max),
-                                   cor = NA,
-                                   cor.pval = NA,
-                                   # motif.rank = NA,
-                                   # gene.rank = NA,
+  motif_mlog10P <- motif_res$mlog10P
+  motif_logP <- -1*motif_mlog10P * log(10)
+  motif_zscore <- pval_to_zscore(motif_logP, tails=1, log.p=TRUE)
+
+  motif_mlog10P_matched <- motif_mlog10P[idx_motifs, ]
+  motif_zscore_matched <- motif_zscore[idx_motifs, ]
+  gene_scores_matched <- gene_scores[idx_genes, ]
+
+  motif_names_matched <- gsub("/.*", "", rownames(motif_mlog10P)[idx_motifs])
+  gene_names_matched <- gene_names[idx_genes]
+
+  motif_gene_mapping <- data.frame(motif = motif_names_matched,
+                                   gene = gene_names_matched,
+                                   motif_mlog10P = motif_mlog10P_matched[,k],
+                                   motif_zscore = motif_zscore_matched[,k],
+                                   gene_score = gene_scores_matched[,k],
+                                   cor.zscore = NA, cor.mlog10P= NA,
                                    row.names = selected_genes)
 
   for(i in 1:length(selected_genes)){
-    cor.res <- cor.test(motif_matrix_matched[i,], gene_matrix_matched[i,], method = cor.method)
-    motif_gene_mapping$cor[i] <- cor.res$estimate
-    motif_gene_mapping$cor.pval[i] <- cor.res$p.value
-
-    # motif_gene_mapping$motif.rank[i] <- rank(-motif_matrix_matched[i,], ties.method = "min")[k]
-    # motif_gene_mapping$gene.rank[i] <- rank(-gene_matrix_matched[i,], ties.method = "min")[k]
+      motif_gene_mapping$cor.zscore[i] <- cor(motif_zscore_matched[i,], gene_scores_matched[i,], method = cor.method)
+      motif_gene_mapping$cor.mlog10P[i] <- cor(motif_mlog10P_matched[i,], gene_scores_matched[i,], method = cor.method)
   }
 
-  dat <- data.frame(x = motif_gene_mapping$cor,
-                    y = motif_gene_mapping$motif.mlog10P1,
-                    gene = motif_gene_mapping$gene)
+  if(cor.motif == "z-score"){
+    dat <- data.frame(x = motif_gene_mapping$cor.zscore,
+                      y = motif_gene_mapping$motif_mlog10P,
+                      gene = motif_gene_mapping$gene)
+    x.label <- "Correlation between motif enrichment z-scores and gene scores"
 
-  x.label <- "Correlation to gene score"
-  y.label <- "Motif enrichment -log10(P-value) "
+  }else if (cor.motif == "-log10(p-value)"){
+    dat <- data.frame(x = motif_gene_mapping$cor.mlog10P,
+                      y = motif_gene_mapping$motif_mlog10P,
+                      gene = motif_gene_mapping$gene)
+    x.label <- "Correlation between motif enrichment -log10(p-value) and gene scores"
+  }
+
+  y.label <- "Motif enrichment -log10(p-value)"
 
   # Create the scatterplot.
   p <- ggplot(dat,aes_string(x = "x",y = "y", label = "gene")) +
-           geom_point(size = 2,stroke = 0.3) +
-           geom_text_repel(color = "black",size = 2.25,fontface = "italic",
-                           segment.color = "black",segment.size = 0.25,
-                           max.overlaps = max.overlaps,na.rm = TRUE) +
-           labs(x = x.label,
-                y = y.label,
-                title = title) +
-           theme_cowplot(font.size)
+    geom_point(size = 2,stroke = 0.3) +
+    geom_text_repel(color = "black",size = 2.25,fontface = "italic",
+                    segment.color = "black",segment.size = 0.25,
+                    max.overlaps = max.overlaps,na.rm = TRUE) +
+    labs(x = x.label,
+         y = y.label,
+         title = title) +
+    theme_cowplot(font.size)
   print(p)
 
   return(motif_gene_mapping)
 
 }
+
+
+# convert p-value or logP to z-score
+pval_to_zscore <- function(p, direction=NULL, tails=2, log.p=FALSE, p.limit=.Machine$double.xmin) {
+
+  if (log.p == TRUE){
+    logP <- p
+  }else{
+    if ( !is.null( p.limit ) ){
+      p[which(p < p.limit )] <- p.limit ## set lower limit to avoid Inf/-Inf zscores
+    }
+    logP <- log(p)
+  }
+
+  if (tails == 2) {
+    z <- qnorm(logP - log(2), lower.tail = FALSE, log.p = TRUE)
+  } else if (tails == 1){
+
+    if ( !is.null( p.limit ) ){
+      logP[which(logP == 0)] <- -p.limit ## avoid -Inf zscores when logP = 0 (pvalue = 1)
+    }
+
+    z <- qnorm(logP, lower.tail = FALSE, log.p = TRUE)
+  } else {
+    stop( "Parameter 'tails' must be set to either 1 or 2.")
+  }
+
+  if ( !is.null( direction) ) {
+    z <-  z * sign( direction )
+  }
+
+  return(z)
+}
+
