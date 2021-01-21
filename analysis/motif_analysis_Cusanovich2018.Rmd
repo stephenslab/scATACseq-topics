@@ -29,6 +29,7 @@ library(plotly)
 library(htmlwidgets)
 library(DT)
 library(reshape2)
+source("code/motif_analysis.R")
 source("code/plots.R")
 ```
 
@@ -95,7 +96,9 @@ p.hist.zscores <- ggplot(zscore_topics, aes(x=zscore)) +
 print(p.hist.zscores)
 ```
 
-Volcano plot of the regions for topic 1
+Volcano plot of the regions
+
+**topic 1 examples**
 ```{r region-volcano-plot, fig.width=4, fig.height=3.5}
 volcano_plot(diff_count_topics,k = 1,label_above_quantile = Inf, 
              subsample_below_quantile = 0.7, subsample_rate = 0.1)
@@ -165,7 +168,7 @@ create_motif_enrichment_heatmap(motif_res, cluster_motifs = TRUE, cluster_topics
 ### Scatterplots of motif enrichment
 
 ```{r motif-enrichment-ranking-plot-1, warning=FALSE}
-#Plot enrichment (-log10 p-value) and ranking of the motifs
+# Plot enrichment (-log10 p-value) and ranking of the motifs
 
 plots <- vector("list", ncol(motif_res$mlog10P))
 names(plots) <- colnames(motif_res$mlog10P)
@@ -178,7 +181,11 @@ for( i in 1:length(plots)){
 # do.call(plot_grid,plots)
 ```
 
-Plot motif enrichment (-log10 p-value) and ranking in topic 1
+
+* Plot motif enrichment (-log10 p-value) and the ranking
+
+**Topic 1 example**
+
 ```{r motif-enrichment-ranking-plot-2, fig.width=4, fig.height=3.5, warning=FALSE}
 print(plots[[1]])
 ```
@@ -198,7 +205,8 @@ for( i in 1:length(homer_res_topics)){
 
 ```
 
-Plot motif enrichment (-log10 p-value) in topic 1 vs other topics
+* Plot motif enrichment (-log10 p-value) in **topic 1** vs other topics
+
 ```{r motif-enrichment-plot-2, fig.width=4, fig.height=3.5, warning=FALSE}
 print(plots[[1]])
 ```
@@ -207,7 +215,7 @@ print(plots[[1]])
 
 Load pre-computed gene scores
 ```{r load-gene-scores}
-gene.dir <- paste0(out.dir, "/geneanalysis-Cusanovich2018-k=13-TSS-sum")
+gene.dir <- paste0(out.dir, "/geneanalysis-Cusanovich2018-k=13-TSS-l2")
 cat(sprintf("Directory of gene analysis result: %s \n", gene.dir))
 genescore_res <- readRDS(file.path(gene.dir, "genescore_result_topics.rds"))
 
@@ -229,36 +237,53 @@ cat(sprintf("%s TF genes mapped between motif names and gene symbol. \n", length
 
 ```
 
-Compute correlation between motif enrichment and gene score:
 
-Plot motif enrichment (-log10 p-value) and correlation to gene scores for topic 1
+Compute correlation between motif enrichment z-score and gene score:
+
+* Compute motif enrichment z-scores from the motif enrichment p-values
+* Plot motif enrichment (-log10 p-value) and correlation between motif enrichment z-score and gene scores
+* Rank motifs by motif enrichment (-log10 p-value) and correlation between motif enrichment z-score and gene scores
+
+**Topic 1 example**
 ```{r motif-cor-plot, fig.width=4, fig.height=3.5, warning=FALSE}
 
-motif_gene_mapping <- create_motif_enrichment_cor_plot(motif_res$mlog10P, gene_scores, motif_names, gene_names, TF_genes, k = 1, 
-                                                       cor.method = "pearson", max.overlaps = 15)
+motif_gene_mapping <- create_motif_gene_cor_scatterplot(motif_res, gene_scores, motif_names, gene_names, TF_genes, k = 1)
 
-motif_gene_mapping <- motif_gene_mapping[with(motif_gene_mapping, order(motif.mlog10P1*cor, decreasing = T)),]
+motif_gene_mapping <- motif_gene_mapping[with(motif_gene_mapping, order(motif_mlog10P*cor, decreasing = T)),]
 
 cat("Top motifs by motif enrichment (-log10 p-value) and correlation to gene scores: \n")
 rownames(motif_gene_mapping) <- 1:nrow(motif_gene_mapping)
 print(head(motif_gene_mapping, 10))
 ```
 
-Plot motif enrichment (-log10 p-value) and gene scores for GATA genes
-```{r motif-gene-plot-1, warning=FALSE}
-colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
-                   "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928",
-                   "gray")
+* Plot motif enrichment (-log10 p-value) and gene scores for GATA genes
+
+```{r motif-gene-plot-1, fig.width=8, fig.height=5, warning=FALSE}
 
 GATA_genes <- grep("GATA", TF_genes, ignore.case=T, value=T)
 
-plots <- create_motif_gene_scatterplot(motif_matrix = motif_res$mlog10P,
-                                       gene_matrix = gene_scores, 
+plots <- create_motif_gene_scatterplot(motif_res, gene_scores, 
                                        motif_names, gene_names, 
                                        selected_genes = GATA_genes,
+                                       y = "-log10(p-value)", 
                                        colors = colors_topics,
                                        max.overlaps = 10)
 
 do.call(plot_grid,plots)
 ```
 
+* Plot motif enrichment (zscore) and gene scores for GATA genes
+```{r motif-gene-plot-2, fig.width=8, fig.height=5, warning=FALSE}
+
+GATA_genes <- grep("GATA", TF_genes, ignore.case=T, value=T)
+
+plots <- create_motif_gene_scatterplot(motif_res, gene_scores, 
+                                       motif_names, gene_names, 
+                                       selected_genes = GATA_genes,
+                                       y = "z-score", 
+                                       colors = colors_topics,
+                                       max.overlaps = 10)
+
+do.call(plot_grid,plots)
+
+```
