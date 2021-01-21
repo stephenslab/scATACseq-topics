@@ -838,22 +838,22 @@ create_motif_gene_cor_scatterplot <- function (motif_res,
                                    motif_mlog10P = motif_mlog10P_matched[,k],
                                    motif_zscore = motif_zscore_matched[,k],
                                    gene_score = gene_scores_matched[,k],
-                                   cor.zscore = NA, cor.mlog10P= NA,
+                                   cor_zscore = NA, cor_mlog10P= NA,
                                    row.names = selected_genes)
 
   for(i in 1:length(selected_genes)){
-      motif_gene_mapping$cor.zscore[i] <- cor(motif_zscore_matched[i,], gene_scores_matched[i,], method = cor.method)
-      motif_gene_mapping$cor.mlog10P[i] <- cor(motif_mlog10P_matched[i,], gene_scores_matched[i,], method = cor.method)
+      motif_gene_mapping$cor_zscore[i] <- cor(motif_zscore_matched[i,], gene_scores_matched[i,], method = cor.method)
+      motif_gene_mapping$cor_mlog10P[i] <- cor(motif_mlog10P_matched[i,], gene_scores_matched[i,], method = cor.method)
   }
 
   if(cor.motif == "z-score"){
-    dat <- data.frame(x = motif_gene_mapping$cor.zscore,
+    dat <- data.frame(x = motif_gene_mapping$cor_zscore,
                       y = motif_gene_mapping$motif_mlog10P,
                       gene = motif_gene_mapping$gene)
     x.label <- "Correlation between motif enrichment z-scores and gene scores"
 
   }else if (cor.motif == "-log10(p-value)"){
-    dat <- data.frame(x = motif_gene_mapping$cor.mlog10P,
+    dat <- data.frame(x = motif_gene_mapping$cor_mlog10P,
                       y = motif_gene_mapping$motif_mlog10P,
                       gene = motif_gene_mapping$gene)
     x.label <- "Correlation between motif enrichment -log10(p-value) and gene scores"
