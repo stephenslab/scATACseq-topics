@@ -444,16 +444,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree4458ed5bf26503cb8cc53fb412abe62d96fd56e5targetblank4458ed5a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/4458ed5bf26503cb8cc53fb412abe62d96fd56e5" target="_blank">4458ed5</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreec7428cdf6599187564a1d4e4896daa384e155a6dtargetblankc7428cda"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/c7428cdf6599187564a1d4e4896daa384e155a6d" target="_blank">c7428cd</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree4458ed5bf26503cb8cc53fb412abe62d96fd56e5targetblank4458ed5a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreec7428cdf6599187564a1d4e4896daa384e155a6dtargetblankc7428cda" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/4458ed5bf26503cb8cc53fb412abe62d96fd56e5" target="_blank">4458ed5</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/c7428cdf6599187564a1d4e4896daa384e155a6d" target="_blank">c7428cd</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -531,6 +531,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/c7428cdf6599187564a1d4e4896daa384e155a6d/analysis/motif_analysis_Cusanovich2018.Rmd" target="_blank">c7428cd</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-01-20
+</td>
+<td>
+minor adjustment on the figures
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/84b236a37e91e1edbb89a04517b10ce1e23056c2/docs/motif_analysis_Cusanovich2018.html" target="_blank">84b236a</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-01-20
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1105,7 +1139,7 @@ names(plots) &lt;- colnames(motif_res$mlog10P)
 
 for( i in 1:length(plots)){
  plots[[i]] &lt;- create_motif_enrichment_ranking_plot(motif_res, k = i, 
-                                                    max.overlaps = 15, subsample = FALSE)
+                                                    max.overlaps = 20, subsample = FALSE)
 }
 
 # do.call(plot_grid,plots)</code></pre>
@@ -1114,7 +1148,7 @@ for( i in 1:length(plots)){
 </ul>
 <p><strong>Topic 1 example</strong></p>
 <pre class="r"><code>print(plots[[1]])</code></pre>
-<p><img src="figure/motif_analysis_Cusanovich2018.Rmd/motif-enrichment-ranking-plot-2-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p><img src="figure/motif_analysis_Cusanovich2018.Rmd/motif-enrichment-ranking-plot-2-1.png" width="600" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-motif-enrichment-ranking-plot-2-1">
 Past versions of motif-enrichment-ranking-plot-2-1.png
@@ -1192,7 +1226,7 @@ names(plots) &lt;- colnames(motif_res$mlog10P)
 
 for( i in 1:length(homer_res_topics)){
  plots[[i]] &lt;- create_motif_enrichment_plot(motif_res, k = i, 
-                                            max.overlaps = 15, subsample = TRUE)
+                                            max.overlaps = 20, subsample = TRUE)
 }
 
 # do.call(plot_grid,plots)</code></pre>
@@ -1200,7 +1234,7 @@ for( i in 1:length(homer_res_topics)){
 <li>Plot motif enrichment (-log10 p-value) in <strong>topic 1</strong> vs other topics</li>
 </ul>
 <pre class="r"><code>print(plots[[1]])</code></pre>
-<p><img src="figure/motif_analysis_Cusanovich2018.Rmd/motif-enrichment-plot-2-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p><img src="figure/motif_analysis_Cusanovich2018.Rmd/motif-enrichment-plot-2-1.png" width="600" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-motif-enrichment-plot-2-1">
 Past versions of motif-enrichment-plot-2-1.png
@@ -1223,6 +1257,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/84b236a37e91e1edbb89a04517b10ce1e23056c2/docs/figure/motif_analysis_Cusanovich2018.Rmd/motif-enrichment-plot-2-1.png" target="_blank">84b236a</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-01-20
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/1fb78db56c388834bd95c571a4a3c8d6f631579e/docs/figure/motif_analysis_Cusanovich2018.Rmd/motif-enrichment-plot-2-1.png" target="_blank">1fb78db</a>
@@ -1293,74 +1338,131 @@ TF_genes &lt;- intersect(toupper(motif_names), toupper(gene_names))
 cat(sprintf(&quot;%s TF genes mapped between motif names and gene symbol. \n&quot;, length(TF_genes)))</code></pre>
 <pre><code># 250 TF genes mapped between motif names and gene symbol.</code></pre>
 <p>Compute correlation between motif enrichment z-score and gene score:</p>
-<p><strong>Topic 1 example</strong> * Compute motif enrichment z-scores from the motif enrichment p-values * Plot motif enrichment (-log10 p-value) and correlation between motif enrichment z-scores and gene scores * Rank motifs by motif enrichment (-log10 p-value) and correlation between motif enrichment z-score and gene scores</p>
+<p><strong>Topic 1 example</strong></p>
+<ul>
+<li>Compute motif enrichment z-scores from the motif enrichment p-values</li>
+<li>Plot motif enrichment (-log10 p-value) and correlation between motif enrichment z-scores and gene scores</li>
+<li>Rank motifs by motif enrichment (-log10 p-value) and correlation between motif enrichment z-score and gene scores</li>
+</ul>
 <pre class="r"><code>motif_gene_mapping &lt;- create_motif_gene_cor_scatterplot(motif_res, gene_scores, motif_names, gene_names, TF_genes, 
                                                         k = 1, cor.motif = &quot;z-score&quot;)</code></pre>
-<p><img src="figure/motif_analysis_Cusanovich2018.Rmd/motif-cor-plot-1-1.png" width="480" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>motif_gene_mapping &lt;- motif_gene_mapping[with(motif_gene_mapping, order(motif_mlog10P*cor.zscore, decreasing = T)),]
-
-cat(&quot;Top motifs by motif enrichment (-log10 p-value) and correlation to gene scores: \n&quot;)
+<p><img src="figure/motif_analysis_Cusanovich2018.Rmd/motif-cor-plot-1-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-motif-cor-plot-1-1">
+Past versions of motif-cor-plot-1-1.png
+</button>
+</p>
+<div id="fig-motif-cor-plot-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/84b236a37e91e1edbb89a04517b10ce1e23056c2/docs/figure/motif_analysis_Cusanovich2018.Rmd/motif-cor-plot-1-1.png" target="_blank">84b236a</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-01-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>motif_gene_mapping &lt;- motif_gene_mapping[with(motif_gene_mapping, order(motif_mlog10P*cor_zscore, decreasing = T)),]
 rownames(motif_gene_mapping) &lt;- 1:nrow(motif_gene_mapping)
-print(head(motif_gene_mapping, 10))</code></pre>
-<pre><code># Top motifs by motif enrichment (-log10 p-value) and correlation to gene scores: 
-#          motif  gene motif_mlog10P motif_zscore gene_score cor.zscore
-# 1    Gata2(Zf) Gata2     460.35215     45.94025 27.8830209  0.5920248
-# 2    Gata6(Zf) Gata6     465.56368     46.20060 -0.6075940  0.2660333
-# 3    Gata4(Zf) Gata4     452.96914     45.56888 -0.9032233  0.2450204
-# 4     KLF5(Zf)  Klf5      63.18985     16.83769 20.2932849  0.4208190
-# 5     KLF1(Zf)  Klf1      66.14305     17.23547 51.7778237  0.3657063
-# 6     KLF3(Zf)  Klf3      58.76004     16.22288 23.3799000  0.3629908
-# 7     KLF6(Zf)  Klf6      56.02399     15.83131 14.6687082  0.3115715
-# 8     Klf4(Zf)  Klf4      57.06629     15.98160 -3.7795042  0.2882401
-# 9      Sp2(Zf)   Sp2      59.80235     16.36960 28.4662015  0.2650298
-# 10 Bach1(bZIP) Bach1      23.76459     10.14637 26.3022816  0.3642947
-#     cor.mlog10P
-# 1   0.629963388
-# 2   0.006659885
-# 3   0.051105474
-# 4   0.385521594
-# 5   0.562941174
-# 6   0.106165968
-# 7   0.098692064
-# 8  -0.055373875
-# 9   0.398822257
-# 10  0.373610276</code></pre>
+
+cat(&quot;Top 10 motifs by motif enrichment (-log10 p-value) and correlation to gene scores: \n&quot;)
+print(head(motif_gene_mapping[,c(&quot;motif&quot;,&quot;motif_mlog10P&quot;, &quot;gene_score&quot;, &quot;cor_zscore&quot;)], 10))</code></pre>
+<pre><code># Top 10 motifs by motif enrichment (-log10 p-value) and correlation to gene scores: 
+#          motif motif_mlog10P gene_score cor_zscore
+# 1    Gata2(Zf)     460.35215 27.8830209  0.5920248
+# 2    Gata6(Zf)     465.56368 -0.6075940  0.2660333
+# 3    Gata4(Zf)     452.96914 -0.9032233  0.2450204
+# 4     KLF5(Zf)      63.18985 20.2932849  0.4208190
+# 5     KLF1(Zf)      66.14305 51.7778237  0.3657063
+# 6     KLF3(Zf)      58.76004 23.3799000  0.3629908
+# 7     KLF6(Zf)      56.02399 14.6687082  0.3115715
+# 8     Klf4(Zf)      57.06629 -3.7795042  0.2882401
+# 9      Sp2(Zf)      59.80235 28.4662015  0.2650298
+# 10 Bach1(bZIP)      23.76459 26.3022816  0.3642947</code></pre>
 <ul>
 <li>Plot motif enrichment (-log10 p-value) and correlation between motif enrichment (-log10 p-value) and gene scores</li>
 <li>Rank motifs by motif enrichment (-log10 p-value) and correlation between motif enrichment (-log10 p-value) and gene scores</li>
 </ul>
 <pre class="r"><code>motif_gene_mapping &lt;- create_motif_gene_cor_scatterplot(motif_res, gene_scores, motif_names, gene_names, TF_genes, 
                                                         k = 1, cor.motif = &quot;-log10(p-value)&quot;)</code></pre>
-<p><img src="figure/motif_analysis_Cusanovich2018.Rmd/motif-cor-plot-2-1.png" width="480" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>motif_gene_mapping &lt;- motif_gene_mapping[with(motif_gene_mapping, order(motif_mlog10P*cor.mlog10P, decreasing = T)),]
-
-cat(&quot;Top motifs by motif enrichment (-log10 p-value) and correlation to gene scores: \n&quot;)
+<p><img src="figure/motif_analysis_Cusanovich2018.Rmd/motif-cor-plot-2-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-motif-cor-plot-2-1">
+Past versions of motif-cor-plot-2-1.png
+</button>
+</p>
+<div id="fig-motif-cor-plot-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/84b236a37e91e1edbb89a04517b10ce1e23056c2/docs/figure/motif_analysis_Cusanovich2018.Rmd/motif-cor-plot-2-1.png" target="_blank">84b236a</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-01-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>motif_gene_mapping &lt;- motif_gene_mapping[with(motif_gene_mapping, order(motif_mlog10P*cor_mlog10P, decreasing = T)),]
 rownames(motif_gene_mapping) &lt;- 1:nrow(motif_gene_mapping)
-print(head(motif_gene_mapping, 10))</code></pre>
-<pre><code># Top motifs by motif enrichment (-log10 p-value) and correlation to gene scores: 
-#          motif  gene motif_mlog10P motif_zscore gene_score  cor.zscore
-# 1    Gata2(Zf) Gata2    460.352151    45.940249 27.8830209  0.59202478
-# 2    Gata1(Zf) Gata1    447.757611    45.304904 26.7126627 -0.06272824
-# 3     KLF1(Zf)  Klf1     66.143050    17.235472 51.7778237  0.36570627
-# 4     KLF5(Zf)  Klf5     63.189847    16.837693 20.2932849  0.42081896
-# 5      Sp2(Zf)   Sp2     59.802350    16.369602 28.4662015  0.26502977
-# 6    Gata4(Zf) Gata4    452.969145    45.568879 -0.9032233  0.24502036
-# 7  Bach1(bZIP) Bach1     23.764594    10.146374 26.3022816  0.36429470
-# 8    KLF14(Zf) Klf14     31.538465    11.766791  0.4537105  0.11910799
-# 9    SpiB(ETS)  Spib      7.452493     5.389748 -3.0070640  0.95370507
-# 10 Tcf21(bHLH) Tcf21      8.234223     5.704582 -0.5385452  0.73531571
-#    cor.mlog10P
-# 1   0.62996339
-# 2   0.56449139
-# 3   0.56294117
-# 4   0.38552159
-# 5   0.39882226
-# 6   0.05110547
-# 7   0.37361028
-# 8   0.25921375
-# 9   0.99145723
-# 10  0.89029474</code></pre>
-<p><strong>GATA genes</strong></p>
+
+cat(&quot;Top 10 motifs by motif enrichment (-log10 p-value) and correlation to gene scores: \n&quot;)
+print(head(motif_gene_mapping[,c(&quot;motif&quot;,&quot;motif_mlog10P&quot;, &quot;gene_score&quot;, &quot;cor_mlog10P&quot;)], 10))</code></pre>
+<pre><code># Top 10 motifs by motif enrichment (-log10 p-value) and correlation to gene scores: 
+#          motif motif_mlog10P gene_score cor_mlog10P
+# 1    Gata2(Zf)    460.352151 27.8830209  0.62996339
+# 2    Gata1(Zf)    447.757611 26.7126627  0.56449139
+# 3     KLF1(Zf)     66.143050 51.7778237  0.56294117
+# 4     KLF5(Zf)     63.189847 20.2932849  0.38552159
+# 5      Sp2(Zf)     59.802350 28.4662015  0.39882226
+# 6    Gata4(Zf)    452.969145 -0.9032233  0.05110547
+# 7  Bach1(bZIP)     23.764594 26.3022816  0.37361028
+# 8    KLF14(Zf)     31.538465  0.4537105  0.25921375
+# 9    SpiB(ETS)      7.452493 -3.0070640  0.99145723
+# 10 Tcf21(bHLH)      8.234223 -0.5385452  0.89029474</code></pre>
+<p><strong>GATA family</strong></p>
 <ul>
 <li>Plot motif enrichment (-log10 p-value) and gene scores</li>
 </ul>
@@ -1397,6 +1499,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/84b236a37e91e1edbb89a04517b10ce1e23056c2/docs/figure/motif_analysis_Cusanovich2018.Rmd/motif-gene-plot-1-1.png" target="_blank">84b236a</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-01-20
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/1fb78db56c388834bd95c571a4a3c8d6f631579e/docs/figure/motif_analysis_Cusanovich2018.Rmd/motif-gene-plot-1-1.png" target="_blank">1fb78db</a>
@@ -1481,6 +1594,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/84b236a37e91e1edbb89a04517b10ce1e23056c2/docs/figure/motif_analysis_Cusanovich2018.Rmd/motif-gene-plot-2-1.png" target="_blank">84b236a</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-01-20
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/1fb78db56c388834bd95c571a4a3c8d6f631579e/docs/figure/motif_analysis_Cusanovich2018.Rmd/motif-gene-plot-2-1.png" target="_blank">1fb78db</a>
 </td>
 <td>
@@ -1494,7 +1618,7 @@ kevinlkx
 </table>
 </div>
 </div>
-<p><strong>KLF/SP genes</strong></p>
+<p><strong>KLF/SP family</strong></p>
 <ul>
 <li>Plot motif enrichment (-log10 p-value) and gene scores</li>
 </ul>
@@ -1508,8 +1632,45 @@ plots &lt;- create_motif_gene_scatterplot(motif_res, gene_scores,
                                        colors = colors_topics,
                                        max.overlaps = 10)
 
-do.call(plot_grid,plots)</code></pre>
-<p><img src="figure/motif_analysis_Cusanovich2018.Rmd/motif-gene-plot-3-1.png" width="960" style="display: block; margin: auto;" /></p>
+do.call(plot_grid, plots)</code></pre>
+<p><img src="figure/motif_analysis_Cusanovich2018.Rmd/motif-gene-plot-3-1.png" width="1440" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-motif-gene-plot-3-1">
+Past versions of motif-gene-plot-3-1.png
+</button>
+</p>
+<div id="fig-motif-gene-plot-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/84b236a37e91e1edbb89a04517b10ce1e23056c2/docs/figure/motif_analysis_Cusanovich2018.Rmd/motif-gene-plot-3-1.png" target="_blank">84b236a</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-01-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <ul>
 <li>Plot motif enrichment (zscore) and gene scores</li>
 </ul>
@@ -1521,7 +1682,44 @@ do.call(plot_grid,plots)</code></pre>
                                        max.overlaps = 10)
 
 do.call(plot_grid,plots)</code></pre>
-<p><img src="figure/motif_analysis_Cusanovich2018.Rmd/motif-gene-plot-4-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><img src="figure/motif_analysis_Cusanovich2018.Rmd/motif-gene-plot-4-1.png" width="1440" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-motif-gene-plot-4-1">
+Past versions of motif-gene-plot-4-1.png
+</button>
+</p>
+<div id="fig-motif-gene-plot-4-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/84b236a37e91e1edbb89a04517b10ce1e23056c2/docs/figure/motif_analysis_Cusanovich2018.Rmd/motif-gene-plot-4-1.png" target="_blank">84b236a</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-01-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
