@@ -243,15 +243,16 @@ DT::datatable(data.frame(rank = 1:10, top_pathways_up), rownames = F,
 ```{r gsea-plot-tss-1, fig.width=8, fig.height=7}
 k   <- 1
 name_interest <- "erythroblast"
-ids <- gene_set_info[gsea_res$pval[,k] < 1e-6 & grepl(name_interest, gene_set_info$name, ignore.case = T), "id"]
-cat(sprintf("highlighting %d gene sets \n", length(ids)))
-if(length(ids) > 0)
-  print(gene_set_info[gene_set_info$id %in% ids,])
+label_geneset_ids <- gene_set_info[gsea_res$pval[,k] < 1e-6 & grepl(name_interest, gene_set_info$name, ignore.case = T), "id"]
+cat(sprintf("highlighting %d %s gene sets \n", length(label_geneset_ids), name_interest))
 
-p.gsea <- create_genescore_gsea_plot(gene_set_info, gsea_res, k, ids, 
-                                     title = sprintf("%s cells (topic %d) GSEA plot", name_interest, k))
-print(p.gsea)
-# ggsave(sprintf("output/gsea_topic_%d_%s.png", k, name_interest), p_gsea, height = 5, width = 6.25, dpi = 200)
+create_genescore_gsea_plot(gene_set_info, gsea_res, k, label_geneset_ids, 
+                                     title = sprintf("topic %d GSEA plot",k))
+
+if(length(label_geneset_ids) > 0)
+   DT::datatable(gene_set_info[gene_set_info$id %in% label_geneset_ids, 
+                               c("name", "id", "database", "category_code", "description_brief")],  
+                 rownames = F)
 
 ```
 
@@ -301,16 +302,16 @@ DT::datatable(data.frame(rank = 1:10, top_pathways_up), rownames = F,
 ```{r gsea-plot-genebody-1, fig.width=8, fig.height=7}
 k   <- 1
 name_interest <- "erythroblast"
-ids <- gene_set_info[gsea_res$pval[,k] < 1e-6 & grepl(name_interest, gene_set_info$name, ignore.case = T), "id"]
-cat(sprintf("highlighting %d gene sets \n", length(ids)))
-if(length(ids) > 0)
-  print(gene_set_info[gene_set_info$id %in% ids,])
+label_geneset_ids <- gene_set_info[gsea_res$pval[,k] < 1e-6 & grepl(name_interest, gene_set_info$name, ignore.case = T), "id"]
+cat(sprintf("highlighting %d %s gene sets \n", length(label_geneset_ids), name_interest))
 
-p.gsea <- create_genescore_gsea_plot(gene_set_info, gsea_res, k, ids, 
-                                     title = sprintf("%s cells (topic %d) GSEA plot", name_interest, k))
-print(p.gsea)
-# ggsave(sprintf("output/gsea_topic_%d_%s.png", k, name_interest), p_gsea, height = 5, width = 6.25, dpi = 200)
+create_genescore_gsea_plot(gene_set_info, gsea_res, k, label_geneset_ids, 
+                                     title = sprintf("topic %d GSEA plot",k))
 
+if(length(label_geneset_ids) > 0)
+   DT::datatable(gene_set_info[gene_set_info$id %in% label_geneset_ids, 
+                               c("name", "id", "database", "category_code", "description_brief")],  
+                 rownames = F)
 ```
 
 Explore the GSEA plot [interactively][gsea-plotly-genebody-k1]
