@@ -444,16 +444,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree8f3685f1574ddddb04d9f98bad4e667a2e0a0e73targetblank8f3685fa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/8f3685f1574ddddb04d9f98bad4e667a2e0a0e73" target="_blank">8f3685f</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree8a4475242196bbd642c7f3e66d374a35146124f7targetblank8a44752a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/8a4475242196bbd642c7f3e66d374a35146124f7" target="_blank">8a44752</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree8f3685f1574ddddb04d9f98bad4e667a2e0a0e73targetblank8f3685fa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree8a4475242196bbd642c7f3e66d374a35146124f7targetblank8a44752a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/8f3685f1574ddddb04d9f98bad4e667a2e0a0e73" target="_blank">8f3685f</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/8a4475242196bbd642c7f3e66d374a35146124f7" target="_blank">8a44752</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -534,6 +534,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/8a4475242196bbd642c7f3e66d374a35146124f7/analysis/gene_analysis_Cusanovich2018.Rmd" target="_blank">8a44752</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-01-22
+</td>
+<td>
+minor update on highlighting the gene sets of GSEA results
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/ca6ea6fe4813bd285095282e60b7b1828844106a/docs/gene_analysis_Cusanovich2018.html" target="_blank">ca6ea6f</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-01-22
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/8f3685f1574ddddb04d9f98bad4e667a2e0a0e73/analysis/gene_analysis_Cusanovich2018.Rmd" target="_blank">8f3685f</a>
 </td>
 <td>
@@ -595,6 +629,43 @@ p.structure &lt;- structure_plot(select(fit_multinom,loadings = rows),
 
 print(p.structure)</code></pre>
 <p><img src="figure/gene_analysis_Cusanovich2018.Rmd/structure-plot-tissue-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-tissue-1">
+Past versions of structure-plot-tissue-1.png
+</button>
+</p>
+<div id="fig-structure-plot-tissue-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/ca6ea6fe4813bd285095282e60b7b1828844106a/docs/figure/gene_analysis_Cusanovich2018.Rmd/structure-plot-tissue-1.png" target="_blank">ca6ea6f</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-01-22
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="gene-score-analysis" class="section level2">
 <h2>Gene score analysis</h2>
@@ -640,6 +711,43 @@ genescore_volcano_plot(genescore_res, k, label_above_quantile = 0.99,
                        labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
                        subsample_below_quantile = 0.5, subsample_rate = 0.1)</code></pre>
 <p><img src="figure/gene_analysis_Cusanovich2018.Rmd/gene-volcano-plot-tss-1-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-gene-volcano-plot-tss-1-1">
+Past versions of gene-volcano-plot-tss-1-1.png
+</button>
+</p>
+<div id="fig-gene-volcano-plot-tss-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/ca6ea6fe4813bd285095282e60b7b1828844106a/docs/figure/gene_analysis_Cusanovich2018.Rmd/gene-volcano-plot-tss-1-1.png" target="_blank">ca6ea6f</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-01-22
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Explore the volcano plot <a href="plotly/Cusanovich2018/volcano_topic_1_tss-sum.html">interactively</a></p>
 <pre class="r"><code>for ( k in 1:ncol(genescore_res$beta) ){
   p.volcano.plotly &lt;- genescore_volcano_plotly(genescore_res,k,
@@ -684,6 +792,43 @@ genescore_volcano_plot(genescore_res, k, label_above_quantile = 0.99,
                        labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
                        subsample_below_quantile = 0.5, subsample_rate = 0.1)</code></pre>
 <p><img src="figure/gene_analysis_Cusanovich2018.Rmd/gene-volcano-plots-genebody-1-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-gene-volcano-plots-genebody-1-1">
+Past versions of gene-volcano-plots-genebody-1-1.png
+</button>
+</p>
+<div id="fig-gene-volcano-plots-genebody-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/ca6ea6fe4813bd285095282e60b7b1828844106a/docs/figure/gene_analysis_Cusanovich2018.Rmd/gene-volcano-plots-genebody-1-1.png" target="_blank">ca6ea6f</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-01-22
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Explore the volcano plot <a href="plotly/Cusanovich2018/volcano_topic_1_genebody-sum.html">interactively</a></p>
 <pre class="r"><code>for ( k in 1:ncol(genescore_res$beta) ){
   p.volcano.plotly &lt;- genescore_volcano_plotly(genescore_res,k,
@@ -709,6 +854,43 @@ for (i in 1:m) {
 
 do.call(plot_grid,plots)</code></pre>
 <p><img src="figure/gene_analysis_Cusanovich2018.Rmd/compare-genebody-tss-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-compare-genebody-tss-1">
+Past versions of compare-genebody-tss-1.png
+</button>
+</p>
+<div id="fig-compare-genebody-tss-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/ca6ea6fe4813bd285095282e60b7b1828844106a/docs/figure/gene_analysis_Cusanovich2018.Rmd/compare-genebody-tss-1.png" target="_blank">ca6ea6f</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-01-22
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="gene-set-enrichment-analysis-gsea" class="section level2">
@@ -751,29 +933,56 @@ DT::datatable(data.frame(rank = 1:10, top_pathways_up), rownames = F,
 </ul>
 <pre class="r"><code>k   &lt;- 1
 name_interest &lt;- &quot;erythroblast&quot;
-ids &lt;- gene_set_info[gsea_res$pval[,k] &lt; 1e-6 &amp; grepl(name_interest, gene_set_info$name, ignore.case = T), &quot;id&quot;]
-cat(sprintf(&quot;highlighting %d gene sets \n&quot;, length(ids)))
-if(length(ids) &gt; 0)
-  print(gene_set_info[gene_set_info$id %in% ids,])
+label_geneset_ids &lt;- gene_set_info[gsea_res$pval[,k] &lt; 1e-6 &amp; grepl(name_interest, gene_set_info$name, ignore.case = T), &quot;id&quot;]
+cat(sprintf(&quot;highlighting %d %s gene sets \n&quot;, length(label_geneset_ids), name_interest))
 
-p.gsea &lt;- create_genescore_gsea_plot(gene_set_info, gsea_res, k, ids, 
-                                     title = sprintf(&quot;%s cells (topic %d) GSEA plot&quot;, name_interest, k))
-print(p.gsea)</code></pre>
+create_genescore_gsea_plot(gene_set_info, gsea_res, k, label_geneset_ids, 
+                                     title = sprintf(&quot;topic %d GSEA plot&quot;,k))</code></pre>
 <p><img src="figure/gene_analysis_Cusanovich2018.Rmd/gsea-plot-tss-1-1.png" width="960" style="display: block; margin: auto;" /></p>
-<pre class="r"><code># ggsave(sprintf(&quot;output/gsea_topic_%d_%s.png&quot;, k, name_interest), p_gsea, height = 5, width = 6.25, dpi = 200)</code></pre>
-<pre><code># highlighting 3 gene sets 
-#                                         name    id data_source database
-# 12056    GSE27786_LIN_NEG_VS_ERYTHROBLAST_DN M4793        &lt;NA&gt;   MSigDB
-# 12111 GSE27786_ERYTHROBLAST_VS_NEUTROPHIL_UP M4875        &lt;NA&gt;   MSigDB
-# 12113   GSE27786_ERYTHROBLAST_VS_MONO_MAC_UP M4877        &lt;NA&gt;   MSigDB
-#       accession category_code sub_category_code     organism
-# 12056      &lt;NA&gt;            C7                   Mus musculus
-# 12111      &lt;NA&gt;            C7                   Mus musculus
-# 12113      &lt;NA&gt;            C7                   Mus musculus
-#                                                                    description_brief
-# 12056   Genes down-regulated in comparison of lineage negative versus erythroblasts.
-# 12111          Genes up-regulated in comparison of erythroblasts versus neutrophils.
-# 12113 Genes up-regulated in comparison of erythroblasts versus monocyte macrophages.</code></pre>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-gsea-plot-tss-1-1">
+Past versions of gsea-plot-tss-1-1.png
+</button>
+</p>
+<div id="fig-gsea-plot-tss-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/ca6ea6fe4813bd285095282e60b7b1828844106a/docs/figure/gene_analysis_Cusanovich2018.Rmd/gsea-plot-tss-1-1.png" target="_blank">ca6ea6f</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-01-22
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>if(length(label_geneset_ids) &gt; 0)
+   DT::datatable(gene_set_info[gene_set_info$id %in% label_geneset_ids, 
+                               c(&quot;name&quot;, &quot;id&quot;, &quot;database&quot;, &quot;category_code&quot;, &quot;description_brief&quot;)],  
+                 rownames = F)</code></pre>
+<pre><code># highlighting 3 erythroblast gene sets</code></pre>
+<div id="htmlwidget-46f33f1d03a2f0506ce1" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-46f33f1d03a2f0506ce1">{"x":{"filter":"none","data":[["GSE27786_LIN_NEG_VS_ERYTHROBLAST_DN","GSE27786_ERYTHROBLAST_VS_NEUTROPHIL_UP","GSE27786_ERYTHROBLAST_VS_MONO_MAC_UP"],["M4793","M4875","M4877"],["MSigDB","MSigDB","MSigDB"],["C7","C7","C7"],["Genes down-regulated in comparison of lineage negative versus erythroblasts.","Genes up-regulated in comparison of erythroblasts versus neutrophils.","Genes up-regulated in comparison of erythroblasts versus monocyte macrophages."]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>name<\/th>\n      <th>id<\/th>\n      <th>database<\/th>\n      <th>category_code<\/th>\n      <th>description_brief<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <p>Explore the GSEA plot <a href="plotly/Cusanovich2018/gsea_topic_1_tss-sum.html">interactively</a></p>
 <pre class="r"><code>for ( k in 1:ncol(gsea_res$pval)){
   p.gsea.plotly &lt;- create_genescore_gsea_plotly(gene_set_info, gsea_res, k)
@@ -813,24 +1022,61 @@ for (k in 1:ncol(gsea_res$pval)){
 DT::datatable(data.frame(rank = 1:10, top_pathways_up), rownames = F,
               caption = &quot;Top 10 pathways enriched at the top of the gene rank list.&quot;)</code></pre>
 <pre><code># Directory of gene analysis result: /project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018/geneanalysis-Cusanovich2018-k=13-genebody-sum</code></pre>
-<div id="htmlwidget-51e44c60d6fd14b9cc50" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-51e44c60d6fd14b9cc50">{"x":{"filter":"none","caption":"<caption>Top 10 pathways enriched at the top of the gene rank list.<\/caption>","data":[[1,2,3,4,5,6,7,8,9,10],["Systemic lupus erythematosus.83315","DNA methylation.1367468","ERCC6 (CSB) and EHMT2 (G9a) positively regulate rRNA expression.1367464","NoRC negatively regulates rRNA expression.1368132","NoRC negatively regulates rRNA expression.1367467","Negative epigenetic regulation of rRNA expression.1367465","Meiotic synapsis.1367999","Meiotic Synapsis.1368131","Meiotic Recombination.1368130","HU_FETAL_RETINA_BLOOD.M39263"],["MANNO_MIDBRAIN_NEUROTYPES_HRN.M39065","GO_GLUTAMATERGIC_SYNAPSE.M25999","MANNO_MIDBRAIN_NEUROTYPES_HNBML1.M39064","GO_NEURON_TO_NEURON_SYNAPSE.M26002","GAO_LARGE_INTESTINE_ADULT_CA_ENTEROENDOCRINE_CELLS.M39161","MANNO_MIDBRAIN_NEUROTYPES_HNBM.M39063","REACTOME_NEURONAL_SYSTEM.M735","GO_POSTSYNAPTIC_MEMBRANE.M17414","ZHONG_PFC_C3_ASTROCYTE.M39102","GNF2_DNM1.M3373"],["CUI_DEVELOPING_HEART_C3_FIBROBLAST_LIKE_CELL.M39300","AIZARANI_LIVER_C9_LSECS_1.M39113","REACTOME_EXTRACELLULAR_MATRIX_ORGANIZATION.M610","NABA_CORE_MATRISOME.M5884","ONDER_CDH1_TARGETS_2_UP.M13867","GO_EXTRACELLULAR_MATRIX_STRUCTURAL_CONSTITUENT.M12927","Extracellular matrix organization.1367333","MODULE_2.M9982","AIZARANI_LIVER_C20_LSECS_3.M39121","PASINI_SUZ12_TARGETS_DN.M2293"],["AIZARANI_LIVER_C7_EPCAM_POS_BILE_DUCT_CELLS_2.M39111","AIZARANI_LIVER_C24_EPCAM_POS_BILE_DUCT_CELLS_3.M39125","AIZARANI_LIVER_C39_EPCAM_POS_BILE_DUCT_CELLS_4.M39135","MCBRYAN_PUBERTAL_BREAST_4_5WK_UP.M19432","COLDREN_GEFITINIB_RESISTANCE_DN.M6744","CHARAFE_BREAST_CANCER_BASAL_VS_MESENCHYMAL_UP.M12795","AIZARANI_LIVER_C4_EPCAM_POS_BILE_DUCT_CELLS_1.M39108","GO_EPIDERMIS_DEVELOPMENT.M14065","GO_SKIN_DEVELOPMENT.M15889","GO_EPIDERMAL_CELL_DIFFERENTIATION.M12194"],["Biological oxidations.1367854","REACTOME_BIOLOGICAL_OXIDATIONS.M10320","LAKE_ADULT_KIDNEY_C3_PROXIMAL_TUBULE_EPITHELIAL_CELLS_S1_S2.M39222","GO_ORGANIC_ANION_TRANSMEMBRANE_TRANSPORTER_ACTIVITY.M18663","GO_FATTY_ACID_METABOLIC_PROCESS.M17829","MENON_FETAL_KIDNEY_8_CONNECTING_TUBULE_CELLS.M39258","NIKOLSKY_BREAST_CANCER_7P15_AMPLICON.M18241","GO_EMBRYONIC_SKELETAL_SYSTEM_MORPHOGENESIS.M10927","REACTOME_PHASE_II_CONJUGATION_OF_COMPOUNDS.M18788","SHETH_LIVER_CANCER_VS_TXNIP_LOSS_PAM4.M1280"],["AIZARANI_LIVER_C2_KUPFFER_CELLS_1.M39106","MCLACHLAN_DENTAL_CARIES_UP.M10454","AIZARANI_LIVER_C25_KUPFFER_CELLS_4.M39126","MODULE_75.M12401","GSE23568_ID3_KO_VS_WT_CD8_TCELL_DN.M8518","GO_IMMUNE_RESPONSE_REGULATING_SIGNALING_PATHWAY.M22284","FAN_EMBRYONIC_CTX_BIG_GROUPS_BRAIN_IMMUNE.M39021","POOLA_INVASIVE_BREAST_CANCER_UP.M5369","FAN_EMBRYONIC_CTX_BRAIN_B_CELL.M39045","Systemic lupus erythematosus.83315"],["GO_REGULATION_OF_BLOOD_CIRCULATION.M16818","GO_STRIATED_MUSCLE_CONTRACTION.M19924","GO_MUSCLE_TISSUE_DEVELOPMENT.M10365","GO_I_BAND.M16979","HP_ABNORMALITY_OF_CARDIOVASCULAR_SYSTEM_ELECTROPHYSIOLOGY.M38428","GSE32533_WT_VS_MIR17_OVEREXPRESS_ACT_CD4_TCELL_DN.M8465","GO_CARDIAC_MUSCLE_TISSUE_DEVELOPMENT.M13993","GO_MUSCLE_CELL_DIFFERENTIATION.M17152","GO_CARDIAC_MUSCLE_CONTRACTION.M24087","GO_STRIATED_MUSCLE_CELL_DIFFERENTIATION.M11134"],["GNF2_LCAT.M132","Retinol metabolism.83218","GO_ORGANIC_ACID_CATABOLIC_PROCESS.M13128","MODULE_212.M2027","AIZARANI_LIVER_C30_HEPATOCYTES_4.M39129","DESERT_PERIPORTAL_HEPATOCELLULAR_CARCINOMA_SUBCLASS_UP.M34031","MEBARKI_HCC_PROGENITOR_FZD8CRD_DN.M38993","SHETH_LIVER_CANCER_VS_TXNIP_LOSS_PAM4.M1280","GNF2_GSTM1.M10693","WP_METAPATHWAY_BIOTRANSFORMATION_PHASE_I_AND_II.M39588"],["MANNO_MIDBRAIN_NEUROTYPES_HRGL2C.M39053","MANNO_MIDBRAIN_NEUROTYPES_HNBML1.M39064","GO_SYNAPTIC_MEMBRANE.M17824","FAN_EMBRYONIC_CTX_BIG_GROUPS_GLIAL.M39020","GO_NEGATIVE_REGULATION_OF_NERVOUS_SYSTEM_DEVELOPMENT.M11740","FAN_EMBRYONIC_CTX_ASTROCYTE_2.M39034","GO_GLIOGENESIS.M3208","GO_GLIAL_CELL_DIFFERENTIATION.M15366","MIR4498.M30868","ZHONG_PFC_MAJOR_TYPES_OPC.M39079"],["Keratinization.1457932","REACTOME_KERATINIZATION.M27640","GO_KERATINIZATION.M15449","GO_CORNIFICATION.M24369","REACTOME_FORMATION_OF_THE_CORNIFIED_ENVELOPE.M27649","NIKOLSKY_BREAST_CANCER_20Q12_Q13_AMPLICON.M18973","GO_KERATINOCYTE_DIFFERENTIATION.M29131","GO_INTERMEDIATE_FILAMENT_CYTOSKELETON.M17620","GO_SKIN_DEVELOPMENT.M15889","GO_KERATIN_FILAMENT.M17671"],["GO_CATION_CHANNEL_ACTIVITY.M19194","GAO_LARGE_INTESTINE_ADULT_CA_ENTEROENDOCRINE_CELLS.M39161","GO_CATION_CHANNEL_COMPLEX.M17419","ZHONG_PFC_C3_ASTROCYTE.M39102","GO_REGULATION_OF_POSTSYNAPTIC_MEMBRANE_POTENTIAL.M12831","MEISSNER_NPC_HCP_WITH_H3K4ME2_AND_H3K27ME3.M1949","GO_SYNAPSE_ASSEMBLY.M10639","CAHOY_NEURONAL.M2808","REACTOME_TRANSMISSION_ACROSS_CHEMICAL_SYNAPSES.M15514","GO_INTRINSIC_COMPONENT_OF_POSTSYNAPTIC_MEMBRANE.M25996"],["LEE_DIFFERENTIATING_T_LYMPHOCYTE.M2200","FAN_EMBRYONIC_CTX_BRAIN_NAIVE_LIKE_T_CELL.M39047","Mus musculus biological processes.1368125","HAY_BONE_MARROW_NAIVE_T_CELL.M39202","AIZARANI_LIVER_C3_NK_NKT_CELLS_2.M39107","Systemic lupus erythematosus.83315","AIZARANI_LIVER_C1_NK_NKT_CELLS_1.M39105","GAO_LARGE_INTESTINE_ADULT_CI_MESENCHYMAL_CELLS.M39166","Meiosis.1367997","Meiotic synapsis.1367999"],["GO_ODORANT_BINDING.M19181","chr11q12.M5761","chr11q11.M3966","Growth hormone receptor signaling.1367608","Taste transduction.83285","chr11p15.M9514","GPCR ligand binding.1367054","Prolactin receptor signaling.1367010","G alpha (i) signalling events.1367086","chr4q13.M1196"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>rank<\/th>\n      <th>k1<\/th>\n      <th>k2<\/th>\n      <th>k3<\/th>\n      <th>k4<\/th>\n      <th>k5<\/th>\n      <th>k6<\/th>\n      <th>k7<\/th>\n      <th>k8<\/th>\n      <th>k9<\/th>\n      <th>k10<\/th>\n      <th>k11<\/th>\n      <th>k12<\/th>\n      <th>k13<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-42315085f2f32a6c63ca" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-42315085f2f32a6c63ca">{"x":{"filter":"none","caption":"<caption>Top 10 pathways enriched at the top of the gene rank list.<\/caption>","data":[[1,2,3,4,5,6,7,8,9,10],["Systemic lupus erythematosus.83315","DNA methylation.1367468","ERCC6 (CSB) and EHMT2 (G9a) positively regulate rRNA expression.1367464","NoRC negatively regulates rRNA expression.1368132","NoRC negatively regulates rRNA expression.1367467","Negative epigenetic regulation of rRNA expression.1367465","Meiotic synapsis.1367999","Meiotic Synapsis.1368131","Meiotic Recombination.1368130","HU_FETAL_RETINA_BLOOD.M39263"],["MANNO_MIDBRAIN_NEUROTYPES_HRN.M39065","GO_GLUTAMATERGIC_SYNAPSE.M25999","MANNO_MIDBRAIN_NEUROTYPES_HNBML1.M39064","GO_NEURON_TO_NEURON_SYNAPSE.M26002","GAO_LARGE_INTESTINE_ADULT_CA_ENTEROENDOCRINE_CELLS.M39161","MANNO_MIDBRAIN_NEUROTYPES_HNBM.M39063","REACTOME_NEURONAL_SYSTEM.M735","GO_POSTSYNAPTIC_MEMBRANE.M17414","ZHONG_PFC_C3_ASTROCYTE.M39102","GNF2_DNM1.M3373"],["CUI_DEVELOPING_HEART_C3_FIBROBLAST_LIKE_CELL.M39300","AIZARANI_LIVER_C9_LSECS_1.M39113","REACTOME_EXTRACELLULAR_MATRIX_ORGANIZATION.M610","NABA_CORE_MATRISOME.M5884","ONDER_CDH1_TARGETS_2_UP.M13867","GO_EXTRACELLULAR_MATRIX_STRUCTURAL_CONSTITUENT.M12927","Extracellular matrix organization.1367333","MODULE_2.M9982","AIZARANI_LIVER_C20_LSECS_3.M39121","PASINI_SUZ12_TARGETS_DN.M2293"],["AIZARANI_LIVER_C7_EPCAM_POS_BILE_DUCT_CELLS_2.M39111","AIZARANI_LIVER_C24_EPCAM_POS_BILE_DUCT_CELLS_3.M39125","AIZARANI_LIVER_C39_EPCAM_POS_BILE_DUCT_CELLS_4.M39135","MCBRYAN_PUBERTAL_BREAST_4_5WK_UP.M19432","COLDREN_GEFITINIB_RESISTANCE_DN.M6744","CHARAFE_BREAST_CANCER_BASAL_VS_MESENCHYMAL_UP.M12795","AIZARANI_LIVER_C4_EPCAM_POS_BILE_DUCT_CELLS_1.M39108","GO_EPIDERMIS_DEVELOPMENT.M14065","GO_SKIN_DEVELOPMENT.M15889","GO_EPIDERMAL_CELL_DIFFERENTIATION.M12194"],["Biological oxidations.1367854","REACTOME_BIOLOGICAL_OXIDATIONS.M10320","LAKE_ADULT_KIDNEY_C3_PROXIMAL_TUBULE_EPITHELIAL_CELLS_S1_S2.M39222","GO_ORGANIC_ANION_TRANSMEMBRANE_TRANSPORTER_ACTIVITY.M18663","GO_FATTY_ACID_METABOLIC_PROCESS.M17829","MENON_FETAL_KIDNEY_8_CONNECTING_TUBULE_CELLS.M39258","NIKOLSKY_BREAST_CANCER_7P15_AMPLICON.M18241","GO_EMBRYONIC_SKELETAL_SYSTEM_MORPHOGENESIS.M10927","REACTOME_PHASE_II_CONJUGATION_OF_COMPOUNDS.M18788","SHETH_LIVER_CANCER_VS_TXNIP_LOSS_PAM4.M1280"],["AIZARANI_LIVER_C2_KUPFFER_CELLS_1.M39106","MCLACHLAN_DENTAL_CARIES_UP.M10454","AIZARANI_LIVER_C25_KUPFFER_CELLS_4.M39126","MODULE_75.M12401","GSE23568_ID3_KO_VS_WT_CD8_TCELL_DN.M8518","GO_IMMUNE_RESPONSE_REGULATING_SIGNALING_PATHWAY.M22284","FAN_EMBRYONIC_CTX_BIG_GROUPS_BRAIN_IMMUNE.M39021","POOLA_INVASIVE_BREAST_CANCER_UP.M5369","FAN_EMBRYONIC_CTX_BRAIN_B_CELL.M39045","Systemic lupus erythematosus.83315"],["GO_REGULATION_OF_BLOOD_CIRCULATION.M16818","GO_STRIATED_MUSCLE_CONTRACTION.M19924","GO_MUSCLE_TISSUE_DEVELOPMENT.M10365","GO_I_BAND.M16979","HP_ABNORMALITY_OF_CARDIOVASCULAR_SYSTEM_ELECTROPHYSIOLOGY.M38428","GSE32533_WT_VS_MIR17_OVEREXPRESS_ACT_CD4_TCELL_DN.M8465","GO_CARDIAC_MUSCLE_TISSUE_DEVELOPMENT.M13993","GO_MUSCLE_CELL_DIFFERENTIATION.M17152","GO_CARDIAC_MUSCLE_CONTRACTION.M24087","GO_STRIATED_MUSCLE_CELL_DIFFERENTIATION.M11134"],["GNF2_LCAT.M132","Retinol metabolism.83218","GO_ORGANIC_ACID_CATABOLIC_PROCESS.M13128","MODULE_212.M2027","AIZARANI_LIVER_C30_HEPATOCYTES_4.M39129","DESERT_PERIPORTAL_HEPATOCELLULAR_CARCINOMA_SUBCLASS_UP.M34031","MEBARKI_HCC_PROGENITOR_FZD8CRD_DN.M38993","SHETH_LIVER_CANCER_VS_TXNIP_LOSS_PAM4.M1280","GNF2_GSTM1.M10693","WP_METAPATHWAY_BIOTRANSFORMATION_PHASE_I_AND_II.M39588"],["MANNO_MIDBRAIN_NEUROTYPES_HRGL2C.M39053","MANNO_MIDBRAIN_NEUROTYPES_HNBML1.M39064","GO_SYNAPTIC_MEMBRANE.M17824","FAN_EMBRYONIC_CTX_BIG_GROUPS_GLIAL.M39020","GO_NEGATIVE_REGULATION_OF_NERVOUS_SYSTEM_DEVELOPMENT.M11740","FAN_EMBRYONIC_CTX_ASTROCYTE_2.M39034","GO_GLIOGENESIS.M3208","GO_GLIAL_CELL_DIFFERENTIATION.M15366","MIR4498.M30868","ZHONG_PFC_MAJOR_TYPES_OPC.M39079"],["Keratinization.1457932","REACTOME_KERATINIZATION.M27640","GO_KERATINIZATION.M15449","GO_CORNIFICATION.M24369","REACTOME_FORMATION_OF_THE_CORNIFIED_ENVELOPE.M27649","NIKOLSKY_BREAST_CANCER_20Q12_Q13_AMPLICON.M18973","GO_KERATINOCYTE_DIFFERENTIATION.M29131","GO_INTERMEDIATE_FILAMENT_CYTOSKELETON.M17620","GO_SKIN_DEVELOPMENT.M15889","GO_KERATIN_FILAMENT.M17671"],["GO_CATION_CHANNEL_ACTIVITY.M19194","GAO_LARGE_INTESTINE_ADULT_CA_ENTEROENDOCRINE_CELLS.M39161","GO_CATION_CHANNEL_COMPLEX.M17419","ZHONG_PFC_C3_ASTROCYTE.M39102","GO_REGULATION_OF_POSTSYNAPTIC_MEMBRANE_POTENTIAL.M12831","MEISSNER_NPC_HCP_WITH_H3K4ME2_AND_H3K27ME3.M1949","GO_SYNAPSE_ASSEMBLY.M10639","CAHOY_NEURONAL.M2808","REACTOME_TRANSMISSION_ACROSS_CHEMICAL_SYNAPSES.M15514","GO_INTRINSIC_COMPONENT_OF_POSTSYNAPTIC_MEMBRANE.M25996"],["LEE_DIFFERENTIATING_T_LYMPHOCYTE.M2200","FAN_EMBRYONIC_CTX_BRAIN_NAIVE_LIKE_T_CELL.M39047","Mus musculus biological processes.1368125","HAY_BONE_MARROW_NAIVE_T_CELL.M39202","AIZARANI_LIVER_C3_NK_NKT_CELLS_2.M39107","Systemic lupus erythematosus.83315","AIZARANI_LIVER_C1_NK_NKT_CELLS_1.M39105","GAO_LARGE_INTESTINE_ADULT_CI_MESENCHYMAL_CELLS.M39166","Meiosis.1367997","Meiotic synapsis.1367999"],["GO_ODORANT_BINDING.M19181","chr11q12.M5761","chr11q11.M3966","Growth hormone receptor signaling.1367608","Taste transduction.83285","chr11p15.M9514","GPCR ligand binding.1367054","Prolactin receptor signaling.1367010","G alpha (i) signalling events.1367086","chr4q13.M1196"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>rank<\/th>\n      <th>k1<\/th>\n      <th>k2<\/th>\n      <th>k3<\/th>\n      <th>k4<\/th>\n      <th>k5<\/th>\n      <th>k6<\/th>\n      <th>k7<\/th>\n      <th>k8<\/th>\n      <th>k9<\/th>\n      <th>k10<\/th>\n      <th>k11<\/th>\n      <th>k12<\/th>\n      <th>k13<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <ul>
 <li>Scatterplot of GSEA results <strong>Topic 1</strong> (highlighting &quot;Erythroblast&quot; cells)</li>
 </ul>
 <pre class="r"><code>k   &lt;- 1
 name_interest &lt;- &quot;erythroblast&quot;
-ids &lt;- gene_set_info[gsea_res$pval[,k] &lt; 1e-6 &amp; grepl(name_interest, gene_set_info$name, ignore.case = T), &quot;id&quot;]
-cat(sprintf(&quot;highlighting %d gene sets \n&quot;, length(ids)))
-if(length(ids) &gt; 0)
-  print(gene_set_info[gene_set_info$id %in% ids,])
+label_geneset_ids &lt;- gene_set_info[gsea_res$pval[,k] &lt; 1e-6 &amp; grepl(name_interest, gene_set_info$name, ignore.case = T), &quot;id&quot;]
+cat(sprintf(&quot;highlighting %d %s gene sets \n&quot;, length(label_geneset_ids), name_interest))
 
-p.gsea &lt;- create_genescore_gsea_plot(gene_set_info, gsea_res, k, ids, 
-                                     title = sprintf(&quot;%s cells (topic %d) GSEA plot&quot;, name_interest, k))
-print(p.gsea)</code></pre>
+create_genescore_gsea_plot(gene_set_info, gsea_res, k, label_geneset_ids, 
+                                     title = sprintf(&quot;topic %d GSEA plot&quot;,k))</code></pre>
 <p><img src="figure/gene_analysis_Cusanovich2018.Rmd/gsea-plot-genebody-1-1.png" width="960" style="display: block; margin: auto;" /></p>
-<pre class="r"><code># ggsave(sprintf(&quot;output/gsea_topic_%d_%s.png&quot;, k, name_interest), p_gsea, height = 5, width = 6.25, dpi = 200)</code></pre>
-<pre><code># highlighting 0 gene sets</code></pre>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-gsea-plot-genebody-1-1">
+Past versions of gsea-plot-genebody-1-1.png
+</button>
+</p>
+<div id="fig-gsea-plot-genebody-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/ca6ea6fe4813bd285095282e60b7b1828844106a/docs/figure/gene_analysis_Cusanovich2018.Rmd/gsea-plot-genebody-1-1.png" target="_blank">ca6ea6f</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-01-22
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>if(length(label_geneset_ids) &gt; 0)
+   DT::datatable(gene_set_info[gene_set_info$id %in% label_geneset_ids, 
+                               c(&quot;name&quot;, &quot;id&quot;, &quot;database&quot;, &quot;category_code&quot;, &quot;description_brief&quot;)],  
+                 rownames = F)</code></pre>
+<pre><code># highlighting 0 erythroblast gene sets</code></pre>
 <p>Explore the GSEA plot <a href="plotly/Cusanovich2018/gsea_topic_1_genebody-sum.html">interactively</a></p>
 <pre class="r"><code>for ( k in 1:ncol(gsea_res$pval)){
   p.gsea.plotly &lt;- create_genescore_gsea_plotly(gene_set_info, gsea_res, k)
