@@ -1,0 +1,330 @@
+---
+title: "Gene analysis using topic modeling results for Cusanovich *et al* (2018) scATAC-seq data"
+author: Kaixuan Luo
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: false
+---
+
+Here we perform gene analysis
+for the Cusanovich *et al* (2018) scATAC-seq result inferred 
+from the multinomial topic model with $k = 13$.
+
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(comment = "#",collapse = FALSE,results = "hold",
+                      fig.align = "center",dpi = 120, message = FALSE, warning = FALSE)
+```
+
+## Load packages and some functions used in this analysis
+```{r load-pkgs}
+library(Matrix)
+library(fastTopics)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(ggrepel)
+library(cowplot)
+library(plotly)
+library(htmlwidgets)
+library(DT)
+library(reshape)
+source("code/plots.R")
+```
+
+## Load data and topic model results
+Load the data and the $k = 13$ Poisson NMF fit results.
+```{r load-data}
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/processed_data"
+load(file.path(data.dir, "Cusanovich_2018.RData"))
+rm(counts)
+```
+
+```{r load-fit}
+fit.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
+fit <- readRDS(file.path(fit.dir, "/fit-Cusanovich2018-scd-ex-k=13.rds"))$fit
+fit_multinom <- poisson2multinom(fit)
+```
+
+## Visualize by Structure plot grouped by tissues
+```{r structure-plot-tissue, fig.width=7, fig.height=2.5}
+set.seed(10)
+colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
+                   "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928",
+                   "gray")
+rows <- sample(nrow(fit$L),4000)
+samples$tissue <- as.factor(samples$tissue)
+
+p.structure <- structure_plot(select(fit_multinom,loadings = rows),
+                              grouping = samples[rows, "tissue"],n = Inf,gap = 40,
+                              perplexity = 50,topics = 1:13,colors = colors_topics,
+                              num_threads = 4,verbose = FALSE)
+
+print(p.structure)
+```
+
+## Gene score analysis
+
+Set output directorry
+```{r set-dir}
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
+
+fig.dir <- "output/plotly/Cusanovich2018"
+dir.create(fig.dir, showWarnings = F, recursive = T)
+```
+
+### TSS model
+
+Gene scores were computed using TSS based method as in Lareau *et al* Nature Biotech, 2019 as well as the `model 21` in `archR` paper.
+This model weights chromatin accessibility around gene promoters by using bi-directional exponential decays from the TSS,
+
+* Top genes
+```{r top-genes-tss}
+gene.dir <- paste0(out.dir, "/geneanalysis-Cusanovich2018-k=13-TSS-sum")
+cat(sprintf("Directory of gene analysis result: %s \n", gene.dir))
+genescore_res_tss <- readRDS(file.path(gene.dir, "genescore_result_topics.rds"))
+genescore_res <- genescore_res_tss
+
+genes <- genescore_res$genes
+gene_mean_acc <- genescore_res$colmeans
+gene_scores <- genescore_res$Z
+gene_logFC <- genescore_res$beta
+
+topics <- colnames(gene_scores)
+top_genes <- data.frame(matrix(nrow=10, ncol = ncol(gene_scores)))
+colnames(top_genes) <- topics
+
+for (k in topics){
+  top_genes[,k] <- genes$SYMBOL[head(order(abs(gene_scores[,k]), decreasing=TRUE), 10)]
+}
+
+DT::datatable(data.frame(rank = 1:10, top_genes), rownames = F, caption = "Top 10 genes by abs(gene z-scores)")
+
+```
+
+* Volcano plots
+```{r gene-volcano-plots-tss, eval=FALSE, include=FALSE}
+genescore_volcano_plot(genescore_res, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)
+```
+
+**Topic 1**
+```{r gene-volcano-plot-tss-1, fig.width=5, fig.height=4}
+k <- 1
+genescore_volcano_plot(genescore_res, k, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)
+
+```
+
+Explore the volcano plot [interactively][volcano-plotly-tss-k1]
+```{r gene-volcano-plotly-tss-1}
+for ( k in 1:ncol(genescore_res$beta) ){
+  p.volcano.plotly <- genescore_volcano_plotly(genescore_res,k,
+                                             file = sprintf("%s/volcano_topic_%s_%s.html", fig.dir, k, "tss-sum"),
+                                             labels = genescore_res$genes$SYMBOL)
+}
+```
+
+### Gene body model
+
+Gene scores were computed using the gene score model (model 42) in the `archR` paper with some modifications.
+This model uses bi-directional exponential decays from the gene TSS (extended upstream by 5 kb by default)
+and the gene transcription termination site (TTS).
+Note: the current version of the function does not account for neighboring gene boundaries.
+
+* Top genes
+```{r top-genes-genebody}
+gene.dir <- paste0(out.dir, "/geneanalysis-Cusanovich2018-k=13-genebody-sum")
+cat(sprintf("Directory of gene analysis result: %s \n", gene.dir))
+genescore_res_gb <- readRDS(file.path(gene.dir, "genescore_result_topics.rds"))
+genescore_res <- genescore_res_gb
+
+genes <- genescore_res$genes
+gene_mean_acc <- genescore_res$colmeans
+gene_scores <- genescore_res$Z
+gene_logFC <- genescore_res$beta
+
+topics <- colnames(gene_scores)
+top_genes <- data.frame(matrix(nrow=10, ncol = ncol(gene_scores)))
+colnames(top_genes) <- topics
+
+for (k in topics){
+  top_genes[,k] <- genes$SYMBOL[head(order(abs(gene_scores[,k]), decreasing=TRUE), 10)]
+}
+
+DT::datatable(data.frame(rank = 1:10, top_genes), rownames = F, caption = "Top 10 genes by abs(gene z-scores)")
+
+```
+
+* Volcano plots
+```{r gene-volcano-plots-genebody, eval=FALSE, include=FALSE}
+genescore_volcano_plot(genescore_res, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)
+```
+
+**Topic 1**
+```{r gene-volcano-plots-genebody-1, fig.width=5, fig.height=4}
+k <- 1
+genescore_volcano_plot(genescore_res, k, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)
+
+```
+
+Explore the volcano plot [interactively][volcano-plotly-genebody-k1]
+```{r gene-volcano-plotly-genebody-1}
+for ( k in 1:ncol(genescore_res$beta) ){
+  p.volcano.plotly <- genescore_volcano_plotly(genescore_res,k,
+                                             file = sprintf("%s/volcano_topic_%s_%s.html", fig.dir, k, "genebody-sum"),
+                                             labels = genescore_res$genes$SYMBOL)
+}
+```
+
+### Compare gene scores from the gene-body model vs. the TSS model.
+```{r compare-genebody-tss, fig.width=8, fig.height=7}
+m     <- ncol(genescore_res_gb$Z)
+plots <- vector("list",m)
+names(plots) <- colnames(genescore_res_gb$Z)
+for (i in 1:m) {
+  dat <- data.frame(genebody = genescore_res_gb$Z[,i], tss = genescore_res_tss$Z[,i])
+  plots[[i]] <- 
+    ggplot(dat,aes_string(x = "genebody",y = "tss")) +
+    geom_point(shape = 21, na.rm = TRUE, size = 1, alpha = 1/10) +
+    geom_abline(intercept = 0, slope = 1, color="blue") + 
+    labs(x = "gene body model",y = "TSS model", 
+         title = paste("topic",i)) +
+    theme_cowplot(9)
+}
+
+do.call(plot_grid,plots)
+
+```
+
+## Gene-set enrichment analysis (GSEA)
+
+### TSS model
+Top gene sets/pathways
+```{r top-genesets-tss}
+gene.dir <- paste0(out.dir, "/geneanalysis-Cusanovich2018-k=13-TSS-sum")
+cat(sprintf("Directory of gene analysis result: %s \n", gene.dir))
+load(file.path(gene.dir, "genescores_gsea.Rdata"))
+
+top_pathways_up <- top_pathways_down <- data.frame(matrix(nrow=10, ncol = ncol(gsea_res$pval)))
+colnames(top_pathways_up) <- colnames(top_pathways_down) <- colnames(gsea_res$pval)
+
+for (k in 1:ncol(gsea_res$pval)){
+  gsea_topic <- data.frame(pathway = rownames(gsea_res$pval),  
+                           pval = gsea_res$pval[,k],
+                           log2err = gsea_res$log2err[,k],
+                           ES = gsea_res$ES[,k],
+                           NES = gsea_res$NES[,k])
+  gsea_up <- gsea_topic[gsea_topic$ES > 0,]
+  top_IDs_up <- as.character(gsea_up[head(order(gsea_up$pval), 10), "pathway"])
+  top_IDs_up <- gene_set_info[match(top_IDs_up, gene_set_info$id),c("name", "id")]
+  top_pathways_up[,k] <- paste0(top_IDs_up$name, "(", top_IDs_up$id, ")")
+  
+  gsea_down <- gsea_topic[gsea_topic$ES < 0,]
+  top_IDs_down <- as.character(gsea_down[head(order(gsea_down$pval), 10), "pathway"])
+  top_IDs_down <- gene_set_info[match(top_IDs_down, gene_set_info$id),c("name", "id")]
+  top_pathways_down[,k] <- paste0(top_IDs_down$name, "(", top_IDs_down$id, ")")
+  
+}
+
+DT::datatable(data.frame(rank = 1:10, top_pathways_up), rownames = F,
+              caption = "Top 10 pathways enriched at the top of the gene rank list.")
+
+```
+
+* Scatterplot of GSEA results
+**Topic 1** (highlighting "Erythroblast" cells)
+```{r gsea-plot-tss-1, fig.width=8, fig.height=7}
+k   <- 1
+name_interest <- "erythroblast"
+ids <- gene_set_info[gsea_res$pval[,k] < 1e-6 & grepl(name_interest, gene_set_info$name, ignore.case = T), "id"]
+cat(sprintf("highlighting %d gene sets \n", length(ids)))
+if(length(ids) > 0)
+  print(gene_set_info[gene_set_info$id %in% ids,])
+
+p.gsea <- create_genescore_gsea_plot(gene_set_info, gsea_res, k, ids, 
+                                     title = sprintf("%s cells (topic %d) GSEA plot", name_interest, k))
+print(p.gsea)
+# ggsave(sprintf("output/gsea_topic_%d_%s.png", k, name_interest), p_gsea, height = 5, width = 6.25, dpi = 200)
+
+```
+
+Explore the GSEA plot [interactively][gsea-plotly-tss-k1]
+```{r gsea-plotly-tss-1}
+for ( k in 1:ncol(gsea_res$pval)){
+  p.gsea.plotly <- create_genescore_gsea_plotly(gene_set_info, gsea_res, k)
+  saveWidget(p.gsea.plotly,file = sprintf("%s/gsea_topic_%s_%s.html", fig.dir, k, "tss-sum"),
+             selfcontained = TRUE,title = "GSEA")
+}
+```
+
+### Gene body model
+* Top gene sets
+```{r top-genesets-genebody}
+gene.dir <- paste0(out.dir, "/geneanalysis-Cusanovich2018-k=13-genebody-sum")
+cat(sprintf("Directory of gene analysis result: %s \n", gene.dir))
+load(file.path(gene.dir, "genescores_gsea.Rdata"))
+
+top_pathways_up <- top_pathways_down <- data.frame(matrix(nrow=10, ncol = ncol(gsea_res$pval)))
+colnames(top_pathways_up) <- colnames(top_pathways_down) <- colnames(gsea_res$pval)
+
+for (k in 1:ncol(gsea_res$pval)){
+  gsea_topic <- data.frame(pathway = rownames(gsea_res$pval),  
+                           pval = gsea_res$pval[,k],
+                           log2err = gsea_res$log2err[,k],
+                           ES = gsea_res$ES[,k],
+                           NES = gsea_res$NES[,k])
+  gsea_up <- gsea_topic[gsea_topic$ES > 0,]
+  top_IDs_up <- as.character(gsea_up[head(order(gsea_up$pval), 10), "pathway"])
+  top_pathways_up[,k] <- gene_set_info[match(top_IDs_up, gene_set_info$id),c("name", "id")] %>% 
+    unite("pathway", c("name", "id"), sep = ".", remove = TRUE)
+  
+  gsea_down <- gsea_topic[gsea_topic$ES < 0,]
+  top_IDs_down <- as.character(gsea_down[head(order(gsea_down$pval), 10), "pathway"])
+  top_pathways_down[,k] <- gene_set_info[match(top_IDs_down, gene_set_info$id),c("name", "id")] %>% 
+    unite("pathway", c("name", "id"), sep = ".", remove = TRUE)
+}
+
+DT::datatable(data.frame(rank = 1:10, top_pathways_up), rownames = F,
+              caption = "Top 10 pathways enriched at the top of the gene rank list.")
+
+```
+
+* Scatterplot of GSEA results
+**Topic 1** (highlighting "Erythroblast" cells)
+```{r gsea-plot-genebody-1, fig.width=8, fig.height=7}
+k   <- 1
+name_interest <- "erythroblast"
+ids <- gene_set_info[gsea_res$pval[,k] < 1e-6 & grepl(name_interest, gene_set_info$name, ignore.case = T), "id"]
+cat(sprintf("highlighting %d gene sets \n", length(ids)))
+if(length(ids) > 0)
+  print(gene_set_info[gene_set_info$id %in% ids,])
+
+p.gsea <- create_genescore_gsea_plot(gene_set_info, gsea_res, k, ids, 
+                                     title = sprintf("%s cells (topic %d) GSEA plot", name_interest, k))
+print(p.gsea)
+# ggsave(sprintf("output/gsea_topic_%d_%s.png", k, name_interest), p_gsea, height = 5, width = 6.25, dpi = 200)
+
+```
+
+Explore the GSEA plot [interactively][gsea-plotly-genebody-k1]
+```{r gsea-plotly-genebody-1}
+for ( k in 1:ncol(gsea_res$pval)){
+  p.gsea.plotly <- create_genescore_gsea_plotly(gene_set_info, gsea_res, k)
+saveWidget(p.gsea.plotly,file = sprintf("%s/gsea_topic_%s_%s.html", fig.dir, k, "genebody-sum"),
+           selfcontained = TRUE,title = "GSEA")
+}
+
+```
+
+
+[volcano-plotly-tss-k1]: plotly/Cusanovich2018/volcano_topic_1_tss-sum.html
+[volcano-plotly-genebody-k1]: plotly/Cusanovich2018/volcano_topic_1_genebody-sum.html
+[gsea-plotly-tss-k1]: plotly/Cusanovich2018/gsea_topic_1_tss-sum.html
+[gsea-plotly-genebody-k1]: plotly/Cusanovich2018/gsea_topic_1_genebody-sum.html
