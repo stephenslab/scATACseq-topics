@@ -123,7 +123,7 @@ run_GREAT <- function(gr,
 #' `zscore` selects regions in which zscore > `thresh.z`,
 #' `logFC` selects regions in which beta > `thresh.logFC`.
 #' @param out.dir Output directory.
-#' @param thresh.nlog10P Threshold of -log10(p-value).
+#' @param thresh.mlog10P Threshold of -log10(p-value).
 #' @param thresh.z Threshold of z-score.
 #' @param thresh.logFC Threshold of logFC.
 #' @param thresh.quantile Threshold of z-score quantile, default = 0.99.
@@ -132,9 +132,9 @@ run_GREAT <- function(gr,
 select_regions <- function(diff_count_res,
                            method="quantile",
                            out.dir = "out",
-                           thresh.nlog10P = 10,
-                           thresh.z = 20,
-                           thresh.logFC = 4,
+                           thresh.mlog10P = 10,
+                           thresh.z = 10,
+                           thresh.logFC = 2,
                            thresh.quantile = 0.99,
                            N.regions = 2000,
                            save.bed = TRUE) {
@@ -145,14 +145,14 @@ select_regions <- function(diff_count_res,
   for(k in colnames(diff_count_res$Z)){
     z <- diff_count_res$Z[,k]
     beta <- diff_count_res$beta[,k]
-    nlog10P <- diff_count_res$pval[,k]
-    # p <- 10^(-nlog10P)
+    mlog10P <- diff_count_res$pval[,k]
+    # p <- 10^(-mlog10P)
 
     if(method == "quantile"){
       idx_regions_sig <- which(z > quantile(z, thresh.quantile))
       cat(sprintf("%s: %d regions selected. \n", k, length(idx_regions_sig)))
     }else if(method == "pvalue"){
-      idx_regions_sig <- which(nlog10P > thresh.nlog10P & beta > 0)
+      idx_regions_sig <- which(mlog10P > thresh.mlog10P & beta > 0)
       cat(sprintf("%s: %d regions selected. \n", k, length(idx_regions_sig)))
     }else if(method == "zscore"){
       idx_regions_sig <- which(z > thresh.z)
