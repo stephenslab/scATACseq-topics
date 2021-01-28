@@ -8,8 +8,8 @@ library(tools)
 library(Matrix)
 library(fastTopics)
 library(fgsea)
-library(dplyr)
-library(tidyr)
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(tidyr))
 suppressPackageStartupMessages(library(GenomicRanges))
 suppressPackageStartupMessages(library(GenomicFeatures))
 source("~/projects/scATACseq-topics/code/gene_annotation.R")
@@ -55,7 +55,7 @@ if(!dir.exists(out.dir))
 # LOAD DATA
 # ---------
 # Load gene annotation
-# genes is a data frame containing the gene information, including: chr, start, end, strand, and GeneID.
+# genes is a data frame containing the gene information, including: chr, start, end, strand, and gene_id.
 cat("Load gene annotations.\n")
 if(tolower(genome) %in% c("hg19", "hg38", "mm9", "mm10")){
   cat(sprintf("load TxDb and OrgDb for %s. \n", genome))
@@ -93,10 +93,10 @@ if(file.exists(outfile)){
 
 # COMPUTE GENE SCORES
 # -------------------
-# Prepare genes for computing gene scores, which requires the first 5 columns to be: chr, start, end, strand, GeneID
+# Prepare genes for computing gene scores, which requires the first 5 columns to be: chr, start, end, strand, gene_id
 genes <- data.frame(genes)
 colnames(genes)[1] <- "chr"
-genes <- genes[,c("chr", "start", "end", "strand", "GeneID", "ENSEMBL", "SYMBOL")]
+genes <- genes[,c("chr", "start", "end", "strand", "gene_id", "ENSEMBL", "SYMBOL")]
 # Filter out genes without matching Ensembl gene ID.
 genes <- genes[!grepl("^NA_", genes$ENSEMBL), ]
 
@@ -113,7 +113,7 @@ if(toupper(genescoremethod) == "TSS"){
   gene_scores <- compute_gene_scores_genebody_model(region_Z, regions, genes, normalize = TRUE, method.normalization = normalization)
 }
 
-genes <- genes[match(rownames(gene_scores), genes$GeneID), ]
+genes <- genes[match(rownames(gene_scores), genes$gene_id), ]
 
 # COMPUTE GENE weighted logFC
 # ---------------------------
@@ -129,7 +129,7 @@ if(toupper(genescoremethod) == "TSS"){
   gene_logFC <- compute_gene_scores_genebody_model(region_beta, regions, genes, normalize = TRUE, method.normalization = "sum")
 }
 
-if(!all.equal(rownames(gene_logFC), genes$GeneID))
+if(!all.equal(rownames(gene_logFC), genes$gene_id))
   stop("ERROR: Gene names do not match!")
 
 # COMPUTE GENE weighted average accessbility
@@ -146,12 +146,12 @@ if(toupper(genescoremethod) == "TSS"){
   gene_mean_acc <- compute_gene_scores_genebody_model(region_mean, regions, genes, normalize = TRUE, method.normalization = "sum")[,1]
 }
 
-if(!all.equal(names(gene_mean_acc), genes$GeneID))
+if(!all.equal(names(gene_mean_acc), genes$gene_id))
   stop("ERROR: Gene names do not match!")
 
-# rownames(gene_scores) <- genes[match(rownames(gene_scores), genes$GeneID), "ENSEMBL"]
-# rownames(gene_logFC) <- genes[match(rownames(gene_logFC), genes$GeneID), "ENSEMBL"]
-# names(gene_mean_acc) <- genes[match(names(gene_mean_acc), genes$GeneID), "ENSEMBL"]
+# rownames(gene_scores) <- genes[match(rownames(gene_scores), genes$gene_id), "ENSEMBL"]
+# rownames(gene_logFC) <- genes[match(rownames(gene_logFC), genes$gene_id), "ENSEMBL"]
+# names(gene_mean_acc) <- genes[match(names(gene_mean_acc), genes$gene_id), "ENSEMBL"]
 
 genescore_res <- list(colmeans = gene_mean_acc,
                       Z = gene_scores,
@@ -175,7 +175,7 @@ if(runGSEA) {
   # Prepare the gene-set data and gene-wise statistics for the gene-set
   # enrichment analysis. First, align the gene-set data with the
   # gene-wise statistics.
-  rownames(gene_scores) <- genes[match(rownames(gene_scores), genes$GeneID), "ENSEMBL"]
+  rownames(gene_scores) <- genes[match(rownames(gene_scores), genes$gene_id), "ENSEMBL"]
 
   out            <- align_gene_data(gene_sets, gene_scores)
   gene_sets      <- out$gene_sets
