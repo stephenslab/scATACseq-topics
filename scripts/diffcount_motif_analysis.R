@@ -5,8 +5,8 @@
 library(optparse)
 library(Matrix)
 library(fastTopics)
-library(dplyr)
-library(tidyr)
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(tidyr))
 source("~/projects/scATACseq-topics/code/motif_analysis.R")
 
 # Process the command-line arguments.
@@ -18,7 +18,6 @@ parser <- add_option(parser,"--selectmethod",type="character",default="quantile"
 parser <- add_option(parser,"--homerpath",type="character",default="findMotifsGenome.pl")
 parser <- add_option(parser,"--nc",type = "integer",default = 1)
 parser <- add_option(parser,c("--out","-o"),type="character",default="out")
-parser <- add_option(parser,"--testrun", action="store_true", default = FALSE)
 out    <- parse_args(parser)
 countsfile      <- out$counts
 modelfitfile    <- out$modelfit
@@ -27,18 +26,7 @@ selectmethod    <- out$selectmethod
 homerpath       <- out$homerpath
 nc              <- out$nc
 out.dir         <- out$out
-testrun         <- out$testrun
 rm(parser,out)
-
-if(testrun){
-  countsfile   <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/Buenrostro_2018_binarized_counts.RData"
-  modelfitfile <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/fit-Buenrostro2018-binarized-scd-ex-k=11.rds"
-  genome       <- "hg19"
-  selectmethod <- "FDR"
-  homerpath    <- "/project2/xinhe/software/homer/bin/findMotifsGenome.pl"
-  nc           <- 8
-  out.dir      <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized"
-}
 
 cat(sprintf("countsfile   = %s \n", countsfile))
 cat(sprintf("modelfitfile = %s \n", modelfitfile))
@@ -87,26 +75,21 @@ cat("Select regions. \n")
 homer.dir <- paste0(out.dir, "/HOMER/")
 cat(sprintf("%d regions in total. \n", nrow(diff_count_res$Z)))
 
-if(selectmethod == "topN") {
-  selected_regions <- select_regions(diff_count_res, method="topN", N.regions = 2000,
-                                     out.dir = homer.dir, save.bed = TRUE)
-}else{
-  selected_regions <- select_regions(diff_count_res, method="quantile", thresh.quantile = 0.99,
-                                     out.dir = homer.dir, save.bed = TRUE)
-}
+selected_regions <- select_regions(diff_count_res, method = selectmethod, out.dir = homer.dir, save.bed = TRUE)
 
 saveRDS(selected_regions, paste0(homer.dir, "/selected_regions.rds"))
 
 # PERFORM MOTIF ENRICHMENT ANALYSIS USING HOMER
 # ---------------------------------------------
-# For each topic, perform a gene-set enrichment analysis using fgsea.
+# For each topic, perform TF motif enrichment analysis using HOMER hypergeometric test.
 cat("Performing motif enrichment analysis.\n")
 homer_res <- vector("list", ncol(diff_count_res$Z))
 names(homer_res) <- colnames(diff_count_res$Z)
 for(k in 1:ncol(diff_count_res$Z)){
   homer_res[[k]] <- run_homer(selected_regions$filenames[k],
-                              genome,
-                              homerpath,
+                              genome = genome,
+                              homer.path = homerpath,
+                              use.hypergeometric = TRUE,
                               out.dir=paste0(homer.dir, "/homer_result_topic_", k),
                               n.cores=nc)
 }
