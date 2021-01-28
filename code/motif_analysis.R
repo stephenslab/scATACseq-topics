@@ -119,9 +119,10 @@ run_GREAT <- function(gr,
 #' @param diff_count_res Differential accessbility result from `diff_count_analysis`.
 #' @param method Method to select regions.
 #' `quantile` selects regions in which z-score quantile above `thresh.quantile`,
-#' `pvalue` selects regions in which p-value < `thresh.p`,
+#' `pvalue` selects regions in which -log10(p-value) > `thresh.mlog10P`,
 #' `zscore` selects regions in which zscore > `thresh.z`,
 #' `logFC` selects regions in which beta > `thresh.logFC`.
+#' `topN` selects the top `N.regions` regions.
 #' @param out.dir Output directory.
 #' @param thresh.mlog10P Threshold of -log10(p-value).
 #' @param thresh.z Threshold of z-score.
@@ -130,7 +131,7 @@ run_GREAT <- function(gr,
 #' @param N.regions Number of top regions to select.
 #' @param save.bed If TRUE, save selected regions as BED files for downstream analysis.
 select_regions <- function(diff_count_res,
-                           method="quantile",
+                           method = c("quantile", "pvalue", "zscore", "logFC", "topN"),
                            out.dir = "out",
                            thresh.mlog10P = 10,
                            thresh.z = 10,
@@ -138,6 +139,8 @@ select_regions <- function(diff_count_res,
                            thresh.quantile = 0.99,
                            N.regions = 2000,
                            save.bed = TRUE) {
+
+  method <- match.arg(method)
 
   selected_regions <- vector("list", length = ncol(diff_count_res$Z))
   names(selected_regions) <- colnames(diff_count_res$Z)
