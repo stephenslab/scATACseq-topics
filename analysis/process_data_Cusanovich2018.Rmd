@@ -1,10 +1,7 @@
 ---
 title: "Process data for Cusanovich 2018 sci-ATAC-seq dataset"
 author: "Kaixuan Luo"
-date: "2020-08-17"
 output: workflowr::wflow_html
-editor_options:
-  chunk_output_type: console
 ---
 
 ## About Cusanovich 2018 dataset
@@ -31,17 +28,17 @@ Many of the initial steps of processing raw sci-ATAC-seq libraries used for this
 
 ## Metadata
 + `cell_metadata.txt`: Metadata for cells in TSV format, including several features such as TSNE coordinates, cluster assignments, and cell type assignments. Columns in this data: 
-    - cell: cell barcode (combined and corrected)
-    - tissue: the tissue that this cell originated from
-    - tissue_replicate: same as tissue, but each replicate has a unique id
-    - cluster: cluster assignment in initial t-SNE
-    - subset_cluster: cluster assignment in iterative t-SNE space
-    - tsne_1: t-SNE1 coordinate in initial t-SNE
-    - tsne_2: t-SNE2 coordinate in initial t-SNE
-    - subset_tsne1: t-SNE1 coordinate in iterative t-SNE
-    - subset_tsne2: t-SNE2 coordinate in iterative t-SNE
-    - id: combined ID for major + iterative cluster assignment
-    - cell_label: assigned cell type
+- cell: cell barcode (combined and corrected)
+- tissue: the tissue that this cell originated from
+- tissue_replicate: same as tissue, but each replicate has a unique id
+- cluster: cluster assignment in initial t-SNE
+- subset_cluster: cluster assignment in iterative t-SNE space
+- tsne_1: t-SNE1 coordinate in initial t-SNE
+- tsne_2: t-SNE2 coordinate in initial t-SNE
+- subset_tsne1: t-SNE1 coordinate in iterative t-SNE
+- subset_tsne2: t-SNE2 coordinate in iterative t-SNE
+- id: combined ID for major + iterative cluster assignment
+- cell_label: assigned cell type
 
 ```{r}
 cell_metadata <- read.table("/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/metadata/cell_metadata.txt", header = TRUE, stringsAsFactors = TRUE, sep = "\t")
@@ -125,10 +122,10 @@ table(samples$cell_label)
 data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/processed_data/"
 dir.create(data.dir, showWarnings = FALSE, recursive = TRUE)
 
-saveRDS(counts, file.path(data.dir, "counts_Cusanovich_2018.rds"))
+# saveRDS(counts, file.path(data.dir, "counts_Cusanovich_2018.rds"))
 
 save(list = c("samples","counts"), file = file.path(data.dir, "Cusanovich_2018.RData"))
-
+resaveRdaFiles(file.path(data.dir, "Cusanovich_2018.RData"))
 ```
 
 
@@ -144,3 +141,47 @@ cat(sprintf("Proportion of counts that are non-zero: %0.1f%%.\n",
             100*mean(counts > 0)))
 
 ```
+
+## Save data separately by tissues
+
+```{r, eval=FALSE}
+counts_all <- counts
+samples_all <- samples
+rm(counts)
+rm(samples)
+
+tissues <- unique(samples_all$tissue)
+for ( tissue in tissues ) {
+  rows <- which(samples_all$tissue == tissue)
+  cat(sprintf("%d cells in %s.\n",length(rows),tissue))
+  counts <- counts_all[rows,]
+  samples <- samples_all[rows,]
+  save(list = c("samples","counts"), file = paste0(data.dir, "/", "Cusanovich_2018_", tissue,".RData"))
+  resaveRdaFiles(paste0(data.dir, "/", "Cusanovich_2018_", tissue,".RData"))
+}
+
+```
+
+## Save data for heart, kidney and lung tissues.
+```{r, eval=FALSE}
+rows <- which(samples_all$tissue %in% c("Heart", "Kidney", "Lung"))
+cat(sprintf("%d cells in %s.\n",length(rows),tissue))
+cat(sprintf("%d cells in heart, kidney and lung.\n",length(rows)))
+counts <- counts_all[rows,]
+samples <- samples_all[rows,]
+save(list = c("samples","counts"), file = paste0(data.dir, "/", "Cusanovich_2018_HeartKidneyLung.RData"))
+resaveRdaFiles(paste0(data.dir, "/", "Cusanovich_2018_HeartKidneyLung.RData")))
+
+```
+
+## Save data for endothelial cells.
+```{r, eval=FALSE}
+rows <- grep("Endothelial",samples_all$cell_label)
+cat(sprintf("%d endothelial cells. \n",length(rows)))
+counts <- counts_all[rows,]
+samples <- samples_all[rows,]
+save(list = c("samples","counts"), file = paste0(data.dir, "/", "Cusanovich_2018_endothelial_cells.RData"))
+resaveRdaFiles(paste0(data.dir, "/", "Cusanovich_2018_endothelial_cells.RData"))
+
+```
+
