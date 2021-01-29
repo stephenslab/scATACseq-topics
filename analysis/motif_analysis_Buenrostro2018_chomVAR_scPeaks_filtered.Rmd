@@ -301,7 +301,7 @@ GATA_genes <- grep("^GATA\\d*$", TF_genes, ignore.case=T, value=T)
 ```
 
 Plot GATA motifs in topic 5
-```{r plot-GATA-logos-1, fig.width=5, fig.height=2, warning=FALSE, message=FALSE}
+```{r plot-GATA-logos-1, fig.width=5, fig.height=1.5, warning=FALSE, message=FALSE}
 k = 5
 selected_motifs <- rownames(motif_res$motifs)[match(toupper(GATA_genes), toupper(motif_names))]
 motif.dir <- paste0(homer.dir, "/homer_result_topic_", k, "/knownResults/")
