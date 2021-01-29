@@ -34,7 +34,7 @@ echo extrapolate=${6}
 echo outfile=${OUTFILE}
 
 # For reproducibility, I add version numbers to the "module load" calls.
-module load R/3.5.1
+module load R/3.6.1
 
 # Run the R script.
 echo "Running fit_poisson_nmf.R"
