@@ -23,7 +23,7 @@ echo numiter=${NUMITER}
 echo outfile=${OUTFILE}
 
 # For reproducibility, I add version numbers to the "module load" calls.
-module load R/3.5.1
+module load R/3.6.1
 
 # Run the R script.
 echo "Running prefit_poisson_nmf.R"
