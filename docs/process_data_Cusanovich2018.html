@@ -11,7 +11,6 @@
 
 <meta name="author" content="Kaixuan Luo" />
 
-<meta name="date" content="2020-08-17" />
 
 <title>Process data for Cusanovich 2018 sci-ATAC-seq dataset</title>
 
@@ -35,6 +34,15 @@ div.section {
   padding-top: 12px;
 }
 </style>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -80,6 +88,7 @@ h6 {
   text-align: left;
 }
 </style>
+
 
 
 
@@ -362,7 +371,9 @@ div.tocify {
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/stephenslab/scATACseq-topics">source</a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -374,7 +385,6 @@ div.tocify {
 
 <h1 class="title toc-ignore">Process data for Cusanovich 2018 sci-ATAC-seq dataset</h1>
 <h4 class="author">Kaixuan Luo</h4>
-<h4 class="date">2020-08-17</h4>
 
 </div>
 
@@ -399,7 +409,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-09-10
+<strong>Last updated:</strong> 2021-01-29
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -435,7 +445,7 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 </div>
 <div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it's best to always run the code in an empty environment.</p>
 </div>
 </div>
 </div>
@@ -447,7 +457,7 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 </div>
 <div id="strongSeedstrongcodesetseed20200729code" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The command <code>set.seed(20200729)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+<p>The command <code>set.seed(20200729)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
 </div>
 </div>
 </div>
@@ -490,16 +500,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree7b8b36f0b5f79d7d4e4c67738105568a4fe5d0e9targetblank7b8b36fa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/7b8b36f0b5f79d7d4e4c67738105568a4fe5d0e9" target="_blank">7b8b36f</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreec1e87ecc7279ccfd46c679d0c52dc2212a965322targetblankc1e87eca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/c1e87ecc7279ccfd46c679d0c52dc2212a965322" target="_blank">c1e87ec</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree7b8b36f0b5f79d7d4e4c67738105568a4fe5d0e9targetblank7b8b36fa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreec1e87ecc7279ccfd46c679d0c52dc2212a965322targetblankc1e87eca" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/7b8b36f0b5f79d7d4e4c67738105568a4fe5d0e9" target="_blank">7b8b36f</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/c1e87ecc7279ccfd46c679d0c52dc2212a965322" target="_blank">c1e87ec</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -510,18 +520,14 @@ Ignored files:
     Ignored:    .Rproj.user/
 
 Untracked files:
-    Untracked:  analysis/plots_Cusanovich2018.Rmd
-    Untracked:  analysis/plots_Lareau2019_bonemarrow.Rmd
-    Untracked:  code/plots.R
-
-Unstaged changes:
-    Modified:   analysis/process_data_Lareau2019.Rmd
-    Modified:   code/functions_for_assessing_fits.R
-    Modified:   scripts/fit_all_models_Cusanovich2018.sh
+    Untracked:  analysis/process_data_Buenrostro2018_Chen2019.Rmd
+    Untracked:  output/clustering-Cusanovich2018.rds
+    Untracked:  output/plotly/
+    Untracked:  scripts/fit_all_models_Buenrostro_2018_chromVar_scPeaks_filtered.sbatch
 
 </code></pre>
 <p>
-Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
 </p>
 </div>
 </div>
@@ -532,7 +538,7 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <div id="versions" class="tab-pane fade">
 
 <p>
-These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/process_data_Cusanovich2018.Rmd</code>) and HTML (<code>docs/process_data_Cusanovich2018.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/process_data_Cusanovich2018.Rmd</code>) and HTML (<code>docs/process_data_Cusanovich2018.html</code>) files. If you've configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
 </p>
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
@@ -561,6 +567,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/c1e87ecc7279ccfd46c679d0c52dc2212a965322/analysis/process_data_Cusanovich2018.Rmd" target="_blank">c1e87ec</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-01-29
+</td>
+<td>
+save data by tissues separately
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/0440e358ae1df7319ca266039ed3d4d0cac59c2a/docs/process_data_Cusanovich2018.html" target="_blank">0440e35</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2020-09-10
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/7b8b36f0b5f79d7d4e4c67738105568a4fe5d0e9/analysis/process_data_Cusanovich2018.Rmd" target="_blank">7b8b36f</a>
 </td>
 <td>
@@ -570,7 +610,7 @@ kevinlkx
 2020-09-10
 </td>
 <td>
-wflow_publish(“analysis/process_data_Cusanovich2018.Rmd”)
+wflow_publish(&quot;analysis/process_data_Cusanovich2018.Rmd&quot;)
 </td>
 </tr>
 <tr>
@@ -604,7 +644,7 @@ kevinlkx
 2020-08-24
 </td>
 <td>
-wflow_publish(“analysis/process_data_Cusanovich2018.Rmd”)
+wflow_publish(&quot;analysis/process_data_Cusanovich2018.Rmd&quot;)
 </td>
 </tr>
 <tr>
@@ -638,7 +678,7 @@ kevinlkx
 2020-08-21
 </td>
 <td>
-wflow_publish(“analysis/process_data_Cusanovich2018.Rmd”)
+wflow_publish(&quot;analysis/process_data_Cusanovich2018.Rmd&quot;)
 </td>
 </tr>
 <tr>
@@ -655,7 +695,7 @@ kevinlkx
 2020-08-21
 </td>
 <td>
-wflow_rename(“analysis/scATACseq_analysis_Cusanovich2018.Rmd”,
+wflow_rename(&quot;analysis/scATACseq_analysis_Cusanovich2018.Rmd&quot;,
 </td>
 </tr>
 <tr>
@@ -672,7 +712,7 @@ kevinlkx
 2020-08-21
 </td>
 <td>
-wflow_rename(“analysis/scATACseq_analysis_Cusanovich2018.Rmd”,
+wflow_rename(&quot;analysis/scATACseq_analysis_Cusanovich2018.Rmd&quot;,
 </td>
 </tr>
 </tbody>
@@ -689,7 +729,7 @@ wflow_rename(“analysis/scATACseq_analysis_Cusanovich2018.Rmd”,
 <p>RCC directory: <code>/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/</code></p>
 <p>The authors included nice tutorials on how to get started with analysis of sci-ATAC-seq data: <a href="http://atlas.gs.washington.edu/mouse-atac/docs/" class="uri">http://atlas.gs.washington.edu/mouse-atac/docs/</a></p>
 <p>R/python scripts referenced in this tutorial are available on: <a href="https://github.com/shendurelab/mouse-atac" class="uri">https://github.com/shendurelab/mouse-atac</a> and downloaded to <code>/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/code_from_authors/mouse-atac</code> on RCC.</p>
-<p>Many of the initial steps of processing raw sci-ATAC-seq libraries used for this study are similar to their previous work of sci-ATAC-seq on Drosophila melanogaster embryos at 3 different stages of development. “Cusanovich, D., Reddington, J., Garfield, D. et al. The cis-regulatory dynamics of embryonic development at single-cell resolution. Nature 555, 538–542 (2018). <a href="https://doi.org/10.1038/nature25981" class="uri">https://doi.org/10.1038/nature25981</a>”. Code and documentation on processing sequencing data can be found on the <a href="https://github.com/shendurelab/fly-atac">Fly ATAC Github</a>. Documentation on various downstream steps can be found in the <a href="http://atlas.gs.washington.edu/fly-atac/">Fly ATAC documentation</a>.</p>
+<p>Many of the initial steps of processing raw sci-ATAC-seq libraries used for this study are similar to their previous work of sci-ATAC-seq on Drosophila melanogaster embryos at 3 different stages of development. &quot;Cusanovich, D., Reddington, J., Garfield, D. et al. The cis-regulatory dynamics of embryonic development at single-cell resolution. Nature 555, 538–542 (2018). <a href="https://doi.org/10.1038/nature25981" class="uri">https://doi.org/10.1038/nature25981</a>&quot;. Code and documentation on processing sequencing data can be found on the <a href="https://github.com/shendurelab/fly-atac">Fly ATAC Github</a>. Documentation on various downstream steps can be found in the <a href="http://atlas.gs.washington.edu/fly-atac/">Fly ATAC documentation</a>.</p>
 </div>
 <div id="matrix-files" class="section level2">
 <h2>Matrix files</h2>
@@ -702,8 +742,7 @@ wflow_rename(“analysis/scATACseq_analysis_Cusanovich2018.Rmd”,
 <div id="metadata" class="section level2">
 <h2>Metadata</h2>
 <ul>
-<li><code>cell_metadata.txt</code>: Metadata for cells in TSV format, including several features such as TSNE coordinates, cluster assignments, and cell type assignments. Columns in this data:
-<ul>
+<li><code>cell_metadata.txt</code>: Metadata for cells in TSV format, including several features such as TSNE coordinates, cluster assignments, and cell type assignments. Columns in this data:</li>
 <li>cell: cell barcode (combined and corrected)</li>
 <li>tissue: the tissue that this cell originated from</li>
 <li>tissue_replicate: same as tissue, but each replicate has a unique id</li>
@@ -715,7 +754,6 @@ wflow_rename(“analysis/scATACseq_analysis_Cusanovich2018.Rmd”,
 <li>subset_tsne2: t-SNE2 coordinate in iterative t-SNE</li>
 <li>id: combined ID for major + iterative cluster assignment</li>
 <li>cell_label: assigned cell type</li>
-</ul></li>
 </ul>
 <pre class="r"><code>cell_metadata &lt;- read.table(&quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/metadata/cell_metadata.txt&quot;, header = TRUE, stringsAsFactors = TRUE, sep = &quot;\t&quot;)
 
@@ -871,9 +909,10 @@ dim(samples)</code></pre>
 <pre class="r"><code>data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/processed_data/&quot;
 dir.create(data.dir, showWarnings = FALSE, recursive = TRUE)
 
-saveRDS(counts, file.path(data.dir, &quot;counts_Cusanovich_2018.rds&quot;))
+# saveRDS(counts, file.path(data.dir, &quot;counts_Cusanovich_2018.rds&quot;))
 
-save(list = c(&quot;samples&quot;,&quot;counts&quot;), file = file.path(data.dir, &quot;Cusanovich_2018.RData&quot;))</code></pre>
+save(list = c(&quot;samples&quot;,&quot;counts&quot;), file = file.path(data.dir, &quot;Cusanovich_2018.RData&quot;))
+resaveRdaFiles(file.path(data.dir, &quot;Cusanovich_2018.RData&quot;))</code></pre>
 <pre class="r"><code>data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/processed_data/&quot;
 load(file.path(data.dir, &quot;Cusanovich_2018.RData&quot;))
 
@@ -886,6 +925,42 @@ cat(sprintf(&quot;Loaded %d x %d counts matrix.\n&quot;,nrow(counts),ncol(counts
 <pre class="r"><code>cat(sprintf(&quot;Proportion of counts that are non-zero: %0.1f%%.\n&quot;,
             100*mean(counts &gt; 0)))</code></pre>
 <pre><code>Proportion of counts that are non-zero: 1.2%.</code></pre>
+</div>
+<div id="save-data-separately-by-tissues" class="section level2">
+<h2>Save data separately by tissues</h2>
+<pre class="r"><code>counts_all &lt;- counts
+samples_all &lt;- samples
+rm(counts)
+rm(samples)
+
+tissues &lt;- unique(samples_all$tissue)
+for ( tissue in tissues ) {
+  rows &lt;- which(samples_all$tissue == tissue)
+  cat(sprintf(&quot;%d cells in %s.\n&quot;,length(rows),tissue))
+  counts &lt;- counts_all[rows,]
+  samples &lt;- samples_all[rows,]
+  save(list = c(&quot;samples&quot;,&quot;counts&quot;), file = paste0(data.dir, &quot;/&quot;, &quot;Cusanovich_2018_&quot;, tissue,&quot;.RData&quot;))
+  resaveRdaFiles(paste0(data.dir, &quot;/&quot;, &quot;Cusanovich_2018_&quot;, tissue,&quot;.RData&quot;))
+}</code></pre>
+</div>
+<div id="save-data-for-heart-kidney-and-lung-tissues." class="section level2">
+<h2>Save data for heart, kidney and lung tissues.</h2>
+<pre class="r"><code>rows &lt;- which(samples_all$tissue %in% c(&quot;Heart&quot;, &quot;Kidney&quot;, &quot;Lung&quot;))
+cat(sprintf(&quot;%d cells in %s.\n&quot;,length(rows),tissue))
+cat(sprintf(&quot;%d cells in heart, kidney and lung.\n&quot;,length(rows)))
+counts &lt;- counts_all[rows,]
+samples &lt;- samples_all[rows,]
+save(list = c(&quot;samples&quot;,&quot;counts&quot;), file = paste0(data.dir, &quot;/&quot;, &quot;Cusanovich_2018_HeartKidneyLung.RData&quot;))
+resaveRdaFiles(paste0(data.dir, &quot;/&quot;, &quot;Cusanovich_2018_HeartKidneyLung.RData&quot;)))</code></pre>
+</div>
+<div id="save-data-for-endothelial-cells." class="section level2">
+<h2>Save data for endothelial cells.</h2>
+<pre class="r"><code>rows &lt;- grep(&quot;Endothelial&quot;,samples_all$cell_label)
+cat(sprintf(&quot;%d endothelial cells. \n&quot;,length(rows)))
+counts &lt;- counts_all[rows,]
+samples &lt;- samples_all[rows,]
+save(list = c(&quot;samples&quot;,&quot;counts&quot;), file = paste0(data.dir, &quot;/&quot;, &quot;Cusanovich_2018_endothelial_cells.RData&quot;))
+resaveRdaFiles(paste0(data.dir, &quot;/&quot;, &quot;Cusanovich_2018_endothelial_cells.RData&quot;))</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -894,7 +969,7 @@ cat(sprintf(&quot;Loaded %d x %d counts matrix.\n&quot;,nrow(counts),ncol(counts
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>R version 3.5.1 (2018-07-02)
+<pre><code>R version 3.6.1 (2019-07-05)
 Platform: x86_64-pc-linux-gnu (64-bit)
 Running under: Scientific Linux 7.4 (Nitrogen)
 
@@ -914,16 +989,15 @@ attached base packages:
 [8] base     
 
 other attached packages:
-[1] Matrix_1.2-15   workflowr_1.6.2
+[1] Matrix_1.2-18   workflowr_1.6.2
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.4.6    lattice_0.20-38 rprojroot_1.3-2 digest_0.6.25  
- [5] later_1.0.0     grid_3.5.1      R6_2.4.1        backports_1.1.7
- [9] git2r_0.27.1    magrittr_1.5    evaluate_0.14   stringi_1.4.6  
-[13] rlang_0.4.6     fs_1.3.1        promises_1.1.0  whisker_0.4    
-[17] rmarkdown_2.1   stringr_1.4.0   glue_1.4.1      httpuv_1.5.3.1 
-[21] xfun_0.14       yaml_2.2.0      compiler_3.5.1  htmltools_0.4.0
-[25] knitr_1.28     </code></pre>
+ [1] Rcpp_1.0.6      lattice_0.20-41 rprojroot_2.0.2 digest_0.6.27  
+ [5] later_1.1.0.1   grid_3.6.1      R6_2.5.0        git2r_0.27.1   
+ [9] magrittr_2.0.1  evaluate_0.14   stringi_1.5.3   rlang_0.4.10   
+[13] fs_1.3.1        promises_1.1.1  whisker_0.4     rmarkdown_2.6  
+[17] stringr_1.4.0   glue_1.4.2      httpuv_1.5.4    xfun_0.19      
+[21] yaml_2.2.1      compiler_3.6.1  htmltools_0.5.0 knitr_1.30     </code></pre>
 </div>
 </div>
 
@@ -950,7 +1024,7 @@ footer is added to webpages before the MathJax javascript. -->
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -989,7 +1063,7 @@ $(document).ready(function ()  {
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
       },
       ignoreSelector: ".toc-ignore",
       scrollTo: 0
