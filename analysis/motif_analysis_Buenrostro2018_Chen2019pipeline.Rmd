@@ -101,7 +101,7 @@ Volcano plot of the regions
 
 **topic 4 example**
 ```{r region-volcano-plot, fig.width=5, fig.height=4}
-volcano_plot(diff_count_topics,k = 1,label_above_quantile = Inf, 
+volcano_plot(diff_count_topics,k = 4,label_above_quantile = Inf, 
              subsample_below_quantile = 0.7, subsample_rate = 0.1)
 ```
 
