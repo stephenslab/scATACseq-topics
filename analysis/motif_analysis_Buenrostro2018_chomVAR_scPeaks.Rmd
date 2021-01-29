@@ -157,10 +157,11 @@ DT::datatable(data.frame(rank = 1:10, top_motifs), rownames = F, caption = "Top 
 
 Heatmap of motif enrichment -log10(p-value). 
 Order motifs by hierarchical clustering.
-```{r motif-heatmap-pvalue, fig.width=7, fig.height=11}
+```{r motif-heatmap-pvalue, fig.width=7, fig.height=9}
 create_motif_enrichment_heatmap(motif_res, enrichment = "-log10(p-value)", 
                                 cluster_motifs = TRUE, cluster_topics = FALSE, motif_filter = 50, 
-                                enrichment_range = c(0,100), method_cluster = "average", font.size.motifs = 4, font.size.topics = 9)
+                                enrichment_range = c(0,100), method_cluster = "average", 
+                                font.size.motifs = 5, font.size.topics = 9)
 
 ```
 
@@ -169,7 +170,8 @@ Order motifs by hierarchical clustering.
 ```{r motif-heatmap-zscore, fig.width=7, fig.height=11}
 create_motif_enrichment_heatmap(motif_res, enrichment = "z-score",
                                 cluster_motifs = TRUE, cluster_topics = FALSE, motif_filter = 10, 
-                                enrichment_range = c(-20,20), method_cluster = "average", font.size.motifs = 4, font.size.topics = 9)
+                                enrichment_range = c(-20,20), method_cluster = "average", 
+                                font.size.motifs = 5, font.size.topics = 9)
 
 ```
 
@@ -286,7 +288,7 @@ GATA_genes <- grep("^GATA\\d*$", TF_genes, ignore.case=T, value=T)
 ```
 
 Plot GATA motifs in topic 4
-```{r plot-GATA-logos-1, fig.width=3, fig.height=1, warning=FALSE, message=FALSE}
+```{r plot-GATA-logos-1, fig.width=5, fig.height=2, warning=FALSE, message=FALSE}
 k = 4
 selected_motifs <- rownames(motif_res$motifs)[match(toupper(GATA_genes), toupper(motif_names))]
 motif.dir <- paste0(homer.dir, "/homer_result_topic_", k, "/knownResults/")
