@@ -960,7 +960,7 @@ pval_to_zscore <- function(p, direction=NULL, tails=2, log.p=FALSE, p.limit=.Mac
 plot_motif_logo <- function(homer_res_topics, motif_name, k, motif.dir,
                             type = c("Logo", "EDLogo", "both"),
                             colors = c("green", "blue", "orange", "red"),
-                            xaxis_fontsize = 10, y_fontsize=10, main_fontsize=12, ...) {
+                            xaxis_fontsize = 6, y_fontsize = 6, main_fontsize=8, ...) {
 
   type <- match.arg(type)
 
