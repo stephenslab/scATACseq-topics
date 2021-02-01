@@ -180,8 +180,8 @@ rows <- grep("Endothelial",samples_all$cell_label)
 cat(sprintf("%d endothelial cells. \n",length(rows)))
 counts <- counts_all[rows,]
 samples <- samples_all[rows,]
-save(list = c("samples","counts"), file = paste0(data.dir, "/", "Cusanovich_2018_endothelial_cells.RData"))
-resaveRdaFiles(paste0(data.dir, "/", "Cusanovich_2018_endothelial_cells.RData"))
+save(list = c("samples","counts"), file = paste0(data.dir, "/", "Cusanovich_2018_Endothelial.RData"))
+resaveRdaFiles(paste0(data.dir, "/", "Cusanovich_2018_Endothelial.RData"))
 
 ```
 
