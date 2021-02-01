@@ -409,7 +409,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-01-29
+<strong>Last updated:</strong> 2021-02-01
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -500,16 +500,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreec1e87ecc7279ccfd46c679d0c52dc2212a965322targetblankc1e87eca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/c1e87ecc7279ccfd46c679d0c52dc2212a965322" target="_blank">c1e87ec</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree0e6a0a4c3d15f4f2d782560e754b070c9055a41dtargetblank0e6a0a4a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/0e6a0a4c3d15f4f2d782560e754b070c9055a41d" target="_blank">0e6a0a4</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreec1e87ecc7279ccfd46c679d0c52dc2212a965322targetblankc1e87eca" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree0e6a0a4c3d15f4f2d782560e754b070c9055a41dtargetblank0e6a0a4a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/c1e87ecc7279ccfd46c679d0c52dc2212a965322" target="_blank">c1e87ec</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/0e6a0a4c3d15f4f2d782560e754b070c9055a41d" target="_blank">0e6a0a4</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -520,10 +520,17 @@ Ignored files:
     Ignored:    .Rproj.user/
 
 Untracked files:
+    Untracked:  analysis/gene_analysis_Buenrostro2018_Chen2019pipeline.Rmd
     Untracked:  analysis/process_data_Buenrostro2018_Chen2019.Rmd
     Untracked:  output/clustering-Cusanovich2018.rds
-    Untracked:  output/plotly/
     Untracked:  scripts/fit_all_models_Buenrostro_2018_chromVar_scPeaks_filtered.sbatch
+    Untracked:  scripts/fit_models_Cusanovich2018_tissues.sh
+
+Unstaged changes:
+    Modified:   analysis/motif_analysis_Buenrostro2018_Chen2019pipeline.Rmd
+    Modified:   code/plots.R
+    Modified:   scripts/fit_poisson_nmf.sbatch
+    Modified:   scripts/prefit_poisson_nmf.sbatch
 
 </code></pre>
 <p>
@@ -562,6 +569,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/0e6a0a4c3d15f4f2d782560e754b070c9055a41d/analysis/process_data_Cusanovich2018.Rmd" target="_blank">0e6a0a4</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-01
+</td>
+<td>
+minor change on the output name for endothelial cells
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/6d68febbd36b09dfa87302753b44936bfcea3ee0/docs/process_data_Cusanovich2018.html" target="_blank">6d68feb</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-01-29
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -959,8 +1000,8 @@ resaveRdaFiles(paste0(data.dir, &quot;/&quot;, &quot;Cusanovich_2018_HeartKidney
 cat(sprintf(&quot;%d endothelial cells. \n&quot;,length(rows)))
 counts &lt;- counts_all[rows,]
 samples &lt;- samples_all[rows,]
-save(list = c(&quot;samples&quot;,&quot;counts&quot;), file = paste0(data.dir, &quot;/&quot;, &quot;Cusanovich_2018_endothelial_cells.RData&quot;))
-resaveRdaFiles(paste0(data.dir, &quot;/&quot;, &quot;Cusanovich_2018_endothelial_cells.RData&quot;))</code></pre>
+save(list = c(&quot;samples&quot;,&quot;counts&quot;), file = paste0(data.dir, &quot;/&quot;, &quot;Cusanovich_2018_Endothelial.RData&quot;))
+resaveRdaFiles(paste0(data.dir, &quot;/&quot;, &quot;Cusanovich_2018_Endothelial.RData&quot;))</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -992,12 +1033,12 @@ other attached packages:
 [1] Matrix_1.2-18   workflowr_1.6.2
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.6      lattice_0.20-41 rprojroot_2.0.2 digest_0.6.27  
- [5] later_1.1.0.1   grid_3.6.1      R6_2.5.0        git2r_0.27.1   
- [9] magrittr_2.0.1  evaluate_0.14   stringi_1.5.3   rlang_0.4.10   
-[13] fs_1.3.1        promises_1.1.1  whisker_0.4     rmarkdown_2.6  
-[17] stringr_1.4.0   glue_1.4.2      httpuv_1.5.4    xfun_0.19      
-[21] yaml_2.2.1      compiler_3.6.1  htmltools_0.5.0 knitr_1.30     </code></pre>
+ [1] Rcpp_1.0.6        lattice_0.20-41   rprojroot_2.0.2   digest_0.6.27    
+ [5] later_1.1.0.1     grid_3.6.1        R6_2.5.0          git2r_0.27.1     
+ [9] magrittr_2.0.1    evaluate_0.14     stringi_1.5.3     rlang_0.4.10     
+[13] fs_1.3.1          promises_1.1.1    whisker_0.4       rmarkdown_2.6    
+[17] stringr_1.4.0     glue_1.4.2        httpuv_1.5.4      xfun_0.19        
+[21] yaml_2.2.1        compiler_3.6.1    htmltools_0.5.1.1 knitr_1.30       </code></pre>
 </div>
 </div>
 
