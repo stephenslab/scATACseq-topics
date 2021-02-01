@@ -560,6 +560,7 @@ compile_homer_motif_res <- function(homer_res_topics) {
   motif_ranks <- apply(-1*motif_mlog10P, 2, rank, ties.method = "min")
 
   motifs <- data.frame(x = motif_names) %>% separate(x, c("motif", "origin", "database"), "/")
+  motifs$motif <- gsub("\\s*\\(.*\\)", "", motifs$motif)
   rownames(motifs) <- motif_names
 
   motif_logP <- -log(10)*motif_mlog10P
@@ -595,8 +596,10 @@ compile_data_for_motif_plot <- function (motif_res, k, x, y, subsample = FALSE) 
     rank0[i] <- min(ranks[i,-k],na.rm = TRUE)
   }
 
+  motif <- gsub("\\s*\\(.*", "", motif_res$motifs$motif)
+
   # Compile the data for plotting.
-  dat <- data.frame(motif_res$motifs,
+  dat <- data.frame(motif = motif,
                     p1 = P[,k],
                     p0 = p0,
                     rank1 = ranks[,k],
@@ -718,14 +721,14 @@ create_motif_enrichment_heatmap <- function (motif_res,
   if (enrichment == "z-score"){
     enrichment.label <- "z-score"
     dat <- motif_res$Z
-    rownames(dat) <- gsub("\\s*\\(.*", "", motif_res$motifs$motif)
+    rownames(dat) <- motif_res$motifs$motif
     # Filter out motifs with maximum zscore > motif_filter_value
     dat <- dat[which(apply(dat, 1, max) > motif_filter_value),]
     cat(sprintf("%d out of %d motifs included the heatmap\n", nrow(dat), nrow(motif_res$motifs)))
   }else if (enrichment == "-log10(p-value)"){
     enrichment.label <- "-log10(p-value)"
     dat <- motif_res$mlog10P
-    rownames(dat) <- gsub("\\s*\\(.*", "", motif_res$motifs$motif)
+    rownames(dat) <- motif_res$motifs$motif
     # Filter out motifs with maximum -log10(p-value) > motif_filter_value
     dat <- dat[which(apply(dat, 1, max) > motif_filter_value),]
     cat(sprintf("%d out of %d motifs included the heatmap\n", nrow(dat), nrow(motif_res$motifs)))
@@ -791,7 +794,7 @@ create_motif_enrichment_heatmap <- function (motif_res,
   if (enrichment == "z-score"){
     p <- p + scale_fill_gradient2(low = color.low,mid = "white",high = color.high, midpoint = 0)
   }else if (enrichment == "-log10(p-value)"){
-    p <- p + scale_fill_gradient(low="white", high=color.high)
+    p <- p + scale_fill_gradient2(low="white", high=color.high)
   }
 
   return(p)
@@ -856,7 +859,7 @@ create_celllabel_topic_heatmap <- function (fit_multinom,
 # for a given topic k.
 create_motif_gene_cor_scatterplot <- function (motif_res,
                                                genescore_res,
-                                               selected_genes,
+                                               motif_gene_table,
                                                k,
                                                cor.motif = c("z-score","-log10(p-value)"),
                                                cor.method = c("pearson", "spearman"),
@@ -870,7 +873,8 @@ create_motif_gene_cor_scatterplot <- function (motif_res,
 
   # Extract the gene scores of the selected genes
   gene_names <- genescore_res$genes$SYMBOL
-  idx_genes <- match(toupper(selected_genes), toupper(gene_names))
+  selected_genes <- motif_gene_table$gene
+  idx_genes <- match(toupper(motif_gene_table$gene), toupper(gene_names))
   gene_scores_matched <- genescore_res$Z[idx_genes,]
   gene_names_matched <- gene_names[idx_genes]
 
@@ -878,8 +882,9 @@ create_motif_gene_cor_scatterplot <- function (motif_res,
   motif_order <- order(motif_res$mlog10P[,k], decreasing = T)
   motif_mlog10P <- motif_res$mlog10P[motif_order,]
   motif_zscore <- motif_res$Z[motif_order,]
-  motif_names <- gsub("\\s*\\(.*", "", motif_res$motifs[motif_order, "motif"])
-  idx_motifs <- match(toupper(selected_genes), toupper(motif_names)) # match the first (top) match
+  motif_names <- motif_res$motifs[motif_order, "motif"]
+
+  idx_motifs <- match(toupper(motif_gene_table$motif), toupper(motif_names)) # match the first (top) match
   motif_mlog10P_matched <- motif_mlog10P[idx_motifs,]
   motif_zscore_matched <- motif_zscore[idx_motifs,]
   motif_names_matched <- gsub("/.*", "", rownames(motif_mlog10P)[idx_motifs])
@@ -932,7 +937,7 @@ create_motif_gene_cor_scatterplot <- function (motif_res,
 # for a given topic k.
 create_motif_gene_scatterplot <- function (motif_res,
                                            genescore_res,
-                                           selected_genes,
+                                           motif_gene_table,
                                            k,
                                            y = c("z-score","-log10(p-value)"),
                                            cor.method = c("pearson", "spearman"),
@@ -946,7 +951,8 @@ create_motif_gene_scatterplot <- function (motif_res,
 
   # Extract the gene scores of the selected genes
   gene_names <- genescore_res$genes$SYMBOL
-  idx_genes <- match(toupper(selected_genes), toupper(gene_names))
+  selected_genes <- motif_gene_table$gene
+  idx_genes <- match(toupper(motif_gene_table$gene), toupper(gene_names))
   gene_scores_matched <- matrix(genescore_res$Z[idx_genes,], nrow = length(selected_genes))
   gene_names_matched <- gene_names[idx_genes]
 
@@ -954,8 +960,9 @@ create_motif_gene_scatterplot <- function (motif_res,
   motif_order <- order(motif_res$mlog10P[,k], decreasing = T)
   motif_mlog10P <- motif_res$mlog10P[motif_order,]
   motif_zscore <- motif_res$Z[motif_order,]
-  motif_names <- gsub("\\s*\\(.*", "", motif_res$motifs[motif_order, "motif"])
-  idx_motifs <- match(toupper(selected_genes), toupper(motif_names)) # match the first (top) match
+  motif_names <- motif_res$motifs[motif_order, "motif"]
+  idx_motifs <- match(toupper(motif_gene_table$motif), toupper(motif_names)) # match the first (top) match
+
   motif_mlog10P_matched <- matrix(motif_mlog10P[idx_motifs,], nrow = length(selected_genes))
   motif_zscore_matched <- matrix(motif_zscore[idx_motifs,], nrow = length(selected_genes))
   motif_names_matched <- gsub("/.*", "", rownames(motif_mlog10P)[idx_motifs])
@@ -969,13 +976,13 @@ create_motif_gene_scatterplot <- function (motif_res,
     if (y == "-log10(p-value)"){
       dat <- data.frame(x = gene_scores_matched[i,],
                         y = motif_mlog10P_matched[i,],
-                        topics = factor(colnames(gene_scores), levels = colnames(gene_scores)))
+                        topics = factor(colnames(genescore_res$Z), levels = colnames(genescore_res$Z)))
       y.label <- "motif enrichment -log10(p-value)"
       title <- sprintf("%s (r = %.2f)", gene.label, cor(dat$x, dat$y, method = cor.method))
     }else if (y == "z-score"){
       dat <- data.frame(x = gene_scores_matched[i,],
                         y = motif_zscore_matched[i,],
-                        topics = factor(colnames(gene_scores), levels = colnames(gene_scores)))
+                        topics = factor(colnames(genescore_res$Z), levels = colnames(genescore_res$Z)))
       y.label <- "motif enrichment z-score"
       title <- sprintf("%s (r = %.2f)", gene.label, cor(dat$x, dat$y, method = cor.method))
     }
