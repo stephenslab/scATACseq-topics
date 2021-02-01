@@ -688,12 +688,13 @@ create_motif_enrichment_ranking_plot <- function (motif_res, k,
 #'
 #' @param motif_res a list of motif enrichment statistics from `compile_homer_motif_res` function.
 #' @param enrichment enrichment value to plot in the heatmap, must be "z-score" or "-log10(p-value)"
-#' @param cluster_motifs whether to cluster motifs by hierarchical clustering.
-#' @param cluster_topics whether to cluster topics by hierarchical clustering.
+#' @param cluster_motifs If true, cluster motifs by hierarchical clustering.
+#' @param cluster_topics If ture, cluster topics by hierarchical clustering.
 #' @param motif_filter_value Filter out motifs. Motifs inclued in the heamtmap need to have
 #' maximum abs(zscore) or -log10(p-value) across topics greater than motif_filter_value.
 #' @param enrichment_range Truncate values in the heamtpa to be within this range.
 #' @param method_cluster method for hierarchical clustering.
+#' @param horizontal If true, plot motifs on the x-axis.
 #' @param color.low the low end color in the heatmap
 #' @param color.high the high end color in the heatmap
 #' @param font.size.motifs the font size for motif names
@@ -702,10 +703,11 @@ create_motif_enrichment_ranking_plot <- function (motif_res, k,
 create_motif_enrichment_heatmap <- function (motif_res,
                                              enrichment = c("z-score","-log10(p-value)"),
                                              cluster_motifs = TRUE,
-                                             cluster_topics = FALSE,
+                                             cluster_topics = TRUE,
                                              motif_filter_value = 10,
                                              enrichment_range = c(-100,100),
                                              method_cluster = "average",
+                                             horizontal = FALSE,
                                              color.low = "deepskyblue",
                                              color.high = "orangered",
                                              font.size.motifs = 6,
@@ -716,24 +718,18 @@ create_motif_enrichment_heatmap <- function (motif_res,
   if (enrichment == "z-score"){
     enrichment.label <- "z-score"
     dat <- motif_res$Z
-    rownames(dat) <- motif_res$motifs$motif
-
-    # Filter out motifs with abs(zscore) > motif_filter_value
-    dat <- dat[which(apply(abs(dat), 1, max) > motif_filter_value),]
+    rownames(dat) <- gsub("\\s*\\(.*", "", motif_res$motifs$motif)
+    # Filter out motifs with maximum zscore > motif_filter_value
+    dat <- dat[which(apply(dat, 1, max) > motif_filter_value),]
     cat(sprintf("%d out of %d motifs included the heatmap\n", nrow(dat), nrow(motif_res$motifs)))
-
-
   }else if (enrichment == "-log10(p-value)"){
     enrichment.label <- "-log10(p-value)"
     dat <- motif_res$mlog10P
-    rownames(dat) <- motif_res$motifs$motif
-
-    # Filter out motifs with -log10(p-value) > motif_filter_value
+    rownames(dat) <- gsub("\\s*\\(.*", "", motif_res$motifs$motif)
+    # Filter out motifs with maximum -log10(p-value) > motif_filter_value
     dat <- dat[which(apply(dat, 1, max) > motif_filter_value),]
     cat(sprintf("%d out of %d motifs included the heatmap\n", nrow(dat), nrow(motif_res$motifs)))
-
   }
-
 
   # clustering motifs
   if (cluster_motifs) {
@@ -742,6 +738,7 @@ create_motif_enrichment_heatmap <- function (motif_res,
     motif_order <- order(rownames(dat))
   }
 
+  # clustering topics
   if (cluster_topics) {
     topic_order <- hclust(dist(t(dat), method = "euclidean"), method = method_cluster)$order
   } else {
@@ -757,19 +754,39 @@ create_motif_enrichment_heatmap <- function (motif_res,
   dat2 <- transform(dat2, enrichment = pmax(min(enrichment_range), enrichment))
 
   # Heatmap
-  p <- ggplot(dat2, aes_string(x = "topic",y = "motif", fill = "enrichment")) +
-    geom_tile() +
-    labs(x = "",
-         y = "",
-         title = "Motif enrichment",
-         fill = enrichment.label) +
-    scale_x_discrete(position = "top") +
-    theme(axis.text.x  = element_text(size = font.size.topics),
-          axis.text.y  = element_text(size = font.size.motifs),
+  if (horizontal) {
+    p <- ggplot(dat2, aes_string(x= "motif", y = "topic", fill = "enrichment")) +
+      geom_tile() +
+      labs(x = "",
+           y = "",
+           title = "Motif enrichment",
+           fill = enrichment.label) +
+      scale_x_discrete(position = "top") +
+      theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0))
+    theme(axis.text.x  = element_text(size = font.size.motifs, angle = 90),
+          axis.text.y  = element_text(size = font.size.topics),
           legend.title=element_text(size=10),
           legend.text=element_text(size=9),
           axis.ticks.x = element_blank(),
           axis.ticks.y = element_blank())
+
+  }else{
+    p <- ggplot(dat2, aes_string(x = "topic",y = "motif", fill = "enrichment")) +
+      geom_tile() +
+      labs(x = "",
+           y = "",
+           title = "Motif enrichment",
+           fill = enrichment.label) +
+      scale_x_discrete(position = "top") +
+      theme(axis.text.x  = element_text(size = font.size.topics),
+            axis.text.y  = element_text(size = font.size.motifs),
+            legend.title=element_text(size=10),
+            legend.text=element_text(size=9),
+            axis.ticks.x = element_blank(),
+            axis.ticks.y = element_blank())
+
+  }
+
 
   if (enrichment == "z-score"){
     p <- p + scale_fill_gradient2(low = color.low,mid = "white",high = color.high, midpoint = 0)
@@ -781,79 +798,64 @@ create_motif_enrichment_heatmap <- function (motif_res,
 
 }
 
-# Create a scatterplot to visualize the motif enrichment and gene scores
-# for a given topic k.
-create_motif_gene_scatterplot <-
-  function (motif_res,
-            gene_scores,
-            motif_names,
-            gene_names,
-            selected_genes,
-            y = c("-log10(p-value)", "z-score"),
-            cor.method = "pearson",
-            colors,
-            max.overlaps = 15,
-            font.size = 9) {
+create_celllabel_topic_heatmap <- function (fit_multinom,
+                                            grouping,
+                                            group_labels,
+                                            topic_order = 1:ncol(fit_multinom$L),
+                                            cluster_topics = FALSE,
+                                            method_cluster = "average",
+                                            color.low = "white",
+                                            color.mid = "orangered",
+                                            color.high = "darkred",
+                                            font.size.groups = 8,
+                                            font.size.topics = 8) {
 
-    # Check and process input arguments.
-    y <- match.arg(y)
+  L <- fit_multinom$L
 
-    idx_motifs <- match(toupper(selected_genes), toupper(motif_names))
-    idx_genes <- match(toupper(selected_genes), toupper(gene_names))
-
-    motif_mlog10P <- motif_res$mlog10P
-    motif_zscore <- motif_res$Z
-
-    motif_mlog10P_matched <- matrix(motif_mlog10P[idx_motifs, ], nrow = length(selected_genes))
-    motif_zscore_matched <- matrix(motif_zscore[idx_motifs, ], nrow = length(selected_genes))
-    gene_scores_matched <- matrix(gene_scores[idx_genes, ], nrow = length(selected_genes))
-
-    motif_names_matched <- motif_names[idx_motifs]
-    gene_names_matched <- gene_names[idx_genes]
-
-    plots <- vector("list", length(selected_genes))
-    names(plots) <- selected_genes
-
-    for( i in 1:length(selected_genes)){
-      gene.label <- gene_names_matched[i]
-
-      if (y == "-log10(p-value)"){
-        dat <- data.frame(x = gene_scores_matched[i,],
-                          y = motif_mlog10P_matched[i,],
-                          topics = factor(colnames(gene_scores), levels = colnames(gene_scores)))
-        y.label <- "motif enrichment -log10(p-value)"
-        title <- sprintf("%s (r = %.2f)", gene.label, cor(dat$x, dat$y, method = cor.method))
-      }else if (y == "z-score"){
-        dat <- data.frame(x = gene_scores_matched[i,],
-                          y = motif_zscore_matched[i,],
-                          topics = factor(colnames(gene_scores), levels = colnames(gene_scores)))
-        y.label <- "motif enrichment z-score"
-        title <- sprintf("%s (r = %.2f)", gene.label, cor(dat$x, dat$y, method = cor.method))
-      }
-
-      x.label <- "gene score"
-
-      plots[[i]] <- ggplot(dat,aes_string(x = "x",y = "y", label = "topics", color = "topics")) +
-        geom_point(size = 2,stroke = 0.3) +
-        scale_color_manual(values = colors) +
-        geom_text_repel(color = "black",size = 2.25,fontface = "italic",
-                        segment.color = "black",segment.size = 0.25,
-                        max.overlaps = max.overlaps,na.rm = TRUE) +
-        labs(x = x.label,
-             y = y.label,
-             title = title) +
-        theme_cowplot(font.size)
-    }
-
-    return(plots)
+  L_group_mean <- matrix(NA, nrow = length(group_labels), ncol = ncol(L))
+  rownames(L_group_mean) <- group_labels
+  colnames(L_group_mean) <- colnames(L)
+  for (i in 1:length(group_labels)) {
+    L_group <- L[grouping == group_labels[i], ]
+    L_group_mean[i,] <- colMeans(L_group)
   }
+
+  # clustering topics
+  if (cluster_topics) {
+    topic_order <- hclust(dist(t(L_group_mean), method = "euclidean"), method = method_cluster)$order
+  } else {
+    topic_order <- topic_order
+  }
+
+  dat <- L_group_mean[rev(group_labels), topic_order]
+
+  dat2 <- melt(dat)
+  colnames(dat2) <- c("group", "topic", "proportion")
+
+  # Heatmap
+  p <- ggplot(dat2, aes_string(x = "topic", y = "group", fill = "proportion")) +
+    geom_tile() +
+    labs(x = "",
+         y = "",
+         title = "",
+         fill = "average proportion") +
+    scale_x_discrete(position = "top") +
+    scale_fill_gradient2(low = color.low, mid = color.mid, high = color.high, midpoint = 0.5) +
+    theme(axis.text.x  = element_text(size = font.size.topics),
+          axis.text.y  = element_text(size = font.size.groups),
+          legend.title=element_text(size=10),
+          legend.text=element_text(size=9),
+          axis.ticks.x = element_blank(),
+          axis.ticks.y = element_blank())
+
+  return(p)
+
+}
 
 # Create a scatterplot to visualize the motif enrichment and correlation with gene scores
 # for a given topic k.
 create_motif_gene_cor_scatterplot <- function (motif_res,
-                                               gene_scores,
-                                               motif_names,
-                                               gene_names,
+                                               genescore_res,
                                                selected_genes,
                                                k,
                                                cor.motif = c("z-score","-log10(p-value)"),
@@ -866,18 +868,21 @@ create_motif_gene_cor_scatterplot <- function (motif_res,
   cor.motif <- match.arg(cor.motif)
   cor.method <- match.arg(cor.method)
 
-  idx_motifs <- match(toupper(selected_genes), toupper(motif_names))
+  # Extract the gene scores of the selected genes
+  gene_names <- genescore_res$genes$SYMBOL
   idx_genes <- match(toupper(selected_genes), toupper(gene_names))
-
-  motif_mlog10P <- motif_res$mlog10P
-  motif_zscore <- motif_res$Z
-
-  motif_mlog10P_matched <- motif_mlog10P[idx_motifs, ]
-  motif_zscore_matched <- motif_zscore[idx_motifs, ]
-  gene_scores_matched <- gene_scores[idx_genes, ]
-
-  motif_names_matched <- gsub("/.*", "", rownames(motif_mlog10P)[idx_motifs])
+  gene_scores_matched <- genescore_res$Z[idx_genes,]
   gene_names_matched <- gene_names[idx_genes]
+
+  # Use the most significant motif version in this topic, if there are more than one motif version for this TF
+  motif_order <- order(motif_res$mlog10P[,k], decreasing = T)
+  motif_mlog10P <- motif_res$mlog10P[motif_order,]
+  motif_zscore <- motif_res$Z[motif_order,]
+  motif_names <- gsub("\\s*\\(.*", "", motif_res$motifs[motif_order, "motif"])
+  idx_motifs <- match(toupper(selected_genes), toupper(motif_names)) # match the first (top) match
+  motif_mlog10P_matched <- motif_mlog10P[idx_motifs,]
+  motif_zscore_matched <- motif_zscore[idx_motifs,]
+  motif_names_matched <- gsub("/.*", "", rownames(motif_mlog10P)[idx_motifs])
 
   motif_gene_mapping <- data.frame(motif = motif_names_matched,
                                    gene = gene_names_matched,
@@ -923,6 +928,74 @@ create_motif_gene_cor_scatterplot <- function (motif_res,
 
 }
 
+# Create a scatterplot to visualize the motif enrichment and gene scores
+# for a given topic k.
+create_motif_gene_scatterplot <- function (motif_res,
+                                           genescore_res,
+                                           selected_genes,
+                                           k,
+                                           y = c("z-score","-log10(p-value)"),
+                                           cor.method = c("pearson", "spearman"),
+                                           colors,
+                                           max.overlaps = 15,
+                                           font.size = 9) {
+
+  # Check and process input arguments.
+  y <- match.arg(y)
+  cor.method <- match.arg(cor.method)
+
+  # Extract the gene scores of the selected genes
+  gene_names <- genescore_res$genes$SYMBOL
+  idx_genes <- match(toupper(selected_genes), toupper(gene_names))
+  gene_scores_matched <- matrix(genescore_res$Z[idx_genes,], nrow = length(selected_genes))
+  gene_names_matched <- gene_names[idx_genes]
+
+  # Use the most significant motif version in this topic, if there are more than one motif version for this TF
+  motif_order <- order(motif_res$mlog10P[,k], decreasing = T)
+  motif_mlog10P <- motif_res$mlog10P[motif_order,]
+  motif_zscore <- motif_res$Z[motif_order,]
+  motif_names <- gsub("\\s*\\(.*", "", motif_res$motifs[motif_order, "motif"])
+  idx_motifs <- match(toupper(selected_genes), toupper(motif_names)) # match the first (top) match
+  motif_mlog10P_matched <- matrix(motif_mlog10P[idx_motifs,], nrow = length(selected_genes))
+  motif_zscore_matched <- matrix(motif_zscore[idx_motifs,], nrow = length(selected_genes))
+  motif_names_matched <- gsub("/.*", "", rownames(motif_mlog10P)[idx_motifs])
+
+  plots <- vector("list", length(selected_genes))
+  names(plots) <- selected_genes
+
+  for( i in 1:length(selected_genes)){
+    gene.label <- gene_names_matched[i]
+
+    if (y == "-log10(p-value)"){
+      dat <- data.frame(x = gene_scores_matched[i,],
+                        y = motif_mlog10P_matched[i,],
+                        topics = factor(colnames(gene_scores), levels = colnames(gene_scores)))
+      y.label <- "motif enrichment -log10(p-value)"
+      title <- sprintf("%s (r = %.2f)", gene.label, cor(dat$x, dat$y, method = cor.method))
+    }else if (y == "z-score"){
+      dat <- data.frame(x = gene_scores_matched[i,],
+                        y = motif_zscore_matched[i,],
+                        topics = factor(colnames(gene_scores), levels = colnames(gene_scores)))
+      y.label <- "motif enrichment z-score"
+      title <- sprintf("%s (r = %.2f)", gene.label, cor(dat$x, dat$y, method = cor.method))
+    }
+
+    x.label <- "gene score"
+
+    plots[[i]] <- ggplot(dat,aes_string(x = "x",y = "y", label = "topics", color = "topics")) +
+      geom_point(size = 2,stroke = 0.3) +
+      scale_color_manual(values = colors) +
+      geom_text_repel(color = "black",size = 2.25,fontface = "italic",
+                      segment.color = "black",segment.size = 0.25,
+                      max.overlaps = max.overlaps,na.rm = TRUE) +
+      labs(x = x.label,
+           y = y.label,
+           title = title) +
+      theme_cowplot(font.size)
+  }
+
+  return(plots)
+}
 
 # convert p-value or logP to z-score
 pval_to_zscore <- function(p, direction=NULL, tails=2, log.p=FALSE, p.limit=.Machine$double.xmin) {
