@@ -1,5 +1,5 @@
 ---
-title: "Visualize and interpret topics in Cusanovich2018 data"
+title: "Visualize topics in Cusanovich2018 data"
 author: "Kaixuan Luo"
 output: workflowr::wflow_html
 ---
@@ -17,21 +17,18 @@ Load the packages used in the analysis below, as well as additional
 functions that will be used to generate some of the plots.
 
 ```{r load-pkgs, message=FALSE}
+library(fastTopics)
+library(Matrix)
 library(tools)
 library(dplyr)
-library(fastTopics)
 library(ggplot2)
 library(cowplot)
 library(mapplots)
 source("code/plots.R")
 ```
 
-```{r}
-set.seed(1)
-```
-
-Cusanovich 2018 mouse scATAC-seq dataset
-------------------------------------------
+Cusanovich 2018 mouse scATAC-seq data in all 13 tissues
+-------------------------------------------------------
 
 ### Load the data and Poisson NMF model fit
 Load the data
@@ -66,139 +63,63 @@ table(samples$cell_label)
 
 ```
 
-Load the results of running `fit_poisson_nmf` on the Cusanovich2018 data,
-with different algorithms, and for various choices of $k$ (the number
-of "topics").
-```{r load-PoissonNMF-fit}
-out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
-load(file.path(out.dir, "/compiled.fits.Cusanovich2018.RData"))
-
-```
-
-Select all `scd-ex` model fits
-```{r}
-fits <- fits[grep("scd-ex", names(fits))]
-```
-
 ### Structure plots
 
 The structure plots below summarize the topic proportions in the samples grouped by different tissues.
 
-$k = 2$: 
-```{r structure-plot-2, fig.width=7, fig.height=2}
-fit_poisson_nmf <- fits[["fit-Cusanovich2018-scd-ex-k=2"]]
-
-p.structure_plot <- structure_plot(poisson2multinom(fit_poisson_nmf),
-                     grouping = samples[,"tissue"],
-                     n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
-print(p.structure_plot)
+$k = 13$: 
+```{r load-fit}
+fit.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
+fit <- readRDS(file.path(fit.dir, "/fit-Cusanovich2018-scd-ex-k=13.rds"))$fit
+fit_multinom <- poisson2multinom(fit)
 ```
 
-$k = 3$: 
-```{r structure-plot-3, fig.width=7, fig.height=2}
-fit_poisson_nmf <- fits[["fit-Cusanovich2018-scd-ex-k=3"]]
+## Visualize by Structure plot grouped by tissues
+```{r structure-plot, fig.width=8, fig.height=2.5, message=FALSE}
+set.seed(10)
+colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
+                   "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928",
+                   "gray")
+idx_selected_samples <- sample(nrow(fit$L),4000)
+samples$tissue <- as.factor(samples$tissue)
 
-p.structure_plot <- structure_plot(poisson2multinom(fit_poisson_nmf),
-                     grouping = samples[,"tissue"],
-                     n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
-print(p.structure_plot)
-```
+p.structure <- structure_plot(select(fit_multinom,loadings = idx_selected_samples),
+                              grouping = samples[idx_selected_samples, "tissue"],
+                              n = Inf,gap = 40, perplexity = 50,
+                              topics = 1:13,colors = colors_topics,
+                              num_threads = 4,verbose = FALSE)
 
-$k = 4$: 
-```{r structure-plot-4, fig.width=7, fig.height=2}
-fit_poisson_nmf <- fits[["fit-Cusanovich2018-scd-ex-k=4"]]
-
-p.structure_plot <- structure_plot(poisson2multinom(fit_poisson_nmf),
-                     grouping = samples[,"tissue"],
-                     n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
-print(p.structure_plot)
-```
-
-$k = 5$: 
-```{r structure-plot-5, fig.width=7, fig.height=2}
-fit_poisson_nmf <- fits[["fit-Cusanovich2018-scd-ex-k=5"]]
-
-p.structure_plot <- structure_plot(poisson2multinom(fit_poisson_nmf),
-                     grouping = samples[,"tissue"],
-                     n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
-print(p.structure_plot)
-```
-
-$k = 6$: 
-```{r structure-plot-6, fig.width=7, fig.height=2}
-fit_poisson_nmf <- fits[["fit-Cusanovich2018-scd-ex-k=6"]]
-
-p.structure_plot <- structure_plot(poisson2multinom(fit_poisson_nmf),
-                     grouping = samples[,"tissue"],
-                     n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
-print(p.structure_plot)
-```
-
-$k = 7$: 
-```{r structure-plot-7, fig.width=7, fig.height=2}
-fit_poisson_nmf <- fits[["fit-Cusanovich2018-scd-ex-k=7"]]
-
-p.structure_plot <- structure_plot(poisson2multinom(fit_poisson_nmf),
-                     grouping = samples[,"tissue"],
-                     n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
-print(p.structure_plot)
-```
-
-$k = 8$: 
-```{r structure-plot-8, fig.width=7, fig.height=2}
-fit_poisson_nmf <- fits[["fit-Cusanovich2018-scd-ex-k=8"]]
-
-p.structure_plot <- structure_plot(poisson2multinom(fit_poisson_nmf),
-                     grouping = samples[,"tissue"],
-                     n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
-print(p.structure_plot)
-```
-
-$k = 9$: 
-```{r structure-plot-9, fig.width=7, fig.height=2}
-fit_poisson_nmf <- fits[["fit-Cusanovich2018-scd-ex-k=9"]]
-
-p.structure_plot <- structure_plot(poisson2multinom(fit_poisson_nmf),
-                     grouping = samples[,"tissue"],
-                     n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
-print(p.structure_plot)
-```
-
-$k = 10$: 
-```{r structure-plot-10, fig.width=7, fig.height=2}
-fit_poisson_nmf <- fits[["fit-Cusanovich2018-scd-ex-k=10"]]
-
-p.structure_plot <- structure_plot(poisson2multinom(fit_poisson_nmf),
-                     grouping = samples[,"tissue"],
-                     n = 2000,gap = 40,num_threads = 4,verbose = FALSE)
-print(p.structure_plot)
+print(p.structure)
 ```
 
 ### t-SNE plot
 
 Plot samples by tissues on the t-SNE coordinates provided by the original paper:
-```{r tSNE-tissues, fig.width=7, fig.height=5}
-p.tissues_tsne <- ggplot(samples, aes(x = tsne_1, y = tsne_2)) + 
-  geom_point(aes(colour = tissue), size = 0.5) + 
-  labs(x = 't-SNE 1', y = 't-SNE 2', title = '') + 
-  scale_color_discrete('') +
-  theme_classic()
+```{r tSNE, fig.width=7, fig.height=5}
+colors_tissues <- c("BoneMarrow" = "darkblue",
+                    "Lung" = "lightblue",
+                    "Thymus" = "orange",
+                    "Spleen" = "pink",
+                    "Liver" = "purple",
+                    "Testes" = "yellow",
+                    "SmallIntestine" = "darkgreen",
+                    "LargeIntestine" = "brown",
+                    "Kidney" = "green",
+                    "Heart" = "red",
+                    "WholeBrain" = "gray",
+                    "PreFrontalCortex" = "black",
+                    "Cerebellum" = "darkgray")
 
-print(p.tissues_tsne)
+colors_tissues <- colors_tissues[order(names(colors_tissues))]
+dat <- samples[, c("tsne_1", "tsne_2", "tissue")]
+
+ggplot(dat, aes(x = tsne_1, y = tsne_2, colour=tissue)) + 
+      geom_point(size = 0.5, na.rm = TRUE) + 
+      scale_colour_manual(values=colors_tissues) +
+      labs(x = 't-SNE 1', y = 't-SNE 2', title = '') + 
+      theme_cowplot()
 ```
 
-Plot a random subset of 2000 samples by tissues:
-```{r tSNE-tissues-2, fig.width=7, fig.height=5}
-idx_plot <- sort(sample(1:length(samples$cell), 2000))
-
-p.tissues_tsne <- ggplot(samples[idx_plot,], aes(x = tsne_1, y = tsne_2)) + 
-  geom_point(aes(colour = tissue), size = 0.5) + 
-  labs(x = 't-SNE 1', y = 't-SNE 2', title = '') + 
-  scale_color_discrete('') +
-  theme_classic()
-
-print(p.tissues_tsne)
-```
 
 ### Visualize topic membership using pie-charts on t-SNE coordinates
 
@@ -206,146 +127,112 @@ Visualize topic membership using pie-charts for cells on t-SNE coordinates provi
 
 Plot the subset of 2000 samples:
 
-$k = 3$: 
+$k = 13$: 
 ```{r topic-membership-pies-tSNE-1, fig.width=5, fig.height=5}
-k <- 3
-fit_poisson_nmf <- fits[[sprintf("fit-Cusanovich2018-scd-ex-k=%d", k)]]
-fit <- poisson2multinom(fit_poisson_nmf)
+idx_selected_samples <- sample(nrow(fit$L),2000)
 
-plot(NA,NA, main = paste("K =", k), 
+plot(NA,NA, main = paste("K = 13"), 
      xlab = 't-SNE 1', ylab = 't-SNE 2', 
      xlim=c(min(samples$tsne_1),max(samples$tsne_1)),
      ylim=c(min(samples$tsne_2),max(samples$tsne_2)))
 
-res <- lapply(idx_plot, function(r)
-  add.pie(z=as.integer(100*fit$L[r,]),
+res <- lapply(idx_selected_samples, function(r)
+  add.pie(z=as.integer(100*fit_multinom$L[r,]),
           x=samples[r,"tsne_1"],
           y=samples[r,"tsne_2"], labels=c("","",""),
-          radius = 1, col = RColorBrewer::brewer.pal(9, "Set1")))
+          radius = 1, col = colors_tissues))
 ```
 
-$k = 4$: 
-```{r topic-membership-pies-tSNE-2, fig.width=5, fig.height=5}
-k <- 4
-fit_poisson_nmf <- fits[[sprintf("fit-Cusanovich2018-scd-ex-k=%d", k)]]
-fit <- poisson2multinom(fit_poisson_nmf)
+Cusanovich 2018 mouse scATAC-seq data in bone marrow
+-------------------------------------------------------
 
-plot(NA,NA, main = paste("K =", k), 
-     xlab = 't-SNE 1', ylab = 't-SNE 2', 
-     xlim=c(min(samples$tsne_1),max(samples$tsne_1)),
-     ylim=c(min(samples$tsne_2),max(samples$tsne_2)))
-
-res <- lapply(idx_plot, function(r)
-  add.pie(z=as.integer(100*fit$L[r,]),
-          x=samples[r,"tsne_1"],
-          y=samples[r,"tsne_2"], labels=c("","",""),
-          radius = 1, col = RColorBrewer::brewer.pal(9, "Set1")))
+### Load the data and Poisson NMF model fit
+Load the data
+```{r load-BoneMarrow-data}
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/processed_data/"
+load(file.path(data.dir, "Cusanovich_2018_BoneMarrow.RData"))
+cat(sprintf("%d x %d counts matrix.\n",nrow(counts),ncol(counts)))
+rm(counts)
 ```
 
-$k = 5$: 
-```{r topic-membership-pies-tSNE-3, fig.width=5, fig.height=5}
-k <- 5
-fit_poisson_nmf <- fits[[sprintf("fit-Cusanovich2018-scd-ex-k=%d", k)]]
-fit <- poisson2multinom(fit_poisson_nmf)
+About the samples:
+The study measured single cell chromatin accessibility for 17 samples 
+spanning 13 different tissues in 8-week old mice.
 
-plot(NA,NA, main = paste("K =", k), 
-     xlab = 't-SNE 1', ylab = 't-SNE 2', 
-     xlim=c(min(samples$tsne_1),max(samples$tsne_1)),
-     ylim=c(min(samples$tsne_2),max(samples$tsne_2)))
-
-res <- lapply(idx_plot, function(r)
-  add.pie(z=as.integer(100*fit$L[r,]),
-          x=samples[r,"tsne_1"],
-          y=samples[r,"tsne_2"], labels=c("","",""),
-          radius = 1, col = RColorBrewer::brewer.pal(9, "Set1")))
+```{r BoneMarrow-samples}
+cat(nrow(samples), "samples (cells). \n")
 ```
 
-$k = 6$: 
-```{r topic-membership-pies-tSNE-4, fig.width=5, fig.height=5}
-k <- 6
-fit_poisson_nmf <- fits[[sprintf("fit-Cusanovich2018-scd-ex-k=%d", k)]]
-fit <- poisson2multinom(fit_poisson_nmf)
+Cell types labels:
+```{r BoneMarrow-samples-cells}
+samples$cell_label <- as.factor(samples$cell_label)
+cat(length(levels(samples$cell_label)), "cell types \n")
+table(samples$cell_label)
 
-plot(NA,NA, main = paste("K =", k), 
-     xlab = 't-SNE 1', ylab = 't-SNE 2', 
-     xlim=c(min(samples$tsne_1),max(samples$tsne_1)),
-     ylim=c(min(samples$tsne_2),max(samples$tsne_2)))
-
-res <- lapply(idx_plot, function(r)
-  add.pie(z=as.integer(100*fit$L[r,]),
-          x=samples[r,"tsne_1"],
-          y=samples[r,"tsne_2"], labels=c("","",""),
-          radius = 1, col = RColorBrewer::brewer.pal(9, "Set1")))
 ```
 
-$k = 7$: 
-```{r topic-membership-pies-tSNE-5, fig.width=5, fig.height=5}
-k <- 7
-fit_poisson_nmf <- fits[[sprintf("fit-Cusanovich2018-scd-ex-k=%d", k)]]
-fit <- poisson2multinom(fit_poisson_nmf)
+### Structure plots
 
-plot(NA,NA, main = paste("K =", k), 
-     xlab = 't-SNE 1', ylab = 't-SNE 2', 
-     xlim=c(min(samples$tsne_1),max(samples$tsne_1)),
-     ylim=c(min(samples$tsne_2),max(samples$tsne_2)))
+The structure plots below summarize the topic proportions in the samples grouped by different cell labels.
 
-res <- lapply(idx_plot, function(r)
-  add.pie(z=as.integer(100*fit$L[r,]),
-          x=samples[r,"tsne_1"],
-          y=samples[r,"tsne_2"], labels=c("","",""),
-          radius = 1, col = RColorBrewer::brewer.pal(9, "Set1")))
+$k = 7$
+```{r BoneMarrow-structure-plot-k7, fig.width=8, fig.height=2.5, message=FALSE}
+fit.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018_BoneMarrow"
+fit <- readRDS(file.path(fit.dir, "/fit-Cusanovich2018-scd-ex-k=7.rds"))$fit
+fit_multinom <- poisson2multinom(fit)
+
+set.seed(10)
+colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
+                   "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928",
+                   "gray")
+idx_selected_samples <- sample(nrow(fit$L),4000)
+
+samples$cell_group <- as.character(samples$cell_label)
+samples$cell_group[samples$cell_group %in% names(which(table(samples$cell_group) < 10))] <- "others"
+table(samples$cell_group)
+
+samples$cell_group <- factor(samples$cell_group, levels = c("Hematopoietic progenitors", 
+                                                            "Erythroblasts",
+                                                            "B cells", "Immature B cells","Activated B cells", 
+                                                            "T cells", "Regulatory T cells", "NK cells","Dendritic cells", 
+                                                            "Monocytes","Macrophages"))
+
+p.structure <- structure_plot(select(fit_multinom,loadings = idx_selected_samples),
+                              grouping = samples[idx_selected_samples, "cell_group"],
+                              n = Inf,gap = 40, perplexity = 50,
+                              topics = 1:7,colors = colors_topics,
+                              num_threads = 6,verbose = FALSE)
+
+print(p.structure)
 ```
 
-$k = 8$: 
-```{r topic-membership-pies-tSNE-6, fig.width=5, fig.height=5}
-k <- 8
-fit_poisson_nmf <- fits[[sprintf("fit-Cusanovich2018-scd-ex-k=%d", k)]]
-fit <- poisson2multinom(fit_poisson_nmf)
+$k = 8$
+```{r BoneMarrow-structure-plot-k8, fig.width=8, fig.height=2.5, message=FALSE}
+fit.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018_BoneMarrow"
+fit <- readRDS(file.path(fit.dir, "/fit-Cusanovich2018-scd-ex-k=8.rds"))$fit
+fit_multinom <- poisson2multinom(fit)
 
-plot(NA,NA, main = paste("K =", k), 
-     xlab = 't-SNE 1', ylab = 't-SNE 2', 
-     xlim=c(min(samples$tsne_1),max(samples$tsne_1)),
-     ylim=c(min(samples$tsne_2),max(samples$tsne_2)))
+set.seed(10)
+colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
+                   "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928",
+                   "gray")
+idx_selected_samples <- sample(nrow(fit$L),4000)
 
-res <- lapply(idx_plot, function(r)
-  add.pie(z=as.integer(100*fit$L[r,]),
-          x=samples[r,"tsne_1"],
-          y=samples[r,"tsne_2"], labels=c("","",""),
-          radius = 1, col = RColorBrewer::brewer.pal(9, "Set1")))
-```
+samples$cell_group <- as.character(samples$cell_label)
+samples$cell_group[samples$cell_group %in% names(which(table(samples$cell_group) < 10))] <- "others"
+table(samples$cell_group)
 
-$k = 9$: 
-```{r topic-membership-pies-tSNE-7, fig.width=5, fig.height=5}
-k <- 9
-fit_poisson_nmf <- fits[[sprintf("fit-Cusanovich2018-scd-ex-k=%d", k)]]
-fit <- poisson2multinom(fit_poisson_nmf)
+samples$cell_group <- factor(samples$cell_group, levels = c("Hematopoietic progenitors", 
+                                                            "Erythroblasts",
+                                                            "B cells", "Immature B cells","Activated B cells", 
+                                                            "T cells", "Regulatory T cells", "NK cells","Dendritic cells", 
+                                                            "Monocytes","Macrophages"))
 
-plot(NA,NA, main = paste("K =", k), 
-     xlab = 't-SNE 1', ylab = 't-SNE 2', 
-     xlim=c(min(samples$tsne_1),max(samples$tsne_1)),
-     ylim=c(min(samples$tsne_2),max(samples$tsne_2)))
+p.structure <- structure_plot(select(fit_multinom,loadings = idx_selected_samples),
+                              grouping = samples[idx_selected_samples, "cell_group"],
+                              n = Inf,gap = 40, perplexity = 50,
+                              topics = 1:8,colors = colors_topics,
+                              num_threads = 6,verbose = FALSE)
 
-res <- lapply(idx_plot, function(r)
-  add.pie(z=as.integer(100*fit$L[r,]),
-          x=samples[r,"tsne_1"],
-          y=samples[r,"tsne_2"], labels=c("","",""),
-          radius = 1, col = RColorBrewer::brewer.pal(9, "Set1")))
-```
-
-$k = 10$: 
-```{r topic-membership-pies-tSNE-8, fig.width=5, fig.height=5}
-k <- 10
-fit_poisson_nmf <- fits[[sprintf("fit-Cusanovich2018-scd-ex-k=%d", k)]]
-fit <- poisson2multinom(fit_poisson_nmf)
-
-plot(NA,NA, main = paste("K =", k), 
-     xlab = 't-SNE 1', ylab = 't-SNE 2', 
-     xlim=c(min(samples$tsne_1),max(samples$tsne_1)),
-     ylim=c(min(samples$tsne_2),max(samples$tsne_2)))
-
-res <- lapply(idx_plot, function(r)
-  add.pie(z=as.integer(100*fit$L[r,]),
-          x=samples[r,"tsne_1"],
-          y=samples[r,"tsne_2"], labels=c("","",""),
-          radius = 1, col = RColorBrewer::brewer.pal(9, "Set1")))
+print(p.structure)
 ```
