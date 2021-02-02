@@ -531,6 +531,104 @@ create_genescore_gsea_plotly <- function (gene_set_info, gsea_res, k, margin = 1
 }
 
 
+#' Create a heatmap to visualize the motif enrichment results across topics
+#'
+#' @param genescore_res a list of gene score statistics.
+#' @param cluster_genes If true, cluster genes by hierarchical clustering.
+#' @param cluster_topics If ture, cluster topics by hierarchical clustering.
+#' @param gene_filter Filter out genes with max gene score < `gene_filter`.
+#' @param score_range Truncate values in the heatmap to be within this range.
+#' @param method_cluster method for hierarchical clustering.
+#' @param horizontal If true, plot motifs on the x-axis.
+#' @param color.low the low end color in the heatmap
+#' @param color.high the high end color in the heatmap
+#' @param font.size.motifs the font size for motif names
+#' @param font.size.topics the font size for the topic names
+#'
+create_genescore_heatmap <- function (genescore_res,
+                                      cluster_genes = TRUE,
+                                      cluster_topics = TRUE,
+                                      gene_filter = 0,
+                                      method_cluster = "average",
+                                      score_range = NULL,
+                                      horizontal = FALSE,
+                                      color.low = "deepskyblue",
+                                      color.high = "orangered",
+                                      font.size.genes = 6,
+                                      font.size.topics = 9) {
+
+  dat <- genescore_res$Z
+  rownames(dat) <- genescore_res$genes$SYMBOL
+  # Filter out genes with maximum zscore < gene_filter
+  dat <- dat[which(apply(dat, 1, max) >= gene_filter),]
+  cat(sprintf("%d out of %d genes included the heatmap\n", nrow(dat), nrow(genescore_res$Z)))
+
+  # clustering motifs
+  if (cluster_genes) {
+    gene_order <- hclust(dist(dat, method = "euclidean"), method = method_cluster)$order
+  } else {
+    gene_order <- rownames(dat)
+  }
+
+  # clustering topics
+  if (cluster_topics) {
+    topic_order <- hclust(dist(t(dat), method = "euclidean"), method = method_cluster)$order
+  } else {
+    topic_order <- colnames(dat)
+  }
+
+  dat <- dat[gene_order, topic_order]
+
+  dat2 <- melt(as.matrix(dat))
+  colnames(dat2) <- c("gene", "topic", "score")
+
+  if(missing(score_range)){
+    score_range <- c(min(dat2$score), max(dat2$score))
+  }
+
+  dat2 <- transform(dat2, score = pmin(max(score_range), score))
+  dat2 <- transform(dat2, score = pmax(min(score_range), score))
+
+  # Heatmap
+  if (horizontal) {
+    p <- ggplot(dat2, aes_string(x= "gene", y = "topic", fill = "score")) +
+      geom_tile() +
+      labs(x = "",
+           y = "",
+           title = "",
+           fill = "gene score") +
+      scale_x_discrete(position = "top") +
+      theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0))
+    theme(axis.text.x  = element_text(size = font.size.genes, angle = 90),
+          axis.text.y  = element_text(size = font.size.topics),
+          legend.title=element_text(size=10),
+          legend.text=element_text(size=9),
+          axis.ticks.x = element_blank(),
+          axis.ticks.y = element_blank())
+
+  }else{
+    p <- ggplot(dat2, aes_string(x = "topic",y = "gene", fill = "score")) +
+      geom_tile() +
+      labs(x = "",
+           y = "",
+           title = "",
+           fill = "gene score") +
+      scale_x_discrete(position = "top") +
+      theme(axis.text.x  = element_text(size = font.size.topics),
+            axis.text.y  = element_text(size = font.size.genes),
+            legend.title=element_text(size=10),
+            legend.text=element_text(size=9),
+            axis.ticks.x = element_blank(),
+            axis.ticks.y = element_blank())
+
+  }
+
+  p <- p + scale_fill_gradient2(low = color.low,mid = "white",high = color.high, midpoint = 0)
+
+  return(p)
+
+}
+
 #' Compile HOMER motif enrichment results
 #'
 #' @param homer_res_topics a list of Homer results,
@@ -693,9 +791,9 @@ create_motif_enrichment_ranking_plot <- function (motif_res, k,
 #' @param enrichment enrichment value to plot in the heatmap, must be "z-score" or "-log10(p-value)"
 #' @param cluster_motifs If true, cluster motifs by hierarchical clustering.
 #' @param cluster_topics If ture, cluster topics by hierarchical clustering.
-#' @param motif_filter_value Filter out motifs. Motifs inclued in the heamtmap need to have
-#' maximum abs(zscore) or -log10(p-value) across topics greater than motif_filter_value.
-#' @param enrichment_range Truncate values in the heamtpa to be within this range.
+#' @param motif_filter Filter out motifs. Motifs inclued in the heamtmap need to have
+#' maximum abs(zscore) or -log10(p-value) across topics greater than motif_filter.
+#' @param enrichment_range Truncate values in the heatmap to be within this range.
 #' @param method_cluster method for hierarchical clustering.
 #' @param horizontal If true, plot motifs on the x-axis.
 #' @param color.low the low end color in the heatmap
@@ -707,7 +805,7 @@ create_motif_enrichment_heatmap <- function (motif_res,
                                              enrichment = c("z-score","-log10(p-value)"),
                                              cluster_motifs = TRUE,
                                              cluster_topics = TRUE,
-                                             motif_filter_value = 10,
+                                             motif_filter = 10,
                                              enrichment_range = c(-100,100),
                                              method_cluster = "average",
                                              horizontal = FALSE,
@@ -722,15 +820,15 @@ create_motif_enrichment_heatmap <- function (motif_res,
     enrichment.label <- "z-score"
     dat <- motif_res$Z
     rownames(dat) <- motif_res$motifs$motif
-    # Filter out motifs with maximum zscore > motif_filter_value
-    dat <- dat[which(apply(dat, 1, max) > motif_filter_value),]
+    # Filter out motifs with maximum zscore < motif_filter
+    dat <- dat[which(apply(dat, 1, max) >= motif_filter),]
     cat(sprintf("%d out of %d motifs included the heatmap\n", nrow(dat), nrow(motif_res$motifs)))
   }else if (enrichment == "-log10(p-value)"){
     enrichment.label <- "-log10(p-value)"
     dat <- motif_res$mlog10P
     rownames(dat) <- motif_res$motifs$motif
-    # Filter out motifs with maximum -log10(p-value) > motif_filter_value
-    dat <- dat[which(apply(dat, 1, max) > motif_filter_value),]
+    # Filter out motifs with maximum -log10(p-value) < motif_filter
+    dat <- dat[which(apply(dat, 1, max) >= motif_filter),]
     cat(sprintf("%d out of %d motifs included the heatmap\n", nrow(dat), nrow(motif_res$motifs)))
   }
 
@@ -738,20 +836,24 @@ create_motif_enrichment_heatmap <- function (motif_res,
   if (cluster_motifs) {
     motif_order <- hclust(dist(dat, method = "euclidean"), method = method_cluster)$order
   } else {
-    motif_order <- order(rownames(dat))
+    motif_order <- rownames(dat)
   }
 
   # clustering topics
   if (cluster_topics) {
     topic_order <- hclust(dist(t(dat), method = "euclidean"), method = method_cluster)$order
   } else {
-    topic_order <- 1:ncol(dat)
+    topic_order <- colnames(dat)
   }
 
-  dat <- dat[rev(motif_order), topic_order]
+  dat <- dat[motif_order, topic_order]
 
-  dat2 <- melt(dat)
+  dat2 <- melt(as.matrix(dat))
   colnames(dat2) <- c("motif", "topic", "enrichment")
+
+  if(missing(enrichment_range)){
+    enrichment_range <- c(min(dat2$enrichment), max(dat2$enrichment))
+  }
 
   dat2 <- transform(dat2, enrichment = pmin(max(enrichment_range), enrichment))
   dat2 <- transform(dat2, enrichment = pmax(min(enrichment_range), enrichment))
@@ -789,7 +891,6 @@ create_motif_enrichment_heatmap <- function (motif_res,
             axis.ticks.y = element_blank())
 
   }
-
 
   if (enrichment == "z-score"){
     p <- p + scale_fill_gradient2(low = color.low,mid = "white",high = color.high, midpoint = 0)
@@ -854,6 +955,7 @@ create_celllabel_topic_heatmap <- function (fit_multinom,
   return(p)
 
 }
+
 
 # Create a scatterplot to visualize the motif enrichment and correlation with gene scores
 # for a given topic k.
