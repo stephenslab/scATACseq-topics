@@ -122,7 +122,7 @@ print(p.hist.zscores)
 Volcano plot of the regions
 
 **topic 1 and topic 4 examples**
-```{r region-volcano-plot, fig.width=5, fig.height=3}
+```{r region-volcano-plot, fig.width=8, fig.height=3}
 p.volcano.1 <- volcano_plot(diff_count_topics,k = 1,label_above_quantile = Inf, 
              subsample_below_quantile = 0.7, subsample_rate = 0.1)
 
@@ -194,15 +194,14 @@ Order motifs by hierarchical clustering.
 ```{r motif-heatmap-zscore, fig.width=7, fig.height=11}
 create_motif_enrichment_heatmap(motif_res, enrichment = "z-score",
                                 cluster_motifs = TRUE, cluster_topics = FALSE, motif_filter = 10, horizontal = FALSE,
-                                enrichment_range = c(-20,20), method_cluster = "average", font.size.motifs = 1, font.size.topics = 9)
+                                enrichment_range = c(-20,20), method_cluster = "average", font.size.motifs = 4, font.size.topics = 9)
 
 ```
 
 ### Heatmap of motif enrichment for selected TF motifs
 ```{r selected-motifs}
-toMatch <- c("^GATA\\d*$", "^CEBP.?$", "^SPI.?$", "^IRF\\d*$", "^STAT\\d*$", "^TCF\\d*$", "^BCL\\d*$", "^CTCF$")
+toMatch <- c("^GATA\\d*$", "^CEBP.?$", "^SPI.?$", "^IRF\\d*$", "^STAT\\d*$", "^TCF\\d*$", "^BCL\\d*$", "^CTCF$", "^ERG$")
 selected_motifs <- grep(paste(toMatch,collapse="|"), motif_res$motifs$motif, ignore.case = T, value = T)
-print(selected_motifs)
 rows <- match(selected_motifs, motif_res$motifs$motif)
 selected_motif_res <- lapply(motif_res, FUN = function(x) {x[rows, ]})
 
