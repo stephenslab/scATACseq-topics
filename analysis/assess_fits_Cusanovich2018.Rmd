@@ -13,6 +13,7 @@ knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
                       fig.align = "center")
 ```
 
+## Assess Poisson NMF fits in Cusanovich_2018 scATAC-seq data in all tissues
 Load the packages used in the analysis below, as well as some
 additional functions for creating the plots.
 
@@ -62,5 +63,83 @@ log-likelihood, the KKT residuals are not expected to decrease
 monotonically over time.
 
 ```{r plot-res-iter, fig.height=8, fig.width=9}
+create_progress_plots(dat, fits, x="iter", y="res", numiter.prefit=200)
+```
+
+## Assess Poisson NMF fits in Cusanovich_2018 scATAC-seq data in bone marrow
+
+```{r load-BoneMarrow-results}
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018_BoneMarrow/"
+load(file.path(out.dir, "/compiled.fits.Cusanovich2018.RData"))
+```
+
+Plot the improvement of log-likelihood as the rank, $k$, is increased. 
+
+```{r plot-BoneMarrow-loglik-vs-k, fig.height=3, fig.width=4}
+plot_loglik_vs_rank(fits) +
+  theme_cowplot(font_size = 12)
+```
+
+Plots the improvement in the fit over time, for all choices of $k$.
+
+```{r plot-BoneMarrow-loglik-iter, fig.height=8, fig.width=9}
+create_progress_plots(dat, fits, x="iter", y="loglik", numiter.prefit=200)
+```
+
+Plots the evolution of the KKT residuals over time.
+```{r plot-BoneMarrow-res-iter, fig.height=8, fig.width=9}
+create_progress_plots(dat, fits, x="iter", y="res", numiter.prefit=200)
+```
+
+
+## Assess Poisson NMF fits in Cusanovich_2018 scATAC-seq data in whole brain
+
+```{r load-WholeBrain-results}
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018_WholeBrain/"
+load(file.path(out.dir, "/compiled.fits.Cusanovich2018.RData"))
+```
+
+Plot the improvement of log-likelihood as the rank, $k$, is increased. 
+
+```{r plot-WholeBrain-loglik-vs-k, fig.height=3, fig.width=4}
+plot_loglik_vs_rank(fits) +
+  theme_cowplot(font_size = 12)
+```
+
+Plots the improvement in the fit over time, for all choices of $k$.
+
+```{r plot-WholeBrain-loglik-iter, fig.height=8, fig.width=9}
+create_progress_plots(dat, fits, x="iter", y="loglik", numiter.prefit=200)
+```
+
+Plots the evolution of the KKT residuals over time.
+```{r plot-WholeBrain-res-iter, fig.height=8, fig.width=9}
+create_progress_plots(dat, fits, x="iter", y="res", numiter.prefit=200)
+```
+
+
+
+## Assess Poisson NMF fits in Cusanovich_2018 scATAC-seq data in heart, kindey and lung
+
+```{r load-HeartKidneyLung-results}
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018_HeartKidneyLung/"
+load(file.path(out.dir, "/compiled.fits.Cusanovich2018.RData"))
+```
+
+Plot the improvement of log-likelihood as the rank, $k$, is increased. 
+
+```{r plot-HeartKidneyLung-loglik-vs-k, fig.height=3, fig.width=4}
+plot_loglik_vs_rank(fits) +
+  theme_cowplot(font_size = 12)
+```
+
+Plots the improvement in the fit over time, for all choices of $k$.
+
+```{r plot-HeartKidneyLung-loglik-iter, fig.height=8, fig.width=9}
+create_progress_plots(dat, fits, x="iter", y="loglik", numiter.prefit=200)
+```
+
+Plots the evolution of the KKT residuals over time.
+```{r plot-HeartKidneyLung-res-iter, fig.height=8, fig.width=9}
 create_progress_plots(dat, fits, x="iter", y="res", numiter.prefit=200)
 ```
