@@ -80,8 +80,9 @@ set.seed(10)
 colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
                    "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928",
                    "gray")
-idx_selected_samples <- sample(nrow(fit$L),4000)
 samples$tissue <- as.factor(samples$tissue)
+
+idx_selected_samples <- sample(nrow(fit$L),4000)
 
 p.structure <- structure_plot(select(fit_multinom,loadings = idx_selected_samples),
                               grouping = samples[idx_selected_samples, "tissue"],
@@ -140,13 +141,12 @@ res <- lapply(idx_selected_samples, function(r)
   add.pie(z=as.integer(100*fit_multinom$L[r,]),
           x=samples[r,"tsne_1"],
           y=samples[r,"tsne_2"], labels=c("","",""),
-          radius = 1, col = colors_tissues))
+          radius = 1, col = colors_topics))
 ```
 
 Cusanovich 2018 mouse scATAC-seq data in bone marrow
 -------------------------------------------------------
 
-### Load the data and Poisson NMF model fit
 Load the data
 ```{r load-BoneMarrow-data}
 data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/processed_data/"
@@ -155,56 +155,17 @@ cat(sprintf("%d x %d counts matrix.\n",nrow(counts),ncol(counts)))
 rm(counts)
 ```
 
-About the samples:
-The study measured single cell chromatin accessibility for 17 samples 
-spanning 13 different tissues in 8-week old mice.
-
-```{r BoneMarrow-samples}
-cat(nrow(samples), "samples (cells). \n")
-```
-
 Cell types labels:
 ```{r BoneMarrow-samples-cells}
+cat(nrow(samples), "samples (cells). \n")
+
 samples$cell_label <- as.factor(samples$cell_label)
 cat(length(levels(samples$cell_label)), "cell types \n")
 table(samples$cell_label)
 
 ```
 
-### Structure plots
-
 The structure plots below summarize the topic proportions in the samples grouped by different cell labels.
-
-$k = 7$
-```{r BoneMarrow-structure-plot-k7, fig.width=8, fig.height=2.5, message=FALSE}
-fit.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018_BoneMarrow"
-fit <- readRDS(file.path(fit.dir, "/fit-Cusanovich2018-scd-ex-k=7.rds"))$fit
-fit_multinom <- poisson2multinom(fit)
-
-set.seed(10)
-colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
-                   "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928",
-                   "gray")
-idx_selected_samples <- sample(nrow(fit$L),4000)
-
-samples$cell_group <- as.character(samples$cell_label)
-samples$cell_group[samples$cell_group %in% names(which(table(samples$cell_group) < 10))] <- "others"
-table(samples$cell_group)
-
-samples$cell_group <- factor(samples$cell_group, levels = c("Hematopoietic progenitors", 
-                                                            "Erythroblasts",
-                                                            "B cells", "Immature B cells","Activated B cells", 
-                                                            "T cells", "Regulatory T cells", "NK cells","Dendritic cells", 
-                                                            "Monocytes","Macrophages"))
-
-p.structure <- structure_plot(select(fit_multinom,loadings = idx_selected_samples),
-                              grouping = samples[idx_selected_samples, "cell_group"],
-                              n = Inf,gap = 40, perplexity = 50,
-                              topics = 1:7,colors = colors_topics,
-                              num_threads = 6,verbose = FALSE)
-
-print(p.structure)
-```
 
 $k = 8$
 ```{r BoneMarrow-structure-plot-k8, fig.width=8, fig.height=2.5, message=FALSE}
@@ -213,26 +174,193 @@ fit <- readRDS(file.path(fit.dir, "/fit-Cusanovich2018-scd-ex-k=8.rds"))$fit
 fit_multinom <- poisson2multinom(fit)
 
 set.seed(10)
-colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
-                   "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928",
-                   "gray")
-idx_selected_samples <- sample(nrow(fit$L),4000)
 
 samples$cell_group <- as.character(samples$cell_label)
-samples$cell_group[samples$cell_group %in% names(which(table(samples$cell_group) < 10))] <- "others"
+samples$cell_group[grep("B cells", samples$cell_group)] <- "B cells"
+samples$cell_group[grep("T cells", samples$cell_group)] <- "T cells"
+
+samples$cell_group[samples$cell_group %in% names(which(table(samples$cell_group) <= 5))] <- "Others"
 table(samples$cell_group)
 
-samples$cell_group <- factor(samples$cell_group, levels = c("Hematopoietic progenitors", 
+samples$cell_group <- factor(samples$cell_group, levels = c("Hematopoietic progenitors",
                                                             "Erythroblasts",
-                                                            "B cells", "Immature B cells","Activated B cells", 
-                                                            "T cells", "Regulatory T cells", "NK cells","Dendritic cells", 
-                                                            "Monocytes","Macrophages"))
+                                                            "B cells", "T cells", "NK cells","Dendritic cells", 
+                                                            "Monocytes","Macrophages",
+                                                            "Collisions", "Others",  "Unknown"))
+
+idx_selected_samples <- sample(nrow(fit$L),4000)
 
 p.structure <- structure_plot(select(fit_multinom,loadings = idx_selected_samples),
                               grouping = samples[idx_selected_samples, "cell_group"],
                               n = Inf,gap = 40, perplexity = 50,
-                              topics = 1:8,colors = colors_topics,
-                              num_threads = 6,verbose = FALSE)
+                              topics = 1:8, num_threads = 6,verbose = FALSE)
+
+print(p.structure)
+```
+
+
+Cusanovich 2018 mouse scATAC-seq data in PreFrontalCortex
+------------------------------------------------------------
+
+Load the data
+```{r load-PreFrontalCortex-data}
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/processed_data/"
+load(file.path(data.dir, "Cusanovich_2018_PreFrontalCortex.RData"))
+cat(sprintf("%d x %d counts matrix.\n",nrow(counts),ncol(counts)))
+rm(counts)
+```
+
+Cell types labels:
+```{r PreFrontalCortex-samples-cells}
+cat(nrow(samples), "samples (cells). \n")
+
+samples$cell_label <- as.factor(samples$cell_label)
+cat(length(levels(samples$cell_label)), "cell types \n")
+table(samples$cell_label)
+
+```
+
+The structure plots below summarize the topic proportions in the samples grouped by different cell labels.
+
+$k = 7$
+```{r PreFrontalCortex-structure-plot-k7, fig.width=8, fig.height=2.5, message=FALSE}
+fit.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018_PreFrontalCortex/"
+fit <- readRDS(file.path(fit.dir, "/fit-Cusanovich2018-scd-ex-k=7.rds"))$fit
+fit_multinom <- poisson2multinom(fit)
+
+set.seed(10)
+
+samples$cell_group <- as.character(samples$cell_label)
+samples$cell_group[grep("Endothelial", samples$cell_group)] <- "Endothelial cells"
+samples$cell_group[grep("Interneurons", samples$cell_group)] <- "Interneurons"
+
+samples$cell_group[samples$cell_group %in% names(which(table(samples$cell_group) <= 5))] <- "Others"
+table(samples$cell_group)
+
+samples$cell_group <- factor(samples$cell_group, levels = c("Ex. neurons CPN", "Ex. neurons CThPN", "Ex. neurons SCPN",
+                                                            "Inhibitory neurons", "Interneurons", 
+                                                            "Astrocytes", "Oligodendrocytes",
+                                                            "Macrophages", "Microglia", "Podocytes",
+                                                            "Collisions", "Others",  "Unknown"))
+
+idx_selected_samples <- sample(nrow(fit$L),4000)
+
+p.structure <- structure_plot(select(fit_multinom,loadings = idx_selected_samples),
+                              grouping = samples[idx_selected_samples, "cell_group"],
+                              n = Inf, gap = 40, perplexity = 50,
+                              topics = 1:7, num_threads = 6,verbose = FALSE)
+
+print(p.structure)
+```
+
+Cusanovich 2018 mouse scATAC-seq data in whole brain
+-------------------------------------------------------
+
+Load the data
+```{r load-WholeBrain-data}
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/processed_data/"
+load(file.path(data.dir, "Cusanovich_2018_WholeBrain.RData"))
+cat(sprintf("%d x %d counts matrix.\n",nrow(counts),ncol(counts)))
+rm(counts)
+```
+
+Cell types labels:
+```{r WholeBrain-samples-cells}
+cat(nrow(samples), "samples (cells). \n")
+
+samples$cell_label <- as.factor(samples$cell_label)
+cat(length(levels(samples$cell_label)), "cell types \n")
+table(samples$cell_label)
+
+```
+
+The structure plots below summarize the topic proportions in the samples grouped by different cell labels.
+
+$k = 7$
+```{r WholeBrain-structure-plot-k7, fig.width=8, fig.height=2.5, message=FALSE}
+fit.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018_WholeBrain/"
+fit <- readRDS(file.path(fit.dir, "/fit-Cusanovich2018-scd-ex-k=7.rds"))$fit
+fit_multinom <- poisson2multinom(fit)
+
+set.seed(10)
+
+samples$cell_group <- as.character(samples$cell_label)
+samples$cell_group[grep("Endothelial", samples$cell_group)] <- "Endothelial cells"
+samples$cell_group[grep("Interneurons", samples$cell_group)] <- "Interneurons"
+
+samples$cell_group[samples$cell_group %in% names(which(table(samples$cell_group) <= 5))] <- "Others"
+table(samples$cell_group)
+
+samples$cell_group <- factor(samples$cell_group, levels = c("Ex. neurons CPN", "Ex. neurons CThPN", "Ex. neurons SCPN",
+                                                            "Inhibitory neurons", "Interneurons", 
+                                                            "Cerebellar granule cells", "Purkinje cells",
+                                                            "Astrocytes", "Oligodendrocytes", 
+                                                            "Macrophages", "Microglia", 
+                                                            "Collisions", "Others",  "Unknown"))
+
+idx_selected_samples <- sample(nrow(fit$L),4000)
+
+p.structure <- structure_plot(select(fit_multinom,loadings = idx_selected_samples),
+                              grouping = samples[idx_selected_samples, "cell_group"],
+                              n = Inf, gap = 40, perplexity = 50,
+                              topics = 1:7, num_threads = 6,verbose = FALSE)
+
+print(p.structure)
+```
+
+
+Cusanovich 2018 mouse scATAC-seq data in kidney
+------------------------------------------------
+
+Load the data
+```{r load-Kidney-data}
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/processed_data/"
+load(file.path(data.dir, "Cusanovich_2018_Kidney.RData"))
+cat(sprintf("%d x %d counts matrix.\n",nrow(counts),ncol(counts)))
+rm(counts)
+```
+
+Cell types labels:
+```{r Kidney-samples-cells}
+cat(nrow(samples), "samples (cells). \n")
+
+samples$cell_label <- as.factor(samples$cell_label)
+cat(length(levels(samples$cell_label)), "cell types \n")
+table(samples$cell_label)
+
+```
+
+The structure plots below summarize the topic proportions in the samples grouped by different cell labels.
+
+$k = 9$
+```{r Kidney-structure-plot-k9, fig.width=8, fig.height=2.5, message=FALSE}
+fit.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018_Kidney/"
+fit <- readRDS(file.path(fit.dir, "/fit-Cusanovich2018-scd-ex-k=9.rds"))$fit
+fit_multinom <- poisson2multinom(fit)
+
+set.seed(10)
+
+samples$cell_group <- as.character(samples$cell_label)
+samples$cell_group[grep("Endothelial", samples$cell_group)] <- "Endothelial cells"
+samples$cell_group[grep("T cells", samples$cell_group)] <- "T cells"
+samples$cell_group[grep("B cells", samples$cell_group)] <- "B cells"
+samples$cell_group[grep("DCT/CD", samples$cell_group)] <- "Distal convoluted tubule/Collecting duct"
+
+samples$cell_group[samples$cell_group %in% names(which(table(samples$cell_group) <= 5))] <- "Others"
+table(samples$cell_group)
+
+samples$cell_group <- factor(samples$cell_group, levels = c("Podocytes", "Proximal tubule", "Proximal tubule S3", 
+                                                            "Loop of henle", "Distal convoluted tubule", 
+                                                            "Distal convoluted tubule/Collecting duct",
+                                                            "Collecting duct", "Endothelial cells",
+                                                            "Others", "Unknown"))
+
+idx_selected_samples <- sample(nrow(fit$L),4000)
+
+p.structure <- structure_plot(select(fit_multinom,loadings = idx_selected_samples),
+                              grouping = samples[idx_selected_samples, "cell_group"],
+                              n = Inf, gap = 40, perplexity = 50, 
+                              topics = 1:9, num_threads = 6,verbose = FALSE)
 
 print(p.structure)
 ```
