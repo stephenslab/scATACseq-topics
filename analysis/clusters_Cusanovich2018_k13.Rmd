@@ -3,7 +3,8 @@ title: "Clustering Cusanovich et al (2018) data using topic proportions with K =
 author: Kaixuan Luo
 output:
   workflowr::wflow_html:
-    toc: yes
+    code_folding: hide
+    toc: false
 ---
 
 Here we explore the structure in the Cusanovich *et al* (2018)
@@ -34,25 +35,325 @@ load(file.path(data.dir, "Cusanovich_2018.RData"))
 rm(counts)
 ```
 
-## Plot PCs of the topic proportions
-We first use PCA to explore the structure inferred from the
-multinomial topic model with $k = 13$:
-
-Load the $k = 13$ Poisson NMF fit.
-```{r load-fit-k13}
-out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
-fit <- readRDS(file.path(out.dir, "/fit-Cusanovich2018-scd-ex-k=13.rds"))$fit
+Load the model fit
+```{r load-fit}
+fit.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
+fit <- readRDS(file.path(fit.dir, "/fit-Cusanovich2018-scd-ex-k=13.rds"))$fit
+fit_multinom <- poisson2multinom(fit)
 ```
 
-Plot PCs of the topic proportions.
+About the samples:
+The study measured single cell chromatin accessibility for 17 samples 
+spanning 13 different tissues in 8-week old mice.
 
+```{r samples}
+cat(nrow(samples), "samples (cells). \n")
+```
+
+Tissues:
+```{r samples-tissues}
+samples$tissue <- as.factor(samples$tissue)
+cat(length(levels(samples$tissue)), "tissues. \n")
+# table(samples$tissue)
+
+colors_tissues <- c("darkblue",    # BoneMarrow
+                    "gray30",      # Cerebellum
+                    "red",         # Heart
+                    "springgreen", # Kidney
+                    "brown",       # LargeIntestine
+                    "purple",      # Liver
+                    "deepskyblue", # Lung
+                    "black",       # PreFrontalCortex
+                    "darkgreen",   # SmallIntestine
+                    "plum",        # Spleen
+                    "gold",        # Testes
+                    "darkorange",  # Thymus
+                    "gray")        # WholeBrain
+```
+
+Cell types labels:
+```{r samples-cells}
+samples$cell_label <- as.factor(samples$cell_label)
+cat(length(levels(samples$cell_label)), "cell types \n")
+# table(samples$cell_label)
+
+```
+
+## Structure plots
+
+The structure plots below summarize the topic proportions in the samples grouped by different tissues.
+
+## Visualize by Structure plot grouped by tissues
+```{r structure-plot-tissues, fig.width=8, fig.height=2.5, message=FALSE}
+set.seed(10)
+colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
+                   "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928",
+                   "gray")
+samples$tissue <- as.factor(samples$tissue)
+
+rows <- sample(nrow(fit$L),4000)
+
+p.structure.1 <- structure_plot(select(fit_multinom,loadings = rows),
+                     grouping = samples[rows, "tissue"],n = Inf,gap = 40,
+                     perplexity = 50,topics = 1:13,colors = colors_topics,
+                     num_threads = 4,verbose = FALSE)
+
+print(p.structure.1)
+```
+
+## Perform k-means clustering on topic proportions
+Define clusters using k-means, and then create structure plot 
+based on the clusters from k-means.
+
+k-means clustering (using 15 clusters) on topic proportions
+```{r structure-plot-kmeans-1, fig.width=8, fig.height=2.5, message=FALSE}
+
+set.seed(10)
+clusters <- factor(kmeans(fit_multinom$L,centers = 15,iter.max = 100)$cluster)
+summary(clusters)
+
+rows <- sample(nrow(fit$L),4000)
+
+p.structure.kmeans <- structure_plot(select(fit_multinom,loadings = rows),
+                                        grouping = clusters[rows],n = Inf,gap = 20,
+                                        perplexity = 50,topics = 1:13,colors = colors_topics,
+                                        num_threads = 4,verbose = FALSE)
+print(p.structure.kmeans)
+```
+
+First do PCA on topic proportions and then do k-means clustering (using 15 clusters).
+Results are the same as the results from running k-means directly on the topic proportions.
+```{r structure-plot-kmeans-pca-1, fig.width=8, fig.height=2.5, message=FALSE}
+
+set.seed(10)
+pca <- prcomp(fit_multinom$L)$x
+clusters2 <- factor(kmeans(pca,centers = 15,iter.max = 100)$cluster)
+summary(clusters2)
+
+rows <- sample(nrow(fit$L),4000)
+
+p.structure.kmeans <- structure_plot(select(fit_multinom,loadings = rows),
+                                        grouping = clusters2[rows],n = Inf,gap = 20,
+                                        perplexity = 50,topics = 1:13,colors = colors_topics,
+                                        num_threads = 4,verbose = FALSE)
+print(p.structure.kmeans)
+
+length(which(clusters != clusters2))
+```
+
+Refine k-means clusters:
+- Split cluster 10 into two clusters.
+- merge cluster 4 and 9
+
+Structure plot based on refined clusters
+```{r structure-plot-kmeans-refined-1,  fig.width=8, fig.height=2.5, message=FALSE}
+set.seed(10)
+clusters.refined <- as.numeric(clusters)
+clusters.refined[which(clusters == 9)] <- 4
+
+# clusters.refined[which(clusters == 10 & fit_multinom$L[,8] >= 0.2)] <- 16
+# clusters.refined[which(clusters == 10 & fit_multinom$L[,8] < 0.2)] <- 17
+
+clusters.refined[which(clusters == 10)] <- kmeans(fit_multinom$L[which(clusters == 10), ],centers = 2)$cluster+15
+clusters.refined <- factor(clusters.refined, labels = paste0("c", c(1:length(unique(clusters.refined)))))
+
+samples$cluster_kmeans <- clusters.refined
+
+rows <- sample(nrow(fit$L),4000)
+
+p.structure.kmeans.refined <- structure_plot(select(fit_multinom,loadings = rows),
+                                             grouping = clusters.refined[rows],n = Inf,gap = 40,
+                                             perplexity = 50,topics = 1:13,colors = colors_topics,
+                                             num_threads = 4,verbose = FALSE)
+print(p.structure.kmeans.refined)
+
+```
+
+Save the clustering results to an RDS file
+```{r, eval = FALSE}
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
+saveRDS(samples, paste0(out.dir, "/samples-clustering-Cusanovich2018.rds"))
+
+samples <- readRDS("output/samples-clustering-Cusanovich2018.rds")
+clusters.refined <- samples$cluster_kmeans
+print(table(samples$cluster_kmeans))
+```
+
+## Plot the distribution of tissues in each cluster
+
+Tissue composition in each cluster:
+```{r freq-cluster-tissue, fig.width=8, fig.height=3}
+library(plyr);library(dplyr)
+library(RColorBrewer)
+
+freq_cluster_tissue <- count(samples, vars=c("cluster_kmeans","tissue")) 
+
+# stacked barplot for the counts of tissues by clusters
+p.barplot <- ggplot(freq_cluster_tissue, aes(fill=tissue, y=freq, x=cluster_kmeans)) + 
+  geom_bar(position="fill", stat="identity") +
+  theme_classic() + xlab("Cluster") + ylab("Proportion of cells") +
+  scale_fill_manual(values = colors_tissues) +
+  guides(fill=guide_legend(ncol=2)) +
+  theme(
+  legend.title = element_text(size = 10),
+  legend.text = element_text(size = 8)
+  )
+print(p.barplot)
+
+```
+
+We can see a few clusters are tissue specific:
+
+- cluster c3 is heart specific;
+- cluster c8 is kidney specific;
+- cluster c15 is liver specific;
+- cluster c1 is primarily bone marrow;
+- cluster c11 is primarily thymus.
+
+Some clusters are combinations of related tissues:
+
+- cluster c4 is half lung and half spleen;
+- cluster c5 and c14 are mainly from pre-frontal cortex, whole brain (and cerebellum) -- all neuron related. 
+- cluster c14 is also from whole brain and cerebellum.
+- cluster c10 is mainly from Kidney, LargeIntestine, and Lung. 
+
+Some clusters are more heterogeneous mixtures of different tissues.
+
+Distribution of tissue labels by cluster.
+
+```{r freq-table-cluster-tissue}
+freq_table_cluster_tissue <- with(samples,table(tissue,cluster_kmeans))
+print(freq_table_cluster_tissue)
+```
+
+Distribution of cell labels by cluster.
+
+```{r freq-table-cluster-celllabel}
+freq_table_cluster_celllabel <- with(samples,table(cell_label,cluster_kmeans))
+print(freq_table_cluster_celllabel)
+```
+
+
+### zoom into a few clusters:
+
+Structure plot for c2 cluster: 
+Group samples by tissue labels first, then by cell labels
+```{r structure-plot-c2-1, fig.width=8, fig.height=2.5}
+rows.c2 <- which(samples$cluster_kmeans == "c2")
+
+tissue_labels_cluster <- as.factor(as.character(samples[rows.c2, "tissue"]))
+cell_labels_cluster <- as.factor(as.character(samples[rows.c2, "cell_label"]))
+
+sort(table(tissue_labels_cluster), decreasing = T)
+sort(table(cell_labels_cluster), decreasing = T)
+
+p.structure <- structure_plot(select(fit_multinom,loadings = rows.c2),
+                     grouping = tissue_labels_cluster,
+                     rows = order(cell_labels_cluster),
+                     n = Inf,gap = 40,
+                     perplexity = 50,topics = 1:13,colors = colors_topics,
+                     num_threads = 4,verbose = FALSE)
+print(p.structure)
+
+```
+
+```{r pca-c2, fig.width=5, fig.height=2.25}
+breaks <- c(0,1,5,10,100,Inf)
+
+fit.c2 <- select(fit_multinom,loadings = rows.c2)
+p.pca.c2 <- pca_plot(fit.c2,fill = "none")
+p.pca.hexbin.c2 <- pca_hexbin_plot(fit.c2,breaks = breaks) + guides(fill = "none")
+plot_grid(p.pca.c2, p.pca.hexbin.c2)
+```
+
+The variation in PCs 1 and 2 is mostly produced by topics 3,13
+```{r pca-c2-topics, fig.width=6, fig.height=2.25}
+p.pca.c2.topics <- pca_plot(fit.c2,k = c(3,13))
+print(p.pca.c2.topics)
+```
+
+```{r pca-labels-c2, fig.width=8, fig.height=2.25}
+
+colors_celllabels_c2 <- c("firebrick","dodgerblue","forestgreen",
+                           "darkmagenta","darkorange","gold","darkblue",
+                           "peru","greenyellow","olivedrab", 
+                           "darkgray", "black")
+
+p.pca.c2.tissue <- labeled_pca_plot(fit.c2,1:2,samples[rows.c2, "tissue"],font_size = 7,
+                       colors = colors_tissues, legend_label = "tissue")
+p.pca.c2.cell <- labeled_pca_plot(fit.c2,1:2,samples[rows.c2, "cell_label"],font_size = 7,
+                        colors = colors_celllabels_c2, legend_label = "cell_label")
+plot_grid(p.pca.c2.tissue,p.pca.c2.cell,rel_widths = c(8,9))
+```
+
+#### zoom into cluster c14
+
+Structure plot of c14 cluster: 
+Group samples by tissue labels first, then by cell labels
+```{r structure-plot-c14-1, fig.width=7, fig.height=2.5}
+rows.c14 <- which(samples$cluster_kmeans == "c14")
+
+tissue_labels_cluster <- as.factor(as.character(samples[rows.c14, "tissue"]))
+cell_labels_cluster <- as.factor(as.character(samples[rows.c14, "cell_label"]))
+
+sort(table(tissue_labels_cluster), decreasing = T)
+sort(table(cell_labels_cluster), decreasing = T)
+
+p.structure <- structure_plot(select(fit_multinom,loadings = rows.c14),
+                     grouping = tissue_labels_cluster,
+                     rows = order(cell_labels_cluster),
+                     n = Inf,gap = 40,
+                     perplexity = 50,topics = 1:13,colors = colors_topics,
+                     num_threads = 4,verbose = FALSE)
+print(p.structure)
+
+
+```
+
+```{r pca-c14, fig.width=5, fig.height=2.25}
+breaks <- c(0,1,5,10,100,Inf)
+
+fit.c14 <- select(fit_multinom,loadings = rows.c14)
+p.pca.c14 <- pca_plot(fit.c14,fill = "none")
+p.pca.hexbin.c14 <- pca_hexbin_plot(fit.c14,breaks = breaks) + guides(fill = "none")
+plot_grid(p.pca.c14, p.pca.hexbin.c14)
+```
+
+The variation in PCs 1 and 2 is mostly produced by topics 9,10,11
+```{r pca-c14-topics, fig.width=6, fig.height=3}
+p.pca.c14.topics <- pca_plot(fit.c14,k = c(9,10,11))
+print(p.pca.c14.topics)
+```
+
+```{r pca-labels-c14, fig.width=8, fig.height=2.25}
+colors_celllabels_c14 <- c("firebrick","dodgerblue","forestgreen",
+                           "darkmagenta","darkorange","gold","darkblue",
+                           "peru","greenyellow","black")
+
+p.pca.c14.tissue <- labeled_pca_plot(fit.c14,1:2,samples[rows.c14, "tissue"],font_size = 7,
+                       colors = colors_tissues, legend_label = "tissue")
+p.pca.c14.cell <- labeled_pca_plot(fit.c14,1:2,samples[rows.c14, "cell_label"],font_size = 7,
+                        colors = colors_celllabels_c14, legend_label = "cell_label")
+plot_grid(p.pca.c14.tissue,p.pca.c14.cell,rel_widths = c(8,11))
+
+```
+
+```{r}
+
+print(samples[intersect(rows.c14, which(samples$tissue == "Lung")),])
+
+```
+
+## PCA plots
+
+Plot PCs of the topic proportions.
 ```{r pca-k13-1, fig.width=7, fig.height=4.5}
-p.pca1.1 <- pca_plot(poisson2multinom(fit),pcs = 1:2,fill = "none")
-p.pca1.2 <- pca_plot(poisson2multinom(fit),pcs = 3:4,fill = "none")
-p.pca1.3 <- pca_plot(poisson2multinom(fit),pcs = 5:6,fill = "none")
-p.pca1.4 <- pca_plot(poisson2multinom(fit),pcs = 7:8,fill = "none")
-p.pca1.5 <- pca_plot(poisson2multinom(fit),pcs = 9:10,fill = "none")
-p.pca1.6 <- pca_plot(poisson2multinom(fit),pcs = 11:12,fill = "none")
+p.pca1.1 <- pca_plot(fit_multinom,pcs = 1:2,fill = "none")
+p.pca1.2 <- pca_plot(fit_multinom,pcs = 3:4,fill = "none")
+p.pca1.3 <- pca_plot(fit_multinom,pcs = 5:6,fill = "none")
+p.pca1.4 <- pca_plot(fit_multinom,pcs = 7:8,fill = "none")
+p.pca1.5 <- pca_plot(fit_multinom,pcs = 9:10,fill = "none")
+p.pca1.6 <- pca_plot(fit_multinom,pcs = 11:12,fill = "none")
 
 plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4,p.pca1.5,p.pca1.6)
 ```
@@ -62,27 +363,17 @@ showing the density of the points.
 
 ```{r pca-k13-2, fig.width=7, fig.height=4.5}
 breaks <- c(0,1,5,10,100,Inf)
-p.pca2.1 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 1:2, breaks = breaks) + guides(fill = "none")
-p.pca2.2 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 3:4, breaks = breaks) + guides(fill = "none")
-p.pca2.3 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 5:6, breaks = breaks) + guides(fill = "none")
-p.pca2.4 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 7:8, breaks = breaks) + guides(fill = "none")
-p.pca2.5 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 9:10, breaks = breaks) + guides(fill = "none")
-p.pca2.6 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 11:12, breaks = breaks) + guides(fill = "none")
+p.pca2.1 <- pca_hexbin_plot(fit_multinom, pcs = 1:2, breaks = breaks) + guides(fill = "none")
+p.pca2.2 <- pca_hexbin_plot(fit_multinom, pcs = 3:4, breaks = breaks) + guides(fill = "none")
+p.pca2.3 <- pca_hexbin_plot(fit_multinom, pcs = 5:6, breaks = breaks) + guides(fill = "none")
+p.pca2.4 <- pca_hexbin_plot(fit_multinom, pcs = 7:8, breaks = breaks) + guides(fill = "none")
+p.pca2.5 <- pca_hexbin_plot(fit_multinom, pcs = 9:10, breaks = breaks) + guides(fill = "none")
+p.pca2.6 <- pca_hexbin_plot(fit_multinom, pcs = 11:12, breaks = breaks) + guides(fill = "none")
 
 plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4,p.pca2.5,p.pca2.6)
 ```
 
 ## Layer the tissue and cell labels onto the PC plots
-
-Tissues:
-```{r samples-tissues}
-samples$tissue <- as.factor(samples$tissue)
-cat(length(levels(samples$tissue)), "tissues. \n")
-table(samples$tissue)
-
-colors_tissues <- c("darkblue", "darkgray", "red", "springgreen", "brown", "purple", "skyblue", "black",
-                    "darkgreen", "plum", "yellow", "orange", "lightgray")
-```
 
 PCs 1 and 2:
 
@@ -145,103 +436,6 @@ p.pca3.12 <- labeled_pca_plot(fit,11:12,samples$cell_label,font_size = 7,
 plot_grid(p.pca3.11,p.pca3.12,rel_widths = c(8,11))
 ```
 
-Visualize by structure plot grouped by tissues
-```{r structure-plot-tissue, fig.width=7, fig.height=2.5}
-set.seed(10)
-colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
-                   "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928",
-                   "gray")
-rows <- sample(nrow(fit$L),4000)
-samples$tissue <- as.factor(samples$tissue)
-
-p.structure.1 <- structure_plot(select(poisson2multinom(fit),loadings = rows),
-                     grouping = samples[rows, "tissue"],n = Inf,gap = 40,
-                     perplexity = 50,topics = 1:13,colors = colors_topics,
-                     num_threads = 4,verbose = FALSE)
-
-print(p.structure.1)
-```
-
-## k-means clustering on topic proportions
-Define clusters using k-means, and then create structure plot 
-based on the clusters from k-means.
-
-Define clusters using k-means with 15 clusters:
-```{r kmeans-1, eval = FALSE}
-set.seed(10)
-
-clusters.15 <- factor(kmeans(poisson2multinom(fit)$L,centers = 15)$cluster)
-
-```
-
-Structure plot based on 15 clusters
-```{r structure-plot-kmeans-1, eval = FALSE, fig.width=7, fig.height=2}
-colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
-            "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928",
-            "gray")
-rows <- sample(nrow(fit$L),4000)
-
-p.structure.kmeans.15 <- structure_plot(select(poisson2multinom(fit),loadings = rows),
-                                        grouping = clusters.15[rows],n = Inf,gap = 20,
-                                        perplexity = 50,topics = 1:13,colors = colors_topics,
-                                        num_threads = 4,verbose = FALSE)
-print(p.structure.kmeans.15)
-```
-
-Refine k-means clusters:
-- Split cluster 10 into two clusters.
-- (maybe also merge cluster 4 and 9)
-```{r kmeans-refined, eval = FALSE}
-set.seed(10)
-clusters.refined <- as.numeric(clusters.15)
-
-idx_cluster10 <- which(clusters.15 == 10)
-cluster10.refined <- kmeans(poisson2multinom(fit)$L[idx_cluster10, ],centers = 2)$cluster+15
-clusters.refined[idx_cluster10] <- cluster10.refined
-clusters.refined <- factor(clusters.refined, labels = paste0("c", c(1:length(unique(clusters.refined)))))
-
-samples$cluster_kmeans <- clusters.refined
-```
-
-Save the clustering results to an RDS file
-```{r, eval = FALSE}
-saveRDS(samples, "output/clustering-Cusanovich2018.rds")
-
-```
-
-```{r}
-samples <- readRDS("output/clustering-Cusanovich2018.rds")
-clusters.refined <- samples$cluster_kmeans
-print(table(samples$cluster_kmeans))
-```
-
-Structure plot based on refined clusters
-```{r structure-plot-kmeans-refined-1, eval=FALSE, fig.width=7, fig.height=2}
-colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
-            "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928",
-            "gray")
-rows <- sample(nrow(fit$L),4000)
-
-p.structure.kmeans.refined <- structure_plot(select(poisson2multinom(fit),loadings = rows),
-                                             grouping = clusters.refined[rows],n = Inf,gap = 40,
-                                             perplexity = 50,topics = 1:13,colors = colors_topics,
-                                             num_threads = 4,verbose = FALSE)
-print(p.structure.kmeans.refined)
-
-```
-
-Group samples by k-means clusters first, then by tissue labels: 
-```{r structure-plot-kmeans-refined-2, fig.width=7, fig.height=2}
-p.structure.kmeans.refined <- structure_plot(select(poisson2multinom(fit),loadings = rows),
-                     grouping = clusters.refined[rows],
-                     rows = order(samples[rows, "tissue"]), # samples are grouped by clusters first, then by tissue labels
-                     n = Inf,gap = 40,
-                     perplexity = 50,topics = 1:13,colors = colors_topics,
-                     num_threads = 4,verbose = FALSE)
-print(p.structure.kmeans.refined)
-
-```
-
 The clusters defined by k-means on topic proportions
 reasonably identify the clusters shown in the PCA hexbin plots (below).
 
@@ -259,397 +453,4 @@ p.pca.4.5 <- labeled_pca_plot(fit,9:10,samples$cluster_kmeans,font_size = 7,
 p.pca.4.6 <- labeled_pca_plot(fit,11:12,samples$cluster_kmeans,font_size = 7,
                        legend_label = "cluster_kmeans")
 plot_grid(p.pca.4.1,p.pca.4.2,p.pca.4.3,p.pca.4.4,p.pca.4.5,p.pca.4.6)
-```
-
-```{r pca-kmeans-2, fig.width=7, fig.height=4.5}
-plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4,p.pca2.5,p.pca2.6)
-
-```
-
-We then label the cells in each cluster with the known tissue labels.
-
-
-### Plot the distribution of tissues by cluster.
-
-Stacked barplot for the counts of tissues by clusters:
-```{r freq-cluster-tissue-1, fig.width=8, fig.height=3}
-library(plyr);library(dplyr)
-library(RColorBrewer)
-
-freq_cluster_tissue <- count(samples, vars=c("cluster_kmeans","tissue")) 
-
-# stacked barplot for the counts of tissues by clusters
-p.barplot.1 <- ggplot(freq_cluster_tissue, aes(fill=tissue, y=freq, x=cluster_kmeans)) + 
-  geom_bar(position="stack", stat="identity") +
-  theme_classic() + xlab("Cluster") + ylab("Number of cells") +
-  scale_fill_manual(values = colors_tissues) +
-  guides(fill=guide_legend(ncol=2)) +
-  theme(
-  legend.title = element_text(size = 10),
-  legend.text = element_text(size = 8)
-  )
-print(p.barplot.1)
-
-```
-
-Percent stacked barplot for the counts of tissues by clusters:
-```{r freq-cluster-tissue-2, fig.width=8, fig.height=3}
-
-p.barplot.2 <- ggplot(freq_cluster_tissue, aes(fill=tissue, y=freq, x=cluster_kmeans)) + 
-  geom_bar(position="fill", stat="identity") +
-  theme_classic() + xlab("Cluster") + ylab("Proportion of cells") +
-  scale_fill_manual(values = colors_tissues) +
-  guides(fill=guide_legend(ncol=2)) +
-  theme(
-  legend.title = element_text(size = 10),
-  legend.text = element_text(size = 8)
-  )
-print(p.barplot.2)
-
-```
-
-We can see a few clusters are tissue specific:
-
-- cluster c3 is heart specific;
-- cluster c8 is kidney specific;
-- cluster c16 is liver specific;
-- cluster c1 is primarily bone marrow;
-- cluster c12 is primarily thymus.
-
-Some clusters are combinations of related tissues:
-
-- cluster c9 is half lung and half spleen;
-- cluster c5 and c15 are mainly from pre-frontal cortex, whole brain (and cerebellum) -- all neuron related. 
-- cluster c14 is also from whole brain and cerebellum.
-- cluster c11 is mainly from Kidney, LargeIntestine, and Lung. 
-
-Some clusters are more heterogeneous mixtures of different tissues:
-e.g. c2, c6, c7, c12. 
-
-```{r freq-table-cluster-tissue}
-freq_table_cluster_tissue <- with(samples,table(tissue,cluster_kmeans))
-print(freq_table_cluster_tissue)
-```
-
-###  Plot the distribution of cell labels by cluster.
-Cell labels:
-```{r samples-celllabels}
-samples$cell_label <- as.factor(samples$cell_label)
-cat(length(levels(samples$cell_label)), "cell labels. \n")
-table(samples$cell_label)
-
-colors_celllabels <- c(colorRampPalette(brewer.pal(12, "Set3"))(39), "black")
-names(colors_celllabels) <- levels(samples$cell_label)
-colors_celllabels[grep("Cardio", names(colors_celllabels))] <- "red"
-colors_celllabels[grep("Endothelial", names(colors_celllabels))] <- "plum"
-colors_celllabels[grep("neuron", names(colors_celllabels))] <- "gray"
-colors_celllabels[grep("pneumocytes", names(colors_celllabels))] <- "skyblue"
-colors_celllabels[grep("tubule", names(colors_celllabels))] <- "purple"
-
-```
-
-Stacked barplot for the counts of cell labels by clusters:
-```{r freq-cluster-celllabel-1, fig.width=10, fig.height=3.5}
-freq_cluster_celllabel <- count(samples, vars=c("cluster_kmeans","cell_label")) 
-
-# stacked barplot for the counts of tissues by clusters
-p.barplot.3 <- ggplot(freq_cluster_celllabel, aes(fill=cell_label, y=freq, x=cluster_kmeans)) + 
-  geom_bar(position="stack", stat="identity") +
-  theme_classic() + xlab("Cluster") + ylab("Number of cells") +
-  scale_fill_manual(values = colors_celllabels) +
-  guides(fill=guide_legend(ncol=3)) +
-  theme(
-  legend.title = element_text(size = 9),
-  legend.text = element_text(size = 7)
-  )
-print(p.barplot.3)
-
-```
-
-Percent stacked barplot for the counts of tissues by clusters:
-```{r freq-cluster-celllabel-2, fig.width=10, fig.height=3}
-
-p.barplot.4 <- ggplot(freq_cluster_celllabel, aes(fill=cell_label, y=freq, x=cluster_kmeans)) + 
-  geom_bar(position="fill", stat="identity") +
-  theme_classic() + xlab("Cluster") + ylab("Proportion of cells") +
-  scale_fill_manual(values = colors_celllabels) +
-  guides(fill=guide_legend(ncol=3)) +
-  theme(
-  legend.title = element_text(size = 9),
-  legend.text = element_text(size = 7)
-  )
-print(p.barplot.4)
-
-```
-
-
-```{r freq-table-cluster-celllabel}
-freq_table_cluster_celllabel <- with(samples,table(cell_label,cluster_kmeans))
-print(freq_table_cluster_celllabel)
-```
-
-
-### zoom into a few clusters:
-
-#### zoom into cluster c2
-```{r}
-rows.c2 <- which(samples$cluster_kmeans == "c2")
-```
-
-Structure plot of c2 cluster: 
-Group samples by tissue labels first, then by cell labels
-```{r structure-plot-c2-1, fig.width=7, fig.height=2.5}
-
-tissue_labels_c2 <- as.factor(as.character(samples[rows.c2, "tissue"]))
-cell_labels_c2 <- as.factor(as.character(samples[rows.c2, "cell_label"]))
-
-p.structure.c2.1 <- structure_plot(select(poisson2multinom(fit),loadings = rows.c2),
-                     grouping = tissue_labels_c2,
-                     rows = order(cell_labels_c2), 
-                     n = Inf,gap = 40,
-                     perplexity = 50,topics = 1:13,colors = colors_topics,
-                     num_threads = 4,verbose = FALSE)
-print(p.structure.c2.1)
-
-```
-
-```{r pca-c2, fig.width=5, fig.height=2.25}
-breaks <- c(0,1,5,10,100,Inf)
-
-fit.c2 <- select(poisson2multinom(fit),loadings = rows.c2)
-p.pca.c2 <- pca_plot(fit.c2,fill = "none")
-p.pca.hexbin.c2 <- pca_hexbin_plot(fit.c2,breaks = breaks) + guides(fill = "none")
-plot_grid(p.pca.c2, p.pca.hexbin.c2)
-```
-
-The variation in PCs 1 and 2 is mostly produced by topics 3,13
-```{r pca-c2-topics, fig.width=6, fig.height=2.25}
-p.pca.c2.topics <- pca_plot(fit.c2,k = c(3,13))
-print(p.pca.c2.topics)
-```
-
-```{r pca-labels-c2, fig.width=8, fig.height=2.25}
-print(table(as.character(samples[rows.c2, "tissue"])))
-
-print(table(as.character(samples[rows.c2, "cell_label"])))
-
-colors_celllabels_c2 <- c("firebrick","dodgerblue","forestgreen",
-                           "darkmagenta","darkorange","gold","darkblue",
-                           "peru","greenyellow","olivedrab", 
-                           "darkgray", "black")
-
-p.pca.c2.tissue <- labeled_pca_plot(fit.c2,1:2,samples[rows.c2, "tissue"],font_size = 7,
-                       colors = colors_tissues, legend_label = "tissue")
-p.pca.c2.cell <- labeled_pca_plot(fit.c2,1:2,samples[rows.c2, "cell_label"],font_size = 7,
-                        colors = colors_celllabels_c2, legend_label = "cell_label")
-plot_grid(p.pca.c2.tissue,p.pca.c2.cell,rel_widths = c(8,9))
-```
-
-
-#### zoom into cluster c5
-```{r}
-rows.c5 <- which(samples$cluster_kmeans == "c5")
-```
-
-Structure plot of c5 cluster: 
-Group samples by tissue labels first, then by cell labels
-```{r structure-plot-c5-1, fig.width=7, fig.height=2.5}
-tissue_labels_c5 <- as.factor(as.character(samples[rows.c5, "tissue"]))
-cell_labels_c5 <- as.factor(as.character(samples[rows.c5, "cell_label"]))
-
-p.structure.c5.1 <- structure_plot(select(poisson2multinom(fit),loadings = rows.c5),
-                     grouping = tissue_labels_c5,
-                     rows = order(cell_labels_c5),
-                     n = Inf,gap = 40,
-                     perplexity = 50,topics = 1:13,colors = colors_topics,
-                     num_threads = 4,verbose = FALSE)
-print(p.structure.c5.1)
-
-```
-
-```{r pca-c5, fig.width=5, fig.height=2.25}
-breaks <- c(0,1,5,10,100,Inf)
-
-fit.c5 <- select(poisson2multinom(fit),loadings = rows.c5)
-p.pca.c5 <- pca_plot(fit.c5,fill = "none")
-p.pca.hexbin.c5 <- pca_hexbin_plot(fit.c5,breaks = breaks) + guides(fill = "none")
-plot_grid(p.pca.c5, p.pca.hexbin.c5)
-```
-
-The variation in PCs 1 and 2 is mostly produced by topics 2,9,10,11,13
-```{r pca-c5-topics, fig.width=6, fig.height=3}
-p.pca.c5.topics <- pca_plot(fit.c5,k = c(2,9,10,11,13))
-print(p.pca.c5.topics)
-```
-
-```{r pca-labels-c5, fig.width=8, fig.height=2.25}
-print(table(as.character(samples[rows.c5, "tissue"])))
-
-print(table(as.character(samples[rows.c5, "cell_label"])))
-
-colors_celllabels_c5 <- c("firebrick","dodgerblue","forestgreen",
-                           "darkmagenta","darkorange","gold","darkblue",
-                           "peru","greenyellow","black")
-
-p.pca.c5.tissue <- labeled_pca_plot(fit.c5,1:2,samples[rows.c5, "tissue"],font_size = 7,
-                       colors = colors_tissues, legend_label = "tissue")
-p.pca.c5.cell <- labeled_pca_plot(fit.c5,1:2,samples[rows.c5, "cell_label"],font_size = 7,
-                        colors = colors_celllabels_c5, legend_label = "cell_label")
-plot_grid(p.pca.c5.tissue,p.pca.c5.cell,rel_widths = c(8,11))
-```
-
-#### zoom into cluster c15
-
-```{r}
-rows.c15 <- which(samples$cluster_kmeans == "c15")
-```
-
-Structure plot of c15 cluster: 
-Group samples by tissue labels first, then by cell labels
-```{r structure-plot-c15-1, fig.width=7, fig.height=2.5}
-tissue_labels_c15 <- as.factor(as.character(samples[rows.c15, "tissue"]))
-cell_labels_c15 <- as.factor(as.character(samples[rows.c15, "cell_label"]))
-
-p.structure.c15.1 <- structure_plot(select(poisson2multinom(fit),loadings = rows.c15),
-                     grouping = tissue_labels_c15,
-                     rows = order(cell_labels_c15), 
-                     n = Inf,gap = 40,
-                     perplexity = 50,topics = 1:13,colors = colors_topics,
-                     num_threads = 4,verbose = FALSE)
-print(p.structure.c15.1)
-
-```
-
-```{r pca-c15, fig.width=5, fig.height=2.25}
-breaks <- c(0,1,5,10,100,Inf)
-
-fit.c15 <- select(poisson2multinom(fit),loadings = rows.c15)
-p.pca.c15 <- pca_plot(fit.c15,fill = "none")
-p.pca.hexbin.c15 <- pca_hexbin_plot(fit.c15,breaks = breaks) + guides(fill = "none")
-plot_grid(p.pca.c15, p.pca.hexbin.c15)
-```
-
-The variation in PCs 1 and 2 is mostly produced by topics 9,10,11
-```{r pca-c15-topics, fig.width=6, fig.height=3}
-p.pca.c15.topics <- pca_plot(fit.c15,k = c(9,10,11))
-print(p.pca.c15.topics)
-```
-
-```{r pca-labels-c15, fig.width=8, fig.height=2.25}
-print(table(as.character(samples[rows.c15, "tissue"])))
-
-print(table(as.character(samples[rows.c15, "cell_label"])))
-
-colors_celllabels_c15 <- c("firebrick","dodgerblue","forestgreen",
-                           "darkmagenta","darkorange","gold","darkblue",
-                           "peru","greenyellow","black")
-
-p.pca.c15.tissue <- labeled_pca_plot(fit.c15,1:2,samples[rows.c15, "tissue"],font_size = 7,
-                       colors = colors_tissues, legend_label = "tissue")
-p.pca.c15.cell <- labeled_pca_plot(fit.c15,1:2,samples[rows.c15, "cell_label"],font_size = 7,
-                        colors = colors_celllabels_c15, legend_label = "cell_label")
-plot_grid(p.pca.c15.tissue,p.pca.c15.cell,rel_widths = c(8,11))
-
-```
-
-```{r}
-
-print(samples[intersect(rows.c15, which(samples$tissue == "Lung")),])
-
-```
-
-#### zoom into cluster c6
-```{r}
-rows.c6 <- which(samples$cluster_kmeans == "c6")
-```
-
-Structure plot of c6 cluster: 
-Group samples by tissue labels first, then by cell labels
-```{r structure-plot-c6-1, fig.width=7, fig.height=2.5}
-tissue_labels_c6 <- as.factor(as.character(samples[rows.c6, "tissue"]))
-cell_labels_c6 <- as.factor(as.character(samples[rows.c6, "cell_label"]))
-
-p.structure.c6.1 <- structure_plot(select(poisson2multinom(fit),loadings = rows.c6),
-                     grouping = tissue_labels_c6,
-                     rows = order(cell_labels_c6), 
-                     n = Inf,gap = 40,
-                     perplexity = 50,topics = 1:13,colors = colors_topics,
-                     num_threads = 4,verbose = FALSE)
-print(p.structure.c6.1)
-
-```
-
-```{r pca-c6, fig.width=5, fig.height=2.25}
-breaks <- c(0,1,5,10,100,Inf)
-
-fit.c6 <- select(poisson2multinom(fit),loadings = rows.c6)
-p.pca.c6 <- pca_plot(fit.c6,fill = "none")
-p.pca.hexbin.c6 <- pca_hexbin_plot(fit.c6,breaks = breaks) + guides(fill = "none")
-plot_grid(p.pca.c6, p.pca.hexbin.c6)
-```
-
-The variation in PCs 1 and 2 is mostly produced by topics 3,9,10,11,13
-```{r pca-c6-topics, fig.width=6, fig.height=3}
-p.pca.c6.topics <- pca_plot(fit.c6,k = c(3,9,10,11,13))
-print(p.pca.c6.topics)
-```
-
-```{r pca-labels-c6, fig.width=8, fig.height=2.25}
-print(table(as.character(samples[rows.c6, "tissue"])))
-
-print(table(as.character(samples[rows.c6, "cell_label"])))
-
-p.pca.c6.tissue <- labeled_pca_plot(fit.c6,1:2,samples[rows.c6, "tissue"],font_size = 7,
-                       colors = colors_tissues, legend_label = "tissue")
-p.pca.c6.cell <- labeled_pca_plot(fit.c6,1:2,samples[rows.c6, "cell_label"],font_size = 7,
-                        legend_label = "cell_label")
-plot_grid(p.pca.c6.tissue,p.pca.c6.cell,rel_widths = c(8,11))
-```
-
-
-#### zoom into cluster c9
-```{r}
-rows.c9 <- which(samples$cluster_kmeans == "c9")
-```
-
-Structure plot of c9 cluster: 
-Group samples by tissue labels first, then by cell labels
-```{r structure-plot-c9-1, fig.width=7, fig.height=2.5}
-tissue_labels_c9 <- as.factor(as.character(samples[rows.c9, "tissue"]))
-cell_labels_c9 <- as.factor(as.character(samples[rows.c9, "cell_label"]))
-
-p.structure.c9.1 <- structure_plot(select(poisson2multinom(fit),loadings = rows.c9),
-                     grouping = tissue_labels_c9,
-                     rows = order(cell_labels_c9), 
-                     n = Inf,gap = 40,
-                     perplexity = 50,topics = 1:13,colors = colors_topics,
-                     num_threads = 4,verbose = FALSE)
-print(p.structure.c9.1)
-
-```
-
-```{r pca-c9, fig.width=5, fig.height=2.25}
-breaks <- c(0,1,5,10,100,Inf)
-
-fit.c9 <- select(poisson2multinom(fit),loadings = rows.c9)
-p.pca.c9 <- pca_plot(fit.c9,fill = "none")
-p.pca.hexbin.c9 <- pca_hexbin_plot(fit.c9,breaks = breaks) + guides(fill = "none")
-plot_grid(p.pca.c9, p.pca.hexbin.c9)
-```
-The variation in PCs 1 and 2 is mostly produced by topics 6,10,13.
-```{r pca-c9-topics, fig.width=6, fig.height=3}
-p.pca.c9.topics <- pca_plot(fit.c9,k = c(6,10,13))
-print(p.pca.c9.topics)
-```
-
-```{r pca-labels-c9, fig.width=8, fig.height=2.25}
-print(table(as.character(samples[rows.c9, "tissue"])))
-
-print(table(as.character(samples[rows.c9, "cell_label"])))
-
-p.pca.c9.tissue <- labeled_pca_plot(fit.c9,1:2,samples[rows.c9, "tissue"],font_size = 7,
-                       colors = colors_tissues, legend_label = "tissue")
-p.pca.c9.cell <- labeled_pca_plot(fit.c9,1:2,samples[rows.c9, "cell_label"],font_size = 7,
-                        legend_label = "cell_label")
-plot_grid(p.pca.c9.tissue,p.pca.c9.cell,rel_widths = c(8,11))
 ```
