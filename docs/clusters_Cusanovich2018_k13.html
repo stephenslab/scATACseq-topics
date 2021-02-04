@@ -436,16 +436,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree91cab4be6aa39a7bf027a7280cc7a1acc932e98etargetblank91cab4ba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/91cab4be6aa39a7bf027a7280cc7a1acc932e98e" target="_blank">91cab4b</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree98f5f51bfa7f5e2e6f91a6eaac19668dc687bdf6targetblank98f5f51a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/98f5f51bfa7f5e2e6f91a6eaac19668dc687bdf6" target="_blank">98f5f51</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree91cab4be6aa39a7bf027a7280cc7a1acc932e98etargetblank91cab4ba" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree98f5f51bfa7f5e2e6f91a6eaac19668dc687bdf6targetblank98f5f51a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/91cab4be6aa39a7bf027a7280cc7a1acc932e98e" target="_blank">91cab4b</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/98f5f51bfa7f5e2e6f91a6eaac19668dc687bdf6" target="_blank">98f5f51</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -510,6 +510,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/98f5f51bfa7f5e2e6f91a6eaac19668dc687bdf6/analysis/clusters_Cusanovich2018_k13.Rmd" target="_blank">98f5f51</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-03
+</td>
+<td>
+minor change on the knit settings
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/3770d7e15ee6d57512cd3d1ea0165787ad08736e/docs/clusters_Cusanovich2018_k13.html" target="_blank">3770d7e</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-03
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1027,8 +1061,8 @@ rm(counts)</code></pre>
 fit &lt;- readRDS(file.path(fit.dir, &quot;/fit-Cusanovich2018-scd-ex-k=13.rds&quot;))$fit
 fit_multinom &lt;- poisson2multinom(fit)</code></pre>
 <p>About the samples: The study measured single cell chromatin accessibility for 17 samples spanning 13 different tissues in 8-week old mice.</p>
-<pre class="r"><code>cat(nrow(samples), &quot;samples (cells). \n&quot;)
-# 81173 samples (cells).</code></pre>
+<pre class="r"><code>cat(nrow(samples), &quot;samples (cells). \n&quot;)</code></pre>
+<pre><code># 81173 samples (cells).</code></pre>
 <p>Tissues:</p>
 <pre class="r"><code>samples$tissue &lt;- as.factor(samples$tissue)
 cat(length(levels(samples$tissue)), &quot;tissues. \n&quot;)
@@ -1046,13 +1080,13 @@ colors_tissues &lt;- c(&quot;darkblue&quot;,    # BoneMarrow
                     &quot;plum&quot;,        # Spleen
                     &quot;gold&quot;,        # Testes
                     &quot;darkorange&quot;,  # Thymus
-                    &quot;gray&quot;)        # WholeBrain
-# 13 tissues.</code></pre>
+                    &quot;gray&quot;)        # WholeBrain</code></pre>
+<pre><code># 13 tissues.</code></pre>
 <p>Cell types labels:</p>
 <pre class="r"><code>samples$cell_label &lt;- as.factor(samples$cell_label)
 cat(length(levels(samples$cell_label)), &quot;cell types \n&quot;)
-# table(samples$cell_label)
-# 40 cell types</code></pre>
+# table(samples$cell_label)</code></pre>
+<pre><code># 40 cell types</code></pre>
 <div id="structure-plots" class="section level2">
 <h2>Structure plots</h2>
 <p>The structure plots below summarize the topic proportions in the samples grouped by different tissues.</p>
@@ -1074,13 +1108,49 @@ p.structure.1 &lt;- structure_plot(select(fit_multinom,loadings = rows),
 
 print(p.structure.1)</code></pre>
 <p><img src="figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-tissues-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-tissues-1">
+Past versions of structure-plot-tissues-1.png
+</button>
+</p>
+<div id="fig-structure-plot-tissues-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/3770d7e15ee6d57512cd3d1ea0165787ad08736e/docs/figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-tissues-1.png" target="_blank">3770d7e</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="perform-k-means-clustering-on-topic-proportions" class="section level2">
 <h2>Perform k-means clustering on topic proportions</h2>
 <p>Define clusters using k-means, and then create structure plot based on the clusters from k-means.</p>
 <p>k-means clustering (using 15 clusters) on topic proportions</p>
-<pre class="r"><code>
-set.seed(10)
+<pre class="r"><code>set.seed(10)
 clusters &lt;- factor(kmeans(fit_multinom$L,centers = 15,iter.max = 100)$cluster)
 summary(clusters)
 
@@ -1114,6 +1184,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/3770d7e15ee6d57512cd3d1ea0165787ad08736e/docs/figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-kmeans-1-1.png" target="_blank">3770d7e</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-03
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/96392bfdfa9ac41a77985ae18763ba93a6d2f497/docs/figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-kmeans-1-1.png" target="_blank">96392bf</a>
@@ -1178,8 +1259,7 @@ kevinlkx
 #    14    15 
 #  3411  4172</code></pre>
 <p>First do PCA on topic proportions and then do k-means clustering (using 15 clusters). Results are the same as the results from running k-means directly on the topic proportions.</p>
-<pre class="r"><code>
-set.seed(10)
+<pre class="r"><code>set.seed(10)
 pca &lt;- prcomp(fit_multinom$L)$x
 clusters2 &lt;- factor(kmeans(pca,centers = 15,iter.max = 100)$cluster)
 summary(clusters2)
@@ -1192,14 +1272,54 @@ p.structure.kmeans &lt;- structure_plot(select(fit_multinom,loadings = rows),
                                         num_threads = 4,verbose = FALSE)
 print(p.structure.kmeans)</code></pre>
 <p><img src="figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-kmeans-pca-1-1.png" width="960" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>
-length(which(clusters != clusters2))
-#     1     2     3     4     5     6     7     8     9    10    11    12    13 
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-kmeans-pca-1-1">
+Past versions of structure-plot-kmeans-pca-1-1.png
+</button>
+</p>
+<div id="fig-structure-plot-kmeans-pca-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/3770d7e15ee6d57512cd3d1ea0165787ad08736e/docs/figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-kmeans-pca-1-1.png" target="_blank">3770d7e</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>length(which(clusters != clusters2))</code></pre>
+<pre><code>#     1     2     3     4     5     6     7     8     9    10    11    12    13 
 #  2740  3868  3775  3879  3645  3651 12037  2955  6045 12026  6068  3582  9319 
 #    14    15 
 #  3411  4172 
 # [1] 0</code></pre>
-<p>Refine k-means clusters: - Split cluster 10 into two clusters. - merge cluster 4 and 9</p>
+<p>Refine k-means clusters:</p>
+<ul>
+<li>Split cluster 10 into two clusters.</li>
+<li>merge cluster 4 and 9.</li>
+</ul>
 <p>Structure plot based on refined clusters</p>
 <pre class="r"><code>set.seed(10)
 clusters.refined &lt;- as.numeric(clusters)
@@ -1245,6 +1365,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/3770d7e15ee6d57512cd3d1ea0165787ad08736e/docs/figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-kmeans-refined-1-1.png" target="_blank">3770d7e</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-03
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/96392bfdfa9ac41a77985ae18763ba93a6d2f497/docs/figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-kmeans-refined-1-1.png" target="_blank">96392bf</a>
 </td>
 <td>
@@ -1281,17 +1412,6 @@ print(table(samples$cluster_kmeans))</code></pre>
 <h2>Plot the distribution of tissues in each cluster</h2>
 <p>Tissue composition in each cluster:</p>
 <pre class="r"><code>library(plyr);library(dplyr)
-# ------------------------------------------------------------------------------
-# You have loaded plyr after dplyr - this is likely to cause problems.
-# If you need functions from both plyr and dplyr, please load plyr first, then dplyr:
-# library(plyr); library(dplyr)
-# ------------------------------------------------------------------------------
-# 
-# Attaching package: &#39;plyr&#39;
-# The following objects are masked from &#39;package:dplyr&#39;:
-# 
-#     arrange, count, desc, failwith, id, mutate, rename, summarise,
-#     summarize
 library(RColorBrewer)
 
 freq_cluster_tissue &lt;- count(samples, vars=c(&quot;cluster_kmeans&quot;,&quot;tissue&quot;)) 
@@ -1330,6 +1450,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/3770d7e15ee6d57512cd3d1ea0165787ad08736e/docs/figure/clusters_Cusanovich2018_k13.Rmd/freq-cluster-tissue-1.png" target="_blank">3770d7e</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-03
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/b8a48b9eaed38e1ad24382a36f106baee2bcca05/docs/figure/clusters_Cusanovich2018_k13.Rmd/freq-cluster-tissue-1.png" target="_blank">b8a48b9</a>
@@ -1374,8 +1505,8 @@ kevinlkx
 <p>Some clusters are more heterogeneous mixtures of different tissues.</p>
 <p>Distribution of tissue labels by cluster.</p>
 <pre class="r"><code>freq_table_cluster_tissue &lt;- with(samples,table(tissue,cluster_kmeans))
-print(freq_table_cluster_tissue)
-#                   cluster_kmeans
+print(freq_table_cluster_tissue)</code></pre>
+<pre><code>#                   cluster_kmeans
 # tissue               c1   c2   c3   c4   c5   c6   c7   c8   c9  c10  c11  c12
 #   BoneMarrow       2455   15    0 1675    0   33 1060    0 3063    0  102    0
 #   Cerebellum          0   51    0   37  525   44  191    0   42    0    0   15
@@ -1407,8 +1538,8 @@ print(freq_table_cluster_tissue)
 #   WholeBrain       2988 1964    0</code></pre>
 <p>Distribution of cell labels by cluster.</p>
 <pre class="r"><code>freq_table_cluster_celllabel &lt;- with(samples,table(cell_label,cluster_kmeans))
-print(freq_table_cluster_celllabel)
-#                             cluster_kmeans
+print(freq_table_cluster_celllabel)</code></pre>
+<pre><code>#                             cluster_kmeans
 # cell_label                     c1   c2   c3   c4   c5   c6   c7   c8   c9  c10
 #   Activated B cells             0    0    0  477    0    0    0    0   23    0
 #   Alveolar macrophages          0    0    0  507    0    2   16    0   34    0
@@ -1533,6 +1664,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/3770d7e15ee6d57512cd3d1ea0165787ad08736e/docs/figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-c2-1-1.png" target="_blank">3770d7e</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-03
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/24c6d8b44c56fb081679e8bd901c75c4a9c268f6/docs/figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-c2-1-1.png" target="_blank">24c6d8b</a>
@@ -1688,8 +1830,7 @@ kevinlkx
 </table>
 </div>
 </div>
-<pre class="r"><code>
-colors_celllabels_c2 &lt;- c(&quot;firebrick&quot;,&quot;dodgerblue&quot;,&quot;forestgreen&quot;,
+<pre class="r"><code>colors_celllabels_c2 &lt;- c(&quot;firebrick&quot;,&quot;dodgerblue&quot;,&quot;forestgreen&quot;,
                            &quot;darkmagenta&quot;,&quot;darkorange&quot;,&quot;gold&quot;,&quot;darkblue&quot;,
                            &quot;peru&quot;,&quot;greenyellow&quot;,&quot;olivedrab&quot;, 
                            &quot;darkgray&quot;, &quot;black&quot;)
@@ -1724,6 +1865,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/3770d7e15ee6d57512cd3d1ea0165787ad08736e/docs/figure/clusters_Cusanovich2018_k13.Rmd/pca-labels-c2-1.png" target="_blank">3770d7e</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-03
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/96392bfdfa9ac41a77985ae18763ba93a6d2f497/docs/figure/clusters_Cusanovich2018_k13.Rmd/pca-labels-c2-1.png" target="_blank">96392bf</a>
 </td>
 <td>
@@ -1756,6 +1908,43 @@ p.structure &lt;- structure_plot(select(fit_multinom,loadings = rows.c14),
                      num_threads = 4,verbose = FALSE)
 print(p.structure)</code></pre>
 <p><img src="figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-c14-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-c14-1-1">
+Past versions of structure-plot-c14-1-1.png
+</button>
+</p>
+<div id="fig-structure-plot-c14-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/3770d7e15ee6d57512cd3d1ea0165787ad08736e/docs/figure/clusters_Cusanovich2018_k13.Rmd/structure-plot-c14-1-1.png" target="_blank">3770d7e</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code># tissue_labels_cluster
 # PreFrontalCortex       WholeBrain       Cerebellum             Lung 
 #             4261             1964              196                2 
@@ -1773,10 +1962,84 @@ p.pca.c14 &lt;- pca_plot(fit.c14,fill = &quot;none&quot;)
 p.pca.hexbin.c14 &lt;- pca_hexbin_plot(fit.c14,breaks = breaks) + guides(fill = &quot;none&quot;)
 plot_grid(p.pca.c14, p.pca.hexbin.c14)</code></pre>
 <p><img src="figure/clusters_Cusanovich2018_k13.Rmd/pca-c14-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-c14-1">
+Past versions of pca-c14-1.png
+</button>
+</p>
+<div id="fig-pca-c14-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/3770d7e15ee6d57512cd3d1ea0165787ad08736e/docs/figure/clusters_Cusanovich2018_k13.Rmd/pca-c14-1.png" target="_blank">3770d7e</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>The variation in PCs 1 and 2 is mostly produced by topics 9,10,11</p>
 <pre class="r"><code>p.pca.c14.topics &lt;- pca_plot(fit.c14,k = c(9,10,11))
 print(p.pca.c14.topics)</code></pre>
 <p><img src="figure/clusters_Cusanovich2018_k13.Rmd/pca-c14-topics-1.png" width="720" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-c14-topics-1">
+Past versions of pca-c14-topics-1.png
+</button>
+</p>
+<div id="fig-pca-c14-topics-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/3770d7e15ee6d57512cd3d1ea0165787ad08736e/docs/figure/clusters_Cusanovich2018_k13.Rmd/pca-c14-topics-1.png" target="_blank">3770d7e</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>colors_celllabels_c14 &lt;- c(&quot;firebrick&quot;,&quot;dodgerblue&quot;,&quot;forestgreen&quot;,
                            &quot;darkmagenta&quot;,&quot;darkorange&quot;,&quot;gold&quot;,&quot;darkblue&quot;,
                            &quot;peru&quot;,&quot;greenyellow&quot;,&quot;black&quot;)
@@ -1787,9 +2050,45 @@ p.pca.c14.cell &lt;- labeled_pca_plot(fit.c14,1:2,samples[rows.c14, &quot;cell_l
                         colors = colors_celllabels_c14, legend_label = &quot;cell_label&quot;)
 plot_grid(p.pca.c14.tissue,p.pca.c14.cell,rel_widths = c(8,11))</code></pre>
 <p><img src="figure/clusters_Cusanovich2018_k13.Rmd/pca-labels-c14-1.png" width="960" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>
-print(samples[intersect(rows.c14, which(samples$tissue == &quot;Lung&quot;)),])
-#                                       cell tissue tissue.replicate cluster
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-labels-c14-1">
+Past versions of pca-labels-c14-1.png
+</button>
+</p>
+<div id="fig-pca-labels-c14-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/3770d7e15ee6d57512cd3d1ea0165787ad08736e/docs/figure/clusters_Cusanovich2018_k13.Rmd/pca-labels-c14-1.png" target="_blank">3770d7e</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>print(samples[intersect(rows.c14, which(samples$tissue == &quot;Lung&quot;)),])</code></pre>
+<pre><code>#                                       cell tissue tissue.replicate cluster
 # 22109 TCCGCGAATAGGTAACTTACTGAGCGACGGCTCTGA   Lung      Lung2_62216      15
 # 61277 TCTCGCGCTATTGCTGGACCTCCGACGGGTACTGAC   Lung      Lung2_62216       5
 #       subset_cluster   tsne_1    tsne_2 subset_tsne1 subset_tsne2
@@ -1932,6 +2231,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/3770d7e15ee6d57512cd3d1ea0165787ad08736e/docs/figure/clusters_Cusanovich2018_k13.Rmd/pca-labels-k13-1-1.png" target="_blank">3770d7e</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-03
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/96392bfdfa9ac41a77985ae18763ba93a6d2f497/docs/figure/clusters_Cusanovich2018_k13.Rmd/pca-labels-k13-1-1.png" target="_blank">96392bf</a>
 </td>
 <td>
@@ -1985,6 +2295,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/3770d7e15ee6d57512cd3d1ea0165787ad08736e/docs/figure/clusters_Cusanovich2018_k13.Rmd/pca-labels-k13-2-1.png" target="_blank">3770d7e</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-03
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/96392bfdfa9ac41a77985ae18763ba93a6d2f497/docs/figure/clusters_Cusanovich2018_k13.Rmd/pca-labels-k13-2-1.png" target="_blank">96392bf</a>
@@ -2042,6 +2363,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/3770d7e15ee6d57512cd3d1ea0165787ad08736e/docs/figure/clusters_Cusanovich2018_k13.Rmd/pca-labels-k13-3-1.png" target="_blank">3770d7e</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-03
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/96392bfdfa9ac41a77985ae18763ba93a6d2f497/docs/figure/clusters_Cusanovich2018_k13.Rmd/pca-labels-k13-3-1.png" target="_blank">96392bf</a>
 </td>
 <td>
@@ -2097,6 +2429,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/3770d7e15ee6d57512cd3d1ea0165787ad08736e/docs/figure/clusters_Cusanovich2018_k13.Rmd/pca-labels-k13-4-1.png" target="_blank">3770d7e</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-03
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/96392bfdfa9ac41a77985ae18763ba93a6d2f497/docs/figure/clusters_Cusanovich2018_k13.Rmd/pca-labels-k13-4-1.png" target="_blank">96392bf</a>
 </td>
 <td>
@@ -2150,6 +2493,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/3770d7e15ee6d57512cd3d1ea0165787ad08736e/docs/figure/clusters_Cusanovich2018_k13.Rmd/pca-labels-k13-5-1.png" target="_blank">3770d7e</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-03
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/96392bfdfa9ac41a77985ae18763ba93a6d2f497/docs/figure/clusters_Cusanovich2018_k13.Rmd/pca-labels-k13-5-1.png" target="_blank">96392bf</a>
@@ -2259,6 +2613,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/3770d7e15ee6d57512cd3d1ea0165787ad08736e/docs/figure/clusters_Cusanovich2018_k13.Rmd/pca-kmeans-1-1.png" target="_blank">3770d7e</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-03
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/6c97fa964f13b229dbb6321d162a33ae59fa52a0/docs/figure/clusters_Cusanovich2018_k13.Rmd/pca-kmeans-1-1.png" target="_blank">6c97fa9</a>
 </td>
 <td>
@@ -2301,8 +2666,8 @@ kevinlkx
 </button>
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
-<pre class="r"><code>sessionInfo()
-# R version 3.6.1 (2019-07-05)
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code># R version 3.6.1 (2019-07-05)
 # Platform: x86_64-pc-linux-gnu (64-bit)
 # Running under: Scientific Linux 7.4 (Nitrogen)
 # 
