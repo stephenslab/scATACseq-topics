@@ -172,8 +172,8 @@ genescore_volcano_plot(genescore_res, label_above_quantile = 0.99,
                        subsample_below_quantile = 0.5, subsample_rate = 0.1)
 ```
 
-Explore the volcano plots [interactively][volcano-plotly-tss-k]
-```{r gene-volcano-plotly-tss}
+Explore the volcano plots [interactively][volcano-plotly-tss-k1]
+```{r gene-volcano-plotly-tss-1}
 for ( k in 1:ncol(genescore_res$beta) ){
   p.volcano.plotly <- genescore_volcano_plotly(genescore_res,k,
                                              file = sprintf("%s/volcano_topic_%s_%s.html", fig.dir, k, "tss-sum"),
@@ -181,7 +181,7 @@ for ( k in 1:ncol(genescore_res$beta) ){
 }
 ```
 
-**Topic 1**
+**Topic 1** (Erythroblasts)
 ```{r gene-volcano-plot-tss-1, fig.width=5, fig.height=4}
 k <- 1
 genescore_volcano_plot(genescore_res, k, label_above_quantile = 0.99,
@@ -190,7 +190,7 @@ genescore_volcano_plot(genescore_res, k, label_above_quantile = 0.99,
 
 ```
 
-Check some known marker genes for endothelial cells
+Check some known marker genes
 ```{r marker-gene-scores-tss-1, fig.width=8, fig.height=4}
 marker_genes <- c("Hbb-b1", "Hbb-b2", "Gypa")
 
@@ -214,7 +214,7 @@ genescore_volcano_plot(genescore_res, k, label_above_quantile = 0.99,
 
 ```
 
-Check some known marker genes for erythrocyte
+Check some known marker genes
 ```{r marker-gene-scores-tss-3, fig.width=8, fig.height=4}
 marker_genes <- c("PECAM1", "CD106", "CD62E", "Sele", "Kdr", "ENG")
 gene_scores <- genescore_res$Z
@@ -237,7 +237,7 @@ genescore_volcano_plot(genescore_res, k, label_above_quantile = 0.99,
 
 ```
 
-Check some known marker genes for Proximal tubule
+Check some known marker genes
 ```{r marker-gene-scores-tss-5, fig.width=8, fig.height=4}
 marker_genes <- c("PALDOB", "CUBN", "LRP2", "SLC34A1")
 gene_scores <- genescore_res$Z
@@ -260,7 +260,7 @@ genescore_volcano_plot(genescore_res, k, label_above_quantile = 0.99,
 
 ```
 
-Check some known marker genes for Cardiomyocytes
+Check some known marker genes
 ```{r marker-gene-scores-tss-7, fig.width=8, fig.height=8}
 marker_genes <- c("Nppa", "Myl4", "SLN", "PITX2", "Myl7", "Gja5", "Myl2", "Myl3", "IRX4", "HAND1", "HEY2")
 gene_scores <- genescore_res$Z
@@ -283,7 +283,7 @@ genescore_volcano_plot(genescore_res, k, label_above_quantile = 0.99,
 
 ```
 
-Check some known marker genes for Hepatocytes
+Check some known marker genes
 ```{r marker-gene-scores-8, fig.width=8, fig.height=8}
 marker_genes <- c("SERPINA1", "TTR", "ALB","AFP","CYP3A4","CYP7A1","FABP1","ALR","Glut1","MET","FoxA1","FoxA2","CD29","PTP4A2","Prox1", "HNF1B")
 gene_scores <- genescore_res$Z
@@ -345,7 +345,7 @@ for ( k in 1:ncol(genescore_res$beta) ){
 ```
 
 
-**Topic 1**
+**Topic 1** (Erythroblasts)
 ```{r gene-volcano-plot-genebody-1, fig.width=5, fig.height=4}
 k <- 1
 genescore_volcano_plot(genescore_res, k, label_above_quantile = 0.99,
@@ -354,7 +354,7 @@ genescore_volcano_plot(genescore_res, k, label_above_quantile = 0.99,
 
 ```
 
-Check some known marker genes for endothelial cells
+Check some known marker genes
 ```{r marker-gene-scores-genebody-1, fig.width=8, fig.height=4}
 marker_genes <- c("Hbb-b1", "Hbb-b2", "Gypa")
 
@@ -378,7 +378,7 @@ genescore_volcano_plot(genescore_res, k, label_above_quantile = 0.99,
 
 ```
 
-Check some known marker genes for erythrocyte
+Check some known marker genes
 ```{r marker-gene-scores-genebody-3, fig.width=8, fig.height=4}
 marker_genes <- c("PECAM1", "CD106", "CD62E", "Sele", "Kdr", "ENG")
 gene_scores <- genescore_res$Z
@@ -401,7 +401,7 @@ genescore_volcano_plot(genescore_res, k, label_above_quantile = 0.99,
 
 ```
 
-Check some known marker genes for Proximal tubule
+Check some known marker genes
 ```{r marker-gene-scores-genebody-5, fig.width=8, fig.height=4}
 marker_genes <- c("PALDOB", "CUBN", "LRP2", "SLC34A1")
 gene_scores <- genescore_res$Z
@@ -424,7 +424,7 @@ genescore_volcano_plot(genescore_res, k, label_above_quantile = 0.99,
 
 ```
 
-Check some known marker genes for Cardiomyocytes
+Check some known marker genes
 ```{r marker-gene-scores-genebody-7, fig.width=8, fig.height=8}
 marker_genes <- c("Nppa", "Myl4", "SLN", "PITX2", "Myl7", "Gja5", "Myl2", "Myl3", "IRX4", "HAND1", "HEY2")
 gene_scores <- genescore_res$Z
