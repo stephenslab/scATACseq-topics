@@ -23,7 +23,12 @@ library(Matrix)
 library(dplyr)
 library(ggplot2)
 library(cowplot)
+library(plyr)
+library(dplyr)
+library(RColorBrewer)
 library(fastTopics)
+library(DT)
+library(reshape)
 source("code/plots.R")
 ```
 
@@ -48,10 +53,7 @@ spanning 13 different tissues in 8-week old mice.
 
 ```{r samples}
 cat(nrow(samples), "samples (cells). \n")
-```
 
-Tissues:
-```{r samples-tissues}
 samples$tissue <- as.factor(samples$tissue)
 cat(length(levels(samples$tissue)), "tissues. \n")
 # table(samples$tissue)
@@ -69,14 +71,9 @@ colors_tissues <- c("darkblue",    # BoneMarrow
                     "gold",        # Testes
                     "darkorange",  # Thymus
                     "gray")        # WholeBrain
-```
 
-Cell types labels:
-```{r samples-cells}
 samples$cell_label <- as.factor(samples$cell_label)
 cat(length(levels(samples$cell_label)), "cell types \n")
-# table(samples$cell_label)
-
 ```
 
 ## Structure plots
@@ -171,12 +168,11 @@ print(p.structure.kmeans.refined)
 ```
 
 Save the clustering results to an RDS file
-```{r, eval = FALSE}
+```{r save-clusters}
 out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
 saveRDS(samples, paste0(out.dir, "/samples-clustering-Cusanovich2018.rds"))
-
-samples <- readRDS("output/samples-clustering-Cusanovich2018.rds")
-clusters.refined <- samples$cluster_kmeans
+cat("Result saved to:", paste0(out.dir, "/samples-clustering-Cusanovich2018.rds"), "\n")
+samples <- readRDS(paste0(out.dir, "/samples-clustering-Cusanovich2018.rds"))
 print(table(samples$cluster_kmeans))
 ```
 
@@ -184,8 +180,6 @@ print(table(samples$cluster_kmeans))
 
 Tissue composition in each cluster:
 ```{r freq-cluster-tissue, fig.width=8, fig.height=3}
-library(plyr);library(dplyr)
-library(RColorBrewer)
 
 freq_cluster_tissue <- count(samples, vars=c("cluster_kmeans","tissue")) 
 
@@ -215,27 +209,37 @@ Some clusters are combinations of related tissues:
 
 - cluster c4 is half lung and half spleen;
 - cluster c5 and c14 are mainly from pre-frontal cortex, whole brain (and cerebellum) -- all neuron related. 
-- cluster c14 is also from whole brain and cerebellum.
+- cluster c13 is also from whole brain and cerebellum.
 - cluster c10 is mainly from Kidney, LargeIntestine, and Lung. 
 
 Some clusters are more heterogeneous mixtures of different tissues.
 
 Distribution of tissue labels by cluster.
-
-```{r freq-table-cluster-tissue}
+```{r freq-table-cluster-tissue, fig.width=7, fig.height=5}
 freq_table_cluster_tissue <- with(samples,table(tissue,cluster_kmeans))
-print(freq_table_cluster_tissue)
+
+freq_table_cluster_tissue <- as.data.frame.matrix(freq_table_cluster_tissue)
+DT::datatable(freq_table_cluster_tissue, 
+              options = list(pageLength = nrow(freq_table_cluster_tissue)), 
+              rownames = T, caption = "Number of cells")
+
+create_celllabel_cluster_heatmap(samples$tissue, samples$cluster_kmeans, normalize_by = "column")
+
 ```
 
 Distribution of cell labels by cluster.
-
-```{r freq-table-cluster-celllabel}
+```{r freq-table-cluster-celllabel, fig.width=7, fig.height=9}
 freq_table_cluster_celllabel <- with(samples,table(cell_label,cluster_kmeans))
-print(freq_table_cluster_celllabel)
+
+freq_table_cluster_celllabel <- as.data.frame.matrix(freq_table_cluster_celllabel)
+DT::datatable(freq_table_cluster_celllabel, 
+              options = list(pageLength = 15), 
+              rownames = T, caption = "Number of cells")
+
+create_celllabel_cluster_heatmap(samples$cell_label, samples$cluster_kmeans, normalize_by = "column")
 ```
 
-
-### zoom into a few clusters:
+## Zoom into a few clusters:
 
 Structure plot for c2 cluster: 
 Group samples by tissue labels first, then by cell labels
@@ -287,8 +291,6 @@ p.pca.c2.cell <- labeled_pca_plot(fit.c2,1:2,samples[rows.c2, "cell_label"],font
 plot_grid(p.pca.c2.tissue,p.pca.c2.cell,rel_widths = c(8,9))
 ```
 
-#### zoom into cluster c14
-
 Structure plot of c14 cluster: 
 Group samples by tissue labels first, then by cell labels
 ```{r structure-plot-c14-1, fig.width=7, fig.height=2.5}
@@ -307,7 +309,6 @@ p.structure <- structure_plot(select(fit_multinom,loadings = rows.c14),
                      perplexity = 50,topics = 1:13,colors = colors_topics,
                      num_threads = 4,verbose = FALSE)
 print(p.structure)
-
 
 ```
 
@@ -345,113 +346,113 @@ print(samples[intersect(rows.c14, which(samples$tissue == "Lung")),])
 
 ```
 
-## PCA plots
+<!-- ## PCA plots -->
 
-Plot PCs of the topic proportions.
-```{r pca-k13-1, fig.width=7, fig.height=4.5}
-p.pca1.1 <- pca_plot(fit_multinom,pcs = 1:2,fill = "none")
-p.pca1.2 <- pca_plot(fit_multinom,pcs = 3:4,fill = "none")
-p.pca1.3 <- pca_plot(fit_multinom,pcs = 5:6,fill = "none")
-p.pca1.4 <- pca_plot(fit_multinom,pcs = 7:8,fill = "none")
-p.pca1.5 <- pca_plot(fit_multinom,pcs = 9:10,fill = "none")
-p.pca1.6 <- pca_plot(fit_multinom,pcs = 11:12,fill = "none")
+<!-- Plot PCs of the topic proportions. -->
+<!-- ```{r pca-k13-1, fig.width=7, fig.height=4.5} -->
+<!-- p.pca1.1 <- pca_plot(fit_multinom,pcs = 1:2,fill = "none") -->
+<!-- p.pca1.2 <- pca_plot(fit_multinom,pcs = 3:4,fill = "none") -->
+<!-- p.pca1.3 <- pca_plot(fit_multinom,pcs = 5:6,fill = "none") -->
+<!-- p.pca1.4 <- pca_plot(fit_multinom,pcs = 7:8,fill = "none") -->
+<!-- p.pca1.5 <- pca_plot(fit_multinom,pcs = 9:10,fill = "none") -->
+<!-- p.pca1.6 <- pca_plot(fit_multinom,pcs = 11:12,fill = "none") -->
 
-plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4,p.pca1.5,p.pca1.6)
-```
+<!-- plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4,p.pca1.5,p.pca1.6) -->
+<!-- ``` -->
 
-Some of the structure is more evident from “hexbin” plots 
-showing the density of the points.
+<!-- Some of the structure is more evident from “hexbin” plots  -->
+<!-- showing the density of the points. -->
 
-```{r pca-k13-2, fig.width=7, fig.height=4.5}
-breaks <- c(0,1,5,10,100,Inf)
-p.pca2.1 <- pca_hexbin_plot(fit_multinom, pcs = 1:2, breaks = breaks) + guides(fill = "none")
-p.pca2.2 <- pca_hexbin_plot(fit_multinom, pcs = 3:4, breaks = breaks) + guides(fill = "none")
-p.pca2.3 <- pca_hexbin_plot(fit_multinom, pcs = 5:6, breaks = breaks) + guides(fill = "none")
-p.pca2.4 <- pca_hexbin_plot(fit_multinom, pcs = 7:8, breaks = breaks) + guides(fill = "none")
-p.pca2.5 <- pca_hexbin_plot(fit_multinom, pcs = 9:10, breaks = breaks) + guides(fill = "none")
-p.pca2.6 <- pca_hexbin_plot(fit_multinom, pcs = 11:12, breaks = breaks) + guides(fill = "none")
+<!-- ```{r pca-k13-2, fig.width=7, fig.height=4.5} -->
+<!-- breaks <- c(0,1,5,10,100,Inf) -->
+<!-- p.pca2.1 <- pca_hexbin_plot(fit_multinom, pcs = 1:2, breaks = breaks) + guides(fill = "none") -->
+<!-- p.pca2.2 <- pca_hexbin_plot(fit_multinom, pcs = 3:4, breaks = breaks) + guides(fill = "none") -->
+<!-- p.pca2.3 <- pca_hexbin_plot(fit_multinom, pcs = 5:6, breaks = breaks) + guides(fill = "none") -->
+<!-- p.pca2.4 <- pca_hexbin_plot(fit_multinom, pcs = 7:8, breaks = breaks) + guides(fill = "none") -->
+<!-- p.pca2.5 <- pca_hexbin_plot(fit_multinom, pcs = 9:10, breaks = breaks) + guides(fill = "none") -->
+<!-- p.pca2.6 <- pca_hexbin_plot(fit_multinom, pcs = 11:12, breaks = breaks) + guides(fill = "none") -->
 
-plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4,p.pca2.5,p.pca2.6)
-```
+<!-- plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4,p.pca2.5,p.pca2.6) -->
+<!-- ``` -->
 
-## Layer the tissue and cell labels onto the PC plots
+<!-- ## Layer the tissue and cell labels onto the PC plots -->
 
-PCs 1 and 2:
+<!-- PCs 1 and 2: -->
 
-```{r pca-labels-k13-1, fig.width=8, fig.height=2.25}
-p.pca3.1 <- labeled_pca_plot(fit,1:2,samples$tissue,font_size = 7,
-                       colors = colors_tissues, legend_label = "tissue")
-p.pca3.2 <- labeled_pca_plot(fit,1:2,samples$cell_label,font_size = 7,
-                        legend_label = "cell_label")
-plot_grid(p.pca3.1,p.pca3.2,rel_widths = c(8,11))
-```
+<!-- ```{r pca-labels-k13-1, fig.width=8, fig.height=2.25} -->
+<!-- p.pca3.1 <- labeled_pca_plot(fit,1:2,samples$tissue,font_size = 7, -->
+<!--                        colors = colors_tissues, legend_label = "tissue") -->
+<!-- p.pca3.2 <- labeled_pca_plot(fit,1:2,samples$cell_label,font_size = 7, -->
+<!--                         legend_label = "cell_label") -->
+<!-- plot_grid(p.pca3.1,p.pca3.2,rel_widths = c(8,11)) -->
+<!-- ``` -->
 
-PCs 3 and 4:
+<!-- PCs 3 and 4: -->
 
-```{r pca-labels-k13-2, fig.width=8, fig.height=2.25}
-p.pca3.3 <- labeled_pca_plot(fit,3:4,samples$tissue,font_size = 7,
-                        colors = colors_tissues, legend_label = "tissue")
-p.pca3.4 <- labeled_pca_plot(fit,3:4,samples$cell_label,font_size = 7,
-                        legend_label = "cell_label")
-plot_grid(p.pca3.3,p.pca3.4,rel_widths = c(8,11))
-```
+<!-- ```{r pca-labels-k13-2, fig.width=8, fig.height=2.25} -->
+<!-- p.pca3.3 <- labeled_pca_plot(fit,3:4,samples$tissue,font_size = 7, -->
+<!--                         colors = colors_tissues, legend_label = "tissue") -->
+<!-- p.pca3.4 <- labeled_pca_plot(fit,3:4,samples$cell_label,font_size = 7, -->
+<!--                         legend_label = "cell_label") -->
+<!-- plot_grid(p.pca3.3,p.pca3.4,rel_widths = c(8,11)) -->
+<!-- ``` -->
 
-PCs 5 and 6:
+<!-- PCs 5 and 6: -->
 
-```{r pca-labels-k13-3, fig.width=8, fig.height=2.25}
-p.pca3.5 <- labeled_pca_plot(fit,5:6,samples$tissue,font_size = 7,
-                       colors = colors_tissues, legend_label = "tissue")
-p.pca3.6 <- labeled_pca_plot(fit,5:6,samples$cell_label,font_size = 7,
-                        legend_label = "cell_label")
-plot_grid(p.pca3.5,p.pca3.6,rel_widths = c(8,11))
-```
+<!-- ```{r pca-labels-k13-3, fig.width=8, fig.height=2.25} -->
+<!-- p.pca3.5 <- labeled_pca_plot(fit,5:6,samples$tissue,font_size = 7, -->
+<!--                        colors = colors_tissues, legend_label = "tissue") -->
+<!-- p.pca3.6 <- labeled_pca_plot(fit,5:6,samples$cell_label,font_size = 7, -->
+<!--                         legend_label = "cell_label") -->
+<!-- plot_grid(p.pca3.5,p.pca3.6,rel_widths = c(8,11)) -->
+<!-- ``` -->
 
-PCs 7 and 8:
+<!-- PCs 7 and 8: -->
 
-```{r pca-labels-k13-4, fig.width=8, fig.height=2.25}
-p.pca3.7 <- labeled_pca_plot(fit,7:8,samples$tissue,font_size = 7,
-                       colors = colors_tissues, legend_label = "tissue")
-p.pca3.8 <- labeled_pca_plot(fit,7:8,samples$cell_label,font_size = 7,
-                        legend_label = "cell_label")
-plot_grid(p.pca3.7,p.pca3.8,rel_widths = c(8,11))
-```
+<!-- ```{r pca-labels-k13-4, fig.width=8, fig.height=2.25} -->
+<!-- p.pca3.7 <- labeled_pca_plot(fit,7:8,samples$tissue,font_size = 7, -->
+<!--                        colors = colors_tissues, legend_label = "tissue") -->
+<!-- p.pca3.8 <- labeled_pca_plot(fit,7:8,samples$cell_label,font_size = 7, -->
+<!--                         legend_label = "cell_label") -->
+<!-- plot_grid(p.pca3.7,p.pca3.8,rel_widths = c(8,11)) -->
+<!-- ``` -->
 
-PCs 9 and 10:
+<!-- PCs 9 and 10: -->
 
-```{r pca-labels-k13-5, fig.width=8, fig.height=2.25}
-p.pca3.9 <- labeled_pca_plot(fit,9:10,samples$tissue,font_size = 7,
-                       colors = colors_tissues, legend_label = "tissue")
-p.pca3.10 <- labeled_pca_plot(fit,9:10,samples$cell_label,font_size = 7,
-                        legend_label = "cell_label")
-plot_grid(p.pca3.9,p.pca3.10,rel_widths = c(8,11))
-```
+<!-- ```{r pca-labels-k13-5, fig.width=8, fig.height=2.25} -->
+<!-- p.pca3.9 <- labeled_pca_plot(fit,9:10,samples$tissue,font_size = 7, -->
+<!--                        colors = colors_tissues, legend_label = "tissue") -->
+<!-- p.pca3.10 <- labeled_pca_plot(fit,9:10,samples$cell_label,font_size = 7, -->
+<!--                         legend_label = "cell_label") -->
+<!-- plot_grid(p.pca3.9,p.pca3.10,rel_widths = c(8,11)) -->
+<!-- ``` -->
 
 
-PCs 11 and 12:
+<!-- PCs 11 and 12: -->
 
-```{r pca-labels-k13-6, fig.width=8, fig.height=2.25}
-p.pca3.11 <- labeled_pca_plot(fit,11:12,samples$tissue,font_size = 7,
-                       legend_label = "tissue")
-p.pca3.12 <- labeled_pca_plot(fit,11:12,samples$cell_label,font_size = 7,
-                        legend_label = "cell_label")
-plot_grid(p.pca3.11,p.pca3.12,rel_widths = c(8,11))
-```
+<!-- ```{r pca-labels-k13-6, fig.width=8, fig.height=2.25} -->
+<!-- p.pca3.11 <- labeled_pca_plot(fit,11:12,samples$tissue,font_size = 7, -->
+<!--                        legend_label = "tissue") -->
+<!-- p.pca3.12 <- labeled_pca_plot(fit,11:12,samples$cell_label,font_size = 7, -->
+<!--                         legend_label = "cell_label") -->
+<!-- plot_grid(p.pca3.11,p.pca3.12,rel_widths = c(8,11)) -->
+<!-- ``` -->
 
-The clusters defined by k-means on topic proportions
-reasonably identify the clusters shown in the PCA hexbin plots (below).
+<!-- The clusters defined by k-means on topic proportions -->
+<!-- reasonably identify the clusters shown in the PCA hexbin plots (below). -->
 
-```{r pca-kmeans-1, fig.width=9, fig.height=4.5}
-p.pca.4.1 <- labeled_pca_plot(fit,1:2,samples$cluster_kmeans,font_size = 7,
-                       legend_label = "cluster_kmeans")
-p.pca.4.2 <- labeled_pca_plot(fit,3:4,samples$cluster_kmeans,font_size = 7,
-                       legend_label = "cluster_kmeans")
-p.pca.4.3 <- labeled_pca_plot(fit,5:6,samples$cluster_kmeans,font_size = 7,
-                       legend_label = "cluster_kmeans")
-p.pca.4.4 <- labeled_pca_plot(fit,7:8,samples$cluster_kmeans,font_size = 7,
-                       legend_label = "cluster_kmeans")
-p.pca.4.5 <- labeled_pca_plot(fit,9:10,samples$cluster_kmeans,font_size = 7,
-                       legend_label = "cluster_kmeans")
-p.pca.4.6 <- labeled_pca_plot(fit,11:12,samples$cluster_kmeans,font_size = 7,
-                       legend_label = "cluster_kmeans")
-plot_grid(p.pca.4.1,p.pca.4.2,p.pca.4.3,p.pca.4.4,p.pca.4.5,p.pca.4.6)
-```
+<!-- ```{r pca-kmeans-1, fig.width=9, fig.height=4.5} -->
+<!-- p.pca.4.1 <- labeled_pca_plot(fit,1:2,samples$cluster_kmeans,font_size = 7, -->
+<!--                        legend_label = "cluster_kmeans") -->
+<!-- p.pca.4.2 <- labeled_pca_plot(fit,3:4,samples$cluster_kmeans,font_size = 7, -->
+<!--                        legend_label = "cluster_kmeans") -->
+<!-- p.pca.4.3 <- labeled_pca_plot(fit,5:6,samples$cluster_kmeans,font_size = 7, -->
+<!--                        legend_label = "cluster_kmeans") -->
+<!-- p.pca.4.4 <- labeled_pca_plot(fit,7:8,samples$cluster_kmeans,font_size = 7, -->
+<!--                        legend_label = "cluster_kmeans") -->
+<!-- p.pca.4.5 <- labeled_pca_plot(fit,9:10,samples$cluster_kmeans,font_size = 7, -->
+<!--                        legend_label = "cluster_kmeans") -->
+<!-- p.pca.4.6 <- labeled_pca_plot(fit,11:12,samples$cluster_kmeans,font_size = 7, -->
+<!--                        legend_label = "cluster_kmeans") -->
+<!-- plot_grid(p.pca.4.1,p.pca.4.2,p.pca.4.3,p.pca.4.4,p.pca.4.5,p.pca.4.6) -->
+<!-- ``` -->
