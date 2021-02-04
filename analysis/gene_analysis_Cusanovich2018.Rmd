@@ -78,9 +78,9 @@ Distribution of tissue labels by cluster.
 freq_table_cluster_tissue <- with(samples,table(tissue,cluster_kmeans))
 
 freq_table_cluster_tissue <- as.data.frame.matrix(freq_table_cluster_tissue)
-DT::datatable(freq_table_cluster_tissue, 
-              options = list(pageLength = nrow(freq_table_cluster_tissue)), 
-              rownames = T, caption = "Number of cells")
+# DT::datatable(freq_table_cluster_tissue, 
+#               options = list(pageLength = nrow(freq_table_cluster_tissue)), 
+#               rownames = T, caption = "Number of cells")
 
 create_celllabel_cluster_heatmap(samples$tissue, samples$cluster_kmeans, normalize_by = "column")
 
@@ -91,9 +91,9 @@ Distribution of cell labels by cluster.
 freq_table_cluster_celllabel <- with(samples,table(cell_label,cluster_kmeans))
 
 freq_table_cluster_celllabel <- as.data.frame.matrix(freq_table_cluster_celllabel)
-DT::datatable(freq_table_cluster_celllabel, 
-              options = list(pageLength = nrow(freq_table_cluster_celllabel)), 
-              rownames = T, caption = "Number of cells")
+# DT::datatable(freq_table_cluster_celllabel, 
+#               options = list(pageLength = nrow(freq_table_cluster_celllabel)), 
+#               rownames = T, caption = "Number of cells")
 
 create_celllabel_cluster_heatmap(samples$cell_label, samples$cluster_kmeans, normalize_by = "column")
 ```
@@ -114,6 +114,7 @@ DT::datatable(top_celltypes_table, rownames = T, caption = "Top 5 cell types in 
 ```
 
 We can see the major cell types in the clusters (topics):
+
  * cluster 1  (topic 1):  Erythroblasts 
  * cluster 2  (topic 3):  Endothelial cells
  * cluster 3  (topic 7):  Cardiomyocytes cells
@@ -128,8 +129,9 @@ We can see the major cell types in the clusters (topics):
  
 ## Gene score analysis
 
-Set output directorry
 ```{r set-dir}
+# Set output directorry
+
 fig.dir <- "output/plotly/Cusanovich2018"
 dir.create(fig.dir, showWarnings = F, recursive = T)
 ```
