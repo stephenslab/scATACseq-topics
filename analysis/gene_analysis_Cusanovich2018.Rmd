@@ -32,22 +32,20 @@ library(reshape)
 source("code/plots.R")
 ```
 
-## Load data and topic model results
-Load the data and the $k = 13$ Poisson NMF fit results.
-```{r load-data}
-data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/processed_data"
-load(file.path(data.dir, "Cusanovich_2018.RData"))
-rm(counts)
+## Load samples and topic model ($k = 13$) results.
+```{r load-samples}
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018/"
+samples <- readRDS(paste0(out.dir, "/samples-clustering-Cusanovich2018.rds"))
 ```
 
 ```{r load-fit}
-fit.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
+fit.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018/"
 fit <- readRDS(file.path(fit.dir, "/fit-Cusanovich2018-scd-ex-k=13.rds"))$fit
 fit_multinom <- poisson2multinom(fit)
 ```
 
 ## Visualize by Structure plot grouped by tissues
-```{r structure-plot-tissue, fig.width=7, fig.height=2.5}
+```{r structure-plot-tissue, fig.width=8, fig.height=2.5, message=FALSE}
 set.seed(10)
 colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
                    "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928",
@@ -63,12 +61,75 @@ p.structure <- structure_plot(select(fit_multinom,loadings = rows),
 print(p.structure)
 ```
 
+Load the clustering results
+```{r structure-plot-kmeans,  fig.width=8, fig.height=2.5, message=FALSE}
+set.seed(10)
+rows <- sample(nrow(fit$L),4000)
+
+p.structure.kmeans <- structure_plot(select(fit_multinom,loadings = rows),
+                                     grouping = samples$cluster_kmeans[rows],n = Inf,gap = 40,
+                                     perplexity = 50,topics = 1:13,colors = colors_topics,
+                                     num_threads = 4,verbose = FALSE)
+print(p.structure.kmeans)
+```
+
+Distribution of tissue labels by cluster.
+```{r freq-table-cluster-tissue, fig.width=6, fig.height=4}
+freq_table_cluster_tissue <- with(samples,table(tissue,cluster_kmeans))
+
+freq_table_cluster_tissue <- as.data.frame.matrix(freq_table_cluster_tissue)
+DT::datatable(freq_table_cluster_tissue, 
+              options = list(pageLength = nrow(freq_table_cluster_tissue)), 
+              rownames = T, caption = "Number of cells")
+
+create_celllabel_cluster_heatmap(samples$tissue, samples$cluster_kmeans, normalize_by = "column")
+
+```
+
+Distribution of cell labels by cluster.
+```{r freq-table-cluster-celllabel, fig.width=6, fig.height=10}
+freq_table_cluster_celllabel <- with(samples,table(cell_label,cluster_kmeans))
+
+freq_table_cluster_celllabel <- as.data.frame.matrix(freq_table_cluster_celllabel)
+DT::datatable(freq_table_cluster_celllabel, 
+              options = list(pageLength = nrow(freq_table_cluster_celllabel)), 
+              rownames = T, caption = "Number of cells")
+
+create_celllabel_cluster_heatmap(samples$cell_label, samples$cluster_kmeans, normalize_by = "column")
+```
+
+Top 5 cell types 
+```{r}
+top_celltypes_table <- data.frame(matrix(nrow=5, ncol = ncol(freq_table_cluster_celllabel)))
+colnames(top_celltypes_table) <- colnames(freq_table_cluster_celllabel)
+for (k in 1:ncol(freq_table_cluster_celllabel)){
+  top_celltypes <- rownames(freq_table_cluster_celllabel)[head(order(freq_table_cluster_celllabel[,k], decreasing=TRUE), 5)]
+  freq_top_celltypes <- freq_table_cluster_celllabel[top_celltypes, k]
+  percent_top_celltypes <- freq_table_cluster_celllabel[top_celltypes, k]/sum(freq_table_cluster_celllabel[,k])
+  top_celltypes_table[,k] <- sprintf("%s (%.1f%%)", top_celltypes, percent_top_celltypes*100)
+}
+
+DT::datatable(top_celltypes_table, rownames = T, caption = "Top 5 cell types in each cluster")
+
+```
+
+We can see the major cell types in the clusters (topics):
+ * cluster 1  (topic 1):  Erythroblasts 
+ * cluster 2  (topic 3):  Endothelial cells
+ * cluster 3  (topic 7):  Cardiomyocytes cells
+ * cluster 4  (topic 6):  B cells, Monocytes, Dendritic cells
+ * cluster 5  (topic 9):  Astrocytes, Oligodendrocytes 
+ * cluster 8  (topic 5):  Proximal tubule
+ * cluster 10 (topic 4):  a mixture of pneumocytes, Loop of henle, Enterocytes, DCT/CD
+ * cluster 11 (topic 12): T cells
+ * cluster 13 (topic 2):  Cerebellar granule cells 
+ * cluster 14 (topic 11): Ex. neurons and Inhibitory neurons
+ * cluster 15 (topic 8):  Hepatocytes
+ 
 ## Gene score analysis
 
 Set output directorry
 ```{r set-dir}
-out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
-
 fig.dir <- "output/plotly/Cusanovich2018"
 dir.create(fig.dir, showWarnings = F, recursive = T)
 ```
@@ -76,7 +137,7 @@ dir.create(fig.dir, showWarnings = F, recursive = T)
 ### TSS model
 
 Gene scores were computed using TSS based method as in Lareau *et al* Nature Biotech, 2019 as well as the `model 21` in `archR` paper.
-This model weights chromatin accessibility around gene promoters by using bi-directional exponential decays from the TSS,
+This model weights chromatin accessibility around gene promoters by using bi-directional exponential decays from the TSS.
 
 * Top genes
 ```{r top-genes-tss}
@@ -109,6 +170,15 @@ genescore_volcano_plot(genescore_res, label_above_quantile = 0.99,
                        subsample_below_quantile = 0.5, subsample_rate = 0.1)
 ```
 
+Explore the volcano plots [interactively][volcano-plotly-tss-k]
+```{r gene-volcano-plotly-tss}
+for ( k in 1:ncol(genescore_res$beta) ){
+  p.volcano.plotly <- genescore_volcano_plotly(genescore_res,k,
+                                             file = sprintf("%s/volcano_topic_%s_%s.html", fig.dir, k, "tss-sum"),
+                                             labels = genescore_res$genes$SYMBOL)
+}
+```
+
 **Topic 1**
 ```{r gene-volcano-plot-tss-1, fig.width=5, fig.height=4}
 k <- 1
@@ -118,13 +188,111 @@ genescore_volcano_plot(genescore_res, k, label_above_quantile = 0.99,
 
 ```
 
-Explore the volcano plot [interactively][volcano-plotly-tss-k1]
-```{r gene-volcano-plotly-tss-1}
-for ( k in 1:ncol(genescore_res$beta) ){
-  p.volcano.plotly <- genescore_volcano_plotly(genescore_res,k,
-                                             file = sprintf("%s/volcano_topic_%s_%s.html", fig.dir, k, "tss-sum"),
-                                             labels = genescore_res$genes$SYMBOL)
+Check some known marker genes for endothelial cells
+```{r marker-gene-scores-tss-1, fig.width=8, fig.height=4}
+marker_genes <- c("Hbb-b1", "Hbb-b2", "Gypa")
+
+gene_scores <- genescore_res$Z
+rownames(gene_scores) <- genescore_res$genes$SYMBOL
+marker_gene_scores <- gene_scores[grep(paste(sprintf("^%s$", marker_genes), collapse = "|"), rownames(gene_scores), ignore.case = T),]
+
+par(mfrow = c(ceiling(nrow(marker_gene_scores)/2),2))
+for(i in 1:nrow(marker_gene_scores)){
+  barplot(marker_gene_scores[i,], xlab = "topics", ylab = "gene score", main = rownames(marker_gene_scores)[i], col = colors_topics)
 }
+
+```
+
+**Topic 3** (Endothelial cells)
+```{r gene-volcano-plot-tss-3, fig.width=5, fig.height=4}
+k <- 3
+genescore_volcano_plot(genescore_res, k, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)
+
+```
+
+Check some known marker genes for erythrocyte
+```{r marker-gene-scores-tss-3, fig.width=8, fig.height=4}
+marker_genes <- c("PECAM1", "CD106", "CD62E", "Sele", "Kdr", "ENG")
+gene_scores <- genescore_res$Z
+rownames(gene_scores) <- genescore_res$genes$SYMBOL
+marker_gene_scores <- gene_scores[grep(paste(sprintf("^%s$", marker_genes), collapse = "|"), rownames(gene_scores), ignore.case = T),]
+
+par(mfrow = c(ceiling(nrow(marker_gene_scores)/2),2))
+for(i in 1:nrow(marker_gene_scores)){
+  barplot(marker_gene_scores[i,], xlab = "topics", ylab = "gene score", main = rownames(marker_gene_scores)[i], col = colors_topics)
+}
+
+```
+
+**Topic 5** (Proximal tubule)
+```{r gene-volcano-plot-tss-5, fig.width=5, fig.height=4}
+k <- 5
+genescore_volcano_plot(genescore_res, k, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)
+
+```
+
+Check some known marker genes for Proximal tubule
+```{r marker-gene-scores-tss-5, fig.width=8, fig.height=4}
+marker_genes <- c("PALDOB", "CUBN", "LRP2", "SLC34A1")
+gene_scores <- genescore_res$Z
+rownames(gene_scores) <- genescore_res$genes$SYMBOL
+marker_gene_scores <- gene_scores[grep(paste(sprintf("^%s$", marker_genes), collapse = "|"), rownames(gene_scores), ignore.case = T),]
+
+par(mfrow = c(ceiling(nrow(marker_gene_scores)/2),2))
+for(i in 1:nrow(marker_gene_scores)){
+  barplot(marker_gene_scores[i,], xlab = "topics", ylab = "gene score", main = rownames(marker_gene_scores)[i], col = colors_topics)
+}
+
+```
+
+**Topic 7** (Cardiomyocytes)
+```{r gene-volcano-plot-tss-7, fig.width=5, fig.height=4}
+k <- 7
+genescore_volcano_plot(genescore_res, k, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)
+
+```
+
+Check some known marker genes for Cardiomyocytes
+```{r marker-gene-scores-tss-7, fig.width=8, fig.height=8}
+marker_genes <- c("Nppa", "Myl4", "SLN", "PITX2", "Myl7", "Gja5", "Myl2", "Myl3", "IRX4", "HAND1", "HEY2")
+gene_scores <- genescore_res$Z
+rownames(gene_scores) <- genescore_res$genes$SYMBOL
+marker_gene_scores <- gene_scores[grep(paste(sprintf("^%s$", marker_genes), collapse = "|"), rownames(gene_scores), ignore.case = T),]
+
+par(mfrow = c(ceiling(nrow(marker_gene_scores)/3),3))
+for(i in 1:nrow(marker_gene_scores)){
+  barplot(marker_gene_scores[i,], xlab = "topics", ylab = "gene score", main = rownames(marker_gene_scores)[i], col = colors_topics)
+}
+
+```
+
+**Topic 8** (Hepatocytes)
+```{r gene-volcano-plot-tss-8, fig.width=5, fig.height=4}
+k <- 8
+genescore_volcano_plot(genescore_res, k, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)
+
+```
+
+Check some known marker genes for Hepatocytes
+```{r marker-gene-scores-8, fig.width=8, fig.height=8}
+marker_genes <- c("SERPINA1", "TTR", "ALB","AFP","CYP3A4","CYP7A1","FABP1","ALR","Glut1","MET","FoxA1","FoxA2","CD29","PTP4A2","Prox1", "HNF1B")
+gene_scores <- genescore_res$Z
+rownames(gene_scores) <- genescore_res$genes$SYMBOL
+marker_gene_scores <- gene_scores[grep(paste(sprintf("^%s$", marker_genes), collapse = "|"), rownames(gene_scores), ignore.case = T),]
+
+par(mfrow = c(ceiling(nrow(marker_gene_scores)/3),3))
+for(i in 1:nrow(marker_gene_scores)){
+  barplot(marker_gene_scores[i,], xlab = "topics", ylab = "gene score", main = rownames(marker_gene_scores)[i], col = colors_topics)
+}
+
 ```
 
 ### Gene body model
@@ -165,15 +333,6 @@ genescore_volcano_plot(genescore_res, label_above_quantile = 0.99,
                        subsample_below_quantile = 0.5, subsample_rate = 0.1)
 ```
 
-**Topic 1**
-```{r gene-volcano-plots-genebody-1, fig.width=5, fig.height=4}
-k <- 1
-genescore_volcano_plot(genescore_res, k, label_above_quantile = 0.99,
-                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
-                       subsample_below_quantile = 0.5, subsample_rate = 0.1)
-
-```
-
 Explore the volcano plot [interactively][volcano-plotly-genebody-k1]
 ```{r gene-volcano-plotly-genebody-1}
 for ( k in 1:ncol(genescore_res$beta) ){
@@ -181,6 +340,123 @@ for ( k in 1:ncol(genescore_res$beta) ){
                                              file = sprintf("%s/volcano_topic_%s_%s.html", fig.dir, k, "genebody-sum"),
                                              labels = genescore_res$genes$SYMBOL)
 }
+```
+
+
+**Topic 1**
+```{r gene-volcano-plot-genebody-1, fig.width=5, fig.height=4}
+k <- 1
+genescore_volcano_plot(genescore_res, k, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)
+
+```
+
+Check some known marker genes for endothelial cells
+```{r marker-gene-scores-genebody-1, fig.width=8, fig.height=4}
+marker_genes <- c("Hbb-b1", "Hbb-b2", "Gypa")
+
+gene_scores <- genescore_res$Z
+rownames(gene_scores) <- genescore_res$genes$SYMBOL
+marker_gene_scores <- gene_scores[grep(paste(sprintf("^%s$", marker_genes), collapse = "|"), rownames(gene_scores), ignore.case = T),]
+
+par(mfrow = c(ceiling(nrow(marker_gene_scores)/2),2))
+for(i in 1:nrow(marker_gene_scores)){
+  barplot(marker_gene_scores[i,], xlab = "topics", ylab = "gene score", main = rownames(marker_gene_scores)[i], col = colors_topics)
+}
+
+```
+
+**Topic 3** (Endothelial cells)
+```{r gene-volcano-plot-genebody-3, fig.width=5, fig.height=4}
+k <- 3
+genescore_volcano_plot(genescore_res, k, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)
+
+```
+
+Check some known marker genes for erythrocyte
+```{r marker-gene-scores-genebody-3, fig.width=8, fig.height=4}
+marker_genes <- c("PECAM1", "CD106", "CD62E", "Sele", "Kdr", "ENG")
+gene_scores <- genescore_res$Z
+rownames(gene_scores) <- genescore_res$genes$SYMBOL
+marker_gene_scores <- gene_scores[grep(paste(sprintf("^%s$", marker_genes), collapse = "|"), rownames(gene_scores), ignore.case = T),]
+
+par(mfrow = c(ceiling(nrow(marker_gene_scores)/2),2))
+for(i in 1:nrow(marker_gene_scores)){
+  barplot(marker_gene_scores[i,], xlab = "topics", ylab = "gene score", main = rownames(marker_gene_scores)[i], col = colors_topics)
+}
+
+```
+
+**Topic 5** (Proximal tubule)
+```{r gene-volcano-plot-genebody-5, fig.width=5, fig.height=4}
+k <- 5
+genescore_volcano_plot(genescore_res, k, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)
+
+```
+
+Check some known marker genes for Proximal tubule
+```{r marker-gene-scores-genebody-5, fig.width=8, fig.height=4}
+marker_genes <- c("PALDOB", "CUBN", "LRP2", "SLC34A1")
+gene_scores <- genescore_res$Z
+rownames(gene_scores) <- genescore_res$genes$SYMBOL
+marker_gene_scores <- gene_scores[grep(paste(sprintf("^%s$", marker_genes), collapse = "|"), rownames(gene_scores), ignore.case = T),]
+
+par(mfrow = c(ceiling(nrow(marker_gene_scores)/2),2))
+for(i in 1:nrow(marker_gene_scores)){
+  barplot(marker_gene_scores[i,], xlab = "topics", ylab = "gene score", main = rownames(marker_gene_scores)[i], col = colors_topics)
+}
+
+```
+
+**Topic 7** (Cardiomyocytes)
+```{r gene-volcano-plot-genebody-7, fig.width=5, fig.height=4}
+k <- 7
+genescore_volcano_plot(genescore_res, k, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)
+
+```
+
+Check some known marker genes for Cardiomyocytes
+```{r marker-gene-scores-genebody-7, fig.width=8, fig.height=8}
+marker_genes <- c("Nppa", "Myl4", "SLN", "PITX2", "Myl7", "Gja5", "Myl2", "Myl3", "IRX4", "HAND1", "HEY2")
+gene_scores <- genescore_res$Z
+rownames(gene_scores) <- genescore_res$genes$SYMBOL
+marker_gene_scores <- gene_scores[grep(paste(sprintf("^%s$", marker_genes), collapse = "|"), rownames(gene_scores), ignore.case = T),]
+
+par(mfrow = c(ceiling(nrow(marker_gene_scores)/3),3))
+for(i in 1:nrow(marker_gene_scores)){
+  barplot(marker_gene_scores[i,], xlab = "topics", ylab = "gene score", main = rownames(marker_gene_scores)[i], col = colors_topics)
+}
+
+```
+
+**Topic 8** (Hepatocytes)
+```{r gene-volcano-plot-genebody-8, fig.width=5, fig.height=4}
+k <- 8
+genescore_volcano_plot(genescore_res, k, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)
+
+```
+
+Check some known marker genes for Hepatocytes
+```{r marker-gene-scores-genebody-8, fig.width=8, fig.height=8}
+marker_genes <- c("SERPINA1", "TTR", "ALB","AFP","CYP3A4","CYP7A1","FABP1","ALR","Glut1","MET","FoxA1","FoxA2","CD29","PTP4A2","Prox1", "HNF1B")
+gene_scores <- genescore_res$Z
+rownames(gene_scores) <- genescore_res$genes$SYMBOL
+marker_gene_scores <- gene_scores[grep(paste(sprintf("^%s$", marker_genes), collapse = "|"), rownames(gene_scores), ignore.case = T),]
+
+par(mfrow = c(ceiling(nrow(marker_gene_scores)/3),3))
+for(i in 1:nrow(marker_gene_scores)){
+  barplot(marker_gene_scores[i,], xlab = "topics", ylab = "gene score", main = rownames(marker_gene_scores)[i], col = colors_topics)
+}
+
 ```
 
 ### Compare gene scores from the gene-body model vs. the TSS model.
