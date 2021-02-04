@@ -112,6 +112,75 @@ basic_density_plot <- function (fit, k = 1) {
 }
 
 
+# Create a heatmap of the percentage of cell labels in each cluster.
+create_celllabel_cluster_heatmap <- function (cell_labels,
+                                              cluster_labels,
+                                              normalize_by = c("column","row","none"),
+                                              cluster_rows = FALSE,
+                                              cluster_columns = FALSE,
+                                              method_cluster = "average",
+                                              xlab = "",
+                                              ylab = "",
+                                              color.low = "white",
+                                              color.high = "black",
+                                              font.size.labels = 8,
+                                              font.size.clusters = 8) {
+
+
+  m <- table(cell_labels, cluster_labels)
+
+  if (normalize_by == "column") {
+    dat <- sweep(m,2,colSums(m),`/`)
+    fill_label <- "proportion"
+    limits <- c(0,1)
+  }else if (normalize_by == "row") {
+    dat <- sweep(m,1,rowSums(m),`/`)
+    fill_label <- "proportion"
+    limits <- c(0,1)
+  }else{
+    limits <- c(min(m), max(m))
+  }
+
+  # clustering motifs
+  if (cluster_rows) {
+    row_order <- hclust(dist(dat, method = "euclidean"), method = method_cluster)$order
+  } else {
+    row_order <- 1:nrow(dat)
+  }
+
+  # clustering topics
+  if (cluster_columns) {
+    col_order <- hclust(dist(t(dat), method = "euclidean"), method = method_cluster)$order
+  } else {
+    col_order <- 1:ncol(dat)
+  }
+
+  dat <- dat[row_order, col_order]
+
+  dat2 <- melt(as.matrix(dat))
+  colnames(dat2) <- c("label", "cluster", fill_label)
+  dat2$label <- factor(dat2$label, levels = rev(rownames(dat)))
+  dat2$cluster <- factor(dat2$cluster, levels = colnames(dat))
+
+  # Heatmap
+  p <- ggplot(dat2, aes_string(x = "cluster", y = "label", fill = fill_label)) +
+    geom_tile() +
+    labs(x = xlab,
+         y = ylab,
+         title = "",
+         fill = fill_label) +
+    scale_x_discrete(position = "top") +
+    scale_fill_gradient(low = color.low, high = color.high, limits = limits) +
+    theme(axis.text.x  = element_text(size = font.size.labels),
+          axis.text.y  = element_text(size = font.size.clusters),
+          legend.title=element_text(size=10),
+          legend.text=element_text(size=9))
+
+  return(p)
+
+}
+
+
 #' @rdname genescore_volcano_plot
 #'
 #' @title Volcano plot of gene level statistics
@@ -897,60 +966,6 @@ create_motif_enrichment_heatmap <- function (motif_res,
   }else if (enrichment == "-log10(p-value)"){
     p <- p + scale_fill_gradient2(low="white", high=color.high)
   }
-
-  return(p)
-
-}
-
-create_celllabel_topic_heatmap <- function (fit_multinom,
-                                            grouping,
-                                            group_labels,
-                                            topic_order = 1:ncol(fit_multinom$L),
-                                            cluster_topics = FALSE,
-                                            method_cluster = "average",
-                                            color.low = "white",
-                                            color.mid = "orangered",
-                                            color.high = "darkred",
-                                            font.size.groups = 8,
-                                            font.size.topics = 8) {
-
-  L <- fit_multinom$L
-
-  L_group_mean <- matrix(NA, nrow = length(group_labels), ncol = ncol(L))
-  rownames(L_group_mean) <- group_labels
-  colnames(L_group_mean) <- colnames(L)
-  for (i in 1:length(group_labels)) {
-    L_group <- L[grouping == group_labels[i], ]
-    L_group_mean[i,] <- colMeans(L_group)
-  }
-
-  # clustering topics
-  if (cluster_topics) {
-    topic_order <- hclust(dist(t(L_group_mean), method = "euclidean"), method = method_cluster)$order
-  } else {
-    topic_order <- topic_order
-  }
-
-  dat <- L_group_mean[rev(group_labels), topic_order]
-
-  dat2 <- melt(dat)
-  colnames(dat2) <- c("group", "topic", "proportion")
-
-  # Heatmap
-  p <- ggplot(dat2, aes_string(x = "topic", y = "group", fill = "proportion")) +
-    geom_tile() +
-    labs(x = "",
-         y = "",
-         title = "",
-         fill = "average proportion") +
-    scale_x_discrete(position = "top") +
-    scale_fill_gradient2(low = color.low, mid = color.mid, high = color.high, midpoint = 0.5) +
-    theme(axis.text.x  = element_text(size = font.size.topics),
-          axis.text.y  = element_text(size = font.size.groups),
-          legend.title=element_text(size=10),
-          legend.text=element_text(size=9),
-          axis.ticks.x = element_blank(),
-          axis.ticks.y = element_blank())
 
   return(p)
 
