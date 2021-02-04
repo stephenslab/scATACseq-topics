@@ -12,8 +12,8 @@ ATAC-seq data inferred from the multinomial topic model with
 $k = 13$.
 
 ```{r knitr-opts, include=FALSE}
-knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
-                      fig.align = "center",dpi = 120)
+knitr::opts_chunk$set(comment = "#",collapse = FALSE,results = "hold",
+                      fig.align = "center",dpi = 120, message = FALSE, warning = FALSE)
 ```
 					  
 Load packages and some functions used in this analysis.
@@ -142,8 +142,9 @@ length(which(clusters != clusters2))
 ```
 
 Refine k-means clusters:
-- Split cluster 10 into two clusters.
-- merge cluster 4 and 9
+
+  - Split cluster 10 into two clusters.
+  - merge cluster 4 and 9.
 
 Structure plot based on refined clusters
 ```{r structure-plot-kmeans-refined-1,  fig.width=8, fig.height=2.5, message=FALSE}
