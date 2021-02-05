@@ -10,31 +10,18 @@ editor_options:
 
 Topic modeling analysis of single-cell ATAC-seq data
 
-* [Literatures of scATAC-seq papers](references.html)
-
-* Topic modeling analysis for Cusanovich 2018 single cell ATAC-seq dataset
+* Cusanovich *et al.* 2018 dataset
     - [About Cusanovich 2018 dataset](scATACseq_data_Cusanovich2018.html)
     - [Process Cusanovich 2018 dataset](process_data_Cusanovich2018.html)
     - [Assess model fits](assess_fits_Cusanovich2018.html)
-    - [PCA plots of topic proportions](compare_pca_clusters_Cusanovich2018.html)
     - [Visualize topics](plots_Cusanovich2018.html)
     - [Clustering by topic proportions (K=13)](clusters_Cusanovich2018_k13.html)
-    - [Gene analysis (K=13)](gene_analysis_Cusanovich2018.html)
     - [Motif analysis (K=13)](motif_analysis_Cusanovich2018.html)
+    - [Gene analysis (K=13)](gene_analysis_Cusanovich2018.html)
 
-* Topic modeling analysis for Buenrostro 2018 single cell ATAC-seq dataset
+* Buenrostro *et al.* 2018 dataset
     - [Process Buenrostro 2018 dataset](process_data_Buenrostro2018.html)
     - [Assess model fits](assess_fits_Buenrostro2018_Chen2019pipeline.html)
-    - [Clustering by topic proportions (K=11) with Chen2019 processed data (regions accessible in > 1% samples)](clusters_Buenrostro2018_k11_Chen2019pipeline.html)
-    - [Clustering by topic proportions (K=11) with chromVAR processed data (regions accessible in at least 1 sample)](clusters_Buenrostro2018_chomVAR_scPeaks.html)
-    - [Clustering by topic proportions (K=11) with chromVAR processed data (regions accessible in > 1% samples)](clusters_Buenrostro2018_chomVAR_scPeaks_filtered.html)
-    - [Motif enrichment and gene analysis (K=11) with Chen2019 processed data (regions accessible in > 1% samples)](motif_gene_analysis_Buenrostro2018_Chen2019pipeline.html)
-    - [Motif enrichment and gene analysis (K=11) with chromVAR processed data (regions accessible in at least 1 sample)](motif_gene_analysis_Buenrostro2018_chomVAR_scPeaks.html)
-    - [Motif enrichment and gene analysis (K=11) with chromVAR processed data (regions accessible in > 1% samples)](motif_gene_analysis_Buenrostro2018_chomVAR_scPeaks_filtered.html)
-
-* Topic modeling analysis for Lareau 2019 single cell ATAC-seq dataset
-    - [About Lareau 2019 dataset](scATACseq_data_Lareau2019.html)
-    - [Process Lareau 2019 dataset](process_data_Lareau2019.html)
-    - [Assess model fits](assess_fits_Lareau2019_bonemarrow.html)
-    - [PCA plots of topic proportions](compare_pca_clusters_Lareau_2019_bonemarrow.html)
-    - [Clustering by topic proportions (K=13)](clusters_Lareau2019_bonemarrow_k13.html)
+    - [Clustering by topic proportions (K=11)](clusters_Buenrostro2018_k11_Chen2019pipeline.html)
+    - [Motif analysis (K=11)](motif_analysis_Buenrostro2018_Chen2019pipeline.html)
+    - [Gene analysis (K=11)](gene_analysis_Buenrostro2018_Chen2019pipeline.html)
