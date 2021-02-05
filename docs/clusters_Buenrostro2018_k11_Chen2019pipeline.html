@@ -500,16 +500,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreea797b10a1504d2df85c64d8744befc571619c629targetblanka797b10a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/a797b10a1504d2df85c64d8744befc571619c629" target="_blank">a797b10</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree576a4005d8107a9eeab3726e2f539c13af586761targetblank576a400a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/576a4005d8107a9eeab3726e2f539c13af586761" target="_blank">576a400</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreea797b10a1504d2df85c64d8744befc571619c629targetblanka797b10a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree576a4005d8107a9eeab3726e2f539c13af586761targetblank576a400a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/a797b10a1504d2df85c64d8744befc571619c629" target="_blank">a797b10</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/576a4005d8107a9eeab3726e2f539c13af586761" target="_blank">576a400</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -890,6 +890,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/576a4005d8107a9eeab3726e2f539c13af586761/analysis/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd" target="_blank">576a400</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-05
+</td>
+<td>
+cleaned the clustering results
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/faf1b90fbcf56b649e97ff90fcdc90abbcd0a46a/docs/clusters_Buenrostro2018_k11_Chen2019pipeline.html" target="_blank">faf1b90</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-05
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/a797b10a1504d2df85c64d8744befc571619c629/analysis/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd" target="_blank">a797b10</a>
 </td>
 <td>
@@ -1022,6 +1056,43 @@ p.structure.1 &lt;- structure_plot(fit_multinom,
 
 print(p.structure.1)</code></pre>
 <p><img src="figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/structure-plot-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-1">
+Past versions of structure-plot-1.png
+</button>
+</p>
+<div id="fig-structure-plot-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/faf1b90fbcf56b649e97ff90fcdc90abbcd0a46a/docs/figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/structure-plot-1.png" target="_blank">faf1b90</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div id="k-means-clustering-on-topic-proportions" class="section level3">
 <h3>k-means clustering on topic proportions</h3>
 <p>Define clusters using k-means, and then create structure plot based on the clusters from k-means.</p>
@@ -1037,6 +1108,43 @@ p.structure.kmeans &lt;- structure_plot(fit_multinom,
                                      num_threads = 4,verbose = FALSE)
 print(p.structure.kmeans)</code></pre>
 <p><img src="figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/structure-plot-kmeans-1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-kmeans-1-1">
+Past versions of structure-plot-kmeans-1-1.png
+</button>
+</p>
+<div id="fig-structure-plot-kmeans-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/faf1b90fbcf56b649e97ff90fcdc90abbcd0a46a/docs/figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/structure-plot-kmeans-1-1.png" target="_blank">faf1b90</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>#   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15 
 # 279 122  89 175 213  97 199 131 144  93 132  71  99  71 119</code></pre>
 <p>First do PCA on topic proportions and then do k-means clustering. Results are the same as the results from running k-means directly on the topic proportions.</p>
@@ -1046,13 +1154,6 @@ pca &lt;- prcomp(fit_multinom$L)$x
 clusters2 &lt;- factor(kmeans(pca,centers = 15,iter.max = 100)$cluster)
 summary(clusters2)
 
-p.structure.kmeans &lt;- structure_plot(fit_multinom,
-                                     grouping = clusters2,n = Inf,gap = 20,
-                                     perplexity = 50,topics = 1:11,colors = colors_topics,
-                                     num_threads = 4,verbose = FALSE)
-print(p.structure.kmeans)</code></pre>
-<p><img src="figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/structure-plot-kmeans-pca-1-1.png" width="840" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>
 length(which(clusters != clusters2))
 #   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15 
 # 279 122  89 175 213  97 199 131 144  93 132  71  99  71 119 
@@ -1069,6 +1170,43 @@ p.structure.kmeans &lt;- structure_plot(fit_multinom,
                                      num_threads = 4,verbose = FALSE)
 print(p.structure.kmeans)</code></pre>
 <p><img src="figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/structure-plot-kmeans-20-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-kmeans-20-1">
+Past versions of structure-plot-kmeans-20-1.png
+</button>
+</p>
+<div id="fig-structure-plot-kmeans-20-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/faf1b90fbcf56b649e97ff90fcdc90abbcd0a46a/docs/figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/structure-plot-kmeans-20-1.png" target="_blank">faf1b90</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>#   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20 
 # 177 107  77 128  58  97 187  85 143  53 102  70  93 117  60  75  66  51 212  76</code></pre>
 <p>First do PCA on topic proportions and then do k-means clustering. Results are again the same as the results from running k-means directly on the topic proportions.</p>
@@ -1078,13 +1216,7 @@ pca &lt;- prcomp(fit_multinom$L)$x
 clusters.20.2 &lt;- factor(kmeans(pca,centers = 20,iter.max = 100)$cluster)
 summary(clusters.20.2)
 
-p.structure.kmeans &lt;- structure_plot(fit_multinom,
-                                     grouping = clusters.20.2,n = Inf,gap = 20,
-                                     perplexity = 50,topics = 1:11,colors = colors_topics,
-                                     num_threads = 4,verbose = FALSE)
-print(p.structure.kmeans)</code></pre>
-<p><img src="figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/structure-plot-kmeans-pca-20-1.png" width="840" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>length(which(clusters.20 != clusters.20.2))
+length(which(clusters.20 != clusters.20.2))
 #   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20 
 # 177 107  77 128  58  97 187  85 143  53 102  70  93 117  60  75  66  51 212  76 
 # [1] 0</code></pre>
@@ -1110,18 +1242,45 @@ table(clusters.merged)
                      n = Inf,gap = 20,
                      perplexity = 50,topics = 1:11,colors = colors_topics,
                      num_threads = 4,verbose = FALSE)
-# Perplexity automatically changed to 34 because original setting of 50 was too large for the number of samples (107)
-# Perplexity automatically changed to 46 because original setting of 50 was too large for the number of samples (143)
-# Perplexity automatically changed to 46 because original setting of 50 was too large for the number of samples (143)
-# Perplexity automatically changed to 16 because original setting of 50 was too large for the number of samples (53)
-# Perplexity automatically changed to 32 because original setting of 50 was too large for the number of samples (102)
-# Perplexity automatically changed to 22 because original setting of 50 was too large for the number of samples (70)
-# Perplexity automatically changed to 29 because original setting of 50 was too large for the number of samples (93)
-# Perplexity automatically changed to 18 because original setting of 50 was too large for the number of samples (60)
-# Perplexity automatically changed to 49 because original setting of 50 was too large for the number of samples (151)
-# Perplexity automatically changed to 20 because original setting of 50 was too large for the number of samples (66)
 print(p.structure.refined)</code></pre>
 <p><img src="figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/refine-clusters-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-refine-clusters-2-1">
+Past versions of refine-clusters-2-1.png
+</button>
+</p>
+<div id="fig-refine-clusters-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/faf1b90fbcf56b649e97ff90fcdc90abbcd0a46a/docs/figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/refine-clusters-2-1.png" target="_blank">faf1b90</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Save the clustering results to an RDS file</p>
 <pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/&quot;
 saveRDS(samples, paste0(out.dir, &quot;/samples-clustering-Buenrostro2018.rds&quot;))
@@ -1175,33 +1334,68 @@ p.barplot &lt;- ggplot(freq_cluster_celltype, aes(fill=label, y=freq, x=cluster_
   )
 print(p.barplot)</code></pre>
 <p><img src="figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/freq-cluster-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-freq-cluster-1">
+Past versions of freq-cluster-1.png
+</button>
+</p>
+<div id="fig-freq-cluster-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/faf1b90fbcf56b649e97ff90fcdc90abbcd0a46a/docs/figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/freq-cluster-1.png" target="_blank">faf1b90</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-05
+</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div id="pca-of-the-topic-proportions" class="section level2">
-<h2>PCA of the topic proportions</h2>
-<p>Plot PCs of the topic proportions.</p>
-<pre class="r"><code>breaks &lt;- c(0,1,5,10,100,Inf)
-p.pca2.1 &lt;- pca_hexbin_plot(fit_multinom, pcs = 1:2, breaks = breaks) + guides(fill = &quot;none&quot;)
-p.pca2.2 &lt;- pca_hexbin_plot(fit_multinom, pcs = 3:4, breaks = breaks) + guides(fill = &quot;none&quot;)
-p.pca2.3 &lt;- pca_hexbin_plot(fit_multinom, pcs = 5:6, breaks = breaks) + guides(fill = &quot;none&quot;)
-p.pca2.4 &lt;- pca_hexbin_plot(fit_multinom, pcs = 7:8, breaks = breaks) + guides(fill = &quot;none&quot;)
-p.pca2.5 &lt;- pca_hexbin_plot(fit_multinom, pcs = 9:10, breaks = breaks) + guides(fill = &quot;none&quot;)
-
-plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4,p.pca2.5)</code></pre>
-<p><img src="figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/pca-1-1.png" width="840" style="display: block; margin: auto;" /></p>
-<p>Layer the cell labels onto the PC plots.</p>
-<pre class="r"><code>p.pca3.1 &lt;- labeled_pca_plot(fit,1:2,samples$label,font_size = 7,
-                       legend_label = &quot;Cell labels&quot;)
-p.pca3.2 &lt;- labeled_pca_plot(fit,3:4,samples$label,font_size = 7,
-                       legend_label = &quot;Cell labels&quot;)
-p.pca3.3 &lt;- labeled_pca_plot(fit,5:6,samples$label,font_size = 7,
-                       legend_label = &quot;Cell labels&quot;)
-p.pca3.4 &lt;- labeled_pca_plot(fit,7:8,samples$label,font_size = 7,
-                       legend_label = &quot;Cell labels&quot;)
-p.pca3.5 &lt;- labeled_pca_plot(fit,9:10,samples$label,font_size = 7,
-                       legend_label = &quot;Cell labels&quot;)
-
-plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4,p.pca3.5)</code></pre>
-<p><img src="figure/clusters_Buenrostro2018_k11_Chen2019pipeline.Rmd/pca-2-1.png" width="1080" style="display: block; margin: auto;" /></p>
+</div>
+<!-- ## PCA of the topic proportions -->
+<!-- Plot PCs of the topic proportions. -->
+<!-- ```{r pca-1, fig.width=7, fig.height=4.5} -->
+<!-- breaks <- c(0,1,5,10,100,Inf) -->
+<!-- p.pca2.1 <- pca_hexbin_plot(fit_multinom, pcs = 1:2, breaks = breaks) + guides(fill = "none") -->
+<!-- p.pca2.2 <- pca_hexbin_plot(fit_multinom, pcs = 3:4, breaks = breaks) + guides(fill = "none") -->
+<!-- p.pca2.3 <- pca_hexbin_plot(fit_multinom, pcs = 5:6, breaks = breaks) + guides(fill = "none") -->
+<!-- p.pca2.4 <- pca_hexbin_plot(fit_multinom, pcs = 7:8, breaks = breaks) + guides(fill = "none") -->
+<!-- p.pca2.5 <- pca_hexbin_plot(fit_multinom, pcs = 9:10, breaks = breaks) + guides(fill = "none") -->
+<!-- plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4,p.pca2.5) -->
+<!-- ``` -->
+<!-- Layer the cell labels onto the PC plots. -->
+<!-- ```{r pca-2, fig.width=9, fig.height=5} -->
+<!-- p.pca3.1 <- labeled_pca_plot(fit,1:2,samples$label,font_size = 7, -->
+<!--                        legend_label = "Cell labels") -->
+<!-- p.pca3.2 <- labeled_pca_plot(fit,3:4,samples$label,font_size = 7, -->
+<!--                        legend_label = "Cell labels") -->
+<!-- p.pca3.3 <- labeled_pca_plot(fit,5:6,samples$label,font_size = 7, -->
+<!--                        legend_label = "Cell labels") -->
+<!-- p.pca3.4 <- labeled_pca_plot(fit,7:8,samples$label,font_size = 7, -->
+<!--                        legend_label = "Cell labels") -->
+<!-- p.pca3.5 <- labeled_pca_plot(fit,9:10,samples$label,font_size = 7, -->
+<!--                        legend_label = "Cell labels") -->
+<!-- plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4,p.pca3.5) -->
+<!-- ``` -->
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1238,20 +1432,19 @@ plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4,p.pca3.5)</code></pre>
 #  [5] prettyunits_1.1.1  rprojroot_2.0.2    digest_0.6.27      R6_2.5.0          
 #  [9] MatrixModels_0.4-1 evaluate_0.14      coda_0.19-4        httr_1.4.2        
 # [13] pillar_1.4.7       rlang_0.4.10       progress_1.2.2     lazyeval_0.2.2    
-# [17] data.table_1.13.6  irlba_2.3.3        SparseM_1.78       hexbin_1.28.1     
-# [21] whisker_0.4        rmarkdown_2.6      labeling_0.4.2     Rtsne_0.15        
-# [25] stringr_1.4.0      htmlwidgets_1.5.3  munsell_0.5.0      compiler_3.6.1    
-# [29] httpuv_1.5.4       xfun_0.19          pkgconfig_2.0.3    mcmc_0.9-7        
-# [33] htmltools_0.5.1.1  tidyselect_1.1.0   tibble_3.0.6       quadprog_1.5-8    
-# [37] matrixStats_0.58.0 viridisLite_0.3.0  crayon_1.4.0       conquer_1.0.2     
-# [41] withr_2.4.1        later_1.1.0.1      MASS_7.3-53        grid_3.6.1        
-# [45] jsonlite_1.7.2     gtable_0.3.0       lifecycle_0.2.0    DBI_1.1.0         
-# [49] git2r_0.27.1       magrittr_2.0.1     scales_1.1.1       RcppParallel_5.0.2
-# [53] stringi_1.5.3      farver_2.0.3       fs_1.3.1           promises_1.1.1    
-# [57] ellipsis_0.3.1     generics_0.1.0     vctrs_0.3.6        tools_3.6.1       
-# [61] glue_1.4.2         purrr_0.3.4        hms_1.0.0          yaml_2.2.1        
-# [65] colorspace_2.0-0   plotly_4.9.3       knitr_1.30         quantreg_5.83     
-# [69] MCMCpack_1.5-0</code></pre>
+# [17] data.table_1.13.6  irlba_2.3.3        SparseM_1.78       whisker_0.4       
+# [21] rmarkdown_2.6      labeling_0.4.2     Rtsne_0.15         stringr_1.4.0     
+# [25] htmlwidgets_1.5.3  munsell_0.5.0      compiler_3.6.1     httpuv_1.5.4      
+# [29] xfun_0.19          pkgconfig_2.0.3    mcmc_0.9-7         htmltools_0.5.1.1 
+# [33] tidyselect_1.1.0   tibble_3.0.6       quadprog_1.5-8     matrixStats_0.58.0
+# [37] viridisLite_0.3.0  crayon_1.4.0       conquer_1.0.2      withr_2.4.1       
+# [41] later_1.1.0.1      MASS_7.3-53        grid_3.6.1         jsonlite_1.7.2    
+# [45] gtable_0.3.0       lifecycle_0.2.0    DBI_1.1.0          git2r_0.27.1      
+# [49] magrittr_2.0.1     scales_1.1.1       RcppParallel_5.0.2 stringi_1.5.3     
+# [53] farver_2.0.3       fs_1.3.1           promises_1.1.1     ellipsis_0.3.1    
+# [57] generics_0.1.0     vctrs_0.3.6        tools_3.6.1        glue_1.4.2        
+# [61] purrr_0.3.4        hms_1.0.0          yaml_2.2.1         colorspace_2.0-0  
+# [65] plotly_4.9.3       knitr_1.30         quantreg_5.83      MCMCpack_1.5-0</code></pre>
 </div>
 </div>
 
