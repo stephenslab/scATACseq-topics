@@ -11,7 +11,6 @@ editor_options:
 Topic modeling analysis of single-cell ATAC-seq data
 
 * Cusanovich *et al.* 2018 dataset
-    - [About Cusanovich 2018 dataset](scATACseq_data_Cusanovich2018.html)
     - [Process Cusanovich 2018 dataset](process_data_Cusanovich2018.html)
     - [Assess model fits](assess_fits_Cusanovich2018.html)
     - [Visualize topics](plots_Cusanovich2018.html)
