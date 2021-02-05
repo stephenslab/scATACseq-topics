@@ -22,283 +22,16 @@ library(Matrix)
 library(dplyr)
 library(ggplot2)
 library(cowplot)
+library(plyr)
+library(dplyr)
+library(RColorBrewer)
 library(fastTopics)
+library(DT)
+library(reshape)
 source("code/plots.R")
 ```
 
-We applied the analysis both **unbinarized** counts and **binarized** scATAC-seq data.
-
-## Unbinarized counts
-Load the **unbinarized** data
-```{r load-unbinarized-data}
-data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/"
-load(file.path(data.dir, "Buenrostro_2018_counts.RData"))
-cat(sprintf("%d x %d counts matrix.\n",nrow(counts),ncol(counts)))
-rm(counts)
-samples$cell <- rownames(samples)
-samples$label <- as.factor(samples$label)
-
-```
-
-### Plot PCs of the topic proportions
-We first use PCA to explore the structure inferred from the
-multinomial topic model with $k = 11$:
-
-```{r load-unbinarized-fit}
-out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/unbinarized/"
-fit <- readRDS(file.path(out.dir, "/fit-Buenrostro2018-scd-ex-k=11.rds"))$fit
-
-colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
-                   "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99")
-```
-
-Plot PCs of the topic proportions.
-
-```{r pca-unbinarized-1, fig.width=7, fig.height=4.5}
-p.pca1.1 <- pca_plot(poisson2multinom(fit),pcs = 1:2,fill = "none")
-p.pca1.2 <- pca_plot(poisson2multinom(fit),pcs = 3:4,fill = "none")
-p.pca1.3 <- pca_plot(poisson2multinom(fit),pcs = 5:6,fill = "none")
-p.pca1.4 <- pca_plot(poisson2multinom(fit),pcs = 7:8,fill = "none")
-p.pca1.5 <- pca_plot(poisson2multinom(fit),pcs = 9:10,fill = "none")
-
-plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4,p.pca1.5)
-```
-
-Some of the structure is more evident from “hexbin” plots 
-showing the density of the points.
-
-```{r pca-unbinarized-2, fig.width=7, fig.height=4.5}
-breaks <- c(0,1,5,10,100,Inf)
-p.pca2.1 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 1:2, breaks = breaks) + guides(fill = "none")
-p.pca2.2 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 3:4, breaks = breaks) + guides(fill = "none")
-p.pca2.3 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 5:6, breaks = breaks) + guides(fill = "none")
-p.pca2.4 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 7:8, breaks = breaks) + guides(fill = "none")
-p.pca2.5 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 9:10, breaks = breaks) + guides(fill = "none")
-
-plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4,p.pca2.5)
-```
-
-### Layer the cell labels onto the PC plots
-Here, we layer the cell labels onto the PC plots.
-
-```{r pca-unbinarized-3, fig.width=9, fig.height=5}
-p.pca3.1 <- labeled_pca_plot(fit,1:2,samples$label,font_size = 7,
-                       legend_label = "Cell labels")
-p.pca3.2 <- labeled_pca_plot(fit,3:4,samples$label,font_size = 7,
-                       legend_label = "Cell labels")
-p.pca3.3 <- labeled_pca_plot(fit,5:6,samples$label,font_size = 7,
-                       legend_label = "Cell labels")
-p.pca3.4 <- labeled_pca_plot(fit,7:8,samples$label,font_size = 7,
-                       legend_label = "Cell labels")
-p.pca3.5 <- labeled_pca_plot(fit,9:10,samples$label,font_size = 7,
-                       legend_label = "Cell labels")
-plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4,p.pca3.5)
-```
-
-Visualize by structure plot grouped by cell labels.
-```{r structure-plot-unbinarized-1, fig.width=7, fig.height=3}
-set.seed(10)
-
-samples$label <- as.factor(samples$label)
-
-p.structure.1 <- structure_plot(poisson2multinom(fit),
-                     grouping = samples[, "label"],n = Inf,gap = 20,
-                     perplexity = 50,topics = 1:11,colors = colors_topics,
-                     num_threads = 4,verbose = FALSE)
-
-print(p.structure.1)
-```
-
-### k-means clustering on topic proportions
-Define clusters using k-means, and then create structure plot 
-based on the clusters from k-means.
-
-Define clusters using k-means with $k = 10$:
-```{r kmeans-unbinarized-1}
-set.seed(10)
-
-clusters.10 <- factor(kmeans(poisson2multinom(fit)$L,centers = 10)$cluster)
-print(sort(table(clusters.10),decreasing = TRUE))
-```
-
-Structure plot based on k-means clusters
-```{r structure-plot-kmeans-unbinarized-1, fig.width=7, fig.height=3}
-p.structure.2 <- structure_plot(poisson2multinom(fit),
-                     grouping = clusters.10,
-                     # rows = order(samples$label), # samples are grouped by clusters first, then by celltype labels
-                     n = Inf,gap = 20,
-                     perplexity = 50,topics = 1:11,colors = colors_topics,
-                     num_threads = 4,verbose = FALSE)
-print(p.structure.2)
-```
-
-Define clusters using k-means with $k = 15$:
-```{r kmeans-unbinarized-2}
-set.seed(10)
-
-clusters.15 <- factor(kmeans(poisson2multinom(fit)$L,centers = 15)$cluster)
-print(sort(table(clusters.15),decreasing = TRUE))
-```
-
-Structure plot based on k-means clusters
-```{r structure-plot-kmeans-unbinarized-2, fig.width=7, fig.height=3}
-p.structure.3 <- structure_plot(poisson2multinom(fit),
-                     grouping = clusters.15,
-                     # rows = order(samples$label), # samples are grouped by clusters first, then by celltype labels
-                     n = Inf,gap = 20,
-                     perplexity = 50,topics = 1:11, colors = colors_topics,
-                     num_threads = 4,verbose = FALSE)
-print(p.structure.3)
-```
-
-Define clusters using k-means with $k = 20$:
-```{r kmeans-unbinarized-3}
-set.seed(10)
-
-clusters.20 <- factor(kmeans(poisson2multinom(fit)$L,centers = 20)$cluster)
-print(sort(table(clusters.20),decreasing = TRUE))
-```
-
-Structure plot based on k-means clusters
-```{r structure-plot-kmeans-unbinarized-3, fig.width=7, fig.height=3}
-p.structure.4 <- structure_plot(poisson2multinom(fit),
-                     grouping = clusters.20,
-                     # rows = order(samples$label), # samples are grouped by clusters first, then by celltype labels
-                     n = Inf,gap = 20,
-                     perplexity = 50,topics = 1:11, colors = colors_topics,
-                     num_threads = 4,verbose = FALSE)
-print(p.structure.4)
-```
-
-### Refine clusters
-We then further refine the clusters based on k-means result with $k = 20$:
-merge clusters 5, 8;
-merge clusters 10 and 16;
-merge clusters 14 and 18.
-```{r refine-cluster-unbinarized-1}
-clusters.merged <- clusters.20
-clusters.merged[clusters.20 %in% c(5,8)] <- 5
-clusters.merged[clusters.20 %in% c(10,16)] <- 10
-clusters.merged[clusters.20 %in% c(14,18)] <- 14
-
-clusters.merged <- factor(clusters.merged, labels = paste0("c", c(1:length(unique(clusters.merged)))))
-samples$cluster_kmeans <- clusters.merged
-table(clusters.merged)
-```
-
-```{r refine-cluster-unbinarized-2, fig.width=7, fig.height=3}
-p.structure.refined <- structure_plot(poisson2multinom(fit),
-                     grouping = clusters.merged,
-                     # rows = order(samples$label), # samples are grouped by clusters first, then by celltype labels
-                     n = Inf,gap = 20,
-                     perplexity = 50,topics = 1:11,colors = colors_topics,
-                     num_threads = 4,verbose = FALSE)
-print(p.structure.refined)
-```
-
-Group samples by k-means clusters first, then by celltype labels: 
-```{r refine-cluster-unbinarized-3, fig.width=7, fig.height=3}
-p.structure.refined <- structure_plot(poisson2multinom(fit),
-                     grouping = clusters.merged,
-                     rows = order(samples$label), # samples are grouped by clusters first, then by celltype labels
-                     n = Inf,gap = 20,
-                     perplexity = 50,topics = 1:11,colors = colors_topics,
-                     num_threads = 4,verbose = FALSE)
-print(p.structure.refined)
-```
-
-The clusters defined by k-means on topic proportions
-reasonably identify the clusters shown in the PCA hexbin plots (below).
-
-```{r pca-kmeans-unbinarized-1, fig.width=9, fig.height=4.5}
-p.pca.4.1 <- labeled_pca_plot(fit,1:2,samples$cluster_kmeans,font_size = 7,
-                       legend_label = "cluster_kmeans")
-p.pca.4.2 <- labeled_pca_plot(fit,3:4,samples$cluster_kmeans,font_size = 7,
-                       legend_label = "cluster_kmeans")
-p.pca.4.3 <- labeled_pca_plot(fit,5:6,samples$cluster_kmeans,font_size = 7,
-                       legend_label = "cluster_kmeans")
-p.pca.4.4 <- labeled_pca_plot(fit,7:8,samples$cluster_kmeans,font_size = 7,
-                       legend_label = "cluster_kmeans")
-p.pca.4.5 <- labeled_pca_plot(fit,9:10,samples$cluster_kmeans,font_size = 7,
-                       legend_label = "cluster_kmeans")
-plot_grid(p.pca.4.1,p.pca.4.2,p.pca.4.3,p.pca.4.4,p.pca.4.5)
-```
-
-```{r pca-kmeans-unbinarized-2, fig.width=7, fig.height=4.5}
-plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4,p.pca2.5)
-
-```
-
-We then label the cells in each cluster with the known cell labels.
-
-Cell labels:
-```{r samples-cells-unbinarized}
-samples$label <- as.factor(samples$label)
-cat(length(levels(samples$label)), "cell labels. \n")
-table(samples$label)
-
-```
-
-We can see a few clusters are dominated by one major cell type: 
-
-```{r freq-cluster-cells-unbinarized}
-freq_cluster_cells <- with(samples,table(label,cluster_kmeans))
-print(freq_cluster_cells)
-```
-
-Plot the distribution of cell labels by clusters.
-
-Stacked barplot for the counts of cell labels by clusters:
-```{r freq-cluster-cell-unbinarized-1, fig.width=8, fig.height=3}
-library(plyr);library(dplyr)
-library(RColorBrewer)
-
-freq_cluster_celltype <- count(samples, vars=c("cluster_kmeans","label"))
-n_colors <- length(levels(samples$label))
-colors_labels <- brewer.pal(10, "Set3")
-
-# stacked barplot for the counts of cell labels by clusters
-p.barplot.1 <- ggplot(freq_cluster_celltype, aes(fill=label, y=freq, x=cluster_kmeans)) + 
-  geom_bar(position="stack", stat="identity") +
-  theme_classic() + xlab("Cluster") + ylab("Number of cells") +
-  scale_fill_manual(values = colors_labels) +
-  guides(fill=guide_legend(ncol=2)) +
-  theme(
-  legend.title = element_text(size = 10),
-  legend.text = element_text(size = 8)
-  )
-print(p.barplot.1)
-
-```
-
-Percent stacked barplot for the counts of cell labels by clusters:
-```{r freq-cluster-tissue-unbinarized-2, fig.width=8, fig.height=3}
-
-freq_cluster_celltype <- count(samples, vars=c("cluster_kmeans","label")) 
-n_colors <- length(levels(samples$label))
-colors_labels <- brewer.pal(10, "Set3")
-
-p.barplot.2 <- ggplot(freq_cluster_celltype, aes(fill=label, y=freq, x=cluster_kmeans)) + 
-  geom_bar(position="fill", stat="identity") +
-  theme_classic() + xlab("Cluster") + ylab("Proportion of cells") +
-  scale_fill_manual(values = colors_labels) +
-  guides(fill=guide_legend(ncol=2)) +
-  theme(
-  legend.title = element_text(size = 10),
-  legend.text = element_text(size = 8)
-  )
-print(p.barplot.2)
-
-```
-
-
-
-
-
-
-
-## Binarized counts
-Load the **binarized** data
+Load the data. The counts are no longer needed at this stage of the analysis.
 ```{r load-binarized-data}
 data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/"
 load(file.path(data.dir, "Buenrostro_2018_binarized_counts.RData"))
@@ -308,69 +41,26 @@ samples$cell <- rownames(samples)
 samples$label <- as.factor(samples$label)
 ```
 
-### Plot PCs of the topic proportions
-We first use PCA to explore the structure inferred from the
-multinomial topic model with $k = 11$:
+Load the model fit
+```{r load-fit}
+fit.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/"
+fit <- readRDS(file.path(fit.dir, "/fit-Buenrostro2018-binarized-scd-ex-k=11.rds"))$fit
+fit_multinom <- poisson2multinom(fit)
+```
 
-```{r load-binarized-fit}
-out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/"
-fit <- readRDS(file.path(out.dir, "/fit-Buenrostro2018-binarized-scd-ex-k=11.rds"))$fit
+## Structure plots
 
+The structure plots below summarize the topic proportions in the samples grouped by different tissues.
+
+## Visualize by Structure plot grouped by tissues
+```{r structure-plot, fig.width=7, fig.height=3, message=FALSE}
+set.seed(10)
 colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
                    "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99")
-```
-
-Plot PCs of the topic proportions.
-
-```{r pca-binarized-1, fig.width=7, fig.height=4.5}
-p.pca1.1 <- pca_plot(poisson2multinom(fit),pcs = 1:2,fill = "none")
-p.pca1.2 <- pca_plot(poisson2multinom(fit),pcs = 3:4,fill = "none")
-p.pca1.3 <- pca_plot(poisson2multinom(fit),pcs = 5:6,fill = "none")
-p.pca1.4 <- pca_plot(poisson2multinom(fit),pcs = 7:8,fill = "none")
-p.pca1.5 <- pca_plot(poisson2multinom(fit),pcs = 9:10,fill = "none")
-
-plot_grid(p.pca1.1,p.pca1.2,p.pca1.3,p.pca1.4,p.pca1.5)
-```
-
-Some of the structure is more evident from “hexbin” plots 
-showing the density of the points.
-
-```{r pca-binarized-2, fig.width=7, fig.height=4.5}
-breaks <- c(0,1,5,10,100,Inf)
-p.pca2.1 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 1:2, breaks = breaks) + guides(fill = "none")
-p.pca2.2 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 3:4, breaks = breaks) + guides(fill = "none")
-p.pca2.3 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 5:6, breaks = breaks) + guides(fill = "none")
-p.pca2.4 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 7:8, breaks = breaks) + guides(fill = "none")
-p.pca2.5 <- pca_hexbin_plot(poisson2multinom(fit), pcs = 9:10, breaks = breaks) + guides(fill = "none")
-
-plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4,p.pca2.5)
-```
-
-### Layer the cell labels onto the PC plots
-Here, we layer the cell labels onto the PC plots.
-
-```{r pca-binarized-3, fig.width=9, fig.height=5}
-p.pca3.1 <- labeled_pca_plot(fit,1:2,samples$label,font_size = 7,
-                       legend_label = "Cell labels")
-p.pca3.2 <- labeled_pca_plot(fit,3:4,samples$label,font_size = 7,
-                       legend_label = "Cell labels")
-p.pca3.3 <- labeled_pca_plot(fit,5:6,samples$label,font_size = 7,
-                       legend_label = "Cell labels")
-p.pca3.4 <- labeled_pca_plot(fit,7:8,samples$label,font_size = 7,
-                       legend_label = "Cell labels")
-p.pca3.5 <- labeled_pca_plot(fit,9:10,samples$label,font_size = 7,
-                       legend_label = "Cell labels")
-
-plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4,p.pca3.5)
-```
-
-Visualize by structure plot grouped by cell labels.
-```{r structure-plot-binarized-1, fig.width=7, fig.height=3}
-set.seed(10)
 
 samples$label <- as.factor(samples$label)
 
-p.structure.1 <- structure_plot(poisson2multinom(fit),
+p.structure.1 <- structure_plot(fit_multinom,
                      grouping = samples[, "label"], 
                      n = Inf,gap = 20,
                      perplexity = 50,topics = 1:11,colors = colors_topics,
@@ -383,61 +73,68 @@ print(p.structure.1)
 Define clusters using k-means, and then create structure plot 
 based on the clusters from k-means.
 
-Define clusters using k-means with $k = 10$:
-```{r kmeans-binarized-1}
+k-means clustering (using 15 clusters) on topic proportions
+```{r structure-plot-kmeans-1, fig.width=7, fig.height=3, message=FALSE}
+
 set.seed(10)
+clusters <- factor(kmeans(fit_multinom$L,centers = 15,iter.max = 100)$cluster)
+summary(clusters)
 
-clusters.10 <- factor(kmeans(poisson2multinom(fit)$L,centers = 10)$cluster)
-print(sort(table(clusters.10),decreasing = TRUE))
+p.structure.kmeans <- structure_plot(fit_multinom,
+                                     grouping = clusters,n = Inf,gap = 20,
+                                     perplexity = 50,topics = 1:11,colors = colors_topics,
+                                     num_threads = 4,verbose = FALSE)
+print(p.structure.kmeans)
 ```
 
-Structure plot based on k-means clusters
-```{r structure-plot-kmeans-binarized-1, fig.width=7, fig.height=3}
-p.structure.2 <- structure_plot(poisson2multinom(fit),
-                     grouping = clusters.10,
-                     # rows = order(samples$label), # samples are grouped by clusters first, then by celltype labels
-                     n = Inf,gap = 20,
-                     perplexity = 50,topics = 1:11,colors = colors_topics,
-                     num_threads = 4,verbose = FALSE)
-print(p.structure.2)
-```
+First do PCA on topic proportions and then do k-means clustering.
+Results are the same as the results from running k-means directly on the topic proportions.
+```{r structure-plot-kmeans-pca-1, fig.width=7, fig.height=3, message=FALSE}
 
-Define clusters using k-means with $k = 15$:
-```{r kmeans-binarized-2}
 set.seed(10)
+pca <- prcomp(fit_multinom$L)$x
+clusters2 <- factor(kmeans(pca,centers = 15,iter.max = 100)$cluster)
+summary(clusters2)
 
-clusters.15 <- factor(kmeans(poisson2multinom(fit)$L,centers = 15)$cluster)
-print(sort(table(clusters.15),decreasing = TRUE))
-```
+p.structure.kmeans <- structure_plot(fit_multinom,
+                                     grouping = clusters2,n = Inf,gap = 20,
+                                     perplexity = 50,topics = 1:11,colors = colors_topics,
+                                     num_threads = 4,verbose = FALSE)
+print(p.structure.kmeans)
 
-Structure plot based on k-means clusters
-```{r structure-plot-kmeans-binarized-2, fig.width=7, fig.height=3}
-p.structure.3 <- structure_plot(poisson2multinom(fit),
-                     grouping = clusters.15,
-                     # rows = order(samples$label), # samples are grouped by clusters first, then by celltype labels
-                     n = Inf,gap = 20,
-                     perplexity = 50,topics = 1:11, colors = colors_topics,
-                     num_threads = 4,verbose = FALSE)
-print(p.structure.3)
+length(which(clusters != clusters2))
 ```
 
 Define clusters using k-means with $k = 20$:
-```{r kmeans-binarized-3}
+k-means clustering (using 15 clusters) on topic proportions
+```{r structure-plot-kmeans-20, fig.width=7, fig.height=3, message=FALSE}
+
 set.seed(10)
+clusters.20 <- factor(kmeans(fit_multinom$L,centers = 20,iter.max = 100)$cluster)
+summary(clusters.20)
 
-clusters.20 <- factor(kmeans(poisson2multinom(fit)$L,centers = 20)$cluster)
-print(sort(table(clusters.20),decreasing = TRUE))
+p.structure.kmeans <- structure_plot(fit_multinom,
+                                     grouping = clusters.20,n = Inf,gap = 20,
+                                     perplexity = 50,topics = 1:11,colors = colors_topics,
+                                     num_threads = 4,verbose = FALSE)
+print(p.structure.kmeans)
 ```
+First do PCA on topic proportions and then do k-means clustering.
+Results are again the same as the results from running k-means directly on the topic proportions.
+```{r structure-plot-kmeans-pca-20, fig.width=7, fig.height=3, message=FALSE}
 
-Structure plot based on k-means clusters
-```{r structure-plot-kmeans-binarized-3, fig.width=7, fig.height=3}
-p.structure.4 <- structure_plot(poisson2multinom(fit),
-                     grouping = clusters.20,
-                     # rows = order(samples$label), # samples are grouped by clusters first, then by celltype labels
-                     n = Inf,gap = 20,
-                     perplexity = 50,topics = 1:11, colors = colors_topics,
-                     num_threads = 4,verbose = FALSE)
-print(p.structure.4)
+set.seed(10)
+pca <- prcomp(fit_multinom$L)$x
+clusters.20.2 <- factor(kmeans(pca,centers = 20,iter.max = 100)$cluster)
+summary(clusters.20.2)
+
+p.structure.kmeans <- structure_plot(fit_multinom,
+                                     grouping = clusters.20.2,n = Inf,gap = 20,
+                                     perplexity = 50,topics = 1:11,colors = colors_topics,
+                                     num_threads = 4,verbose = FALSE)
+print(p.structure.kmeans)
+length(which(clusters.20 != clusters.20.2))
+
 ```
 
 ### Refine clusters
@@ -448,7 +145,7 @@ merge clusters 6 and 19;
 merge clusters 14 and 18;
 merge clusters 16 and 20
 
-```{r refine-cluster-binarized-1}
+```{r refine-clusters}
 clusters.merged <- clusters.20
 clusters.merged[clusters.20 %in% c(3,4)] <- 3
 clusters.merged[clusters.20 %in% c(5,8)] <- 5
@@ -461,99 +158,43 @@ samples$cluster_kmeans <- clusters.merged
 table(clusters.merged)
 ```
 
-```{r refine-cluster-binarized-2, fig.width=7, fig.height=3}
-p.structure.refined <- structure_plot(poisson2multinom(fit),
+```{r refine-clusters-2, fig.width=7, fig.height=3}
+p.structure.refined <- structure_plot(fit_multinom,
                      grouping = clusters.merged,
-                     # rows = order(samples$label), # samples are grouped by clusters first, then by celltype labels
                      n = Inf,gap = 20,
                      perplexity = 50,topics = 1:11,colors = colors_topics,
                      num_threads = 4,verbose = FALSE)
 print(p.structure.refined)
 ```
 
-Group samples by k-means clusters first, then by celltype labels: 
-```{r refine-cluster-binarized-3, fig.width=7, fig.height=3}
-p.structure.refined <- structure_plot(poisson2multinom(fit),
-                     grouping = clusters.merged,
-                     rows = order(samples$label), # samples are grouped by clusters first, then by celltype labels
-                     n = Inf,gap = 20,
-                     perplexity = 50,topics = 1:11,colors = colors_topics,
-                     num_threads = 4,verbose = FALSE)
-print(p.structure.refined)
+Save the clustering results to an RDS file
+```{r save-clusters}
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/"
+saveRDS(samples, paste0(out.dir, "/samples-clustering-Buenrostro2018.rds"))
+cat("Result saved to:", paste0(out.dir, "/samples-clustering-Buenrostro2018.rds"), "\n")
+samples <- readRDS(paste0(out.dir, "/samples-clustering-Buenrostro2018.rds"))
+print(table(samples$cluster_kmeans))
 ```
 
-The clusters defined by k-means on topic proportions
-reasonably identify the clusters shown in the PCA hexbin plots (below).
+## Plot the distribution of cell type labels in each cluster
 
-```{r pca-kmeans-binarized-1, fig.width=9, fig.height=4.5}
-p.pca.4.1 <- labeled_pca_plot(fit,1:2,samples$cluster_kmeans,font_size = 7,
-                       legend_label = "cluster_kmeans")
-p.pca.4.2 <- labeled_pca_plot(fit,3:4,samples$cluster_kmeans,font_size = 7,
-                       legend_label = "cluster_kmeans")
-p.pca.4.3 <- labeled_pca_plot(fit,5:6,samples$cluster_kmeans,font_size = 7,
-                       legend_label = "cluster_kmeans")
-p.pca.4.4 <- labeled_pca_plot(fit,7:8,samples$cluster_kmeans,font_size = 7,
-                       legend_label = "cluster_kmeans")
-p.pca.4.5 <- labeled_pca_plot(fit,9:10,samples$cluster_kmeans,font_size = 7,
-                       legend_label = "cluster_kmeans")
-plot_grid(p.pca.4.1,p.pca.4.2,p.pca.4.3,p.pca.4.4,p.pca.4.5)
-```
-
-```{r pca-kmeans-binarized-2, fig.width=7, fig.height=4.5}
-plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4,p.pca2.5)
-
-```
-
-We then label the cells in each cluster with the known cell labels.
-
-Cell labels:
-```{r samples-cells-binarized}
+```{r sample-labels}
 samples$label <- as.factor(samples$label)
 cat(length(levels(samples$label)), "cell labels. \n")
 table(samples$label)
 
-```
-
-We can see a few clusters are dominated by one major cell type: 
-
-```{r freq-cluster-cells-binarized}
 freq_cluster_cells <- with(samples,table(label,cluster_kmeans))
 print(freq_cluster_cells)
 ```
 
-Plot the distribution of cell labels by clusters.
-
-Stacked barplot for the counts of cell labels by clusters:
-```{r freq-cluster-cell-binarized-1, fig.width=8, fig.height=3}
-library(plyr);library(dplyr)
-library(RColorBrewer)
-
-freq_cluster_celltype <- count(samples, vars=c("cluster_kmeans","label"))
-n_colors <- length(levels(samples$label))
-colors_labels <- brewer.pal(10, "Set3")
-
-# stacked barplot for the counts of cell labels by clusters
-p.barplot.1 <- ggplot(freq_cluster_celltype, aes(fill=label, y=freq, x=cluster_kmeans)) + 
-  geom_bar(position="stack", stat="identity") +
-  theme_classic() + xlab("Cluster") + ylab("Number of cells") +
-  scale_fill_manual(values = colors_labels) +
-  guides(fill=guide_legend(ncol=2)) +
-  theme(
-  legend.title = element_text(size = 10),
-  legend.text = element_text(size = 8)
-  )
-print(p.barplot.1)
-
-```
-
-Percent stacked barplot for the counts of cell labels by clusters:
-```{r freq-cluster-tissue-binarized-2, fig.width=8, fig.height=3}
+Cell-type composition in each cluster:
+```{r freq-cluster, fig.width=8, fig.height=3}
 
 freq_cluster_celltype <- count(samples, vars=c("cluster_kmeans","label")) 
 n_colors <- length(levels(samples$label))
 colors_labels <- brewer.pal(10, "Set3")
 
-p.barplot.2 <- ggplot(freq_cluster_celltype, aes(fill=label, y=freq, x=cluster_kmeans)) + 
+p.barplot <- ggplot(freq_cluster_celltype, aes(fill=label, y=freq, x=cluster_kmeans)) + 
   geom_bar(position="fill", stat="identity") +
   theme_classic() + xlab("Cluster") + ylab("Proportion of cells") +
   scale_fill_manual(values = colors_labels) +
@@ -562,10 +203,39 @@ p.barplot.2 <- ggplot(freq_cluster_celltype, aes(fill=label, y=freq, x=cluster_k
   legend.title = element_text(size = 10),
   legend.text = element_text(size = 8)
   )
-print(p.barplot.2)
+print(p.barplot)
 
 ```
 
+## PCA of the topic proportions
+
+Plot PCs of the topic proportions.
+```{r pca-1, fig.width=7, fig.height=4.5}
+breaks <- c(0,1,5,10,100,Inf)
+p.pca2.1 <- pca_hexbin_plot(fit_multinom, pcs = 1:2, breaks = breaks) + guides(fill = "none")
+p.pca2.2 <- pca_hexbin_plot(fit_multinom, pcs = 3:4, breaks = breaks) + guides(fill = "none")
+p.pca2.3 <- pca_hexbin_plot(fit_multinom, pcs = 5:6, breaks = breaks) + guides(fill = "none")
+p.pca2.4 <- pca_hexbin_plot(fit_multinom, pcs = 7:8, breaks = breaks) + guides(fill = "none")
+p.pca2.5 <- pca_hexbin_plot(fit_multinom, pcs = 9:10, breaks = breaks) + guides(fill = "none")
+
+plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4,p.pca2.5)
+```
+
+Layer the cell labels onto the PC plots.
+```{r pca-2, fig.width=9, fig.height=5}
+p.pca3.1 <- labeled_pca_plot(fit,1:2,samples$label,font_size = 7,
+                       legend_label = "Cell labels")
+p.pca3.2 <- labeled_pca_plot(fit,3:4,samples$label,font_size = 7,
+                       legend_label = "Cell labels")
+p.pca3.3 <- labeled_pca_plot(fit,5:6,samples$label,font_size = 7,
+                       legend_label = "Cell labels")
+p.pca3.4 <- labeled_pca_plot(fit,7:8,samples$label,font_size = 7,
+                       legend_label = "Cell labels")
+p.pca3.5 <- labeled_pca_plot(fit,9:10,samples$label,font_size = 7,
+                       legend_label = "Cell labels")
+
+plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4,p.pca3.5)
+```
 
 
 
