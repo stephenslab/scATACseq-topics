@@ -96,12 +96,6 @@ pca <- prcomp(fit_multinom$L)$x
 clusters2 <- factor(kmeans(pca,centers = 15,iter.max = 100)$cluster)
 summary(clusters2)
 
-p.structure.kmeans <- structure_plot(fit_multinom,
-                                     grouping = clusters2,n = Inf,gap = 20,
-                                     perplexity = 50,topics = 1:11,colors = colors_topics,
-                                     num_threads = 4,verbose = FALSE)
-print(p.structure.kmeans)
-
 length(which(clusters != clusters2))
 ```
 
@@ -128,11 +122,6 @@ pca <- prcomp(fit_multinom$L)$x
 clusters.20.2 <- factor(kmeans(pca,centers = 20,iter.max = 100)$cluster)
 summary(clusters.20.2)
 
-p.structure.kmeans <- structure_plot(fit_multinom,
-                                     grouping = clusters.20.2,n = Inf,gap = 20,
-                                     perplexity = 50,topics = 1:11,colors = colors_topics,
-                                     num_threads = 4,verbose = FALSE)
-print(p.structure.kmeans)
 length(which(clusters.20 != clusters.20.2))
 
 ```
@@ -158,7 +147,7 @@ samples$cluster_kmeans <- clusters.merged
 table(clusters.merged)
 ```
 
-```{r refine-clusters-2, fig.width=7, fig.height=3}
+```{r refine-clusters-2, fig.width=7, fig.height=3, message=FALSE}
 p.structure.refined <- structure_plot(fit_multinom,
                      grouping = clusters.merged,
                      n = Inf,gap = 20,
@@ -207,35 +196,35 @@ print(p.barplot)
 
 ```
 
-## PCA of the topic proportions
+<!-- ## PCA of the topic proportions -->
 
-Plot PCs of the topic proportions.
-```{r pca-1, fig.width=7, fig.height=4.5}
-breaks <- c(0,1,5,10,100,Inf)
-p.pca2.1 <- pca_hexbin_plot(fit_multinom, pcs = 1:2, breaks = breaks) + guides(fill = "none")
-p.pca2.2 <- pca_hexbin_plot(fit_multinom, pcs = 3:4, breaks = breaks) + guides(fill = "none")
-p.pca2.3 <- pca_hexbin_plot(fit_multinom, pcs = 5:6, breaks = breaks) + guides(fill = "none")
-p.pca2.4 <- pca_hexbin_plot(fit_multinom, pcs = 7:8, breaks = breaks) + guides(fill = "none")
-p.pca2.5 <- pca_hexbin_plot(fit_multinom, pcs = 9:10, breaks = breaks) + guides(fill = "none")
+<!-- Plot PCs of the topic proportions. -->
+<!-- ```{r pca-1, fig.width=7, fig.height=4.5} -->
+<!-- breaks <- c(0,1,5,10,100,Inf) -->
+<!-- p.pca2.1 <- pca_hexbin_plot(fit_multinom, pcs = 1:2, breaks = breaks) + guides(fill = "none") -->
+<!-- p.pca2.2 <- pca_hexbin_plot(fit_multinom, pcs = 3:4, breaks = breaks) + guides(fill = "none") -->
+<!-- p.pca2.3 <- pca_hexbin_plot(fit_multinom, pcs = 5:6, breaks = breaks) + guides(fill = "none") -->
+<!-- p.pca2.4 <- pca_hexbin_plot(fit_multinom, pcs = 7:8, breaks = breaks) + guides(fill = "none") -->
+<!-- p.pca2.5 <- pca_hexbin_plot(fit_multinom, pcs = 9:10, breaks = breaks) + guides(fill = "none") -->
 
-plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4,p.pca2.5)
-```
+<!-- plot_grid(p.pca2.1,p.pca2.2,p.pca2.3,p.pca2.4,p.pca2.5) -->
+<!-- ``` -->
 
-Layer the cell labels onto the PC plots.
-```{r pca-2, fig.width=9, fig.height=5}
-p.pca3.1 <- labeled_pca_plot(fit,1:2,samples$label,font_size = 7,
-                       legend_label = "Cell labels")
-p.pca3.2 <- labeled_pca_plot(fit,3:4,samples$label,font_size = 7,
-                       legend_label = "Cell labels")
-p.pca3.3 <- labeled_pca_plot(fit,5:6,samples$label,font_size = 7,
-                       legend_label = "Cell labels")
-p.pca3.4 <- labeled_pca_plot(fit,7:8,samples$label,font_size = 7,
-                       legend_label = "Cell labels")
-p.pca3.5 <- labeled_pca_plot(fit,9:10,samples$label,font_size = 7,
-                       legend_label = "Cell labels")
+<!-- Layer the cell labels onto the PC plots. -->
+<!-- ```{r pca-2, fig.width=9, fig.height=5} -->
+<!-- p.pca3.1 <- labeled_pca_plot(fit,1:2,samples$label,font_size = 7, -->
+<!--                        legend_label = "Cell labels") -->
+<!-- p.pca3.2 <- labeled_pca_plot(fit,3:4,samples$label,font_size = 7, -->
+<!--                        legend_label = "Cell labels") -->
+<!-- p.pca3.3 <- labeled_pca_plot(fit,5:6,samples$label,font_size = 7, -->
+<!--                        legend_label = "Cell labels") -->
+<!-- p.pca3.4 <- labeled_pca_plot(fit,7:8,samples$label,font_size = 7, -->
+<!--                        legend_label = "Cell labels") -->
+<!-- p.pca3.5 <- labeled_pca_plot(fit,9:10,samples$label,font_size = 7, -->
+<!--                        legend_label = "Cell labels") -->
 
-plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4,p.pca3.5)
-```
+<!-- plot_grid(p.pca3.1,p.pca3.2,p.pca3.3,p.pca3.4,p.pca3.5) -->
+<!-- ``` -->
 
 
 
