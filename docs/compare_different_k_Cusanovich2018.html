@@ -12,7 +12,7 @@
 <meta name="author" content="Kaixuan Luo" />
 
 
-<title>Compare results from different number of k's in Cusanovich2018 data</title>
+<title>Compare results from different number of topics (k) in Cusanovich2018 data</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -24,6 +24,7 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 
@@ -267,6 +268,9 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
 
 
@@ -381,9 +385,17 @@ div.tocify {
 
 <div class="fluid-row" id="header">
 
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
 
 
-<h1 class="title toc-ignore">Compare results from different number of k's in Cusanovich2018 data</h1>
+
+<h1 class="title toc-ignore">Compare results from different number of topics (k) in Cusanovich2018 data</h1>
 <h4 class="author">Kaixuan Luo</h4>
 
 </div>
@@ -500,16 +512,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreed9c3e5a8a29187531d13ceb8c8dc92ac7a5563ddtargetblankd9c3e5aa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/d9c3e5a8a29187531d13ceb8c8dc92ac7a5563dd" target="_blank">d9c3e5a</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreef7a84f554f0aa3953de9f693ce3c25ca6f83ccbetargetblankf7a84f5a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/f7a84f554f0aa3953de9f693ce3c25ca6f83ccbe" target="_blank">f7a84f5</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreed9c3e5a8a29187531d13ceb8c8dc92ac7a5563ddtargetblankd9c3e5aa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreef7a84f554f0aa3953de9f693ce3c25ca6f83ccbetargetblankf7a84f5a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/d9c3e5a8a29187531d13ceb8c8dc92ac7a5563dd" target="_blank">d9c3e5a</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/f7a84f554f0aa3953de9f693ce3c25ca6f83ccbe" target="_blank">f7a84f5</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -888,6 +900,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/f7a84f554f0aa3953de9f693ce3c25ca6f83ccbe/analysis/compare_different_k_Cusanovich2018.Rmd" target="_blank">f7a84f5</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-24
+</td>
+<td>
+reordered the tissues
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/842c681de6f4a38c5b793cc40c341d2589c843a5/docs/compare_different_k_Cusanovich2018.html" target="_blank">842c681</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-24
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/d9c3e5a8a29187531d13ceb8c8dc92ac7a5563dd/analysis/compare_different_k_Cusanovich2018.Rmd" target="_blank">d9c3e5a</a>
 </td>
 <td>
@@ -961,17 +1007,21 @@ rm(counts)
 <pre class="r"><code>cat(nrow(samples), &quot;samples (cells). \n&quot;)
 # 81173 samples (cells).</code></pre>
 <p>Tissues:</p>
-<pre class="r"><code>samples$tissue &lt;- as.factor(samples$tissue)
+<pre class="r"><code>samples$tissue &lt;- factor(samples$tissue, levels = c(&quot;Heart&quot;, &quot;Liver&quot;, &quot;Thymus&quot;, 
+                                                    &quot;Spleen&quot;,&quot;Lung&quot;,  &quot;Kidney&quot;, 
+                                                    &quot;LargeIntestine&quot;, &quot;SmallIntestine&quot;, &quot;Testes&quot;, 
+                                                    &quot;BoneMarrow&quot;, 
+                                                    &quot;Cerebellum&quot;, &quot;PreFrontalCortex&quot;, &quot;WholeBrain&quot;))
 cat(length(levels(samples$tissue)), &quot;tissues. \n&quot;)
 table(samples$tissue)
 # 13 tissues. 
 # 
-#       BoneMarrow       Cerebellum            Heart           Kidney 
-#             8403             2278             7650             6431 
-#   LargeIntestine            Liver             Lung PreFrontalCortex 
-#             7086             6167             9996             5959 
-#   SmallIntestine           Spleen           Testes           Thymus 
-#             4077             4020             2723             7617 
+#            Heart            Liver           Thymus           Spleen 
+#             7650             6167             7617             4020 
+#             Lung           Kidney   LargeIntestine   SmallIntestine 
+#             9996             6431             7086             4077 
+#           Testes       BoneMarrow       Cerebellum PreFrontalCortex 
+#             2723             8403             2278             5959 
 #       WholeBrain 
 #             8766</code></pre>
 <p>Cell types labels:</p>
@@ -1025,25 +1075,64 @@ table(samples$cell_label)
 <div id="structure-plots-using-different-number-of-k" class="section level2">
 <h2>Structure plots using different number of <span class="math inline">\(k\)</span></h2>
 <p>The structure plots below summarize the topic proportions in the samples grouped by different tissues.</p>
-<p><span class="math inline">\(k = 13\)</span>:</p>
+<div id="k-13" class="section level3">
+<h3><span class="math inline">\(k = 13\)</span></h3>
 <pre class="r"><code>fit.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018&quot;
 fit &lt;- readRDS(file.path(fit.dir, &quot;/fit-Cusanovich2018-scd-ex-k=13.rds&quot;))$fit
 fit_multinom &lt;- poisson2multinom(fit)</code></pre>
 <pre class="r"><code>set.seed(10)
 
 colors_topics &lt;- col_13
-samples$tissue &lt;- as.factor(samples$tissue)
 idx_selected_samples &lt;- sample(nrow(fit_multinom$L),4000)
 
 p.structure &lt;- structure_plot(select(fit_multinom,loadings = idx_selected_samples),
                               grouping = samples[idx_selected_samples, &quot;tissue&quot;],
                               n = Inf,gap = 40, perplexity = 50,
                               topics = 1:13,colors = colors_topics,
-                              num_threads = 4,verbose = FALSE)
+                              num_threads = 8,verbose = FALSE)
 
 print(p.structure)</code></pre>
 <p><img src="figure/compare_different_k_Cusanovich2018.Rmd/structure-plot-k13-1.png" width="960" style="display: block; margin: auto;" /></p>
-<p><span class="math inline">\(k = 15\)</span>:</p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-k13-1">
+Past versions of structure-plot-k13-1.png
+</button>
+</p>
+<div id="fig-structure-plot-k13-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/842c681de6f4a38c5b793cc40c341d2589c843a5/docs/figure/compare_different_k_Cusanovich2018.Rmd/structure-plot-k13-1.png" target="_blank">842c681</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-24
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="k-15" class="section level3">
+<h3><span class="math inline">\(k = 15\)</span></h3>
 <pre class="r"><code>k &lt;- 15
 fit.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018&quot;
 fit &lt;- readRDS(sprintf(&quot;%s/fit-Cusanovich2018-scd-ex-k=%d.rds&quot;, fit.dir, k))$fit
@@ -1051,18 +1140,56 @@ fit_multinom &lt;- poisson2multinom(fit)</code></pre>
 <pre class="r"><code>set.seed(10)
 
 colors_topics &lt;- col_15
-samples$tissue &lt;- as.factor(samples$tissue)
 idx_selected_samples &lt;- sample(nrow(fit_multinom$L),4000)
 
 p.structure &lt;- structure_plot(select(fit_multinom,loadings = idx_selected_samples),
                               grouping = samples[idx_selected_samples, &quot;tissue&quot;],
                               n = Inf,gap = 40, perplexity = 50,
                               topics = 1:k,colors = colors_topics,
-                              num_threads = 4,verbose = FALSE)
+                              num_threads = 8,verbose = FALSE)
 
 print(p.structure)</code></pre>
 <p><img src="figure/compare_different_k_Cusanovich2018.Rmd/structure-plot-k15-1.png" width="960" style="display: block; margin: auto;" /></p>
-<p><span class="math inline">\(k = 20\)</span>:</p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-k15-1">
+Past versions of structure-plot-k15-1.png
+</button>
+</p>
+<div id="fig-structure-plot-k15-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/842c681de6f4a38c5b793cc40c341d2589c843a5/docs/figure/compare_different_k_Cusanovich2018.Rmd/structure-plot-k15-1.png" target="_blank">842c681</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-24
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="k-20" class="section level3">
+<h3><span class="math inline">\(k = 20\)</span></h3>
 <pre class="r"><code>k &lt;- 20
 fit.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018&quot;
 fit &lt;- readRDS(sprintf(&quot;%s/fit-Cusanovich2018-scd-ex-k=%d.rds&quot;, fit.dir, k))$fit
@@ -1070,18 +1197,56 @@ fit_multinom &lt;- poisson2multinom(fit)</code></pre>
 <pre class="r"><code>set.seed(10)
 
 colors_topics &lt;- col_25[1:k]
-samples$tissue &lt;- as.factor(samples$tissue)
 idx_selected_samples &lt;- sample(nrow(fit_multinom$L),4000)
 
 p.structure &lt;- structure_plot(select(fit_multinom,loadings = idx_selected_samples),
                               grouping = samples[idx_selected_samples, &quot;tissue&quot;],
                               n = Inf,gap = 40, perplexity = 50,
                               topics = 1:k,colors = colors_topics,
-                              num_threads = 4,verbose = FALSE)
+                              num_threads = 8,verbose = FALSE)
 
 print(p.structure)</code></pre>
 <p><img src="figure/compare_different_k_Cusanovich2018.Rmd/structure-plot-k20-1.png" width="960" style="display: block; margin: auto;" /></p>
-<p><span class="math inline">\(k = 25\)</span>:</p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-k20-1">
+Past versions of structure-plot-k20-1.png
+</button>
+</p>
+<div id="fig-structure-plot-k20-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/842c681de6f4a38c5b793cc40c341d2589c843a5/docs/figure/compare_different_k_Cusanovich2018.Rmd/structure-plot-k20-1.png" target="_blank">842c681</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-24
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="k-25" class="section level3">
+<h3><span class="math inline">\(k = 25\)</span></h3>
 <pre class="r"><code>k &lt;- 25
 fit.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018&quot;
 fit &lt;- readRDS(sprintf(&quot;%s/fit-Cusanovich2018-scd-ex-k=%d.rds&quot;, fit.dir, k))$fit
@@ -1089,18 +1254,56 @@ fit_multinom &lt;- poisson2multinom(fit)</code></pre>
 <pre class="r"><code>set.seed(10)
 
 colors_topics &lt;- col_25
-samples$tissue &lt;- as.factor(samples$tissue)
 idx_selected_samples &lt;- sample(nrow(fit_multinom$L),4000)
 
 p.structure &lt;- structure_plot(select(fit_multinom,loadings = idx_selected_samples),
                               grouping = samples[idx_selected_samples, &quot;tissue&quot;],
                               n = Inf,gap = 40, perplexity = 50,
                               topics = 1:k,colors = colors_topics,
-                              num_threads = 4,verbose = FALSE)
+                              num_threads = 8,verbose = FALSE)
 
 print(p.structure)</code></pre>
 <p><img src="figure/compare_different_k_Cusanovich2018.Rmd/structure-plot-k25-1.png" width="960" style="display: block; margin: auto;" /></p>
-<p><span class="math inline">\(k = 30\)</span>:</p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-k25-1">
+Past versions of structure-plot-k25-1.png
+</button>
+</p>
+<div id="fig-structure-plot-k25-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/842c681de6f4a38c5b793cc40c341d2589c843a5/docs/figure/compare_different_k_Cusanovich2018.Rmd/structure-plot-k25-1.png" target="_blank">842c681</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-24
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="k-30" class="section level3">
+<h3><span class="math inline">\(k = 30\)</span></h3>
 <pre class="r"><code>k &lt;- 30
 fit.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018&quot;
 fit &lt;- readRDS(sprintf(&quot;%s/fit-Cusanovich2018-scd-ex-k=%d.rds&quot;, fit.dir, k))$fit
@@ -1108,35 +1311,109 @@ fit_multinom &lt;- poisson2multinom(fit)</code></pre>
 <pre class="r"><code>set.seed(10)
 
 colors_topics &lt;- sample(col_74, k)
-samples$tissue &lt;- as.factor(samples$tissue)
 idx_selected_samples &lt;- sample(nrow(fit$L),4000)
 
 p.structure &lt;- structure_plot(select(fit_multinom,loadings = idx_selected_samples),
                               grouping = samples[idx_selected_samples, &quot;tissue&quot;],
                               n = Inf,gap = 40, perplexity = 50,
                               topics = 1:k,colors = colors_topics,
-                              num_threads = 4,verbose = FALSE)
+                              num_threads = 8,verbose = FALSE)
 
 print(p.structure)</code></pre>
 <p><img src="figure/compare_different_k_Cusanovich2018.Rmd/structure-plot-k30-1.png" width="960" style="display: block; margin: auto;" /></p>
-<p><span class="math inline">\(k = 35\)</span>:</p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-k30-1">
+Past versions of structure-plot-k30-1.png
+</button>
+</p>
+<div id="fig-structure-plot-k30-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/842c681de6f4a38c5b793cc40c341d2589c843a5/docs/figure/compare_different_k_Cusanovich2018.Rmd/structure-plot-k30-1.png" target="_blank">842c681</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-24
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="k-35" class="section level3">
+<h3><span class="math inline">\(k = 35\)</span></h3>
 <pre class="r"><code>k &lt;- 35
 fit.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018&quot;
 fit &lt;- readRDS(sprintf(&quot;%s/fit-Cusanovich2018-scd-ex-k=%d.rds&quot;, fit.dir, k))$fit
 fit_multinom &lt;- poisson2multinom(fit)</code></pre>
 <pre class="r"><code>set.seed(10)
 colors_topics &lt;- sample(col_74, k)
-samples$tissue &lt;- as.factor(samples$tissue)
 idx_selected_samples &lt;- sample(nrow(fit$L),4000)
 
 p.structure &lt;- structure_plot(select(fit_multinom,loadings = idx_selected_samples),
                               grouping = samples[idx_selected_samples, &quot;tissue&quot;],
                               n = Inf,gap = 40, perplexity = 50,
                               topics = 1:k,colors = colors_topics,
-                              num_threads = 4,verbose = FALSE)
+                              num_threads = 8,verbose = FALSE)
 
 print(p.structure)</code></pre>
 <p><img src="figure/compare_different_k_Cusanovich2018.Rmd/structure-plot-k35-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-k35-1">
+Past versions of structure-plot-k35-1.png
+</button>
+</p>
+<div id="fig-structure-plot-k35-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/842c681de6f4a38c5b793cc40c341d2589c843a5/docs/figure/compare_different_k_Cusanovich2018.Rmd/structure-plot-k35-1.png" target="_blank">842c681</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-24
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1190,6 +1467,7 @@ print(p.structure)</code></pre>
 # [73] tidyselect_1.1.0   xfun_0.19          coda_0.19-4</code></pre>
 </div>
 </div>
+</div>
 
 
 <!-- Adjust MathJax settings so that all math formulae are shown using
@@ -1238,6 +1516,11 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
 <script>
 $(document).ready(function ()  {
