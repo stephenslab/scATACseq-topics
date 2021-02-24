@@ -1,0 +1,242 @@
+---
+title: "Compare results from different number of k's in Cusanovich2018 data"
+author: "Kaixuan Luo"
+output: workflowr::wflow_html
+---
+
+Here we examine and compare the topic modeling results for the 
+scATAC-seq dataset from the mouse single-cell atlas paper 
+[Cusanovich *et al* (2018)](scATACseq_data_Cusanovich2018.html)
+
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
+                      fig.align = "center",dpi = 120)
+```
+
+Load the packages used in the analysis below, as well as additional
+functions that will be used to generate some of the plots.
+
+```{r load-pkgs, message=FALSE}
+library(fastTopics)
+library(ggplot2)
+library(cowplot)
+library(Matrix)
+library(tools)
+library(dplyr)
+library(RColorBrewer)
+source("code/plots.R")
+```
+
+colors
+```{r colors}
+col_13 <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
+                   "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928",
+                   "gray")
+
+col_15 <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
+                   "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","gold1",
+                    "#b15928", "gray", "black")
+
+# from https://stackoverflow.com/questions/9563711/r-color-palettes-for-many-data-classes/41230685#41230685
+col_25 <- c(
+  "dodgerblue2", "#E31A1C", # red
+  "green4",
+  "#6A3D9A", # purple
+  "#FF7F00", # orange
+  "black", "gold1",
+  "skyblue2", "#FB9A99", # lt pink
+  "palegreen2",
+  "#CAB2D6", # lt purple
+  "#FDBF6F", # lt orange
+  "gray70", "khaki2",
+  "maroon", "orchid1", "deeppink1", "blue1", "steelblue4",
+  "darkturquoise", "green1", "yellow4", "yellow3",
+  "darkorange4", "brown"
+)
+
+# from https://stackoverflow.com/questions/15282580/how-to-generate-a-number-of-most-distinctive-colors-in-r
+qual_col_pals <- brewer.pal.info[brewer.pal.info$category == 'qual',]
+col_74 <- unlist(mapply(brewer.pal, qual_col_pals$maxcolors, rownames(qual_col_pals)))
+
+```
+
+## Load Cusanovich 2018 mouse scATAC-seq data
+
+### Load the data and Poisson NMF model fit
+Load the data
+```{r load-data}
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/processed_data/"
+load(file.path(data.dir, "Cusanovich_2018.RData"))
+cat(sprintf("%d x %d counts matrix.\n",nrow(counts),ncol(counts)))
+rm(counts)
+```
+
+About the samples:
+
+The study measured single cell chromatin accessibility for 17 samples 
+spanning 13 different tissues in 8-week old mice.
+```{r samples}
+cat(nrow(samples), "samples (cells). \n")
+```
+
+Tissues:
+```{r samples-tissues}
+samples$tissue <- as.factor(samples$tissue)
+cat(length(levels(samples$tissue)), "tissues. \n")
+table(samples$tissue)
+```
+
+Cell types labels:
+```{r samples-cells}
+samples$cell_label <- as.factor(samples$cell_label)
+cat(length(levels(samples$cell_label)), "cell types \n")
+table(samples$cell_label)
+```
+
+## Structure plots using different number of $k$
+
+The structure plots below summarize the topic proportions in the samples grouped by different tissues.
+
+$k = 13$: 
+```{r load-fit-k13}
+fit.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
+fit <- readRDS(file.path(fit.dir, "/fit-Cusanovich2018-scd-ex-k=13.rds"))$fit
+fit_multinom <- poisson2multinom(fit)
+```
+
+```{r structure-plot-k13, fig.width=8, fig.height=3, message=FALSE}
+set.seed(10)
+
+colors_topics <- col_13
+samples$tissue <- as.factor(samples$tissue)
+idx_selected_samples <- sample(nrow(fit_multinom$L),4000)
+
+p.structure <- structure_plot(select(fit_multinom,loadings = idx_selected_samples),
+                              grouping = samples[idx_selected_samples, "tissue"],
+                              n = Inf,gap = 40, perplexity = 50,
+                              topics = 1:13,colors = colors_topics,
+                              num_threads = 4,verbose = FALSE)
+
+print(p.structure)
+```
+
+$k = 15$: 
+```{r load-fit-k15}
+k <- 15
+fit.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
+fit <- readRDS(sprintf("%s/fit-Cusanovich2018-scd-ex-k=%d.rds", fit.dir, k))$fit
+fit_multinom <- poisson2multinom(fit)
+```
+
+```{r structure-plot-k15, fig.width=8, fig.height=3, message=FALSE}
+set.seed(10)
+
+colors_topics <- col_15
+samples$tissue <- as.factor(samples$tissue)
+idx_selected_samples <- sample(nrow(fit_multinom$L),4000)
+
+p.structure <- structure_plot(select(fit_multinom,loadings = idx_selected_samples),
+                              grouping = samples[idx_selected_samples, "tissue"],
+                              n = Inf,gap = 40, perplexity = 50,
+                              topics = 1:k,colors = colors_topics,
+                              num_threads = 4,verbose = FALSE)
+
+print(p.structure)
+```
+
+$k = 20$: 
+```{r load-fit-k20}
+k <- 20
+fit.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
+fit <- readRDS(sprintf("%s/fit-Cusanovich2018-scd-ex-k=%d.rds", fit.dir, k))$fit
+fit_multinom <- poisson2multinom(fit)
+```
+
+```{r structure-plot-k20, fig.width=8, fig.height=3, message=FALSE}
+set.seed(10)
+
+colors_topics <- col_25[1:k]
+samples$tissue <- as.factor(samples$tissue)
+idx_selected_samples <- sample(nrow(fit_multinom$L),4000)
+
+p.structure <- structure_plot(select(fit_multinom,loadings = idx_selected_samples),
+                              grouping = samples[idx_selected_samples, "tissue"],
+                              n = Inf,gap = 40, perplexity = 50,
+                              topics = 1:k,colors = colors_topics,
+                              num_threads = 4,verbose = FALSE)
+
+print(p.structure)
+```
+
+$k = 25$: 
+```{r load-fit-k25}
+k <- 25
+fit.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
+fit <- readRDS(sprintf("%s/fit-Cusanovich2018-scd-ex-k=%d.rds", fit.dir, k))$fit
+fit_multinom <- poisson2multinom(fit)
+```
+
+```{r structure-plot-k25, fig.width=8, fig.height=3, message=FALSE}
+set.seed(10)
+
+colors_topics <- col_25
+samples$tissue <- as.factor(samples$tissue)
+idx_selected_samples <- sample(nrow(fit_multinom$L),4000)
+
+p.structure <- structure_plot(select(fit_multinom,loadings = idx_selected_samples),
+                              grouping = samples[idx_selected_samples, "tissue"],
+                              n = Inf,gap = 40, perplexity = 50,
+                              topics = 1:k,colors = colors_topics,
+                              num_threads = 4,verbose = FALSE)
+
+print(p.structure)
+```
+
+$k = 30$: 
+```{r load-fit-k30}
+k <- 30
+fit.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
+fit <- readRDS(sprintf("%s/fit-Cusanovich2018-scd-ex-k=%d.rds", fit.dir, k))$fit
+fit_multinom <- poisson2multinom(fit)
+```
+
+```{r structure-plot-k30, fig.width=8, fig.height=3, message=FALSE}
+set.seed(10)
+
+colors_topics <- sample(col_74, k)
+samples$tissue <- as.factor(samples$tissue)
+idx_selected_samples <- sample(nrow(fit$L),4000)
+
+p.structure <- structure_plot(select(fit_multinom,loadings = idx_selected_samples),
+                              grouping = samples[idx_selected_samples, "tissue"],
+                              n = Inf,gap = 40, perplexity = 50,
+                              topics = 1:k,colors = colors_topics,
+                              num_threads = 4,verbose = FALSE)
+
+print(p.structure)
+```
+
+$k = 35$: 
+```{r load-fit-35}
+k <- 35
+fit.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
+fit <- readRDS(sprintf("%s/fit-Cusanovich2018-scd-ex-k=%d.rds", fit.dir, k))$fit
+fit_multinom <- poisson2multinom(fit)
+```
+
+```{r structure-plot-k35, fig.width=8, fig.height=3, message=FALSE}
+set.seed(10)
+colors_topics <- sample(col_74, k)
+samples$tissue <- as.factor(samples$tissue)
+idx_selected_samples <- sample(nrow(fit$L),4000)
+
+p.structure <- structure_plot(select(fit_multinom,loadings = idx_selected_samples),
+                              grouping = samples[idx_selected_samples, "tissue"],
+                              n = Inf,gap = 40, perplexity = 50,
+                              topics = 1:k,colors = colors_topics,
+                              num_threads = 4,verbose = FALSE)
+
+print(p.structure)
+```
+
+
