@@ -13,7 +13,8 @@ Topic modeling analysis of single-cell ATAC-seq data
 * Cusanovich *et al.* 2018 dataset
     - [Process Cusanovich 2018 dataset](process_data_Cusanovich2018.html)
     - [Assess model fits](assess_fits_Cusanovich2018.html)
-    - [Visualize topics](plots_Cusanovich2018.html)
+    - [Visualize all tissues with different numbers of topics (k's)](compare_different_k_Cusanovich2018.html)
+    - [Visualize all tissues (k=13) and then focus on a few tissues](plots_Cusanovich2018.html)
     - [Clustering by topic proportions (K=13)](clusters_Cusanovich2018_k13.html)
     - [Motif analysis (K=13)](motif_analysis_Cusanovich2018.html)
     - [Gene analysis (K=13)](gene_analysis_Cusanovich2018.html)
