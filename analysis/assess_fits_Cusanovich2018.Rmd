@@ -66,7 +66,44 @@ monotonically over time.
 create_progress_plots(dat, fits, x="iter", y="res", numiter.prefit=200)
 ```
 
-## Assess Poisson NMF fits in Cusanovich_2018 scATAC-seq data in bone marrow
+## Assess Poisson NMF fits in all tissues using larger number of topics ($k$).
+### k = 20
+```{r plot-iter-k20, fig.height=3, fig.width=6}
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
+fit <- readRDS(file.path(out.dir, "fit-Cusanovich2018-scd-ex-k=20.rds"))$fit
+p1 <- plot_progress_poisson_nmf(fit,x = "iter",y = "loglik",e = 1e-6)
+p2 <- plot_progress_poisson_nmf(fit,x = "iter",y = "res")
+plot_grid(p1,p2)
+```
+
+### k = 25
+```{r plot-iter-k25, fig.height=3, fig.width=6}
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
+fit <- readRDS(file.path(out.dir, "fit-Cusanovich2018-scd-ex-k=25.rds"))$fit
+p1 <- plot_progress_poisson_nmf(fit,x = "iter",y = "loglik",e = 1e-6)
+p2 <- plot_progress_poisson_nmf(fit,x = "iter",y = "res")
+plot_grid(p1,p2)
+```
+
+### k = 30
+```{r plot-iter-k30, fig.height=3, fig.width=6}
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
+fit <- readRDS(file.path(out.dir, "fit-Cusanovich2018-scd-ex-k=30.rds"))$fit
+p1 <- plot_progress_poisson_nmf(fit,x = "iter",y = "loglik",e = 1e-6)
+p2 <- plot_progress_poisson_nmf(fit,x = "iter",y = "res")
+plot_grid(p1,p2)
+```
+
+### k = 35
+```{r plot-iter-k35, fig.height=3, fig.width=6}
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
+fit <- readRDS(file.path(out.dir, "fit-Cusanovich2018-scd-ex-k=35.rds"))$fit
+p1 <- plot_progress_poisson_nmf(fit,x = "iter",y = "loglik",e = 1e-6)
+p2 <- plot_progress_poisson_nmf(fit,x = "iter",y = "res")
+plot_grid(p1,p2)
+```
+
+## Assess Poisson NMF fits in bone marrow
 
 ```{r load-BoneMarrow-results}
 out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018_BoneMarrow/"
@@ -92,7 +129,7 @@ create_progress_plots(dat, fits, x="iter", y="res", numiter.prefit=200)
 ```
 
 
-## Assess Poisson NMF fits in Cusanovich_2018 scATAC-seq data in whole brain
+## Assess Poisson NMF fits in whole brain
 
 ```{r load-WholeBrain-results}
 out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018_WholeBrain/"
@@ -117,29 +154,52 @@ Plots the evolution of the KKT residuals over time.
 create_progress_plots(dat, fits, x="iter", y="res", numiter.prefit=200)
 ```
 
+## Assess Poisson NMF fits in Cusanovich_2018 scATAC-seq data in PreFrontalCortex
 
-
-## Assess Poisson NMF fits in Cusanovich_2018 scATAC-seq data in heart, kindey and lung
-
-```{r load-HeartKidneyLung-results}
-out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018_HeartKidneyLung/"
+```{r load-PreFrontalCortex-results}
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018_PreFrontalCortex/"
 load(file.path(out.dir, "/compiled.fits.Cusanovich2018.RData"))
 ```
 
 Plot the improvement of log-likelihood as the rank, $k$, is increased. 
 
-```{r plot-HeartKidneyLung-loglik-vs-k, fig.height=3, fig.width=4}
+```{r plot-PreFrontalCortex-loglik-vs-k, fig.height=3, fig.width=4}
 plot_loglik_vs_rank(fits) +
   theme_cowplot(font_size = 12)
 ```
 
 Plots the improvement in the fit over time, for all choices of $k$.
 
-```{r plot-HeartKidneyLung-loglik-iter, fig.height=8, fig.width=9}
+```{r plot-PreFrontalCortex-loglik-iter, fig.height=8, fig.width=9}
 create_progress_plots(dat, fits, x="iter", y="loglik", numiter.prefit=200)
 ```
 
 Plots the evolution of the KKT residuals over time.
-```{r plot-HeartKidneyLung-res-iter, fig.height=8, fig.width=9}
+```{r plot-PreFrontalCortex-res-iter, fig.height=8, fig.width=9}
+create_progress_plots(dat, fits, x="iter", y="res", numiter.prefit=200)
+```
+
+## Assess Poisson NMF fits in kidney
+
+```{r load-Kidney-results}
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018_Kidney/"
+load(file.path(out.dir, "/compiled.fits.Cusanovich2018.RData"))
+```
+
+Plot the improvement of log-likelihood as the rank, $k$, is increased. 
+
+```{r plot-Kidney-loglik-vs-k, fig.height=3, fig.width=4}
+plot_loglik_vs_rank(fits) +
+  theme_cowplot(font_size = 12)
+```
+
+Plots the improvement in the fit over time, for all choices of $k$.
+
+```{r plot-Kidney-loglik-iter, fig.height=8, fig.width=9}
+create_progress_plots(dat, fits, x="iter", y="loglik", numiter.prefit=200)
+```
+
+Plots the evolution of the KKT residuals over time.
+```{r plot-Kidney-res-iter, fig.height=8, fig.width=9}
 create_progress_plots(dat, fits, x="iter", y="res", numiter.prefit=200)
 ```
