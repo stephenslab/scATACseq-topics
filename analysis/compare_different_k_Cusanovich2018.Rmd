@@ -1,7 +1,10 @@
 ---
-title: "Compare results from different number of k's in Cusanovich2018 data"
+title: "Compare results from different number of topics (k) in Cusanovich2018 data"
 author: "Kaixuan Luo"
-output: workflowr::wflow_html
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: true
 ---
 
 Here we examine and compare the topic modeling results for the 
@@ -81,7 +84,11 @@ cat(nrow(samples), "samples (cells). \n")
 
 Tissues:
 ```{r samples-tissues}
-samples$tissue <- as.factor(samples$tissue)
+samples$tissue <- factor(samples$tissue, levels = c("Heart", "Liver", "Thymus", 
+                                                    "Spleen","Lung",  "Kidney", 
+                                                    "LargeIntestine", "SmallIntestine", "Testes", 
+                                                    "BoneMarrow", 
+                                                    "Cerebellum", "PreFrontalCortex", "WholeBrain"))
 cat(length(levels(samples$tissue)), "tissues. \n")
 table(samples$tissue)
 ```
@@ -97,30 +104,29 @@ table(samples$cell_label)
 
 The structure plots below summarize the topic proportions in the samples grouped by different tissues.
 
-$k = 13$: 
+### $k = 13$
 ```{r load-fit-k13}
 fit.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
 fit <- readRDS(file.path(fit.dir, "/fit-Cusanovich2018-scd-ex-k=13.rds"))$fit
 fit_multinom <- poisson2multinom(fit)
 ```
 
-```{r structure-plot-k13, fig.width=8, fig.height=3, message=FALSE}
+```{r structure-plot-k13, fig.width=8, fig.height=3.5, message=FALSE}
 set.seed(10)
 
 colors_topics <- col_13
-samples$tissue <- as.factor(samples$tissue)
 idx_selected_samples <- sample(nrow(fit_multinom$L),4000)
 
 p.structure <- structure_plot(select(fit_multinom,loadings = idx_selected_samples),
                               grouping = samples[idx_selected_samples, "tissue"],
                               n = Inf,gap = 40, perplexity = 50,
                               topics = 1:13,colors = colors_topics,
-                              num_threads = 4,verbose = FALSE)
+                              num_threads = 8,verbose = FALSE)
 
 print(p.structure)
 ```
 
-$k = 15$: 
+### $k = 15$
 ```{r load-fit-k15}
 k <- 15
 fit.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
@@ -128,23 +134,22 @@ fit <- readRDS(sprintf("%s/fit-Cusanovich2018-scd-ex-k=%d.rds", fit.dir, k))$fit
 fit_multinom <- poisson2multinom(fit)
 ```
 
-```{r structure-plot-k15, fig.width=8, fig.height=3, message=FALSE}
+```{r structure-plot-k15, fig.width=8, fig.height=3.5, message=FALSE}
 set.seed(10)
 
 colors_topics <- col_15
-samples$tissue <- as.factor(samples$tissue)
 idx_selected_samples <- sample(nrow(fit_multinom$L),4000)
 
 p.structure <- structure_plot(select(fit_multinom,loadings = idx_selected_samples),
                               grouping = samples[idx_selected_samples, "tissue"],
                               n = Inf,gap = 40, perplexity = 50,
                               topics = 1:k,colors = colors_topics,
-                              num_threads = 4,verbose = FALSE)
+                              num_threads = 8,verbose = FALSE)
 
 print(p.structure)
 ```
 
-$k = 20$: 
+### $k = 20$
 ```{r load-fit-k20}
 k <- 20
 fit.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
@@ -152,23 +157,22 @@ fit <- readRDS(sprintf("%s/fit-Cusanovich2018-scd-ex-k=%d.rds", fit.dir, k))$fit
 fit_multinom <- poisson2multinom(fit)
 ```
 
-```{r structure-plot-k20, fig.width=8, fig.height=3, message=FALSE}
+```{r structure-plot-k20, fig.width=8, fig.height=3.5, message=FALSE}
 set.seed(10)
 
 colors_topics <- col_25[1:k]
-samples$tissue <- as.factor(samples$tissue)
 idx_selected_samples <- sample(nrow(fit_multinom$L),4000)
 
 p.structure <- structure_plot(select(fit_multinom,loadings = idx_selected_samples),
                               grouping = samples[idx_selected_samples, "tissue"],
                               n = Inf,gap = 40, perplexity = 50,
                               topics = 1:k,colors = colors_topics,
-                              num_threads = 4,verbose = FALSE)
+                              num_threads = 8,verbose = FALSE)
 
 print(p.structure)
 ```
 
-$k = 25$: 
+### $k = 25$
 ```{r load-fit-k25}
 k <- 25
 fit.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
@@ -176,23 +180,22 @@ fit <- readRDS(sprintf("%s/fit-Cusanovich2018-scd-ex-k=%d.rds", fit.dir, k))$fit
 fit_multinom <- poisson2multinom(fit)
 ```
 
-```{r structure-plot-k25, fig.width=8, fig.height=3, message=FALSE}
+```{r structure-plot-k25, fig.width=8, fig.height=3.5, message=FALSE}
 set.seed(10)
 
 colors_topics <- col_25
-samples$tissue <- as.factor(samples$tissue)
 idx_selected_samples <- sample(nrow(fit_multinom$L),4000)
 
 p.structure <- structure_plot(select(fit_multinom,loadings = idx_selected_samples),
                               grouping = samples[idx_selected_samples, "tissue"],
                               n = Inf,gap = 40, perplexity = 50,
                               topics = 1:k,colors = colors_topics,
-                              num_threads = 4,verbose = FALSE)
+                              num_threads = 8,verbose = FALSE)
 
 print(p.structure)
 ```
 
-$k = 30$: 
+### $k = 30$
 ```{r load-fit-k30}
 k <- 30
 fit.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
@@ -200,23 +203,22 @@ fit <- readRDS(sprintf("%s/fit-Cusanovich2018-scd-ex-k=%d.rds", fit.dir, k))$fit
 fit_multinom <- poisson2multinom(fit)
 ```
 
-```{r structure-plot-k30, fig.width=8, fig.height=3, message=FALSE}
+```{r structure-plot-k30, fig.width=8, fig.height=3.5, message=FALSE}
 set.seed(10)
 
 colors_topics <- sample(col_74, k)
-samples$tissue <- as.factor(samples$tissue)
 idx_selected_samples <- sample(nrow(fit$L),4000)
 
 p.structure <- structure_plot(select(fit_multinom,loadings = idx_selected_samples),
                               grouping = samples[idx_selected_samples, "tissue"],
                               n = Inf,gap = 40, perplexity = 50,
                               topics = 1:k,colors = colors_topics,
-                              num_threads = 4,verbose = FALSE)
+                              num_threads = 8,verbose = FALSE)
 
 print(p.structure)
 ```
 
-$k = 35$: 
+### $k = 35$
 ```{r load-fit-35}
 k <- 35
 fit.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
@@ -224,17 +226,16 @@ fit <- readRDS(sprintf("%s/fit-Cusanovich2018-scd-ex-k=%d.rds", fit.dir, k))$fit
 fit_multinom <- poisson2multinom(fit)
 ```
 
-```{r structure-plot-k35, fig.width=8, fig.height=3, message=FALSE}
+```{r structure-plot-k35, fig.width=8, fig.height=3.5, message=FALSE}
 set.seed(10)
 colors_topics <- sample(col_74, k)
-samples$tissue <- as.factor(samples$tissue)
 idx_selected_samples <- sample(nrow(fit$L),4000)
 
 p.structure <- structure_plot(select(fit_multinom,loadings = idx_selected_samples),
                               grouping = samples[idx_selected_samples, "tissue"],
                               n = Inf,gap = 40, perplexity = 50,
                               topics = 1:k,colors = colors_topics,
-                              num_threads = 4,verbose = FALSE)
+                              num_threads = 8,verbose = FALSE)
 
 print(p.structure)
 ```
