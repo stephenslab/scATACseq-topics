@@ -103,6 +103,15 @@ p2 <- plot_progress_poisson_nmf(fit,x = "iter",y = "res")
 plot_grid(p1,p2)
 ```
 
+### k = 40
+```{r plot-iter-k40, fig.height=3, fig.width=6}
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
+fit <- readRDS(file.path(out.dir, "fit-Cusanovich2018-scd-ex-k=40.rds"))$fit
+p1 <- plot_progress_poisson_nmf(fit,x = "iter",y = "loglik",e = 1e-6)
+p2 <- plot_progress_poisson_nmf(fit,x = "iter",y = "res")
+plot_grid(p1,p2)
+```
+
 ## Assess Poisson NMF fits in bone marrow
 
 ```{r load-BoneMarrow-results}
