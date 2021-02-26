@@ -221,16 +221,13 @@ print(freq_table_tissue_in_topic)
 
 Plot the distribution of tissues in each topic, ordered by entropy in each topic
 ```{r}
-# compute Shannon entropy
-# from https://rstudio-pubs-static.s3.amazonaws.com/455435_30729e265f7a4d049400d03a18e218db.html
-entropy <- function(target) {
-  freq <- table(target)/length(target)
-  # vectorize
-  vec <- as.data.frame(freq)[,2]
-  #drop 0 to avoid NaN resulting from log2
-  vec <- vec[vec>0]
-  #compute entropy
-  -sum(vec * log2(vec))
+# calculates the Shannon entropy, following Tatsle & Wierman (2007)
+# from https://rdrr.io/rforge/agrmt/src/R/entropy.R
+entropy <- function(v) {
+  v <- v/sum(v)    # normalizing the vector
+  log2v <- log2(v) # set log2(-Inf) as 0
+  log2v[log2v == -Inf] <- 0
+  return(-sum(v * log2v))
 }
 
 ```
@@ -240,6 +237,7 @@ freq_table_tissue_in_topic.df <- melt(freq_table_tissue_in_topic)
 colnames(freq_table_tissue_in_topic.df) <- c("tissue", "topic", "freq")
 
 topic_entropy <- sort(apply(freq_table_tissue_in_topic, 2, entropy))
+
 freq_table_tissue_in_topic.df$topic <- factor(freq_table_tissue_in_topic.df$topic, levels = names(topic_entropy))
 
 # stacked barplot for the counts of tissues by clusters
@@ -286,7 +284,7 @@ print(p_pie)
 
 Structure plot for Cerebellum, PreFrontalCortex, WholeBrain.
 
-Merge topics with cumulative average proportion < 0.1. i.e. the topics included cover > 90% of the area.
+Merge topics with cumulative average proportion < 5%. i.e. the topics included cover > 95% of the area.
 ```{r structure-plot-brain-related-k20, fig.width=8, fig.height=3.5, message=FALSE}
 set.seed(10)
 
@@ -295,9 +293,9 @@ idx_selected_samples <- which(samples$tissue %in% c("Cerebellum", "PreFrontalCor
 fit_tissue <- select(fit_multinom,loadings = idx_selected_samples)
 grouping_tissue <- as.factor(as.character(samples[idx_selected_samples, "tissue"]))
 
-# merge topics with cumulative average proportion < 0.1
+# merge topics with cumulative average proportion < 0.05
 topic_mean_proportion <- sort(colMeans(fit_tissue$L))
-topics_merged <- names(which(cumsum(topic_mean_proportion) < 0.1))
+topics_merged <- names(which(cumsum(topic_mean_proportion) < 0.05))
 fit_tissue_merged <- merge_topics(fit_tissue, k = topics_merged)
 colnames(fit_tissue_merged$L)[ncol(fit_tissue_merged$L)] <- "others"
 colnames(fit_tissue_merged$F)[ncol(fit_tissue_merged$F)] <- "others"
@@ -328,9 +326,9 @@ idx_selected_samples <- which(samples$tissue %in% c("Heart", "Lung", "Kidney", "
 fit_tissue <- select(fit_multinom,loadings = idx_selected_samples)
 grouping_tissue <- as.factor(as.character(samples[idx_selected_samples, "tissue"]))
 
-# merge topics with cumulative average proportion < 0.1
+# merge topics with cumulative average proportion < 0.05
 topic_mean_proportion <- sort(colMeans(fit_tissue$L))
-topics_merged <- names(which(cumsum(topic_mean_proportion) < 0.1))
+topics_merged <- names(which(cumsum(topic_mean_proportion) < 0.05))
 fit_tissue_merged <- merge_topics(fit_tissue, k = topics_merged)
 colnames(fit_tissue_merged$L)[ncol(fit_tissue_merged$L)] <- "others"
 colnames(fit_tissue_merged$F)[ncol(fit_tissue_merged$F)] <- "others"
@@ -363,7 +361,7 @@ grouping_tissue <- as.factor(as.character(samples[idx_selected_samples, "tissue"
 
 # merge topics with cumulative average proportion < 0.1
 topic_mean_proportion <- sort(colMeans(fit_tissue$L))
-topics_merged <- names(which(cumsum(topic_mean_proportion) < 0.1))
+topics_merged <- names(which(cumsum(topic_mean_proportion) < 0.05))
 fit_tissue_merged <- merge_topics(fit_tissue, k = topics_merged)
 colnames(fit_tissue_merged$L)[ncol(fit_tissue_merged$L)] <- "others"
 colnames(fit_tissue_merged$F)[ncol(fit_tissue_merged$F)] <- "others"
