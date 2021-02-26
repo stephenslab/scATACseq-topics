@@ -421,7 +421,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-02-25
+<strong>Last updated:</strong> 2021-02-26
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -512,16 +512,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree88e1f8d9fda9c4b6f46a1180e70d055e39f6f57ctargetblank88e1f8da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/88e1f8d9fda9c4b6f46a1180e70d055e39f6f57c" target="_blank">88e1f8d</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree7d7de435434ca0a10f0180d2979892becab49cfbtargetblank7d7de43a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/7d7de435434ca0a10f0180d2979892becab49cfb" target="_blank">7d7de43</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree88e1f8d9fda9c4b6f46a1180e70d055e39f6f57ctargetblank88e1f8da" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree7d7de435434ca0a10f0180d2979892becab49cfbtargetblank7d7de43a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/88e1f8d9fda9c4b6f46a1180e70d055e39f6f57c" target="_blank">88e1f8d</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/7d7de435434ca0a10f0180d2979892becab49cfb" target="_blank">7d7de43</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -799,6 +799,7 @@ Untracked files:
     Untracked:  scripts/fit_models_Cusanovich2018_tissues.sh
 
 Unstaged changes:
+    Modified:   analysis/assess_fits_Cusanovich2018.Rmd
     Modified:   analysis/clusters_Cusanovich2018_k13.Rmd
     Modified:   analysis/gene_analysis_Cusanovich2018.Rmd
     Modified:   analysis/motif_analysis_Buenrostro2018_Chen2019pipeline.Rmd
@@ -896,6 +897,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/7d7de435434ca0a10f0180d2979892becab49cfb/analysis/compare_different_k_Cusanovich2018.Rmd" target="_blank">7d7de43</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-26
+</td>
+<td>
+modified structure plots (k20) by merging topics, and added k = 40 result
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/ab8c17f9def4ea1654bd04af8f698761ae8d660a/docs/compare_different_k_Cusanovich2018.html" target="_blank">ab8c17f</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-25
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1006,7 +1041,7 @@ source(&quot;code/plots.R&quot;)</code></pre>
 
 col_15 &lt;- c(&quot;#a6cee3&quot;,&quot;#1f78b4&quot;,&quot;#b2df8a&quot;,&quot;#33a02c&quot;,&quot;#fb9a99&quot;,&quot;#e31a1c&quot;,
             &quot;#fdbf6f&quot;,&quot;#ff7f00&quot;,&quot;#cab2d6&quot;,&quot;#6a3d9a&quot;,&quot;#ffff99&quot;,&quot;gold1&quot;,
-            &quot;#b15928&quot;, &quot;gray&quot;, &quot;black&quot;)
+            &quot;#b15928&quot;, &quot;black&quot;, &quot;gray&quot;)
 
 # from https://stackoverflow.com/questions/9563711/r-color-palettes-for-many-data-classes/41230685#41230685
 col_25 &lt;- c(
@@ -1023,6 +1058,21 @@ col_25 &lt;- c(
   &quot;maroon&quot;, &quot;orchid1&quot;, &quot;deeppink1&quot;, &quot;blue1&quot;, &quot;steelblue4&quot;,
   &quot;darkturquoise&quot;, &quot;green1&quot;, &quot;yellow4&quot;, &quot;yellow3&quot;,
   &quot;darkorange4&quot;, &quot;brown&quot;
+)
+
+col_20 &lt;- c(
+  &quot;dodgerblue2&quot;, &quot;#E31A1C&quot;, # red
+  &quot;green4&quot;,
+  &quot;#6A3D9A&quot;, # purple
+  &quot;#FF7F00&quot;, # orange
+  &quot;gold1&quot;,
+  &quot;skyblue2&quot;, &quot;#FB9A99&quot;, # lt pink
+  &quot;palegreen2&quot;,
+  &quot;#CAB2D6&quot;, # lt purple
+  &quot;#FDBF6F&quot;, # lt orange
+  &quot;khaki2&quot;,
+  &quot;maroon&quot;, &quot;orchid1&quot;, &quot;deeppink1&quot;, &quot;blue1&quot;, &quot;steelblue4&quot;,
+  &quot;darkturquoise&quot;, &quot;green1&quot;, &quot;brown&quot;
 )
 
 # from https://stackoverflow.com/questions/15282580/how-to-generate-a-number-of-most-distinctive-colors-in-r
@@ -1236,74 +1286,6 @@ print(freq_table_tissue_in_topic)
 # PreFrontalCortex 3523
 # WholeBrain       5914</code></pre>
 </div>
-<div id="k-15" class="section level3">
-<h3><span class="math inline">\(k = 15\)</span></h3>
-<pre class="r"><code>k &lt;- 15
-fit.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018&quot;
-fit &lt;- readRDS(sprintf(&quot;%s/fit-Cusanovich2018-scd-ex-k=%d.rds&quot;, fit.dir, k))$fit
-fit_multinom &lt;- poisson2multinom(fit)</code></pre>
-<pre class="r"><code>set.seed(10)
-
-colors_topics &lt;- col_15
-idx_selected_samples &lt;- sample(nrow(fit_multinom$L),4000)
-
-p.structure &lt;- structure_plot(select(fit_multinom,loadings = idx_selected_samples),
-                              grouping = samples[idx_selected_samples, &quot;tissue&quot;],
-                              n = Inf,gap = 40, perplexity = 50,
-                              topics = 1:k,colors = colors_topics,
-                              num_threads = 8,verbose = FALSE)
-
-print(p.structure)</code></pre>
-<p><img src="figure/compare_different_k_Cusanovich2018.Rmd/structure-plot-k15-1.png" width="960" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-k15-1">
-Past versions of structure-plot-k15-1.png
-</button>
-</p>
-<div id="fig-structure-plot-k15-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/51a34ba74cc7ca9872a65214967f9ca45d71fd6f/docs/figure/compare_different_k_Cusanovich2018.Rmd/structure-plot-k15-1.png" target="_blank">51a34ba</a>
-</td>
-<td>
-kevinlkx
-</td>
-<td>
-2021-02-24
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/842c681de6f4a38c5b793cc40c341d2589c843a5/docs/figure/compare_different_k_Cusanovich2018.Rmd/structure-plot-k15-1.png" target="_blank">842c681</a>
-</td>
-<td>
-kevinlkx
-</td>
-<td>
-2021-02-24
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
 <div id="k-20" class="section level3">
 <h3><span class="math inline">\(k = 20\)</span></h3>
 <pre class="r"><code>k &lt;- 20
@@ -1312,7 +1294,7 @@ fit &lt;- readRDS(sprintf(&quot;%s/fit-Cusanovich2018-scd-ex-k=%d.rds&quot;, fit
 fit_multinom &lt;- poisson2multinom(fit)</code></pre>
 <pre class="r"><code>set.seed(10)
 
-colors_topics &lt;- col_25[1:k]
+colors_topics &lt;- col_20
 idx_selected_samples &lt;- sample(nrow(fit_multinom$L),4000)
 
 p.structure &lt;- structure_plot(select(fit_multinom,loadings = idx_selected_samples),
@@ -1414,9 +1396,23 @@ print(freq_table_tissue_in_topic)
 # Cerebellum         36   56  644  594  134  621    4 1604
 # PreFrontalCortex   36 3466 2731 1335 3740  920    5 3566
 # WholeBrain        104 1524 3232 3594 2268 1694   11 5429</code></pre>
-<p>Plot the distribution of tissues in each topic</p>
+<p>Plot the distribution of tissues in each topic, ordered by entropy in each topic</p>
+<pre class="r"><code># compute Shannon entropy
+# from https://rstudio-pubs-static.s3.amazonaws.com/455435_30729e265f7a4d049400d03a18e218db.html
+entropy &lt;- function(target) {
+  freq &lt;- table(target)/length(target)
+  # vectorize
+  vec &lt;- as.data.frame(freq)[,2]
+  #drop 0 to avoid NaN resulting from log2
+  vec &lt;- vec[vec&gt;0]
+  #compute entropy
+  -sum(vec * log2(vec))
+}</code></pre>
 <pre class="r"><code>freq_table_tissue_in_topic.df &lt;- melt(freq_table_tissue_in_topic)
 colnames(freq_table_tissue_in_topic.df) &lt;- c(&quot;tissue&quot;, &quot;topic&quot;, &quot;freq&quot;)
+
+topic_entropy &lt;- sort(apply(freq_table_tissue_in_topic, 2, entropy))
+freq_table_tissue_in_topic.df$topic &lt;- factor(freq_table_tissue_in_topic.df$topic, levels = names(topic_entropy))
 
 # stacked barplot for the counts of tissues by clusters
 p.barplot &lt;- ggplot(freq_table_tissue_in_topic.df, aes(fill=tissue, y=freq, x=topic)) + 
@@ -1428,15 +1424,52 @@ p.barplot &lt;- ggplot(freq_table_tissue_in_topic.df, aes(fill=tissue, y=freq, x
     legend.title = element_text(size = 10),
     legend.text = element_text(size = 8)
   )
+
 print(p.barplot)</code></pre>
 <p><img src="figure/compare_different_k_Cusanovich2018.Rmd/barplot-tissues-topics-k20-1.png" width="960" style="display: block; margin: auto;" /></p>
-<p>Simple heatmap of the proportions by hierarchical clustering</p>
-<pre class="r"><code>create_simple_heatmap(freq_table_tissue_in_topic, normalize_by = &quot;row&quot;, title = &quot;proportions normalized by rows (each row sums to 1)&quot;, cluster_rows = TRUE)</code></pre>
-<p><img src="figure/compare_different_k_Cusanovich2018.Rmd/heatmap-tissues-topics-k20-1.png" width="840" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>
-create_simple_heatmap(freq_table_tissue_in_topic, normalize_by = &quot;column&quot;, title = &quot;proportions normalized by columns (each column sums to 1)&quot;, cluster_rows = TRUE)</code></pre>
-<p><img src="figure/compare_different_k_Cusanovich2018.Rmd/heatmap-tissues-topics-k20-2.png" width="840" style="display: block; margin: auto;" /></p>
-<p>Cells with membership &gt; 5% in topic k20</p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-barplot-tissues-topics-k20-1">
+Past versions of barplot-tissues-topics-k20-1.png
+</button>
+</p>
+<div id="fig-barplot-tissues-topics-k20-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/ab8c17f9def4ea1654bd04af8f698761ae8d660a/docs/figure/compare_different_k_Cusanovich2018.Rmd/barplot-tissues-topics-k20-1.png" target="_blank">ab8c17f</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code># Simple heatmap of the proportions by hierarchical clustering
+
+create_simple_heatmap(freq_table_tissue_in_topic, normalize_by = &quot;row&quot;, title = &quot;proportions normalized by rows (each row sums to 1)&quot;, cluster_rows = TRUE)
+
+create_simple_heatmap(freq_table_tissue_in_topic, normalize_by = &quot;column&quot;, title = &quot;proportions normalized by columns (each column sums to 1)&quot;, cluster_rows = TRUE)
+</code></pre>
 <pre class="r"><code># Cells with membership &gt; 5% in topic k20
 data &lt;- as.data.frame(table(samples_topics[samples_topics$k20 == 1, &quot;cell_label&quot;]))
 colnames(data) &lt;- c(&quot;cell_label&quot;, &quot;count&quot;)
@@ -1450,88 +1483,210 @@ p_pie &lt;- ggplot(data, aes(x=&quot;&quot;, y=count, fill=cell_label)) +
   coord_polar(&quot;y&quot;, start=0) +
   ggtitle(&quot;Topic k20&quot;) +
   theme_void() # remove background, grid, numeric labels
-print(p_pie)</code></pre>
-<p><img src="figure/compare_different_k_Cusanovich2018.Rmd/piechart-celllables-k20-1.png" width="960" style="display: block; margin: auto;" /></p>
-<p>Structure plot for Cerebellum, PreFrontalCortex, WholeBrain</p>
+print(p_pie)
+</code></pre>
+<p>Structure plot for Cerebellum, PreFrontalCortex, WholeBrain.</p>
+<p>Merge topics with cumulative average proportion &lt; 0.1. i.e. the topics included cover &gt; 90% of the area.</p>
 <pre class="r"><code>set.seed(10)
 
-colors_topics &lt;- col_25[1:20]
 idx_selected_samples &lt;- which(samples$tissue %in% c(&quot;Cerebellum&quot;, &quot;PreFrontalCortex&quot;, &quot;WholeBrain&quot;))
 
 fit_tissue &lt;- select(fit_multinom,loadings = idx_selected_samples)
 grouping_tissue &lt;- as.factor(as.character(samples[idx_selected_samples, &quot;tissue&quot;]))
-topic_appearance &lt;- as.matrix((fit_tissue$L &gt; 0.05) + 0)
 
-cat(&quot;Number of cells appear in each topic:\n&quot;)
-colSums(topic_appearance)
+# merge topics with cumulative average proportion &lt; 0.1
+topic_mean_proportion &lt;- sort(colMeans(fit_tissue$L))
+topics_merged &lt;- names(which(cumsum(topic_mean_proportion) &lt; 0.1))
+fit_tissue_merged &lt;- merge_topics(fit_tissue, k = topics_merged)
+colnames(fit_tissue_merged$L)[ncol(fit_tissue_merged$L)] &lt;- &quot;others&quot;
+colnames(fit_tissue_merged$F)[ncol(fit_tissue_merged$F)] &lt;- &quot;others&quot;
 
-p.structure &lt;- structure_plot(fit_tissue,
+colors_topics &lt;- col_20
+names(colors_topics) &lt;- paste0(&quot;k&quot;, 1:20)
+colors_topics &lt;- colors_topics[colnames(fit_tissue_merged$L)]
+colors_topics[is.na(colors_topics)] &lt;- &quot;gray&quot;
+
+p.structure &lt;- structure_plot(fit_tissue_merged,
                               grouping = grouping_tissue,
                               n = min(3000, length(idx_selected_samples)), 
                               gap = 40, perplexity = 50,
-                              topics = 1:k, 
+                              topics = colnames(fit_tissue_merged$L),
                               colors = colors_topics,
                               num_threads = 8,verbose = FALSE)
 
 print(p.structure)</code></pre>
 <p><img src="figure/compare_different_k_Cusanovich2018.Rmd/structure-plot-brain-related-k20-1.png" width="960" style="display: block; margin: auto;" /></p>
-<pre><code># Number of cells appear in each topic:
-#    k1    k2    k3    k4    k5    k6    k7    k8    k9   k10   k11   k12   k13 
-#    48  5772  3875   362    11   796   604  4846   117    33     4    18   176 
-#   k14   k15   k16   k17   k18   k19   k20 
-#  5046  6607  5523  6142  3235    20 10599</code></pre>
-<p>Structure plot for Heart, Lung, Kidney, Spleen</p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-brain-related-k20-1">
+Past versions of structure-plot-brain-related-k20-1.png
+</button>
+</p>
+<div id="fig-structure-plot-brain-related-k20-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/ab8c17f9def4ea1654bd04af8f698761ae8d660a/docs/figure/compare_different_k_Cusanovich2018.Rmd/structure-plot-brain-related-k20-1.png" target="_blank">ab8c17f</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Structure plot for Heart, Lung, Kidney, Spleen.</p>
 <pre class="r"><code>set.seed(10)
 
-colors_topics &lt;- col_25[1:20]
 idx_selected_samples &lt;- which(samples$tissue %in% c(&quot;Heart&quot;, &quot;Lung&quot;, &quot;Kidney&quot;, &quot;Spleen&quot;))
+
 fit_tissue &lt;- select(fit_multinom,loadings = idx_selected_samples)
 grouping_tissue &lt;- as.factor(as.character(samples[idx_selected_samples, &quot;tissue&quot;]))
-topic_appearance &lt;- as.matrix((fit_tissue$L &gt; 0.05) + 0)
-cat(&quot;Number of cells appear in each topic:\n&quot;)
-colSums(topic_appearance)
 
-p.structure &lt;- structure_plot(fit_tissue,
+# merge topics with cumulative average proportion &lt; 0.1
+topic_mean_proportion &lt;- sort(colMeans(fit_tissue$L))
+topics_merged &lt;- names(which(cumsum(topic_mean_proportion) &lt; 0.1))
+fit_tissue_merged &lt;- merge_topics(fit_tissue, k = topics_merged)
+colnames(fit_tissue_merged$L)[ncol(fit_tissue_merged$L)] &lt;- &quot;others&quot;
+colnames(fit_tissue_merged$F)[ncol(fit_tissue_merged$F)] &lt;- &quot;others&quot;
+
+colors_topics &lt;- col_20
+names(colors_topics) &lt;- paste0(&quot;k&quot;, 1:20)
+colors_topics &lt;- colors_topics[colnames(fit_tissue_merged$L)]
+colors_topics[is.na(colors_topics)] &lt;- &quot;gray&quot;
+
+p.structure &lt;- structure_plot(fit_tissue_merged,
                               grouping = grouping_tissue,
                               n = min(3000, length(idx_selected_samples)), 
                               gap = 40, perplexity = 50,
-                              topics = 1:k, 
+                              topics = colnames(fit_tissue_merged$L),
                               colors = colors_topics,
                               num_threads = 8,verbose = FALSE)
 
 print(p.structure)</code></pre>
 <p><img src="figure/compare_different_k_Cusanovich2018.Rmd/structure-plot-heart-lung-kidney-k20-1.png" width="960" style="display: block; margin: auto;" /></p>
-<pre><code># Number of cells appear in each topic:
-#    k1    k2    k3    k4    k5    k6    k7    k8    k9   k10   k11   k12   k13 
-#   437    18  6354  5013   544  7478  3099   120  6203  3020   159  4065  4437 
-#   k14   k15   k16   k17   k18   k19   k20 
-#   162   880  7285   659 14904   191 20218</code></pre>
-<p>Structure plot for Heart only</p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-heart-lung-kidney-k20-1">
+Past versions of structure-plot-heart-lung-kidney-k20-1.png
+</button>
+</p>
+<div id="fig-structure-plot-heart-lung-kidney-k20-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/ab8c17f9def4ea1654bd04af8f698761ae8d660a/docs/figure/compare_different_k_Cusanovich2018.Rmd/structure-plot-heart-lung-kidney-k20-1.png" target="_blank">ab8c17f</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Structure plot for Heart only.</p>
 <pre class="r"><code>set.seed(10)
 
-colors_topics &lt;- col_25[1:20]
 idx_selected_samples &lt;- which(samples$tissue %in% &quot;Heart&quot;)
+
 fit_tissue &lt;- select(fit_multinom,loadings = idx_selected_samples)
 grouping_tissue &lt;- as.factor(as.character(samples[idx_selected_samples, &quot;tissue&quot;]))
-topic_appearance &lt;- as.matrix((fit_tissue$L &gt; 0.05) + 0)
-cat(&quot;Number of cells appear in each topic:\n&quot;)
-colSums(topic_appearance)
 
-p.structure &lt;- structure_plot(fit_tissue,
+# merge topics with cumulative average proportion &lt; 0.1
+topic_mean_proportion &lt;- sort(colMeans(fit_tissue$L))
+topics_merged &lt;- names(which(cumsum(topic_mean_proportion) &lt; 0.1))
+fit_tissue_merged &lt;- merge_topics(fit_tissue, k = topics_merged)
+colnames(fit_tissue_merged$L)[ncol(fit_tissue_merged$L)] &lt;- &quot;others&quot;
+colnames(fit_tissue_merged$F)[ncol(fit_tissue_merged$F)] &lt;- &quot;others&quot;
+
+colors_topics &lt;- col_20
+names(colors_topics) &lt;- paste0(&quot;k&quot;, 1:20)
+colors_topics &lt;- colors_topics[colnames(fit_tissue_merged$L)]
+colors_topics[is.na(colors_topics)] &lt;- &quot;gray&quot;
+
+p.structure &lt;- structure_plot(fit_tissue_merged,
                               grouping = grouping_tissue,
                               n = min(3000, length(idx_selected_samples)), 
                               gap = 40, perplexity = 50,
-                              topics = 1:k, 
+                              topics = colnames(fit_tissue_merged$L),
                               colors = colors_topics,
                               num_threads = 8,verbose = FALSE)
 
 print(p.structure)</code></pre>
 <p><img src="figure/compare_different_k_Cusanovich2018.Rmd/structure-plot-heart-k20-1.png" width="960" style="display: block; margin: auto;" /></p>
-<pre><code># Number of cells appear in each topic:
-#   k1   k2   k3   k4   k5   k6   k7   k8   k9  k10  k11  k12  k13  k14  k15  k16 
-#   46    9 2334   89   13 3456  358   71  133  102    9   18 4305  103  436 3640 
-#  k17  k18  k19  k20 
-#  355 4831   22 4845</code></pre>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-heart-k20-1">
+Past versions of structure-plot-heart-k20-1.png
+</button>
+</p>
+<div id="fig-structure-plot-heart-k20-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/ab8c17f9def4ea1654bd04af8f698761ae8d660a/docs/figure/compare_different_k_Cusanovich2018.Rmd/structure-plot-heart-k20-1.png" target="_blank">ab8c17f</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="k-30" class="section level3">
 <h3><span class="math inline">\(k = 30\)</span></h3>
@@ -1667,6 +1822,25 @@ kevinlkx
 </table>
 </div>
 </div>
+</div>
+<div id="k-40" class="section level3">
+<h3><span class="math inline">\(k = 40\)</span></h3>
+<pre class="r"><code>k &lt;- 40
+fit.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018&quot;
+fit &lt;- readRDS(sprintf(&quot;%s/fit-Cusanovich2018-scd-ex-k=%d.rds&quot;, fit.dir, k))$fit
+fit_multinom &lt;- poisson2multinom(fit)</code></pre>
+<pre class="r"><code>set.seed(10)
+colors_topics &lt;- sample(col_74, k)
+idx_selected_samples &lt;- sample(nrow(fit$L),4000)
+
+p.structure &lt;- structure_plot(select(fit_multinom,loadings = idx_selected_samples),
+                              grouping = samples[idx_selected_samples, &quot;tissue&quot;],
+                              n = Inf,gap = 40, perplexity = 50,
+                              topics = 1:k,colors = colors_topics,
+                              num_threads = 8,verbose = FALSE)
+
+print(p.structure)</code></pre>
+<p><img src="figure/compare_different_k_Cusanovich2018.Rmd/structure-plot-k40-1.png" width="960" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1696,17 +1870,17 @@ kevinlkx
 # 
 # other attached packages:
 # [1] RColorBrewer_1.1-2 dplyr_1.0.4        reshape2_1.4.3     Matrix_1.2-18     
-# [5] cowplot_1.1.1      ggplot2_3.3.3      fastTopics_0.5-18  workflowr_1.6.2   
+# [5] cowplot_1.1.1      ggplot2_3.3.3      fastTopics_0.5-20  workflowr_1.6.2   
 # 
 # loaded via a namespace (and not attached):
 #  [1] httr_1.4.2         tidyr_1.1.2        jsonlite_1.7.2     viridisLite_0.3.0 
-#  [5] RcppParallel_5.0.2 mixsqp_0.3-43      yaml_2.2.1         progress_1.2.2    
-#  [9] ggrepel_0.9.1      pillar_1.5.0       lattice_0.20-41    quantreg_5.83     
+#  [5] RcppParallel_5.0.3 mixsqp_0.3-43      yaml_2.2.1         progress_1.2.2    
+#  [9] ggrepel_0.9.1      pillar_1.5.0       lattice_0.20-41    quantreg_5.85     
 # [13] glue_1.4.2         quadprog_1.5-8     digest_0.6.27      promises_1.2.0.1  
 # [17] colorspace_2.0-0   plyr_1.8.6         htmltools_0.5.1.1  httpuv_1.5.4      
 # [21] conquer_1.0.2      pkgconfig_2.0.3    invgamma_1.1       SparseM_1.81      
 # [25] purrr_0.3.4        scales_1.1.1       whisker_0.4        later_1.1.0.1     
-# [29] Rtsne_0.15         MatrixModels_0.4-1 git2r_0.27.1       tibble_3.0.6      
+# [29] Rtsne_0.15         MatrixModels_0.4-1 git2r_0.27.1       tibble_3.1.0      
 # [33] farver_2.0.3       generics_0.1.0     ellipsis_0.3.1     withr_2.4.1       
 # [37] ashr_2.2-47        lazyeval_0.2.2     magrittr_2.0.1     crayon_1.4.1      
 # [41] mcmc_0.9-7         evaluate_0.14      fs_1.3.1           fansi_0.4.2       
