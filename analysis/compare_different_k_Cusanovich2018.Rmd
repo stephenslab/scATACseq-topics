@@ -39,7 +39,7 @@ col_13 <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
 
 col_15 <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
             "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","gold1",
-            "#b15928", "gray", "black")
+            "#b15928", "black", "gray")
 
 # from https://stackoverflow.com/questions/9563711/r-color-palettes-for-many-data-classes/41230685#41230685
 col_25 <- c(
@@ -56,6 +56,21 @@ col_25 <- c(
   "maroon", "orchid1", "deeppink1", "blue1", "steelblue4",
   "darkturquoise", "green1", "yellow4", "yellow3",
   "darkorange4", "brown"
+)
+
+col_20 <- c(
+  "dodgerblue2", "#E31A1C", # red
+  "green4",
+  "#6A3D9A", # purple
+  "#FF7F00", # orange
+  "gold1",
+  "skyblue2", "#FB9A99", # lt pink
+  "palegreen2",
+  "#CAB2D6", # lt purple
+  "#FDBF6F", # lt orange
+  "khaki2",
+  "maroon", "orchid1", "deeppink1", "blue1", "steelblue4",
+  "darkturquoise", "green1", "brown"
 )
 
 # from https://stackoverflow.com/questions/15282580/how-to-generate-a-number-of-most-distinctive-colors-in-r
@@ -78,6 +93,7 @@ colors_tissues <- c("darkblue",    # BoneMarrow
                     "gray")        # WholeBrain
 
 ```
+
 
 ## Load Cusanovich 2018 mouse scATAC-seq data
 
@@ -161,29 +177,6 @@ print(freq_table_tissue_in_topic)
 
 ```
 
-### $k = 15$
-```{r load-fit-k15}
-k <- 15
-fit.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
-fit <- readRDS(sprintf("%s/fit-Cusanovich2018-scd-ex-k=%d.rds", fit.dir, k))$fit
-fit_multinom <- poisson2multinom(fit)
-```
-
-```{r structure-plot-k15, fig.width=8, fig.height=3.5, message=FALSE}
-set.seed(10)
-
-colors_topics <- col_15
-idx_selected_samples <- sample(nrow(fit_multinom$L),4000)
-
-p.structure <- structure_plot(select(fit_multinom,loadings = idx_selected_samples),
-                              grouping = samples[idx_selected_samples, "tissue"],
-                              n = Inf,gap = 40, perplexity = 50,
-                              topics = 1:k,colors = colors_topics,
-                              num_threads = 8,verbose = FALSE)
-
-print(p.structure)
-```
-
 ### $k = 20$
 ```{r load-fit-k20}
 k <- 20
@@ -195,7 +188,7 @@ fit_multinom <- poisson2multinom(fit)
 ```{r structure-plot-k20, fig.width=8, fig.height=3.5, message=FALSE}
 set.seed(10)
 
-colors_topics <- col_25[1:k]
+colors_topics <- col_20
 idx_selected_samples <- sample(nrow(fit_multinom$L),4000)
 
 p.structure <- structure_plot(select(fit_multinom,loadings = idx_selected_samples),
@@ -223,12 +216,31 @@ for ( k in 1:ncol(topic_appearance)) {
   freq_table_tissue_in_topic[,k] <- table(samples_topics[samples_topics[,paste0("k",k)] == 1, "tissue"])
 }
 print(freq_table_tissue_in_topic)
+
 ```
 
-Plot the distribution of tissues in each topic
+Plot the distribution of tissues in each topic, ordered by entropy in each topic
+```{r}
+# compute Shannon entropy
+# from https://rstudio-pubs-static.s3.amazonaws.com/455435_30729e265f7a4d049400d03a18e218db.html
+entropy <- function(target) {
+  freq <- table(target)/length(target)
+  # vectorize
+  vec <- as.data.frame(freq)[,2]
+  #drop 0 to avoid NaN resulting from log2
+  vec <- vec[vec>0]
+  #compute entropy
+  -sum(vec * log2(vec))
+}
+
+```
+
 ```{r barplot-tissues-topics-k20, fig.width=8, fig.height=3}
 freq_table_tissue_in_topic.df <- melt(freq_table_tissue_in_topic)
 colnames(freq_table_tissue_in_topic.df) <- c("tissue", "topic", "freq")
+
+topic_entropy <- sort(apply(freq_table_tissue_in_topic, 2, entropy))
+freq_table_tissue_in_topic.df$topic <- factor(freq_table_tissue_in_topic.df$topic, levels = names(topic_entropy))
 
 # stacked barplot for the counts of tissues by clusters
 p.barplot <- ggplot(freq_table_tissue_in_topic.df, aes(fill=tissue, y=freq, x=topic)) + 
@@ -240,20 +252,21 @@ p.barplot <- ggplot(freq_table_tissue_in_topic.df, aes(fill=tissue, y=freq, x=to
     legend.title = element_text(size = 10),
     legend.text = element_text(size = 8)
   )
+
 print(p.barplot)
 
 ```
 
-Simple heatmap of the proportions by hierarchical clustering
-```{r heatmap-tissues-topics-k20,  fig.width=7, fig.height=5}
+```{r heatmap-tissues-topics-k20,  eval=FALSE, fig.width=7, fig.height=5}
+# Simple heatmap of the proportions by hierarchical clustering
+
 create_simple_heatmap(freq_table_tissue_in_topic, normalize_by = "row", title = "proportions normalized by rows (each row sums to 1)", cluster_rows = TRUE)
 
 create_simple_heatmap(freq_table_tissue_in_topic, normalize_by = "column", title = "proportions normalized by columns (each column sums to 1)", cluster_rows = TRUE)
 
 ```
 
-Cells with membership > 5% in topic k20
-```{r piechart-celllables-k20, fig.width=8, fig.height=8}
+```{r piechart-celllables-k20, eval=FALSE, fig.width=8, fig.height=8}
 # Cells with membership > 5% in topic k20
 data <- as.data.frame(table(samples_topics[samples_topics$k20 == 1, "cell_label"]))
 colnames(data) <- c("cell_label", "count")
@@ -271,71 +284,100 @@ print(p_pie)
 
 ```
 
-Structure plot for Cerebellum, PreFrontalCortex, WholeBrain
+Structure plot for Cerebellum, PreFrontalCortex, WholeBrain.
+
+Merge topics with cumulative average proportion < 0.1. i.e. the topics included cover > 90% of the area.
 ```{r structure-plot-brain-related-k20, fig.width=8, fig.height=3.5, message=FALSE}
 set.seed(10)
 
-colors_topics <- col_25[1:20]
 idx_selected_samples <- which(samples$tissue %in% c("Cerebellum", "PreFrontalCortex", "WholeBrain"))
 
 fit_tissue <- select(fit_multinom,loadings = idx_selected_samples)
 grouping_tissue <- as.factor(as.character(samples[idx_selected_samples, "tissue"]))
-topic_appearance <- as.matrix((fit_tissue$L > 0.05) + 0)
 
-cat("Number of cells appear in each topic:\n")
-colSums(topic_appearance)
+# merge topics with cumulative average proportion < 0.1
+topic_mean_proportion <- sort(colMeans(fit_tissue$L))
+topics_merged <- names(which(cumsum(topic_mean_proportion) < 0.1))
+fit_tissue_merged <- merge_topics(fit_tissue, k = topics_merged)
+colnames(fit_tissue_merged$L)[ncol(fit_tissue_merged$L)] <- "others"
+colnames(fit_tissue_merged$F)[ncol(fit_tissue_merged$F)] <- "others"
 
-p.structure <- structure_plot(fit_tissue,
+colors_topics <- col_20
+names(colors_topics) <- paste0("k", 1:20)
+colors_topics <- colors_topics[colnames(fit_tissue_merged$L)]
+colors_topics[is.na(colors_topics)] <- "gray"
+
+p.structure <- structure_plot(fit_tissue_merged,
                               grouping = grouping_tissue,
                               n = min(3000, length(idx_selected_samples)), 
                               gap = 40, perplexity = 50,
-                              topics = 1:k, 
+                              topics = colnames(fit_tissue_merged$L),
                               colors = colors_topics,
                               num_threads = 8,verbose = FALSE)
 
 print(p.structure)
 ```
 
-Structure plot for Heart, Lung, Kidney, Spleen
+Structure plot for Heart, Lung, Kidney, Spleen.
+
 ```{r structure-plot-heart-lung-kidney-k20, fig.width=8, fig.height=3.5, message=FALSE}
 set.seed(10)
 
-colors_topics <- col_25[1:20]
 idx_selected_samples <- which(samples$tissue %in% c("Heart", "Lung", "Kidney", "Spleen"))
+
 fit_tissue <- select(fit_multinom,loadings = idx_selected_samples)
 grouping_tissue <- as.factor(as.character(samples[idx_selected_samples, "tissue"]))
-topic_appearance <- as.matrix((fit_tissue$L > 0.05) + 0)
-cat("Number of cells appear in each topic:\n")
-colSums(topic_appearance)
 
-p.structure <- structure_plot(fit_tissue,
+# merge topics with cumulative average proportion < 0.1
+topic_mean_proportion <- sort(colMeans(fit_tissue$L))
+topics_merged <- names(which(cumsum(topic_mean_proportion) < 0.1))
+fit_tissue_merged <- merge_topics(fit_tissue, k = topics_merged)
+colnames(fit_tissue_merged$L)[ncol(fit_tissue_merged$L)] <- "others"
+colnames(fit_tissue_merged$F)[ncol(fit_tissue_merged$F)] <- "others"
+
+colors_topics <- col_20
+names(colors_topics) <- paste0("k", 1:20)
+colors_topics <- colors_topics[colnames(fit_tissue_merged$L)]
+colors_topics[is.na(colors_topics)] <- "gray"
+
+p.structure <- structure_plot(fit_tissue_merged,
                               grouping = grouping_tissue,
                               n = min(3000, length(idx_selected_samples)), 
                               gap = 40, perplexity = 50,
-                              topics = 1:k, 
+                              topics = colnames(fit_tissue_merged$L),
                               colors = colors_topics,
                               num_threads = 8,verbose = FALSE)
 
 print(p.structure)
 ```
 
-Structure plot for Heart only
+Structure plot for Heart only.
+
 ```{r structure-plot-heart-k20, fig.width=8, fig.height=3.5, message=FALSE}
 set.seed(10)
 
-colors_topics <- col_25[1:20]
 idx_selected_samples <- which(samples$tissue %in% "Heart")
+
 fit_tissue <- select(fit_multinom,loadings = idx_selected_samples)
 grouping_tissue <- as.factor(as.character(samples[idx_selected_samples, "tissue"]))
-topic_appearance <- as.matrix((fit_tissue$L > 0.05) + 0)
-cat("Number of cells appear in each topic:\n")
-colSums(topic_appearance)
 
-p.structure <- structure_plot(fit_tissue,
+# merge topics with cumulative average proportion < 0.1
+topic_mean_proportion <- sort(colMeans(fit_tissue$L))
+topics_merged <- names(which(cumsum(topic_mean_proportion) < 0.1))
+fit_tissue_merged <- merge_topics(fit_tissue, k = topics_merged)
+colnames(fit_tissue_merged$L)[ncol(fit_tissue_merged$L)] <- "others"
+colnames(fit_tissue_merged$F)[ncol(fit_tissue_merged$F)] <- "others"
+
+colors_topics <- col_20
+names(colors_topics) <- paste0("k", 1:20)
+colors_topics <- colors_topics[colnames(fit_tissue_merged$L)]
+colors_topics[is.na(colors_topics)] <- "gray"
+
+p.structure <- structure_plot(fit_tissue_merged,
                               grouping = grouping_tissue,
                               n = min(3000, length(idx_selected_samples)), 
                               gap = 40, perplexity = 50,
-                              topics = 1:k, 
+                              topics = colnames(fit_tissue_merged$L),
                               colors = colors_topics,
                               num_threads = 8,verbose = FALSE)
 
@@ -374,6 +416,28 @@ fit_multinom <- poisson2multinom(fit)
 ```
 
 ```{r structure-plot-k35, fig.width=8, fig.height=3.5, message=FALSE}
+set.seed(10)
+colors_topics <- sample(col_74, k)
+idx_selected_samples <- sample(nrow(fit$L),4000)
+
+p.structure <- structure_plot(select(fit_multinom,loadings = idx_selected_samples),
+                              grouping = samples[idx_selected_samples, "tissue"],
+                              n = Inf,gap = 40, perplexity = 50,
+                              topics = 1:k,colors = colors_topics,
+                              num_threads = 8,verbose = FALSE)
+
+print(p.structure)
+```
+
+### $k = 40$
+```{r load-fit-40}
+k <- 40
+fit.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
+fit <- readRDS(sprintf("%s/fit-Cusanovich2018-scd-ex-k=%d.rds", fit.dir, k))$fit
+fit_multinom <- poisson2multinom(fit)
+```
+
+```{r structure-plot-k40, fig.width=8, fig.height=3.5, message=FALSE}
 set.seed(10)
 colors_topics <- sample(col_74, k)
 idx_selected_samples <- sample(nrow(fit$L),4000)
