@@ -512,16 +512,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree7d7de435434ca0a10f0180d2979892becab49cfbtargetblank7d7de43a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/7d7de435434ca0a10f0180d2979892becab49cfb" target="_blank">7d7de43</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree20024203f794d741a8bccc6abe99b1c3a431d9e2targetblank2002420a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/20024203f794d741a8bccc6abe99b1c3a431d9e2" target="_blank">2002420</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree7d7de435434ca0a10f0180d2979892becab49cfbtargetblank7d7de43a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree20024203f794d741a8bccc6abe99b1c3a431d9e2targetblank2002420a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/7d7de435434ca0a10f0180d2979892becab49cfb" target="_blank">7d7de43</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/20024203f794d741a8bccc6abe99b1c3a431d9e2" target="_blank">2002420</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -897,6 +897,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/20024203f794d741a8bccc6abe99b1c3a431d9e2/analysis/compare_different_k_Cusanovich2018.Rmd" target="_blank">2002420</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-26
+</td>
+<td>
+fixed a bug in computing entropy, and adjust the cutoff to merge topics
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/27363bd67a3be04cb47b816f29db68de4495230d/docs/compare_different_k_Cusanovich2018.html" target="_blank">27363bd</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-26
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1329,6 +1363,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/27363bd67a3be04cb47b816f29db68de4495230d/docs/figure/compare_different_k_Cusanovich2018.Rmd/structure-plot-k20-1.png" target="_blank">27363bd</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-26
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/51a34ba74cc7ca9872a65214967f9ca45d71fd6f/docs/figure/compare_different_k_Cusanovich2018.Rmd/structure-plot-k20-1.png" target="_blank">51a34ba</a>
 </td>
 <td>
@@ -1397,21 +1442,19 @@ print(freq_table_tissue_in_topic)
 # PreFrontalCortex   36 3466 2731 1335 3740  920    5 3566
 # WholeBrain        104 1524 3232 3594 2268 1694   11 5429</code></pre>
 <p>Plot the distribution of tissues in each topic, ordered by entropy in each topic</p>
-<pre class="r"><code># compute Shannon entropy
-# from https://rstudio-pubs-static.s3.amazonaws.com/455435_30729e265f7a4d049400d03a18e218db.html
-entropy &lt;- function(target) {
-  freq &lt;- table(target)/length(target)
-  # vectorize
-  vec &lt;- as.data.frame(freq)[,2]
-  #drop 0 to avoid NaN resulting from log2
-  vec &lt;- vec[vec&gt;0]
-  #compute entropy
-  -sum(vec * log2(vec))
+<pre class="r"><code># calculates the Shannon entropy, following Tatsle &amp; Wierman (2007)
+# from https://rdrr.io/rforge/agrmt/src/R/entropy.R
+entropy &lt;- function(v) {
+  v &lt;- v/sum(v)    # normalizing the vector
+  log2v &lt;- log2(v) # set log2(-Inf) as 0
+  log2v[log2v == -Inf] &lt;- 0
+  return(-sum(v * log2v))
 }</code></pre>
 <pre class="r"><code>freq_table_tissue_in_topic.df &lt;- melt(freq_table_tissue_in_topic)
 colnames(freq_table_tissue_in_topic.df) &lt;- c(&quot;tissue&quot;, &quot;topic&quot;, &quot;freq&quot;)
 
 topic_entropy &lt;- sort(apply(freq_table_tissue_in_topic, 2, entropy))
+
 freq_table_tissue_in_topic.df$topic &lt;- factor(freq_table_tissue_in_topic.df$topic, levels = names(topic_entropy))
 
 # stacked barplot for the counts of tissues by clusters
@@ -1451,6 +1494,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/27363bd67a3be04cb47b816f29db68de4495230d/docs/figure/compare_different_k_Cusanovich2018.Rmd/barplot-tissues-topics-k20-1.png" target="_blank">27363bd</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-26
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/ab8c17f9def4ea1654bd04af8f698761ae8d660a/docs/figure/compare_different_k_Cusanovich2018.Rmd/barplot-tissues-topics-k20-1.png" target="_blank">ab8c17f</a>
 </td>
 <td>
@@ -1486,7 +1540,7 @@ p_pie &lt;- ggplot(data, aes(x=&quot;&quot;, y=count, fill=cell_label)) +
 print(p_pie)
 </code></pre>
 <p>Structure plot for Cerebellum, PreFrontalCortex, WholeBrain.</p>
-<p>Merge topics with cumulative average proportion &lt; 0.1. i.e. the topics included cover &gt; 90% of the area.</p>
+<p>Merge topics with cumulative average proportion &lt; 5%. i.e. the topics included cover &gt; 95% of the area.</p>
 <pre class="r"><code>set.seed(10)
 
 idx_selected_samples &lt;- which(samples$tissue %in% c(&quot;Cerebellum&quot;, &quot;PreFrontalCortex&quot;, &quot;WholeBrain&quot;))
@@ -1494,9 +1548,9 @@ idx_selected_samples &lt;- which(samples$tissue %in% c(&quot;Cerebellum&quot;, &
 fit_tissue &lt;- select(fit_multinom,loadings = idx_selected_samples)
 grouping_tissue &lt;- as.factor(as.character(samples[idx_selected_samples, &quot;tissue&quot;]))
 
-# merge topics with cumulative average proportion &lt; 0.1
+# merge topics with cumulative average proportion &lt; 0.05
 topic_mean_proportion &lt;- sort(colMeans(fit_tissue$L))
-topics_merged &lt;- names(which(cumsum(topic_mean_proportion) &lt; 0.1))
+topics_merged &lt;- names(which(cumsum(topic_mean_proportion) &lt; 0.05))
 fit_tissue_merged &lt;- merge_topics(fit_tissue, k = topics_merged)
 colnames(fit_tissue_merged$L)[ncol(fit_tissue_merged$L)] &lt;- &quot;others&quot;
 colnames(fit_tissue_merged$F)[ncol(fit_tissue_merged$F)] &lt;- &quot;others&quot;
@@ -1540,6 +1594,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/27363bd67a3be04cb47b816f29db68de4495230d/docs/figure/compare_different_k_Cusanovich2018.Rmd/structure-plot-brain-related-k20-1.png" target="_blank">27363bd</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-26
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/ab8c17f9def4ea1654bd04af8f698761ae8d660a/docs/figure/compare_different_k_Cusanovich2018.Rmd/structure-plot-brain-related-k20-1.png" target="_blank">ab8c17f</a>
 </td>
 <td>
@@ -1561,9 +1626,9 @@ idx_selected_samples &lt;- which(samples$tissue %in% c(&quot;Heart&quot;, &quot;
 fit_tissue &lt;- select(fit_multinom,loadings = idx_selected_samples)
 grouping_tissue &lt;- as.factor(as.character(samples[idx_selected_samples, &quot;tissue&quot;]))
 
-# merge topics with cumulative average proportion &lt; 0.1
+# merge topics with cumulative average proportion &lt; 0.05
 topic_mean_proportion &lt;- sort(colMeans(fit_tissue$L))
-topics_merged &lt;- names(which(cumsum(topic_mean_proportion) &lt; 0.1))
+topics_merged &lt;- names(which(cumsum(topic_mean_proportion) &lt; 0.05))
 fit_tissue_merged &lt;- merge_topics(fit_tissue, k = topics_merged)
 colnames(fit_tissue_merged$L)[ncol(fit_tissue_merged$L)] &lt;- &quot;others&quot;
 colnames(fit_tissue_merged$F)[ncol(fit_tissue_merged$F)] &lt;- &quot;others&quot;
@@ -1607,6 +1672,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/27363bd67a3be04cb47b816f29db68de4495230d/docs/figure/compare_different_k_Cusanovich2018.Rmd/structure-plot-heart-lung-kidney-k20-1.png" target="_blank">27363bd</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-26
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/ab8c17f9def4ea1654bd04af8f698761ae8d660a/docs/figure/compare_different_k_Cusanovich2018.Rmd/structure-plot-heart-lung-kidney-k20-1.png" target="_blank">ab8c17f</a>
 </td>
 <td>
@@ -1630,7 +1706,7 @@ grouping_tissue &lt;- as.factor(as.character(samples[idx_selected_samples, &quot
 
 # merge topics with cumulative average proportion &lt; 0.1
 topic_mean_proportion &lt;- sort(colMeans(fit_tissue$L))
-topics_merged &lt;- names(which(cumsum(topic_mean_proportion) &lt; 0.1))
+topics_merged &lt;- names(which(cumsum(topic_mean_proportion) &lt; 0.05))
 fit_tissue_merged &lt;- merge_topics(fit_tissue, k = topics_merged)
 colnames(fit_tissue_merged$L)[ncol(fit_tissue_merged$L)] &lt;- &quot;others&quot;
 colnames(fit_tissue_merged$F)[ncol(fit_tissue_merged$F)] &lt;- &quot;others&quot;
@@ -1672,6 +1748,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/27363bd67a3be04cb47b816f29db68de4495230d/docs/figure/compare_different_k_Cusanovich2018.Rmd/structure-plot-heart-k20-1.png" target="_blank">27363bd</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-26
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/ab8c17f9def4ea1654bd04af8f698761ae8d660a/docs/figure/compare_different_k_Cusanovich2018.Rmd/structure-plot-heart-k20-1.png" target="_blank">ab8c17f</a>
@@ -1841,6 +1928,43 @@ p.structure &lt;- structure_plot(select(fit_multinom,loadings = idx_selected_sam
 
 print(p.structure)</code></pre>
 <p><img src="figure/compare_different_k_Cusanovich2018.Rmd/structure-plot-k40-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-k40-1">
+Past versions of structure-plot-k40-1.png
+</button>
+</p>
+<div id="fig-structure-plot-k40-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/27363bd67a3be04cb47b816f29db68de4495230d/docs/figure/compare_different_k_Cusanovich2018.Rmd/structure-plot-k40-1.png" target="_blank">27363bd</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-02-26
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
