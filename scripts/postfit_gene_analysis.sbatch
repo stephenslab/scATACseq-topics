@@ -9,7 +9,7 @@
 #SBATCH --time=10:00:00
 
 # This script allocates computing resources (CPUs, memory), loads R,
-# and runs diffcount_genescore_gsea.R.
+# and runs diffcount_genescore.R.
 
 # Get the command-line arguments.
 DATFILE=${1}
@@ -17,13 +17,16 @@ FITFILE=${2}
 GENESET=${3}
 GENOME=${4}
 GENESCOREMETHOD=${5}
-NORMALIZATION=${6}
-OUTDIR=${7}
+TRANSFORM=${6}
+NORMALIZATION=${7}
+OUTDIR=${8}
+
 echo datfile=${DATFILE}
 echo fitfile=${FITFILE}
 echo geneset=${GENESET}
 echo genome=${GENOME}
 echo genescoremethod=${GENESCOREMETHOD}
+echo transform=${TRANSFORM}
 echo normalization=${NORMALIZATION}
 echo outdir=${OUTDIR}
 
@@ -34,9 +37,11 @@ module load R/3.6.1
 echo "Running diffcount_genescore_gsea.R"
 mkdir -p ${OUTDIR}
 
-Rscript ~/projects/scATACseq-topics/scripts/diffcount_genescore_gsea.R \
-  --runGSEA \
-  --counts ${DATFILE} --modelfit ${FITFILE} \
-  --geneset ${GENESET} --genome ${GENOME} \
-  --genescoremethod ${GENESCOREMETHOD} --normalization ${NORMALIZATION} \
+Rscript ~/projects/scATACseq-topics/scripts/diffcount_genescore.R \
+  --counts ${DATFILE} \
+  --modelfit ${FITFILE} \
+  --genome ${GENOME} \
+  --genescoremethod ${GENESCOREMETHOD} \
+  --transform ${TRANSFORM} \
+  --normalization ${NORMALIZATION} \
   --nc 8 -o ${OUTDIR} > ${OUTDIR}.Rout
