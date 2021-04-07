@@ -1,0 +1,328 @@
+---
+title: "Selected figures for Cusanovich *et al* (2018) scATAC-seq results"
+author: Kaixuan Luo
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: false
+---
+
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(comment = "#",collapse = FALSE,results = "hold",
+                      fig.align = "center", dpi = 600)
+```
+
+## Load packages and some functions used in this analysis
+```{r load-pkgs, message=FALSE}
+library(Matrix)
+library(fastTopics)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(ggrepel)
+library(cowplot)
+library(plotly)
+library(htmlwidgets)
+library(DT)
+library(reshape2)
+library(Logolas)
+library(grid)
+source("code/functions_for_assessing_fits.R")
+source("code/motif_analysis.R")
+source("code/plots.R")
+```
+
+## Load data and topic model results
+Load the data and the $k = 13$ Poisson NMF fit results.
+```{r load-data}
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/processed_data/"
+load(file.path(data.dir, "Cusanovich_2018.RData"))
+cat(sprintf("%d x %d counts matrix.\n",nrow(counts),ncol(counts)))
+rm(counts)
+```
+
+Tissues:
+```{r samples-tissues}
+samples$tissue <- gsub("BoneMarrow", "Bone marrow", samples$tissue)
+samples$tissue <- gsub("LargeIntestine", "Large intestine", samples$tissue)
+samples$tissue <- gsub("SmallIntestine", "Small intestine", samples$tissue)
+samples$tissue <- gsub("PreFrontalCortex", "Prefrontal cortex", samples$tissue)
+samples$tissue <- gsub("WholeBrain", "Whole brain", samples$tissue)
+
+samples$tissue <- factor(samples$tissue, levels = c("Heart", "Liver", "Thymus", 
+                                                    "Spleen","Lung",  "Kidney", 
+                                                    "Large intestine", "Small intestine", "Testes", 
+                                                    "Bone marrow", 
+                                                    "Cerebellum", "Prefrontal cortex", "Whole brain"))
+cat(length(levels(samples$tissue)), "tissues. \n")
+table(samples$tissue)
+```
+
+## Progress plot showing convergence of the optimization methods
+
+Load the results of running `fit_poisson_nmf` on the Cusanovich_2018 data,
+with different algorithms, and for various choices of $k$ (the number
+of "topics").
+
+```{r load-results}
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
+load(file.path(out.dir, "/compiled.fits.Cusanovich2018.RData"))
+```
+
+```{r plot-loglik-iter, fig.width=5, fig.height=4}
+create_progress_plot_k(dat, fits, k = 13, x="iter", y="loglik", numiter.prefit=200)
+ggsave("paper/Cusanovich2018_progress_plot.eps", width = 5, height = 4, dpi = 600)
+
+```
+
+## Structure plot grouped by tissues
+
+```{r load-fit}
+fit.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018"
+fit <- readRDS(file.path(fit.dir, "/fit-Cusanovich2018-scd-ex-k=13.rds"))$fit
+fit_multinom <- poisson2multinom(fit)
+```
+
+```{r structure-plot-k13, fig.width=8, fig.height=2.5, message=FALSE}
+set.seed(10)
+
+colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
+                   "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928",
+                   "gray")
+
+idx_selected_samples <- sample(nrow(fit_multinom$L),4000)
+
+p.structure <- structure_plot(select(fit_multinom,loadings = idx_selected_samples),
+                              grouping = samples[idx_selected_samples, "tissue"],
+                              n = Inf,gap = 40, perplexity = 50,
+                              topics = 1:13,colors = colors_topics,
+                              num_threads = 8,verbose = FALSE)
+
+print(p.structure)
+
+ggsave("paper/Cusanovich2018_structure_plot.eps", width = 7, height = 2.5, dpi = 600)
+
+```
+
+## TF motif enrichment
+
+```{r compile-homer-motif-results}
+# Compile Homer results across topics
+homer.dir <- paste0(out.dir, "/postfit/motifanalysis-Cusanovich2018-k=13-quantile/HOMER")
+cat(sprintf("Directory of motif analysis result: %s \n", homer.dir))
+homer_res_topics <- readRDS(file.path(homer.dir, "/homer_knownResults.rds"))
+selected_regions <- readRDS(file.path(homer.dir, "/selected_regions.rds"))
+
+# Compile Homer results (pvalue and ranking) across topics
+motif_res <- compile_homer_motif_res(homer_res_topics)
+# saveRDS(motif_res, paste0(homer.dir, "/homer_motif_enrichment_results.rds"))
+# motif_res <- readRDS(paste0(homer.dir, "/homer_motif_enrichment_results.rds"))
+
+```
+
+
+Plot enrichment (-log10 p-value) vs. ranking of the motifs
+
+```{r motif-enrichment-ranking-plot, fig.width=10, fig.height=7, warning=FALSE}
+
+plots <- vector("list", ncol(motif_res$mlog10P))
+names(plots) <- colnames(motif_res$mlog10P)
+
+for( i in 1:length(plots)){
+  plots[[i]] <- create_motif_enrichment_ranking_plot(motif_res, k = i, point.size = 1,
+                                                     max.overlaps = 20, subsample = FALSE)
+}
+
+do.call(plot_grid,plots)
+
+ggsave("paper/Cusanovich2018_motif_enrichment_ranking_topics.eps", width = 10, height = 7, dpi = 600)
+
+```
+
+**Topic 1 example**
+```{r motif-enrichment-ranking-plot-2, fig.width=5, fig.height=4, warning=FALSE}
+
+create_motif_enrichment_ranking_plot(motif_res, k = 1, title = "TF motif enrichment in topic 1", point.size = 1, max.overlaps = 20, subsample = FALSE)
+
+ggsave("paper/Cusanovich2018_motif_enrichment_ranking_topic1.eps", width = 5, height = 4, dpi = 600)
+
+```
+
+
+**Topic 3 example**
+```{r motif-enrichment-ranking-plot-3, fig.width=5, fig.height=4, warning=FALSE}
+
+create_motif_enrichment_ranking_plot(motif_res, k = 3, title = "TF motif enrichment in topic 3", point.size = 1, max.overlaps = 20, subsample = FALSE)
+
+ggsave("paper/Cusanovich2018_motif_enrichment_ranking_topic3.eps", width = 5, height = 4, dpi = 600)
+
+```
+
+
+**Topic 7 example**
+```{r motif-enrichment-ranking-plot-4, fig.width=5, fig.height=4, warning=FALSE}
+
+create_motif_enrichment_ranking_plot(motif_res, k = 7, title = "TF motif enrichment in topic 7", point.size = 1, max.overlaps = 20, subsample = FALSE)
+
+ggsave("paper/Cusanovich2018_motif_enrichment_ranking_topic7.eps", width = 5, height = 4, dpi = 600)
+
+```
+
+
+Check cell cluster labels for topic 1
+```{r cell_label_dist_topic1, fig.width=6, fig.height=3}
+k = 1
+rows_k <- which(fit_multinom$L[,k] > 0.1)
+with(samples[rows_k,], table(tissue, id))
+
+# cell counts by tissues
+df <- as.data.frame(sort(with(samples[rows_k,], table(tissue)), decreasing = TRUE))
+df <- df[df$Freq > 10, ]
+
+p <- ggplot(data=df, aes(x=tissue, y=Freq)) +
+  geom_bar(stat="identity") +
+  labs(x = "tissue", y = "number of cells", title = paste("topic", k)) +
+  guides(x =  guide_axis(angle = 45)) +
+  theme_cowplot(font_size = 10)
+p
+
+# cell counts by cell labels
+df <- as.data.frame(sort(with(samples[rows_k,], table(cell_label)), decreasing = TRUE))
+df <- df[df$Freq > 10, ]
+
+p <- ggplot(data=df, aes(x=cell_label, y=Freq)) +
+  geom_bar(stat="identity") +
+  labs(x = "cell labels", y = "number of cells", title = paste("topic", k)) +
+  guides(x =  guide_axis(angle = 45)) +
+  theme_cowplot(font_size = 10)
+p
+
+# cell counts by clusters
+df <- as.data.frame(sort(with(samples[rows_k,], table(cluster)), decreasing = TRUE))
+df <- df[df$Freq > 10, ]
+
+p <- ggplot(data=df, aes(x=cluster, y=Freq)) +
+  geom_bar(stat="identity") +
+  labs(x = "cluster", y = "number of cells", title = paste("topic", k)) +
+  guides(x =  guide_axis(angle = 45)) +
+  theme_cowplot(font_size = 10)
+p
+
+
+# cell counts by cluster ids
+df <- as.data.frame(sort(with(samples[rows_k,], table(id)), decreasing = TRUE))
+df <- df[df$Freq > 10, ]
+p <- ggplot(data=df, aes(x=id, y=Freq)) +
+  geom_bar(stat="identity") +
+  labs(x = "cluster id", y = "number of cells", title = paste("topic", k)) +
+  guides(x =  guide_axis(angle = 45)) +
+  theme_cowplot(font_size = 10)
+p
+
+```
+
+
+Check cell cluster labels for topic 3
+```{r cell_label_dist_topic3, fig.width=6, fig.height=3}
+k = 3
+rows_k <- which(fit_multinom$L[,k] > 0.1)
+with(samples[rows_k,], table(tissue, id))
+
+# cell counts by tissues
+df <- as.data.frame(sort(with(samples[rows_k,], table(tissue)), decreasing = TRUE))
+df <- df[df$Freq > 10, ]
+
+p <- ggplot(data=df, aes(x=tissue, y=Freq)) +
+  geom_bar(stat="identity") +
+  labs(x = "tissue", y = "number of cells", title = paste("topic", k)) +
+  guides(x =  guide_axis(angle = 45)) +
+  theme_cowplot(font_size = 10)
+p
+
+# cell counts by cell labels
+df <- as.data.frame(sort(with(samples[rows_k,], table(cell_label)), decreasing = TRUE))
+df <- df[df$Freq > 10, ]
+
+p <- ggplot(data=df, aes(x=cell_label, y=Freq)) +
+  geom_bar(stat="identity") +
+  labs(x = "cell labels", y = "number of cells", title = paste("topic", k)) +
+  guides(x =  guide_axis(angle = 45)) +
+  theme_cowplot(font_size = 10)
+p
+
+# cell counts by clusters
+df <- as.data.frame(sort(with(samples[rows_k,], table(cluster)), decreasing = TRUE))
+df <- df[df$Freq > 10, ]
+
+p <- ggplot(data=df, aes(x=cluster, y=Freq)) +
+  geom_bar(stat="identity") +
+  labs(x = "cluster", y = "number of cells", title = paste("topic", k)) +
+  guides(x =  guide_axis(angle = 45)) +
+  theme_cowplot(font_size = 10)
+p
+
+
+# cell counts by cluster ids
+df <- as.data.frame(sort(with(samples[rows_k,], table(id)), decreasing = TRUE))
+df <- df[df$Freq > 10, ]
+p <- ggplot(data=df, aes(x=id, y=Freq)) +
+  geom_bar(stat="identity") +
+  labs(x = "cluster id", y = "number of cells", title = paste("topic", k)) +
+  guides(x =  guide_axis(angle = 45)) +
+  theme_cowplot(font_size = 10)
+p
+
+```
+
+
+Check cell cluster labels for topic 7
+```{r cell_label_dist_topic7, fig.width=6, fig.height=3}
+k = 7
+rows_k <- which(fit_multinom$L[,k] > 0.1)
+with(samples[rows_k,], table(tissue, id))
+
+# cell counts by tissues
+df <- as.data.frame(sort(with(samples[rows_k,], table(tissue)), decreasing = TRUE))
+df <- df[df$Freq > 10, ]
+
+p <- ggplot(data=df, aes(x=tissue, y=Freq)) +
+  geom_bar(stat="identity") +
+  labs(x = "tissue", y = "number of cells", title = paste("topic", k)) +
+  guides(x =  guide_axis(angle = 45)) +
+  theme_cowplot(font_size = 10)
+p
+
+# cell counts by cell labels
+df <- as.data.frame(sort(with(samples[rows_k,], table(cell_label)), decreasing = TRUE))
+df <- df[df$Freq > 10, ]
+
+p <- ggplot(data=df, aes(x=cell_label, y=Freq)) +
+  geom_bar(stat="identity") +
+  labs(x = "cell labels", y = "number of cells", title = paste("topic", k)) +
+  guides(x =  guide_axis(angle = 45)) +
+  theme_cowplot(font_size = 10)
+p
+
+# cell counts by clusters
+df <- as.data.frame(sort(with(samples[rows_k,], table(cluster)), decreasing = TRUE))
+df <- df[df$Freq > 10, ]
+
+p <- ggplot(data=df, aes(x=cluster, y=Freq)) +
+  geom_bar(stat="identity") +
+  labs(x = "cluster", y = "number of cells", title = paste("topic", k)) +
+  guides(x =  guide_axis(angle = 45)) +
+  theme_cowplot(font_size = 10)
+p
+
+
+# cell counts by cluster ids
+df <- as.data.frame(sort(with(samples[rows_k,], table(id)), decreasing = TRUE))
+df <- df[df$Freq > 10, ]
+p <- ggplot(data=df, aes(x=id, y=Freq)) +
+  geom_bar(stat="identity") +
+  labs(x = "cluster id", y = "number of cells", title = paste("topic", k)) +
+  guides(x =  guide_axis(angle = 45)) +
+  theme_cowplot(font_size = 10)
+p
+
+```
