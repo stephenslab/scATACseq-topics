@@ -1,0 +1,2331 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Kaixuan Luo" />
+
+
+<title>Selected figures for Cusanovich et al (2018) scATAC-seq results</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/master/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">scATACseq-topics</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/stephenslab/scATACseq-topics">source</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Selected figures for Cusanovich <em>et al</em> (2018) scATAC-seq results</h1>
+<h4 class="author">Kaixuan Luo</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2021-04-07
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>scATACseq-topics/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.2). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it's best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20200729code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20200729)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20200729code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20200729)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreea1c3d6b9a11f68345d1f8cbc0b048c3eb6a392c6targetblanka1c3d6ba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/a1c3d6b9a11f68345d1f8cbc0b048c3eb6a392c6" target="_blank">a1c3d6b</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreea1c3d6b9a11f68345d1f8cbc0b048c3eb6a392c6targetblanka1c3d6ba" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/a1c3d6b9a11f68345d1f8cbc0b048c3eb6a392c6" target="_blank">a1c3d6b</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    output/plotly/Buenrostro_2018_Chen2019pipeline/
+
+Untracked files:
+    Untracked:  analysis/process_data_Buenrostro2018_Chen2019.Rmd
+    Untracked:  analysis/selected_figures_Buenrostro2018.Rmd
+    Untracked:  gsea_b_cells.html
+    Untracked:  output/clustering-Cusanovich2018.rds
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_10_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_10_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_10_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_10_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_10_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_10_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_10_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_10_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_10_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_10_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_11_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_11_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_11_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_11_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_11_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_11_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_11_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_11_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_11_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_11_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_12_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_12_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_12_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_12_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_12_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_12_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_12_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_12_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_12_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_12_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_13_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_13_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_13_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_13_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_13_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_13_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_13_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_13_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_13_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_13_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_1_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_1_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_1_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_1_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_1_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_1_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_1_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_1_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_1_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_1_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_2_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_2_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_2_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_2_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_2_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_2_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_2_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_2_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_2_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_2_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_3_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_3_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_3_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_3_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_3_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_3_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_3_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_3_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_3_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_3_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_4_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_4_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_4_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_4_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_4_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_4_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_4_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_4_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_4_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_4_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_5_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_5_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_5_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_5_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_5_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_5_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_5_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_5_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_5_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_5_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_6_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_6_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_6_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_6_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_6_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_6_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_6_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_6_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_6_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_6_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_7_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_7_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_7_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_7_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_7_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_7_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_7_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_7_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_7_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_7_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_8_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_8_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_8_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_8_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_8_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_8_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_8_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_8_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_8_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_8_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_9_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_9_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_9_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_9_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_9_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_9_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_9_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_9_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_9_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_9_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_10_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_10_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_10_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_10_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_10_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_10_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_10_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_10_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_10_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_10_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_11_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_11_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_11_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_11_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_11_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_11_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_11_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_11_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_11_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_11_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_12_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_12_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_12_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_12_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_12_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_12_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_12_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_12_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_12_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_12_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_13_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_13_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_13_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_13_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_13_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_13_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_13_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_13_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_13_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_13_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_1_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_1_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_1_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_1_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_1_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_1_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_1_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_1_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_1_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_1_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_2_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_2_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_2_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_2_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_2_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_2_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_2_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_2_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_2_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_2_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_3_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_3_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_3_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_3_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_3_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_3_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_3_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_3_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_3_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_3_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_4_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_4_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_4_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_4_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_4_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_4_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_4_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_4_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_4_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_4_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_5_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_5_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_5_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_5_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_5_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_5_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_5_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_5_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_5_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_5_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_6_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_6_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_6_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_6_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_6_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_6_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_6_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_6_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_6_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_6_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_7_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_7_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_7_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_7_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_7_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_7_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_7_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_7_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_7_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_7_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_8_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_8_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_8_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_8_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_8_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_8_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_8_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_8_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_8_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_8_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_9_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_9_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_9_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_9_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_9_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_9_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_9_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_9_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_9_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_9_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  paper/
+    Untracked:  scripts/fit_all_models_Buenrostro_2018_chromVar_scPeaks_filtered.sbatch
+    Untracked:  scripts/fit_models_Cusanovich2018_tissues.sh
+    Untracked:  topic1.html
+
+Unstaged changes:
+    Modified:   analysis/clusters_Cusanovich2018_k13.Rmd
+    Modified:   analysis/gene_analysis_Buenrostro2018_Chen2019pipeline.Rmd
+    Modified:   analysis/gene_analysis_Cusanovich2018.Rmd
+    Modified:   analysis/motif_analysis_Buenrostro2018_Chen2019pipeline.Rmd
+    Modified:   analysis/motif_analysis_Cusanovich2018.Rmd
+    Modified:   analysis/plots_Cusanovich2018.Rmd
+    Modified:   analysis/process_data_Cusanovich2018.Rmd
+    Modified:   code/functions_for_assessing_fits.R
+    Modified:   code/plots.R
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_10_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_10_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_11_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_11_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_12_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_12_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_13_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_13_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_1_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_1_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_2_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_2_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_3_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_3_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_4_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_4_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_5_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_5_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_6_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_6_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_7_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_7_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_8_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_8_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_9_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_9_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_10_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_10_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_11_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_11_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_12_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_12_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_13_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_13_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_1_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_1_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_2_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_2_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_3_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_3_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_4_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_4_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_5_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_5_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_6_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_6_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_7_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_7_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_8_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_8_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_9_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_9_tss-sum.html
+    Modified:   scripts/diffcount_genescore.R
+    Modified:   scripts/diffcount_genescore_gsea.R
+    Modified:   scripts/fit_all_models_Cusanovich2018.sh
+    Modified:   scripts/postfit_Buenrostro2018_Chen2019pipeline.sh
+    Modified:   scripts/postfit_Cusanovich2018.sh
+    Modified:   scripts/postfit_gene_analysis.sbatch
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/selected_figures_Cusanovich2018.Rmd</code>) and HTML (<code>docs/selected_figures_Cusanovich2018.html</code>) files. If you've configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/a1c3d6b9a11f68345d1f8cbc0b048c3eb6a392c6/analysis/selected_figures_Cusanovich2018.Rmd" target="_blank">a1c3d6b</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2021-04-07
+</td>
+<td>
+wflow_publish(&quot;analysis/selected_figures_Cusanovich2018.Rmd&quot;)
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<div id="load-packages-and-some-functions-used-in-this-analysis" class="section level2">
+<h2>Load packages and some functions used in this analysis</h2>
+<pre class="r"><code>library(Matrix)
+library(fastTopics)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(ggrepel)
+library(cowplot)
+library(plotly)
+library(htmlwidgets)
+library(DT)</code></pre>
+<pre><code># Warning: package &#39;DT&#39; was built under R version 3.6.3</code></pre>
+<pre class="r"><code>library(reshape2)
+library(Logolas)</code></pre>
+<pre><code># Warning: package &#39;Logolas&#39; was built under R version 3.6.3</code></pre>
+<pre class="r"><code>library(grid)
+source(&quot;code/functions_for_assessing_fits.R&quot;)
+source(&quot;code/motif_analysis.R&quot;)
+source(&quot;code/plots.R&quot;)</code></pre>
+</div>
+<div id="load-data-and-topic-model-results" class="section level2">
+<h2>Load data and topic model results</h2>
+<p>Load the data and the <span class="math inline">\(k = 13\)</span> Poisson NMF fit results.</p>
+<pre class="r"><code>data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/processed_data/&quot;
+load(file.path(data.dir, &quot;Cusanovich_2018.RData&quot;))
+cat(sprintf(&quot;%d x %d counts matrix.\n&quot;,nrow(counts),ncol(counts)))
+rm(counts)</code></pre>
+<pre><code># 81173 x 436206 counts matrix.</code></pre>
+<p>Tissues:</p>
+<pre class="r"><code>samples$tissue &lt;- gsub(&quot;BoneMarrow&quot;, &quot;Bone marrow&quot;, samples$tissue)
+samples$tissue &lt;- gsub(&quot;LargeIntestine&quot;, &quot;Large intestine&quot;, samples$tissue)
+samples$tissue &lt;- gsub(&quot;SmallIntestine&quot;, &quot;Small intestine&quot;, samples$tissue)
+samples$tissue &lt;- gsub(&quot;PreFrontalCortex&quot;, &quot;Prefrontal cortex&quot;, samples$tissue)
+samples$tissue &lt;- gsub(&quot;WholeBrain&quot;, &quot;Whole brain&quot;, samples$tissue)
+
+samples$tissue &lt;- factor(samples$tissue, levels = c(&quot;Heart&quot;, &quot;Liver&quot;, &quot;Thymus&quot;, 
+                                                    &quot;Spleen&quot;,&quot;Lung&quot;,  &quot;Kidney&quot;, 
+                                                    &quot;Large intestine&quot;, &quot;Small intestine&quot;, &quot;Testes&quot;, 
+                                                    &quot;Bone marrow&quot;, 
+                                                    &quot;Cerebellum&quot;, &quot;Prefrontal cortex&quot;, &quot;Whole brain&quot;))
+cat(length(levels(samples$tissue)), &quot;tissues. \n&quot;)
+table(samples$tissue)</code></pre>
+<pre><code># 13 tissues. 
+# 
+#             Heart             Liver            Thymus            Spleen 
+#              7650              6167              7617              4020 
+#              Lung            Kidney   Large intestine   Small intestine 
+#              9996              6431              7086              4077 
+#            Testes       Bone marrow        Cerebellum Prefrontal cortex 
+#              2723              8403              2278              5959 
+#       Whole brain 
+#              8766</code></pre>
+</div>
+<div id="progress-plot-showing-convergence-of-the-optimization-methods" class="section level2">
+<h2>Progress plot showing convergence of the optimization methods</h2>
+<p>Load the results of running <code>fit_poisson_nmf</code> on the Cusanovich_2018 data, with different algorithms, and for various choices of <span class="math inline">\(k\)</span> (the number of &quot;topics&quot;).</p>
+<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018&quot;
+load(file.path(out.dir, &quot;/compiled.fits.Cusanovich2018.RData&quot;))</code></pre>
+<pre class="r"><code>create_progress_plot_k(dat, fits, k = 13, x=&quot;iter&quot;, y=&quot;loglik&quot;, numiter.prefit=200)</code></pre>
+<p><img src="figure/selected_figures_Cusanovich2018.Rmd/plot-loglik-iter-1.png" width="3000" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(&quot;paper/Cusanovich2018_progress_plot.eps&quot;, width = 5, height = 4, dpi = 600)</code></pre>
+</div>
+<div id="structure-plot-grouped-by-tissues" class="section level2">
+<h2>Structure plot grouped by tissues</h2>
+<pre class="r"><code>fit.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018&quot;
+fit &lt;- readRDS(file.path(fit.dir, &quot;/fit-Cusanovich2018-scd-ex-k=13.rds&quot;))$fit
+fit_multinom &lt;- poisson2multinom(fit)</code></pre>
+<pre class="r"><code>set.seed(10)
+
+colors_topics &lt;- c(&quot;#a6cee3&quot;,&quot;#1f78b4&quot;,&quot;#b2df8a&quot;,&quot;#33a02c&quot;,&quot;#fb9a99&quot;,&quot;#e31a1c&quot;,
+                   &quot;#fdbf6f&quot;,&quot;#ff7f00&quot;,&quot;#cab2d6&quot;,&quot;#6a3d9a&quot;,&quot;#ffff99&quot;,&quot;#b15928&quot;,
+                   &quot;gray&quot;)
+
+idx_selected_samples &lt;- sample(nrow(fit_multinom$L),4000)
+
+p.structure &lt;- structure_plot(select(fit_multinom,loadings = idx_selected_samples),
+                              grouping = samples[idx_selected_samples, &quot;tissue&quot;],
+                              n = Inf,gap = 40, perplexity = 50,
+                              topics = 1:13,colors = colors_topics,
+                              num_threads = 8,verbose = FALSE)
+
+print(p.structure)</code></pre>
+<p><img src="figure/selected_figures_Cusanovich2018.Rmd/structure-plot-k13-1.png" width="4800" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(&quot;paper/Cusanovich2018_structure_plot.eps&quot;, width = 7, height = 2.5, dpi = 600)</code></pre>
+</div>
+<div id="tf-motif-enrichment" class="section level2">
+<h2>TF motif enrichment</h2>
+<pre class="r"><code># Compile Homer results across topics
+homer.dir &lt;- paste0(out.dir, &quot;/postfit/motifanalysis-Cusanovich2018-k=13-quantile/HOMER&quot;)
+cat(sprintf(&quot;Directory of motif analysis result: %s \n&quot;, homer.dir))
+homer_res_topics &lt;- readRDS(file.path(homer.dir, &quot;/homer_knownResults.rds&quot;))
+selected_regions &lt;- readRDS(file.path(homer.dir, &quot;/selected_regions.rds&quot;))
+
+# Compile Homer results (pvalue and ranking) across topics
+motif_res &lt;- compile_homer_motif_res(homer_res_topics)
+# saveRDS(motif_res, paste0(homer.dir, &quot;/homer_motif_enrichment_results.rds&quot;))
+# motif_res &lt;- readRDS(paste0(homer.dir, &quot;/homer_motif_enrichment_results.rds&quot;))</code></pre>
+<pre><code># Directory of motif analysis result: /project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018/postfit/motifanalysis-Cusanovich2018-k=13-quantile/HOMER</code></pre>
+<p>Plot enrichment (-log10 p-value) vs. ranking of the motifs</p>
+<pre class="r"><code>plots &lt;- vector(&quot;list&quot;, ncol(motif_res$mlog10P))
+names(plots) &lt;- colnames(motif_res$mlog10P)
+
+for( i in 1:length(plots)){
+  plots[[i]] &lt;- create_motif_enrichment_ranking_plot(motif_res, k = i, point.size = 1,
+                                                     max.overlaps = 20, subsample = FALSE)
+}
+
+do.call(plot_grid,plots)</code></pre>
+<p><img src="figure/selected_figures_Cusanovich2018.Rmd/motif-enrichment-ranking-plot-1.png" width="6000" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(&quot;paper/Cusanovich2018_motif_enrichment_ranking_topics.eps&quot;, width = 10, height = 7, dpi = 600)</code></pre>
+<p><strong>Topic 1 example</strong></p>
+<pre class="r"><code>create_motif_enrichment_ranking_plot(motif_res, k = 1, title = &quot;TF motif enrichment in topic 1&quot;, point.size = 1, max.overlaps = 20, subsample = FALSE)</code></pre>
+<p><img src="figure/selected_figures_Cusanovich2018.Rmd/motif-enrichment-ranking-plot-2-1.png" width="3000" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(&quot;paper/Cusanovich2018_motif_enrichment_ranking_topic1.eps&quot;, width = 5, height = 4, dpi = 600)</code></pre>
+<p><strong>Topic 3 example</strong></p>
+<pre class="r"><code>create_motif_enrichment_ranking_plot(motif_res, k = 3, title = &quot;TF motif enrichment in topic 3&quot;, point.size = 1, max.overlaps = 20, subsample = FALSE)</code></pre>
+<p><img src="figure/selected_figures_Cusanovich2018.Rmd/motif-enrichment-ranking-plot-3-1.png" width="3000" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(&quot;paper/Cusanovich2018_motif_enrichment_ranking_topic3.eps&quot;, width = 5, height = 4, dpi = 600)</code></pre>
+<p><strong>Topic 7 example</strong></p>
+<pre class="r"><code>create_motif_enrichment_ranking_plot(motif_res, k = 7, title = &quot;TF motif enrichment in topic 7&quot;, point.size = 1, max.overlaps = 20, subsample = FALSE)</code></pre>
+<p><img src="figure/selected_figures_Cusanovich2018.Rmd/motif-enrichment-ranking-plot-4-1.png" width="3000" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(&quot;paper/Cusanovich2018_motif_enrichment_ranking_topic7.eps&quot;, width = 5, height = 4, dpi = 600)</code></pre>
+<p>Check cell cluster labels for topic 1</p>
+<pre class="r"><code>k = 1
+rows_k &lt;- which(fit_multinom$L[,k] &gt; 0.1)
+with(samples[rows_k,], table(tissue, id))
+
+# cell counts by tissues
+df &lt;- as.data.frame(sort(with(samples[rows_k,], table(tissue)), decreasing = TRUE))
+df &lt;- df[df$Freq &gt; 10, ]
+
+p &lt;- ggplot(data=df, aes(x=tissue, y=Freq)) +
+  geom_bar(stat=&quot;identity&quot;) +
+  labs(x = &quot;tissue&quot;, y = &quot;number of cells&quot;, title = paste(&quot;topic&quot;, k)) +
+  guides(x =  guide_axis(angle = 45)) +
+  theme_cowplot(font_size = 10)
+p</code></pre>
+<p><img src="figure/selected_figures_Cusanovich2018.Rmd/cell_label_dist_topic1-1.png" width="3600" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># cell counts by cell labels
+df &lt;- as.data.frame(sort(with(samples[rows_k,], table(cell_label)), decreasing = TRUE))
+df &lt;- df[df$Freq &gt; 10, ]
+
+p &lt;- ggplot(data=df, aes(x=cell_label, y=Freq)) +
+  geom_bar(stat=&quot;identity&quot;) +
+  labs(x = &quot;cell labels&quot;, y = &quot;number of cells&quot;, title = paste(&quot;topic&quot;, k)) +
+  guides(x =  guide_axis(angle = 45)) +
+  theme_cowplot(font_size = 10)
+p</code></pre>
+<p><img src="figure/selected_figures_Cusanovich2018.Rmd/cell_label_dist_topic1-2.png" width="3600" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># cell counts by clusters
+df &lt;- as.data.frame(sort(with(samples[rows_k,], table(cluster)), decreasing = TRUE))
+df &lt;- df[df$Freq &gt; 10, ]
+
+p &lt;- ggplot(data=df, aes(x=cluster, y=Freq)) +
+  geom_bar(stat=&quot;identity&quot;) +
+  labs(x = &quot;cluster&quot;, y = &quot;number of cells&quot;, title = paste(&quot;topic&quot;, k)) +
+  guides(x =  guide_axis(angle = 45)) +
+  theme_cowplot(font_size = 10)
+p</code></pre>
+<p><img src="figure/selected_figures_Cusanovich2018.Rmd/cell_label_dist_topic1-3.png" width="3600" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># cell counts by cluster ids
+df &lt;- as.data.frame(sort(with(samples[rows_k,], table(id)), decreasing = TRUE))
+df &lt;- df[df$Freq &gt; 10, ]
+p &lt;- ggplot(data=df, aes(x=id, y=Freq)) +
+  geom_bar(stat=&quot;identity&quot;) +
+  labs(x = &quot;cluster id&quot;, y = &quot;number of cells&quot;, title = paste(&quot;topic&quot;, k)) +
+  guides(x =  guide_axis(angle = 45)) +
+  theme_cowplot(font_size = 10)
+p</code></pre>
+<p><img src="figure/selected_figures_Cusanovich2018.Rmd/cell_label_dist_topic1-4.png" width="3600" style="display: block; margin: auto;" /></p>
+<pre><code>#                    id
+# tissue              clusters_1.cluster_1 clusters_1.cluster_2
+#   Heart                                0                    0
+#   Liver                                0                    0
+#   Thymus                               0                    0
+#   Spleen                               0                    0
+#   Lung                                 0                    0
+#   Kidney                               0                    1
+#   Large intestine                      0                    0
+#   Small intestine                      0                    1
+#   Testes                               5                    0
+#   Bone marrow                          9                    5
+#   Cerebellum                           0                    0
+#   Prefrontal cortex                    0                    0
+#   Whole brain                          0                    0
+#                    id
+# tissue              clusters_1.cluster_3 clusters_10.cluster_1
+#   Heart                                1                     0
+#   Liver                                0                     0
+#   Thymus                               0                     0
+#   Spleen                               0                     0
+#   Lung                                13                    23
+#   Kidney                               0                     0
+#   Large intestine                      0                     0
+#   Small intestine                      2                     0
+#   Testes                               4                     0
+#   Bone marrow                          0                   176
+#   Cerebellum                           0                     0
+#   Prefrontal cortex                    0                     0
+#   Whole brain                          0                     0
+#                    id
+# tissue              clusters_11.cluster_2 clusters_11.cluster_3
+#   Heart                                 0                     0
+#   Liver                                 0                     0
+#   Thymus                                0                     0
+#   Spleen                                0                     0
+#   Lung                                  0                     0
+#   Kidney                                3                     1
+#   Large intestine                       0                     0
+#   Small intestine                       0                     0
+#   Testes                                0                     0
+#   Bone marrow                           0                     0
+#   Cerebellum                            0                     0
+#   Prefrontal cortex                     0                     0
+#   Whole brain                           0                     0
+#                    id
+# tissue              clusters_11.cluster_5 clusters_12.cluster_1
+#   Heart                                 0                     0
+#   Liver                                 0                     0
+#   Thymus                                0                     0
+#   Spleen                                0                     3
+#   Lung                                  0                     0
+#   Kidney                                1                     0
+#   Large intestine                       0                     0
+#   Small intestine                       0                     1
+#   Testes                                0                     0
+#   Bone marrow                           0                     3
+#   Cerebellum                            0                     0
+#   Prefrontal cortex                     0                     0
+#   Whole brain                           0                     0
+#                    id
+# tissue              clusters_12.cluster_2 clusters_12.cluster_3
+#   Heart                                 0                     2
+#   Liver                                 1                     0
+#   Thymus                                1                     0
+#   Spleen                                6                    12
+#   Lung                                 16                    45
+#   Kidney                                1                     1
+#   Large intestine                       0                     0
+#   Small intestine                       0                     0
+#   Testes                                0                     0
+#   Bone marrow                           9                    14
+#   Cerebellum                            0                     0
+#   Prefrontal cortex                     0                     0
+#   Whole brain                           0                     0
+#                    id
+# tissue              clusters_12.cluster_4 clusters_13.cluster_1
+#   Heart                                 0                     0
+#   Liver                                 0                     0
+#   Thymus                                1                     0
+#   Spleen                                1                    53
+#   Lung                                  0                     0
+#   Kidney                                0                     0
+#   Large intestine                       0                     0
+#   Small intestine                       0                     0
+#   Testes                                0                     0
+#   Bone marrow                           0                  2758
+#   Cerebellum                            0                     0
+#   Prefrontal cortex                     0                     0
+#   Whole brain                           0                     0
+#                    id
+# tissue              clusters_14.cluster_1 clusters_14.cluster_2
+#   Heart                                 0                     0
+#   Liver                                 0                     0
+#   Thymus                                0                     0
+#   Spleen                                0                     0
+#   Lung                                  0                     0
+#   Kidney                                1                     0
+#   Large intestine                       0                     0
+#   Small intestine                       0                     0
+#   Testes                             1092                   450
+#   Bone marrow                           0                     0
+#   Cerebellum                            0                     0
+#   Prefrontal cortex                     0                     0
+#   Whole brain                           0                     0
+#                    id
+# tissue              clusters_14.cluster_3 clusters_15.cluster_1
+#   Heart                                 0                     0
+#   Liver                                 0                     0
+#   Thymus                                0                     0
+#   Spleen                                0                     0
+#   Lung                                  5                     0
+#   Kidney                                0                     0
+#   Large intestine                       1                     0
+#   Small intestine                       0                     0
+#   Testes                              383                     0
+#   Bone marrow                           0                     0
+#   Cerebellum                            0                     0
+#   Prefrontal cortex                     0                     0
+#   Whole brain                           0                     1
+#                    id
+# tissue              clusters_15.cluster_2 clusters_15.cluster_3
+#   Heart                                 0                     0
+#   Liver                                 0                     0
+#   Thymus                                0                     0
+#   Spleen                                0                     0
+#   Lung                                  0                     0
+#   Kidney                                0                     0
+#   Large intestine                       0                     0
+#   Small intestine                       0                     0
+#   Testes                                0                     0
+#   Bone marrow                           0                     0
+#   Cerebellum                            1                     0
+#   Prefrontal cortex                     0                     1
+#   Whole brain                           4                     2
+#                    id
+# tissue              clusters_16.cluster_1 clusters_16.cluster_2
+#   Heart                                 0                     0
+#   Liver                                 0                     0
+#   Thymus                                0                     0
+#   Spleen                                0                     0
+#   Lung                                  2                     0
+#   Kidney                                0                     0
+#   Large intestine                       0                     0
+#   Small intestine                       0                     0
+#   Testes                                2                     0
+#   Bone marrow                           4                    12
+#   Cerebellum                            0                     0
+#   Prefrontal cortex                     0                     0
+#   Whole brain                           0                     0
+#                    id
+# tissue              clusters_17.cluster_1 clusters_17.cluster_2
+#   Heart                                 1                     0
+#   Liver                                 0                     0
+#   Thymus                                0                     0
+#   Spleen                                2                     0
+#   Lung                                 65                     4
+#   Kidney                                0                     0
+#   Large intestine                       0                     0
+#   Small intestine                       0                     0
+#   Testes                                0                     0
+#   Bone marrow                          18                     0
+#   Cerebellum                            0                     0
+#   Prefrontal cortex                     0                     0
+#   Whole brain                           0                     0
+#                    id
+# tissue              clusters_17.cluster_3 clusters_17.cluster_4
+#   Heart                                 0                     0
+#   Liver                                 0                     0
+#   Thymus                                0                     0
+#   Spleen                                0                     0
+#   Lung                                  2                     0
+#   Kidney                                0                     0
+#   Large intestine                       0                     0
+#   Small intestine                       0                     0
+#   Testes                                0                     0
+#   Bone marrow                           3                    50
+#   Cerebellum                            0                     0
+#   Prefrontal cortex                     0                     0
+#   Whole brain                           0                     0
+#                    id
+# tissue              clusters_18.cluster_1 clusters_19.cluster_1
+#   Heart                                 0                     0
+#   Liver                                 0                     0
+#   Thymus                                0                     0
+#   Spleen                                0                     0
+#   Lung                                  0                     0
+#   Kidney                                3                     0
+#   Large intestine                       0                     0
+#   Small intestine                       0                     0
+#   Testes                                0                     0
+#   Bone marrow                           0                     0
+#   Cerebellum                            0                     0
+#   Prefrontal cortex                     0                     1
+#   Whole brain                           0                     0
+#                    id
+# tissue              clusters_19.cluster_3 clusters_2.cluster_1
+#   Heart                                 0                    0
+#   Liver                                 0                    0
+#   Thymus                                0                    8
+#   Spleen                                0                    0
+#   Lung                                  0                    0
+#   Kidney                                0                    0
+#   Large intestine                       0                    0
+#   Small intestine                       0                    0
+#   Testes                                0                    0
+#   Bone marrow                           0                    0
+#   Cerebellum                            1                    0
+#   Prefrontal cortex                     0                    0
+#   Whole brain                           0                    0
+#                    id
+# tissue              clusters_20.cluster_1 clusters_22.cluster_1
+#   Heart                                 0                    41
+#   Liver                                 0                     0
+#   Thymus                                0                     0
+#   Spleen                                0                     0
+#   Lung                                 24                    13
+#   Kidney                                0                     1
+#   Large intestine                       0                     1
+#   Small intestine                       0                     8
+#   Testes                                0                     1
+#   Bone marrow                           0                     0
+#   Cerebellum                            0                     1
+#   Prefrontal cortex                     0                     3
+#   Whole brain                           0                     5
+#                    id
+# tissue              clusters_22.cluster_2 clusters_22.cluster_3
+#   Heart                                 0                     0
+#   Liver                                 0                    47
+#   Thymus                                0                     0
+#   Spleen                                0                     0
+#   Lung                                  0                     3
+#   Kidney                                7                     0
+#   Large intestine                       0                     0
+#   Small intestine                       1                     0
+#   Testes                                0                     0
+#   Bone marrow                           0                     0
+#   Cerebellum                            0                     0
+#   Prefrontal cortex                     0                     0
+#   Whole brain                           0                     0
+#                    id
+# tissue              clusters_22.cluster_4 clusters_23.cluster_1
+#   Heart                                 1                     0
+#   Liver                                 0                     0
+#   Thymus                                0                     0
+#   Spleen                                0                     0
+#   Lung                                 76                     6
+#   Kidney                                2                     0
+#   Large intestine                       0                     0
+#   Small intestine                       0                     0
+#   Testes                                0                     1
+#   Bone marrow                           0                     0
+#   Cerebellum                            0                     0
+#   Prefrontal cortex                     0                     0
+#   Whole brain                           1                     0
+#                    id
+# tissue              clusters_24.cluster_1 clusters_24.cluster_2
+#   Heart                                 4                     0
+#   Liver                                11                     0
+#   Thymus                               23                     8
+#   Spleen                               71                    17
+#   Lung                                145                    52
+#   Kidney                                1                     2
+#   Large intestine                       0                     0
+#   Small intestine                       0                     1
+#   Testes                                0                     0
+#   Bone marrow                         515                   310
+#   Cerebellum                            0                     0
+#   Prefrontal cortex                     0                     1
+#   Whole brain                           0                     0
+#                    id
+# tissue              clusters_26.cluster_2 clusters_26.cluster_3
+#   Heart                                 0                     0
+#   Liver                                 0                     0
+#   Thymus                                0                     0
+#   Spleen                                0                     0
+#   Lung                                  0                     0
+#   Kidney                                0                     0
+#   Large intestine                       0                     0
+#   Small intestine                       0                     0
+#   Testes                                0                     0
+#   Bone marrow                           0                    19
+#   Cerebellum                            0                     0
+#   Prefrontal cortex                     0                     0
+#   Whole brain                           1                     0
+#                    id
+# tissue              clusters_27.cluster_2 clusters_28.cluster_1
+#   Heart                                 0                     0
+#   Liver                                 0                     0
+#   Thymus                                0                     0
+#   Spleen                                0                     0
+#   Lung                                  0                     0
+#   Kidney                                0                     0
+#   Large intestine                       0                     0
+#   Small intestine                       0                     0
+#   Testes                                0                     0
+#   Bone marrow                           0                     3
+#   Cerebellum                            0                     0
+#   Prefrontal cortex                     0                     0
+#   Whole brain                           1                     0
+#                    id
+# tissue              clusters_28.cluster_2 clusters_3.cluster_1
+#   Heart                                 0                    0
+#   Liver                                 0                    1
+#   Thymus                                0                    0
+#   Spleen                                0                    0
+#   Lung                                  0                    0
+#   Kidney                                0                    0
+#   Large intestine                       0                    0
+#   Small intestine                       0                    0
+#   Testes                                0                    0
+#   Bone marrow                          12                    0
+#   Cerebellum                            0                    0
+#   Prefrontal cortex                     0                    0
+#   Whole brain                           0                    0
+#                    id
+# tissue              clusters_30.cluster_1 clusters_30.cluster_2
+#   Heart                                 0                     0
+#   Liver                                 0                     0
+#   Thymus                                0                     0
+#   Spleen                                0                     0
+#   Lung                                  5                     3
+#   Kidney                                0                     0
+#   Large intestine                       0                     0
+#   Small intestine                       0                     0
+#   Testes                                0                     0
+#   Bone marrow                           0                     0
+#   Cerebellum                            0                     0
+#   Prefrontal cortex                     0                     0
+#   Whole brain                           0                     0
+#                    id
+# tissue              clusters_30.cluster_4 clusters_4.cluster_1
+#   Heart                                 0                    0
+#   Liver                                 0                    0
+#   Thymus                                0                    0
+#   Spleen                                0                    0
+#   Lung                                  0                    2
+#   Kidney                                1                    0
+#   Large intestine                       0                    0
+#   Small intestine                       0                    0
+#   Testes                                0                    0
+#   Bone marrow                           0                    3
+#   Cerebellum                            0                    0
+#   Prefrontal cortex                     0                    0
+#   Whole brain                           0                    0
+#                    id
+# tissue              clusters_4.cluster_2 clusters_4.cluster_3
+#   Heart                                0                    0
+#   Liver                                0                    0
+#   Thymus                               0                    0
+#   Spleen                               0                    1
+#   Lung                                 0                    2
+#   Kidney                               0                    0
+#   Large intestine                      0                    0
+#   Small intestine                      0                    0
+#   Testes                               0                    0
+#   Bone marrow                          3                    4
+#   Cerebellum                           0                    0
+#   Prefrontal cortex                    0                    0
+#   Whole brain                          0                    0
+#                    id
+# tissue              clusters_5.cluster_5 clusters_6.cluster_1
+#   Heart                                0                    0
+#   Liver                                0                    0
+#   Thymus                               0                    0
+#   Spleen                               0                    0
+#   Lung                                 0                    0
+#   Kidney                               0                    0
+#   Large intestine                      0                   12
+#   Small intestine                      0                    0
+#   Testes                               0                    0
+#   Bone marrow                          0                    1
+#   Cerebellum                           0                    0
+#   Prefrontal cortex                    1                    0
+#   Whole brain                          8                    0
+#                    id
+# tissue              clusters_7.cluster_1 clusters_9.cluster_1
+#   Heart                                5                   12
+#   Liver                                0                    0
+#   Thymus                               0                    0
+#   Spleen                               0                    0
+#   Lung                                 0                   45
+#   Kidney                               0                    9
+#   Large intestine                      0                    2
+#   Small intestine                      0                    5
+#   Testes                               0                    6
+#   Bone marrow                          0                    2
+#   Cerebellum                           0                    0
+#   Prefrontal cortex                    0                    0
+#   Whole brain                          0                    0
+#                    id
+# tissue              clusters_9.cluster_2 clusters_9.cluster_3
+#   Heart                                2                    0
+#   Liver                                0                    0
+#   Thymus                               0                    0
+#   Spleen                               0                    0
+#   Lung                                 0                    0
+#   Kidney                               0                    0
+#   Large intestine                      0                    0
+#   Small intestine                      0                    0
+#   Testes                               0                    0
+#   Bone marrow                          0                    0
+#   Cerebellum                           0                    7
+#   Prefrontal cortex                    0                    4
+#   Whole brain                          0                    9</code></pre>
+<p>Check cell cluster labels for topic 3</p>
+<pre class="r"><code>k = 3
+rows_k &lt;- which(fit_multinom$L[,k] &gt; 0.1)
+with(samples[rows_k,], table(tissue, id))
+
+# cell counts by tissues
+df &lt;- as.data.frame(sort(with(samples[rows_k,], table(tissue)), decreasing = TRUE))
+df &lt;- df[df$Freq &gt; 10, ]
+
+p &lt;- ggplot(data=df, aes(x=tissue, y=Freq)) +
+  geom_bar(stat=&quot;identity&quot;) +
+  labs(x = &quot;tissue&quot;, y = &quot;number of cells&quot;, title = paste(&quot;topic&quot;, k)) +
+  guides(x =  guide_axis(angle = 45)) +
+  theme_cowplot(font_size = 10)
+p</code></pre>
+<p><img src="figure/selected_figures_Cusanovich2018.Rmd/cell_label_dist_topic3-1.png" width="3600" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># cell counts by cell labels
+df &lt;- as.data.frame(sort(with(samples[rows_k,], table(cell_label)), decreasing = TRUE))
+df &lt;- df[df$Freq &gt; 10, ]
+
+p &lt;- ggplot(data=df, aes(x=cell_label, y=Freq)) +
+  geom_bar(stat=&quot;identity&quot;) +
+  labs(x = &quot;cell labels&quot;, y = &quot;number of cells&quot;, title = paste(&quot;topic&quot;, k)) +
+  guides(x =  guide_axis(angle = 45)) +
+  theme_cowplot(font_size = 10)
+p</code></pre>
+<p><img src="figure/selected_figures_Cusanovich2018.Rmd/cell_label_dist_topic3-2.png" width="3600" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># cell counts by clusters
+df &lt;- as.data.frame(sort(with(samples[rows_k,], table(cluster)), decreasing = TRUE))
+df &lt;- df[df$Freq &gt; 10, ]
+
+p &lt;- ggplot(data=df, aes(x=cluster, y=Freq)) +
+  geom_bar(stat=&quot;identity&quot;) +
+  labs(x = &quot;cluster&quot;, y = &quot;number of cells&quot;, title = paste(&quot;topic&quot;, k)) +
+  guides(x =  guide_axis(angle = 45)) +
+  theme_cowplot(font_size = 10)
+p</code></pre>
+<p><img src="figure/selected_figures_Cusanovich2018.Rmd/cell_label_dist_topic3-3.png" width="3600" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># cell counts by cluster ids
+df &lt;- as.data.frame(sort(with(samples[rows_k,], table(id)), decreasing = TRUE))
+df &lt;- df[df$Freq &gt; 10, ]
+p &lt;- ggplot(data=df, aes(x=id, y=Freq)) +
+  geom_bar(stat=&quot;identity&quot;) +
+  labs(x = &quot;cluster id&quot;, y = &quot;number of cells&quot;, title = paste(&quot;topic&quot;, k)) +
+  guides(x =  guide_axis(angle = 45)) +
+  theme_cowplot(font_size = 10)
+p</code></pre>
+<p><img src="figure/selected_figures_Cusanovich2018.Rmd/cell_label_dist_topic3-4.png" width="3600" style="display: block; margin: auto;" /></p>
+<pre><code>#                    id
+# tissue              clusters_1.cluster_1 clusters_1.cluster_2
+#   Heart                               48                   33
+#   Liver                                1                    3
+#   Thymus                               0                    0
+#   Spleen                               0                    0
+#   Lung                                17                   49
+#   Kidney                               6                   43
+#   Large intestine                     55                   81
+#   Small intestine                     59                  336
+#   Testes                               0                    0
+#   Bone marrow                          0                   10
+#   Cerebellum                           0                    3
+#   Prefrontal cortex                    0                    0
+#   Whole brain                          1                    4
+#                    id
+# tissue              clusters_1.cluster_3 clusters_10.cluster_1
+#   Heart                              447                     1
+#   Liver                                9                     0
+#   Thymus                               0                     0
+#   Spleen                               0                     0
+#   Lung                               211                     3
+#   Kidney                              53                     0
+#   Large intestine                    194                     0
+#   Small intestine                    441                     1
+#   Testes                               0                     0
+#   Bone marrow                          6                     5
+#   Cerebellum                           3                     0
+#   Prefrontal cortex                    7                     0
+#   Whole brain                          3                     0
+#                    id
+# tissue              clusters_11.cluster_1 clusters_11.cluster_2
+#   Heart                                 0                     0
+#   Liver                                 0                     0
+#   Thymus                                0                     0
+#   Spleen                                0                     0
+#   Lung                                  0                     0
+#   Kidney                               18                     8
+#   Large intestine                       0                     0
+#   Small intestine                       0                     0
+#   Testes                                0                     0
+#   Bone marrow                           0                     0
+#   Cerebellum                            0                     0
+#   Prefrontal cortex                     0                     0
+#   Whole brain                           0                     0
+#                    id
+# tissue              clusters_11.cluster_3 clusters_11.cluster_4
+#   Heart                                 0                     0
+#   Liver                                 0                     0
+#   Thymus                                0                     0
+#   Spleen                                0                     0
+#   Lung                                  0                     0
+#   Kidney                                8                    14
+#   Large intestine                       0                     0
+#   Small intestine                       0                     0
+#   Testes                                0                     0
+#   Bone marrow                           0                     0
+#   Cerebellum                            0                     0
+#   Prefrontal cortex                     0                     0
+#   Whole brain                           0                     0
+#                    id
+# tissue              clusters_11.cluster_5 clusters_12.cluster_1
+#   Heart                                 0                     3
+#   Liver                                 0                     0
+#   Thymus                                0                     0
+#   Spleen                                0                     0
+#   Lung                                  0                     4
+#   Kidney                               43                     0
+#   Large intestine                       0                     0
+#   Small intestine                       0                     0
+#   Testes                                0                     0
+#   Bone marrow                           0                     0
+#   Cerebellum                            0                     0
+#   Prefrontal cortex                     0                     0
+#   Whole brain                           0                     0
+#                    id
+# tissue              clusters_12.cluster_2 clusters_12.cluster_3
+#   Heart                                 0                     0
+#   Liver                                 0                     0
+#   Thymus                                0                     0
+#   Spleen                                0                     0
+#   Lung                                  2                     2
+#   Kidney                                1                     0
+#   Large intestine                       0                     0
+#   Small intestine                       0                     0
+#   Testes                                0                     0
+#   Bone marrow                           0                     0
+#   Cerebellum                            0                     0
+#   Prefrontal cortex                     0                     0
+#   Whole brain                           0                     0
+#                    id
+# tissue              clusters_12.cluster_4 clusters_14.cluster_3
+#   Heart                                 3                     0
+#   Liver                                 0                     0
+#   Thymus                                0                     0
+#   Spleen                                0                     0
+#   Lung                                  4                     0
+#   Kidney                                0                     0
+#   Large intestine                       1                     0
+#   Small intestine                       0                     0
+#   Testes                                0                     2
+#   Bone marrow                           0                     0
+#   Cerebellum                            0                     0
+#   Prefrontal cortex                     0                     0
+#   Whole brain                           0                     0
+#                    id
+# tissue              clusters_15.cluster_1 clusters_15.cluster_2
+#   Heart                                 0                     0
+#   Liver                                 0                     0
+#   Thymus                                0                     0
+#   Spleen                                0                     0
+#   Lung                                  0                     0
+#   Kidney                                0                     0
+#   Large intestine                       4                     1
+#   Small intestine                       0                     0
+#   Testes                                0                     0
+#   Bone marrow                           0                     0
+#   Cerebellum                            1                     1
+#   Prefrontal cortex                     1                     7
+#   Whole brain                           4                     1
+#                    id
+# tissue              clusters_15.cluster_3 clusters_16.cluster_1
+#   Heart                                 0                     3
+#   Liver                                 0                     1
+#   Thymus                                0                     0
+#   Spleen                                0                     0
+#   Lung                                  0                     7
+#   Kidney                                0                     0
+#   Large intestine                       0                     4
+#   Small intestine                       0                     1
+#   Testes                                0                     0
+#   Bone marrow                           0                     0
+#   Cerebellum                            0                     0
+#   Prefrontal cortex                     3                     1
+#   Whole brain                           0                     0
+#                    id
+# tissue              clusters_16.cluster_2 clusters_16.cluster_3
+#   Heart                                82                     1
+#   Liver                                53                     0
+#   Thymus                                6                     0
+#   Spleen                                9                     0
+#   Lung                                 10                     0
+#   Kidney                               10                     0
+#   Large intestine                      11                     0
+#   Small intestine                       2                     0
+#   Testes                                3                     0
+#   Bone marrow                          38                     0
+#   Cerebellum                            2                    11
+#   Prefrontal cortex                     7                    46
+#   Whole brain                          15                    33
+#                    id
+# tissue              clusters_17.cluster_1 clusters_17.cluster_2
+#   Heart                                 1                     0
+#   Liver                                 0                     0
+#   Thymus                                0                     0
+#   Spleen                                1                     0
+#   Lung                                 18                   106
+#   Kidney                                0                     0
+#   Large intestine                       0                     0
+#   Small intestine                       0                     0
+#   Testes                                0                     0
+#   Bone marrow                           1                     0
+#   Cerebellum                            0                     0
+#   Prefrontal cortex                     0                     0
+#   Whole brain                           0                     0
+#                    id
+# tissue              clusters_17.cluster_3 clusters_17.cluster_4
+#   Heart                                 0                     0
+#   Liver                                 0                     0
+#   Thymus                                0                     0
+#   Spleen                                0                     0
+#   Lung                                  1                     0
+#   Kidney                                0                     0
+#   Large intestine                       0                     0
+#   Small intestine                       0                     0
+#   Testes                                0                     0
+#   Bone marrow                           0                     6
+#   Cerebellum                            0                     0
+#   Prefrontal cortex                     0                     0
+#   Whole brain                           0                     0
+#                    id
+# tissue              clusters_17.cluster_5 clusters_18.cluster_1
+#   Heart                                 0                     0
+#   Liver                                 1                     0
+#   Thymus                                0                     0
+#   Spleen                                0                     0
+#   Lung                                  1                     0
+#   Kidney                                0                    24
+#   Large intestine                       0                     0
+#   Small intestine                       0                     0
+#   Testes                                0                     0
+#   Bone marrow                           0                     0
+#   Cerebellum                            0                     0
+#   Prefrontal cortex                     0                     0
+#   Whole brain                           0                     0
+#                    id
+# tissue              clusters_18.cluster_2 clusters_18.cluster_3
+#   Heart                                 0                     0
+#   Liver                                 0                     0
+#   Thymus                                0                     0
+#   Spleen                                0                     0
+#   Lung                                  0                     0
+#   Kidney                               14                    18
+#   Large intestine                       0                     0
+#   Small intestine                       0                     0
+#   Testes                                0                     0
+#   Bone marrow                           0                     0
+#   Cerebellum                            0                     0
+#   Prefrontal cortex                     0                     0
+#   Whole brain                           0                     0
+#                    id
+# tissue              clusters_18.cluster_4 clusters_18.cluster_5
+#   Heart                                 0                     0
+#   Liver                                 0                     0
+#   Thymus                                0                     0
+#   Spleen                                0                     0
+#   Lung                                  0                     0
+#   Kidney                               10                    21
+#   Large intestine                       0                     0
+#   Small intestine                       0                     0
+#   Testes                                0                     0
+#   Bone marrow                           0                     0
+#   Cerebellum                            0                     0
+#   Prefrontal cortex                     0                     0
+#   Whole brain                           0                     0
+#                    id
+# tissue              clusters_19.cluster_1 clusters_19.cluster_2
+#   Heart                                 0                     0
+#   Liver                                 0                     0
+#   Thymus                                0                     0
+#   Spleen                                0                     0
+#   Lung                                  0                     0
+#   Kidney                                0                     0
+#   Large intestine                       0                     0
+#   Small intestine                       0                     0
+#   Testes                                0                     0
+#   Bone marrow                           0                     0
+#   Cerebellum                            2                     2
+#   Prefrontal cortex                     3                     0
+#   Whole brain                           4                     0
+#                    id
+# tissue              clusters_19.cluster_3 clusters_19.cluster_4
+#   Heart                                 0                     0
+#   Liver                                 0                     0
+#   Thymus                                0                     0
+#   Spleen                                0                     0
+#   Lung                                  0                     0
+#   Kidney                                0                     0
+#   Large intestine                       0                     3
+#   Small intestine                       0                     0
+#   Testes                                0                     0
+#   Bone marrow                           0                     0
+#   Cerebellum                            1                    27
+#   Prefrontal cortex                     0                     9
+#   Whole brain                           1                    35
+#                    id
+# tissue              clusters_2.cluster_1 clusters_20.cluster_1
+#   Heart                                0                     0
+#   Liver                                0                     0
+#   Thymus                               1                     0
+#   Spleen                               0                     0
+#   Lung                                 0                    29
+#   Kidney                               0                     0
+#   Large intestine                      0                     0
+#   Small intestine                      0                     0
+#   Testes                               0                     0
+#   Bone marrow                          0                     0
+#   Cerebellum                           0                     0
+#   Prefrontal cortex                    0                     0
+#   Whole brain                          0                     0
+#                    id
+# tissue              clusters_21.cluster_1 clusters_21.cluster_2
+#   Heart                                 0                     1
+#   Liver                                 0                     0
+#   Thymus                                0                     0
+#   Spleen                                0                     0
+#   Lung                                  0                     0
+#   Kidney                                0                     0
+#   Large intestine                       0                     0
+#   Small intestine                       0                     0
+#   Testes                                0                     0
+#   Bone marrow                           0                     0
+#   Cerebellum                            0                     0
+#   Prefrontal cortex                     0                     3
+#   Whole brain                           1                     4
+#                    id
+# tissue              clusters_22.cluster_1 clusters_22.cluster_2
+#   Heart                               439                     1
+#   Liver                                 8                     3
+#   Thymus                                0                     0
+#   Spleen                                0                     0
+#   Lung                                 51                     0
+#   Kidney                               18                   534
+#   Large intestine                      25                     2
+#   Small intestine                      39                     7
+#   Testes                                0                     0
+#   Bone marrow                           0                     4
+#   Cerebellum                            8                     1
+#   Prefrontal cortex                     9                     0
+#   Whole brain                          17                     0
+#                    id
+# tissue              clusters_22.cluster_3 clusters_22.cluster_4
+#   Heart                                 1                     3
+#   Liver                               186                     1
+#   Thymus                                0                     0
+#   Spleen                                0                     0
+#   Lung                                  4                   134
+#   Kidney                                3                     3
+#   Large intestine                       0                     0
+#   Small intestine                       0                     1
+#   Testes                                0                     0
+#   Bone marrow                           0                     0
+#   Cerebellum                            0                     0
+#   Prefrontal cortex                     0                     0
+#   Whole brain                           0                     1
+#                    id
+# tissue              clusters_23.cluster_1 clusters_23.cluster_2
+#   Heart                                 3                     0
+#   Liver                                 1                     0
+#   Thymus                                0                     0
+#   Spleen                                1                     0
+#   Lung                               1169                     8
+#   Kidney                                1                     0
+#   Large intestine                       6                     0
+#   Small intestine                       6                     0
+#   Testes                                1                     0
+#   Bone marrow                           0                     0
+#   Cerebellum                            0                     0
+#   Prefrontal cortex                     0                     0
+#   Whole brain                           0                     0
+#                    id
+# tissue              clusters_24.cluster_2 clusters_25.cluster_1
+#   Heart                                 1                     2
+#   Liver                                 0                     2
+#   Thymus                                0                     0
+#   Spleen                                0                     4
+#   Lung                                  2                     4
+#   Kidney                                0                   447
+#   Large intestine                       0                     3
+#   Small intestine                       0                    18
+#   Testes                                0                     0
+#   Bone marrow                           0                     3
+#   Cerebellum                            0                     3
+#   Prefrontal cortex                     0                    10
+#   Whole brain                           0                     2
+#                    id
+# tissue              clusters_25.cluster_2 clusters_25.cluster_3
+#   Heart                               272                     2
+#   Liver                                 1                   120
+#   Thymus                                0                     0
+#   Spleen                                0                     0
+#   Lung                                  0                     1
+#   Kidney                                9                     2
+#   Large intestine                       0                     1
+#   Small intestine                       8                     0
+#   Testes                                0                     0
+#   Bone marrow                           1                     1
+#   Cerebellum                            6                     1
+#   Prefrontal cortex                    22                     0
+#   Whole brain                          25                     0
+#                    id
+# tissue              clusters_26.cluster_2 clusters_26.cluster_3
+#   Heart                                 0                     0
+#   Liver                                 0                     0
+#   Thymus                                0                     0
+#   Spleen                                0                     0
+#   Lung                                  0                     0
+#   Kidney                                0                     0
+#   Large intestine                       0                     1
+#   Small intestine                       0                     0
+#   Testes                                0                     0
+#   Bone marrow                           0                     0
+#   Cerebellum                            0                     0
+#   Prefrontal cortex                     2                     0
+#   Whole brain                           0                     0
+#                    id
+# tissue              clusters_27.cluster_1 clusters_27.cluster_2
+#   Heart                                 0                     0
+#   Liver                                 0                     0
+#   Thymus                                0                     0
+#   Spleen                                0                     0
+#   Lung                                  0                     0
+#   Kidney                                0                     0
+#   Large intestine                       1                     0
+#   Small intestine                       0                     0
+#   Testes                                0                     0
+#   Bone marrow                           0                     0
+#   Cerebellum                            1                     0
+#   Prefrontal cortex                     0                     0
+#   Whole brain                           0                     2
+#                    id
+# tissue              clusters_27.cluster_3 clusters_28.cluster_2
+#   Heart                                 0                     0
+#   Liver                                 0                     0
+#   Thymus                                0                     0
+#   Spleen                                0                     0
+#   Lung                                  0                     1
+#   Kidney                                0                     0
+#   Large intestine                       0                     0
+#   Small intestine                       0                     0
+#   Testes                                0                     0
+#   Bone marrow                           0                     0
+#   Cerebellum                            5                     0
+#   Prefrontal cortex                     0                     0
+#   Whole brain                           8                     0
+#                    id
+# tissue              clusters_3.cluster_1 clusters_30.cluster_1
+#   Heart                                0                     0
+#   Liver                               90                     0
+#   Thymus                               0                     0
+#   Spleen                               0                     0
+#   Lung                                 4                    48
+#   Kidney                               0                     0
+#   Large intestine                      0                     0
+#   Small intestine                      0                     0
+#   Testes                               0                     0
+#   Bone marrow                          0                     0
+#   Cerebellum                           0                     0
+#   Prefrontal cortex                    0                     0
+#   Whole brain                          0                     0
+#                    id
+# tissue              clusters_30.cluster_2 clusters_30.cluster_3
+#   Heart                                 0                     5
+#   Liver                                 0                     0
+#   Thymus                                0                     0
+#   Spleen                                0                     0
+#   Lung                                 22                     1
+#   Kidney                                0                     0
+#   Large intestine                       2                     1
+#   Small intestine                       0                     0
+#   Testes                                0                     0
+#   Bone marrow                           0                     0
+#   Cerebellum                            0                     0
+#   Prefrontal cortex                     0                     0
+#   Whole brain                           0                     1
+#                    id
+# tissue              clusters_4.cluster_1 clusters_4.cluster_2
+#   Heart                                0                    1
+#   Liver                                0                    0
+#   Thymus                               0                    0
+#   Spleen                               0                    0
+#   Lung                                 2                    1
+#   Kidney                               0                    0
+#   Large intestine                      0                    0
+#   Small intestine                      0                    0
+#   Testes                               0                    0
+#   Bone marrow                          0                    0
+#   Cerebellum                           0                    0
+#   Prefrontal cortex                    0                    0
+#   Whole brain                          0                    0
+#                    id
+# tissue              clusters_4.cluster_3 clusters_4.cluster_4
+#   Heart                                2                    0
+#   Liver                                0                    1
+#   Thymus                               0                    0
+#   Spleen                               4                    0
+#   Lung                                19                    1
+#   Kidney                               0                    0
+#   Large intestine                      0                    0
+#   Small intestine                      0                    0
+#   Testes                               0                    0
+#   Bone marrow                          1                    0
+#   Cerebellum                           0                    0
+#   Prefrontal cortex                    0                    0
+#   Whole brain                          0                    0
+#                    id
+# tissue              clusters_5.cluster_1 clusters_5.cluster_2
+#   Heart                                0                    0
+#   Liver                                0                    0
+#   Thymus                               0                    0
+#   Spleen                               0                    0
+#   Lung                                 0                    0
+#   Kidney                               0                    0
+#   Large intestine                      0                    0
+#   Small intestine                      0                    0
+#   Testes                               0                    0
+#   Bone marrow                          0                    0
+#   Cerebellum                           0                    0
+#   Prefrontal cortex                    6                    3
+#   Whole brain                          1                    2
+#                    id
+# tissue              clusters_5.cluster_3 clusters_5.cluster_4
+#   Heart                                0                    0
+#   Liver                                0                    0
+#   Thymus                               0                    0
+#   Spleen                               0                    0
+#   Lung                                 0                    0
+#   Kidney                               0                    0
+#   Large intestine                      0                    0
+#   Small intestine                      0                    0
+#   Testes                               0                    0
+#   Bone marrow                          0                    0
+#   Cerebellum                           0                    0
+#   Prefrontal cortex                    1                    3
+#   Whole brain                          3                    1
+#                    id
+# tissue              clusters_6.cluster_1 clusters_7.cluster_1
+#   Heart                                0                  213
+#   Liver                                0                    0
+#   Thymus                               0                    1
+#   Spleen                               0                    0
+#   Lung                                 0                    3
+#   Kidney                               0                    0
+#   Large intestine                     49                    0
+#   Small intestine                      1                    0
+#   Testes                               0                    0
+#   Bone marrow                          0                    0
+#   Cerebellum                           0                    0
+#   Prefrontal cortex                    0                    0
+#   Whole brain                          0                    0
+#                    id
+# tissue              clusters_7.cluster_2 clusters_8.cluster_1
+#   Heart                                1                    0
+#   Liver                                0                    0
+#   Thymus                               0                    0
+#   Spleen                               0                    0
+#   Lung                                 0                    0
+#   Kidney                               0                    0
+#   Large intestine                      0                    0
+#   Small intestine                      0                    0
+#   Testes                               0                    0
+#   Bone marrow                          0                    0
+#   Cerebellum                           0                    0
+#   Prefrontal cortex                    0                    0
+#   Whole brain                          2                    2
+#                    id
+# tissue              clusters_8.cluster_2 clusters_9.cluster_1
+#   Heart                                0                  591
+#   Liver                                0                   18
+#   Thymus                               0                   16
+#   Spleen                               0                    3
+#   Lung                                 0                  353
+#   Kidney                               0                   86
+#   Large intestine                      0                  894
+#   Small intestine                      0                  145
+#   Testes                               0                   59
+#   Bone marrow                          0                   31
+#   Cerebellum                           4                    4
+#   Prefrontal cortex                    0                    8
+#   Whole brain                          6                    4
+#                    id
+# tissue              clusters_9.cluster_2 clusters_9.cluster_3
+#   Heart                             1080                    1
+#   Liver                                1                    0
+#   Thymus                               1                    0
+#   Spleen                               0                    0
+#   Lung                                 3                    0
+#   Kidney                               3                    0
+#   Large intestine                     11                    0
+#   Small intestine                      1                    0
+#   Testes                               2                    0
+#   Bone marrow                          0                    1
+#   Cerebellum                           0                   60
+#   Prefrontal cortex                    0                   55
+#   Whole brain                          0                  132</code></pre>
+<p>Check cell cluster labels for topic 7</p>
+<pre class="r"><code>k = 7
+rows_k &lt;- which(fit_multinom$L[,k] &gt; 0.1)
+with(samples[rows_k,], table(tissue, id))
+
+# cell counts by tissues
+df &lt;- as.data.frame(sort(with(samples[rows_k,], table(tissue)), decreasing = TRUE))
+df &lt;- df[df$Freq &gt; 10, ]
+
+p &lt;- ggplot(data=df, aes(x=tissue, y=Freq)) +
+  geom_bar(stat=&quot;identity&quot;) +
+  labs(x = &quot;tissue&quot;, y = &quot;number of cells&quot;, title = paste(&quot;topic&quot;, k)) +
+  guides(x =  guide_axis(angle = 45)) +
+  theme_cowplot(font_size = 10)
+p</code></pre>
+<p><img src="figure/selected_figures_Cusanovich2018.Rmd/cell_label_dist_topic7-1.png" width="3600" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># cell counts by cell labels
+df &lt;- as.data.frame(sort(with(samples[rows_k,], table(cell_label)), decreasing = TRUE))
+df &lt;- df[df$Freq &gt; 10, ]
+
+p &lt;- ggplot(data=df, aes(x=cell_label, y=Freq)) +
+  geom_bar(stat=&quot;identity&quot;) +
+  labs(x = &quot;cell labels&quot;, y = &quot;number of cells&quot;, title = paste(&quot;topic&quot;, k)) +
+  guides(x =  guide_axis(angle = 45)) +
+  theme_cowplot(font_size = 10)
+p</code></pre>
+<p><img src="figure/selected_figures_Cusanovich2018.Rmd/cell_label_dist_topic7-2.png" width="3600" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># cell counts by clusters
+df &lt;- as.data.frame(sort(with(samples[rows_k,], table(cluster)), decreasing = TRUE))
+df &lt;- df[df$Freq &gt; 10, ]
+
+p &lt;- ggplot(data=df, aes(x=cluster, y=Freq)) +
+  geom_bar(stat=&quot;identity&quot;) +
+  labs(x = &quot;cluster&quot;, y = &quot;number of cells&quot;, title = paste(&quot;topic&quot;, k)) +
+  guides(x =  guide_axis(angle = 45)) +
+  theme_cowplot(font_size = 10)
+p</code></pre>
+<p><img src="figure/selected_figures_Cusanovich2018.Rmd/cell_label_dist_topic7-3.png" width="3600" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># cell counts by cluster ids
+df &lt;- as.data.frame(sort(with(samples[rows_k,], table(id)), decreasing = TRUE))
+df &lt;- df[df$Freq &gt; 10, ]
+p &lt;- ggplot(data=df, aes(x=id, y=Freq)) +
+  geom_bar(stat=&quot;identity&quot;) +
+  labs(x = &quot;cluster id&quot;, y = &quot;number of cells&quot;, title = paste(&quot;topic&quot;, k)) +
+  guides(x =  guide_axis(angle = 45)) +
+  theme_cowplot(font_size = 10)
+p</code></pre>
+<p><img src="figure/selected_figures_Cusanovich2018.Rmd/cell_label_dist_topic7-4.png" width="3600" style="display: block; margin: auto;" /></p>
+<pre><code>#                    id
+# tissue              clusters_1.cluster_1 clusters_1.cluster_2
+#   Heart                               17                   14
+#   Liver                                0                    0
+#   Thymus                               0                    0
+#   Spleen                               0                    0
+#   Lung                                 0                    0
+#   Kidney                               0                    0
+#   Large intestine                      2                    2
+#   Small intestine                      0                    0
+#   Testes                               0                    0
+#   Bone marrow                          0                    0
+#   Cerebellum                           0                    0
+#   Prefrontal cortex                    0                    0
+#   Whole brain                          0                    0
+#                    id
+# tissue              clusters_1.cluster_3 clusters_15.cluster_1
+#   Heart                                6                     0
+#   Liver                                0                     0
+#   Thymus                               0                     0
+#   Spleen                               0                     0
+#   Lung                                 0                     0
+#   Kidney                               0                     0
+#   Large intestine                      0                     0
+#   Small intestine                      1                     0
+#   Testes                               0                     0
+#   Bone marrow                          0                     0
+#   Cerebellum                           0                     5
+#   Prefrontal cortex                    0                     1
+#   Whole brain                          0                    16
+#                    id
+# tissue              clusters_15.cluster_2 clusters_15.cluster_3
+#   Heart                                 0                     0
+#   Liver                                 0                     0
+#   Thymus                                0                     0
+#   Spleen                                0                     0
+#   Lung                                  0                     0
+#   Kidney                                0                     0
+#   Large intestine                       0                     0
+#   Small intestine                       0                     0
+#   Testes                                0                     0
+#   Bone marrow                           0                     0
+#   Cerebellum                            4                     0
+#   Prefrontal cortex                     0                     9
+#   Whole brain                          12                     5
+#                    id
+# tissue              clusters_17.cluster_1 clusters_18.cluster_1
+#   Heart                                 1                     2
+#   Liver                                 0                     0
+#   Thymus                                0                     0
+#   Spleen                                0                     0
+#   Lung                                  2                     0
+#   Kidney                                0                     0
+#   Large intestine                       0                     0
+#   Small intestine                       0                     0
+#   Testes                                0                     0
+#   Bone marrow                           0                     0
+#   Cerebellum                            0                     0
+#   Prefrontal cortex                     0                     0
+#   Whole brain                           0                     0
+#                    id
+# tissue              clusters_20.cluster_1 clusters_22.cluster_1
+#   Heart                                 0                     3
+#   Liver                                 0                     0
+#   Thymus                                0                     0
+#   Spleen                                0                     0
+#   Lung                                  1                     0
+#   Kidney                                0                     0
+#   Large intestine                       0                     0
+#   Small intestine                       0                     0
+#   Testes                                0                     0
+#   Bone marrow                           0                     0
+#   Cerebellum                            0                     0
+#   Prefrontal cortex                     0                     0
+#   Whole brain                           0                     0
+#                    id
+# tissue              clusters_23.cluster_1 clusters_25.cluster_2
+#   Heart                                 0                     4
+#   Liver                                 0                     0
+#   Thymus                                0                     0
+#   Spleen                                0                     0
+#   Lung                                  0                     0
+#   Kidney                                0                     0
+#   Large intestine                       1                     0
+#   Small intestine                       0                     1
+#   Testes                                1                     0
+#   Bone marrow                           0                     0
+#   Cerebellum                            0                     0
+#   Prefrontal cortex                     0                     0
+#   Whole brain                           0                     0
+#                    id
+# tissue              clusters_27.cluster_1 clusters_27.cluster_2
+#   Heart                                 0                     0
+#   Liver                                 0                     0
+#   Thymus                                0                     0
+#   Spleen                                0                     0
+#   Lung                                  0                     0
+#   Kidney                                0                     0
+#   Large intestine                       0                     0
+#   Small intestine                       0                     0
+#   Testes                                0                     0
+#   Bone marrow                           0                     0
+#   Cerebellum                            0                     0
+#   Prefrontal cortex                     0                     0
+#   Whole brain                           1                     2
+#                    id
+# tissue              clusters_30.cluster_1 clusters_4.cluster_3
+#   Heart                                 0                    1
+#   Liver                                 0                    0
+#   Thymus                                0                    0
+#   Spleen                                0                    0
+#   Lung                                  1                    0
+#   Kidney                                0                    0
+#   Large intestine                       0                    0
+#   Small intestine                       0                    0
+#   Testes                                0                    0
+#   Bone marrow                           0                    0
+#   Cerebellum                            0                    0
+#   Prefrontal cortex                     0                    0
+#   Whole brain                           0                    0
+#                    id
+# tissue              clusters_6.cluster_1 clusters_7.cluster_1
+#   Heart                                1                 4064
+#   Liver                                0                    0
+#   Thymus                               0                    1
+#   Spleen                               0                    0
+#   Lung                                 0                    9
+#   Kidney                               0                    0
+#   Large intestine                      1                    2
+#   Small intestine                      0                    0
+#   Testes                               0                    0
+#   Bone marrow                          0                    0
+#   Cerebellum                           0                    0
+#   Prefrontal cortex                    0                    0
+#   Whole brain                          0                    0
+#                    id
+# tissue              clusters_7.cluster_2 clusters_9.cluster_1
+#   Heart                                7                   55
+#   Liver                                0                    0
+#   Thymus                               0                    0
+#   Spleen                               0                    0
+#   Lung                                 0                   13
+#   Kidney                               0                   15
+#   Large intestine                      0                   93
+#   Small intestine                      0                   17
+#   Testes                               0                   32
+#   Bone marrow                          0                    1
+#   Cerebellum                           0                    7
+#   Prefrontal cortex                    0                    8
+#   Whole brain                          0                    4
+#                    id
+# tissue              clusters_9.cluster_2
+#   Heart                                2
+#   Liver                                0
+#   Thymus                               0
+#   Spleen                               0
+#   Lung                                 0
+#   Kidney                               0
+#   Large intestine                      0
+#   Small intestine                      0
+#   Testes                               0
+#   Bone marrow                          0
+#   Cerebellum                           0
+#   Prefrontal cortex                    0
+#   Whole brain                          0</code></pre>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code># R version 3.6.1 (2019-07-05)
+# Platform: x86_64-pc-linux-gnu (64-bit)
+# Running under: Scientific Linux 7.4 (Nitrogen)
+# 
+# Matrix products: default
+# BLAS/LAPACK: /software/openblas-0.2.19-el7-x86_64/lib/libopenblas_haswellp-r0.2.19.so
+# 
+# locale:
+#  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+#  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+#  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+#  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+#  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+# [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+# 
+# attached base packages:
+# [1] grid      stats     graphics  grDevices utils     datasets  methods  
+# [8] base     
+# 
+# other attached packages:
+#  [1] Logolas_1.10.0    reshape2_1.4.4    DT_0.17           htmlwidgets_1.5.3
+#  [5] plotly_4.9.3      cowplot_1.1.1     ggrepel_0.9.1     ggplot2_3.3.3    
+#  [9] tidyr_1.1.3       dplyr_1.0.5       fastTopics_0.5-20 Matrix_1.2-18    
+# [13] workflowr_1.6.2  
+# 
+# loaded via a namespace (and not attached):
+#  [1] httr_1.4.2         sass_0.3.1         jsonlite_1.7.2     viridisLite_0.3.0 
+#  [5] bslib_0.2.4        RcppParallel_5.0.3 highr_0.8          mixsqp_0.3-43     
+#  [9] yaml_2.2.0         progress_1.2.2     pillar_1.5.1       lattice_0.20-41   
+# [13] quadprog_1.5-8     quantreg_5.85      glue_1.4.2         digest_0.6.27     
+# [17] promises_1.2.0.1   colorspace_2.0-0   plyr_1.8.6         htmltools_0.5.1.1 
+# [21] httpuv_1.5.5       conquer_1.0.2      pkgconfig_2.0.3    invgamma_1.1      
+# [25] SparseM_1.81       purrr_0.3.4        scales_1.1.1       whisker_0.4       
+# [29] later_1.1.0.1      Rtsne_0.15         MatrixModels_0.4-1 git2r_0.28.0      
+# [33] tibble_3.1.0       farver_2.1.0       generics_0.1.0     ellipsis_0.3.1    
+# [37] withr_2.4.1        ashr_2.2-47        lazyeval_0.2.2     magrittr_2.0.1    
+# [41] crayon_1.4.1       mcmc_0.9-7         evaluate_0.14      fs_1.3.1          
+# [45] fansi_0.4.2        MASS_7.3-53.1      truncnorm_1.0-8    tools_3.6.1       
+# [49] data.table_1.14.0  prettyunits_1.1.1  hms_1.0.0          gridBase_0.4-7    
+# [53] lifecycle_1.0.0    matrixStats_0.58.0 stringr_1.4.0      MCMCpack_1.5-0    
+# [57] munsell_0.5.0      irlba_2.3.3        compiler_3.6.1     jquerylib_0.1.3   
+# [61] rlang_0.4.10       debugme_1.1.0      labeling_0.4.2     rmarkdown_2.7     
+# [65] gtable_0.3.0       DBI_1.1.1          R6_2.5.0           knitr_1.31        
+# [69] utf8_1.1.4         rprojroot_2.0.2    stringi_1.5.3      SQUAREM_2021.1    
+# [73] Rcpp_1.0.6         vctrs_0.3.7        tidyselect_1.1.0   xfun_0.22         
+# [77] coda_0.19-4</code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
