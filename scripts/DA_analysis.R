@@ -27,8 +27,8 @@ rm(parser,out)
 cat(sprintf("countsfile           = %s \n", countsfile))
 cat(sprintf("modelfitfile         = %s \n", modelfitfile))
 cat(sprintf("nc                   = %s \n", nc))
-cat(sprintf("ns                   = %s \n", nc))
-cat(sprintf("nsplit               = %s \n", nc))
+cat(sprintf("ns                   = %s \n", ns))
+cat(sprintf("nsplit               = %s \n", nsplit))
 cat(sprintf("outdir              = %s \n", outdir))
 
 if(!dir.exists(outdir))
@@ -50,7 +50,7 @@ fit <- readRDS(modelfitfile)$fit
 # COMPUTE REGION SCORES USING DIFFERENTIAL ANALYSIS
 # -------------------------------------------------
 # Perform differential accessbility analysis using the multinomial topic model.
-outfile <- file.path(outdir, "DA_regions_topics.rds")
+outfile <- file.path(outdir, paste0("DA_regions_topics_ns", ns,".rds"))
 
 if(file.exists(outfile)){
   cat("Load precomputed differential accessbility statistics.\n")
