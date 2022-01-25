@@ -115,29 +115,29 @@ run_GREAT <- function(gr,
 }
 
 
-#' Select regions based on differential accessbility result and save selected regions as BED files.
-#' @param diff_count_res Differential accessbility result from `diff_count_analysis`.
+#' Select diff count regions based on differential accessibility result and save selected regions as BED files.
+#' @param diff_count_res Differential accessibility result from `diff_count_analysis`.
 #' @param method Method to select regions.
 #' `quantile` selects regions in which z-score quantile above `thresh.quantile`,
 #' `pvalue` selects regions in which -log10(p-value) > `thresh.mlog10P`,
 #' `zscore` selects regions in which zscore > `thresh.z`,
 #' `logFC` selects regions in which beta > `thresh.logFC`.
-#' `topN` selects the top `N.regions` regions.
+#' `topN` selects the top `n.regions` regions.
 #' @param out.dir Output directory.
 #' @param thresh.mlog10P Threshold of -log10(p-value).
 #' @param thresh.z Threshold of z-score.
 #' @param thresh.logFC Threshold of logFC.
 #' @param thresh.quantile Threshold of z-score quantile, default = 0.99.
-#' @param N.regions Number of top regions to select.
+#' @param n.regions Number of top regions to select.
 #' @param save.bed If TRUE, save selected regions as BED files for downstream analysis.
-select_regions <- function(diff_count_res,
+select_diffcount_regions <- function(diff_count_res,
                            method = c("quantile", "pvalue", "zscore", "logFC", "topN"),
                            out.dir = "out",
                            thresh.mlog10P = 10,
                            thresh.z = 10,
                            thresh.logFC = 2,
                            thresh.quantile = 0.99,
-                           N.regions = 2000,
+                           n.regions = 2000,
                            save.bed = TRUE) {
 
   method <- match.arg(method)
@@ -152,26 +152,26 @@ select_regions <- function(diff_count_res,
     # p <- 10^(-mlog10P)
 
     if(method == "quantile"){
-      idx_regions_sig <- which(z > quantile(z, thresh.quantile))
-      cat(sprintf("%s: %d regions selected. \n", k, length(idx_regions_sig)))
+      idx_sig_regions <- which(z > quantile(z, thresh.quantile))
+      cat(sprintf("topic %s: %d regions selected. \n", k, length(idx_sig_regions)))
     }else if(method == "pvalue"){
-      idx_regions_sig <- which(mlog10P > thresh.mlog10P & beta > 0)
-      cat(sprintf("%s: %d regions selected. \n", k, length(idx_regions_sig)))
+      idx_sig_regions <- which(mlog10P > thresh.mlog10P & beta > 0)
+      cat(sprintf("topic %s: %d regions selected. \n", k, length(idx_sig_regions)))
     }else if(method == "zscore"){
-      idx_regions_sig <- which(z > thresh.z)
-      cat(sprintf("%s: %d regions selected. \n", k, length(idx_regions_sig)))
+      idx_sig_regions <- which(z > thresh.z)
+      cat(sprintf("topic %s: %d regions selected. \n", k, length(idx_sig_regions)))
     }else if(method == "logFC"){
-      idx_regions_sig <- which(beta > thresh.logFC)
-      cat(sprintf("%s: %d regions selected. \n", k, length(idx_regions_sig)))
+      idx_sig_regions <- which(beta > thresh.logFC)
+      cat(sprintf("topic %s: %d regions selected. \n", k, length(idx_sig_regions)))
     }else if(method == "topN"){
-      idx_regions_sig <- head(order(z, decreasing = T), N.regions)
-      cat(sprintf("%s: %d regions selected. \n", k, length(idx_regions_sig)))
+      idx_sig_regions <- head(order(z, decreasing = T), n.regions)
+      cat(sprintf("topic %s: %d regions selected. \n", k, length(idx_sig_regions)))
     }else{
       stop("Method not recognized!")
     }
 
-    if(length(idx_regions_sig) > 0){
-      region_names <- names(z)[idx_regions_sig]
+    if(length(idx_sig_regions) > 0){
+      region_names <- names(z)[idx_sig_regions]
       regions <- data.frame(x = region_names)
       regions <- regions %>% separate(x, c("chr", "start", "end"), "_")  %>% mutate_at(c("start", "end"), as.numeric)
       regions <- data.frame(regions, name = region_names)
@@ -191,6 +191,78 @@ select_regions <- function(diff_count_res,
   return(selected_regions)
 }
 
+#' Select regions based on differential accessibility result and save selected regions as BED files.
+#' @param DA_res Differential accessibility result from `de_analysis`.
+#' @param method Method to select regions.
+#' `lfsr` selects regions in which lfsr > `thresh.lfsr`.
+#' `quantile` selects regions in which z-score quantile above `thresh.quantile`,
+#' `zscore` selects regions in which zscore > `thresh.z`,
+#' `logFC` selects regions in which beta > `thresh.logFC`.
+#' `topN` selects the top `n.regions` regions.
+#' @param out.dir Output directory.
+#' @param thresh.lfsr Threshold of lfsr.
+#' @param thresh.quantile Threshold of z-score quantile, default = 0.99.
+#' @param n.regions Number of top regions to select.
+#' @param save.bed If TRUE, save selected regions as BED files for downstream analysis.
+select_DA_regions <- function(DA_res,
+                              method = c("quantile", "lfsr", "zscore", "logFC", "topN"),
+                              out.dir = "out",
+                              thresh.lfsr = 0.1,
+                              thresh.z = 1,
+                              thresh.quantile = 0.99,
+                              thresh.logFC = 2,
+                              n.regions = 2000,
+                              save.bed = TRUE) {
+
+  method <- match.arg(method)
+
+  selected_regions <- vector("list", length = ncol(DA_res$z))
+  names(selected_regions) <- colnames(DA_res$z)
+  selected_regions$filenames <- c()
+  for(k in colnames(DA_res$z)){
+    z <- na.omit(DA_res$z[,k])
+    lfsr <- na.omit(DA_res$lfsr[,k])
+    postmean <- na.omit(DA_res$postmean[,k])
+
+    if(method == "lfsr"){
+      idx_sig_regions <- which(lfsr < thresh.lfsr)
+      cat(sprintf("topic %s: %d regions selected by lfsr < %.2f \n", k, length(idx_sig_regions), thresh.lfsr))
+    }else if(method == "quantile"){
+      idx_sig_regions <- which(z > quantile(z, thresh.quantile))
+      cat(sprintf("topic %s: %d regions selected by quantile > %.2f \n", k, length(idx_sig_regions), thresh.quantile))
+    }else if(method == "zscore"){
+      idx_sig_regions <- which(z > thresh.z)
+      cat(sprintf("topic %s: %d regions selected by z > %.2f \n", k, length(idx_sig_regions), thresh.z))
+    }else if(method == "logFC"){
+      idx_sig_regions <- which(postmean > thresh.logFC)
+      cat(sprintf("topic %s: %d regions selected by logFC > %.2f \n", k, length(idx_sig_regions), thresh.logFC))
+    }else if(method == "topN"){
+      idx_sig_regions <- head(order(z, decreasing = T), n.regions)
+      cat(sprintf("topic %s: %d regions selected by top %d regions. \n", k, length(idx_sig_regions), n.regions))
+    }else{
+      stop("Method not recognized!")
+    }
+
+    if(length(idx_sig_regions) > 0){
+      region_names <- names(z)[idx_sig_regions]
+      regions <- data.frame(x = region_names)
+      regions <- regions %>% separate(x, c("chr", "start", "end"), "_")  %>% mutate_at(c("start", "end"), as.numeric)
+      regions <- data.frame(regions, name = region_names)
+      selected_regions[[k]] <- regions
+      if(save.bed){
+        # save selected marker regions as BED files
+        if(!dir.exists(out.dir))
+          dir.create(out.dir, showWarnings = FALSE, recursive = T)
+        bedfile <- paste0(out.dir, "/selected_regions_", k, ".bed")
+        write.table(regions, file = bedfile, quote=F, sep="\t", row.names=F, col.names=F)
+        selected_regions$filenames <- c(selected_regions$filenames, bedfile)
+      }
+    }
+
+  }
+
+  return(selected_regions)
+}
 
 #' Test motif enrichment
 #'
