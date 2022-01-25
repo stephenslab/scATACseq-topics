@@ -50,23 +50,20 @@ fit <- readRDS(modelfitfile)$fit
 # COMPUTE REGION SCORES USING DIFFERENTIAL ANALYSIS
 # -------------------------------------------------
 # Perform differential accessbility analysis using the multinomial topic model.
-outfile <- file.path(outdir, paste0("DA_regions_topics_ns", ns,".rds"))
+outfile <- file.path(outdir, paste0("DA_regions_topics_", ns,"iters.rds"))
 
 if(file.exists(outfile)){
   cat("Load precomputed differential accessbility statistics.\n")
   DA_res <- readRDS(outfile)
 }else{
   cat("Computing differential accessbility statistics from topic model.\n")
-  t0 <- proc.time()
-  DA_res <- de_analysis(fit,counts,pseudocount = 0.1,
-                        control = list(ns = ns,nc = nc,nsplit = nsplit))
-  t1 <- proc.time()
-  timing <- t1 - t0
+  cat("Run", ns, "iterations of MCMC...\n")
+  timing <- system.time(
+    DA_res <- de_analysis(fit,counts,pseudocount = 0.1,
+                        control = list(ns = ns,nc = nc,nsplit = nsplit)))
   cat(sprintf("Computation took %0.2f seconds.\n",timing["elapsed"]))
-  # timing <- system.time(diff_count_res <- diff_count_analysis(fit,counts))
   cat("Saving results.\n")
   saveRDS(DA_res, outfile)
 }
 
-# sessionInfo
-sessionInfo()
+# sessionInfo()
