@@ -1,6 +1,10 @@
 #! /usr/bin/env Rscript
 # Perform gene-set enrichment analysis based on gene scores from topic model.
 
+# Install fastTopics and pathways R packages
+# remotes::install_github("stephenslab/fastTopics")
+# remotes::install_github("stephenslab/pathways")
+
 library(optparse)
 library(tools)
 library(Matrix)
@@ -22,9 +26,10 @@ nc             <- out$nc
 out.dir        <- out$out
 rm(parser,out)
 
-# genescorefile <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/postfit/geneanalysis-Buenrostro2018-k=11-TSS-none-l2/genescore_result_topics.rds"
+## Example settings
+# genescorefile <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/postfit_v2/geneanalysis-Buenrostro2018-k=11-TSS-none-l2/genescore_result.rds"
 # genome <- "hg19"
-# out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/postfit/geneanalysis-Buenrostro2018-k=11-TSS-none-l2"
+# out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/postfit_V2/geneanalysis-Buenrostro2018-k=11-TSS-none-l2"
 
 cat(sprintf("genescorefile = %s \n", genescorefile))
 cat(sprintf("genome        = %s \n", genome))
@@ -50,7 +55,11 @@ rownames(gene_scores) <- genes[match(rownames(gene_scores), genes$gene_id), "ENS
 # PREPARE DATA FOR GSEA
 # ---------------------
 # Load the gene-set data.
-if (genome %in% c("hg19", "hg38", "human")) {
+
+if (!is.na(genesetfile)) {
+  cat(sprintf("Loading gene-set data from geneset file: %s.\n",genesetfile))
+  load(genesetfile)
+} else if (genome %in% c("hg19", "hg38", "human")) {
   cat("Loading human gene set data.\n")
   data(gene_sets_human)
   gene_sets <- gene_sets_human$gene_sets
@@ -61,8 +70,7 @@ if (genome %in% c("hg19", "hg38", "human")) {
   gene_sets <- gene_sets_mouse$gene_sets
   gene_set_info <- gene_sets_mouse$gene_set_info
 } else{
-  cat(sprintf("Loading gene-set data from %s.\n",genesetfile))
-  load(genesetfile)
+  stop("Please specify geneset file!")
 }
 
 # Remove gene sets with fewer than 4 genes, and with more than
@@ -93,6 +101,7 @@ saveRDS(gsea_res, outfile)
 
 # Create interactive plots for exploring the GSEA results.
 cat("Making interactive GSEA plots... \n")
+dir.create(paste0(out.dir, "/gsea_plots"), showWarnings = F, recursive = T)
 
 for ( k in colnames(gsea_res$pval)) {
   outfile <- paste0(out.dir, "/gsea_plots/gsea_plotly_", k, ".html")
