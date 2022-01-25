@@ -14,7 +14,7 @@ source("code/motif_analysis.R")
 parser <- OptionParser()
 parser <- add_option(parser,"--DAfile",type="character",default="DA_res.rds")
 parser <- add_option(parser,"--genome",type="character",default="hg19")
-parser <- add_option(parser,"--selectmethod",type="character",default="lfsr")
+parser <- add_option(parser,"--selectmethod",type="character",default="quantile")
 parser <- add_option(parser,"--homerpath",type="character",default="findMotifsGenome.pl")
 parser <- add_option(parser,"--nc",type = "integer",default = 1)
 parser <- add_option(parser,c("--out","-o"),type="character",default="out")
@@ -48,7 +48,7 @@ if(!dir.exists(out.dir))
 # LOAD DATA
 # ---------
 
-# PERFORM DIFFERENTIAL ACCESSBILITY ANALYSIS
+# DIFFERENTIAL ACCESSBILITY ANALYSIS
 # ------------------------------------------
 # Load differential accessbility analysis result using the topic model.
 if(!file.exists(DAfile)){
@@ -57,6 +57,14 @@ if(!file.exists(DAfile)){
 
 cat("Load precomputed differential accessbility statistics.\n")
 DA_res <- readRDS(DAfile)
+
+# Filter out regions with NAs
+DA_res <- DA_res[c("postmean", "z", "lfsr")]
+rows_withNAs <- which(apply(DA_res$z, 1, anyNA))
+cat("Filter out", length(rows_withNAs), "regions with NAs... \n")
+DA_res$z <- DA_res$z[-rows_withNAs,]
+DA_res$postmean <- DA_res$postmean[-rows_withNAs,]
+DA_res$lfsr <- DA_res$lfsr[-rows_withNAs,]
 
 # SELECT REGIONS FOR MOTIF ENRICHMENT ANALYSIS
 # --------------------------------------------
