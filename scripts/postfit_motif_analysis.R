@@ -64,8 +64,7 @@ cat("Select regions. \n")
 homer.dir <- paste0(out.dir, "/HOMER/")
 cat(sprintf("%d regions in total. \n", nrow(DA_res$z)))
 
-selected_regions <- select_DA_regions(DA_res, method = 'quantile', thresh.quantile = 0.99, out.dir = homer.dir, save.bed = TRUE)
-
+selected_regions <- select_DA_regions(DA_res, method = selectmethod, out.dir = homer.dir, save.bed = TRUE)
 saveRDS(selected_regions, paste0(homer.dir, "/selected_regions.rds"))
 
 # PERFORM MOTIF ENRICHMENT ANALYSIS USING HOMER
