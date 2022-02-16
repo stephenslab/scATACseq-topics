@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Kaixuan Luo" />
+
+
+<title>Motif analysis using topic modeling and DA results (v2) for Buenrostro et al (2018) scATAC-seq result (data processed using Chen 2019 pipeline)</title>
+
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="site_libs/datatables-binding-0.20/datatables.js"></script>
+<link href="site_libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="site_libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="site_libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
+<link href="site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">scATACseq-topics</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/stephenslab/scATACseq-topics">source</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Motif analysis using topic modeling and DA results (v2) for Buenrostro <em>et al</em> (2018) scATAC-seq result (data processed using Chen 2019 pipeline)</h1>
+<h4 class="author">Kaixuan Luo</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2022-02-16
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>scATACseq-topics/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version 1.7.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it's best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20200729code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20200729)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20200729code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20200729)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreec1e1d7eca36a33d9a07255ee236219e686202b40targetblankc1e1d7ea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/c1e1d7eca36a33d9a07255ee236219e686202b40" target="_blank">c1e1d7e</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreec1e1d7eca36a33d9a07255ee236219e686202b40targetblankc1e1d7ea" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/c1e1d7eca36a33d9a07255ee236219e686202b40" target="_blank">c1e1d7e</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    output/plotly/Buenrostro_2018_Chen2019pipeline/
+
+Untracked files:
+    Untracked:  analysis/analysis_Buenrostro2018_k10.Rmd
+    Untracked:  analysis/clusters_Buenrostro2018_k10_Chen2019pipeline.Rmd
+    Untracked:  analysis/process_data_Buenrostro2018_Chen2019.Rmd
+    Untracked:  analysis/selected_figures_Buenrostro2018.Rmd
+    Untracked:  analysis/test_structure_plots_Buenrostro2018_k11_Chen2019pipeline.Rmd
+    Untracked:  gsea_b_cells.html
+    Untracked:  output/clustering-Cusanovich2018.rds
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_10_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_10_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_10_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_10_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_10_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_10_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_10_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_10_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_10_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_10_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_11_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_11_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_11_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_11_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_11_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_11_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_11_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_11_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_11_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_11_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_12_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_12_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_12_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_12_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_12_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_12_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_12_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_12_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_12_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_12_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_13_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_13_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_13_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_13_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_13_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_13_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_13_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_13_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_13_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_13_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_1_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_1_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_1_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_1_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_1_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_1_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_1_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_1_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_1_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_1_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_2_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_2_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_2_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_2_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_2_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_2_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_2_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_2_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_2_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_2_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_3_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_3_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_3_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_3_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_3_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_3_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_3_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_3_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_3_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_3_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_4_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_4_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_4_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_4_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_4_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_4_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_4_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_4_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_4_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_4_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_5_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_5_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_5_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_5_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_5_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_5_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_5_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_5_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_5_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_5_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_6_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_6_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_6_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_6_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_6_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_6_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_6_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_6_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_6_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_6_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_7_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_7_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_7_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_7_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_7_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_7_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_7_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_7_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_7_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_7_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_8_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_8_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_8_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_8_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_8_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_8_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_8_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_8_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_8_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_8_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_9_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_9_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_9_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_9_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_9_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_9_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_9_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_9_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_9_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_9_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_10_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_10_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_10_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_10_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_10_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_10_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_10_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_10_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_10_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_10_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_11_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_11_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_11_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_11_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_11_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_11_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_11_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_11_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_11_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_11_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_12_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_12_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_12_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_12_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_12_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_12_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_12_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_12_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_12_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_12_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_13_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_13_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_13_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_13_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_13_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_13_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_13_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_13_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_13_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_13_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_1_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_1_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_1_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_1_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_1_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_1_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_1_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_1_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_1_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_1_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_2_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_2_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_2_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_2_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_2_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_2_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_2_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_2_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_2_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_2_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_3_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_3_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_3_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_3_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_3_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_3_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_3_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_3_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_3_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_3_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_4_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_4_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_4_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_4_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_4_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_4_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_4_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_4_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_4_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_4_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_5_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_5_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_5_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_5_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_5_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_5_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_5_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_5_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_5_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_5_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_6_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_6_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_6_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_6_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_6_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_6_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_6_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_6_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_6_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_6_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_7_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_7_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_7_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_7_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_7_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_7_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_7_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_7_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_7_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_7_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_8_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_8_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_8_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_8_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_8_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_8_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_8_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_8_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_8_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_8_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_9_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_9_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_9_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_9_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_9_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_9_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_9_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_9_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_9_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_9_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  paper/
+    Untracked:  scripts/fit_all_models_Buenrostro_2018_chromVar_scPeaks_filtered.sbatch
+    Untracked:  scripts/fit_models_Cusanovich2018_tissues.sh
+    Untracked:  scripts/postfit_Buenrostro2018_Chen2019pipeline_v2.sh
+    Untracked:  scripts/postfit_Cusanovich2018_v2.sh
+    Untracked:  scripts/postfit_DA_analysis.sbatch
+    Untracked:  topic1.html
+
+Unstaged changes:
+    Modified:   analysis/clusters_Cusanovich2018_k13.Rmd
+    Modified:   analysis/gene_analysis_Buenrostro2018_Chen2019pipeline.Rmd
+    Modified:   analysis/gene_analysis_Cusanovich2018.Rmd
+    Modified:   analysis/motif_analysis_Buenrostro2018_Chen2019pipeline.Rmd
+    Modified:   analysis/motif_analysis_Cusanovich2018.Rmd
+    Modified:   analysis/plots_Cusanovich2018.Rmd
+    Modified:   analysis/process_data_Cusanovich2018.Rmd
+    Modified:   code/functions_for_assessing_fits.R
+    Modified:   code/plots.R
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_10_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_10_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_11_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_11_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_12_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_12_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_13_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_13_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_1_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_1_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_2_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_2_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_3_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_3_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_4_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_4_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_5_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_5_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_6_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_6_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_7_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_7_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_8_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_8_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_9_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_9_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_10_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_10_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_11_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_11_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_12_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_12_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_13_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_13_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_1_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_1_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_2_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_2_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_3_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_3_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_4_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_4_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_5_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_5_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_6_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_6_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_7_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_7_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_8_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_8_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_9_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_9_tss-sum.html
+    Modified:   scripts/DA_analysis.R
+    Modified:   scripts/diffcount_genescore.R
+    Modified:   scripts/diffcount_genescore_gsea.R
+    Modified:   scripts/fit_all_models_Cusanovich2018.sh
+    Modified:   scripts/postfit_Buenrostro2018_Chen2019pipeline.sh
+    Modified:   scripts/postfit_Cusanovich2018.sh
+    Modified:   scripts/postfit_gene_analysis.sbatch
+    Modified:   scripts/postfit_genescore.R
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/motif_analysis_Buenrostro2018_Chen2019pipeline_v2.Rmd</code>) and HTML (<code>docs/motif_analysis_Buenrostro2018_Chen2019pipeline_v2.html</code>) files. If you've configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/c1e1d7eca36a33d9a07255ee236219e686202b40/analysis/motif_analysis_Buenrostro2018_Chen2019pipeline_v2.Rmd" target="_blank">c1e1d7e</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-02-16
+</td>
+<td>
+updated with new DA test result
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<p>Here we perform TF motif analysis for the Buenrostro <em>et al</em> (2018) scATAC-seq result inferred from the multinomial topic model with <span class="math inline">\(k = 11\)</span>.</p>
+<p>We use binarized scPeaks and scATAC-seq data was processed using Chen <em>et al</em> (2019) pipeline.</p>
+<div id="load-packages-and-some-functions-used-in-this-analysis" class="section level2">
+<h2>Load packages and some functions used in this analysis</h2>
+<pre class="r"><code>library(Matrix)
+library(fastTopics)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(ggrepel)
+library(cowplot)
+library(plotly)
+library(htmlwidgets)
+library(DT)
+library(reshape2)
+library(Logolas)
+library(grid)
+source(&quot;code/motif_analysis.R&quot;)
+source(&quot;code/plots.R&quot;)</code></pre>
+</div>
+<div id="load-data-and-topic-model-results" class="section level2">
+<h2>Load data and topic model results</h2>
+<p>Load the <strong>binarized</strong> data and the <span class="math inline">\(k = 11\)</span> Poisson NMF fit results</p>
+<pre class="r"><code>data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/&quot;
+load(file.path(data.dir, &quot;Buenrostro_2018_binarized_counts.RData&quot;))
+cat(sprintf(&quot;%d x %d counts matrix.\n&quot;,nrow(counts),ncol(counts)))</code></pre>
+<pre><code># 2034 x 101172 counts matrix.</code></pre>
+<pre class="r"><code>fit.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/&quot;
+fit &lt;- readRDS(file.path(fit.dir, &quot;/fit-Buenrostro2018-binarized-scd-ex-k=11.rds&quot;))$fit
+fit &lt;- poisson2multinom(fit)</code></pre>
+</div>
+<div id="visualize-by-structure-plot-grouped-by-cell-labels." class="section level2">
+<h2>Visualize by Structure plot grouped by cell labels.</h2>
+<pre class="r"><code>set.seed(10)
+colors_topics &lt;- c(&quot;#a6cee3&quot;,&quot;#1f78b4&quot;,&quot;#b2df8a&quot;,&quot;#33a02c&quot;,&quot;#fb9a99&quot;,&quot;#e31a1c&quot;,
+                   &quot;#fdbf6f&quot;,&quot;#ff7f00&quot;,&quot;#cab2d6&quot;,&quot;#6a3d9a&quot;,&quot;#ffff99&quot;,&quot;#b15928&quot;,
+                   &quot;gray&quot;)
+samples$label &lt;- factor(samples$label, levels = c(&quot;HSC&quot;, &quot;MPP&quot;, &quot;CMP&quot;, &quot;GMP&quot;, &quot;mono&quot;, &quot;MEP&quot;, &quot;LMPP&quot;, &quot;CLP&quot;, &quot;pDC&quot;, &quot;UNK&quot;))
+
+p.structure &lt;- structure_plot(fit,
+                     grouping = samples[, &quot;label&quot;],n = Inf,gap = 40,
+                     perplexity = 50,colors = colors_topics,
+                     num_threads = 4,verbose = FALSE)
+
+print(p.structure)</code></pre>
+<p><img src="figure/motif_analysis_Buenrostro2018_Chen2019pipeline_v2.Rmd/structure-plot-1.png" width="840" style="display: block; margin: auto;" /></p>
+</div>
+<div id="focus-on-myeloid-differentiation-hsc-mpp-cmp-gmp-momo" class="section level2">
+<h2>Focus on myeloid differentiation (HSC, MPP, CMP, GMP, Momo)</h2>
+<pre class="r"><code>set.seed(10)
+colors_topics &lt;- c(&quot;#a6cee3&quot;,&quot;#1f78b4&quot;,&quot;#b2df8a&quot;,&quot;#33a02c&quot;,&quot;#fb9a99&quot;,&quot;#e31a1c&quot;,
+                   &quot;#fdbf6f&quot;,&quot;#ff7f00&quot;,&quot;#cab2d6&quot;,&quot;#6a3d9a&quot;,&quot;#ffff99&quot;,&quot;#b15928&quot;,
+                   &quot;gray&quot;)
+myeloid_samples &lt;- factor(samples$label, levels = c(&quot;HSC&quot;, &quot;MPP&quot;, &quot;CMP&quot;, &quot;GMP&quot;, &quot;mono&quot;))
+
+p.structure.myeloid &lt;- structure_plot(fit,
+                     grouping = myeloid_samples, n = Inf,gap = 40,
+                     perplexity = 50, colors = colors_topics,
+                     num_threads = 4,verbose = FALSE)
+
+print(p.structure.myeloid)</code></pre>
+<p><img src="figure/motif_analysis_Buenrostro2018_Chen2019pipeline_v2.Rmd/myeloid-structure-plot-1.png" width="840" style="display: block; margin: auto;" /></p>
+</div>
+<div id="focus-on-erythroid-differentiation-hsc-mpp-cmp-mep" class="section level2">
+<h2>Focus on erythroid differentiation (HSC, MPP, CMP, MEP)</h2>
+<pre class="r"><code>set.seed(10)
+colors_topics &lt;- c(&quot;#a6cee3&quot;,&quot;#1f78b4&quot;,&quot;#b2df8a&quot;,&quot;#33a02c&quot;,&quot;#fb9a99&quot;,&quot;#e31a1c&quot;,
+                   &quot;#fdbf6f&quot;,&quot;#ff7f00&quot;,&quot;#cab2d6&quot;,&quot;#6a3d9a&quot;,&quot;#ffff99&quot;,&quot;#b15928&quot;,
+                   &quot;gray&quot;)
+myeloid_samples &lt;- factor(samples$label, levels = c(&quot;HSC&quot;, &quot;MPP&quot;, &quot;CMP&quot;, &quot;MEP&quot;))
+
+p.structure.erythroid &lt;- structure_plot(fit,
+                     grouping = myeloid_samples, n = Inf,gap = 40,
+                     perplexity = 50,colors = colors_topics,
+                     num_threads = 4,verbose = FALSE)
+
+print(p.structure.erythroid)</code></pre>
+<p><img src="figure/motif_analysis_Buenrostro2018_Chen2019pipeline_v2.Rmd/erythroid-structure-plot-1.png" width="840" style="display: block; margin: auto;" /></p>
+</div>
+<div id="focus-on-lymphoid-differentiation-hsc-mpp-lmpp-clp" class="section level2">
+<h2>Focus on lymphoid differentiation (HSC, MPP, LMPP, CLP)</h2>
+<pre class="r"><code>set.seed(10)
+colors_topics &lt;- c(&quot;#a6cee3&quot;,&quot;#1f78b4&quot;,&quot;#b2df8a&quot;,&quot;#33a02c&quot;,&quot;#fb9a99&quot;,&quot;#e31a1c&quot;,
+                   &quot;#fdbf6f&quot;,&quot;#ff7f00&quot;,&quot;#cab2d6&quot;,&quot;#6a3d9a&quot;,&quot;#ffff99&quot;,&quot;#b15928&quot;,
+                   &quot;gray&quot;)
+myeloid_samples &lt;- factor(samples$label, levels = c(&quot;HSC&quot;, &quot;MPP&quot;, &quot;LMPP&quot;, &quot;CLP&quot;))
+
+p.structure.lymphoid &lt;- structure_plot(fit,
+                     grouping = myeloid_samples, n = Inf,gap = 40,
+                     perplexity = 50,colors = colors_topics,
+                     num_threads = 4,verbose = FALSE)
+
+print(p.structure.lymphoid)</code></pre>
+<p><img src="figure/motif_analysis_Buenrostro2018_Chen2019pipeline_v2.Rmd/lymphoid-structure-plot-1.png" width="840" style="display: block; margin: auto;" /></p>
+</div>
+<div id="differential-accessbility-analysis-of-the-atac-seq-regions-for-the-topics" class="section level2">
+<h2>Differential accessbility analysis of the ATAC-seq regions for the topics</h2>
+<p>Load results from differential accessbility analysis for the topics</p>
+<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/postfit_v2&quot;
+cat(sprintf(&quot;Load results from %s \n&quot;, out.dir))
+DA_res &lt;- readRDS(file.path(out.dir, paste0(&quot;DAanalysis-Buenrostro2018-k=11-quantile/DA_regions_topics_10000iters.rds&quot;)))</code></pre>
+<pre><code># Load results from /project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/postfit_v2</code></pre>
+<p>Volcano plot of the regions</p>
+<p><strong>topic 1 and topic 4 examples</strong></p>
+<pre class="r"><code>p.volcano.1 &lt;- volcano_plot(DA_res,k = 1, labels = rep(&quot;&quot;,nrow(DA_res$z)))
+
+p.volcano.4 &lt;- volcano_plot(DA_res,k = 4, labels = rep(&quot;&quot;,nrow(DA_res$z)))
+
+plot_grid(p.volcano.1, p.volcano.4)</code></pre>
+<p><img src="figure/motif_analysis_Buenrostro2018_Chen2019pipeline_v2.Rmd/region-volcano-plot-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="motif-enrichment-analysis-using-homer" class="section level2">
+<h2>Motif enrichment analysis using <a href="http://homer.ucsd.edu/homer/ngs/peakMotifs.html">HOMER</a></h2>
+<ul>
+<li>Details about HOMER motif analysis:
+<ul>
+<li><a href="http://homer.ucsd.edu/homer/motif/" class="uri">http://homer.ucsd.edu/homer/motif/</a></li>
+<li><a href="http://homer.ucsd.edu/homer/ngs/peakMotifs.html" class="uri">http://homer.ucsd.edu/homer/ngs/peakMotifs.html</a></li>
+</ul></li>
+<li>Motif enrichment result using regions with z-score above 99% quantile.</li>
+</ul>
+<p>Compile Homer results across topics</p>
+<pre class="r"><code>homer.dir &lt;- paste0(out.dir, &quot;/motifanalysis-Buenrostro2018-k=11-quantile/HOMER/&quot;)
+cat(sprintf(&quot;Directory of motif analysis result: %s \n&quot;, homer.dir))
+homer_res_topics &lt;- readRDS(file.path(homer.dir, &quot;/homer_knownResults.rds&quot;))
+selected_regions &lt;- readRDS(file.path(homer.dir, &quot;/selected_regions.rds&quot;))
+
+# Compile Homer results (pvalue and ranking) across topics
+motif_res &lt;- compile_homer_motif_res(homer_res_topics)
+saveRDS(motif_res, paste0(homer.dir, &quot;/homer_motif_enrichment_results.rds&quot;))
+cat(&quot;compiled homer motif results are saved in&quot;, paste0(homer.dir, &quot;/homer_motif_enrichment_results.rds \n&quot;))
+
+motif_table &lt;- data.frame(motif = gsub(&quot;/.*&quot;, &quot;&quot;, rownames(motif_res$mlog10P)),
+                          round(motif_res$mlog10P,2))
+DT::datatable(motif_table, rownames = F, caption = &quot;Motif enrichment (-log10P)&quot;)</code></pre>
+<pre><code># Directory of motif analysis result: /project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/postfit_v2/motifanalysis-Buenrostro2018-k=11-quantile/HOMER/ 
+# compiled homer motif results are saved in /project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/postfit_v2/motifanalysis-Buenrostro2018-k=11-quantile/HOMER//homer_motif_enrichment_results.rds</code></pre>
+<div id="htmlwidget-f128e56a7d0b85e5c511" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f128e56a7d0b85e5c511">{"x":{"filter":"none","vertical":false,"caption":"<caption>Motif enrichment (-log10P)<\/caption>","data":[["AMYB(HTH)","AP-1(bZIP)","AP-2alpha(AP2)","AP-2gamma(AP2)","Ap4(bHLH)","AR-halfsite(NR)","ARE(NR)","Arnt:Ahr(bHLH)","Ascl1(bHLH)","Ascl2(bHLH)","Atf1(bZIP)","Atf2(bZIP)","Atf3(bZIP)","Atf4(bZIP)","Atf7(bZIP)","Atoh1(bHLH)","Bach1(bZIP)","Bach2(bZIP)","Bapx1(Homeobox)","Barx1(Homeobox)","BATF(bZIP)","Bcl11a(Zf)","Bcl6(Zf)","BHLHA15(bHLH)","bHLHE40(bHLH)","bHLHE41(bHLH)","BMAL1(bHLH)","BMYB(HTH)","BORIS(Zf)","Brachyury(T-box)","Brn1(POU,Homeobox)","Brn2(POU,Homeobox)","bZIP:IRF(bZIP,IRF)","c-Jun-CRE(bZIP)","c-Myc(bHLH)","c-Myc(bHLH)","CArG(MADS)","Cdx2(Homeobox)","CDX4(Homeobox)","CEBP:AP1(bZIP)","CEBP:CEBP(bZIP)","CEBP(bZIP)","Chop(bZIP)","CHR(?)","CLOCK(bHLH)","COUP-TFII(NR)","COUP-TFII(NR)","CRE(bZIP)","CREB5(bZIP)","CRX(Homeobox)","CTCF-SatelliteElement(Zf?)","CTCF(Zf)","CUX1(Homeobox)","Cux2(Homeobox)","DLX1(Homeobox)","DLX2(Homeobox)","Dlx3(Homeobox)","DLX5(Homeobox)","DMRT1(DM)","DMRT6(DM)","DUX(Homeobox)","DUX4(Homeobox)","Duxbl(Homeobox)","E-box(bHLH)","E2A(bHLH),near_PU.1","E2A(bHLH)","E2F(E2F)","E2F1(E2F)","E2F3(E2F)","E2F4(E2F)","E2F6(E2F)","E2F7(E2F)","EAR2(NR)","EBF(EBF)","EBF1(EBF)","EBF2(EBF)","EBNA1(EBV-virus)","Egr1(Zf)","Egr2(Zf)","EHF(ETS)","EKLF(Zf)","ELF1(ETS)","ELF3(ETS)","Elf4(ETS)","ELF5(ETS)","Elk1(ETS)","Elk4(ETS)","En1(Homeobox)","Eomes(T-box)","ERE(NR),IR3","ERG(ETS)","Erra(NR)","ERRg(NR)","Esrrb(NR)","ETS:E-box(ETS,bHLH)","ETS:RUNX(ETS,Runt)","ETS(ETS)","Ets1-distal(ETS)","ETS1(ETS)","ETV1(ETS)","Etv2(ETS)","ETV4(ETS)","EWS:ERG-fusion(ETS)","EWS:FLI1-fusion(ETS)","Fli1(ETS)","Fos(bZIP)","Fosl2(bZIP)","Fox:Ebox(Forkhead,bHLH)","FOXA1:AR(Forkhead,NR)","FOXA1(Forkhead)","FOXA1(Forkhead)","Foxa2(Forkhead)","Foxa3(Forkhead)","FoxD3(forkhead)","Foxf1(Forkhead)","Foxh1(Forkhead)","FOXK1(Forkhead)","FOXK2(Forkhead)","FoxL2(Forkhead)","FOXM1(Forkhead)","Foxo1(Forkhead)","Foxo3(Forkhead)","FOXP1(Forkhead)","Fra1(bZIP)","Fra2(bZIP)","FXR(NR),IR1","GABPA(ETS)","GATA:SCL(Zf,bHLH)","GATA(Zf),IR3","GATA(Zf),IR4","Gata1(Zf)","Gata2(Zf)","GATA3(Zf),DR4","GATA3(Zf),DR8","GATA3(Zf)","Gata4(Zf)","Gata6(Zf)","Gfi1b(Zf)","GFX(?)","GFY-Staf(?,Zf)","GFY(?)","Gli2(Zf)","GLI3(Zf)","GLIS3(Zf)","GRE(NR),IR3","GRE(NR),IR3","GRHL2(CP2)","GSC(Homeobox)","Hand2(bHLH)","HEB(bHLH)","HIC1(Zf)","HIF-1a(bHLH)","HIF-1b(HLH)","HIF2a(bHLH)","HINFP(Zf)","HLF(bZIP)","Hnf1(Homeobox)","HNF1b(Homeobox)","HNF4a(NR),DR1","HNF6(Homeobox)","Hnf6b(Homeobox)","HOXA1(Homeobox)","Hoxa10(Homeobox)","Hoxa11(Homeobox)","Hoxa13(Homeobox)","HOXA2(Homeobox)","Hoxa9(Homeobox)","HOXB13(Homeobox)","Hoxb4(Homeobox)","Hoxc9(Homeobox)","Hoxd10(Homeobox)","Hoxd11(Homeobox)","Hoxd12(Homeobox)","Hoxd13(Homeobox)","HRE(HSF)","HRE(HSF)","IRF:BATF(IRF:bZIP)","IRF1(IRF)","IRF2(IRF)","IRF3(IRF)","IRF4(IRF)","IRF8(IRF)","Isl1(Homeobox)","ISRE(IRF)","Jun-AP1(bZIP)","JunB(bZIP)","JunD(bZIP)","KLF1(Zf)","KLF10(Zf)","KLF14(Zf)","KLF3(Zf)","Klf4(Zf)","KLF5(Zf)","KLF6(Zf)","Klf9(Zf)","LEF1(HMG)","Lhx1(Homeobox)","Lhx2(Homeobox)","Lhx3(Homeobox)","LHX9(Homeobox)","LRF(Zf)","LXRE(NR),DR4","MafA(bZIP)","MafB(bZIP)","MafF(bZIP)","MafK(bZIP)","Max(bHLH)","Maz(Zf)","Mef2a(MADS)","Mef2b(MADS)","Mef2c(MADS)","Mef2d(MADS)","Meis1(Homeobox)","MITF(bHLH)","MNT(bHLH)","Mouse_Recombination_Hotspot(Zf)","MYB(HTH)","Myf5(bHLH)","MYNN(Zf)","MyoD(bHLH)","MyoG(bHLH)","n-Myc(bHLH)","Nanog(Homeobox)","NeuroD1(bHLH)","NeuroG2(bHLH)","NF-E2(bZIP)","NF1-halfsite(CTF)","NF1:FOXA1(CTF,Forkhead)","NF1(CTF)","NFAT:AP1(RHD,bZIP)","NFAT(RHD)","NFE2L2(bZIP)","NFIL3(bZIP)","NFkB-p50,p52(RHD)","NFkB-p65-Rel(RHD)","NFkB-p65(RHD)","NFY(CCAAT)","Nkx2.1(Homeobox)","Nkx2.2(Homeobox)","Nkx2.5(Homeobox)","Nkx3.1(Homeobox)","Nkx6.1(Homeobox)","NPAS(bHLH)","NPAS2(bHLH)","Npas4(bHLH)","Nr5a2(NR)","Nr5a2(NR)","NRF(NRF)","NRF1(NRF)","Nrf2(bZIP)","Nur77(NR)","OCT:OCT-short(POU,Homeobox)","OCT:OCT(POU,Homeobox,IR1)","OCT:OCT(POU,Homeobox)","OCT:OCT(POU,Homeobox)","Oct11(POU,Homeobox)","Oct2(POU,Homeobox)","OCT4-SOX2-TCF-NANOG(POU,Homeobox,HMG)","Oct4:Sox17(POU,Homeobox,HMG)","Oct4(POU,Homeobox)","Oct6(POU,Homeobox)","Olig2(bHLH)","Otx2(Homeobox)","p53(p53)","p53(p53)","p53(p53)","p63(p53)","p73(p53)","PAX3:FKHR-fusion(Paired,Homeobox)","PAX5(Paired,Homeobox),condensed","PAX5(Paired,Homeobox)","PAX6(Paired,Homeobox)","Pax7(Paired,Homeobox),long","Pax7(Paired,Homeobox),longest","Pax7(Paired,Homeobox)","Pax8(Paired,Homeobox)","PBX1(Homeobox)","PBX2(Homeobox)","Pbx3(Homeobox)","Pdx1(Homeobox)","PGR(NR)","Phox2a(Homeobox)","Phox2b(Homeobox)","Pit1(Homeobox)","Pit1+1bp(Homeobox)","Pitx1:Ebox(Homeobox,bHLH)","Pitx1(Homeobox)","Pknox1(Homeobox)","PPARa(NR),DR1","PPARE(NR),DR1","PR(NR)","PRDM1(Zf)","PRDM10(Zf)","PRDM14(Zf)","PRDM15(Zf)","PRDM9(Zf)","Prop1(Homeobox)","PSE(SNAPc)","Ptf1a(bHLH)","PU.1-IRF(ETS:IRF)","PU.1:IRF8(ETS:IRF)","PU.1(ETS)","RAR:RXR(NR),DR0","RAR:RXR(NR),DR5","RARa(NR)","RARg(NR)","RBPJ:Ebox(?,bHLH)","Rbpj1(?)","REST-NRSF(Zf)","Reverb(NR),DR2","RFX(HTH)","Rfx1(HTH)","Rfx2(HTH)","Rfx5(HTH)","Rfx6(HTH)","Ronin(THAP)","RORa(NR)","RORg(NR)","RORgt(NR)","RUNX-AML(Runt)","RUNX(Runt)","RUNX1(Runt)","RUNX2(Runt)","RXR(NR),DR1","SCL(bHLH)","SCRT1(Zf)","SF1(NR)","Six1(Homeobox)","Six2(Homeobox)","Six4(Homeobox)","Slug(Zf)","Smad2(MAD)","Smad3(MAD)","Smad4(MAD)","Snail1(Zf)","Sox10(HMG)","Sox15(HMG)","Sox17(HMG)","Sox2(HMG)","Sox21(HMG)","Sox3(HMG)","Sox4(HMG)","Sox6(HMG)","Sox7(HMG)","Sox9(HMG)","Sp1(Zf)","Sp2(Zf)","Sp5(Zf)","SPDEF(ETS)","SpiB(ETS)","Srebp1a(bHLH)","Srebp2(bHLH)","STAT1(Stat)","Stat3(Stat)","Stat3+il21(Stat)","STAT4(Stat)","STAT5(Stat)","STAT6(Stat)","STAT6(Stat)","T1ISRE(IRF)","TATA-Box(TBP)","Tbet(T-box)","Tbox:Smad(T-box,MAD)","Tbr1(T-box)","Tbx20(T-box)","Tbx21(T-box)","Tbx5(T-box)","Tbx6(T-box)","Tcf12(bHLH)","Tcf21(bHLH)","Tcf3(HMG)","TCF4(bHLH)","Tcf7(HMG)","Tcfcp2l1(CP2)","TCFL2(HMG)","TEAD(TEA)","TEAD1(TEAD)","TEAD2(TEA)","TEAD3(TEA)","TEAD4(TEA)","TFE3(bHLH)","Tgif1(Homeobox)","Tgif2(Homeobox)","THRa(NR)","THRb(NR)","THRb(NR)","Tlx?(NR)","TR4(NR),DR1","TRPS1(Zf)","Twist(bHLH)","Twist2(bHLH)","Unknown-ESC-element(?)","Unknown(Homeobox)","USF1(bHLH)","Usf2(bHLH)","VDR(NR),DR3","WT1(Zf)","X-box(HTH)","YY1(Zf)","Zac1(Zf)","ZBTB12(Zf)","ZBTB18(Zf)","ZBTB33(Zf)","ZEB1(Zf)","ZEB2(Zf)","Zfp281(Zf)","ZFP3(Zf)","Zfp57(Zf)","Zfp809(Zf)","ZFX(Zf)","Zic(Zf)","Zic2(Zf)","Zic3(Zf)","ZKSCAN1(Zf)","ZNF136(Zf)","ZNF143|STAF(Zf)","ZNF16(Zf)","ZNF165(Zf)","ZNF189(Zf)","Znf263(Zf)","ZNF264(Zf)","ZNF317(Zf)","ZNF322(Zf)","ZNF341(Zf)","ZNF382(Zf)","ZNF41(Zf)","ZNF415(Zf)","ZNF416(Zf)","ZNF467(Zf)","ZNF519(Zf)","ZNF528(Zf)","ZNF652","ZNF669(Zf)","ZNF675(Zf)","ZNF692(Zf)","ZNF7(Zf)","ZNF711(Zf)","ZNF768(Zf)","ZSCAN22(Zf)"],[9.06,63.41,2.27,1.81,4.42,0.17,2.22,0.15,5.19,0.23,6.86,2.36,71.44,75.13,2.19,12.58,5.65,24.87,0,0.01,68.05,0.01,0.64,13.5,0.14,0.01,0.01,6.14,5.43,1.13,0.04,0.32,1.7,1.9,0.07,0.15,0.5,0.98,0.91,91.46,2.88,108.14,53.33,0.14,0.18,0,0,1,4.59,0,0.1,4.57,0,0,0.58,0.4,0.74,1.01,0.68,0.85,0,0.52,0.14,0.06,0,0.02,0.27,0.15,0.15,0.02,0.25,0.06,0,0.49,1.3,0.44,0,0.83,2.7,28.29,0.01,9.23,26.31,46.64,31.08,10.58,8.11,0.34,0.15,0.36,49.38,0.09,0.04,0.01,12.99,12.09,10.49,26.24,54.03,43.33,36.73,24.63,32.51,21.59,33.84,73.57,61.06,0.04,0.09,0,0.01,0.01,0.11,0.05,0.01,0.73,0.01,0,0,0.04,1.49,0.04,0.02,69.66,68.27,0,31.62,2.17,1.88,0.57,0.04,0.06,0.27,0.46,0.01,0.08,0.04,0,0.27,0.03,0.1,1.47,0.43,0,1.5,3.9,0.01,0,1.29,0.28,2.08,0.89,0.24,0.52,0.09,97.06,0.3,0.16,0.01,0,0.07,0.46,1.55,1.36,1.56,0.24,0.98,0.19,1.39,0.53,0.1,0.38,0.07,1.01,0.42,0.44,0.61,0.44,0.56,0.09,0.58,0.37,1.41,0.36,51.55,63.28,2.46,0.14,0,0.64,0.11,0,0.58,0.37,0.36,0.21,0.07,0.41,0.13,0.46,0.55,0,5.68,3.97,0.15,8.13,0.15,1.31,0,0,0,0.47,0.61,1.62,0.02,0.07,11.77,3.25,0.91,6.3,2.7,0.12,1.49,13.34,11.87,7.7,8.8,0.44,3.62,1.46,0.17,4.74,87.47,1.43,0.55,0.8,0.38,0.02,0.01,0.04,0.01,0.32,0.02,0,0.3,0.04,0.05,0.03,0.39,6.31,0.16,2.39,0.23,0.37,0.01,0.77,0.09,0.13,0.45,0.08,0.17,14.3,0,0.79,0.01,0.01,0,0.05,0.09,0.61,0.63,0.4,0.11,0.19,0.01,0.25,0.47,1.01,0.39,1.49,2.77,0,0,0.33,0.55,0.58,0,0.18,0.39,0.1,1.14,0.01,0.03,0.26,0.19,1.95,0.15,0.42,0.43,0.8,0.03,28.99,0,0.04,0,-0,0.84,0.04,0.42,0.33,0.43,0.39,0.43,0.45,1.08,0.15,0,0,0.03,39.99,38.11,39.48,45.38,0.15,9.48,0,0.09,0.29,0.98,0.11,0,2.76,4.14,1.56,0,0.03,0.02,0.01,0.03,0.07,0.08,0.01,0.25,0.06,0.34,0.02,1.44,2.2,17.69,18.7,0.92,0.07,0.13,1.33,2.65,0.82,0.01,0.37,0.03,0.31,0.46,0.45,0.26,0.13,1.6,0.01,0,0,4.95,8.01,0.05,10.28,0.74,0,0.1,0,0,0,0,0,0.91,2,3.42,0,0,0.06,1,0.38,0.01,1.26,13.18,0.18,0.13,1.28,0.43,0.28,1.22,0.53,0,0.49,0.07,4.99,0.12,0,0,0.01,0,0.17,1.1,0.35,0.15,0.24,0.43,-0,0.05,0.23,0.53,0.13,0.08,0.45,0.58,0.45,0.14,0.86,1.05,0.83,1.27,0,0.53,2.22,0,0.21,1.08,0.12,0.08,0.02,0.16,0.01,0.03],[4.69,0.72,0.49,0.29,5.21,0.14,1.7,0.79,5.53,0.04,1.56,2.16,0.18,0.57,1.02,7.82,5.15,3.31,0.04,0.48,0.44,0.57,1.7,9.5,0.24,0.5,1.81,3.16,6.29,1.4,1.72,0.19,2.06,1.12,0.77,1.47,0.03,3.41,9.1,1.1,0.29,0.06,0.5,0.4,1.31,0,0,1.51,1.46,0,-0,5.88,0.14,0.01,0.29,0.54,0.02,0.03,0.51,0.8,-0,0,0.29,2.12,0,0,0.2,0.21,0.13,0.11,0.06,0.14,0,0.17,0.38,0.13,0.83,0.96,0.18,57.02,0.04,16.32,48.38,65.62,48.12,19.24,29.91,0.74,1.14,0.2,113.61,0,0.28,0.07,54.37,20.47,7.6,36.54,68.97,81.04,85.77,63.1,70.53,64.19,91.11,0.61,1.44,0.63,0,0.04,0.04,0.25,0.34,2.13,0.15,0.38,0.38,0.56,0.08,0.05,14.36,0.43,0.51,0.38,0.2,0.02,50.51,12.08,5.61,4.98,32.81,34.35,2.72,1.86,27.02,37.4,37.51,0,0.41,0.79,1.79,1.59,1.6,0.01,1.49,1.21,0.84,0,0.29,0.01,0.87,0.26,0.22,0.33,1.86,1.63,1.41,0.5,0.12,0.02,0.04,2.05,0.59,2.36,2.22,2.95,1.46,4.07,3.31,34.43,5.64,2.26,1.1,2.59,0.28,0.05,0.8,3.47,2.93,8.41,1.51,2.56,0.2,3.05,1.59,0.68,0.76,0.03,0.11,0.23,0,0.1,0.27,0.09,0.03,0.77,0.14,0.05,0.9,0.77,0,0,3.19,2.38,1.53,2.83,3.09,0.56,0.04,0.32,0.06,0.83,0.33,4.09,1.92,0.01,3.61,1.3,0.27,1.07,1.23,2.71,0.2,7.73,7.66,4.54,7.43,0.01,12.79,0.72,0.68,5.94,2.41,0.67,0.25,0.62,0.25,0.9,0.17,0.84,0.5,0.44,1.31,0.11,0.02,0.39,0.33,0.13,0.14,4.92,0.03,0.69,0.22,-0,0,1.61,0.2,0.34,0.23,0.68,1.18,12.19,0.38,-0,0.08,0.08,0.17,0.41,0.54,0.39,0.01,0.14,0.03,0.02,0.04,0.03,0.47,23.47,1.03,7.66,1.06,0.58,0.03,0.21,1.14,1.35,0,0.34,0.08,0.02,3.04,1.83,0.12,0.84,0.27,0.74,0.19,0.74,1.55,4.23,1.58,44.82,0.11,-0,0,0.18,0.95,0.09,0,0.39,1.44,1.6,2.22,1.57,1.96,1.91,0.57,1.02,0.76,39.55,52.94,61.19,40.24,0.77,9.25,0.03,0.11,1.93,0.85,1.11,0,0,0.52,0.01,0,0.12,0,0,0.02,0.01,0.01,0.01,0.07,0.1,0.34,0.35,0.32,1.06,34.82,19.89,0.02,0.01,0.79,1.28,3.1,2.86,0.62,1.4,1.55,0.15,0.2,0.08,0.43,0.89,1.22,0,0,0,1.71,9,0.51,7.81,0.07,1.21,0.22,0,0.01,0.01,0.04,0.04,1.06,1.98,2.09,0.02,0.01,0,4.75,0.02,23.88,0.6,8.53,0.93,2.42,3.78,4.06,0.05,1.52,1.02,0,1.54,0.18,4.34,1.59,0,0,0.29,0,0.09,0.78,1.7,0.58,1.59,0.81,0,0.43,0.17,-0,0.85,0.82,0.05,2.09,1.08,0.38,0.38,0.36,0.12,0.11,0,1.4,0.19,-0,0.04,0.51,0.57,0.28,0.95,0.91,0.1,0.18],[5.09,0.08,0,0.01,0.03,0,0.09,2.57,0,0,2.5,2.23,0.05,0.39,1.95,0.01,0.52,0.21,0.01,0.07,0.04,0,0.19,0.01,3.49,3.21,1.18,3.97,0.87,0.03,4.38,0.25,0.23,1.49,1.17,0.9,0.29,0.11,0.27,0.54,0.97,0.64,0.32,0.18,2.86,0,0,3.71,1.45,0.21,0.77,1.13,0.6,0.8,3.83,4.41,0.39,0.95,0,0.08,-0,0.98,3.33,3.74,0,0,1.84,1.9,2.95,5.26,1.66,2.71,0,0,0.02,0.09,-0,2.2,3.91,2.07,2.59,9.5,0.51,3.51,2.18,13.52,18.97,32.66,0.06,0.04,2.94,0,0.15,0.01,2.86,0.64,6.18,0.25,3.6,7.6,2.96,14.06,0.03,4.85,11.54,0.02,0.13,0.3,0.25,0.03,0.09,0.28,0.44,0,0.05,1.05,0.11,0.2,0.09,0.17,0.92,0.07,0.07,0.25,0.1,0,7.4,0.23,0.12,-0,0.07,0.03,0.09,1.38,0,0.06,0.01,0.72,2.07,18.93,13.93,0.13,0.26,0,0.08,0.06,0.17,0,0.04,0,0,0.86,2.88,0.86,0.27,0.53,0.08,0.13,0.06,0.69,0.78,0.12,1.44,1.87,3.29,0.03,19.06,1.67,0.05,0.16,2.97,2.24,0.02,3.23,0.36,1.87,0.13,0.45,0.35,0.57,0.8,0.47,2.62,1,0.03,0.04,3.19,66.27,17.08,40.88,65.27,30.01,48.64,42.74,44.65,0.26,1.56,1.66,6.44,14.28,0,0,1.06,0.21,0.09,0.56,2.95,16.91,0,0,0,0.14,0.71,2.84,2.66,0.08,5.03,0.04,0.81,0.11,0.01,2.94,11.3,0,0.01,0.28,0.07,0,0.08,0.03,0.27,0,3.55,0.07,0.03,0,119.52,0.25,0.35,0.22,0,1.09,1.82,0.73,0.67,0,0,14.5,14.56,0.32,0.09,0.19,0.56,0.85,0.36,4.05,3.38,0.03,0.12,3.55,3.78,0,0.43,-0,0.18,0.18,0.48,0.5,1.28,1.08,0.55,0.01,-0,-0,0.14,0.28,2.32,1.27,5.49,0.43,0.01,0.2,0.32,0.14,0.7,0.01,0.11,8.96,0.04,0.02,0.06,0.66,0.15,0.3,0.04,0.04,0.04,0.06,0,0.55,1.05,0.1,0,0.51,0,-0,0.04,0.22,0,0,1.78,1.05,1.29,2.33,0.05,16.4,0.12,1.43,1.37,0.51,0.27,0.54,0.94,0.09,0,0,0,0.01,0.04,-0,0,0.13,2.47,0.26,0,0,0,0.03,0.01,0.01,0.01,0,0.01,0,0.01,86.03,56.85,70.4,0.69,0.42,0.03,0.05,0.62,1.56,0.28,0.19,0.29,0.33,0.72,-0,2.53,0.02,0.75,0.24,0.83,0.05,0,0.01,0.03,0.03,0.05,0,0.79,0.37,0.36,0,0.01,0,0.01,0,3.35,0.47,0.58,0,0,0.01,0.09,0.29,0.04,0,0.01,0.01,0.93,2.17,2,0.01,0.27,0.54,2.36,0.01,0.01,0,1.89,0,0,1.58,-0,1.76,0.33,0.24,0.03,0.11,0,0.52,-0,3.85,0.28,0.02,0.48,1.34,0.05,0.3,0.02,1.61,-0,-0,0,0,0.57,0.07,-0,0.54,1.01,0.19,0.4,0.58,0.61,0.07,1.18],[12.2,1.36,0.33,0.73,5.62,3.5,0.56,0.41,2.01,0.19,0,0.15,0.96,0.06,0,8.53,0.72,0.16,0,0.05,2.16,0.19,0.12,7.54,0.06,0.01,1.23,13.53,0.07,0.86,0.17,0.51,0.16,0.01,0.04,0.82,1.49,0.2,0.41,0.32,0.03,0,0.09,0.01,0.16,0,0,0.03,0.21,3.36,-0,0.13,0,0,1.7,1.49,0.17,0.23,0.19,0.11,-0,1.07,1.26,0.09,0,0,0.1,0.23,0.48,0.66,0.18,0.59,0,0.25,0.66,0.2,0.93,0.63,0.11,1.89,9.95,1.9,1.3,1.09,0.61,5.15,5.23,3.7,6.08,0.19,2.77,0.01,0.03,0.01,2.45,0.76,1.59,2.1,1.84,4.64,2.75,3.4,2.86,3.06,3.08,1.4,2.5,0.52,0.02,0.31,0.24,0.74,0.48,0.22,0.83,0.28,2.85,0.55,0.73,0.45,4.13,2.46,1.95,1.18,1.01,0.08,2.29,209.07,0.02,0.09,221.49,228.18,0.03,0.02,262.53,259.32,272.04,0,0.33,0.03,0.17,1.14,0.16,0.01,0.78,1.03,1.54,0.16,2.5,0.03,2.38,1.56,0.21,0.31,0.07,0.29,0.79,0.13,0.25,0,0.01,0.02,0.87,0.62,0.68,0.02,0.16,0.77,1.41,0.01,0.21,0.98,0.01,0.37,0.14,0.05,0.02,0.22,0.18,0.22,0.7,0.64,0.05,0.46,2.04,1.64,0.59,8.28,2.21,4.23,4.8,7.81,8.49,10.54,4.73,1.16,0.54,0.16,2.13,2.5,0.01,0,0.58,0.01,0.31,0.01,0.78,2.86,0,0,0,0.27,0.19,0.73,0.97,0.07,12.45,4.92,1.39,7.07,2.67,2.28,0.08,5.71,6.75,0.4,12.19,1.07,8.74,1.09,2.32,0.89,0.09,1.63,0.05,0.66,0.5,0,0,0,0,1.69,1.13,0.06,0,0.01,0.01,0.02,0.15,0.53,0.04,0.34,2.62,-0,0,0.2,0.13,0.31,0.22,0.19,0.07,4.35,3.56,0.05,0.68,0.68,0.23,0.86,1.33,0.47,0.01,0.21,0.91,-0,0.04,0.03,0.44,1.22,0.39,1.56,0.93,0.59,0.9,0.02,0.03,0.03,0.02,0.22,0.72,0.48,3.17,0.65,0.06,0.26,0.18,0.92,0.04,0.13,0.35,0.61,0.34,0.89,0.04,0.16,0,-0,0.59,0.63,0,0.21,1.51,0.64,1.09,0.66,2.37,0,0.01,0.06,0.03,11.34,17.43,13.83,19.98,0.64,10.21,0,0.01,0.4,0.52,1.13,0,4.93,5.21,5.27,0,2.31,1.45,1.35,2.17,2.06,1.78,0.34,1.78,0.12,2.03,0.38,8.85,4.69,0.65,0.14,0.08,0.08,0.12,0.07,0.33,0.25,0.32,0.33,0.23,-0,0.64,0.13,0.33,2.78,0.75,0.02,0,0,4.13,4.52,1.38,10.28,1.97,1.38,0.58,0.04,0.05,0.01,0.02,0.07,0.03,1.79,3.37,0,0,0.01,6.62,0.14,246.85,0.09,8.76,0.44,1.19,0.12,0.23,0.13,1.52,0.66,0.03,2.47,0.12,2.76,0.18,0,0,0.77,0,0.02,0.09,4.97,2.08,1.24,1.1,-0,0.78,0.37,0.52,0.62,1.18,0.4,0.64,0.19,0.6,0.78,0.37,0.14,0.39,0.02,1.4,0.02,-0,0.06,0.19,0.48,2.71,1.26,1.44,0,0.1],[2.64,0.93,1.14,0.81,76.39,1.26,2.43,0.09,135.54,90.98,0.3,1.04,3.25,0.03,0.49,82.21,0.07,0.51,0,0.16,3.37,0.29,0,93.76,0.19,0.51,0.56,5.99,0.15,0.15,1.13,0.5,4.85,0.38,0.57,0.54,1.41,0.06,0.2,0.09,0.36,0,0.06,1.34,0.7,0,0,2.89,0.66,0,1.71,0.48,0,0,0.1,0.02,0.21,0.1,0.09,0.12,0.8,0.05,0.02,0.86,41.96,101.02,0.83,0.91,0.87,1.92,2.48,1.24,0,0.06,0.76,0.13,0.13,1.56,1.41,15.43,0.16,3.84,14.39,25.66,25.67,2.28,1.78,0.02,2.58,0.58,12.73,0,0,0.01,2.05,6.97,3.03,6.25,17.4,13.32,15.28,7.3,6.94,2.72,14.19,3.2,1.56,0.44,0.02,0.85,0.62,0.88,0.22,0.16,0.21,0.06,0.03,0.46,0.06,0.85,0.6,0.04,0.01,4.08,1.94,0.07,9.84,1.15,0.29,0.02,0.23,0.15,0.25,0.17,0.02,0.08,0.04,0,-0,0.7,0.07,0.75,1.09,0,1.39,2.21,0.1,0,1.67,103.71,3.71,0.22,0.01,0.02,0.8,0.13,0.85,0.32,0.11,0,0.02,0.04,3.5,0.64,0.4,0,1.01,0.21,0.29,1.09,2.07,1.56,0.05,0.07,0.37,0.31,4.46,37.68,25.95,60.63,23.8,89.68,0.02,17.13,1.37,1.87,1.29,0.03,0.09,0.5,0,0.05,0.02,0.33,0.24,1.09,0.07,0.06,0.01,0.06,0,0,0.18,0.15,0.05,0.22,1.6,1.83,0.21,0.9,0.67,10.23,3.52,1.89,0.43,0.29,2.33,66.1,0.2,52.42,72.35,1.4,0.03,52.55,72.53,0.01,3,0.73,0.25,0.1,0.02,0.26,0.26,0.56,0.63,0.03,0.2,0.06,0.01,0.07,0,0,0.3,1.9,0.02,0.12,0,0.05,0.01,0.02,0.04,0.09,0.27,0.44,0,1.16,0.54,0.15,0.15,0.75,0.48,58.02,0,0.04,0.08,0.08,0.03,0.29,0.12,0.22,0.03,0.21,-0,0.41,0.16,0.06,0.62,0.37,0.1,1.6,1.61,0.24,0.11,1.01,0.74,4.55,0,0.16,0.15,0.15,1.13,18.55,0.04,0.16,0.1,6.6,0.18,2.32,107.14,53.29,82.3,42.19,0.06,0.96,0,0.01,1.72,0.01,0.24,0.02,1.21,1.19,1.06,1.19,1.41,0.39,0.25,0.4,0.15,46.9,62.19,77.43,61.84,0.19,59.85,1.59,0,1.02,0.67,0.18,29.28,5.04,7.65,7.17,26.54,0.86,0,0.1,0.19,0.41,0.15,0.05,0.32,0.12,0.79,0.09,0.27,0.65,2.34,49.9,0.2,0.11,0.06,0.06,0.14,0.14,0.03,0.1,0.12,4.62,0.22,1.52,0.22,0.63,3.4,1.42,7.93,0.95,88.6,89.59,0.43,90.46,2.23,0.87,0.06,0,0,0,0,0,0.87,3.89,6.95,0,0,0,0.25,0.14,0.04,8.43,102.84,5.52,0,1.36,0.61,0.01,1.1,1.01,0,0.34,0.33,28.8,-0,19.45,4.21,0.13,0,0.56,0.06,0.29,0.9,1.53,4.54,0.05,0,0,0.94,0.2,1.52,0.44,1.11,2.42,1.27,1.56,2.86,0.21,0.32,0,2.33,0.63,-0,0.77,-0,0.08,0.25,0.97,0.09,0.42,1.54],[1.69,0.22,0.57,0.33,0.09,1.83,0.48,0.24,1.61,0.68,0.04,0.12,0.08,1.12,0.01,0.1,0.16,0.09,0,0.07,0.19,2.76,0.05,0.3,0.48,0.12,0.09,1.73,234.08,0.2,0.2,0.1,0.4,0.05,0.39,0.43,0.9,1.3,0.36,0.12,0.04,0.14,0.25,1.02,0.23,0.15,0.01,0.95,0.18,0,12.14,307.05,0.37,0.69,0.91,0.91,1.49,1.05,0,0.02,0,0.69,-0,0.38,2.26,0.2,0.01,0.09,0.35,0.28,0.28,0.18,0,0.44,3.33,1.78,0.34,0.08,0.17,3.54,0.12,1,1.59,0.86,2.02,0.64,0.65,0.32,0.57,0.55,0.7,1.91,0.46,0.39,1.46,0.05,0.31,0.41,1.11,0.56,0.76,0.36,1.13,0.46,1.75,0.01,0.03,1.47,0.26,1.22,0.51,1.08,1.35,0.64,0.38,3.26,0.32,0.31,1.21,0.95,0.65,1.13,0.09,0.04,0.03,0.12,0.36,0.59,0.36,-0,0.5,0.33,1.8,0.58,0.23,0.31,0.33,0.12,0.21,1.54,2.09,0.25,0.03,2.86,0.32,0.3,0.22,0,0.12,0.74,1.18,0.05,1.11,0.82,0.05,1.08,0.19,0.61,0.11,0.29,2.9,0.66,0.13,1.09,1.54,0.26,1.25,1.43,0.27,0.39,2.05,0.98,0,1.03,0.66,0.83,0.19,0.06,0.17,0.55,0.15,0.07,1.17,0.2,0.02,0.05,0.75,1.76,0.86,0,1.14,0.31,0.98,2.2,1.25,0.34,1.57,0.72,1.74,1.18,1.24,0,0.12,0.73,0.21,1.01,0.64,0.08,0,0,0,0.1,0.46,1.2,0.17,0.05,2.24,0.01,0.02,0.16,0.02,0.58,1.19,5.75,0.25,0.23,0.71,0.14,1.69,0.18,0.42,0.13,0.89,0.02,0.08,0.57,0.46,0,0,0,0,0.88,0.13,0.11,1.13,0.11,0.2,0.16,0.08,0.35,0.1,0.29,0.69,-0,0.74,0.16,0.19,0.68,-0,0.1,0.02,0.49,0.09,0.02,0.04,0.04,0.11,0.02,0.17,1.88,0.04,0.07,-0,0.36,0.36,0.04,0.07,0.44,0.02,0.6,0.57,0.16,0.21,0.53,0.56,1.21,0,0.03,0.01,0,0.62,0.54,0.05,0.14,0.04,1.03,0.17,0.46,0.89,0.26,0.01,1.04,0.1,0.02,0,0.03,0.81,1.02,7.09,0.06,0.08,0.16,0.1,0.11,1.2,2.06,0.84,1.43,1.4,0.8,1.69,0.87,0.73,0,3,0.3,0.5,0.15,0.1,0.36,1.33,0.14,0.52,0.07,0.68,0.21,0.14,0.23,0.83,0.3,0.98,0.13,0.94,0.54,1.37,1.65,0.78,1.55,1.59,0.36,0.4,0.12,1.62,0.83,0.19,0.45,0.97,0.39,0.75,-0,0.71,0.22,0.21,0.23,1.28,0.23,0.98,0.7,1.75,0.09,0.37,0.26,0.83,0.5,0.12,0.1,0.33,0.05,1,0.16,0.58,0.75,3.66,0.17,5.25,2.61,0.62,0.03,0.12,1.36,0.22,4.26,0.57,0.62,0.33,0.67,0.71,0.23,0,0.82,0.07,0.01,1.27,0.92,0.16,0,-0,0.11,0.1,0.68,2.66,2.86,4.7,0.55,0,1.53,0.46,0.15,0.71,0.78,0.17,0.14,0.79,0.3,0.13,0.08,1.6,0,0.02,0.77,0.47,1.76,0.52,1.14,0.64,1.77,0.64,0.35,0.12],[3.46,48.73,1.15,2.2,2.18,0.27,2.3,0.17,1.88,0.09,0.77,1.41,50.9,13.05,0.8,2.75,4.14,14.97,0,0.09,52.12,0.83,0.12,2.37,0.57,0.21,1.2,3.4,14.83,0.62,0.3,0.4,3.87,1.13,0.59,1.14,1.79,0.33,1.48,7.55,0.6,24.76,11.2,0.42,0.94,0.01,0.03,0.07,2.19,0,1.66,21.66,0,0.03,0.11,0.26,0.27,0.3,0.8,0.54,-0,0.07,0.03,0.06,0,0,0.7,0.15,0.24,0.06,0.39,0.44,0,0.5,1.27,0.63,1.66,0.59,1.9,40,0.67,18.55,46.04,60.28,63.54,6.34,7.13,0.75,0.1,0.02,44.3,0.07,0.04,0.03,6.29,9.95,17.43,23.22,52.2,37.39,48.25,29.78,25.45,13.65,38.29,55.59,35.17,0.16,0.01,0.03,0.02,0.24,0.09,0.05,0.01,0.34,0.05,0.57,0.01,0.01,1.38,0,0.06,56.2,54.11,1.04,37.53,0.05,0.74,0.06,0.15,0.08,-0,0.13,0.02,0.02,0.03,0.17,0.7,0.08,0.19,1.03,0.64,0.01,1.88,2.09,0.23,0,2.03,0.06,0.73,0.1,0.03,0.03,0.24,14.97,0.17,0.13,0.31,0.04,0.11,0.13,10.58,1.5,1.45,0.28,2.35,1.06,2.43,0.32,2.43,2.96,0.41,1.31,0.01,1.03,5.04,42.83,26.23,66.23,25.61,97.54,0.45,15.81,31.69,55.98,0.47,0.5,0.89,0.71,0.21,0.26,0.35,0.45,1.09,0.02,0.07,0.32,0.15,0.14,0.06,0,2.33,2.7,0.18,1.75,0.78,1.28,0.25,0.86,0.12,1.1,0.53,1.36,0.76,0.26,2.22,1.07,0.38,2.32,0.57,1.39,0.23,1.83,2.26,6.42,2.52,0.24,0.63,1.62,0.05,6.02,17,0.74,0.09,0.44,0.63,0,0.01,0,0,0.14,0.62,0.04,0.08,0.33,0.21,0.05,0,3.09,0.25,1.02,-0,-0,0.05,0.11,0.17,0.11,0.52,0.15,0.15,1.6,0.16,0.62,0.23,0.23,0.23,0.07,0.53,1.99,0.14,0.53,0.2,0.18,0.31,0.1,0.77,1.5,0.48,0.91,1.75,0.14,0.15,0.07,0.14,1.24,0,0.25,0.19,1.14,2.32,11.37,0.02,0.12,0.12,1.25,0.08,0.14,0.06,69.53,116.78,86.34,0.01,1,0,0.03,0.74,0.02,1.29,0.42,1.46,2.09,1.67,1.9,2.47,0.11,0.16,0.14,0.66,12.85,16.2,17.45,17.62,0.86,5.68,0.01,0.06,0.28,0.26,0.13,0,1.93,1.89,1.1,0,1.86,0.5,1.32,1.36,2.41,1.62,0.44,2.76,0.75,0.52,0.53,1.03,1,13.5,88.86,0.01,0.01,0.1,0.42,0.95,0.66,0.2,0.28,0.28,2.01,0.18,0.02,0.01,0.21,0.81,0,0,0,1.77,1.03,0.03,2.82,0.21,0.17,0.32,0,0,0,0,0,0.03,1.24,1.21,0,0.01,0,0.55,0.33,0,0.89,2.17,1.39,0.59,0.98,0.08,0.41,1.74,1.02,0.05,0.03,0.07,0.3,0.31,0,-0,0.27,0,0.22,0.1,0.23,0.53,1.56,1.32,0.02,0,0.37,0.18,0.14,4.28,0.19,0.36,0.17,0.15,1.03,0.37,0.1,0.25,0,2.28,0.09,0.38,0.3,0.11,1.96,0.09,0.02,0.08,0.09,0.46],[0.19,394.73,0.6,0.57,5.85,0,1.13,1.26,0.41,0,1.31,2.09,424.57,0.04,1.68,2.01,33.45,134.11,0,1.22,421.53,0,1.52,2.19,1.18,3.28,3.2,0.28,0.57,0.08,0.1,1.04,1.93,1.25,1.68,0.88,0.37,4.23,14,0.11,0.83,0,0.08,0.02,2.7,0,0,4.85,2.6,0,0.16,0.28,0,0.01,1.07,1.94,0.25,0.48,0.01,0.08,-0,-0,0,1.64,0,0,1.61,0.18,1,0.29,1.27,0.12,0,0.14,0.18,0.14,0.63,7.32,1.44,57.89,0.13,15.4,44.69,55.85,33.09,27.45,30.07,4.02,0.02,0.25,119.21,0,0.01,0.01,11.64,8.28,18.35,50.86,83.65,87.73,93.42,78.39,69.23,74.74,93.59,403.81,346.26,0.38,0.03,0.15,0.1,0.98,1.17,0.6,0.43,0.11,1.04,1.08,0.4,0.15,3.44,1.09,0.48,427.69,408.93,0.19,61.71,5.12,1.48,0.97,4.53,4.89,1.39,0.33,3.5,5.75,6.72,0.02,-0,0.31,0.02,0.87,1.15,0,0.75,0.37,1.46,0,0.61,0,2.5,0.56,0.53,0.86,0.75,0.2,0.03,0.04,0.03,0.02,0,3.67,1.09,6,3.96,1.94,3.33,3.83,4.83,31.04,3.24,5.81,0.24,4.22,0.34,0.24,3.11,0.19,0.1,0.23,1.15,0.02,2.5,0.13,298.62,406.28,4.72,0.71,0.07,0.47,0.04,0.17,0.98,0.18,0.49,0.49,2.21,3.8,2.95,2.73,0.03,0,28.95,21.15,0.74,55.59,2.58,5.61,0.07,0.56,0.03,1.61,1.11,6.19,1.64,0.61,1.23,1.57,0.7,1.25,1.9,1.78,2.87,1.31,3.77,43.28,10.68,0,11.06,16.33,3.03,25.93,0.57,5.31,2.18,4.95,0.03,0,0,0.01,0.03,4.07,1.43,0.22,1.46,0,0,0.04,0.02,36.22,0.84,2.67,1.24,-0,0,0.07,0.17,0.9,0.19,0.28,0.08,1.83,0.19,0.23,0.1,0.1,0.18,0.13,4.23,0.9,1.05,0.09,0.05,0.42,0.2,1.05,1.01,37.72,0.82,25.02,0.9,0.65,0.12,0.03,1.45,0.25,0.01,0.47,0.18,0.12,1.27,0.36,0.61,0.3,0.35,0.11,0.1,0.65,0.01,1.7,0.01,28.09,0.01,0.1,0,0.02,0.48,0.17,-0,2.53,1.13,1.97,1.06,0.52,2.11,0.13,0.37,0.75,1.83,22.01,19.28,27.26,19.21,0.08,4.88,0,0,1.78,0.51,0.85,0,1.41,3.59,0.39,0,0.42,0,0.04,0.02,0.5,0.3,0.02,0.8,0,0.5,0.12,1.83,1.73,42.74,10.32,0.13,0,1.67,1.02,5.23,4.86,1.61,0.46,1.34,0.5,1.58,1.79,0,0.96,1.15,0.09,0,0,1.02,3.15,0.19,1.62,0.38,0.63,0.2,0,0,0,0,0.04,1.64,4.68,7.35,0,0,0,6.6,0.02,3.21,0.02,1.63,2.17,4.55,3.76,2.37,0.26,2.38,1.98,0.18,0.94,0.47,1.09,0.3,0,0,1.08,-0,0.28,3.23,1.63,1.74,1.96,1.55,0.03,0.01,0.03,0.59,0.09,0.01,0.22,1.5,0.52,0.05,1.26,0.18,0.36,0.03,0,1.42,2.5,-0,0.13,0.25,0.54,0.12,0.25,0.35,0.06,0.07],[5.44,0.44,0.48,1.45,32.89,2.85,0.15,0.52,81.13,62.63,0.28,0.52,0.51,0.51,0.16,51.29,0.64,0.66,0,0.3,0.23,0,0.99,51.46,1.65,2.54,2.65,3.86,0.4,2.19,3.02,0.45,2.67,0.31,2.4,1.86,0.08,1.74,5.47,1.68,0.37,0.01,0.22,1.1,3.43,0,0,0.73,0.61,0,0.1,0.86,0.01,0.01,0.73,0.4,0.72,1.89,0.02,0.09,0,0.43,0.07,0.58,39.21,61.11,0.29,2.11,1.52,1.33,2.47,0.67,0,26.38,21.35,37.8,0.5,0.81,0.56,53.68,0,15.91,38.34,55.46,32.52,22.77,26.45,0.47,1.17,0.09,111.87,0,0,0,116.35,14.77,13.39,60.97,87.47,84.56,100.5,66.49,85.03,76.65,90.33,0.31,0.02,3.36,0,0.42,0.45,0.29,1.07,1.15,1.99,0.11,1.2,1.21,0.81,0.24,22.78,2.22,1.68,0.38,0.24,0.01,60.02,0.56,0.24,0.07,0.24,0.22,0.22,0.05,0.15,0.42,0.54,0.01,0.25,0.33,0.13,0.45,1.57,0.14,0.5,0.42,0.32,0,0.58,65.88,4.12,0.08,0.31,0.11,0.11,1.22,0.13,0.06,0.03,0.02,0,2.48,0.25,3.09,2.56,1.79,2.63,4.15,2.42,9.35,1.3,4.3,0.02,4.02,0.42,0.11,0.79,4.32,6.56,2.82,1.25,3.29,0.47,5.69,0.14,0.08,1.11,0.26,0.08,1.4,0.02,0,0.2,0.35,0.14,2.71,0.99,1.38,0.71,1.02,0.73,0,1.1,0.47,0.01,0.07,2.77,3.56,0.02,0.94,0.18,4.18,5.63,4,2.3,0.45,3.66,29.68,0.39,24.65,32.26,2.23,1.41,41.84,41.05,0.29,4.67,0.41,3.06,1.06,1.38,0.82,0.5,0.69,1.75,2.3,0.24,0,0,0,0.01,0.31,1.52,2.79,0.01,0,0,0.01,0.01,0.29,0.18,1.25,1.3,0.45,0.04,2.49,1.78,0.39,0.19,2.15,5.61,33.38,0.17,0.16,0.21,0.21,0.17,0.14,0.11,0.41,1.79,1.3,0.76,0.39,0,2.64,1.44,10.89,0.98,5.34,0.36,0.61,0.36,3.12,1.05,10.15,0,0.74,0.01,0.02,1.11,1.11,1.8,0.28,0.39,3.6,0.65,0.42,68.27,5.82,2.68,26.95,0,0.24,0,0.11,6.29,0.45,0,0.03,5.44,5.36,6.4,6.11,5.92,0.35,0.08,0.27,0.1,29.52,35.05,39.68,25.39,0.03,28.66,1.16,0,0.09,0.89,0.08,31.23,0.84,2.17,1.12,25.15,3.12,0.07,0.03,0.6,0.8,2.76,0.85,0.95,0.01,2.49,0.08,1.24,0.66,37.51,14.14,0.06,0.28,1.46,1.21,3.17,3.96,0.75,0.23,0.08,0,0.79,0.86,0.48,0.86,3.22,1.31,5.65,1.59,42.14,41.37,1.37,50.25,1.67,0.28,1.29,0.03,0,0,0,0.01,0.9,9.18,12.93,0,0,0,2.83,0,0.15,1.53,53.24,3.72,1.13,2.54,1.5,0.16,1.57,4.12,0,0.67,0.02,12.43,0.2,19.91,4.1,0.75,0,0.73,0.89,0.14,1.58,5.79,5.26,0.23,0.01,0.18,0,0.1,0.04,1.51,0.18,1.63,0.08,0.98,0.22,0.05,0.86,0,2.22,0.2,0,0.04,0.22,0.44,0.11,1.08,0,0.01,0.5],[4.06,9.54,0.58,0.35,7.22,0.87,1.46,0.21,1.26,0.06,1.32,1.15,10.7,3.09,0.94,5.11,10.86,10.07,0,0.61,8.39,0.71,0.02,5.25,0.06,0.53,0.34,4.33,5.75,0.01,0.74,0.09,0.55,0.59,0.25,0.19,0.08,0.4,0.65,5.84,0.58,1.25,2.33,0.01,0.5,0.02,0.02,0.69,1.24,0.4,-0,14.54,0,0,1.42,1.91,0.25,0.48,0.14,0.08,-0,0.41,0.15,0.48,0,0,1.07,0.14,0.84,0.19,0.94,0.28,0,0.18,0.35,0.56,1.33,0.18,0.52,53.59,0,22.79,49.64,74.26,65.88,15.14,10.08,2.17,0.29,0.4,65.49,0.05,0.44,0.09,7.86,18.96,16.46,49.34,72.18,60.84,63.62,40.75,37.84,22.93,53.9,8.73,13.31,1.16,0,0.2,0.14,0.32,0.16,0.13,0.73,0.28,1.31,0.54,0.55,0.29,1.93,1.45,0.31,9.77,11.71,0.2,56.81,60.19,8.74,11.44,141.8,144.23,6.44,5.07,135.98,147.7,153.35,0.01,0.85,0.03,0.29,0.98,0.8,0,2.54,2.42,0.66,0,1.31,0.01,0.46,0.52,0.66,0.57,0.06,2.16,0.3,0.04,0.66,0,0,1.59,2.94,0.3,0.65,0.54,0.62,0.61,0.53,3.1,1.25,1.34,0.73,0.23,0.04,0.14,1.11,0,0.02,0.53,0.12,0.19,0,0,9.74,7.86,0.8,0,0,0.38,0.1,0,0.21,0.04,0.12,0.9,0.56,0.85,1.61,1.01,0.06,0,3.61,2.46,1.26,3.56,0.2,2.03,0,0.02,0,0.23,0.71,2.59,0.12,0.1,1.96,3.38,0.68,2.71,2.25,0.22,0.84,4.81,5.89,6.48,1.43,0.07,3.36,2.56,0.02,10.15,4.73,2.85,0.47,1.18,0.45,0,0,0,0.12,1.51,0.18,0,0.02,0.53,0.35,0.04,0.08,5.57,0.41,0.02,0.1,-0,0,2.53,1.58,1.01,0.3,1.91,1.55,4.28,0.08,0.07,0.3,0.3,0.06,0.62,0,0.32,0.1,0.49,0.24,0.09,0.34,0.05,0.3,4.84,2.08,1.77,2.19,0.85,0.37,0,0.28,0.22,0,1.59,0.1,0.13,2.24,0.03,0.01,0.39,0.08,0.38,0.21,0.61,0.44,2.91,1.19,70.01,0.08,0.12,0,0.03,1.14,0.01,0.5,0.07,2.26,1.19,1.05,1.02,2.02,-0,0.01,0.02,0.13,43.39,55.03,59.98,44.04,0.36,6.23,0.01,0.02,0.52,0.27,0.2,0,6.58,4.93,6.25,0,2.9,1.07,0.85,1.25,2.09,2.59,0.83,1.55,0.11,1.4,0.26,0.39,0.34,19.83,47.42,0.21,0.14,0.03,0.18,0.24,0.14,0.35,1.08,0.78,0.31,1.12,0,0.09,0.51,1.13,0,0,0,3.17,5.74,1.26,3.43,0.09,0.79,0.03,0,0,0,0.01,0,0.53,1.71,3.01,0.07,0.2,0.01,2.94,0.08,124.34,0.18,4.67,1.01,0.05,0.18,1.04,0.72,0.55,1.4,0.02,0.49,0.01,3.45,0.43,0,-0,0.51,0.47,0.01,0.19,0.54,0.38,0.7,2.2,0.07,0.24,0,0.81,0.41,0.19,0.15,0.11,0.93,0.14,0.43,0.42,0.14,0.02,0,1.38,0.06,0.38,0.1,0.15,0.1,0.04,0.85,0.04,0.88,0.13],[2.28,59.15,1.03,1.42,0.64,0.34,0.1,0.9,0,0,14.03,5.66,58.93,28.74,8.76,0.01,8.24,24.16,0,0.66,56.55,0.36,0.31,0.03,1.68,2.03,1.95,0.59,1.89,0.45,0.12,0.49,2.44,4.15,2.04,1.48,0.27,0.31,0.13,41.07,1.29,67.84,18.51,0.04,3.21,2.53,1.75,5.61,11.66,0,0.56,2.8,0,0,1.55,1.97,1.2,2.47,0.27,0.12,-0,0.16,0.04,1.29,0,0,0.07,1.87,0.3,1.26,0.56,0.81,2.61,0.11,0.21,0.76,0.98,0.56,0.75,76.48,8.49,32.63,74.44,91.29,98.8,18.57,15.27,1.93,0,0.49,56.5,0.92,2.55,2.88,0.15,8.1,25.57,31.22,66.23,63.19,54.76,37.36,43.41,13.9,49.25,61.45,50.64,0.41,0,0.11,0.09,0.54,0.25,1.69,0.13,0.04,0.42,1.09,0.35,0.06,7.23,0.7,0.37,58.28,57.93,0.35,51.72,0.01,0.86,0.84,0,0,0.57,0.14,0.02,0,0,0.16,0.36,0.05,0.36,0.2,0.3,0,0.1,0.06,0.07,0,1.01,0,0.02,1.74,0.73,0.3,0.01,48.86,0.43,1.86,1.8,0,0,0.02,0.66,0.79,0.65,0.13,0.86,0.58,0.8,0.09,0.79,0.24,0.01,0.59,0.91,0.66,3.04,17.9,18.51,25.84,8.16,27.84,1.84,9.04,43.52,61.41,1.79,8.52,1.83,2.84,9.82,6.86,9.33,10.13,2.56,0.02,0.03,1.29,0.26,1.72,0,0,4.7,2.69,2.52,7.5,2.23,2.42,0.03,0.42,0.03,2.06,0.44,14.57,1.58,0.8,2.03,0.14,0.14,0.13,0.09,1.29,0.33,0,0.15,6.21,0.43,0.16,2.6,2,0.19,4.64,53.59,1.38,3.46,7.86,2.58,0.01,0,0.01,0,2.21,1.59,0.29,1.05,1.69,1.61,0.01,0.08,6.88,2.2,0.26,-0,0.36,0.03,0.11,0.32,0.53,1.14,0.09,0.02,0.02,0,0.32,0,0,0.16,0.06,0.16,0.49,1.58,0.7,0.09,0.77,0.01,0.13,0,0.05,0.1,0.79,0.1,0.02,0.47,0.01,0.51,0.04,0,0.44,0.94,1.95,0.64,6.46,0.01,0,0,0.37,0.04,0.8,0,31.53,34.58,91.03,0.99,2.53,0.08,0.71,0.87,0.49,0.38,0.16,4.79,6.24,4.66,4.38,2.74,0.08,0.08,0.11,0.03,3.52,5.32,5.12,2.87,2.53,0.9,0.02,1.17,1.08,1.19,0.64,-0,0,0.01,0.01,0,0.96,0.11,0.93,0.72,0.72,0.43,0.35,1.73,1.79,0.24,1.03,10.32,6.23,19.09,64.62,0.29,0.08,1.76,0.48,2.41,2.74,1.07,2.34,1.9,2.84,0.56,0.01,0.07,0.2,2.8,0,0,0,0.15,0.39,0.01,0.04,0,0.93,0.05,0,0,0,0,0,0.61,4.76,3.04,0.03,0.07,1.08,1.49,0.62,0.01,0.05,0.01,1.19,0.19,6.45,3.82,1.4,0.42,5.21,1.25,0.07,0.01,0.01,0.12,0,0,0.25,-0,0.83,0.31,2.62,0.12,0.21,0.25,0.06,0.02,0.24,-0,0.42,2.33,0.04,0.12,0.2,0.43,1.72,0.35,0.09,1.2,0.48,5.86,0.8,0.92,0,1.09,0.07,0.36,0.8,0.6,0.44,0.37]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>motif<\/th>\n      <th>k1<\/th>\n      <th>k2<\/th>\n      <th>k3<\/th>\n      <th>k4<\/th>\n      <th>k5<\/th>\n      <th>k6<\/th>\n      <th>k7<\/th>\n      <th>k8<\/th>\n      <th>k9<\/th>\n      <th>k10<\/th>\n      <th>k11<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6,7,8,9,10,11]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="top-10-motifs-in-each-topic" class="section level3">
+<h3>Top 10 motifs in each topic</h3>
+<pre class="r"><code>cat(&quot;Number of regions selected for each topic: \n&quot;)
+print(mapply(nrow, selected_regions[1:(length(selected_regions)-1)]))
+
+colnames_homer &lt;- c(&quot;motif_name&quot;, &quot;consensus&quot;, &quot;P&quot;, &quot;log10P&quot;, &quot;Padj&quot;,  &quot;num_target&quot;, &quot;percent_target&quot;, &quot;num_bg&quot;, &quot;percent_bg&quot;)
+
+top_motifs &lt;- data.frame(matrix(nrow=10, ncol = length(homer_res_topics)))
+colnames(top_motifs) &lt;- names(homer_res_topics)
+for (k in 1:length(homer_res_topics)){
+  homer_res &lt;- homer_res_topics[[k]]
+  colnames(homer_res) &lt;- colnames_homer
+  homer_res &lt;- homer_res %&gt;% separate(motif_name, c(&quot;motif&quot;, &quot;origin&quot;, &quot;database&quot;), &quot;/&quot;)
+  top_motifs[,k] &lt;- head(homer_res$motif, 10)
+}
+
+DT::datatable(data.frame(rank = 1:10, top_motifs), rownames = F, caption = &quot;Top 10 motifs enriched in each topic.&quot;)</code></pre>
+<pre><code># Number of regions selected for each topic: 
+#   k1   k2   k3   k4   k5   k6   k7   k8   k9  k10  k11 
+# 1012 1012 1012 1012 1012 1012 1012 1012 1012 1012 1012</code></pre>
+<div id="htmlwidget-1c028a8b047f0adfc88d" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1c028a8b047f0adfc88d">{"x":{"filter":"none","vertical":false,"caption":"<caption>Top 10 motifs enriched in each topic.<\/caption>","data":[[1,2,3,4,5,6,7,8,9,10],["CEBP(bZIP)","HLF(bZIP)","CEBP:AP1(bZIP)","NFIL3(bZIP)","Atf4(bZIP)","Fos(bZIP)","Atf3(bZIP)","Fra1(bZIP)","Fra2(bZIP)","BATF(bZIP)"],["ERG(ETS)","Fli1(ETS)","Etv2(ETS)","ETV1(ETS)","EWS:ERG-fusion(ETS)","ETS1(ETS)","Elf4(ETS)","EWS:FLI1-fusion(ETS)","ETV4(ETS)","RUNX1(Runt)"],["NFY(CCAAT)","Sp1(Zf)","Sp5(Zf)","KLF1(Zf)","KLF3(Zf)","Sp2(Zf)","KLF5(Zf)","Klf9(Zf)","KLF6(Zf)","KLF14(Zf)"],["Gata6(Zf)","GATA3(Zf)","Gata4(Zf)","TRPS1(Zf)","Gata2(Zf)","Gata1(Zf)","GATA:SCL(Zf,bHLH)","RUNX2(Runt)","RUNX(Runt)","RUNX1(Runt)"],["Ascl1(bHLH)","Ptf1a(bHLH)","HEB(bHLH)","Twist2(bHLH)","E2A(bHLH)","BHLHA15(bHLH)","Ascl2(bHLH)","TCF4(bHLH)","IRF8(IRF)","Tcf21(bHLH)"],["CTCF(Zf)","BORIS(Zf)","CTCF-SatelliteElement(Zf?)","REST-NRSF(Zf)","NeuroD1(bHLH)","THRb(NR)","Zic3(Zf)","Unknown-ESC-element(?)","Tgif2(Homeobox)","EHF(ETS)"],["PU.1:IRF8(ETS:IRF)","IRF8(IRF)","SpiB(ETS)","PU.1(ETS)","PU.1-IRF(ETS:IRF)","IRF3(IRF)","ELF5(ETS)","Elf4(ETS)","Fra1(bZIP)","JunB(bZIP)"],["Fra1(bZIP)","Atf3(bZIP)","BATF(bZIP)","Fra2(bZIP)","JunB(bZIP)","Fos(bZIP)","AP-1(bZIP)","Fosl2(bZIP)","Jun-AP1(bZIP)","Bach2(bZIP)"],["ETS:E-box(ETS,bHLH)","ERG(ETS)","Etv2(ETS)","Fli1(ETS)","ETS1(ETS)","EWS:ERG-fusion(ETS)","ETV1(ETS)","Ascl1(bHLH)","EWS:FLI1-fusion(ETS)","Ptf1a(bHLH)"],["Gata6(Zf)","Gata4(Zf)","Gata2(Zf)","Gata1(Zf)","GATA3(Zf)","TRPS1(Zf)","Elf4(ETS)","ETS1(ETS)","PU.1(ETS)","ELF5(ETS)"],["ELF5(ETS)","Elf4(ETS)","PU.1(ETS)","EHF(ETS)","ELF3(ETS)","CEBP(bZIP)","ETS1(ETS)","SpiB(ETS)","ETV1(ETS)","Fos(bZIP)"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>rank<\/th>\n      <th>k1<\/th>\n      <th>k2<\/th>\n      <th>k3<\/th>\n      <th>k4<\/th>\n      <th>k5<\/th>\n      <th>k6<\/th>\n      <th>k7<\/th>\n      <th>k8<\/th>\n      <th>k9<\/th>\n      <th>k10<\/th>\n      <th>k11<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="heatmap-of-motif-enrichment-across-topics" class="section level3">
+<h3>Heatmap of motif enrichment across topics</h3>
+<p>Heatmap of motif enrichment -log10(p-value).</p>
+<pre class="r"><code>create_motif_enrichment_heatmap(motif_res, enrichment = &quot;-log10(p-value)&quot;, 
+                                cluster_motifs = TRUE, cluster_topics = TRUE, motif_filter = 10, horizontal = FALSE,
+                                enrichment_range = c(0,100), method_cluster = &quot;average&quot;, font.size.motifs = 4, font.size.topics = 9)</code></pre>
+<p><img src="figure/motif_analysis_Buenrostro2018_Chen2019pipeline_v2.Rmd/motif-heatmap-pvalue-1.png" width="840" style="display: block; margin: auto;" /></p>
+<pre><code># 137 out of 439 motifs included the heatmap</code></pre>
+<pre class="r"><code># Heatmap of motif enrichment z-score.
+create_motif_enrichment_heatmap(motif_res, enrichment = &quot;z-score&quot;,
+                                cluster_motifs = TRUE, cluster_topics = FALSE, motif_filter = 10, horizontal = FALSE,
+                                enrichment_range = c(-20,20), method_cluster = &quot;average&quot;, font.size.motifs = 4, font.size.topics = 9)</code></pre>
+</div>
+<div id="heatmap-of-motif-enrichment-for-selected-tf-motifs" class="section level3">
+<h3>Heatmap of motif enrichment for selected TF motifs</h3>
+<pre class="r"><code>toMatch &lt;- c(&quot;^GATA\\d*$&quot;, &quot;^CEBP.?$&quot;, &quot;^SPI.?$&quot;, &quot;^IRF\\d*$&quot;, &quot;^STAT\\d*$&quot;, &quot;^TCF\\d*$&quot;, &quot;^BCL\\d*$&quot;, &quot;^CTCF$&quot;, &quot;^ERG$&quot;)
+selected_motifs &lt;- grep(paste(toMatch,collapse=&quot;|&quot;), motif_res$motifs$motif, ignore.case = T, value = T)
+rows &lt;- match(selected_motifs, motif_res$motifs$motif)
+selected_motif_res &lt;- lapply(motif_res, FUN = function(x) {x[rows, ]})</code></pre>
+<p>Heatmap of motif enrichment -log10(p-value). Order motifs by hierarchical clustering.</p>
+<pre class="r"><code>create_motif_enrichment_heatmap(selected_motif_res, enrichment = &quot;-log10(p-value)&quot;, 
+                                cluster_motifs = TRUE, cluster_topics = TRUE, motif_filter = 10, horizontal = FALSE,
+                                enrichment_range = c(0,100), method_cluster = &quot;average&quot;,  font.size.motifs = 8, font.size.topics = 9)</code></pre>
+<p><img src="figure/motif_analysis_Buenrostro2018_Chen2019pipeline_v2.Rmd/selected-motifs-heatmap-pvalue-1.png" width="840" style="display: block; margin: auto;" /></p>
+<pre><code># 17 out of 26 motifs included the heatmap</code></pre>
+</div>
+<div id="scatterplots-of-motif-enrichment" class="section level3">
+<h3>Scatterplots of motif enrichment</h3>
+<p>Plot motif enrichment (-log10 p-value) and the ranking</p>
+<pre class="r"><code># Plot enrichment (-log10 p-value) and ranking of the motifs
+
+plots &lt;- vector(&quot;list&quot;, ncol(motif_res$mlog10P))
+names(plots) &lt;- colnames(motif_res$mlog10P)
+
+for( i in 1:length(plots)){
+  plots[[i]] &lt;- create_motif_enrichment_ranking_plot(motif_res, k = i, 
+                                                     max.overlaps = 20, subsample = FALSE)
+}
+
+do.call(plot_grid,plots)</code></pre>
+<p><img src="figure/motif_analysis_Buenrostro2018_Chen2019pipeline_v2.Rmd/motif-enrichment-ranking-plot-1-1.png" width="1200" style="display: block; margin: auto;" /></p>
+<p><strong>Examples</strong> Topic 1 is mainly shown in GMP. The enrichment of CEBP motif in GMP is also highlighted in Figure 2F of the Buenrostro <em>et al</em> paper.</p>
+<p>Topic 4 is mainly shown in MEP especially and also CMP. The enrichment of GATA motif in MEP and CMP is also highlighted in Figure 2E of the Buenrostro <em>et al</em> paper.</p>
+<pre class="r"><code>do.call(plot_grid,plots[c(1,4)])</code></pre>
+<p><img src="figure/motif_analysis_Buenrostro2018_Chen2019pipeline_v2.Rmd/motif-enrichment-ranking-plot-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Plot motif enrichment (-log10 p-value) in each topic vs other topics
+
+plots &lt;- vector(&quot;list&quot;, ncol(motif_res$mlog10P))
+names(plots) &lt;- colnames(motif_res$mlog10P)
+
+for( i in 1:length(homer_res_topics)){
+  plots[[i]] &lt;- create_motif_enrichment_plot(motif_res, k = i, 
+                                             max.overlaps = 20, subsample = TRUE)
+}
+
+do.call(plot_grid,plots)</code></pre>
+</div>
+<div id="motif-enrichment-vs-gene-score" class="section level3">
+<h3>Motif enrichment vs gene score</h3>
+<p>Load pre-computed gene scores</p>
+<p>Gene scores were computed using TSS based method as in Lareau <em>et al</em> Nature Biotech, 2019 as well as the <code>model 21</code> in <code>archR</code> paper. This model weights chromatin accessibility around gene promoters by using bi-directional exponential decays from the TSS.</p>
+<ul>
+<li>TSS model, normalized by the l2 norm of weights, as in Stouffer's z-score method.</li>
+<li>use abs(z) scores</li>
+</ul>
+<pre class="r"><code>gene.dir &lt;- paste0(out.dir, &quot;/geneanalysis-Buenrostro2018-k=11-TSS-absZ-l2&quot;)
+cat(sprintf(&quot;Directory of gene analysis result: %s \n&quot;, gene.dir))
+genescore_res &lt;- readRDS(file.path(gene.dir, &quot;genescore_result.rds&quot;))</code></pre>
+<pre><code># Directory of gene analysis result: /project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/postfit_v2/geneanalysis-Buenrostro2018-k=11-TSS-absZ-l2</code></pre>
+<p>Get TF genes</p>
+<pre class="r"><code>motif_names &lt;- motif_res$motifs$motif
+gene_names &lt;- genescore_res$genes$SYMBOL
+common_genes &lt;- intersect(toupper(motif_names), toupper(gene_names))
+cat(sprintf(&quot;%s TF genes mapped between motif names and gene symbol. \n&quot;, length(common_genes)))
+
+motif_gene_table &lt;- data.frame(motif = motif_names[match(common_genes, toupper(motif_names))], 
+                                      gene = gene_names[match(common_genes, toupper(gene_names))])</code></pre>
+<pre><code># 263 TF genes mapped between motif names and gene symbol.</code></pre>
+<p>Compute correlation between motif enrichment z-score and gene score:</p>
+<p><strong>Topic 4 example</strong></p>
+<ul>
+<li>Compute motif enrichment z-scores from the motif enrichment p-values</li>
+<li>Plot motif enrichment (-log10 p-value) and correlation between motif enrichment z-scores and gene scores</li>
+<li>Rank motifs by motif enrichment (-log10 p-value) and correlation between motif enrichment z-score and gene scores</li>
+</ul>
+<pre class="r"><code>motif_gene_mapping &lt;- create_motif_gene_cor_scatterplot(motif_res, genescore_res, motif_gene_table, 
+                                                        k = 4, cor.motif = &quot;z-score&quot;)</code></pre>
+<p><img src="figure/motif_analysis_Buenrostro2018_Chen2019pipeline_v2.Rmd/motif-cor-plot-1-1.png" width="600" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>motif_gene_mapping &lt;- motif_gene_mapping[with(motif_gene_mapping, order(motif_mlog10P*cor_zscore, decreasing = T)),]
+rownames(motif_gene_mapping) &lt;- 1:nrow(motif_gene_mapping)
+
+cat(&quot;Top 10 motifs by motif enrichment (-log10 p-value) and correlation to gene scores: \n&quot;)
+print(head(motif_gene_mapping[,c(&quot;motif&quot;,&quot;motif_mlog10P&quot;, &quot;gene_score&quot;, &quot;cor_zscore&quot;)], 10))</code></pre>
+<pre><code># Top 10 motifs by motif enrichment (-log10 p-value) and correlation to gene scores: 
+#           motif motif_mlog10P  gene_score cor_zscore
+# 1     Gata1(Zf)    221.490186 0.093355787  0.8026633
+# 2     Gata6(Zf)    272.042063 0.014304687  0.1222153
+# 3       Sp2(Zf)      8.846579 0.009008670  0.8859293
+# 4      Klf4(Zf)      7.808615 0.018467354  0.7009582
+# 5      MYB(HTH)     12.451223 0.033500629  0.3270266
+# 6      KLF6(Zf)     10.540327 0.007717778  0.3080052
+# 7  Twist2(bHLH)      8.764063 0.002548089  0.3316900
+# 8      KLF3(Zf)      4.798954 0.046606706  0.5499308
+# 9      KLF1(Zf)      8.277653 0.292057556  0.2978747
+# 10      Maz(Zf)      2.858961 0.003280518  0.7933922</code></pre>
+<p><strong>GATA family</strong></p>
+<pre class="r"><code>motif_names &lt;- motif_res$motifs$motif
+gene_names &lt;- genescore_res$genes$SYMBOL
+TF_motifs &lt;- sort(unique(grep(&quot;^GATA\\d*$&quot;, motif_names, ignore.case=T, value=T)))
+TF_genes &lt;- sort(unique(grep(&quot;^GATA\\d*$&quot;, gene_names, ignore.case=T, value=T)))
+common_genes &lt;- intersect(toupper(TF_motifs), toupper(TF_genes))
+
+motif_gene_table &lt;- data.frame(motif = TF_motifs[match(common_genes, toupper(TF_motifs))], 
+                                      gene = TF_genes[match(common_genes, toupper(TF_genes))])
+print(motif_gene_table)</code></pre>
+<pre><code>#   motif  gene
+# 1 Gata1 GATA1
+# 2 Gata2 GATA2
+# 3 GATA3 GATA3
+# 4 Gata4 GATA4
+# 5 Gata6 GATA6</code></pre>
+<pre class="r"><code># Plot GATA motifs in topic 4
+k = 4
+motif_order &lt;- order(motif_res$mlog10P[,k], decreasing = T)
+motifs &lt;- rownames(motif_res$motifs[motif_order,])
+motif_names &lt;- motif_res$motifs[motif_order, &quot;motif&quot;]
+selected_motifs &lt;- unique(motifs[match(toupper(motif_gene_table$motif), toupper(motif_names))])
+motif.dir &lt;- paste0(homer.dir, &quot;/homer_result_topic_&quot;, k, &quot;/knownResults/&quot;)
+
+for (i in 1:length(selected_motifs)){
+  plot_motif_logo(homer_res_topics, selected_motifs[i], k, motif.dir, type = &quot;both&quot;)
+}</code></pre>
+<ul>
+<li>Plot motif enrichment (-log10 p-value) and gene scores</li>
+</ul>
+<pre class="r"><code>plots &lt;- create_motif_gene_scatterplot(motif_res, genescore_res, 
+                                       motif_gene_table,
+                                       k = 4, 
+                                       y = &quot;-log10(p-value)&quot;, 
+                                       colors = colors_topics,
+                                       max.overlaps = 10)
+
+do.call(plot_grid,plots)</code></pre>
+<p><img src="figure/motif_analysis_Buenrostro2018_Chen2019pipeline_v2.Rmd/motif-gene-plot-GATA-1-1.png" width="960" style="display: block; margin: auto;" /></p>
+<ul>
+<li>Plot motif enrichment (zscore) and gene scores</li>
+</ul>
+<pre class="r"><code>plots &lt;- create_motif_gene_scatterplot(motif_res, genescore_res, 
+                                       motif_gene_table,
+                                       k = 4, 
+                                       y = &quot;z-score&quot;, 
+                                       colors = colors_topics,
+                                       max.overlaps = 10)
+
+do.call(plot_grid,plots)</code></pre>
+<p><img src="figure/motif_analysis_Buenrostro2018_Chen2019pipeline_v2.Rmd/motif-gene-plot-GATA-2-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><strong>CEBP family</strong></p>
+<pre class="r"><code>motif_names &lt;- motif_res$motifs$motif
+gene_names &lt;- genescore_res$genes$SYMBOL
+TF_motifs &lt;- sort(unique(grep(&quot;^CEBP.?$&quot;, motif_names, ignore.case=T, value=T)))
+TF_genes &lt;- sort(unique(grep(&quot;^CEBP.?$&quot;, gene_names, ignore.case=T, value=T)))
+motif_gene_table &lt;- unique(data.frame(motif = c(&quot;CEBP&quot;), gene = TF_genes))
+print(motif_gene_table)</code></pre>
+<pre><code>#   motif  gene
+# 1  CEBP CEBPA
+# 2  CEBP CEBPB
+# 3  CEBP CEBPD
+# 4  CEBP CEBPE
+# 5  CEBP CEBPG
+# 6  CEBP CEBPZ</code></pre>
+<pre class="r"><code># Plot GATA motifs in topic 4
+k = 1
+motif_order &lt;- order(motif_res$mlog10P[,k], decreasing = T)
+motifs &lt;- rownames(motif_res$motifs[motif_order,])
+motif_names &lt;- motif_res$motifs[motif_order, &quot;motif&quot;]
+selected_motifs &lt;- unique(motifs[match(toupper(motif_gene_table$motif), toupper(motif_names))])
+motif.dir &lt;- paste0(homer.dir, &quot;/homer_result_topic_&quot;, k, &quot;/knownResults/&quot;)
+
+for (i in 1:length(selected_motifs)){
+  plot_motif_logo(homer_res_topics, selected_motifs[i], k, motif.dir, type = &quot;both&quot;)
+}</code></pre>
+<ul>
+<li>Plot motif enrichment (-log10 p-value) and gene scores</li>
+</ul>
+<pre class="r"><code>plots &lt;- create_motif_gene_scatterplot(motif_res, genescore_res, 
+                                       motif_gene_table,
+                                       k = 1, 
+                                       y = &quot;-log10(p-value)&quot;, 
+                                       colors = colors_topics,
+                                       max.overlaps = 10)
+
+do.call(plot_grid,plots)</code></pre>
+<p><img src="figure/motif_analysis_Buenrostro2018_Chen2019pipeline_v2.Rmd/motif-gene-plot-CEBP-1-1.png" width="960" style="display: block; margin: auto;" /></p>
+<ul>
+<li>Plot motif enrichment (zscore) and gene scores</li>
+</ul>
+<pre class="r"><code>plots &lt;- create_motif_gene_scatterplot(motif_res, genescore_res, 
+                                       motif_gene_table,
+                                       k = 1, 
+                                       y = &quot;z-score&quot;, 
+                                       colors = colors_topics,
+                                       max.overlaps = 10)
+
+do.call(plot_grid,plots)</code></pre>
+<p><img src="figure/motif_analysis_Buenrostro2018_Chen2019pipeline_v2.Rmd/motif-gene-plot-CEBP-2-1.png" width="960" style="display: block; margin: auto;" /></p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code># R version 4.0.4 (2021-02-15)
+# Platform: x86_64-pc-linux-gnu (64-bit)
+# Running under: Scientific Linux 7.4 (Nitrogen)
+# 
+# Matrix products: default
+# BLAS/LAPACK: /software/openblas-0.3.13-el7-x86_64/lib/libopenblas_haswellp-r0.3.13.so
+# 
+# locale:
+#  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+#  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+#  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+#  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+#  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+# [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+# 
+# attached base packages:
+# [1] grid      stats     graphics  grDevices utils     datasets  methods  
+# [8] base     
+# 
+# other attached packages:
+#  [1] Logolas_1.3.1     reshape2_1.4.4    DT_0.20           htmlwidgets_1.5.4
+#  [5] plotly_4.10.0     cowplot_1.1.1     ggrepel_0.9.1     ggplot2_3.3.5    
+#  [9] tidyr_1.1.4       dplyr_1.0.7       fastTopics_0.6-97 Matrix_1.4-0     
+# [13] workflowr_1.7.0  
+# 
+# loaded via a namespace (and not attached):
+#   [1] Rtsne_0.15           colorspace_2.0-2     seqinr_4.2-8        
+#   [4] ellipsis_0.3.2       class_7.3-20         rprojroot_2.0.2     
+#   [7] fs_1.5.2             rstudioapi_0.13      farver_2.1.0        
+#  [10] listenv_0.8.0        MatrixModels_0.5-0   bit64_4.0.5         
+#  [13] prodlim_2019.11.13   fansi_1.0.2          lubridate_1.8.0     
+#  [16] codetools_0.2-18     splines_4.0.4        knitr_1.37          
+#  [19] ade4_1.7-18          jsonlite_1.7.3       pROC_1.18.0         
+#  [22] mcmc_0.9-7           caret_6.0-90         gridBase_0.4-7      
+#  [25] Rmpfr_0.8-7          ashr_2.2-47          uwot_0.1.11         
+#  [28] compiler_4.0.4       httr_1.4.2           assertthat_0.2.1    
+#  [31] fastmap_1.1.0        lazyeval_0.2.2       cli_3.1.1           
+#  [34] later_1.3.0          prettyunits_1.1.1    htmltools_0.5.2     
+#  [37] quantreg_5.86        tools_4.0.4          gmp_0.6-2.1         
+#  [40] coda_0.19-4          gtable_0.3.0         glue_1.6.1          
+#  [43] Rcpp_1.0.8           jquerylib_0.1.4      vctrs_0.3.8         
+#  [46] ape_5.6-1            nlme_3.1-155         conquer_1.2.1       
+#  [49] crosstalk_1.2.0      iterators_1.0.13     timeDate_3043.102   
+#  [52] CVXR_1.0-10          gower_0.2.2          xfun_0.29           
+#  [55] stringr_1.4.0        globals_0.14.0       ps_1.6.0            
+#  [58] lifecycle_1.0.1      irlba_2.3.5          future_1.23.0       
+#  [61] getPass_0.2-2        MASS_7.3-55          scales_1.1.1        
+#  [64] ipred_0.9-12         hms_1.1.1            promises_1.2.0.1    
+#  [67] parallel_4.0.4       SparseM_1.81         yaml_2.2.2          
+#  [70] pbapply_1.5-0        sass_0.4.0           rpart_4.1-15        
+#  [73] stringi_1.7.6        SQUAREM_2021.1       highr_0.9           
+#  [76] foreach_1.5.1        lava_1.6.10          truncnorm_1.0-8     
+#  [79] rlang_1.0.0          pkgconfig_2.0.3      matrixStats_0.61.0  
+#  [82] evaluate_0.14        lattice_0.20-45      invgamma_1.1        
+#  [85] purrr_0.3.4          labeling_0.4.2       recipes_0.1.17      
+#  [88] bit_4.0.4            processx_3.5.2       tidyselect_1.1.1    
+#  [91] parallelly_1.30.0    plyr_1.8.6           magrittr_2.0.2      
+#  [94] R6_2.5.1             generics_0.1.1       DBI_1.1.2           
+#  [97] pillar_1.6.5         whisker_0.4          withr_2.4.3         
+# [100] survival_3.2-13      mixsqp_0.3-43        nnet_7.3-17         
+# [103] tibble_3.1.6         future.apply_1.8.1   crayon_1.4.2        
+# [106] utf8_1.2.2           rmarkdown_2.11       progress_1.2.2      
+# [109] data.table_1.14.2    callr_3.7.0          git2r_0.29.0        
+# [112] ModelMetrics_1.2.2.2 digest_0.6.29        httpuv_1.6.5        
+# [115] MCMCpack_1.6-0       RcppParallel_5.1.5   stats4_4.0.4        
+# [118] munsell_0.5.0        viridisLite_0.4.0    bslib_0.3.1         
+# [121] quadprog_1.5-8</code></pre>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
