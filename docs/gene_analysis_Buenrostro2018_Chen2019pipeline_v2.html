@@ -403,16 +403,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreec6d4883297e0e72f8a0d4d8fbf01890ed0ceef91targetblankc6d4883a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/c6d4883297e0e72f8a0d4d8fbf01890ed0ceef91" target="_blank">c6d4883</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreee297a8a9d1a1326eedf9223a1bcb8ad4c01eaf72targetblanke297a8aa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/e297a8a9d1a1326eedf9223a1bcb8ad4c01eaf72" target="_blank">e297a8a</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreec6d4883297e0e72f8a0d4d8fbf01890ed0ceef91targetblankc6d4883a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreee297a8a9d1a1326eedf9223a1bcb8ad4c01eaf72targetblanke297a8aa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/c6d4883297e0e72f8a0d4d8fbf01890ed0ceef91" target="_blank">c6d4883</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/e297a8a9d1a1326eedf9223a1bcb8ad4c01eaf72" target="_blank">e297a8a</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -815,6 +815,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/e297a8a9d1a1326eedf9223a1bcb8ad4c01eaf72/analysis/gene_analysis_Buenrostro2018_Chen2019pipeline_v2.Rmd" target="_blank">e297a8a</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-02-16
+</td>
+<td>
+updated with v2 of DA analysis result
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/f524d5aeb59842e8719d79604fc6bd0515097617/docs/gene_analysis_Buenrostro2018_Chen2019pipeline_v2.html" target="_blank">f524d5a</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-02-16
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/c6d4883297e0e72f8a0d4d8fbf01890ed0ceef91/analysis/gene_analysis_Buenrostro2018_Chen2019pipeline_v2.Rmd" target="_blank">c6d4883</a>
 </td>
 <td>
@@ -849,6 +883,8 @@ library(plotly)
 library(htmlwidgets)
 library(DT)
 library(reshape)
+library(pathways)
+
 source(&quot;code/plots.R&quot;)</code></pre>
 </div>
 <div id="load-data-and-topic-model-results" class="section level2">
@@ -877,6 +913,43 @@ p.structure &lt;- structure_plot(fit,
 
 print(p.structure)</code></pre>
 <p><img src="figure/gene_analysis_Buenrostro2018_Chen2019pipeline_v2.Rmd/structure-plot-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-1">
+Past versions of structure-plot-1.png
+</button>
+</p>
+<div id="fig-structure-plot-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/f524d5aeb59842e8719d79604fc6bd0515097617/docs/figure/gene_analysis_Buenrostro2018_Chen2019pipeline_v2.Rmd/structure-plot-1.png" target="_blank">f524d5a</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-02-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="differential-accessbility-analysis-of-the-atac-seq-regions-for-the-topics" class="section level2">
 <h2>Differential accessbility analysis of the ATAC-seq regions for the topics</h2>
@@ -885,15 +958,7 @@ print(p.structure)</code></pre>
 cat(sprintf(&quot;Load results from %s \n&quot;, out.dir))
 DA_res &lt;- readRDS(file.path(out.dir, paste0(&quot;DAanalysis-Buenrostro2018-k=11-quantile/DA_regions_topics_10000iters.rds&quot;)))</code></pre>
 <pre><code># Load results from /project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/postfit_v2</code></pre>
-<p>Volcano plot of the regions</p>
-<p><strong>topic 1 and topic 4 examples</strong></p>
-<pre class="r"><code>p.volcano.1 &lt;- volcano_plot(DA_res,k = 1, labels = rep(&quot;&quot;,nrow(DA_res$z)))
-
-p.volcano.4 &lt;- volcano_plot(DA_res,k = 4, labels = rep(&quot;&quot;,nrow(DA_res$z)))
-
-plot_grid(p.volcano.1, p.volcano.4)</code></pre>
-<p><img src="figure/gene_analysis_Buenrostro2018_Chen2019pipeline_v2.Rmd/region-volcano-plot-examples-1.png" width="960" style="display: block; margin: auto;" /></p>
-<p><strong>all topics</strong></p>
+<p><strong>Volcano plot of the regions</strong></p>
 <pre class="r"><code>m &lt;- ncol(DA_res$z)
 plots &lt;- vector(&quot;list&quot;,m)
 names(plots) &lt;- colnames(DA_res$z)
@@ -902,6 +967,43 @@ for (k in 1:m) {
 }
 do.call(plot_grid, plots)</code></pre>
 <p><img src="figure/gene_analysis_Buenrostro2018_Chen2019pipeline_v2.Rmd/region-volcano-plots-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-region-volcano-plots-1">
+Past versions of region-volcano-plots-1.png
+</button>
+</p>
+<div id="fig-region-volcano-plots-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/f524d5aeb59842e8719d79604fc6bd0515097617/docs/figure/gene_analysis_Buenrostro2018_Chen2019pipeline_v2.Rmd/region-volcano-plots-1.png" target="_blank">f524d5a</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-02-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="gene-score-analysis" class="section level2">
 <h2>Gene score analysis</h2>
@@ -1003,8 +1105,7 @@ DT::datatable(data.frame(rank = 1:10, top_genes), rownames = F, caption = &quot;
 <div id="gene-set-enrichment-analysis-gsea" class="section level2">
 <h2>Gene-set enrichment analysis (GSEA)</h2>
 <p>Loading gene set data</p>
-<pre class="r"><code>library(pathways)
-cat(&quot;Loading human gene set data.\n&quot;)
+<pre class="r"><code>cat(&quot;Loading human gene set data.\n&quot;)
 data(gene_sets_human)
 gene_sets &lt;- gene_sets_human$gene_sets
 gene_set_info &lt;- gene_sets_human$gene_set_info</code></pre>
