@@ -1,0 +1,434 @@
+---
+title: "Motif analysis using topic modeling and DA results (v2) for Buenrostro *et al* (2018) scATAC-seq result (data processed using Chen 2019 pipeline)"
+author: Kaixuan Luo
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: false
+---
+
+Here we perform TF motif analysis
+for the Buenrostro *et al* (2018) scATAC-seq result inferred 
+from the multinomial topic model with $k = 11$.
+
+We use binarized scPeaks and scATAC-seq data was processed using Chen *et al* (2019) pipeline.
+
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(comment = "#",collapse = FALSE,results = "hold",
+                      fig.align = "center",dpi = 120)
+```
+
+## Load packages and some functions used in this analysis
+```{r load-pkgs, message=FALSE}
+library(Matrix)
+library(fastTopics)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(ggrepel)
+library(cowplot)
+library(plotly)
+library(htmlwidgets)
+library(DT)
+library(reshape2)
+library(Logolas)
+library(grid)
+source("code/motif_analysis.R")
+source("code/plots.R")
+```
+
+## Load data and topic model results
+Load the **binarized** data and the $k = 11$ Poisson NMF fit results 
+```{r load-data}
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/"
+load(file.path(data.dir, "Buenrostro_2018_binarized_counts.RData"))
+cat(sprintf("%d x %d counts matrix.\n",nrow(counts),ncol(counts)))
+```
+
+```{r load-fit}
+fit.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/"
+fit <- readRDS(file.path(fit.dir, "/fit-Buenrostro2018-binarized-scd-ex-k=11.rds"))$fit
+fit <- poisson2multinom(fit)
+```
+
+## Visualize by Structure plot grouped by cell labels.
+```{r structure-plot, fig.width=7, fig.height=2.5, message=FALSE}
+set.seed(10)
+colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
+                   "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928",
+                   "gray")
+samples$label <- factor(samples$label, levels = c("HSC", "MPP", "CMP", "GMP", "mono", "MEP", "LMPP", "CLP", "pDC", "UNK"))
+
+p.structure <- structure_plot(fit,
+                     grouping = samples[, "label"],n = Inf,gap = 40,
+                     perplexity = 50,colors = colors_topics,
+                     num_threads = 4,verbose = FALSE)
+
+print(p.structure)
+```
+
+
+## Focus on myeloid differentiation (HSC, MPP, CMP, GMP, Momo)
+```{r myeloid-structure-plot, fig.width=7, fig.height=2.5, message=FALSE}
+set.seed(10)
+colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
+                   "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928",
+                   "gray")
+myeloid_samples <- factor(samples$label, levels = c("HSC", "MPP", "CMP", "GMP", "mono"))
+
+p.structure.myeloid <- structure_plot(fit,
+                     grouping = myeloid_samples, n = Inf,gap = 40,
+                     perplexity = 50, colors = colors_topics,
+                     num_threads = 4,verbose = FALSE)
+
+print(p.structure.myeloid)
+```
+
+
+## Focus on erythroid differentiation (HSC, MPP, CMP, MEP)
+```{r erythroid-structure-plot, fig.width=7, fig.height=2.5, message=FALSE}
+set.seed(10)
+colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
+                   "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928",
+                   "gray")
+myeloid_samples <- factor(samples$label, levels = c("HSC", "MPP", "CMP", "MEP"))
+
+p.structure.erythroid <- structure_plot(fit,
+                     grouping = myeloid_samples, n = Inf,gap = 40,
+                     perplexity = 50,colors = colors_topics,
+                     num_threads = 4,verbose = FALSE)
+
+print(p.structure.erythroid)
+```
+
+
+## Focus on lymphoid differentiation (HSC, MPP, LMPP, CLP)
+```{r lymphoid-structure-plot, fig.width=7, fig.height=2.5, message=FALSE}
+set.seed(10)
+colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
+                   "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928",
+                   "gray")
+myeloid_samples <- factor(samples$label, levels = c("HSC", "MPP", "LMPP", "CLP"))
+
+p.structure.lymphoid <- structure_plot(fit,
+                     grouping = myeloid_samples, n = Inf,gap = 40,
+                     perplexity = 50,colors = colors_topics,
+                     num_threads = 4,verbose = FALSE)
+
+print(p.structure.lymphoid)
+```
+
+## Differential accessbility analysis of the ATAC-seq regions for the topics
+
+Load results from differential accessbility analysis for the topics
+```{r}
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/postfit_v2"
+cat(sprintf("Load results from %s \n", out.dir))
+DA_res <- readRDS(file.path(out.dir, paste0("DAanalysis-Buenrostro2018-k=11-quantile/DA_regions_topics_10000iters.rds")))
+```
+
+
+Volcano plot of the regions
+
+**topic 1 and topic 4 examples**
+```{r region-volcano-plot, fig.width=8, fig.height=3}
+p.volcano.1 <- volcano_plot(DA_res,k = 1, labels = rep("",nrow(DA_res$z)))
+
+p.volcano.4 <- volcano_plot(DA_res,k = 4, labels = rep("",nrow(DA_res$z)))
+
+plot_grid(p.volcano.1, p.volcano.4)
+```
+
+## Motif enrichment analysis using [HOMER](http://homer.ucsd.edu/homer/ngs/peakMotifs.html)
+
+* Details about HOMER motif analysis:
+    - http://homer.ucsd.edu/homer/motif/
+    - http://homer.ucsd.edu/homer/ngs/peakMotifs.html
+
+* Motif enrichment result using regions with z-score above 99% quantile.
+
+Compile Homer results across topics
+```{r compile-homer-motif-results}
+homer.dir <- paste0(out.dir, "/motifanalysis-Buenrostro2018-k=11-quantile/HOMER/")
+cat(sprintf("Directory of motif analysis result: %s \n", homer.dir))
+homer_res_topics <- readRDS(file.path(homer.dir, "/homer_knownResults.rds"))
+selected_regions <- readRDS(file.path(homer.dir, "/selected_regions.rds"))
+
+# Compile Homer results (pvalue and ranking) across topics
+motif_res <- compile_homer_motif_res(homer_res_topics)
+saveRDS(motif_res, paste0(homer.dir, "/homer_motif_enrichment_results.rds"))
+cat("compiled homer motif results are saved in", paste0(homer.dir, "/homer_motif_enrichment_results.rds \n"))
+
+motif_table <- data.frame(motif = gsub("/.*", "", rownames(motif_res$mlog10P)),
+                          round(motif_res$mlog10P,2))
+DT::datatable(motif_table, rownames = F, caption = "Motif enrichment (-log10P)")
+```
+
+
+### Top 10 motifs in each topic
+```{r top-motifs}
+cat("Number of regions selected for each topic: \n")
+print(mapply(nrow, selected_regions[1:(length(selected_regions)-1)]))
+
+colnames_homer <- c("motif_name", "consensus", "P", "log10P", "Padj",  "num_target", "percent_target", "num_bg", "percent_bg")
+
+top_motifs <- data.frame(matrix(nrow=10, ncol = length(homer_res_topics)))
+colnames(top_motifs) <- names(homer_res_topics)
+for (k in 1:length(homer_res_topics)){
+  homer_res <- homer_res_topics[[k]]
+  colnames(homer_res) <- colnames_homer
+  homer_res <- homer_res %>% separate(motif_name, c("motif", "origin", "database"), "/")
+  top_motifs[,k] <- head(homer_res$motif, 10)
+}
+
+DT::datatable(data.frame(rank = 1:10, top_motifs), rownames = F, caption = "Top 10 motifs enriched in each topic.")
+
+```
+
+### Heatmap of motif enrichment across topics
+
+Heatmap of motif enrichment -log10(p-value). 
+```{r motif-heatmap-pvalue, fig.width=7, fig.height=12}
+create_motif_enrichment_heatmap(motif_res, enrichment = "-log10(p-value)", 
+                                cluster_motifs = TRUE, cluster_topics = TRUE, motif_filter = 10, horizontal = FALSE,
+                                enrichment_range = c(0,100), method_cluster = "average", font.size.motifs = 4, font.size.topics = 9)
+
+```
+
+
+```{r motif-heatmap-zscore, eval = FALSE, fig.width=7, fig.height=12}
+# Heatmap of motif enrichment z-score.
+create_motif_enrichment_heatmap(motif_res, enrichment = "z-score",
+                                cluster_motifs = TRUE, cluster_topics = FALSE, motif_filter = 10, horizontal = FALSE,
+                                enrichment_range = c(-20,20), method_cluster = "average", font.size.motifs = 4, font.size.topics = 9)
+
+```
+
+### Heatmap of motif enrichment for selected TF motifs
+```{r selected-motifs}
+toMatch <- c("^GATA\\d*$", "^CEBP.?$", "^SPI.?$", "^IRF\\d*$", "^STAT\\d*$", "^TCF\\d*$", "^BCL\\d*$", "^CTCF$", "^ERG$")
+selected_motifs <- grep(paste(toMatch,collapse="|"), motif_res$motifs$motif, ignore.case = T, value = T)
+rows <- match(selected_motifs, motif_res$motifs$motif)
+selected_motif_res <- lapply(motif_res, FUN = function(x) {x[rows, ]})
+
+```
+
+Heatmap of motif enrichment -log10(p-value). 
+Order motifs by hierarchical clustering.
+```{r selected-motifs-heatmap-pvalue, fig.width=7, fig.height=6}
+create_motif_enrichment_heatmap(selected_motif_res, enrichment = "-log10(p-value)", 
+                                cluster_motifs = TRUE, cluster_topics = TRUE, motif_filter = 10, horizontal = FALSE,
+                                enrichment_range = c(0,100), method_cluster = "average",  font.size.motifs = 8, font.size.topics = 9)
+
+```
+
+### Scatterplots of motif enrichment
+
+Plot motif enrichment (-log10 p-value) and the ranking
+```{r motif-enrichment-ranking-plot-1, fig.width=10, fig.height=7, warning=FALSE}
+# Plot enrichment (-log10 p-value) and ranking of the motifs
+
+plots <- vector("list", ncol(motif_res$mlog10P))
+names(plots) <- colnames(motif_res$mlog10P)
+
+for( i in 1:length(plots)){
+  plots[[i]] <- create_motif_enrichment_ranking_plot(motif_res, k = i, 
+                                                     max.overlaps = 20, subsample = FALSE)
+}
+
+do.call(plot_grid,plots)
+```
+
+**Examples**
+Topic 1 is mainly shown in GMP. 
+The enrichment of CEBP motif in GMP is also highlighted in Figure 2F of the Buenrostro *et al* paper. 
+
+Topic 4 is mainly shown in MEP especially and also CMP. 
+The enrichment of GATA motif in MEP and CMP is also highlighted in Figure 2E of the Buenrostro *et al* paper. 
+```{r motif-enrichment-ranking-plot-2, fig.width=7, fig.height=3, warning=FALSE}
+do.call(plot_grid,plots[c(1,4)])
+```
+
+```{r motif-enrichment-vs-othertopics-plot-1, eval=FALSE, warning=FALSE}
+# Plot motif enrichment (-log10 p-value) in each topic vs other topics
+
+plots <- vector("list", ncol(motif_res$mlog10P))
+names(plots) <- colnames(motif_res$mlog10P)
+
+for( i in 1:length(homer_res_topics)){
+  plots[[i]] <- create_motif_enrichment_plot(motif_res, k = i, 
+                                             max.overlaps = 20, subsample = TRUE)
+}
+
+do.call(plot_grid,plots)
+
+```
+
+### Motif enrichment vs gene score
+
+Load pre-computed gene scores
+
+Gene scores were computed using TSS based method as in Lareau *et al* Nature Biotech, 2019 as well as the `model 21` in `archR` paper.
+This model weights chromatin accessibility around gene promoters by using bi-directional exponential decays from the TSS.
+
+* TSS model, normalized by the l2 norm of weights, as in Stouffer's z-score method. 
+* use abs(z) scores
+
+```{r load-gene-scores}
+gene.dir <- paste0(out.dir, "/geneanalysis-Buenrostro2018-k=11-TSS-absZ-l2")
+cat(sprintf("Directory of gene analysis result: %s \n", gene.dir))
+genescore_res <- readRDS(file.path(gene.dir, "genescore_result.rds"))
+```
+
+Get TF genes 
+```{r get-TF-genes}
+motif_names <- motif_res$motifs$motif
+gene_names <- genescore_res$genes$SYMBOL
+common_genes <- intersect(toupper(motif_names), toupper(gene_names))
+cat(sprintf("%s TF genes mapped between motif names and gene symbol. \n", length(common_genes)))
+
+motif_gene_table <- data.frame(motif = motif_names[match(common_genes, toupper(motif_names))], 
+                                      gene = gene_names[match(common_genes, toupper(gene_names))])
+
+```
+
+Compute correlation between motif enrichment z-score and gene score:
+
+**Topic 4 example**
+
+* Compute motif enrichment z-scores from the motif enrichment p-values
+* Plot motif enrichment (-log10 p-value) and correlation between motif enrichment z-scores and gene scores
+* Rank motifs by motif enrichment (-log10 p-value) and correlation between motif enrichment z-score and gene scores
+
+```{r motif-cor-plot-1, fig.width=5, fig.height=4,  warning=FALSE}
+
+motif_gene_mapping <- create_motif_gene_cor_scatterplot(motif_res, genescore_res, motif_gene_table, 
+                                                        k = 4, cor.motif = "z-score")
+
+motif_gene_mapping <- motif_gene_mapping[with(motif_gene_mapping, order(motif_mlog10P*cor_zscore, decreasing = T)),]
+rownames(motif_gene_mapping) <- 1:nrow(motif_gene_mapping)
+
+cat("Top 10 motifs by motif enrichment (-log10 p-value) and correlation to gene scores: \n")
+print(head(motif_gene_mapping[,c("motif","motif_mlog10P", "gene_score", "cor_zscore")], 10))
+
+```
+
+```{r motif-cor-plot-2, eval=FALSE, include=FALSE, fig.width=5, fig.height=4, warning=FALSE}
+# Plot motif enrichment (-log10 p-value) and correlation between motif enrichment (-log10 p-value) and gene scores
+# Rank motifs by motif enrichment (-log10 p-value) and correlation between motif enrichment (-log10 p-value) and gene scores
+
+motif_gene_mapping <- create_motif_gene_cor_scatterplot(motif_res, genescore_res, motif_gene_table,
+                                                        k = 4, cor.motif = "-log10(p-value)")
+
+motif_gene_mapping <- motif_gene_mapping[with(motif_gene_mapping, order(motif_mlog10P*cor_mlog10P, decreasing = T)),]
+rownames(motif_gene_mapping) <- 1:nrow(motif_gene_mapping)
+
+cat("Top 10 motifs by motif enrichment (-log10 p-value) and correlation to gene scores: \n")
+print(head(motif_gene_mapping[,c("motif","motif_mlog10P", "gene_score", "cor_mlog10P")], 10))
+
+```
+
+**GATA family**
+```{r select-GATA-genes}
+motif_names <- motif_res$motifs$motif
+gene_names <- genescore_res$genes$SYMBOL
+TF_motifs <- sort(unique(grep("^GATA\\d*$", motif_names, ignore.case=T, value=T)))
+TF_genes <- sort(unique(grep("^GATA\\d*$", gene_names, ignore.case=T, value=T)))
+common_genes <- intersect(toupper(TF_motifs), toupper(TF_genes))
+
+motif_gene_table <- data.frame(motif = TF_motifs[match(common_genes, toupper(TF_motifs))], 
+                                      gene = TF_genes[match(common_genes, toupper(TF_genes))])
+print(motif_gene_table)
+```
+
+```{r plot-GATA-logos, eval=FALSE, fig.width=5, fig.height=1.5,  message=FALSE, warning=FALSE}
+# Plot GATA motifs in topic 4
+k = 4
+motif_order <- order(motif_res$mlog10P[,k], decreasing = T)
+motifs <- rownames(motif_res$motifs[motif_order,])
+motif_names <- motif_res$motifs[motif_order, "motif"]
+selected_motifs <- unique(motifs[match(toupper(motif_gene_table$motif), toupper(motif_names))])
+motif.dir <- paste0(homer.dir, "/homer_result_topic_", k, "/knownResults/")
+
+for (i in 1:length(selected_motifs)){
+  plot_motif_logo(homer_res_topics, selected_motifs[i], k, motif.dir, type = "both")
+}
+
+```
+
+* Plot motif enrichment (-log10 p-value) and gene scores
+```{r motif-gene-plot-GATA-1, fig.width=8, fig.height=5, warning=FALSE}
+plots <- create_motif_gene_scatterplot(motif_res, genescore_res, 
+                                       motif_gene_table,
+                                       k = 4, 
+                                       y = "-log10(p-value)", 
+                                       colors = colors_topics,
+                                       max.overlaps = 10)
+
+do.call(plot_grid,plots)
+```
+
+* Plot motif enrichment (zscore) and gene scores
+```{r motif-gene-plot-GATA-2, fig.width=8, fig.height=5, warning=FALSE}
+
+plots <- create_motif_gene_scatterplot(motif_res, genescore_res, 
+                                       motif_gene_table,
+                                       k = 4, 
+                                       y = "z-score", 
+                                       colors = colors_topics,
+                                       max.overlaps = 10)
+
+do.call(plot_grid,plots)
+
+```
+
+**CEBP family**
+```{r select-CEBP-genes}
+motif_names <- motif_res$motifs$motif
+gene_names <- genescore_res$genes$SYMBOL
+TF_motifs <- sort(unique(grep("^CEBP.?$", motif_names, ignore.case=T, value=T)))
+TF_genes <- sort(unique(grep("^CEBP.?$", gene_names, ignore.case=T, value=T)))
+motif_gene_table <- unique(data.frame(motif = c("CEBP"), gene = TF_genes))
+print(motif_gene_table)
+
+```
+
+```{r plot-CEBP-logos, eval=FALSE, fig.width=5, fig.height=1.5, message=FALSE, warning=FALSE}
+# Plot GATA motifs in topic 4
+k = 1
+motif_order <- order(motif_res$mlog10P[,k], decreasing = T)
+motifs <- rownames(motif_res$motifs[motif_order,])
+motif_names <- motif_res$motifs[motif_order, "motif"]
+selected_motifs <- unique(motifs[match(toupper(motif_gene_table$motif), toupper(motif_names))])
+motif.dir <- paste0(homer.dir, "/homer_result_topic_", k, "/knownResults/")
+
+for (i in 1:length(selected_motifs)){
+  plot_motif_logo(homer_res_topics, selected_motifs[i], k, motif.dir, type = "both")
+}
+
+```
+
+* Plot motif enrichment (-log10 p-value) and gene scores
+```{r motif-gene-plot-CEBP-1, fig.width=8, fig.height=5, warning=FALSE}
+plots <- create_motif_gene_scatterplot(motif_res, genescore_res, 
+                                       motif_gene_table,
+                                       k = 1, 
+                                       y = "-log10(p-value)", 
+                                       colors = colors_topics,
+                                       max.overlaps = 10)
+
+do.call(plot_grid,plots)
+```
+
+* Plot motif enrichment (zscore) and gene scores
+```{r motif-gene-plot-CEBP-2, fig.width=8, fig.height=5, warning=FALSE}
+plots <- create_motif_gene_scatterplot(motif_res, genescore_res, 
+                                       motif_gene_table,
+                                       k = 1, 
+                                       y = "z-score", 
+                                       colors = colors_topics,
+                                       max.overlaps = 10)
+
+do.call(plot_grid,plots)
+
+```
