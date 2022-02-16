@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Kaixuan Luo" />
+
+
+<title>Gene analysis using topic modeling and DA results (v2) for Buenrostro et al (2018) scATAC-seq result (data processed using Chen 2019 pipeline)</title>
+
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="site_libs/datatables-binding-0.20/datatables.js"></script>
+<link href="site_libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="site_libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="site_libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
+<link href="site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">scATACseq-topics</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/stephenslab/scATACseq-topics">source</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Gene analysis using topic modeling and DA results (v2) for Buenrostro <em>et al</em> (2018) scATAC-seq result (data processed using Chen 2019 pipeline)</h1>
+<h4 class="author">Kaixuan Luo</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2022-02-16
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>scATACseq-topics/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version 1.7.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it's best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20200729code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20200729)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20200729code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20200729)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreec6d4883297e0e72f8a0d4d8fbf01890ed0ceef91targetblankc6d4883a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/c6d4883297e0e72f8a0d4d8fbf01890ed0ceef91" target="_blank">c6d4883</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreec6d4883297e0e72f8a0d4d8fbf01890ed0ceef91targetblankc6d4883a" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/c6d4883297e0e72f8a0d4d8fbf01890ed0ceef91" target="_blank">c6d4883</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    output/plotly/Buenrostro_2018_Chen2019pipeline/
+    Ignored:    output/plotly/Buenrostro_2018_Chen2019pipeline_v2/
+
+Untracked files:
+    Untracked:  analysis/analysis_Buenrostro2018_k10.Rmd
+    Untracked:  analysis/clusters_Buenrostro2018_k10_Chen2019pipeline.Rmd
+    Untracked:  analysis/process_data_Buenrostro2018_Chen2019.Rmd
+    Untracked:  analysis/selected_figures_Buenrostro2018.Rmd
+    Untracked:  analysis/test_structure_plots_Buenrostro2018_k11_Chen2019pipeline.Rmd
+    Untracked:  gsea_b_cells.html
+    Untracked:  output/clustering-Cusanovich2018.rds
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_10_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_10_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_10_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_10_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_10_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_10_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_10_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_10_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_10_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_10_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_11_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_11_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_11_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_11_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_11_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_11_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_11_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_11_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_11_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_11_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_12_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_12_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_12_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_12_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_12_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_12_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_12_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_12_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_12_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_12_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_13_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_13_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_13_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_13_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_13_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_13_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_13_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_13_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_13_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_13_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_1_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_1_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_1_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_1_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_1_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_1_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_1_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_1_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_1_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_1_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_2_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_2_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_2_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_2_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_2_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_2_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_2_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_2_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_2_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_2_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_3_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_3_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_3_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_3_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_3_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_3_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_3_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_3_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_3_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_3_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_4_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_4_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_4_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_4_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_4_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_4_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_4_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_4_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_4_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_4_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_5_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_5_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_5_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_5_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_5_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_5_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_5_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_5_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_5_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_5_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_6_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_6_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_6_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_6_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_6_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_6_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_6_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_6_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_6_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_6_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_7_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_7_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_7_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_7_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_7_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_7_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_7_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_7_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_7_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_7_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_8_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_8_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_8_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_8_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_8_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_8_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_8_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_8_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_8_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_8_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_9_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_9_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_9_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_9_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_9_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_9_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_9_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_9_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_9_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/gsea_topic_9_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_10_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_10_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_10_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_10_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_10_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_10_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_10_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_10_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_10_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_10_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_11_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_11_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_11_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_11_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_11_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_11_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_11_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_11_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_11_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_11_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_12_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_12_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_12_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_12_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_12_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_12_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_12_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_12_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_12_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_12_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_13_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_13_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_13_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_13_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_13_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_13_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_13_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_13_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_13_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_13_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_1_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_1_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_1_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_1_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_1_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_1_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_1_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_1_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_1_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_1_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_2_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_2_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_2_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_2_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_2_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_2_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_2_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_2_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_2_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_2_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_3_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_3_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_3_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_3_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_3_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_3_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_3_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_3_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_3_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_3_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_4_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_4_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_4_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_4_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_4_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_4_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_4_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_4_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_4_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_4_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_5_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_5_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_5_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_5_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_5_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_5_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_5_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_5_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_5_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_5_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_6_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_6_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_6_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_6_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_6_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_6_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_6_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_6_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_6_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_6_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_7_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_7_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_7_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_7_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_7_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_7_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_7_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_7_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_7_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_7_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_8_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_8_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_8_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_8_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_8_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_8_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_8_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_8_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_8_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_8_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_9_genebody-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_9_genebody-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_9_genebody-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_9_genebody-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_9_genebody-sum_files/plotly-main-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_9_tss-sum_files/crosstalk-1.1.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_9_tss-sum_files/jquery-3.5.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_9_tss-sum_files/plotly-binding-4.9.3/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_9_tss-sum_files/plotly-htmlwidgets-css-1.57.1/
+    Untracked:  output/plotly/Cusanovich2018/volcano_topic_9_tss-sum_files/plotly-main-1.57.1/
+    Untracked:  paper/
+    Untracked:  scripts/fit_all_models_Buenrostro_2018_chromVar_scPeaks_filtered.sbatch
+    Untracked:  scripts/fit_models_Cusanovich2018_tissues.sh
+    Untracked:  scripts/postfit_Buenrostro2018_Chen2019pipeline_v2.sh
+    Untracked:  scripts/postfit_Cusanovich2018_v2.sh
+    Untracked:  scripts/postfit_DA_analysis.sbatch
+    Untracked:  topic1.html
+
+Unstaged changes:
+    Modified:   analysis/clusters_Cusanovich2018_k13.Rmd
+    Modified:   analysis/gene_analysis_Buenrostro2018_Chen2019pipeline.Rmd
+    Modified:   analysis/gene_analysis_Cusanovich2018.Rmd
+    Modified:   analysis/motif_analysis_Buenrostro2018_Chen2019pipeline.Rmd
+    Modified:   analysis/motif_analysis_Buenrostro2018_Chen2019pipeline_v2.Rmd
+    Modified:   analysis/motif_analysis_Cusanovich2018.Rmd
+    Modified:   analysis/plots_Cusanovich2018.Rmd
+    Modified:   analysis/process_data_Cusanovich2018.Rmd
+    Modified:   code/functions_for_assessing_fits.R
+    Modified:   code/plots.R
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_10_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_10_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_11_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_11_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_12_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_12_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_13_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_13_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_1_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_1_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_2_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_2_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_3_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_3_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_4_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_4_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_5_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_5_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_6_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_6_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_7_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_7_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_8_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_8_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_9_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/gsea_topic_9_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_10_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_10_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_11_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_11_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_12_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_12_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_13_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_13_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_1_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_1_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_2_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_2_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_3_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_3_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_4_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_4_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_5_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_5_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_6_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_6_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_7_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_7_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_8_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_8_tss-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_9_genebody-sum.html
+    Modified:   output/plotly/Cusanovich2018/volcano_topic_9_tss-sum.html
+    Modified:   scripts/DA_analysis.R
+    Modified:   scripts/diffcount_genescore.R
+    Modified:   scripts/diffcount_genescore_gsea.R
+    Modified:   scripts/fit_all_models_Cusanovich2018.sh
+    Modified:   scripts/postfit_Buenrostro2018_Chen2019pipeline.sh
+    Modified:   scripts/postfit_Cusanovich2018.sh
+    Modified:   scripts/postfit_gene_analysis.sbatch
+    Modified:   scripts/postfit_genescore.R
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/gene_analysis_Buenrostro2018_Chen2019pipeline_v2.Rmd</code>) and HTML (<code>docs/gene_analysis_Buenrostro2018_Chen2019pipeline_v2.html</code>) files. If you've configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/c6d4883297e0e72f8a0d4d8fbf01890ed0ceef91/analysis/gene_analysis_Buenrostro2018_Chen2019pipeline_v2.Rmd" target="_blank">c6d4883</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-02-16
+</td>
+<td>
+updated with v2 of DA analysis result
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<p>Here we perform TF motif and gene analysis for the Buenrostro <em>et al</em> (2018) scATAC-seq result inferred from the multinomial topic model with <span class="math inline">\(k = 11\)</span>.</p>
+<p>We use binarized scPeaks and scATAC-seq data was processed using Chen <em>et al</em> (2019) pipeline.</p>
+<div id="load-packages-and-some-functions-used-in-this-analysis" class="section level2">
+<h2>Load packages and some functions used in this analysis</h2>
+<pre class="r"><code>library(Matrix)
+library(fastTopics)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(ggrepel)
+library(cowplot)
+library(plotly)
+library(htmlwidgets)
+library(DT)
+library(reshape)
+source(&quot;code/plots.R&quot;)</code></pre>
+</div>
+<div id="load-data-and-topic-model-results" class="section level2">
+<h2>Load data and topic model results</h2>
+<p>Load the <strong>binarized</strong> data and the <span class="math inline">\(k = 11\)</span> Poisson NMF fit results</p>
+<pre class="r"><code>data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/&quot;
+load(file.path(data.dir, &quot;Buenrostro_2018_binarized_counts.RData&quot;))
+cat(sprintf(&quot;%d x %d counts matrix.\n&quot;,nrow(counts),ncol(counts)))</code></pre>
+<pre><code># 2034 x 101172 counts matrix.</code></pre>
+<pre class="r"><code>fit.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/&quot;
+fit &lt;- readRDS(file.path(fit.dir, &quot;/fit-Buenrostro2018-binarized-scd-ex-k=11.rds&quot;))$fit
+fit &lt;- poisson2multinom(fit)</code></pre>
+</div>
+<div id="visualize-by-structure-plot-grouped-by-cell-labels." class="section level2">
+<h2>Visualize by Structure plot grouped by cell labels.</h2>
+<pre class="r"><code>set.seed(10)
+colors_topics &lt;- c(&quot;#a6cee3&quot;,&quot;#1f78b4&quot;,&quot;#b2df8a&quot;,&quot;#33a02c&quot;,&quot;#fb9a99&quot;,&quot;#e31a1c&quot;,
+                   &quot;#fdbf6f&quot;,&quot;#ff7f00&quot;,&quot;#cab2d6&quot;,&quot;#6a3d9a&quot;,&quot;#ffff99&quot;,&quot;#b15928&quot;,
+                   &quot;gray&quot;)
+samples$label &lt;- as.factor(samples$label)
+
+p.structure &lt;- structure_plot(fit,
+                     grouping = samples[, &quot;label&quot;],n = Inf,gap = 40,
+                     perplexity = 50,colors = colors_topics,
+                     num_threads = 6,verbose = FALSE)
+
+print(p.structure)</code></pre>
+<p><img src="figure/gene_analysis_Buenrostro2018_Chen2019pipeline_v2.Rmd/structure-plot-1.png" width="840" style="display: block; margin: auto;" /></p>
+</div>
+<div id="differential-accessbility-analysis-of-the-atac-seq-regions-for-the-topics" class="section level2">
+<h2>Differential accessbility analysis of the ATAC-seq regions for the topics</h2>
+<p>Load results from differential accessbility analysis for the topics</p>
+<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/postfit_v2&quot;
+cat(sprintf(&quot;Load results from %s \n&quot;, out.dir))
+DA_res &lt;- readRDS(file.path(out.dir, paste0(&quot;DAanalysis-Buenrostro2018-k=11-quantile/DA_regions_topics_10000iters.rds&quot;)))</code></pre>
+<pre><code># Load results from /project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/postfit_v2</code></pre>
+<p>Volcano plot of the regions</p>
+<p><strong>topic 1 and topic 4 examples</strong></p>
+<pre class="r"><code>p.volcano.1 &lt;- volcano_plot(DA_res,k = 1, labels = rep(&quot;&quot;,nrow(DA_res$z)))
+
+p.volcano.4 &lt;- volcano_plot(DA_res,k = 4, labels = rep(&quot;&quot;,nrow(DA_res$z)))
+
+plot_grid(p.volcano.1, p.volcano.4)</code></pre>
+<p><img src="figure/gene_analysis_Buenrostro2018_Chen2019pipeline_v2.Rmd/region-volcano-plot-examples-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><strong>all topics</strong></p>
+<pre class="r"><code>m &lt;- ncol(DA_res$z)
+plots &lt;- vector(&quot;list&quot;,m)
+names(plots) &lt;- colnames(DA_res$z)
+for (k in 1:m) {
+  plots[[k]] &lt;- volcano_plot(DA_res, k = k,labels = rep(&quot;&quot;,nrow(DA_res$z)))
+}
+do.call(plot_grid, plots)</code></pre>
+<p><img src="figure/gene_analysis_Buenrostro2018_Chen2019pipeline_v2.Rmd/region-volcano-plots-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="gene-score-analysis" class="section level2">
+<h2>Gene score analysis</h2>
+<p>Set output directorry</p>
+<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/postfit_v2&quot;
+
+fig.dir &lt;- &quot;output/plotly/Buenrostro_2018_Chen2019pipeline_v2/&quot;
+dir.create(fig.dir, showWarnings = F, recursive = T)</code></pre>
+<div id="tss-model" class="section level3">
+<h3>TSS model</h3>
+<p>Gene scores were computed using TSS based method as in Lareau <em>et al</em> Nature Biotech, 2019 as well as the <code>model 21</code> in <code>archR</code> paper. This model weights chromatin accessibility around gene promoters by using bi-directional exponential decays from the TSS.</p>
+<ul>
+<li>TSS model, normalized by the l2 norm of weights, as in Stouffer's z-score method</li>
+<li>use abs(z) scores</li>
+</ul>
+<pre class="r"><code>gene.dir &lt;- paste0(out.dir, &quot;/geneanalysis-Buenrostro2018-k=11-TSS-absZ-l2&quot;)
+
+cat(sprintf(&quot;Directory of gene analysis result: %s \n&quot;, gene.dir))
+genescore_res &lt;- readRDS(file.path(gene.dir, &quot;genescore_result.rds&quot;))
+
+genes &lt;- genescore_res$genes
+gene_scores &lt;- genescore_res$Z
+gene_logFC &lt;- genescore_res$logFC
+
+topics &lt;- colnames(gene_scores)
+top_genes &lt;- data.frame(matrix(nrow=10, ncol = ncol(gene_scores)))
+colnames(top_genes) &lt;- topics
+
+for (k in topics){
+  top_genes[,k] &lt;- genes$SYMBOL[head(order(abs(gene_scores[,k]), decreasing=TRUE), 10)]
+}
+
+DT::datatable(data.frame(rank = 1:10, top_genes), rownames = F, caption = &quot;Top 10 genes by abs(gene z-scores)&quot;)</code></pre>
+<pre><code># Directory of gene analysis result: /project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/postfit_v2/geneanalysis-Buenrostro2018-k=11-TSS-absZ-l2</code></pre>
+<div id="htmlwidget-4ae068db386cace9d91d" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-4ae068db386cace9d91d">{"x":{"filter":"none","vertical":false,"caption":"<caption>Top 10 genes by abs(gene z-scores)<\/caption>","data":[[1,2,3,4,5,6,7,8,9,10],["XAF1","LINC01963","NDST4","MIR4472-2","GPI","GINS3","DNAH17","RANBP10","TSNAXIP1","MIR103B2"],["SYNJ2","HOOK1","TECTA","GCNT4","CAVIN2","CASC8","POU5F1B","TENT4B","HTR1B","RGS18"],["SHBG","FXR2","SIN3A","EVI5L","CLIC4","CATSPERD","LONP1","TMEM80","DEAF1","VMAC"],["LRRC10","GAS2L1P2","CTSV","ASTN2-AS1","MIR185","SLC9A9-AS1","MIR300","MIR1185-1","MIR376A1","MIR376B"],["TCL1B","TCL1A","PTGER4P2-CDK2AP2P2","KLHL33","RECQL5","SAP30BP","LRRC15","MIR2276","PTCRA","PRKCSH"],["TGFBR3L","CELF5","SNAPC2","GRM4","CEACAM5","RSAD1","CACTIN-AS1","UNC13D","TBXA2R","ADAMTSL5"],["LINC02171","FCRL1","TTC39C","CD5L","TRIM32","LINC01940","ZNF823","SORBS3","TIFA","MIR493"],["C8orf86","BRSK2","ADORA3","LRMDA","TSIX","GALNT9","FOXA1","XIST","ARHGEF38-IT1","CD151"],["REM2","TMPRSS15","SH2D4B","GPR17","PLXNA1","MIR4491","POU2AF1","DCANP1","CRELD2","DLL4"],["MIR103A2","MIR103B2","ITLN2","ZNF781","CRPPA-AS1","SOD2","DHX35","PPP3R2","DGCR11","FAM83D"],["KYNU","PIN1P1","TGM3","SFTPD","NDST1","SLC49A3","SNORD66","CUBN","S100A10","TYMP"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>rank<\/th>\n      <th>k1<\/th>\n      <th>k2<\/th>\n      <th>k3<\/th>\n      <th>k4<\/th>\n      <th>k5<\/th>\n      <th>k6<\/th>\n      <th>k7<\/th>\n      <th>k8<\/th>\n      <th>k9<\/th>\n      <th>k10<\/th>\n      <th>k11<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<!-- * Volcano plots -->
+<!-- ```{r gene-volcano-plots-tss, eval=FALSE, include=FALSE} -->
+<!-- genescore_volcano_plot(genescore_res, label_above_quantile = 0.99, -->
+<!--                        labels = genescore_res$genes$SYMBOL, max.overlaps = 20, -->
+<!--                        subsample_below_quantile = 0.5, subsample_rate = 0.1) -->
+<!-- ``` -->
+<!-- **topic 1 and topic 4 examples** -->
+<!-- ```{r gene-volcano-plot-tss-1, fig.width=8, fig.height=3} -->
+<!-- p.volcano.1 <- genescore_volcano_plot(genescore_res, k = 1, label_above_quantile = 0.99, -->
+<!--                        labels = genescore_res$genes$SYMBOL, max.overlaps = 20, -->
+<!--                        subsample_below_quantile = 0.5, subsample_rate = 0.1) -->
+<!-- p.volcano.4 <- genescore_volcano_plot(genescore_res, k=4, label_above_quantile = 0.99, -->
+<!--                        labels = genescore_res$genes$SYMBOL, max.overlaps = 20, -->
+<!--                        subsample_below_quantile = 0.5, subsample_rate = 0.1) -->
+<!-- plot_grid(p.volcano.1, p.volcano.4) -->
+<!-- ``` -->
+</div>
+<div id="gene-body-model" class="section level3">
+<h3>Gene body model</h3>
+<p>Gene scores were computed using the gene score model (model 42) in the <code>archR</code> paper with some modifications. This model uses bi-directional exponential decays from the gene TSS (extended upstream by 5 kb by default) and the gene transcription termination site (TTS). Note: the current version of the function does not account for neighboring gene boundaries.</p>
+<ul>
+<li>Gene body model, normalized by the l2 norm of weights, as in Stouffer's z-score method</li>
+<li>use abs(z) scores</li>
+</ul>
+<pre class="r"><code>gene.dir &lt;- paste0(out.dir, &quot;/geneanalysis-Buenrostro2018-k=11-genebody-Z-l2&quot;)
+cat(sprintf(&quot;Directory of gene analysis result: %s \n&quot;, gene.dir))
+genescore_res &lt;- readRDS(file.path(gene.dir, &quot;genescore_result.rds&quot;))
+
+genes &lt;- genescore_res$genes
+gene_scores &lt;- genescore_res$Z
+gene_logFC &lt;- genescore_res$logFC
+
+topics &lt;- colnames(gene_scores)
+top_genes &lt;- data.frame(matrix(nrow=10, ncol = ncol(gene_scores)))
+colnames(top_genes) &lt;- topics
+
+for (k in topics){
+  top_genes[,k] &lt;- genes$SYMBOL[head(order(abs(gene_scores[,k]), decreasing=TRUE), 10)]
+}
+
+DT::datatable(data.frame(rank = 1:10, top_genes), rownames = F, caption = &quot;Top 10 genes by abs(gene z-scores)&quot;)</code></pre>
+<pre><code># Directory of gene analysis result: /project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/postfit_v2/geneanalysis-Buenrostro2018-k=11-genebody-Z-l2</code></pre>
+<div id="htmlwidget-05ecd7f4f064e52a9141" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-05ecd7f4f064e52a9141">{"x":{"filter":"none","vertical":false,"caption":"<caption>Top 10 genes by abs(gene z-scores)<\/caption>","data":[[1,2,3,4,5,6,7,8,9,10],["PSMB7","BORCS5","XAF1","LOH12CR2","MIR4535","TTPAL","SERINC3","LINC01963","MANSC1","ADGRD2"],["GREM2","SYNJ2","SYNJ2-IT1","HOOK1","GNA14","TENT5A","GUCY1A1","WDR35","CABCOCO1","TECTA"],["SIN3A","ALKBH7","PSPN","SLC25A41","AKAP8L","PKNOX1","KHSRP","TRIM28","MIR3940","CNOT3"],["MFN2","TMEM14B","SYCP2L","TMEM14C","MIR548F4","AQP1","HMGB4","CSMD2-AS1","MIR889","MIR655"],["TCL1B","TCL1A","CPLX1","TNFRSF13B","BCL2L11","ADTRP","GPR157","LINC02346","UROS","PTGER4P2-CDK2AP2P2"],["TGFBR3L","SNAPC2","MAP2K7","SAMD14","HCN2","CTXN1","CCDC167","CELF5","BSG","RSAD1"],["SSR1","CD5L","TRIM32","FCRL1","LINC02171","ZNF823","TTC39C","NUAK1","RFFL","SFTA1P"],["C8orf86","LGALS9B","WFDC3","WFDC13","WFDC10B","CRIM1","FOXA1","BRSK2","LGALS9C","SAP30BP"],["TMPRSS15","REM2","GPR17","LIMS2","ITIH3","CRELD2","BIN3","SH2D4B","ALG12","LRP10"],["RBM19","FAM83D","ITLN2","GAPVD1","RNF20","PPP3R2","DHX35","PGAP4","MIR103A2","PANK2"],["KYNU","PIN1P1","SRGAP1","S100A10","SFTPD","TGM3","SLC49A3","CYTH4","NMNAT2","ARHGAP26"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>rank<\/th>\n      <th>k1<\/th>\n      <th>k2<\/th>\n      <th>k3<\/th>\n      <th>k4<\/th>\n      <th>k5<\/th>\n      <th>k6<\/th>\n      <th>k7<\/th>\n      <th>k8<\/th>\n      <th>k9<\/th>\n      <th>k10<\/th>\n      <th>k11<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<!-- * Volcano plots -->
+<!-- ```{r gene-volcano-plots-genebody, eval=FALSE, include=FALSE} -->
+<!-- genescore_volcano_plot(genescore_res, label_above_quantile = 0.99, -->
+<!--                        labels = genescore_res$genes$SYMBOL, max.overlaps = 20, -->
+<!--                        subsample_below_quantile = 0.5, subsample_rate = 0.1) -->
+<!-- ``` -->
+<!-- **topic 1 and topic 4 examples** -->
+<!-- ```{r gene-volcano-plot-genebody-1, fig.width=8, fig.height=3} -->
+<!-- p.volcano.1 <- genescore_volcano_plot(genescore_res, k = 1, label_above_quantile = 0.99, -->
+<!--                        labels = genescore_res$genes$SYMBOL, max.overlaps = 20, -->
+<!--                        subsample_below_quantile = 0.5, subsample_rate = 0.1) -->
+<!-- p.volcano.4 <- genescore_volcano_plot(genescore_res, k=4, label_above_quantile = 0.99, -->
+<!--                        labels = genescore_res$genes$SYMBOL, max.overlaps = 20, -->
+<!--                        subsample_below_quantile = 0.5, subsample_rate = 0.1) -->
+<!-- plot_grid(p.volcano.1, p.volcano.4) -->
+<!-- ``` -->
+</div>
+</div>
+<div id="gene-set-enrichment-analysis-gsea" class="section level2">
+<h2>Gene-set enrichment analysis (GSEA)</h2>
+<p>Loading gene set data</p>
+<pre class="r"><code>library(pathways)
+cat(&quot;Loading human gene set data.\n&quot;)
+data(gene_sets_human)
+gene_sets &lt;- gene_sets_human$gene_sets
+gene_set_info &lt;- gene_sets_human$gene_set_info</code></pre>
+<pre><code># Loading human gene set data.</code></pre>
+<ul>
+<li>TSS model, normalized by the l2 norm of weights, as in Stouffer's z-score method</li>
+<li>use abs(z) scores</li>
+</ul>
+<pre class="r"><code>gene.dir &lt;- paste0(out.dir, &quot;/geneanalysis-Buenrostro2018-k=11-TSS-absZ-l2&quot;)
+cat(sprintf(&quot;Directory of gene analysis result: %s \n&quot;, gene.dir))
+gsea_res &lt;- readRDS(file.path(gene.dir, &quot;gsea_result.rds&quot;))
+
+top_pathways_up &lt;- top_pathways_down &lt;- data.frame(matrix(nrow=10, ncol = ncol(gsea_res$pval)))
+colnames(top_pathways_up) &lt;- colnames(top_pathways_down) &lt;- colnames(gsea_res$pval)
+
+for (k in 1:ncol(gsea_res$pval)){
+  gsea_topic &lt;- data.frame(pathway = rownames(gsea_res$pval),  
+                           pval = gsea_res$pval[,k],
+                           log2err = gsea_res$log2err[,k],
+                           ES = gsea_res$ES[,k],
+                           NES = gsea_res$NES[,k])
+  gsea_up &lt;- gsea_topic[gsea_topic$ES &gt; 0,]
+  top_IDs_up &lt;- as.character(gsea_up[head(order(gsea_up$pval), 10), &quot;pathway&quot;])
+  top_IDs_up &lt;- gene_set_info[match(top_IDs_up, gene_set_info$id),c(&quot;name&quot;, &quot;id&quot;)]
+  top_pathways_up[,k] &lt;- paste0(top_IDs_up$name, &quot;(&quot;, top_IDs_up$id, &quot;)&quot;)
+  
+  gsea_down &lt;- gsea_topic[gsea_topic$ES &lt; 0,]
+  top_IDs_down &lt;- as.character(gsea_down[head(order(gsea_down$pval), 10), &quot;pathway&quot;])
+  top_IDs_down &lt;- gene_set_info[match(top_IDs_down, gene_set_info$id),c(&quot;name&quot;, &quot;id&quot;)]
+  top_pathways_down[,k] &lt;- paste0(top_IDs_down$name, &quot;(&quot;, top_IDs_down$id, &quot;)&quot;)
+  
+}
+
+DT::datatable(data.frame(rank = 1:10, top_pathways_up), rownames = F,
+              caption = &quot;Top 10 pathways enriched at the top of the gene rank list.&quot;)</code></pre>
+<pre><code># Directory of gene analysis result: /project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/postfit_v2/geneanalysis-Buenrostro2018-k=11-TSS-absZ-l2</code></pre>
+<div id="htmlwidget-2b5ba16072c1c8b42672" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2b5ba16072c1c8b42672">{"x":{"filter":"none","vertical":false,"caption":"<caption>Top 10 pathways enriched at the top of the gene rank list.<\/caption>","data":[[1,2,3,4,5,6,7,8,9,10],["PGM3_TARGET_GENES(M34464)","chr17p13(M9760)","NPAT_TARGET_GENES(M30096)","chr9q34(M2896)","GO_PROTEIN_DNA_COMPLEX(M17281)","PSMB5_TARGET_GENES(M30131)","RHO GTPase Effectors(1269509)","MORF_CSNK2B(M18002)","REACTOME_CHROMATIN_MODIFYING_ENZYMES(M29619)","chr6p22(M6858)"],["D-myo-inositol (1,4,5)-trisphosphate degradation(http://pathwaycommons.org/pc12/Pathway_88e37e81265df3829ecd8b95076b1050)","GO_PHOSPHATIDYLINOSITOL_PHOSPHATE_5_PHOSPHATASE_ACTIVITY(M18133)","BIOCARTA_NDKDYNAMIN_PATHWAY(M5940)","D-myo-inositol (1,4,5)-trisphosphate degradation(545327)","GO_PHOSPHATIDYLINOSITOL_4_5_BISPHOSPHATE_PHOSPHATASE_ACTIVITY(M26847)","1D-myo-inositol hexakisphosphate biosynthesis II (mammalian)(545332)","1D-myo-inositol hexakisphosphate biosynthesis II (mammalian)(http://pathwaycommons.org/pc12/Pathway_291b63e6f901424839074dc1726cd86c)","GO_PHOSPHORYLATED_CARBOHYDRATE_DEPHOSPHORYLATION(M23811)","Inositol phosphate metabolism (Inositol phosphate metabolism)(http://pathwaycommons.org/pc12/Pathway_da4a60c833fd7f0e5dd75d37c3a36093)","D-myo-inositol (1,3,4)-trisphosphate biosynthesis(545328)"],["chr17p13(M9760)","NRF1_Q6(M2907)","PGM3_TARGET_GENES(M34464)","WANG_TUMOR_INVASIVENESS_UP(M1865)","GINESTIER_BREAST_CANCER_ZNF217_AMPLIFIED_DN(M17094)","SP1_Q6(M9525)","ZIC2_01(M7797)","GSE19888_ADENOSINE_A3R_INH_VS_TCELL_MEMBRANES_ACT_MAST_CELL_DN(M7350)","DURANTE_ADULT_OLFACTORY_NEUROEPITHELIUM_RESPIRATORY_EPITHELIAL_CELLS(M39293)","HP_ABNORMALITY_OF_THE_PROXIMAL_PHALANX_OF_THE_THUMB(M37392)"],["GO_RNA_BINDING_INVOLVED_IN_POSTTRANSCRIPTIONAL_GENE_SILENCING(M29524)","GO_REGULATION_OF_ARTERY_MORPHOGENESIS(M25370)","GO_NEGATIVE_REGULATION_OF_VASCULAR_ENDOTHELIAL_CELL_PROLIFERATION(M25366)","GO_ARTERY_MORPHOGENESIS(M12492)","GO_NEGATIVE_REGULATION_OF_ARTERY_MORPHOGENESIS(M25371)","GO_ARTERY_DEVELOPMENT(M11359)","WP_ALZHEIMERS_DISEASE(M39379)","GO_MULTICELLULAR_ORGANISM_AGING(M10108)","GO_CELL_MIGRATION_INVOLVED_IN_SPROUTING_ANGIOGENESIS(M11055)","GO_NEGATIVE_REGULATION_OF_EPITHELIAL_CELL_PROLIFERATION(M10067)"],["GO_PROTEIN_SERINE_THREONINE_KINASE_ACTIVATOR_ACTIVITY(M18266)","GO_KINASE_ACTIVATOR_ACTIVITY(M12088)","HAY_BONE_MARROW_DENDRITIC_CELL(M39194)","GSE12366_GC_VS_MEMORY_BCELL_UP(M3171)","HP_RESPIRATORY_INSUFFICIENCY_DUE_TO_DEFECTIVE_CILIARY_CLEARANCE(M38921)","GO_FOUR_WAY_JUNCTION_HELICASE_ACTIVITY(M26329)","HAY_BONE_MARROW_CD34_POS_PRE_B(M39189)","GSE16385_ROSIGLITAZONE_IL4_VS_IL4_ALONE_STIM_MACROPHAGE_12H_UP(M8026)","GO_POSITIVE_REGULATION_OF_MITOCHONDRIAL_MEMBRANE_POTENTIAL(M22702)","GSE29618_PDC_VS_MDC_DAY7_FLU_VACCINE_UP(M4970)"],["chr9q34(M2896)","GO_GLUTAMATE_RECEPTOR_ACTIVITY(M18783)","chr17q25(M8281)","GO_AROMATASE_ACTIVITY(M26773)","NIKOLSKY_BREAST_CANCER_16P13_AMPLICON(M1788)","GO_TRANSMEMBRANE_RECEPTOR_PROTEIN_SERINE_THREONINE_KINASE_ACTIVITY(M19094)","GO_TRANSFORMING_GROWTH_FACTOR_BETA_ACTIVATED_RECEPTOR_ACTIVITY(M29453)","Nicotine addiction(583255)","GO_TYPE_II_TRANSFORMING_GROWTH_FACTOR_BETA_RECEPTOR_BINDING(M26235)","KEGG_NEUROACTIVE_LIGAND_RECEPTOR_INTERACTION(M13380)"],["GO_OTOLITH_DEVELOPMENT(M23892)","GO_EMBRYONIC_ORGAN_MORPHOGENESIS(M12776)","Response to metal ions(1339157)","Metallothioneins bind metals(1339158)","Metallothioneins bind metals(http://identifiers.org/reactome/R-HSA-5661231)","REACTOME_METALLOTHIONEINS_BIND_METALS(M27543)","GSE7460_WT_VS_FOXP3_HET_ACT_WITH_TGFB_TCONV_DN(M5712)","GO_RESPONSE_TO_INTERLEUKIN_17(M24769)","GSE24142_EARLY_THYMIC_PROGENITOR_VS_DN3_THYMOCYTE_FETAL_UP(M4570)","chr1q23(M5051)"],["chr4q24(M10517)","MODULE_575(M9202)","MIR6749_3P(M31419)","MIR3911(M31522)","TCF4_Q5(M1224)","GSE29949_CD8_NEG_DC_SPLEEN_VS_CD8_POS_DC_SPLEEN_UP(M8390)","GRAHAM_CML_DIVIDING_VS_NORMAL_DIVIDING_UP(M19476)","MODULE_454(M7787)","GO_REGULATION_OF_PROTEIN_EXIT_FROM_ENDOPLASMIC_RETICULUM(M15603)","HANN_RESISTANCE_TO_BCL2_INHIBITOR_UP(M11749)"],["GO_NEGATIVE_REGULATION_OF_RELAXATION_OF_MUSCLE(M24982)","AIZARANI_LIVER_C22_RESIDENT_B_CELLS_2(M39123)","GO_SEMAPHORIN_PLEXIN_SIGNALING_PATHWAY_INVOLVED_IN_NEURON_PROJECTION_GUIDANCE(M14983)","GO_THORAX_AND_ANTERIOR_ABDOMEN_DETERMINATION(M22531)","GO_DICHOTOMOUS_SUBDIVISION_OF_TERMINAL_UNITS_INVOLVED_IN_SALIVARY_GLAND_BRANCHING(M24198)","GO_GENITALIA_MORPHOGENESIS(M23313)","MODULE_557(M8387)","Leukotriene receptors(1269562)","Leukotriene receptors(http://identifiers.org/reactome/R-HSA-391906)","REACTOME_LEUKOTRIENE_RECEPTORS(M27305)"],["chr20p13(M3658)","XU_HGF_TARGETS_REPRESSED_BY_AKT1_UP(M10500)","GO_REVERSIBLE_DIFFERENTIATION(M24723)","GO_NEGATIVE_REGULATION_OF_SYSTEMIC_ARTERIAL_BLOOD_PRESSURE(M12626)","GO_POSITIVE_REGULATION_OF_PROGRAMMED_NECROTIC_CELL_DEATH(M24330)","MicroRNAs in cancer(852705)","GO_PHENOTYPIC_SWITCHING(M23436)","reactive oxygen species degradation(1108784)","GO_CELL_DIFFERENTIATION_INVOLVED_IN_PHENOTYPIC_SWITCHING(M24724)","GRAHAM_CML_QUIESCENT_VS_CML_DIVIDING_UP(M19744)"],["HP_ABNORMAL_CIRCULATING_AROMATIC_AMINO_ACID_CONCENTRATION(M36478)","GSE360_CTRL_VS_M_TUBERCULOSIS_DC_DN(M5156)","GSE22886_NAIVE_BCELL_VS_MONOCYTE_DN(M4486)","GSE22886_NAIVE_CD4_TCELL_VS_MONOCYTE_DN(M4506)","GSE10325_LUPUS_CD4_TCELL_VS_LUPUS_MYELOID_DN(M3088)","Tryptophan catabolism(1270166)","VERHAAK_GLIOBLASTOMA_MESENCHYMAL(M2122)","DAZARD_RESPONSE_TO_UV_NHEK_UP(M19693)","GO_DICARBOXYLIC_ACID_BIOSYNTHETIC_PROCESS(M12548)","GSE22886_CTRL_VS_LPS_24H_DC_DN(M4520)"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>rank<\/th>\n      <th>k1<\/th>\n      <th>k2<\/th>\n      <th>k3<\/th>\n      <th>k4<\/th>\n      <th>k5<\/th>\n      <th>k6<\/th>\n      <th>k7<\/th>\n      <th>k8<\/th>\n      <th>k9<\/th>\n      <th>k10<\/th>\n      <th>k11<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<ul>
+<li>Gene body model, normalized by the l2 norm of weights, as in Stouffer's z-score method.</li>
+</ul>
+<pre class="r"><code>gene.dir &lt;- paste0(out.dir, &quot;/geneanalysis-Buenrostro2018-k=11-genebody-absZ-l2&quot;)
+cat(sprintf(&quot;Directory of gene analysis result: %s \n&quot;, gene.dir))
+gsea_res &lt;- readRDS(file.path(gene.dir, &quot;gsea_result.rds&quot;))
+
+top_pathways_up &lt;- top_pathways_down &lt;- data.frame(matrix(nrow=10, ncol = ncol(gsea_res$pval)))
+colnames(top_pathways_up) &lt;- colnames(top_pathways_down) &lt;- colnames(gsea_res$pval)
+
+for (k in 1:ncol(gsea_res$pval)){
+  gsea_topic &lt;- data.frame(pathway = rownames(gsea_res$pval),  
+                           pval = gsea_res$pval[,k],
+                           log2err = gsea_res$log2err[,k],
+                           ES = gsea_res$ES[,k],
+                           NES = gsea_res$NES[,k])
+  gsea_up &lt;- gsea_topic[gsea_topic$ES &gt; 0,]
+  top_IDs_up &lt;- as.character(gsea_up[head(order(gsea_up$pval), 10), &quot;pathway&quot;])
+  top_IDs_up &lt;- gene_set_info[match(top_IDs_up, gene_set_info$id),c(&quot;name&quot;, &quot;id&quot;)]
+  top_pathways_up[,k] &lt;- paste0(top_IDs_up$name, &quot;(&quot;, top_IDs_up$id, &quot;)&quot;)
+  
+  gsea_down &lt;- gsea_topic[gsea_topic$ES &lt; 0,]
+  top_IDs_down &lt;- as.character(gsea_down[head(order(gsea_down$pval), 10), &quot;pathway&quot;])
+  top_IDs_down &lt;- gene_set_info[match(top_IDs_down, gene_set_info$id),c(&quot;name&quot;, &quot;id&quot;)]
+  top_pathways_down[,k] &lt;- paste0(top_IDs_down$name, &quot;(&quot;, top_IDs_down$id, &quot;)&quot;)
+  
+}
+
+DT::datatable(data.frame(rank = 1:10, top_pathways_up), rownames = F,
+              caption = &quot;Top 10 pathways enriched at the top of the gene rank list.&quot;)</code></pre>
+<pre><code># Directory of gene analysis result: /project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/postfit_v2/geneanalysis-Buenrostro2018-k=11-genebody-absZ-l2</code></pre>
+<div id="htmlwidget-c80327190d663c62c9c9" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c80327190d663c62c9c9">{"x":{"filter":"none","vertical":false,"caption":"<caption>Top 10 pathways enriched at the top of the gene rank list.<\/caption>","data":[[1,2,3,4,5,6,7,8,9,10],["chr17p13(M9760)","chr9q34(M2896)","RNA Polymerase I Promoter Opening(1269659)","Activated PKN1 stimulates transcription of AR (androgen receptor) regulated genes KLK2 and KLK3(1269513)","REACTOME_ACTIVATED_PKN1_STIMULATES_TRANSCRIPTION_OF_AR_ANDROGEN_RECEPTOR_REGULATED_GENES_KLK2_AND_KLK3(M27488)","SIRT1 negatively regulates rRNA Expression(1269738)","Condensation of Prophase Chromosomes(1269813)","REACTOME_SIRT1_NEGATIVELY_REGULATES_RRNA_EXPRESSION(M27342)","RNA Polymerase I Chain Elongation(1269662)","REACTOME_CONDENSATION_OF_PROPHASE_CHROMOSOMES(M27166)"],["chr17q25(M8281)","chr9q34(M2896)","NIKOLSKY_BREAST_CANCER_16P13_AMPLICON(M1788)","NIKOLSKY_BREAST_CANCER_17Q21_Q25_AMPLICON(M15936)","chr22q13(M17432)","chr17p13(M9760)","GO_DETERMINATION_OF_DORSAL_VENTRAL_ASYMMETRY(M23845)","chr16q24(M9818)","GO_SEQUESTERING_OF_EXTRACELLULAR_LIGAND_FROM_RECEPTOR(M23361)","RICKMAN_METASTASIS_DN(M12369)"],["chr17p13(M9760)","GINESTIER_BREAST_CANCER_ZNF217_AMPLIFIED_DN(M17094)","PGM3_TARGET_GENES(M34464)","SP1_Q6(M9525)","SP1_Q6_01(M9557)","GSE9006_TYPE_1_VS_TYPE_2_DIABETES_PBMC_AT_DX_UP(M5797)","ROVERSI_GLIOMA_COPY_NUMBER_UP(M11028)","LFA1_Q6(M10767)","AGUIRRE_PANCREATIC_CANCER_COPY_NUMBER_UP(M9565)","HP_CONSPICUOUSLY_HAPPY_DISPOSITION(M38655)"],["chr3q11(M5965)","GSE34205_RSV_VS_FLU_INF_INFANT_PBMC_UP(M5141)","GO_NEGATIVE_REGULATION_OF_ARTERY_MORPHOGENESIS(M25371)","HU_FETAL_RETINA_BLOOD(M39263)","GO_GAS_TRANSPORT(M13119)","HALLMARK_HEME_METABOLISM(M5945)","chr14q12(M11846)","chr12q15(M19138)","Class C/3 (Metabotropic glutamate/pheromone receptors)(1269573)","Class C/3 (Metabotropic glutamate/pheromone receptors)(http://identifiers.org/reactome/R-HSA-420499)"],["GSE29618_MONOCYTE_VS_PDC_DAY7_FLU_VACCINE_DN(M4964)","HAY_BONE_MARROW_DENDRITIC_CELL(M39194)","GSE29618_PDC_VS_MDC_DAY7_FLU_VACCINE_UP(M4970)","GSE29618_MONOCYTE_VS_PDC_DN(M4946)","GSE29618_PDC_VS_MDC_UP(M4951)","chr22q11(M9468)","GAO_LARGE_INTESTINE_ADULT_CI_MESENCHYMAL_CELLS(M39166)","GSE29618_BCELL_VS_PDC_DN(M4942)","MIR6845_3P(M31336)","GSE17301_ACD3_ACD28_VS_ACD3_ACD28_AND_IFNA5_STIM_CD8_TCELL_DN(M8033)"],["chr17q25(M8281)","chr17p13(M9760)","chr22q13(M17432)","NIKOLSKY_BREAST_CANCER_17Q21_Q25_AMPLICON(M15936)","GINESTIER_BREAST_CANCER_ZNF217_AMPLIFIED_DN(M17094)","GSE9006_TYPE_1_VS_TYPE_2_DIABETES_PBMC_AT_DX_UP(M5797)","ZNF16_TARGET_GENES(M30266)","NIKOLSKY_BREAST_CANCER_17Q11_Q21_AMPLICON(M3434)","AGUIRRE_PANCREATIC_CANCER_COPY_NUMBER_UP(M9565)","HAMAI_APOPTOSIS_VIA_TRAIL_DN(M15912)"],["Response to metal ions(1339157)","Metallothioneins bind metals(1339158)","Metallothioneins bind metals(http://identifiers.org/reactome/R-HSA-5661231)","REACTOME_METALLOTHIONEINS_BIND_METALS(M27543)","chr1q23(M5051)","NIKOLSKY_BREAST_CANCER_17Q21_Q25_AMPLICON(M15936)","REACTOME_PRC2_METHYLATES_HISTONES_AND_DNA(M27132)","chr6p22(M6858)","DNA methylation(1269740)","REACTOME_TRANSCRIPTIONAL_REGULATION_OF_GRANULOPOIESIS(M27943)"],["chr3q26(M1166)","GO_SERINE_TYPE_ENDOPEPTIDASE_INHIBITOR_ACTIVITY(M18439)","GO_GALACTOSIDE_BINDING(M29468)","GO_PEPTIDASE_REGULATOR_ACTIVITY(M17907)","GO_EXTRACELLULAR_MATRIX_STRUCTURAL_CONSTITUENT_CONFERRING_COMPRESSION_RESISTANCE(M26501)","GO_ENDOPEPTIDASE_REGULATOR_ACTIVITY(M26754)","GO_NEGATIVE_REGULATION_OF_PEPTIDASE_ACTIVITY(M16870)","chr20q13(M6627)","NABA_PROTEOGLYCANS(M5882)","GO_ANTIBACTERIAL_HUMORAL_RESPONSE(M22882)"],["chr14q11(M8787)","chr2q14(M16205)","GO_NEGATIVE_REGULATION_OF_RELAXATION_OF_MUSCLE(M24982)","NABA_ECM_REGULATORS(M3468)","GO_PLATELET_DENSE_GRANULE(M17822)","GO_REGULATION_OF_INFLAMMATORY_RESPONSE_TO_ANTIGENIC_STIMULUS(M10361)","GO_HYALURONAN_METABOLIC_PROCESS(M12268)","chr8p21(M12581)","NIKOLSKY_BREAST_CANCER_22Q13_AMPLICON(M12053)","GO_THORAX_AND_ANTERIOR_ABDOMEN_DETERMINATION(M22531)"],["GO_MITOTIC_SPINDLE_POLE(M25950)","NIKOLSKY_BREAST_CANCER_19Q13.1_AMPLICON(M8692)","WILLIAMS_ESR1_TARGETS_UP(M2970)","GO_REGULATION_OF_MRNA_PROCESSING(M23903)","GO_CELL_DIFFERENTIATION_INVOLVED_IN_PHENOTYPIC_SWITCHING(M24724)","CAGGTCC_MIR492(M11517)","MIR934(M31908)","GO_POSITIVE_REGULATION_OF_PHENOTYPIC_SWITCHING(M24962)","HP_EYELID_APRAXIA(M34867)","MIR6806_3P(M31656)"],["GSE29618_MONOCYTE_VS_PDC_UP(M4945)","GSE10325_LUPUS_CD4_TCELL_VS_LUPUS_MYELOID_DN(M3088)","GAO_LARGE_INTESTINE_24W_C11_PANETH_LIKE_CELL(M39160)","GSE22886_NAIVE_CD4_TCELL_VS_MONOCYTE_DN(M4506)","AIZARANI_LIVER_C23_KUPFFER_CELLS_3(M39124)","AIZARANI_LIVER_C6_KUPFFER_CELLS_2(M39110)","CUI_DEVELOPING_HEART_C8_MACROPHAGE(M39305)","GSE22886_NAIVE_CD8_TCELL_VS_MONOCYTE_DN(M4496)","GSE22886_NAIVE_TCELL_VS_MONOCYTE_DN(M4480)","GSE22886_NAIVE_BCELL_VS_MONOCYTE_DN(M4486)"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>rank<\/th>\n      <th>k1<\/th>\n      <th>k2<\/th>\n      <th>k3<\/th>\n      <th>k4<\/th>\n      <th>k5<\/th>\n      <th>k6<\/th>\n      <th>k7<\/th>\n      <th>k8<\/th>\n      <th>k9<\/th>\n      <th>k10<\/th>\n      <th>k11<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code># R version 4.0.4 (2021-02-15)
+# Platform: x86_64-pc-linux-gnu (64-bit)
+# Running under: Scientific Linux 7.4 (Nitrogen)
+# 
+# Matrix products: default
+# BLAS/LAPACK: /software/openblas-0.3.13-el7-x86_64/lib/libopenblas_haswellp-r0.3.13.so
+# 
+# locale:
+#  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+#  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+#  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+#  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+#  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+# [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+# 
+# attached base packages:
+# [1] stats     graphics  grDevices utils     datasets  methods   base     
+# 
+# other attached packages:
+#  [1] pathways_0.1-20   reshape_0.8.8     DT_0.20           htmlwidgets_1.5.4
+#  [5] plotly_4.10.0     cowplot_1.1.1     ggrepel_0.9.1     ggplot2_3.3.5    
+#  [9] tidyr_1.1.4       dplyr_1.0.7       fastTopics_0.6-97 Matrix_1.4-0     
+# [13] workflowr_1.7.0  
+# 
+# loaded via a namespace (and not attached):
+#   [1] fgsea_1.21.0         Rtsne_0.15           colorspace_2.0-2    
+#   [4] ellipsis_0.3.2       class_7.3-20         rprojroot_2.0.2     
+#   [7] fs_1.5.2             rstudioapi_0.13      farver_2.1.0        
+#  [10] listenv_0.8.0        MatrixModels_0.5-0   prodlim_2019.11.13  
+#  [13] fansi_1.0.2          lubridate_1.8.0      codetools_0.2-18    
+#  [16] splines_4.0.4        knitr_1.37           jsonlite_1.7.3      
+#  [19] pROC_1.18.0          mcmc_0.9-7           caret_6.0-90        
+#  [22] ashr_2.2-47          uwot_0.1.11          compiler_4.0.4      
+#  [25] httr_1.4.2           assertthat_0.2.1     fastmap_1.1.0       
+#  [28] lazyeval_0.2.2       cli_3.1.1            later_1.3.0         
+#  [31] prettyunits_1.1.1    htmltools_0.5.2      quantreg_5.86       
+#  [34] tools_4.0.4          coda_0.19-4          gtable_0.3.0        
+#  [37] glue_1.6.1           reshape2_1.4.4       fastmatch_1.1-3     
+#  [40] Rcpp_1.0.8           jquerylib_0.1.4      vctrs_0.3.8         
+#  [43] nlme_3.1-155         conquer_1.2.1        crosstalk_1.2.0     
+#  [46] iterators_1.0.13     timeDate_3043.102    gower_0.2.2         
+#  [49] xfun_0.29            stringr_1.4.0        globals_0.14.0      
+#  [52] ps_1.6.0             lifecycle_1.0.1      irlba_2.3.5         
+#  [55] future_1.23.0        getPass_0.2-2        MASS_7.3-55         
+#  [58] scales_1.1.1         ipred_0.9-12         hms_1.1.1           
+#  [61] promises_1.2.0.1     parallel_4.0.4       SparseM_1.81        
+#  [64] yaml_2.2.2           gridExtra_2.3        pbapply_1.5-0       
+#  [67] sass_0.4.0           rpart_4.1-15         stringi_1.7.6       
+#  [70] SQUAREM_2021.1       highr_0.9            foreach_1.5.1       
+#  [73] BiocParallel_1.24.1  lava_1.6.10          truncnorm_1.0-8     
+#  [76] rlang_1.0.0          pkgconfig_2.0.3      matrixStats_0.61.0  
+#  [79] evaluate_0.14        lattice_0.20-45      invgamma_1.1        
+#  [82] purrr_0.3.4          labeling_0.4.2       recipes_0.1.17      
+#  [85] processx_3.5.2       tidyselect_1.1.1     parallelly_1.30.0   
+#  [88] plyr_1.8.6           magrittr_2.0.2       R6_2.5.1            
+#  [91] generics_0.1.1       DBI_1.1.2            pillar_1.6.5        
+#  [94] whisker_0.4          withr_2.4.3          survival_3.2-13     
+#  [97] mixsqp_0.3-43        nnet_7.3-17          tibble_3.1.6        
+# [100] future.apply_1.8.1   crayon_1.4.2         utf8_1.2.2          
+# [103] rmarkdown_2.11       progress_1.2.2       grid_4.0.4          
+# [106] data.table_1.14.2    callr_3.7.0          git2r_0.29.0        
+# [109] ModelMetrics_1.2.2.2 digest_0.6.29        httpuv_1.6.5        
+# [112] MCMCpack_1.6-0       RcppParallel_5.1.5   stats4_4.0.4        
+# [115] munsell_0.5.0        viridisLite_0.4.0    bslib_0.3.1         
+# [118] quadprog_1.5-8</code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
