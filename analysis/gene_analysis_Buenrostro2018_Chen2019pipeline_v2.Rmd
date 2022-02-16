@@ -31,6 +31,8 @@ library(plotly)
 library(htmlwidgets)
 library(DT)
 library(reshape)
+library(pathways)
+
 source("code/plots.R")
 
 ```
@@ -74,18 +76,7 @@ cat(sprintf("Load results from %s \n", out.dir))
 DA_res <- readRDS(file.path(out.dir, paste0("DAanalysis-Buenrostro2018-k=11-quantile/DA_regions_topics_10000iters.rds")))
 ```
 
-Volcano plot of the regions
-
-**topic 1 and topic 4 examples**
-```{r region-volcano-plot-examples, fig.width=8, fig.height=3}
-p.volcano.1 <- volcano_plot(DA_res,k = 1, labels = rep("",nrow(DA_res$z)))
-
-p.volcano.4 <- volcano_plot(DA_res,k = 4, labels = rep("",nrow(DA_res$z)))
-
-plot_grid(p.volcano.1, p.volcano.4)
-```
-
-**all topics**
+**Volcano plot of the regions**
 ```{r region-volcano-plots, fig.width=8, fig.height=6}
 m <- ncol(DA_res$z)
 plots <- vector("list",m)
@@ -213,7 +204,6 @@ DT::datatable(data.frame(rank = 1:10, top_genes), rownames = F, caption = "Top 1
 
 Loading gene set data
 ```{r load-gene-sets}
-library(pathways)
 cat("Loading human gene set data.\n")
 data(gene_sets_human)
 gene_sets <- gene_sets_human$gene_sets
