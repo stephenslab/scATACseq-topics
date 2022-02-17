@@ -152,7 +152,7 @@ genescore_res <- list(colmeans = gene_mean_acc,
                       beta = gene_logFC,
                       genes = genes)
 
-saveRDS(genescore_res, file.path(out.dir, "genescore_result_topics.rds"))
+saveRDS(genescore_res, file.path(out.dir, "genescore_result.rds"))
 
 # sessionInfo
 sessionInfo()

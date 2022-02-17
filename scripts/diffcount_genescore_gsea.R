@@ -22,32 +22,35 @@ parser <- add_option(parser,"--counts",type="character",default="counts.RData")
 parser <- add_option(parser,"--modelfit",type = "character",default="fit.rds")
 parser <- add_option(parser,"--geneset",type="character",default="gene_sets.RData")
 parser <- add_option(parser,"--genome",type="character",default="hg19")
-parser <- add_option(parser,c("--genescoremethod","-s"),type = "character",default = "genebody")
+parser <- add_option(parser,c("--genescoremethod","-s"),type = "character",default = "TSS")
+parser <- add_option(parser,c("--transform","-t"),type = "character",default = "abs")
 parser <- add_option(parser,c("--normalization","-n"),type = "character",default = "sum")
 parser <- add_option(parser,"--runGSEA",action = "store_true",default = FALSE)
 parser <- add_option(parser,"--nc",type = "integer",default = 1)
 parser <- add_option(parser,c("--out","-o"),type="character",default="out")
 out    <- parse_args(parser)
-countsfile      <- out$counts
-modelfitfile    <- out$modelfit
-genesetfile     <- out$geneset
-genome          <- out$genome
-genescoremethod <- out$genescoremethod
-normalization   <- out$normalization
-runGSEA         <- out$runGSEA
-nc              <- out$nc
-out.dir         <- out$out
+countsfile           <- out$counts
+modelfitfile         <- out$modelfit
+genesetfile          <- out$geneset
+genome               <- out$genome
+genescoremethod      <- out$genescoremethod
+transform.method     <- out$transform
+normalization.method <- out$normalization
+runGSEA              <- out$runGSEA
+nc                   <- out$nc
+out.dir              <- out$out
 rm(parser,out)
 
-cat(sprintf("countsfile      = %s \n", countsfile))
-cat(sprintf("modelfitfile    = %s \n", modelfitfile))
-cat(sprintf("genesetfile     = %s \n", genesetfile))
-cat(sprintf("genome          = %s \n", genome))
-cat(sprintf("genescoremethod = %s \n", genescoremethod))
-cat(sprintf("normalization   = %s \n", normalization))
-cat(sprintf("runGSEA         = %s \n", runGSEA))
-cat(sprintf("nc              = %s \n", nc))
-cat(sprintf("out.dir         = %s \n", out.dir))
+cat(sprintf("countsfile           = %s \n", countsfile))
+cat(sprintf("modelfitfile         = %s \n", modelfitfile))
+cat(sprintf("genesetfile          = %s \n", genesetfile))
+cat(sprintf("genome               = %s \n", genome))
+cat(sprintf("genescoremethod      = %s \n", genescoremethod))
+cat(sprintf("transform.method     = %s \n", transformmethod))
+cat(sprintf("normalization.method = %s \n", normalization))
+cat(sprintf("runGSEA              = %s \n", runGSEA))
+cat(sprintf("nc                   = %s \n", nc))
+cat(sprintf("out.dir              = %s \n", out.dir))
 
 if(!dir.exists(out.dir))
   dir.create(out.dir, showWarnings = FALSE, recursive = T)
@@ -107,10 +110,10 @@ regions <- data.frame(x = rownames(region_Z)) %>% separate(x, c("chr", "start", 
 # Compute the gene scores (z-scores)
 if(toupper(genescoremethod) == "TSS"){
   cat("Compute gene z-scores using the TSS model. \n")
-  gene_scores <- compute_gene_scores_tss_model(region_Z, regions, genes, normalize = TRUE, method.normalization = normalization)
+  gene_scores <- compute_gene_scores_tss_model(region_Z, regions, genes, transform.method=transform.method, normalization.method=normalization.method)
 }else{
   cat("Compute gene z-scores using the gene-body model. \n")
-  gene_scores <- compute_gene_scores_genebody_model(region_Z, regions, genes, normalize = TRUE, method.normalization = normalization)
+  gene_scores <- compute_gene_scores_genebody_model(region_Z, regions, genes, transform.method=transform.method, normalization.method=normalization.method)
 }
 
 genes <- genes[match(rownames(gene_scores), genes$gene_id), ]
@@ -123,10 +126,10 @@ region_beta <- diff_count_res$beta
 # Compute the gene logFC
 if(toupper(genescoremethod) == "TSS"){
   cat("Compute gene logFC using the TSS model. \n")
-  gene_logFC <- compute_gene_scores_tss_model(region_beta, regions, genes, normalize = TRUE, method.normalization = "sum")
+  gene_logFC <- compute_gene_scores_tss_model(region_beta, regions, genes, transform.method=transform.method, normalization.method = "sum")
 }else{
   cat("Compute gene logFC using the gene-body model. \n")
-  gene_logFC <- compute_gene_scores_genebody_model(region_beta, regions, genes, normalize = TRUE, method.normalization = "sum")
+  gene_logFC <- compute_gene_scores_genebody_model(region_beta, regions, genes, transform.method=transform.method, normalization.method = "sum")
 }
 
 if(!all.equal(rownames(gene_logFC), genes$gene_id))
@@ -140,10 +143,10 @@ region_mean <- as.matrix(diff_count_res$colmeans)
 # Compute the gene mean accessbility, by weighted sum of the mean accessbility across topics.
 if(toupper(genescoremethod) == "TSS"){
   cat("Compute gene mean accessbility using the TSS model. \n")
-  gene_mean_acc <- compute_gene_scores_tss_model(region_mean, regions, genes, normalize = TRUE, method.normalization = "sum")[,1]
+  gene_mean_acc <- compute_gene_scores_tss_model(region_mean, regions, genes, transform.method=transform.method, normalization.method = "sum")[,1]
 }else{
   cat("Compute gene mean accessbility using the gene-body model. \n")
-  gene_mean_acc <- compute_gene_scores_genebody_model(region_mean, regions, genes, normalize = TRUE, method.normalization = "sum")[,1]
+  gene_mean_acc <- compute_gene_scores_genebody_model(region_mean, regions, genes, transform.method=transform.method, normalization.method = "sum")[,1]
 }
 
 if(!all.equal(names(gene_mean_acc), genes$gene_id))

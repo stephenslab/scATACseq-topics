@@ -1,6 +1,6 @@
 #! /usr/bin/env Rscript
 # Compute gene scores based on the weighted average of region scores.
-
+setwd("~/projects/scATACseq-topics/")
 library(optparse)
 library(tools)
 library(Matrix)
@@ -9,8 +9,8 @@ suppressPackageStartupMessages(library(dplyr))
 suppressPackageStartupMessages(library(tidyr))
 suppressPackageStartupMessages(library(GenomicRanges))
 suppressPackageStartupMessages(library(GenomicFeatures))
-source("~/projects/scATACseq-topics/code/gene_annotation.R")
-source("~/projects/scATACseq-topics/code/gene_scores.R")
+source("code/gene_annotation.R")
+source("code/gene_scores.R")
 
 # Process the command-line arguments.
 parser <- OptionParser()
@@ -29,7 +29,7 @@ normalization.method <- out$normalization
 out.dir              <- out$out
 rm(parser,out)
 
-## Example settings
+# ## Example settings
 # DAfile            <- '/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/postfit_v2/DAanalysis-Buenrostro2018-k=11-quantile-v2/DA_regions_topics_ns1000.rds'
 # genome            <- 'hg19'
 # genescoremethod   <- 'TSS'
