@@ -29,7 +29,7 @@ normalization.method <- out$normalization
 out.dir              <- out$out
 rm(parser,out)
 
-# ## Example settings
+# # ## Example settings
 # DAfile            <- '/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/postfit_v2/DAanalysis-Buenrostro2018-k=11-quantile-v2/DA_regions_topics_ns1000.rds'
 # genome            <- 'hg19'
 # genescoremethod   <- 'TSS'
@@ -49,6 +49,7 @@ if(!dir.exists(out.dir))
 
 # LOAD DATA
 # ---------
+
 # Load gene annotation
 # genes is a data frame containing the gene information, including: chr, start, end, strand, and gene_id.
 cat("Load gene annotations.\n")
@@ -73,12 +74,13 @@ cat("Load precomputed differential accessbility statistics.\n")
 DA_res <- readRDS(DAfile)
 
 # Filter out regions with NAs
-DA_res <- DA_res[c("postmean", "z", "lfsr")]
+DA_res <- DA_res[c("postmean", "z", "lfsr", "f0")]
 rows_withNAs <- which(apply(DA_res$z, 1, anyNA))
 cat("Filter out", length(rows_withNAs), "regions with NAs... \n")
 DA_res$z <- DA_res$z[-rows_withNAs,]
 DA_res$postmean <- DA_res$postmean[-rows_withNAs,]
 DA_res$lfsr <- DA_res$lfsr[-rows_withNAs,]
+DA_res$f0 <- DA_res$f0[-rows_withNAs]
 
 # COMPUTE GENE SCORES
 # -------------------
@@ -122,14 +124,32 @@ if(toupper(genescoremethod) == "TSS"){
 if(!all.equal(rownames(gene_logFC), genes$gene_id))
   stop("ERROR: Gene names do not match!")
 
+# COMPUTE GENE weighted average accessbility
+# -----------------------------------------------------
+# Extract genomic coordinates for ATAC-seq regions
+region_mean <- as.matrix(DA_res$f0)
+
+# Compute the gene-level mean accessbility, by weighted sum of the mean accessbility across topics.
+if(toupper(genescoremethod) == "TSS"){
+  cat("Compute gene-level mean accessbility using the TSS model. \n")
+  gene_mean_acc <- compute_gene_scores_tss_model(region_mean, regions, genes, transform.method="none", normalization.method = "sum")[,1]
+}else{
+  cat("Compute gene-level mean accessbility using the gene-body model. \n")
+  gene_mean_acc <- compute_gene_scores_genebody_model(region_mean, regions, genes, transform.method="none", normalization.method = "sum")[,1]
+}
+
+if(!all.equal(names(gene_mean_acc), genes$gene_id))
+  stop("ERROR: Gene names do not match!")
 
 # rownames(gene_scores) <- genes[match(rownames(gene_scores), genes$gene_id), "ENSEMBL"]
 # rownames(gene_logFC) <- genes[match(rownames(gene_logFC), genes$gene_id), "ENSEMBL"]
+# names(gene_mean_acc) <- genes[match(names(gene_mean_acc), genes$gene_id), "ENSEMBL"]
 
-genescore_res <- list(Z = gene_scores,
+genescore_res <- list(mean_acc = gene_mean_acc,
+                      Z = gene_scores,
                       logFC = gene_logFC,
                       genes = genes)
 
 saveRDS(genescore_res, file.path(out.dir, "genescore_result.rds"))
 
-# sessionInfo()
+sessionInfo()
