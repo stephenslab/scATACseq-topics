@@ -12,8 +12,8 @@
 #' @param transform.method Method to transform the region scores.
 #' `abs`: absolute value abs(z), `squared`: squared (z^2), `none`: no transform.
 #' @param normalization.method Method to normalize the weights (`l2`, `sum`, or `none`).
-#' `l2`: normalize by the l2 norm of the weights, as in Stouffer's z-score method.
 #' `sum`: normalize by the sum of weights (i.e. weighted average).
+#' `l2`: normalize by the l2 norm of the weights, as in Stouffer's z-score method.
 #' @param c scaling constant (default = 5000)
 #' @param window.upstream An integer specifying the size of the window upstream of TSS (default = 100000, i.e. 100kb)
 #' @param window.downstream An integer specifying the size of the window downstream of TSS (default = 100000, i.e. 100kb)
@@ -25,7 +25,7 @@ compute_gene_scores_tss_model <- function(Z,
                                           genes,
                                           use.ATAC.centers = TRUE,
                                           transform.method = c("abs", "squared", "none"),
-                                          normalization.method = c("l2", "sum", "none"),
+                                          normalization.method = c( "sum", "l2", "none"),
                                           c = 5000,
                                           window.upstream = 100000,
                                           window.downstream = 100000
@@ -104,12 +104,12 @@ compute_gene_scores_tss_model <- function(Z,
   Z.genescore <- W %*% Z
 
   # Normalize gene scores
-  if (normalization.method == "l2") {
-    # Normalize by the l2 norm of weights, as in Stouffer's z-score method
-    Z.genescore <- Matrix::Diagonal(x = 1 / sqrt(Matrix::rowSums(W^2))) %*% Z.genescore
-  } else if (normalization.method == "sum"){
+  if (normalization.method == "sum"){
     # Normalize by the sum of weights, i.e. weighted average
     Z.genescore <- Matrix::Diagonal(x = 1 / Matrix::rowSums(W)) %*% Z.genescore
+  } else if (normalization.method == "l2"){
+    # Normalize by the l2 norm of weights, as in Stouffer's z-score method
+    Z.genescore <- Matrix::Diagonal(x = 1 / sqrt(Matrix::rowSums(W^2))) %*% Z.genescore
   }
 
   return(Z.genescore)
