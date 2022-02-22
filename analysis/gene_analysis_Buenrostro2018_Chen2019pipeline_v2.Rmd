@@ -73,7 +73,7 @@ Load results from differential accessbility analysis for the topics
 ```{r}
 out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/postfit_v2"
 cat(sprintf("Load results from %s \n", out.dir))
-DA_res <- readRDS(file.path(out.dir, paste0("DAanalysis-Buenrostro2018-k=11-quantile/DA_regions_topics_10000iters.rds")))
+DA_res <- readRDS(file.path(out.dir, paste0("DAanalysis-Buenrostro2018-k=11/DA_regions_topics_10000iters.rds")))
 ```
 
 **Volcano plot of the regions**
@@ -97,7 +97,8 @@ fig.dir <- "output/plotly/Buenrostro_2018_Chen2019pipeline_v2/"
 dir.create(fig.dir, showWarnings = F, recursive = T)
 ```
 
-### TSS model
+
+### TSS model version 1
 
 Gene scores were computed using TSS based method as in Lareau *et al* Nature Biotech, 2019 as well as the `model 21` in `archR` paper.
 This model weights chromatin accessibility around gene promoters by using bi-directional exponential decays from the TSS.
@@ -128,27 +129,82 @@ DT::datatable(data.frame(rank = 1:10, top_genes), rownames = F, caption = "Top 1
 ```
 
 
-<!-- * Volcano plots -->
-<!-- ```{r gene-volcano-plots-tss, eval=FALSE, include=FALSE} -->
-<!-- genescore_volcano_plot(genescore_res, label_above_quantile = 0.99, -->
-<!--                        labels = genescore_res$genes$SYMBOL, max.overlaps = 20, -->
-<!--                        subsample_below_quantile = 0.5, subsample_rate = 0.1) -->
-<!-- ``` -->
+* Volcano plots of gene scores
 
-<!-- **topic 1 and topic 4 examples** -->
-<!-- ```{r gene-volcano-plot-tss-1, fig.width=8, fig.height=3} -->
-<!-- p.volcano.1 <- genescore_volcano_plot(genescore_res, k = 1, label_above_quantile = 0.99, -->
-<!--                        labels = genescore_res$genes$SYMBOL, max.overlaps = 20, -->
-<!--                        subsample_below_quantile = 0.5, subsample_rate = 0.1) -->
+**all topics**
+```{r gene-volcano-plots-tss, fig.width=10, fig.height=6, message=FALSE, warning=FALSE}
+genescore_volcano_plot(genescore_res, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)
+```
 
-<!-- p.volcano.4 <- genescore_volcano_plot(genescore_res, k=4, label_above_quantile = 0.99, -->
-<!--                        labels = genescore_res$genes$SYMBOL, max.overlaps = 20, -->
-<!--                        subsample_below_quantile = 0.5, subsample_rate = 0.1) -->
+**topic 1 and topic 4 examples**
+```{r gene-volcano-plot-tss-1, fig.width=8, fig.height=3, message=FALSE, warning=FALSE}
+p.volcano.1 <- genescore_volcano_plot(genescore_res, k = 1, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)
 
-<!-- plot_grid(p.volcano.1, p.volcano.4) -->
-<!-- ``` -->
+p.volcano.4 <- genescore_volcano_plot(genescore_res, k=4, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)
 
-### Gene body model
+plot_grid(p.volcano.1, p.volcano.4)
+```
+
+### TSS model version 2
+
+Gene scores were computed using TSS based method as in Lareau *et al* Nature Biotech, 2019 as well as the `model 21` in `archR` paper.
+This model weights chromatin accessibility around gene promoters by using bi-directional exponential decays from the TSS.
+
+* TSS model, normalized by the sum of weights
+* use abs(z) scores
+
+```{r top-genes-tss-2}
+gene.dir <- paste0(out.dir, "/geneanalysis-Buenrostro2018-k=11-TSS-absZ-sum")
+
+cat(sprintf("Directory of gene analysis result: %s \n", gene.dir))
+genescore_res <- readRDS(file.path(gene.dir, "genescore_result.rds"))
+
+genes <- genescore_res$genes
+gene_scores <- genescore_res$Z
+gene_logFC <- genescore_res$logFC
+
+topics <- colnames(gene_scores)
+top_genes <- data.frame(matrix(nrow=10, ncol = ncol(gene_scores)))
+colnames(top_genes) <- topics
+
+for (k in topics){
+  top_genes[,k] <- genes$SYMBOL[head(order(abs(gene_scores[,k]), decreasing=TRUE), 10)]
+}
+
+DT::datatable(data.frame(rank = 1:10, top_genes), rownames = F, caption = "Top 10 genes by abs(gene z-scores)")
+
+```
+
+
+* Volcano plots of gene scores
+
+**all topics**
+```{r gene-volcano-plots-tss-2, fig.height=6, fig.width=10, message=FALSE, warning=FALSE}
+genescore_volcano_plot(genescore_res, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)
+```
+
+**topic 1 and topic 4 examples**
+```{r gene-volcano-plot-tss-2, fig.width=8, fig.height=3, message=FALSE, warning=FALSE}
+p.volcano.1 <- genescore_volcano_plot(genescore_res, k = 1, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)
+
+p.volcano.4 <- genescore_volcano_plot(genescore_res, k=4, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)
+
+plot_grid(p.volcano.1, p.volcano.4)
+```
+
+### Gene body model version 1
 
 Gene scores were computed using the gene score model (model 42) in the `archR` paper with some modifications.
 This model uses bi-directional exponential decays from the gene TSS (extended upstream by 5 kb by default)
@@ -180,25 +236,82 @@ DT::datatable(data.frame(rank = 1:10, top_genes), rownames = F, caption = "Top 1
 ```
 
 
-<!-- * Volcano plots -->
-<!-- ```{r gene-volcano-plots-genebody, eval=FALSE, include=FALSE} -->
-<!-- genescore_volcano_plot(genescore_res, label_above_quantile = 0.99, -->
-<!--                        labels = genescore_res$genes$SYMBOL, max.overlaps = 20, -->
-<!--                        subsample_below_quantile = 0.5, subsample_rate = 0.1) -->
-<!-- ``` -->
+* Volcano plots of gene scores
 
-<!-- **topic 1 and topic 4 examples** -->
-<!-- ```{r gene-volcano-plot-genebody-1, fig.width=8, fig.height=3} -->
-<!-- p.volcano.1 <- genescore_volcano_plot(genescore_res, k = 1, label_above_quantile = 0.99, -->
-<!--                        labels = genescore_res$genes$SYMBOL, max.overlaps = 20, -->
-<!--                        subsample_below_quantile = 0.5, subsample_rate = 0.1) -->
+**all topics**
+```{r gene-volcano-plots-genebody-1, fig.width=10, fig.height=6, message=FALSE, warning=FALSE}
+genescore_volcano_plot(genescore_res, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)
+```
 
-<!-- p.volcano.4 <- genescore_volcano_plot(genescore_res, k=4, label_above_quantile = 0.99, -->
-<!--                        labels = genescore_res$genes$SYMBOL, max.overlaps = 20, -->
-<!--                        subsample_below_quantile = 0.5, subsample_rate = 0.1) -->
 
-<!-- plot_grid(p.volcano.1, p.volcano.4) -->
-<!-- ``` -->
+**topic 1 and topic 4 examples**
+```{r gene-volcano-plot-genebody-1, fig.width=8, fig.height=3, message=FALSE, warning=FALSE}
+p.volcano.1 <- genescore_volcano_plot(genescore_res, k = 1, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)
+
+p.volcano.4 <- genescore_volcano_plot(genescore_res, k=4, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)
+
+plot_grid(p.volcano.1, p.volcano.4)
+```
+
+### Gene body model version 2
+
+Gene scores were computed using the gene score model (model 42) in the `archR` paper with some modifications.
+This model uses bi-directional exponential decays from the gene TSS (extended upstream by 5 kb by default)
+and the gene transcription termination site (TTS).
+Note: the current version of the function does not account for neighboring gene boundaries.
+
+* Gene body model, normalized by the sum of weights
+* use abs(z) scores
+
+```{r top-genes-genebody-2}
+gene.dir <- paste0(out.dir, "/geneanalysis-Buenrostro2018-k=11-genebody-Z-sum")
+cat(sprintf("Directory of gene analysis result: %s \n", gene.dir))
+genescore_res <- readRDS(file.path(gene.dir, "genescore_result.rds"))
+
+genes <- genescore_res$genes
+gene_scores <- genescore_res$Z
+gene_logFC <- genescore_res$logFC
+
+topics <- colnames(gene_scores)
+top_genes <- data.frame(matrix(nrow=10, ncol = ncol(gene_scores)))
+colnames(top_genes) <- topics
+
+for (k in topics){
+  top_genes[,k] <- genes$SYMBOL[head(order(abs(gene_scores[,k]), decreasing=TRUE), 10)]
+}
+
+DT::datatable(data.frame(rank = 1:10, top_genes), rownames = F, caption = "Top 10 genes by abs(gene z-scores)")
+
+```
+
+
+* Volcano plots of gene scores
+
+**all topics**
+```{r gene-volcano-plots-genebody-2, fig.width=10, fig.height=6, message=FALSE, warning=FALSE}
+genescore_volcano_plot(genescore_res, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)
+```
+
+**topic 1 and topic 4 examples**
+```{r gene-volcano-plot-genebody-2, fig.width=8, fig.height=3, message=FALSE, warning=FALSE}
+p.volcano.1 <- genescore_volcano_plot(genescore_res, k = 1, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)
+
+p.volcano.4 <- genescore_volcano_plot(genescore_res, k=4, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)
+
+plot_grid(p.volcano.1, p.volcano.4)
+```
 
 ## Gene-set enrichment analysis (GSEA)
 
