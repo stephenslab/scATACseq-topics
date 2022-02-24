@@ -459,16 +459,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree771b255a78a64792f7cf239a57470ea4cab34021targetblank771b255a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/771b255a78a64792f7cf239a57470ea4cab34021" target="_blank">771b255</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreea3b35555520a5c651d5449972f2f906c5085ed4ftargetblanka3b3555a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/a3b35555520a5c651d5449972f2f906c5085ed4f" target="_blank">a3b3555</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree771b255a78a64792f7cf239a57470ea4cab34021targetblank771b255a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreea3b35555520a5c651d5449972f2f906c5085ed4ftargetblanka3b3555a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/771b255a78a64792f7cf239a57470ea4cab34021" target="_blank">771b255</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/a3b35555520a5c651d5449972f2f906c5085ed4f" target="_blank">a3b3555</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -1270,6 +1270,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/a3b35555520a5c651d5449972f2f906c5085ed4f/analysis/analysis_Buenrostro2018_k10.Rmd" target="_blank">a3b3555</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-02-24
+</td>
+<td>
+structure plot and DA analysis with k=10
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/c4a7131ab69ac51cf7af1d674f63d14d10fb687a/docs/analysis_Buenrostro2018_k10.html" target="_blank">c4a7131</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-02-24
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/771b255a78a64792f7cf239a57470ea4cab34021/analysis/analysis_Buenrostro2018_k10.Rmd" target="_blank">771b255</a>
 </td>
 <td>
@@ -1333,6 +1367,43 @@ structure_plot(fit,grouping = labels,colors = topic_colors,
                topics = 1:10,
                gap = 20,perplexity = 50,verbose = FALSE)</code></pre>
 <p><img src="figure/analysis_Buenrostro2018_k10.Rmd/structure-plot-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-1">
+Past versions of structure-plot-1.png
+</button>
+</p>
+<div id="fig-structure-plot-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/c4a7131ab69ac51cf7af1d674f63d14d10fb687a/docs/figure/analysis_Buenrostro2018_k10.Rmd/structure-plot-1.png" target="_blank">c4a7131</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-02-24
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div id="k-means-clustering-on-topic-proportions" class="section level3">
 <h3>k-means clustering on topic proportions</h3>
 <p>Define clusters using k-means, and then create structure plot based on the clusters from k-means.</p>
@@ -1344,6 +1415,43 @@ summary(clusters)
 structure_plot(fit,grouping = clusters,colors = topic_colors,
                gap = 20,perplexity = 50,verbose = FALSE)</code></pre>
 <p><img src="figure/analysis_Buenrostro2018_k10.Rmd/structure-plot-kmeans-10clusters-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-kmeans-10clusters-1">
+Past versions of structure-plot-kmeans-10clusters-1.png
+</button>
+</p>
+<div id="fig-structure-plot-kmeans-10clusters-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/c4a7131ab69ac51cf7af1d674f63d14d10fb687a/docs/figure/analysis_Buenrostro2018_k10.Rmd/structure-plot-kmeans-10clusters-1.png" target="_blank">c4a7131</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-02-24
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>#   1   2   3   4   5   6   7   8   9  10 
 # 236 293 277 148 155 190 133 180 352  70</code></pre>
 <p>k-means clustering (using 12 clusters) on topic proportions</p>
@@ -1354,9 +1462,50 @@ summary(clusters)
 structure_plot(fit,grouping = clusters,colors = topic_colors,
                gap = 20,perplexity = 50,verbose = FALSE)</code></pre>
 <p><img src="figure/analysis_Buenrostro2018_k10.Rmd/structure-plot-kmeans-12clusters-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-kmeans-12clusters-1">
+Past versions of structure-plot-kmeans-12clusters-1.png
+</button>
+</p>
+<div id="fig-structure-plot-kmeans-12clusters-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/c4a7131ab69ac51cf7af1d674f63d14d10fb687a/docs/figure/analysis_Buenrostro2018_k10.Rmd/structure-plot-kmeans-12clusters-1.png" target="_blank">c4a7131</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-02-24
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>#   1   2   3   4   5   6   7   8   9  10  11  12 
 # 220 251 262 146  68 185 164  63 199  66 280 130</code></pre>
-<p>Load DA analysis results</p>
+</div>
+</div>
+<div id="different-accessibility-da-analysis" class="section level2">
+<h2>Different accessibility (DA) analysis</h2>
+<p>Load DA analysis results (10000 iterations of MCMC)</p>
 <pre class="r"><code>postfit_dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/postfit_v2/&quot;
 
 DA_res &lt;- readRDS(file.path(postfit_dir, &quot;DAanalysis-Buenrostro2018-k=10/DA_regions_topics_10000iters.rds&quot;))
@@ -1377,57 +1526,150 @@ summary(DA_res)
 <p>Volcano plot for DA analysis results for topic 2</p>
 <pre class="r"><code>volcano_plot(DA_res,k = 2,labels = rep(&quot;&quot;,nrow(DA_res$z)))</code></pre>
 <p><img src="figure/analysis_Buenrostro2018_k10.Rmd/DA-topic-2-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-DA-topic-2-1">
+Past versions of DA-topic-2-1.png
+</button>
+</p>
+<div id="fig-DA-topic-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/c4a7131ab69ac51cf7af1d674f63d14d10fb687a/docs/figure/analysis_Buenrostro2018_k10.Rmd/DA-topic-2-1.png" target="_blank">c4a7131</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-02-24
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Volcano plot for DA analysis results for topic 4</p>
 <pre class="r"><code>volcano_plot(DA_res,k = 4,labels = rep(&quot;&quot;,nrow(DA_res$z)))</code></pre>
 <p><img src="figure/analysis_Buenrostro2018_k10.Rmd/DA-topic-4-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-DA-topic-4-1">
+Past versions of DA-topic-4-1.png
+</button>
+</p>
+<div id="fig-DA-topic-4-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/c4a7131ab69ac51cf7af1d674f63d14d10fb687a/docs/figure/analysis_Buenrostro2018_k10.Rmd/DA-topic-4-1.png" target="_blank">c4a7131</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-02-24
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><strong>all topics</strong></p>
+<pre class="r"><code>plots &lt;- vector(&quot;list&quot;,10)
+names(plots) &lt;- 1:10
+
+for (k in 1:10)
+  plots[[k]] &lt;- volcano_plot(DA_res, k, labels = rep(&quot;&quot;,nrow(DA_res$z)))
+do.call(plot_grid,plots)</code></pre>
+<p><img src="figure/analysis_Buenrostro2018_k10.Rmd/region-volcano-plots-1.png" width="1200" style="display: block; margin: auto;" /></p>
 <p>Number of regions selected at different lfsr cutoffs:</p>
-<pre class="r"><code>for( k in 1:10){
+<pre class="r"><code>for(k in 1:10){
   lfsr &lt;- DA_res$lfsr[,k]
   cat(&quot;Topic&quot;, k, &quot;:\n&quot;)
   cat(&quot; &quot;, length(which(lfsr &lt; 0.01)), &quot;regions selected with lfsr &lt; 0.01. \n&quot;)
   cat(&quot; &quot;, length(which(lfsr &lt; 0.05)), &quot;regions selected with lfsr &lt; 0.05. \n&quot;)
   cat(&quot; &quot;, length(which(lfsr &lt; 0.1)), &quot;regions selected with lfsr &lt; 0.1. \n&quot;)
+  cat(&quot; &quot;, length(which(lfsr &lt; 0.2)), &quot;regions selected with lfsr &lt; 0.2. \n&quot;)
 }
 # Topic 1 :
 #   1 regions selected with lfsr &lt; 0.01. 
 #   4 regions selected with lfsr &lt; 0.05. 
 #   4 regions selected with lfsr &lt; 0.1. 
+#   7 regions selected with lfsr &lt; 0.2. 
 # Topic 2 :
 #   23 regions selected with lfsr &lt; 0.01. 
 #   46 regions selected with lfsr &lt; 0.05. 
 #   68 regions selected with lfsr &lt; 0.1. 
+#   104 regions selected with lfsr &lt; 0.2. 
 # Topic 3 :
 #   40 regions selected with lfsr &lt; 0.01. 
 #   72 regions selected with lfsr &lt; 0.05. 
 #   99 regions selected with lfsr &lt; 0.1. 
+#   154 regions selected with lfsr &lt; 0.2. 
 # Topic 4 :
 #   164 regions selected with lfsr &lt; 0.01. 
 #   259 regions selected with lfsr &lt; 0.05. 
 #   336 regions selected with lfsr &lt; 0.1. 
+#   437 regions selected with lfsr &lt; 0.2. 
 # Topic 5 :
 #   38 regions selected with lfsr &lt; 0.01. 
 #   60 regions selected with lfsr &lt; 0.05. 
 #   76 regions selected with lfsr &lt; 0.1. 
+#   103 regions selected with lfsr &lt; 0.2. 
 # Topic 6 :
 #   50 regions selected with lfsr &lt; 0.01. 
 #   74 regions selected with lfsr &lt; 0.05. 
 #   95 regions selected with lfsr &lt; 0.1. 
+#   138 regions selected with lfsr &lt; 0.2. 
 # Topic 7 :
 #   939 regions selected with lfsr &lt; 0.01. 
 #   1294 regions selected with lfsr &lt; 0.05. 
 #   1524 regions selected with lfsr &lt; 0.1. 
+#   1861 regions selected with lfsr &lt; 0.2. 
 # Topic 8 :
 #   2 regions selected with lfsr &lt; 0.01. 
 #   3 regions selected with lfsr &lt; 0.05. 
 #   3 regions selected with lfsr &lt; 0.1. 
+#   4 regions selected with lfsr &lt; 0.2. 
 # Topic 9 :
 #   3 regions selected with lfsr &lt; 0.01. 
 #   5 regions selected with lfsr &lt; 0.05. 
 #   5 regions selected with lfsr &lt; 0.1. 
+#   5 regions selected with lfsr &lt; 0.2. 
 # Topic 10 :
 #   8 regions selected with lfsr &lt; 0.01. 
 #   10 regions selected with lfsr &lt; 0.05. 
-#   10 regions selected with lfsr &lt; 0.1.</code></pre>
+#   10 regions selected with lfsr &lt; 0.1. 
+#   11 regions selected with lfsr &lt; 0.2.</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1499,7 +1741,6 @@ summary(DA_res)
 # [109] httpuv_1.6.5         MCMCpack_1.6-0       RcppParallel_5.1.5  
 # [112] stats4_4.0.4         munsell_0.5.0        viridisLite_0.4.0   
 # [115] bslib_0.3.1          quadprog_1.5-8</code></pre>
-</div>
 </div>
 </div>
 
