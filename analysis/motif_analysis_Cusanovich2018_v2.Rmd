@@ -74,7 +74,7 @@ Load results from differential accessbility analysis for the topics
 ```{r load-DA-res}
 out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018/postfit_v2"
 cat(sprintf("Load results from %s \n", out.dir))
-DA_res <- readRDS(file.path(out.dir, paste0("DAanalysis-Cusanovich2018-k=13-quantile/DA_regions_topics_10000iters.rds")))
+DA_res <- readRDS(file.path(out.dir, paste0("DAanalysis-Cusanovich2018-k=13/DA_regions_topics_10000iters.rds")))
 ```
 
 **Volcano plot of the regions**
