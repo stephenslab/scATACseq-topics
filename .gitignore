@@ -10,4 +10,4 @@ analysis/*html
 analysis/*_cache
 analysis/site_libs
 data/Cusanovich_2018.RData
-output/fit-Cusanovich2018-scd-ex-k=10.rds
+output/*
