@@ -1,0 +1,129 @@
+---
+title: "Analysis of Buenrostro *et al* (2018) scATAC-seq data using fastTopics with K = 10"
+author: Kaixuan Luo
+output:
+  workflowr::wflow_html:
+    toc: yes
+---
+
+Here we explore the structure in the Buenrostro *et al* (2018) 
+scATAC-seq data inferred from the 
+multinomial topic model with $k = 10$.
+
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
+                      fig.align = "center",dpi = 120)
+```
+
+Load packages and some functions used in this analysis.
+
+```{r load-pkgs, message=FALSE}
+library(fastTopics)
+library(Matrix)
+library(dplyr)
+library(ggplot2)
+library(cowplot)
+library(plyr)
+library(dplyr)
+library(RColorBrewer)
+library(DT)
+library(reshape)
+source("code/plots.R")
+```
+
+Load the data.
+```{r load-binarized-data}
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/"
+load(file.path(data.dir, "Buenrostro_2018_binarized_counts.RData"))
+cat(sprintf("%d x %d counts matrix.\n",nrow(counts),ncol(counts)))
+samples$cell <- rownames(samples)
+samples$label <- as.factor(samples$label)
+```
+
+Load the K = 10 multinomial topic model fit.
+```{r load-fit}
+fit.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/"
+fit <- readRDS(file.path(fit.dir, "/fit-Buenrostro2018-binarized-scd-k=10.rds"))$fit
+fit <- poisson2multinom(fit)
+```
+
+## Structure plots
+
+The structure plots below summarize the topic proportions in the samples grouped by different tissues.
+
+## Visualize by Structure plot grouped by tissues
+```{r structure-plot, fig.width=7, fig.height=3, message=FALSE}
+set.seed(1)
+
+labels <- factor(samples$label, levels = c("HSC", "MPP", "CMP", "GMP", "mono", "MEP", "LMPP", "CLP", "pDC", "UNK"))
+topic_colors <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
+                   "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a")
+
+# labels <- factor(samples$label,c("mono","pDC","MEP","HSC","MPP","CLP",
+#                                  "LMPP","CMP","GMP","UNK"))
+# topic_colors <- c("darkorange","limegreen","magenta","gold","skyblue",
+#                   "darkblue","dodgerblue","darkmagenta","red","olivedrab")
+structure_plot(fit,grouping = labels,colors = topic_colors,
+               topics = 1:10,
+               gap = 20,perplexity = 50,verbose = FALSE)
+
+```
+
+### k-means clustering on topic proportions
+Define clusters using k-means, and then create structure plot 
+based on the clusters from k-means.
+
+k-means clustering (using 10 clusters) on topic proportions
+```{r structure-plot-kmeans-10clusters, fig.width=7, fig.height=3, message=FALSE}
+set.seed(1)
+clusters <- factor(kmeans(fit$L,centers = 10,iter.max = 100)$cluster)
+summary(clusters)
+
+structure_plot(fit,grouping = clusters,colors = topic_colors,
+               gap = 20,perplexity = 50,verbose = FALSE)
+
+```
+
+
+k-means clustering (using 12 clusters) on topic proportions
+```{r structure-plot-kmeans-12clusters, fig.width=7, fig.height=3, message=FALSE}
+set.seed(1)
+clusters <- factor(kmeans(fit$L,centers = 12,iter.max = 100)$cluster)
+summary(clusters)
+
+structure_plot(fit,grouping = clusters,colors = topic_colors,
+               gap = 20,perplexity = 50,verbose = FALSE)
+
+```
+
+Load DA analysis results
+```{r load-DA-res}
+postfit_dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/postfit_v2/"
+
+DA_res <- readRDS(file.path(postfit_dir, "DAanalysis-Buenrostro2018-k=10/DA_regions_topics_10000iters.rds"))
+summary(DA_res)
+```
+
+Volcano plot for DA analysis results for topic 2
+```{r DA-topic-2}
+volcano_plot(DA_res,k = 2,labels = rep("",nrow(DA_res$z)))
+```
+
+Volcano plot for DA analysis results for topic 4
+```{r DA-topic-4}
+volcano_plot(DA_res,k = 4,labels = rep("",nrow(DA_res$z)))
+```
+
+Number of regions selected at different lfsr cutoffs:
+```{r number-DA-regions}
+for( k in 1:10){
+  lfsr <- DA_res$lfsr[,k]
+  cat("Topic", k, ":\n")
+  cat(" ", length(which(lfsr < 0.01)), "regions selected with lfsr < 0.01. \n")
+  cat(" ", length(which(lfsr < 0.05)), "regions selected with lfsr < 0.05. \n")
+  cat(" ", length(which(lfsr < 0.1)), "regions selected with lfsr < 0.1. \n")
+}
+
+```
+
+
