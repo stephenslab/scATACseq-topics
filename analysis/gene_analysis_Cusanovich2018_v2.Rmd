@@ -148,7 +148,7 @@ fig.dir <- "output/plotly/Cusanovich2018_v2"
 dir.create(fig.dir, showWarnings = F, recursive = T)
 ```
 
-### TSS model
+### TSS model ver1
 
 Gene scores were computed using TSS based method as in Lareau *et al* Nature Biotech, 2019 as well as the `model 21` in `archR` paper.
 This model weights chromatin accessibility around gene promoters by using bi-directional exponential decays from the TSS.
@@ -187,15 +187,6 @@ genescore_volcano_plot(genescore_res, label_above_quantile = 0.99,
                        labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
                        subsample_below_quantile = 0.5, subsample_rate = 0.1)
 ```
-
-<!-- Explore the volcano plots [interactively][volcano-plotly-tss-k1] -->
-<!-- ```{r gene-volcano-plotly-tss-1} -->
-<!-- for ( k in 1:ncol(genescore_res$beta) ){ -->
-<!--   p.volcano.plotly <- genescore_volcano_plotly(genescore_res,k, -->
-<!--                                              file = sprintf("%s/volcano_topic_%s_%s.html", fig.dir, k, "TSS-absZ-sum"), -->
-<!--                                              labels = genescore_res$genes$SYMBOL) -->
-<!-- } -->
-<!-- ``` -->
 
 **Topic 1** (Erythroblasts)
 
@@ -313,6 +304,158 @@ for(i in 1:nrow(marker_gene_scores)){
 
 ```
 
+### TSS model ver2
+
+* use Z scores
+* normalized by the sum of weights
+
+* Top genes
+
+```{r top-genes-tss-2}
+gene.dir <- paste0(out.dir, "/geneanalysis-Cusanovich2018-k=13-TSS-Z-sum")
+cat(sprintf("Directory of gene analysis result: %s \n", gene.dir))
+genescore_tss_res <- readRDS(file.path(gene.dir, "genescore_result.rds"))
+genescore_res <- genescore_tss_res
+
+genes <- genescore_res$genes
+gene_scores <- genescore_res$Z
+gene_logFC <- genescore_res$logFC
+
+topics <- colnames(gene_scores)
+top_genes <- data.frame(matrix(nrow=10, ncol = ncol(gene_scores)))
+colnames(top_genes) <- topics
+
+for (k in topics){
+  top_genes[,k] <- genes$SYMBOL[head(order(abs(gene_scores[,k]), decreasing=TRUE), 10)]
+}
+
+DT::datatable(data.frame(rank = 1:10, top_genes), rownames = F, caption = "Top 10 genes by abs(gene z-scores)")
+
+```
+
+* Volcano plots
+```{r gene-volcano-plots-tss-2, fig.width=10, fig.height=6, message=FALSE, warning=FALSE}
+genescore_volcano_plot(genescore_res, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)
+```
+
+**Topic 1** (Erythroblasts)
+
+```{r gene-volcano-plot-tss-1-v2, fig.width=5, fig.height=4}
+genescore_volcano_plot(genescore_res, k = 1, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)
+
+```
+
+Check some known marker genes
+```{r marker-gene-scores-tss-1-v2, fig.width=8, fig.height=4}
+marker_genes <- c("Hbb-b1", "Hbb-b2", "Gypa")
+
+gene_scores <- genescore_res$Z
+rownames(gene_scores) <- genescore_res$genes$SYMBOL
+marker_gene_scores <- gene_scores[grep(paste(sprintf("^%s$", marker_genes), collapse = "|"), rownames(gene_scores), ignore.case = T),]
+
+par(mfrow = c(ceiling(nrow(marker_gene_scores)/2),2))
+for(i in 1:nrow(marker_gene_scores)){
+  barplot(marker_gene_scores[i,], xlab = "topics", ylab = "gene score", main = rownames(marker_gene_scores)[i], col = colors_topics)
+}
+
+```
+
+**Topic 3** (Endothelial cells)
+
+```{r gene-volcano-plot-tss-3-v2, fig.width=5, fig.height=4}
+genescore_volcano_plot(genescore_res, k = 3, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)
+
+```
+
+Check some known marker genes
+```{r marker-gene-scores-tss-3-v2, fig.width=8, fig.height=4}
+marker_genes <- c("PECAM1", "CD106", "CD62E", "Sele", "Kdr", "ENG")
+gene_scores <- genescore_res$Z
+rownames(gene_scores) <- genescore_res$genes$SYMBOL
+marker_gene_scores <- gene_scores[grep(paste(sprintf("^%s$", marker_genes), collapse = "|"), rownames(gene_scores), ignore.case = T),]
+
+par(mfrow = c(ceiling(nrow(marker_gene_scores)/2),2))
+for(i in 1:nrow(marker_gene_scores)){
+  barplot(marker_gene_scores[i,], xlab = "topics", ylab = "gene score", main = rownames(marker_gene_scores)[i], col = colors_topics)
+}
+
+```
+
+**Topic 5** (Proximal tubule)
+
+```{r gene-volcano-plot-tss-5-v2, fig.width=5, fig.height=4}
+genescore_volcano_plot(genescore_res, k = 5, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)
+
+```
+
+Check some known marker genes
+```{r marker-gene-scores-tss-5-v2, fig.width=8, fig.height=4}
+marker_genes <- c("PALDOB", "CUBN", "LRP2", "SLC34A1")
+gene_scores <- genescore_res$Z
+rownames(gene_scores) <- genescore_res$genes$SYMBOL
+marker_gene_scores <- gene_scores[grep(paste(sprintf("^%s$", marker_genes), collapse = "|"), rownames(gene_scores), ignore.case = T),]
+
+par(mfrow = c(ceiling(nrow(marker_gene_scores)/2),2))
+for(i in 1:nrow(marker_gene_scores)){
+  barplot(marker_gene_scores[i,], xlab = "topics", ylab = "gene score", main = rownames(marker_gene_scores)[i], col = colors_topics)
+}
+
+```
+
+**Topic 7** (Cardiomyocytes)
+
+```{r gene-volcano-plot-tss-7-v2, fig.width=5, fig.height=4}
+genescore_volcano_plot(genescore_res, k = 7, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)
+
+```
+
+Check some known marker genes
+```{r marker-gene-scores-tss-7-v2, fig.width=8, fig.height=8}
+marker_genes <- c("Nppa", "Myl4", "SLN", "PITX2", "Myl7", "Gja5", "Myl2", "Myl3", "IRX4", "HAND1", "HEY2")
+gene_scores <- genescore_res$Z
+rownames(gene_scores) <- genescore_res$genes$SYMBOL
+marker_gene_scores <- gene_scores[grep(paste(sprintf("^%s$", marker_genes), collapse = "|"), rownames(gene_scores), ignore.case = T),]
+
+par(mfrow = c(ceiling(nrow(marker_gene_scores)/3),3))
+for(i in 1:nrow(marker_gene_scores)){
+  barplot(marker_gene_scores[i,], xlab = "topics", ylab = "gene score", main = rownames(marker_gene_scores)[i], col = colors_topics)
+}
+
+```
+
+**Topic 8** (Hepatocytes)
+
+```{r gene-volcano-plot-tss-8-v2, fig.width=5, fig.height=4}
+genescore_volcano_plot(genescore_res, k = 8, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)
+
+```
+
+Check some known marker genes
+```{r marker-gene-scores-8-v2, fig.width=8, fig.height=8}
+marker_genes <- c("SERPINA1", "TTR", "ALB","AFP","CYP3A4","CYP7A1","FABP1","ALR","Glut1","MET","FoxA1","FoxA2","CD29","PTP4A2","Prox1", "HNF1B")
+gene_scores <- genescore_res$Z
+rownames(gene_scores) <- genescore_res$genes$SYMBOL
+marker_gene_scores <- gene_scores[grep(paste(sprintf("^%s$", marker_genes), collapse = "|"), rownames(gene_scores), ignore.case = T),]
+
+par(mfrow = c(ceiling(nrow(marker_gene_scores)/3),3))
+for(i in 1:nrow(marker_gene_scores)){
+  barplot(marker_gene_scores[i,], xlab = "topics", ylab = "gene score", main = rownames(marker_gene_scores)[i], col = colors_topics)
+}
+
+```
+
 ### Gene body model
 
 Gene scores were computed using the gene score model (model 42) in the `archR` paper with some modifications.
@@ -350,15 +493,6 @@ genescore_volcano_plot(genescore_res, label_above_quantile = 0.99,
                        labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
                        subsample_below_quantile = 0.5, subsample_rate = 0.1)
 ```
-
-<!-- Explore the volcano plot [interactively][volcano-plotly-genebody-k1] -->
-<!-- ```{r gene-volcano-plotly-genebody-1} -->
-<!-- for ( k in 1:ncol(genescore_res$beta) ){ -->
-<!--   p.volcano.plotly <- genescore_volcano_plotly(genescore_res,k, -->
-<!--                                              file = sprintf("%s/volcano_topic_%s_%s.html", fig.dir, k, "genebody-absZ-sum"), -->
-<!--                                              labels = genescore_res$genes$SYMBOL) -->
-<!-- } -->
-<!-- ``` -->
 
 
 **Topic 1** (Erythroblasts)
@@ -535,36 +669,6 @@ DT::datatable(data.frame(rank = 1:10, top_pathways_up), rownames = F,
 
 ```
 
-<!-- * Scatterplot of GSEA results -->
-
-<!-- **Topic 1** (highlighting "Erythroblast" cells) -->
-<!-- ```{r gsea-plot-tss-1, fig.width=8, fig.height=7} -->
-<!-- k   <- 1 -->
-<!-- name_interest <- "erythroblast" -->
-<!-- sig_genes <- rownames(gsea_res$pval)[which(gsea_res$pval[,k] < 1e-6)] -->
-<!-- label_geneset_ids <- intersect(rownames(gsea_res$pval)[which(gsea_res$pval[,k] < 1e-6)],  -->
-<!--                                gene_set_info[grep(name_interest, gene_set_info$name, ignore.case = T), "id"]) -->
-<!-- cat(sprintf("highlighting %d %s gene sets \n", length(label_geneset_ids), name_interest)) -->
-
-<!-- create_genescore_gsea_plot(gene_set_info, gsea_res, k, label_geneset_ids, -->
-<!--                                      title = sprintf("topic %d GSEA plot",k)) -->
-
-<!-- if(length(label_geneset_ids) > 0) -->
-<!--    DT::datatable(gene_set_info[gene_set_info$id %in% label_geneset_ids, -->
-<!--                                c("name", "id", "database", "category_code", "description_brief")], -->
-<!--                  rownames = F) -->
-
-<!-- ``` -->
-
-<!-- Explore the GSEA plot [interactively][gsea-plotly-tss-k1] -->
-<!-- ```{r gsea-plotly-tss-1} -->
-<!-- for ( k in 1:ncol(gsea_res$pval)){ -->
-<!--   p.gsea.plotly <- create_genescore_gsea_plotly(gene_set_info, gsea_res, k) -->
-<!--   saveWidget(p.gsea.plotly,file = sprintf("%s/gsea_topic_%s_%s.html", fig.dir, k, "TSS-absZ-sum"), -->
-<!--              selfcontained = TRUE,title = "GSEA") -->
-<!-- } -->
-<!-- ``` -->
-
 ### Gene body model
 * Top gene sets
 ```{r top-genesets-genebody}
@@ -598,36 +702,3 @@ DT::datatable(data.frame(rank = 1:10, top_pathways_up), rownames = F,
 
 ```
 
-<!-- * Scatterplot of GSEA results -->
-
-<!-- **Topic 1** (highlighting "Erythroblast" cells) -->
-<!-- ```{r gsea-plot-genebody-1, fig.width=8, fig.height=7} -->
-<!-- k   <- 1 -->
-<!-- name_interest <- "erythroblast" -->
-<!-- label_geneset_ids <- gene_set_info[gsea_res$pval[,k] < 1e-6 & grepl(name_interest, gene_set_info$name, ignore.case = T), "id"] -->
-<!-- cat(sprintf("highlighting %d %s gene sets \n", length(label_geneset_ids), name_interest)) -->
-
-<!-- create_genescore_gsea_plot(gene_set_info, gsea_res, k, label_geneset_ids,  -->
-<!--                                      title = sprintf("topic %d GSEA plot",k)) -->
-
-<!-- if(length(label_geneset_ids) > 0) -->
-<!--    DT::datatable(gene_set_info[gene_set_info$id %in% label_geneset_ids,  -->
-<!--                                c("name", "id", "database", "category_code", "description_brief")],   -->
-<!--                  rownames = F) -->
-<!-- ``` -->
-
-<!-- Explore the GSEA plot [interactively][gsea-plotly-genebody-k1] -->
-<!-- ```{r gsea-plotly-genebody-1} -->
-<!-- for ( k in 1:ncol(gsea_res$pval)){ -->
-<!--   p.gsea.plotly <- create_genescore_gsea_plotly(gene_set_info, gsea_res, k) -->
-<!-- saveWidget(p.gsea.plotly,file = sprintf("%s/gsea_topic_%s_%s.html", fig.dir, k, "genebody-sum"), -->
-<!--            selfcontained = TRUE,title = "GSEA") -->
-<!-- } -->
-
-<!-- ``` -->
-
-
-[volcano-plotly-tss-k1]: plotly/Cusanovich2018/volcano_topic_1_tss-absZ-sum.html
-[volcano-plotly-genebody-k1]: plotly/Cusanovich2018/volcano_topic_1_genebody-absZ-sum.html
-<!-- [gsea-plotly-tss-k1]: plotly/Cusanovich2018/gsea_topic_1_tss-sum.html -->
-<!-- [gsea-plotly-genebody-k1]: plotly/Cusanovich2018/gsea_topic_1_genebody-sum.html -->
