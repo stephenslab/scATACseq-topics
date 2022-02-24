@@ -68,3 +68,49 @@ create_progress_plots <- function (dat, fits, x = c("timing", "iter"),
   # Arrange the plots using plot_grid.
   return(do.call(plot_grid,plots[-1]))
 }
+
+
+create_progress_plot_k <- function (dat, fits, k, x = c("timing", "iter"),
+                                    y = c("loglik","res"), numiter.prefit = 300) {
+
+  # Process the input arguments.
+  x <- match.arg(x)
+  y <- match.arg(y)
+
+  # For each fit, make the following changes to the "progress" data
+  # frame for plotting: (1) remove the first numiter.prefit rows;
+  # and (2) change the timings from seconds (s) to hours (h).
+  n           <- length(fits)
+  names(fits) <- with(dat,paste0(method,ifelse(extrapolate,"+ex","")))
+  for (i in 1:n) {
+    fit                 <- fits[[i]]
+    fit$progress        <- fit$progress[-(1:numiter.prefit),]
+    fit$progress$timing <- fit$progress$timing/3600
+    fits[[i]]           <- fit
+  }
+
+  clrs <- c("deepskyblue","darkorange","darkmagenta")
+  xlab <- ifelse(x == "timing", "runtime (h)", "iterations")
+
+  # method labels in the legend
+  method_labels <- c("em", "ccd", "scd", "em+ex", "ccd+ex", "scd+ex")
+
+  rows <- which(dat$k == k)
+  method_rows <- with(dat[rows,],paste0(method,ifelse(extrapolate,"+ex","")))
+  # allow the colors and fills to match with the method labels
+  idx_method <- match(method_rows, method_labels)
+  p <-
+    plot_progress_poisson_nmf(fits[rows],x = x, y = y,
+                              add.point.every = 100,shapes = 21,
+                              colors = rep(c(clrs),2)[idx_method],
+                              fills = c(clrs,rep("white",3))[idx_method]) +
+    labs(x = xlab, title = paste("k =", k)) +
+    theme_cowplot(font_size = 10) +
+    theme(plot.title = element_text(size = 10,face = "plain")) +
+    theme(legend.position = c(0.95,1.05),
+          legend.justification = c("right","top"),
+          legend.title = element_blank())
+
+  return(p)
+
+}
