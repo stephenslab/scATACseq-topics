@@ -96,7 +96,9 @@ structure_plot(fit,grouping = clusters,colors = topic_colors,
 
 ```
 
-Load DA analysis results
+## Different accessibility (DA) analysis
+
+Load DA analysis results (10000 iterations of MCMC)
 ```{r load-DA-res}
 postfit_dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/postfit_v2/"
 
@@ -114,14 +116,27 @@ Volcano plot for DA analysis results for topic 4
 volcano_plot(DA_res,k = 4,labels = rep("",nrow(DA_res$z)))
 ```
 
+**all topics**
+
+```{r region-volcano-plots, fig.width=10, fig.height=6}
+plots <- vector("list",10)
+names(plots) <- 1:10
+
+for (k in 1:10)
+  plots[[k]] <- volcano_plot(DA_res, k, labels = rep("",nrow(DA_res$z)))
+do.call(plot_grid,plots)
+
+```
+
 Number of regions selected at different lfsr cutoffs:
 ```{r number-DA-regions}
-for( k in 1:10){
+for(k in 1:10){
   lfsr <- DA_res$lfsr[,k]
   cat("Topic", k, ":\n")
   cat(" ", length(which(lfsr < 0.01)), "regions selected with lfsr < 0.01. \n")
   cat(" ", length(which(lfsr < 0.05)), "regions selected with lfsr < 0.05. \n")
   cat(" ", length(which(lfsr < 0.1)), "regions selected with lfsr < 0.1. \n")
+  cat(" ", length(which(lfsr < 0.2)), "regions selected with lfsr < 0.2. \n")
 }
 
 ```
