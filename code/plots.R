@@ -111,7 +111,70 @@ basic_density_plot <- function (fit, k = 1) {
            theme_cowplot(font_size = 10))
 }
 
+# Create a simple heatmap with hierarchical clustering
+create_simple_heatmap <- function(m,
+                                  normalize_by = c("column","row","none"),
+                                  cluster_rows = FALSE,
+                                  cluster_columns = FALSE,
+                                  method_cluster = "average",
+                                  xlab = "",
+                                  ylab = "",
+                                  title = "",
+                                  color.low = "white",
+                                  color.high = "black",
+                                  font.size.labels = 8,
+                                  font.size.clusters = 8){
 
+  if (normalize_by == "column") {
+    dat <- sweep(m,2,colSums(m),`/`)
+    fill_label <- "proportion"
+    limits <- c(0,1)
+  }else if (normalize_by == "row") {
+    dat <- sweep(m,1,rowSums(m),`/`)
+    fill_label <- "proportion"
+    limits <- c(0,1)
+  }else{
+    limits <- c(min(m), max(m))
+  }
+
+  # clustering rows
+  if (cluster_rows) {
+    row_order <- hclust(dist(dat, method = "euclidean"), method = method_cluster)$order
+  } else {
+    row_order <- 1:nrow(dat)
+  }
+
+  # clustering columns
+  if (cluster_columns) {
+    col_order <- hclust(dist(t(dat), method = "euclidean"), method = method_cluster)$order
+  } else {
+    col_order <- 1:ncol(dat)
+  }
+
+  dat <- dat[row_order, col_order]
+
+  dat2 <- melt(as.matrix(dat))
+  colnames(dat2) <- c("label", "cluster", fill_label)
+  dat2$label <- factor(dat2$label, levels = rev(rownames(dat)))
+  dat2$cluster <- factor(dat2$cluster, levels = colnames(dat))
+
+  # Heatmap
+  p <- ggplot(dat2, aes_string(x = "cluster", y = "label", fill = fill_label)) +
+    geom_tile() +
+    labs(x = xlab,
+         y = ylab,
+         title = title,
+         fill = fill_label) +
+    scale_x_discrete(position = "top") +
+    scale_fill_gradient(low = color.low, high = color.high, limits = limits) +
+    theme(axis.text.x  = element_text(size = font.size.labels),
+          axis.text.y  = element_text(size = font.size.clusters),
+          legend.title=element_text(size=10),
+          legend.text=element_text(size=9))
+
+  return(p)
+
+}
 # Create a heatmap of the percentage of cell labels in each cluster.
 create_celllabel_cluster_heatmap <- function (cell_labels,
                                               cluster_labels,
@@ -218,13 +281,13 @@ create_celllabel_cluster_heatmap <- function (cell_labels,
 #' @param labels Character vector specifying how the points in the
 #'   volcano plot are labeled. This should be a character vector with
 #'   one entry per log-fold change statistic (row of
-#'   \code{genescore_res$beta}). When not specified, the row names
-#'   of \code{genescore_res$beta} are used, if available. Labels are
+#'   \code{genescore_res$logFC}). When not specified, the row names
+#'   of \code{genescore_res$logFC} are used, if available. Labels are
 #'   added to the plot using \code{\link[ggrepel]{geom_text_repel}}.
 #'
-#' @param betamax Truncate the log-fold change statistics
+#' @param logFCmax Truncate the log-fold change statistics
 #'   by this amount. Any statistics greater in magnitude
-#'   than \code{betamax} are set to \code{betamax} or \code{-betamax}.
+#'   than \code{logFCmax} are set to \code{logFCmax} or \code{-logFCmax}.
 #'
 #' @param label_above_quantile Only z-scores above this quantile are
 #'   labeled in the volcano plot. \code{\link[ggrepel]{geom_text_repel}}
@@ -262,25 +325,25 @@ create_celllabel_cluster_heatmap <- function (cell_labels,
 #'
 genescore_volcano_plot <-
   function (genescore_res, k, labels,
-            betamax = 10, label_above_quantile = 0.99,
+            logFCmax = 10, label_above_quantile = 0.99,
             subsample_below_quantile = 0, subsample_rate = 0.1,
             max.overlaps = Inf, ggplot_call = genescore_volcano_plot_ggplot_call,
             plot_grid_call = function (plots) do.call(plot_grid,plots)) {
 
     # Check and process input arguments.
-    beta <- genescore_res$beta
+    logFC <- genescore_res$logFC
 
     if (missing(k))
-      k <- seq(1,ncol(beta))
+      k <- seq(1,ncol(logFC))
 
     if (missing(labels)) {
-      if (!is.null(rownames(beta)))
-        labels <- rownames(beta)
+      if (!is.null(rownames(logFC)))
+        labels <- rownames(logFC)
       else
-        labels <- as.character(seq(1,nrow(beta)))
+        labels <- as.character(seq(1,nrow(logFC)))
     }
 
-    if (!(is.character(labels) & length(labels) == nrow(beta)))
+    if (!(is.character(labels) & length(labels) == nrow(logFC)))
       stop("Input argument \"labels\", when specified, should be a character ",
            "vector with one entry per log-fold change statistic (column of ",
            "the counts matrix)")
@@ -288,7 +351,7 @@ genescore_volcano_plot <-
     if (length(k) == 1) {
       y.label <- "|z-score|"
       dat <- compile_genescore_volcano_plot_data(genescore_res,k,labels,
-                                                 betamax, label_above_quantile,
+                                                 logFCmax, label_above_quantile,
                                                  subsample_below_quantile,subsample_rate)
       return(ggplot_call(dat,y.label,k,max.overlaps))
     } else {
@@ -298,7 +361,7 @@ genescore_volcano_plot <-
       plots <- vector("list",m)
       names(plots) <- k
       for (i in 1:m)
-        plots[[i]] <- genescore_volcano_plot(genescore_res,k[i],labels,betamax,
+        plots[[i]] <- genescore_volcano_plot(genescore_res,k[i],labels,logFCmax,
                                              label_above_quantile,subsample_below_quantile,
                                              subsample_rate,max.overlaps,ggplot_call,NULL)
       return(plot_grid_call(plots))
@@ -328,23 +391,23 @@ genescore_volcano_plot <-
 #' @export
 #'
 genescore_volcano_plotly <- function (genescore_res, k, file, labels,
-                                      betamax = 10,
+                                      logFCmax = 10,
                                       subsample_below_quantile = 0,
                                       subsample_rate = 0.1, width = 600, height = 500,
                                       title = paste("topic",k),
                                       plot_ly_call = genescore_volcano_plot_ly_call) {
 
   # Check and process input arguments.
-  beta <- genescore_res$beta
+  logFC <- genescore_res$logFC
 
   if (missing(labels)) {
-    if (!is.null(rownames(beta)))
-      labels <- rownames(beta)
+    if (!is.null(rownames(logFC)))
+      labels <- rownames(logFC)
     else
-      labels <- as.character(seq(1,nrow(beta)))
+      labels <- as.character(seq(1,nrow(logFC)))
   }
 
-  if (!(is.character(labels) & length(labels) == nrow(beta)))
+  if (!(is.character(labels) & length(labels) == nrow(logFC)))
     stop("Input argument \"labels\", when specified, should be a character ",
          "vector with one entry per log-fold change statistic (column of ",
          "the counts matrix)")
@@ -352,7 +415,7 @@ genescore_volcano_plotly <- function (genescore_res, k, file, labels,
   # Compile the plotting data.
   y.label <- "|z-score|"
   dat <- compile_genescore_volcano_plot_data(genescore_res,k,labels,
-                                             betamax, label_above_quantile = 0,
+                                             logFCmax, label_above_quantile = 0,
                                              subsample_below_quantile,subsample_rate)
 
   # Create the interactive volcano plot using plotly.
@@ -367,27 +430,26 @@ genescore_volcano_plotly <- function (genescore_res, k, file, labels,
 #
 #' @importFrom stats quantile
 compile_genescore_volcano_plot_data <- function (genescore_res, k, labels,
-                                                 betamax = 10, label_above_quantile = 0.99,
+                                                 logFCmax = 10, label_above_quantile = 0.99,
                                                  subsample_below_quantile = 0,
                                                  subsample_rate = 0.1) {
 
-  dat <- with(genescore_res,
-              data.frame(label = labels,
-                         mean  = colmeans,
-                         beta  = beta[,k],
-                         z     = Z[,k],
-                         y     = 0,
-                         stringsAsFactors = FALSE))
-
-  dat$y <- abs(genescore_res$Z[,k])
-  rows     <- which(dat$mean > 0)
-  dat      <- dat[rows,]
-  dat <- transform(dat,beta = sign(beta) * pmin(betamax,abs(beta)))
+  dat <- data.frame(label = labels,
+                    mean_acc = genescore_res$mean_acc,
+                    logFC  = genescore_res$logFC[,k],
+                    z     = genescore_res$Z[,k],
+                    y     = abs(genescore_res$Z[,k]),
+                    stringsAsFactors = FALSE)
+  dat <- dat[which(dat$mean_acc > 0),]
+  # truncate logFC to 10 or -10
+  dat <- transform(dat,logFC = sign(logFC) * pmin(logFCmax,abs(logFC)))
   if (is.infinite(label_above_quantile))
     y0 <- Inf
   else
     y0 <- quantile(dat$y,label_above_quantile)
+
   dat$label[dat$y < y0] <- ""
+
   if (subsample_below_quantile > 0) {
     y0    <- quantile(dat$y,subsample_below_quantile)
     rows1 <- which(dat$y >= y0)
@@ -428,17 +490,17 @@ compile_genescore_volcano_plot_data <- function (genescore_res, k, labels,
 #'
 genescore_volcano_plot_ggplot_call <- function (dat, y.label, topic.label,
                                                 max.overlaps = Inf, font.size = 9) {
-  ggplot(dat,aes_string(x = "beta",y = "y",fill = "mean",label = "label")) +
+  ggplot(dat,aes_string(x = "logFC",y = "y",fill = "mean_acc",label = "label")) +
     geom_point(color = "white",stroke = 0.3,shape = 21,na.rm = TRUE) +
     scale_y_continuous(trans = "sqrt",
                        breaks = c(0,1,2,5,10,20,50,100,200,500,1e3,2e3,5e3,1e4,2e4,5e4)) +
     scale_fill_gradient2(low = "deepskyblue",mid = "gold",high = "orangered",
                          na.value = "gainsboro",
-                         midpoint = mean(range(dat$mean))) +
+                         midpoint = mean(range(dat$mean_acc))) +
     geom_text_repel(color = "black",size = 2.25,fontface = "italic",
                     segment.color = "black",segment.size = 0.25,
                     max.overlaps = max.overlaps,na.rm = TRUE) +
-    labs(x = "log-fold change",y = y.label,fill = "mean",
+    labs(x = "log-fold change",y = y.label,fill = "mean\naccessbility",
          title = paste("topic",topic.label)) +
     theme_cowplot(font.size)
 }
@@ -452,11 +514,11 @@ genescore_volcano_plot_ggplot_call <- function (dat, y.label, topic.label,
 #' @export
 #'
 genescore_volcano_plot_ly_call <- function (dat, y.label, title, width, height) {
-  p <- plot_ly(data = dat,x = ~beta,y = ~sqrt(y),color = ~mean,
+  p <- plot_ly(data = dat,x = ~logFC,y = ~sqrt(y),color = ~mean_acc,
                colors = c("deepskyblue","gold","orangered"),
-               text = ~sprintf(paste0("%s\nmean: %0.3f\n\u03b2: %+0.3f\n",
+               text = ~sprintf(paste0("%s\nmean\naccessbility: %0.3f\n\u03b2: %+0.3f\n",
                                       "z: %+0.3f"),
-                               label,mean,beta,z),
+                               label,mean_acc,logFC,z),
                type = "scatter",mode = "markers",hoverinfo = "text",
                width = width,height = height,
                marker = list(line = list(color = "white",width = 1),size = 7.5))
@@ -827,7 +889,9 @@ create_motif_enrichment_plot <- function (motif_res, k,
 create_motif_enrichment_ranking_plot <- function (motif_res, k,
                                                   label_motifs = NULL,
                                                   title = paste("topic",k),
-                                                  max.overlaps = Inf, font.size = 9,
+                                                  max.overlaps = Inf,
+                                                  font.size = 9,
+                                                  point.size = 2,
                                                   subsample = FALSE) {
 
   # Compile the data for plotting.
@@ -843,7 +907,7 @@ create_motif_enrichment_ranking_plot <- function (motif_res, k,
 
   # Create the scatterplot.
   return(ggplot(dat,aes_string(x = "rank1",y = "y", label = "motif")) +
-           geom_point(size = 2,stroke = 0.3) +
+           geom_point(size = point.size,stroke = 0.3) +
            geom_text_repel(color = "black",size = 2.25,fontface = "italic",
                            segment.color = "black",segment.size = 0.25,
                            max.overlaps = max.overlaps,na.rm = TRUE) +
@@ -886,14 +950,14 @@ create_motif_enrichment_heatmap <- function (motif_res,
   enrichment <- match.arg(enrichment)
 
   if (enrichment == "z-score"){
-    enrichment.label <- "z-score"
+    enrichment.label <- "Motif enrichment\nz-score"
     dat <- motif_res$Z
     rownames(dat) <- motif_res$motifs$motif
     # Filter out motifs with maximum zscore < motif_filter
     dat <- dat[which(apply(dat, 1, max) >= motif_filter),]
     cat(sprintf("%d out of %d motifs included the heatmap\n", nrow(dat), nrow(motif_res$motifs)))
   }else if (enrichment == "-log10(p-value)"){
-    enrichment.label <- "-log10(p-value)"
+    enrichment.label <- "Motif enrichment\n-log10(p-value)"
     dat <- motif_res$mlog10P
     rownames(dat) <- motif_res$motifs$motif
     # Filter out motifs with maximum -log10(p-value) < motif_filter
