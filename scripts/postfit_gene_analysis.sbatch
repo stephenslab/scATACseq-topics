@@ -6,24 +6,18 @@
 #SBATCH --account=pi-mstephens
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=30G
-#SBATCH --time=10:00:00
-
-# This script allocates computing resources (CPUs, memory), loads R,
-# and runs diffcount_genescore.R.
 
 # Get the command-line arguments.
 DATFILE=${1}
 FITFILE=${2}
-GENESET=${3}
-GENOME=${4}
-GENESCOREMETHOD=${5}
-TRANSFORM=${6}
-NORMALIZATION=${7}
-OUTDIR=${8}
+GENOME=${3}
+GENESCOREMETHOD=${4}
+TRANSFORM=${5}
+NORMALIZATION=${6}
+OUTDIR=${7}
 
 echo datfile=${DATFILE}
 echo fitfile=${FITFILE}
-echo geneset=${GENESET}
 echo genome=${GENOME}
 echo genescoremethod=${GENESCOREMETHOD}
 echo transform=${TRANSFORM}
@@ -44,4 +38,9 @@ Rscript ~/projects/scATACseq-topics/scripts/diffcount_genescore.R \
   --genescoremethod ${GENESCOREMETHOD} \
   --transform ${TRANSFORM} \
   --normalization ${NORMALIZATION} \
-  --nc 8 -o ${OUTDIR} > ${OUTDIR}.Rout
+  --nc 8 -o ${OUTDIR} > ${OUTDIR}.genescore.Rout
+
+Rscript ~/projects/scATACseq-topics/scripts/perform_gsea.R \
+  --genescore ${OUTDIR}/genescore_result.rds \
+  --genome ${GENOME} \
+  --nc 8 -o ${OUTDIR} > ${OUTDIR}.gsea.Rout

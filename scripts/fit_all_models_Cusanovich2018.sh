@@ -17,6 +17,10 @@ cd /project2/mstephens/kevinluo/scATACseq-topics/log/Cusanovich_2018
 # Computation took 64072 seconds (17 hrs) for 200 iterations with k = 3 (using 10 cpus).
 # Computation took 79812 seconds (22 hrs) for 200 iterations with k = 8 (using 10 cpus).
 # Computation took 103200 seconds (28 hrs) for 200 iterations with k = 13 (using 10 cpus).
+# Computation took 148200 seconds (41 hrs) for 200 iterations with k = 25 (using 10 cpus).
+# Computation took 150592 seconds (42 hrs) for 200 iterations with k = 30 (using 10 cpus).
+# Computation took 207743 seconds (58 hrs) for 200 iterations with k = 40 (using 28 cpus).
+
 #                                 data                              k  numiter outfile
 sbatch --mem=45G ${SCRIPT_PREFIT} ${DAT_DIR}/Cusanovich_2018.RData  2  200     ${OUT_DIR}/prefit-Cusanovich2018-k=2
 sbatch --mem=45G ${SCRIPT_PREFIT} ${DAT_DIR}/Cusanovich_2018.RData  3  200     ${OUT_DIR}/prefit-Cusanovich2018-k=3
@@ -33,8 +37,19 @@ sbatch --mem=50G ${SCRIPT_PREFIT} ${DAT_DIR}/Cusanovich_2018.RData  13 200     $
 sbatch --mem=55G ${SCRIPT_PREFIT} ${DAT_DIR}/Cusanovich_2018.RData  14 200     ${OUT_DIR}/prefit-Cusanovich2018-k=14
 sbatch --mem=50G ${SCRIPT_PREFIT} ${DAT_DIR}/Cusanovich_2018.RData  15 200     ${OUT_DIR}/prefit-Cusanovich2018-k=15
 
+sbatch --mem=70G --partition=gilad --account=pi-gilad ${SCRIPT_PREFIT} ${DAT_DIR}/Cusanovich_2018.RData  20 200     ${OUT_DIR}/prefit-Cusanovich2018-k=20
+sbatch --mem=70G --partition=xinhe --account=pi-xinhe ${SCRIPT_PREFIT} ${DAT_DIR}/Cusanovich_2018.RData  25 200     ${OUT_DIR}/prefit-Cusanovich2018-k=25
+sbatch --mem=70G --partition=mstephens ${SCRIPT_PREFIT} ${DAT_DIR}/Cusanovich_2018.RData  30 200     ${OUT_DIR}/prefit-Cusanovich2018-k=30
+sbatch --mem=100G --partition=mstephens --cpus-per-task=28 --exclusive ${SCRIPT_PREFIT} ${DAT_DIR}/Cusanovich_2018.RData  35 200     ${OUT_DIR}/prefit-Cusanovich2018-k=35
+sbatch --mem=100G --partition=gilad --account=pi-gilad --cpus-per-task=28 ${SCRIPT_PREFIT} ${DAT_DIR}/Cusanovich_2018.RData  40 200     ${OUT_DIR}/prefit-Cusanovich2018-k=40
+
 # Fit factorizations to Cusanovich_2018 data, with and without extrapolation.
-# Computation took 105612 seconds (29 hrs) for of 250 iterations with k = 7
+# Computation took 105612 seconds (29 hrs) for 250 iterations with k = 7
+# Computation took 228004 seconds (63 hrs) for 300 iterations with k = 25
+# Computation took 229813 seconds (64 hrs) for 300 iterations with k = 30 (using 10 cpus)
+# Computation took 282852 seconds (78 hrs) for 300 iterations with k = 35 (using 28 cpus)
+# Computation took 322392 seconds (89 hrs) for 300 iterations with k = 40 (using 28 cpus)
+
 #                              data                             prefitfile                           k method numiter ex  outfile
 sbatch --mem=50G ${SCRIPT_FIT} ${DAT_DIR}/Cusanovich_2018.RData ${OUT_DIR}/prefit-Cusanovich2018-k=2 2 em     250     no  ${OUT_DIR}/fit-Cusanovich2018-em-k=2
 sbatch --mem=50G ${SCRIPT_FIT} ${DAT_DIR}/Cusanovich_2018.RData ${OUT_DIR}/prefit-Cusanovich2018-k=2 2 ccd    250     no  ${OUT_DIR}/fit-Cusanovich2018-ccd-k=2
@@ -134,6 +149,15 @@ sbatch --mem=56G ${SCRIPT_FIT} ${DAT_DIR}/Cusanovich_2018.RData ${OUT_DIR}/prefi
 sbatch --mem=56G ${SCRIPT_FIT} ${DAT_DIR}/Cusanovich_2018.RData ${OUT_DIR}/prefit-Cusanovich2018-k=15 15 ccd    250     yes ${OUT_DIR}/fit-Cusanovich2018-ccd-ex-k=15
 sbatch --mem=56G ${SCRIPT_FIT} ${DAT_DIR}/Cusanovich_2018.RData ${OUT_DIR}/prefit-Cusanovich2018-k=15 15 scd    250     yes ${OUT_DIR}/fit-Cusanovich2018-scd-ex-k=15
 
+sbatch --mem=80G --partition=mstephens ${SCRIPT_FIT} ${DAT_DIR}/Cusanovich_2018.RData ${OUT_DIR}/prefit-Cusanovich2018-k=20 20 scd    300     yes ${OUT_DIR}/fit-Cusanovich2018-scd-ex-k=20
+sbatch --mem=90G --partition=gilad --account=pi-gilad ${SCRIPT_FIT} ${DAT_DIR}/Cusanovich_2018.RData ${OUT_DIR}/prefit-Cusanovich2018-k=25 25 scd    300     yes ${OUT_DIR}/fit-Cusanovich2018-scd-ex-k=25
+sbatch --mem=90G --partition=mstephens ${SCRIPT_FIT} ${DAT_DIR}/Cusanovich_2018.RData ${OUT_DIR}/prefit-Cusanovich2018-k=30 30 scd    300     yes ${OUT_DIR}/fit-Cusanovich2018-scd-ex-k=30
+
+sbatch --mem=100G --partition=mstephens --cpus-per-task=28 --exclusive ${SCRIPT_FIT} \
+${DAT_DIR}/Cusanovich_2018.RData ${OUT_DIR}/prefit-Cusanovich2018-k=35 35 scd    300     yes ${OUT_DIR}/fit-Cusanovich2018-scd-ex-k=35
+
+sbatch --mem=100G --partition=mstephens --cpus-per-task=28 --exclusive ${SCRIPT_FIT} \
+${DAT_DIR}/Cusanovich_2018.RData ${OUT_DIR}/prefit-Cusanovich2018-k=40 40 scd    300     yes ${OUT_DIR}/fit-Cusanovich2018-scd-ex-k=40
 
 # Compile the fitted Poisson non-negative factorizations into a single .RData file.
 OUT_DIR=/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018
