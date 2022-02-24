@@ -185,3 +185,15 @@ resaveRdaFiles(paste0(data.dir, "/", "Cusanovich_2018_Endothelial.RData"))
 
 ```
 
+```{r}
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/processed_data/"
+load(file.path(data.dir, "Cusanovich_2018_Endothelial.RData"))
+
+cat(sprintf("Loaded %d x %d counts matrix.\n",nrow(counts),ncol(counts)))
+
+cat(sprintf("Number of samples (cells): %d\n",nrow(counts)))
+cat(sprintf("Number of peaks: %d\n",ncol(counts)))
+cat(sprintf("Proportion of counts that are non-zero: %0.1f%%.\n",
+            100*mean(counts > 0)))
+
+```
