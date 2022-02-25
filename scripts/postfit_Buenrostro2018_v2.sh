@@ -20,7 +20,7 @@ cd /project2/mstephens/kevinluo/scATACseq-topics/log/Buenrostro_2018/postfit_v2
 # DIFF ACCESSIBILITY (DA) ANALYSIS
 # ----------------------------------------
 ## Compute differential accessibility across regions
-DA_DIR=${OUT_DIR}/DAanalysis-Buenrostro2018-k=10-quantile
+DA_DIR=${OUT_DIR}/DAanalysis-Buenrostro2018-k=10
 
 sbatch --mem=20G ~/projects/scATACseq-topics/scripts/postfit_DA_analysis.sbatch \
        ${DAT_DIR}/Buenrostro_2018_binarized_counts.RData \
