@@ -1,6 +1,5 @@
 #! /usr/bin/env Rscript
-# Perform differential accessbility (DA) analysis for Buenrostro 2018 ATAC-seq regions,
-# compute gene scores based on the weighted average of region scores.
+# Perform differential accessbility (DA) analysis for Buenrostro 2018 scATAC-seq data based on topic modeling fit
 
 library(optparse)
 library(Matrix)
