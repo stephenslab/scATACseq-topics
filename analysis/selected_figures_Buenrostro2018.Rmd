@@ -1,0 +1,127 @@
+---
+title: "Selected figures for Buenrostro *et al* (2018) scATAC-seq results"
+author: Kaixuan Luo
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: false
+---
+
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(comment = "#",collapse = FALSE,results = "hold",
+                      fig.align = "center", dpi = 600)
+```
+
+## Load packages and some functions used in this analysis
+```{r load-pkgs, message=FALSE}
+library(Matrix)
+library(fastTopics)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(ggrepel)
+library(cowplot)
+library(plotly)
+library(htmlwidgets)
+library(DT)
+library(reshape2)
+library(Logolas)
+library(grid)
+source("code/functions_for_assessing_fits.R")
+source("code/motif_analysis.R")
+source("code/plots.R")
+```
+
+## Load data and topic model results
+## Load data and topic model results
+Load the **binarized** data and the $k = 11$ Poisson NMF fit results 
+```{r load-data}
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/"
+load(file.path(data.dir, "Buenrostro_2018_binarized_counts.RData"))
+cat(sprintf("%d x %d counts matrix.\n",nrow(counts),ncol(counts)))
+```
+
+## Progress plot showing convergence of the optimization methods
+
+Load the results of running `fit_poisson_nmf` on the Cusanovich_2018 data,
+with different algorithms, and for various choices of $k$ (the number
+of "topics").
+
+```{r load-compiled-fit}
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/"
+load(file.path(out.dir, "/compiled.fits.Buenrostro2018-binarized.RData"))
+```
+
+## Structure plot grouped by tissues
+
+```{r load-fit}
+fit.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/"
+fit <- readRDS(file.path(fit.dir, "/fit-Buenrostro2018-binarized-scd-ex-k=11.rds"))$fit
+fit <- poisson2multinom(fit)
+```
+
+## Visualize by Structure plot grouped by cell labels.
+```{r structure-plot, fig.width=7, fig.height=2.5, message=FALSE}
+set.seed(10)
+colors_topics <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
+                   "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928",
+                   "gray")
+samples$label <- factor(samples$label, levels = c("HSC", "MPP", "CMP", "GMP", "mono", "MEP", "LMPP", "CLP", "pDC", "UNK"))
+
+p.structure <- structure_plot(fit,
+                     grouping = samples[, "label"],n = Inf,gap = 40,
+                     perplexity = 50,topics = 1:11,colors = colors_topics,
+                     num_threads = 4,verbose = FALSE)
+
+print(p.structure)
+
+ggsave("paper/Buenrostro2018_structure_plot.eps", width = 7, height = 2.5, dpi = 600)
+
+```
+
+## TF motif enrichment
+
+```{r compile-homer-motif-results}
+# Compile Homer results across topics
+homer.dir <- paste0(out.dir, "/postfit_v2/motifanalysis-Buenrostro2018-k=11-quantile/HOMER/")
+cat(sprintf("Directory of motif analysis result: %s \n", homer.dir))
+homer_res_topics <- readRDS(file.path(homer.dir, "/homer_knownResults.rds"))
+selected_regions <- readRDS(file.path(homer.dir, "/selected_regions.rds"))
+
+# Compile Homer results (pvalue and ranking) across topics
+motif_res <- compile_homer_motif_res(homer_res_topics)
+# saveRDS(motif_res, paste0(homer.dir, "/homer_motif_enrichment_results.rds"))
+# motif_res <- readRDS(paste0(homer.dir, "/homer_motif_enrichment_results.rds"))
+
+```
+
+
+Plot enrichment (-log10 p-value) vs. ranking of the motifs
+
+```{r motif-enrichment-ranking-plot, fig.width=10, fig.height=7, warning=FALSE}
+
+plots <- vector("list", ncol(motif_res$mlog10P))
+names(plots) <- colnames(motif_res$mlog10P)
+
+for( i in 1:length(plots)){
+  plots[[i]] <- create_motif_enrichment_ranking_plot(motif_res, k = i, point.size = 1,
+                                                     max.overlaps = 20, subsample = FALSE)
+}
+
+do.call(plot_grid,plots)
+
+ggsave("paper/Buenrostro2018_motif_enrichment_ranking_topics.eps", width = 10, height = 7, dpi = 600)
+
+```
+
+**Topic 1 and topic 4 example**
+```{r motif-enrichment-ranking-plot-2, fig.width=5, fig.height=4, warning=FALSE}
+
+create_motif_enrichment_ranking_plot(motif_res, k = 1, title = "TF motif enrichment in topic 1", point.size = 1, max.overlaps = 20, subsample = FALSE)
+ggsave("paper/Buenrostro2018_motif_enrichment_ranking_topic1.eps", width = 5, height = 4, dpi = 600)
+
+
+create_motif_enrichment_ranking_plot(motif_res, k = 4, title = "TF motif enrichment in topic 4", point.size = 1, max.overlaps = 20, subsample = FALSE)
+ggsave("paper/Buenrostro2018_motif_enrichment_ranking_topic4.eps", width = 5, height = 4, dpi = 600)
+
+```
