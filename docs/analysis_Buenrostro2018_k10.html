@@ -459,16 +459,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree6779e042b6d0a4866d974eac84ea4fbbdc720ffetargetblank6779e04a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/6779e042b6d0a4866d974eac84ea4fbbdc720ffe" target="_blank">6779e04</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree7f5ca244201119044b6a4d53672daf6ea8bb3420targetblank7f5ca24a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/7f5ca244201119044b6a4d53672daf6ea8bb3420" target="_blank">7f5ca24</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree6779e042b6d0a4866d974eac84ea4fbbdc720ffetargetblank6779e04a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree7f5ca244201119044b6a4d53672daf6ea8bb3420targetblank7f5ca24a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/6779e042b6d0a4866d974eac84ea4fbbdc720ffe" target="_blank">6779e04</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/7f5ca244201119044b6a4d53672daf6ea8bb3420" target="_blank">7f5ca24</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -492,6 +492,8 @@ Unstaged changes:
     Modified:   analysis/motif_analysis_Buenrostro2018_Chen2019pipeline.Rmd
     Modified:   analysis/motif_analysis_Cusanovich2018.Rmd
     Modified:   analysis/plots_Cusanovich2018.Rmd
+    Modified:   scripts/DA_analysis.R
+    Modified:   scripts/postfit_Buenrostro2018_v2.sh
 
 </code></pre>
 <p>
@@ -530,6 +532,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/7f5ca244201119044b6a4d53672daf6ea8bb3420/analysis/analysis_Buenrostro2018_k10.Rmd" target="_blank">7f5ca24</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-02
+</td>
+<td>
+updated with original data with peaks called from bulk samples
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/5c18b155ef8a570a43ed57bfde5d2ae14c921d42/docs/analysis_Buenrostro2018_k10.html" target="_blank">5c18b15</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-02
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -635,23 +671,25 @@ library(RColorBrewer)
 library(DT)
 library(reshape)
 source(&quot;code/plots.R&quot;)</code></pre>
-<p>Load the data.</p>
+<div id="load-the-data" class="section level3">
+<h3>Load the data</h3>
+<p>Data downloaded from original paper.</p>
 <pre class="r"><code>data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/&quot;
 load(file.path(data.dir, &quot;Buenrostro_2018_binarized_counts.RData&quot;))
 cat(sprintf(&quot;%d x %d counts matrix.\n&quot;,nrow(counts),ncol(counts)))
 samples$cell &lt;- rownames(samples)
 samples$label &lt;- as.factor(samples$label)
 # 2953 x 491437 counts matrix.</code></pre>
-<p>Load the K = 10 multinomial topic model fit.</p>
+</div>
+<div id="topic-model-fit" class="section level3">
+<h3>Topic model fit</h3>
+<p>Load the K = 10 topic model fit to the data downloaded from the original paper.</p>
 <pre class="r"><code>fit.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/&quot;
 fit &lt;- readRDS(file.path(fit.dir, &quot;/fit-Buenrostro2018-binarized-scd-ex-k=10.rds&quot;))$fit
 fit &lt;- poisson2multinom(fit)</code></pre>
-<div id="structure-plots" class="section level2">
-<h2>Structure plots</h2>
-<p>The structure plots below summarize the topic proportions in the samples grouped by different tissues.</p>
 </div>
-<div id="visualize-by-structure-plot-grouped-by-tissues" class="section level2">
-<h2>Visualize by Structure plot grouped by tissues</h2>
+<div id="structure-plot" class="section level3">
+<h3>Structure plot</h3>
 <pre class="r"><code>
 topic_colors &lt;- c(&quot;darkorange&quot;,&quot;limegreen&quot;,&quot;magenta&quot;,&quot;gold&quot;,&quot;skyblue&quot;,
                   &quot;darkblue&quot;,&quot;dodgerblue&quot;,&quot;darkmagenta&quot;,&quot;red&quot;,&quot;olivedrab&quot;)
@@ -689,6 +727,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/5c18b155ef8a570a43ed57bfde5d2ae14c921d42/docs/figure/analysis_Buenrostro2018_k10.Rmd/structure-plot-1.png" target="_blank">5c18b15</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-02
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/c4a7131ab69ac51cf7af1d674f63d14d10fb687a/docs/figure/analysis_Buenrostro2018_k10.Rmd/structure-plot-1.png" target="_blank">c4a7131</a>
 </td>
 <td>
@@ -702,8 +751,9 @@ kevinlkx
 </table>
 </div>
 </div>
+</div>
 <div id="k-means-clustering-on-topic-proportions" class="section level3">
-<h3>k-means clustering on topic proportions</h3>
+<h3>K-means clustering on topic proportions</h3>
 <p>Define clusters using k-means, and then create structure plot based on the clusters from k-means.</p>
 <p>k-means clustering (using 12 clusters) on topic proportions</p>
 <pre class="r"><code>set.seed(1)
@@ -737,6 +787,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/5c18b155ef8a570a43ed57bfde5d2ae14c921d42/docs/figure/analysis_Buenrostro2018_k10.Rmd/structure-plot-kmeans-12clusters-1.png" target="_blank">5c18b15</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-02
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/c4a7131ab69ac51cf7af1d674f63d14d10fb687a/docs/figure/analysis_Buenrostro2018_k10.Rmd/structure-plot-kmeans-12clusters-1.png" target="_blank">c4a7131</a>
 </td>
 <td>
@@ -753,9 +814,8 @@ kevinlkx
 <pre><code>#   1   2   3   4   5   6   7   8   9  10  11  12 
 # 303 214 182 159  89 241 156 147 108  83 198 154</code></pre>
 </div>
-</div>
-<div id="different-accessibility-da-analysis" class="section level2">
-<h2>Different accessibility (DA) analysis</h2>
+<div id="differential-accessibility-da-analysis" class="section level3">
+<h3>Differential accessibility (DA) analysis</h3>
 <p>Load DA analysis results (10000 iterations of MCMC)</p>
 <pre class="r"><code>postfit_dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/postfit_v2/&quot;
 
@@ -804,6 +864,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/5c18b155ef8a570a43ed57bfde5d2ae14c921d42/docs/figure/analysis_Buenrostro2018_k10.Rmd/region-volcano-plots-1.png" target="_blank">5c18b15</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-02
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/fe19ea80abc5db566fdab01d380d2fa7841083f1/docs/figure/analysis_Buenrostro2018_k10.Rmd/region-volcano-plots-1.png" target="_blank">fe19ea8</a>
