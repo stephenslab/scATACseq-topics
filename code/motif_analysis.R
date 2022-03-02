@@ -152,26 +152,26 @@ select_diffcount_regions <- function(diff_count_res,
     # p <- 10^(-mlog10P)
 
     if(method == "quantile"){
-      idx_sig_regions <- which(z > quantile(z, thresh.quantile))
-      cat(sprintf("topic %s: %d regions selected. \n", k, length(idx_sig_regions)))
+      sig_regions <- which(z > quantile(z, thresh.quantile))
+      cat(sprintf("topic %s: %d regions selected. \n", k, length(sig_regions)))
     }else if(method == "pvalue"){
-      idx_sig_regions <- which(mlog10P > thresh.mlog10P & beta > 0)
-      cat(sprintf("topic %s: %d regions selected. \n", k, length(idx_sig_regions)))
+      sig_regions <- which(mlog10P > thresh.mlog10P & beta > 0)
+      cat(sprintf("topic %s: %d regions selected. \n", k, length(sig_regions)))
     }else if(method == "zscore"){
-      idx_sig_regions <- which(z > thresh.z)
-      cat(sprintf("topic %s: %d regions selected. \n", k, length(idx_sig_regions)))
+      sig_regions <- which(z > thresh.z)
+      cat(sprintf("topic %s: %d regions selected. \n", k, length(sig_regions)))
     }else if(method == "logFC"){
-      idx_sig_regions <- which(beta > thresh.logFC)
-      cat(sprintf("topic %s: %d regions selected. \n", k, length(idx_sig_regions)))
+      sig_regions <- which(beta > thresh.logFC)
+      cat(sprintf("topic %s: %d regions selected. \n", k, length(sig_regions)))
     }else if(method == "topN"){
-      idx_sig_regions <- head(order(z, decreasing = T), n.regions)
-      cat(sprintf("topic %s: %d regions selected. \n", k, length(idx_sig_regions)))
+      sig_regions <- head(order(z, decreasing = T), n.regions)
+      cat(sprintf("topic %s: %d regions selected. \n", k, length(sig_regions)))
     }else{
       stop("Method not recognized!")
     }
 
-    if(length(idx_sig_regions) > 0){
-      region_names <- names(z)[idx_sig_regions]
+    if(length(sig_regions) > 0){
+      region_names <- names(z)[sig_regions]
       regions <- data.frame(x = region_names)
       regions <- regions %>% separate(x, c("chr", "start", "end"), "_")  %>% mutate_at(c("start", "end"), as.numeric)
       regions <- data.frame(regions, name = region_names)
@@ -194,22 +194,23 @@ select_diffcount_regions <- function(diff_count_res,
 #' Select regions based on differential accessibility result and save selected regions as BED files.
 #' @param DA_res Differential accessibility result from `de_analysis`.
 #' @param method Method to select regions.
+#' `topPercent` selects top regions in higest `topPercent`,
 #' `lfsr` selects regions in which lfsr > `thresh.lfsr`.
-#' `quantile` selects regions in which z-score quantile above `thresh.quantile`,
 #' `zscore` selects regions in which zscore > `thresh.z`,
 #' `logFC` selects regions in which beta > `thresh.logFC`.
 #' `topN` selects the top `n.regions` regions.
 #' @param out.dir Output directory.
 #' @param thresh.lfsr Threshold of lfsr.
-#' @param thresh.quantile Threshold of z-score quantile, default = 0.99.
+#' @param thresh.lfsr Threshold of logFC.
+#' @param top.percent Select regions in top percentage.
 #' @param n.regions Number of top regions to select.
 #' @param save.bed If TRUE, save selected regions as BED files for downstream analysis.
 select_DA_regions <- function(DA_res,
-                              method = c("quantile", "lfsr", "zscore", "logFC", "topN"),
+                              method = c("topPercent", "lfsr", "zscore", "logFC", "topN"),
                               out.dir = "out",
                               thresh.lfsr = 0.1,
                               thresh.z = 1,
-                              thresh.quantile = 0.99,
+                              top.percent = 0.01,
                               thresh.logFC = 2,
                               n.regions = 2000,
                               save.bed = TRUE) {
@@ -222,29 +223,29 @@ select_DA_regions <- function(DA_res,
   for(k in colnames(DA_res$z)){
     z <- na.omit(DA_res$z[,k])
     lfsr <- na.omit(DA_res$lfsr[,k])
-    postmean <- na.omit(DA_res$postmean[,k])
+    logFC <- na.omit(DA_res$postmean[,k])
 
     if(method == "lfsr"){
-      idx_sig_regions <- which(lfsr < thresh.lfsr)
-      cat(sprintf("topic %s: %d regions selected by lfsr < %.2f \n", k, length(idx_sig_regions), thresh.lfsr))
-    }else if(method == "quantile"){
-      idx_sig_regions <- which(z > quantile(z, thresh.quantile))
-      cat(sprintf("topic %s: %d regions selected by quantile > %.2f \n", k, length(idx_sig_regions), thresh.quantile))
+      sig_regions <- which(lfsr < thresh.lfsr)
+      cat(sprintf("topic %s: %d regions selected by lfsr < %.2f \n", k, length(sig_regions), thresh.lfsr))
+    }else if(method == "topPercent"){
+      sig_regions <- which(logFC > quantile(logFC, 1-top.percent))
+      cat(sprintf("topic %s: %d regions selected (top %.2f %%) \n", k, length(sig_regions), top.percent*100))
     }else if(method == "zscore"){
-      idx_sig_regions <- which(z > thresh.z)
-      cat(sprintf("topic %s: %d regions selected by z > %.2f \n", k, length(idx_sig_regions), thresh.z))
+      sig_regions <- which(z > thresh.z)
+      cat(sprintf("topic %s: %d regions selected by z > %.2f \n", k, length(sig_regions), thresh.z))
     }else if(method == "logFC"){
-      idx_sig_regions <- which(postmean > thresh.logFC)
-      cat(sprintf("topic %s: %d regions selected by logFC > %.2f \n", k, length(idx_sig_regions), thresh.logFC))
+      sig_regions <- which(logFC > thresh.logFC)
+      cat(sprintf("topic %s: %d regions selected by logFC > %.2f \n", k, length(sig_regions), thresh.logFC))
     }else if(method == "topN"){
-      idx_sig_regions <- head(order(z, decreasing = T), n.regions)
-      cat(sprintf("topic %s: %d regions selected by top %d regions. \n", k, length(idx_sig_regions), n.regions))
+      sig_regions <- head(order(logFC, decreasing = T), n.regions)
+      cat(sprintf("topic %s: %d regions selected by top %d regions. \n", k, length(sig_regions), n.regions))
     }else{
       stop("Method not recognized!")
     }
 
-    if(length(idx_sig_regions) > 0){
-      region_names <- names(z)[idx_sig_regions]
+    if(length(sig_regions) > 0){
+      region_names <- names(z)[sig_regions]
       regions <- data.frame(x = region_names)
       regions <- regions %>% separate(x, c("chr", "start", "end"), "_")  %>% mutate_at(c("start", "end"), as.numeric)
       regions <- data.frame(regions, name = region_names)
