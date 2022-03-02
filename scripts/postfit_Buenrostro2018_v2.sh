@@ -29,12 +29,12 @@ sbatch --mem=20G ~/projects/scATACseq-topics/scripts/postfit_DA_analysis.sbatch 
 
 # MOTIF ANALYSIS
 # --------------
-## Compute motif enrichment for each topic using HOMER. Select regions by quantile > 0.99
+## Compute motif enrichment for each topic using HOMER. Select top 1% regions with largest logFC
 MOTIFANALYSIS_DIR=${OUT_DIR}/motifanalysis-Buenrostro2018-k=10-quantile
 
 sbatch --mem=30G ~/projects/scATACseq-topics/scripts/postfit_motif_analysis_v2.sbatch \
        ${DA_DIR}/DA_regions_topics_10000iters.rds \
-       hg19 quantile ${MOTIFANALYSIS_DIR}
+       hg19 topPercent ${MOTIFANALYSIS_DIR}
 
 # GENE ANALYSIS
 # -------------
