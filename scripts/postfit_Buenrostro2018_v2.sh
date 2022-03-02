@@ -27,7 +27,6 @@ sbatch --mem=20G ~/projects/scATACseq-topics/scripts/postfit_DA_analysis.sbatch 
        ${FIT_DIR}/fit-Buenrostro2018-binarized-scd-ex-k=10.rds \
        10000 100 ${DA_DIR}
 
-
 # MOTIF ANALYSIS
 # --------------
 ## Compute motif enrichment for each topic using HOMER. Select regions by quantile > 0.99
