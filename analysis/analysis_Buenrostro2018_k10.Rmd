@@ -51,7 +51,6 @@ fit <- poisson2multinom(fit)
 
 ### Structure plot
 ```{r structure-plot, fig.width=7, fig.height=2.5, message=FALSE}
-
 topic_colors <- c("darkorange","limegreen","magenta","gold","skyblue",
                   "darkblue","dodgerblue","darkmagenta","red","olivedrab")
 
@@ -83,18 +82,19 @@ structure_plot(fit,grouping = clusters,colors = topic_colors,
 
 ### Differential accessibility (DA) analysis
 
-Load DA analysis results (10000 iterations of MCMC)
-```{r load-DA-res}
+DA analysis results **with "ash" shrinkage** (10000 MCMC iterations)
+
+```{r load-DA-ash-res}
 postfit_dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/postfit_v2/"
 
-DA_res <- readRDS(file.path(postfit_dir, "DAanalysis-Buenrostro2018-k=10/DA_regions_topics_10000iters.rds"))
+DA_res <- readRDS(file.path(postfit_dir, "DAanalysis-Buenrostro2018-k=10/DA_regions_topics_ash_10000iters.rds"))
 summary(DA_res)
 ```
 
 
 Volcano plots for the regions
 
-```{r region-volcano-plots, fig.width=10, fig.height=6}
+```{r region-volcano-plots-ash, fig.width=10, fig.height=6}
 plots <- vector("list",10)
 names(plots) <- 1:10
 
@@ -105,7 +105,7 @@ do.call(plot_grid,plots)
 ```
 
 Number of regions selected at different lfsr cutoffs:
-```{r number-DA-regions}
+```{r number-DA-regions-ash}
 sig_regions <- matrix(NA, nrow = 10, ncol = 5)
 colnames(sig_regions) <- c("lfsr < 0.01", "lfsr < 0.05", "lfsr < 0.1", "lfsr < 0.2", "lfsr < 0.3")
 rownames(sig_regions) <- paste("topic", 1:nrow(sig_regions))
@@ -120,3 +120,39 @@ for(k in 1:10){
 sig_regions
 ```
 
+
+DA analysis results **without shrinkage** (10000 MCMC iterations)
+
+```{r load-DA-no-shrinkage-res}
+postfit_dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/postfit_v2/"
+
+DA_res <- readRDS(file.path(postfit_dir, "DAanalysis-Buenrostro2018-k=10/DA_regions_topics_noshrinkage_10000iters.rds"))
+summary(DA_res)
+```
+
+Volcano plots for the regions
+```{r region-volcano-plots-no-shrinkage, fig.width=10, fig.height=6}
+plots <- vector("list",10)
+names(plots) <- 1:10
+
+for (k in 1:10)
+  plots[[k]] <- volcano_plot(DA_res, k, labels = rep("",nrow(DA_res$z)))
+do.call(plot_grid,plots)
+
+```
+
+Number of regions selected at different p-value cutoffs:
+```{r number-DA-regions-no-shrinkage}
+sig_regions <- matrix(NA, nrow = 10, ncol = 4)
+colnames(sig_regions) <- c("p < 0.001", "p < 0.01", "p < 0.05", "p < 0.1")
+rownames(sig_regions) <- paste("topic", 1:nrow(sig_regions))
+
+for(k in 1:10){
+  lpval <- DA_res$lpval[,k]
+  pval <- 10^(-lpval)
+  sig_regions[k, ] <- c(length(which(pval < 0.001)), length(which(pval < 0.01)),
+                         length(which(pval < 0.05)), length(which(pval < 0.1)))
+}
+
+sig_regions
+```
