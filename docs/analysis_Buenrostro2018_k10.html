@@ -368,7 +368,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-03-02
+<strong>Last updated:</strong> 2022-03-03
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -459,16 +459,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree7f5ca244201119044b6a4d53672daf6ea8bb3420targetblank7f5ca24a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/7f5ca244201119044b6a4d53672daf6ea8bb3420" target="_blank">7f5ca24</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreee32503adeb9087c0a3171174e7740a1fbcfe9f3dtargetblanke32503aa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/e32503adeb9087c0a3171174e7740a1fbcfe9f3d" target="_blank">e32503a</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree7f5ca244201119044b6a4d53672daf6ea8bb3420targetblank7f5ca24a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreee32503adeb9087c0a3171174e7740a1fbcfe9f3dtargetblanke32503aa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/7f5ca244201119044b6a4d53672daf6ea8bb3420" target="_blank">7f5ca24</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/e32503adeb9087c0a3171174e7740a1fbcfe9f3d" target="_blank">e32503a</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -492,8 +492,8 @@ Unstaged changes:
     Modified:   analysis/motif_analysis_Buenrostro2018_Chen2019pipeline.Rmd
     Modified:   analysis/motif_analysis_Cusanovich2018.Rmd
     Modified:   analysis/plots_Cusanovich2018.Rmd
-    Modified:   scripts/DA_analysis.R
     Modified:   scripts/postfit_Buenrostro2018_v2.sh
+    Modified:   scripts/postfit_motif_analysis.R
 
 </code></pre>
 <p>
@@ -532,6 +532,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/e32503adeb9087c0a3171174e7740a1fbcfe9f3d/analysis/analysis_Buenrostro2018_k10.Rmd" target="_blank">e32503a</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-03
+</td>
+<td>
+added results without shrinkage
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/9164260ad3d7dcf08131b32752d2eb4e0f4b00de/docs/analysis_Buenrostro2018_k10.html" target="_blank">9164260</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-02
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -690,8 +724,7 @@ fit &lt;- poisson2multinom(fit)</code></pre>
 </div>
 <div id="structure-plot" class="section level3">
 <h3>Structure plot</h3>
-<pre class="r"><code>
-topic_colors &lt;- c(&quot;darkorange&quot;,&quot;limegreen&quot;,&quot;magenta&quot;,&quot;gold&quot;,&quot;skyblue&quot;,
+<pre class="r"><code>topic_colors &lt;- c(&quot;darkorange&quot;,&quot;limegreen&quot;,&quot;magenta&quot;,&quot;gold&quot;,&quot;skyblue&quot;,
                   &quot;darkblue&quot;,&quot;dodgerblue&quot;,&quot;darkmagenta&quot;,&quot;red&quot;,&quot;olivedrab&quot;)
 
 set.seed(1)
@@ -725,6 +758,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/9164260ad3d7dcf08131b32752d2eb4e0f4b00de/docs/figure/analysis_Buenrostro2018_k10.Rmd/structure-plot-1.png" target="_blank">9164260</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-02
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/5c18b155ef8a570a43ed57bfde5d2ae14c921d42/docs/figure/analysis_Buenrostro2018_k10.Rmd/structure-plot-1.png" target="_blank">5c18b15</a>
@@ -787,6 +831,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/9164260ad3d7dcf08131b32752d2eb4e0f4b00de/docs/figure/analysis_Buenrostro2018_k10.Rmd/structure-plot-kmeans-12clusters-1.png" target="_blank">9164260</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-02
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/5c18b155ef8a570a43ed57bfde5d2ae14c921d42/docs/figure/analysis_Buenrostro2018_k10.Rmd/structure-plot-kmeans-12clusters-1.png" target="_blank">5c18b15</a>
 </td>
 <td>
@@ -816,10 +871,10 @@ kevinlkx
 </div>
 <div id="differential-accessibility-da-analysis" class="section level3">
 <h3>Differential accessibility (DA) analysis</h3>
-<p>Load DA analysis results (10000 iterations of MCMC)</p>
+<p>DA analysis results <strong>with &quot;ash&quot; shrinkage</strong> (10000 MCMC iterations)</p>
 <pre class="r"><code>postfit_dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/postfit_v2/&quot;
 
-DA_res &lt;- readRDS(file.path(postfit_dir, &quot;DAanalysis-Buenrostro2018-k=10/DA_regions_topics_10000iters.rds&quot;))
+DA_res &lt;- readRDS(file.path(postfit_dir, &quot;DAanalysis-Buenrostro2018-k=10/DA_regions_topics_ash_10000iters.rds&quot;))
 summary(DA_res)
 #          Length  Class  Mode   
 # ar       4655360 -none- numeric
@@ -841,55 +896,7 @@ names(plots) &lt;- 1:10
 for (k in 1:10)
   plots[[k]] &lt;- volcano_plot(DA_res, k, labels = rep(&quot;&quot;,nrow(DA_res$z)))
 do.call(plot_grid,plots)</code></pre>
-<p><img src="figure/analysis_Buenrostro2018_k10.Rmd/region-volcano-plots-1.png" width="1200" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-region-volcano-plots-1">
-Past versions of region-volcano-plots-1.png
-</button>
-</p>
-<div id="fig-region-volcano-plots-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/5c18b155ef8a570a43ed57bfde5d2ae14c921d42/docs/figure/analysis_Buenrostro2018_k10.Rmd/region-volcano-plots-1.png" target="_blank">5c18b15</a>
-</td>
-<td>
-kevinlkx
-</td>
-<td>
-2022-03-02
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/fe19ea80abc5db566fdab01d380d2fa7841083f1/docs/figure/analysis_Buenrostro2018_k10.Rmd/region-volcano-plots-1.png" target="_blank">fe19ea8</a>
-</td>
-<td>
-kevinlkx
-</td>
-<td>
-2022-02-24
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/analysis_Buenrostro2018_k10.Rmd/region-volcano-plots-ash-1.png" width="1200" style="display: block; margin: auto;" /></p>
 <p>Number of regions selected at different lfsr cutoffs:</p>
 <pre class="r"><code>sig_regions &lt;- matrix(NA, nrow = 10, ncol = 5)
 colnames(sig_regions) &lt;- c(&quot;lfsr &lt; 0.01&quot;, &quot;lfsr &lt; 0.05&quot;, &quot;lfsr &lt; 0.1&quot;, &quot;lfsr &lt; 0.2&quot;, &quot;lfsr &lt; 0.3&quot;)
@@ -906,14 +913,73 @@ sig_regions
 #          lfsr &lt; 0.01 lfsr &lt; 0.05 lfsr &lt; 0.1 lfsr &lt; 0.2 lfsr &lt; 0.3
 # topic 1            0           0          0          0          0
 # topic 2            0           0          0          0          0
-# topic 3            7          12         15         19         34
-# topic 4           53          91        109        145        185
-# topic 5           30          33         34         35         36
+# topic 3            6          14         17         25         40
+# topic 4           59          88        113        152        197
+# topic 5           25          27         27         29         32
 # topic 6            0           0          0          0          0
-# topic 7            3           3          5          6          8
-# topic 8            2           2          3          4          5
+# topic 7            1           2          2          5          9
+# topic 8            2           3          4          4          4
 # topic 9            0           0          0          0          0
-# topic 10           2           3          6          7         11</code></pre>
+# topic 10           2           3          6          8         15</code></pre>
+<p>DA analysis results <strong>without shrinkage</strong> (10000 MCMC iterations)</p>
+<pre class="r"><code>postfit_dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/postfit_v2/&quot;
+
+DA_res &lt;- readRDS(file.path(postfit_dir, &quot;DAanalysis-Buenrostro2018-k=10/DA_regions_topics_noshrinkage_10000iters.rds&quot;))
+summary(DA_res)
+#          Length  Class  Mode   
+# ar       4655360 -none- numeric
+# est      4655360 -none- numeric
+# postmean 4655360 -none- numeric
+# lower    4655360 -none- numeric
+# upper    4655360 -none- numeric
+# z        4655360 -none- numeric
+# lpval    4655360 -none- numeric
+# svalue         1 -none- numeric
+# lfsr           1 -none- numeric
+# F        4655360 -none- numeric
+# f0        465536 -none- numeric</code></pre>
+<p>Volcano plots for the regions</p>
+<pre class="r"><code>plots &lt;- vector(&quot;list&quot;,10)
+names(plots) &lt;- 1:10
+
+for (k in 1:10)
+  plots[[k]] &lt;- volcano_plot(DA_res, k, labels = rep(&quot;&quot;,nrow(DA_res$z)))
+# lfsr is not available, probably because &quot;shrink.method&quot; was not set to &quot;ash&quot;; lfsr in plot should be ignored
+# lfsr is not available, probably because &quot;shrink.method&quot; was not set to &quot;ash&quot;; lfsr in plot should be ignored
+# lfsr is not available, probably because &quot;shrink.method&quot; was not set to &quot;ash&quot;; lfsr in plot should be ignored
+# lfsr is not available, probably because &quot;shrink.method&quot; was not set to &quot;ash&quot;; lfsr in plot should be ignored
+# lfsr is not available, probably because &quot;shrink.method&quot; was not set to &quot;ash&quot;; lfsr in plot should be ignored
+# lfsr is not available, probably because &quot;shrink.method&quot; was not set to &quot;ash&quot;; lfsr in plot should be ignored
+# lfsr is not available, probably because &quot;shrink.method&quot; was not set to &quot;ash&quot;; lfsr in plot should be ignored
+# lfsr is not available, probably because &quot;shrink.method&quot; was not set to &quot;ash&quot;; lfsr in plot should be ignored
+# lfsr is not available, probably because &quot;shrink.method&quot; was not set to &quot;ash&quot;; lfsr in plot should be ignored
+# lfsr is not available, probably because &quot;shrink.method&quot; was not set to &quot;ash&quot;; lfsr in plot should be ignored
+do.call(plot_grid,plots)</code></pre>
+<p><img src="figure/analysis_Buenrostro2018_k10.Rmd/region-volcano-plots-no-shrinkage-1.png" width="1200" style="display: block; margin: auto;" /></p>
+<p>Number of regions selected at different p-value cutoffs:</p>
+<pre class="r"><code>sig_regions &lt;- matrix(NA, nrow = 10, ncol = 4)
+colnames(sig_regions) &lt;- c(&quot;p &lt; 0.001&quot;, &quot;p &lt; 0.01&quot;, &quot;p &lt; 0.05&quot;, &quot;p &lt; 0.1&quot;)
+rownames(sig_regions) &lt;- paste(&quot;topic&quot;, 1:nrow(sig_regions))
+
+for(k in 1:10){
+  lpval &lt;- DA_res$lpval[,k]
+  pval &lt;- 10^(-lpval)
+  sig_regions[k, ] &lt;- c(length(which(pval &lt; 0.001)), length(which(pval &lt; 0.01)),
+                         length(which(pval &lt; 0.05)), length(which(pval &lt; 0.1)))
+}
+
+sig_regions
+#          p &lt; 0.001 p &lt; 0.01 p &lt; 0.05 p &lt; 0.1
+# topic 1          0        4       40     163
+# topic 2          3        6       19      45
+# topic 3        267      652     1322    1793
+# topic 4        958     1889     3223    4250
+# topic 5         60      114      245     416
+# topic 6          2       19       73     125
+# topic 7        164      537     1385    2091
+# topic 8        192      776     1882    2772
+# topic 9         16       76      252     418
+# topic 10       127      344      790    1191</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
