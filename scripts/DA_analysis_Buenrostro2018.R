@@ -12,12 +12,12 @@ ns                   <- 10000
 nsplit               <- 100
 outdir               <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/postfit_v2/DAanalysis-Buenrostro2018-k=10"
 
-cat(sprintf("countsfile           = %s \n", countsfile))
-cat(sprintf("modelfitfile         = %s \n", modelfitfile))
-cat(sprintf("nc                   = %s \n", nc))
-cat(sprintf("ns                   = %s \n", ns))
-cat(sprintf("nsplit               = %s \n", nsplit))
-cat(sprintf("outdir              = %s \n", outdir))
+cat(sprintf("countsfile   = %s \n", countsfile))
+cat(sprintf("modelfitfile = %s \n", modelfitfile))
+cat(sprintf("nc           = %s \n", nc))
+cat(sprintf("ns           = %s \n", ns))
+cat(sprintf("nsplit       = %s \n", nsplit))
+cat(sprintf("outdir       = %s \n", outdir))
 
 if(!dir.exists(outdir))
   dir.create(outdir, showWarnings = FALSE, recursive = T)
@@ -35,10 +35,11 @@ cat(sprintf("Loaded %d x %d counts matrix.\n",nrow(counts),ncol(counts)))
 cat(sprintf("Loading Poisson NMF model fit from %s\n",modelfitfile))
 fit <- readRDS(modelfitfile)$fit
 
-# COMPUTE REGION SCORES USING DIFFERENTIAL ANALYSIS
+# DIFFERENTIAL ACCESSIBILITY ANALYSIS
 # -------------------------------------------------
-# Perform differential accessbility analysis using the multinomial topic model.
-outfile <- file.path(outdir, paste0("DA_regions_topics_", ns,"iters.rds"))
+
+# Perform differential accessbility analysis with ash shrinkage
+outfile <- file.path(outdir, paste0("DA_regions_topics_ash_", ns,"iters.rds"))
 
 cat("Computing differential accessbility statistics from topic model.\n")
 cat("Run", ns, "iterations of MCMC...\n")
@@ -50,5 +51,17 @@ cat(sprintf("Computation took %0.2f seconds.\n",timing["elapsed"]))
 cat("Saving results.\n")
 saveRDS(DA_res, outfile)
 
+# Perform differential accessbility analysis without shrinkage
+outfile <- file.path(outdir, paste0("DA_regions_topics_noshrinkage_", ns,"iters.rds"))
+
+cat("Computing differential accessbility statistics from topic model.\n")
+cat("Run", ns, "iterations of MCMC...\n")
+timing <- system.time(
+  DA_res <- de_analysis(fit,counts,pseudocount = 0.1,shrink.method = "none",
+                        control = list(ns = ns,nc = nc,nsplit = nsplit)))
+cat(sprintf("Computation took %0.2f seconds.\n",timing["elapsed"]))
+
+cat("Saving results.\n")
+saveRDS(DA_res, outfile)
 
 sessionInfo()
