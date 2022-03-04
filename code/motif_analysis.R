@@ -102,15 +102,15 @@ select_DA_regions <- function(DA_res,
   names(selected_regions) <- colnames(DA_res$z)
   selected_regions$filenames <- c()
   for(k in colnames(DA_res$z)){
-    z <- na.omit(DA_res$z[,k])
-    logFC <- na.omit(DA_res$postmean[,k])
-    lpval <- na.omit(DA_res$lpval[,k])
-    lfsr <- na.omit(DA_res$lfsr[,k])
+    z <- DA_res$z[,k]
+    logFC <- DA_res$postmean[,k]
 
     if(method == "pval"){
+      lpval <- DA_res$lpval[,k]
       sig_regions <- which(lpval > -log10(thresh.pval))
       cat(sprintf("topic %s: %d regions selected (pval < %.2f) \n", k, length(sig_regions), thresh.pval))
     }else if(method == "lfsr"){
+      lfsr <- DA_res$lfsr[,k]
       sig_regions <- which(lfsr < thresh.lfsr)
       cat(sprintf("topic %s: %d regions selected (lfsr < %.2f) \n", k, length(sig_regions), thresh.lfsr))
     }else if(method == "logFC"){
