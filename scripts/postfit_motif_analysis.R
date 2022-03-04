@@ -25,7 +25,7 @@ nc              <- out$nc
 out.dir         <- out$out
 rm(parser,out)
 
-cat(sprintf("DAfile    = %s \n", DAfile))
+cat(sprintf("DAfile       = %s \n", DAfile))
 cat(sprintf("genome       = %s \n", genome))
 cat(sprintf("homerpath    = %s \n", homerpath))
 cat(sprintf("nc           = %s \n", nc))
