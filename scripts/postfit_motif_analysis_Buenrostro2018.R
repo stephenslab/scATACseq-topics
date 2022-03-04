@@ -20,7 +20,6 @@ out.dir         <- '/project2/mstephens/kevinluo/scATACseq-topics/output/Buenros
 cat(sprintf("DAfile       = %s \n", DAfile))
 cat(sprintf("genome       = %s \n", genome))
 cat(sprintf("homerpath    = %s \n", homerpath))
-cat(sprintf("selectmethod = %s \n", selectmethod))
 cat(sprintf("nc           = %s \n", nc))
 cat(sprintf("out.dir      = %s \n", out.dir))
 
