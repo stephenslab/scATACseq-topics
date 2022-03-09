@@ -86,7 +86,7 @@ if(toupper(genescoremethod) == "TSS"){
 # Compute gene scores
 # ---------------------
 # Compute the gene-level scores
-# Combine region-level z-scores using stouffer's z-score method
+# Combine region-level z-scores using Stouffer's z-score method
 if(toupper(genescoremethod) == "TSS"){
   cat("Compute gene scores using the TSS model. \n")
   gene_scores <- compute_gene_scores_tss_model(DA_res$z, regions, genes, transform="none", normalization="l2")
