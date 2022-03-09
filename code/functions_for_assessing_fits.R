@@ -11,6 +11,8 @@
 create_progress_plots <- function (dat, fits, x = c("timing", "iter"),
                                    y = c("loglik","res"), numiter.prefit = 300) {
 
+  browser()
+
   # Process the input arguments.
   x <- match.arg(x)
   y <- match.arg(y)
@@ -47,10 +49,10 @@ create_progress_plots <- function (dat, fits, x = c("timing", "iter"),
     # allow the colors and fills to match with the method labels
     idx_method <- match(method_rows, method_labels)
     plots[[i]] <-
-      plot_progress_poisson_nmf(fits[rows],x = x, y = y,
-                                add.point.every = 100,shapes = 21,
-                                colors = rep(c(clrs),2)[idx_method],
-                                fills = c(clrs,rep("white",3))[idx_method]) +
+      plot_progress(fits[rows],x = x, y = y,
+                    add.point.every = 100,shapes = 21,
+                    colors = rep(c(clrs),2)[idx_method],
+                    fills = c(clrs,rep("white",3))[idx_method]) +
       labs(x = xlab, title = paste("k =",i)) +
       theme_cowplot(font_size = 10) +
       theme(plot.title = element_text(size = 10,face = "plain"))
@@ -100,10 +102,10 @@ create_progress_plot_k <- function (dat, fits, k, x = c("timing", "iter"),
   # allow the colors and fills to match with the method labels
   idx_method <- match(method_rows, method_labels)
   p <-
-    plot_progress_poisson_nmf(fits[rows],x = x, y = y,
-                              add.point.every = 100,shapes = 21,
-                              colors = rep(c(clrs),2)[idx_method],
-                              fills = c(clrs,rep("white",3))[idx_method]) +
+    plot_progress(fits[rows],x = x, y = y,
+                  add.point.every = 100,shapes = 21,
+                  colors = rep(c(clrs),2)[idx_method],
+                  fills = c(clrs,rep("white",3))[idx_method]) +
     labs(x = xlab, title = paste("k =", k)) +
     theme_cowplot(font_size = 10) +
     theme(plot.title = element_text(size = 10,face = "plain")) +

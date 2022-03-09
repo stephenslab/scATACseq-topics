@@ -51,7 +51,7 @@ counts <- do.call("cbind", datalist)
 ```
 
 ```{r}
-data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/"
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/"
 dir.create(data.dir, showWarnings = FALSE, recursive = TRUE)
 
 # saveRDS(counts, file.path(data.dir, "raw_counts_Buenrostro_2018.rds"))
@@ -121,7 +121,7 @@ binarized_counts <- Matrix(binarized_counts, sparse = TRUE)
 dim(binarized_counts)
 ```
 
-```{r}
+```{r, eval=FALSE, include=TRUE}
 saveRDS(counts, file.path(data.dir, "counts_Buenrostro_2018.rds"))
 saveRDS(binarized_counts, file.path(data.dir, "binarized_counts_Buenrostro_2018.rds"))
 

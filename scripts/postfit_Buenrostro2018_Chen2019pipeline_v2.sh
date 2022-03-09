@@ -20,7 +20,7 @@ cd /project2/mstephens/kevinluo/scATACseq-topics/log/Buenrostro_2018/postfit_v2
 # DIFF ACCESSIBILITY (DA) ANALYSIS
 # ----------------------------------------
 ## Compute differential accessibility across regions
-DA_DIR=${OUT_DIR}/DAanalysis-Buenrostro2018-k=11-quantile
+DA_DIR=${OUT_DIR}/DAanalysis-Buenrostro2018-k=11
 
 sbatch --mem=20G ~/projects/scATACseq-topics/scripts/postfit_DA_analysis.sbatch \
        ${DAT_DIR}/Buenrostro_2018_binarized_counts.RData \
@@ -37,12 +37,6 @@ sbatch --mem=30G ~/projects/scATACseq-topics/scripts/postfit_motif_analysis_v2.s
        ${DA_DIR}/DA_regions_topics_10000iters.rds \
        hg19 quantile ${MOTIFANALYSIS_DIR}
 
-## Compute motif enrichment for each topic using HOMER. Select regions by zscore
-MOTIFANALYSIS_DIR=${OUT_DIR}/motifanalysis-Buenrostro2018-k=11-zscore
-
-sbatch --mem=30G ~/projects/scATACseq-topics/scripts/postfit_motif_analysis_v2.sbatch \
-       ${DA_DIR}/DA_regions_topics_10000iters.rds \
-       hg19 zscore ${MOTIFANALYSIS_DIR}
 
 # GENE ANALYSIS
 # -------------
@@ -116,7 +110,7 @@ cd /project2/mstephens/kevinluo/scATACseq-topics/log/Buenrostro_2018/postfit_v2
 # DIFF ACCESSIBILITY (DA) ANALYSIS with K = 10
 # ---------------------------------------------
 ## Compute differential accessibility across regions
-DA_DIR=${OUT_DIR}/DAanalysis-Buenrostro2018-k=10-quantile
+DA_DIR=${OUT_DIR}/DAanalysis-Buenrostro2018-k=10
 
 sbatch --mem=20G ~/projects/scATACseq-topics/scripts/postfit_DA_analysis.sbatch \
        ${DAT_DIR}/Buenrostro_2018_binarized_counts.RData \
@@ -132,13 +126,6 @@ MOTIFANALYSIS_DIR=${OUT_DIR}/motifanalysis-Buenrostro2018-k=10-quantile
 sbatch --mem=30G ~/projects/scATACseq-topics/scripts/postfit_motif_analysis_v2.sbatch \
        ${DA_DIR}/DA_regions_topics_10000iters.rds \
        hg19 quantile ${MOTIFANALYSIS_DIR}
-
-## Compute motif enrichment for each topic using HOMER. Select regions by zscore
-MOTIFANALYSIS_DIR=${OUT_DIR}/motifanalysis-Buenrostro2018-k=10-zscore
-
-sbatch --mem=30G ~/projects/scATACseq-topics/scripts/postfit_motif_analysis_v2.sbatch \
-       ${DA_DIR}/DA_regions_topics_10000iters.rds \
-       hg19 zscore ${MOTIFANALYSIS_DIR}
 
 # GENE ANALYSIS
 # -------------

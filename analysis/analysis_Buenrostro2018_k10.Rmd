@@ -1,5 +1,5 @@
 ---
-title: "Analysis of Buenrostro *et al* (2018) scATAC-seq data using fastTopics with K = 10"
+title: "Analysis of Buenrostro *et al* (2018) scATAC-seq data (original data, bulk peaks) using fastTopics with K = 10"
 author: Kaixuan Luo
 output:
   workflowr::wflow_html:
@@ -31,62 +31,46 @@ library(reshape)
 source("code/plots.R")
 ```
 
-Load the data.
+### Load the data
+Data downloaded from original paper.
 ```{r load-binarized-data}
-data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/"
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/"
 load(file.path(data.dir, "Buenrostro_2018_binarized_counts.RData"))
 cat(sprintf("%d x %d counts matrix.\n",nrow(counts),ncol(counts)))
 samples$cell <- rownames(samples)
 samples$label <- as.factor(samples$label)
 ```
 
-Load the K = 10 multinomial topic model fit.
+### Topic model fit
+Load the K = 10 topic model fit to the data downloaded from the original paper.
 ```{r load-fit}
-fit.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/"
-fit <- readRDS(file.path(fit.dir, "/fit-Buenrostro2018-binarized-scd-k=10.rds"))$fit
+fit.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/"
+fit <- readRDS(file.path(fit.dir, "/fit-Buenrostro2018-binarized-scd-ex-k=10.rds"))$fit
 fit <- poisson2multinom(fit)
 ```
 
-## Structure plots
+### Structure plot
+```{r structure-plot, fig.width=7, fig.height=2.5, message=FALSE}
+topic_colors <- c("darkorange","limegreen","magenta","gold","skyblue",
+                  "darkblue","dodgerblue","darkmagenta","red","olivedrab")
 
-The structure plots below summarize the topic proportions in the samples grouped by different tissues.
-
-## Visualize by Structure plot grouped by tissues
-```{r structure-plot, fig.width=7, fig.height=3, message=FALSE}
 set.seed(1)
+# labels <- factor(samples$label, levels = c("HSC", "MPP", "CMP", "GMP", "mono", "MEP", "LMPP", "CLP", "pDC", "UNK"))
 
-labels <- factor(samples$label, levels = c("HSC", "MPP", "CMP", "GMP", "mono", "MEP", "LMPP", "CLP", "pDC", "UNK"))
-topic_colors <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c",
-                   "#fdbf6f","#ff7f00","#cab2d6","#6a3d9a")
-
-# labels <- factor(samples$label,c("mono","pDC","MEP","HSC","MPP","CLP",
-#                                  "LMPP","CMP","GMP","UNK"))
-# topic_colors <- c("darkorange","limegreen","magenta","gold","skyblue",
-#                   "darkblue","dodgerblue","darkmagenta","red","olivedrab")
+labels <- factor(samples$label, c("mono","pDC","MEP","HSC","MPP","CLP",
+                                 "LMPP","CMP","GMP","UNK"))
 structure_plot(fit,grouping = labels,colors = topic_colors,
-               topics = 1:10,
+               # topics = 1:10,
                gap = 20,perplexity = 50,verbose = FALSE)
 
 ```
 
-### k-means clustering on topic proportions
+### K-means clustering on topic proportions
 Define clusters using k-means, and then create structure plot 
 based on the clusters from k-means.
 
-k-means clustering (using 10 clusters) on topic proportions
-```{r structure-plot-kmeans-10clusters, fig.width=7, fig.height=3, message=FALSE}
-set.seed(1)
-clusters <- factor(kmeans(fit$L,centers = 10,iter.max = 100)$cluster)
-summary(clusters)
-
-structure_plot(fit,grouping = clusters,colors = topic_colors,
-               gap = 20,perplexity = 50,verbose = FALSE)
-
-```
-
-
 k-means clustering (using 12 clusters) on topic proportions
-```{r structure-plot-kmeans-12clusters, fig.width=7, fig.height=3, message=FALSE}
+```{r structure-plot-kmeans-12clusters, fig.width=7, fig.height=2.5, message=FALSE}
 set.seed(1)
 clusters <- factor(kmeans(fit$L,centers = 12,iter.max = 100)$cluster)
 summary(clusters)
@@ -96,29 +80,21 @@ structure_plot(fit,grouping = clusters,colors = topic_colors,
 
 ```
 
-## Different accessibility (DA) analysis
+### Differential accessibility (DA) analysis
 
-Load DA analysis results (10000 iterations of MCMC)
-```{r load-DA-res}
-postfit_dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018_Chen2019pipeline/binarized/postfit_v2/"
+DA analysis results **with "ash" shrinkage** (10000 MCMC iterations)
 
-DA_res <- readRDS(file.path(postfit_dir, "DAanalysis-Buenrostro2018-k=10/DA_regions_topics_10000iters.rds"))
+```{r load-DA-ash-res}
+postfit_dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/postfit_v2/"
+
+DA_res <- readRDS(file.path(postfit_dir, "DAanalysis-Buenrostro2018-k=10/DA_regions_topics_ash_10000iters.rds"))
 summary(DA_res)
 ```
 
-Volcano plot for DA analysis results for topic 2
-```{r DA-topic-2}
-volcano_plot(DA_res,k = 2,labels = rep("",nrow(DA_res$z)))
-```
 
-Volcano plot for DA analysis results for topic 4
-```{r DA-topic-4}
-volcano_plot(DA_res,k = 4,labels = rep("",nrow(DA_res$z)))
-```
+Volcano plots for the regions
 
-**all topics**
-
-```{r region-volcano-plots, fig.width=10, fig.height=6}
+```{r region-volcano-plots-ash, fig.width=10, fig.height=6}
 plots <- vector("list",10)
 names(plots) <- 1:10
 
@@ -129,16 +105,54 @@ do.call(plot_grid,plots)
 ```
 
 Number of regions selected at different lfsr cutoffs:
-```{r number-DA-regions}
+```{r number-DA-regions-ash}
+sig_regions <- matrix(NA, nrow = 10, ncol = 5)
+colnames(sig_regions) <- c("lfsr < 0.01", "lfsr < 0.05", "lfsr < 0.1", "lfsr < 0.2", "lfsr < 0.3")
+rownames(sig_regions) <- paste("topic", 1:nrow(sig_regions))
+
 for(k in 1:10){
   lfsr <- DA_res$lfsr[,k]
-  cat("Topic", k, ":\n")
-  cat(" ", length(which(lfsr < 0.01)), "regions selected with lfsr < 0.01. \n")
-  cat(" ", length(which(lfsr < 0.05)), "regions selected with lfsr < 0.05. \n")
-  cat(" ", length(which(lfsr < 0.1)), "regions selected with lfsr < 0.1. \n")
-  cat(" ", length(which(lfsr < 0.2)), "regions selected with lfsr < 0.2. \n")
+  sig_regions[k, ] <- c(length(which(lfsr < 0.01)), length(which(lfsr < 0.05)),
+                         length(which(lfsr < 0.1)), length(which(lfsr < 0.2)), 
+                         length(which(lfsr < 0.3)))
 }
 
+sig_regions
 ```
 
 
+DA analysis results **without shrinkage** (10000 MCMC iterations)
+
+```{r load-DA-no-shrinkage-res}
+postfit_dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/postfit_v2/"
+
+DA_res <- readRDS(file.path(postfit_dir, "DAanalysis-Buenrostro2018-k=10/DA_regions_topics_noshrinkage_10000iters.rds"))
+summary(DA_res)
+```
+
+Volcano plots for the regions
+```{r region-volcano-plots-no-shrinkage, fig.width=10, fig.height=6}
+plots <- vector("list",10)
+names(plots) <- 1:10
+
+for (k in 1:10)
+  plots[[k]] <- volcano_plot(DA_res, k, labels = rep("",nrow(DA_res$z)))
+do.call(plot_grid,plots)
+
+```
+
+Number of regions selected at different p-value cutoffs:
+```{r number-DA-regions-no-shrinkage}
+sig_regions <- matrix(NA, nrow = 10, ncol = 4)
+colnames(sig_regions) <- c("p < 0.001", "p < 0.01", "p < 0.05", "p < 0.1")
+rownames(sig_regions) <- paste("topic", 1:nrow(sig_regions))
+
+for(k in 1:10){
+  lpval <- DA_res$lpval[,k]
+  pval <- 10^(-lpval)
+  sig_regions[k, ] <- c(length(which(pval < 0.001)), length(which(pval < 0.01)),
+                         length(which(pval < 0.05)), length(which(pval < 0.1)))
+}
+
+sig_regions
+```

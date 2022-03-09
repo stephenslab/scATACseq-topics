@@ -7,7 +7,7 @@ editor_options:
 ---
 
 ```{r knitr-opts, include=FALSE}
-knitr::opts_chunk$set(eval=FALSE,comment = "#",collapse = FALSE,results = "hold",
+knitr::opts_chunk$set(comment = "#",collapse = FALSE,results = "hold",
                       fig.align = "center",dpi = 120)
 ```
 
@@ -50,7 +50,7 @@ Downloaded scATAC-seq processed data from GEO: [GSE96769](https://www.ncbi.nlm.n
 * Peaks called from bulk ATAC-seq samples `GSE96769_PeakFile_20160207.bed.gz`
 * scATAC-seq sparse count matrix `GSE96769_scATACseq_counts.txt.gz`
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 library(Matrix)
 library(tools)
 library(readr)
@@ -58,7 +58,7 @@ library(data.table)
 ```
 
 Load the fragment counts as a 2,953 x 491,437 sparse matrix.
-```{r load-data}
+```{r option1-load-data}
 # The first row has the sample names
 file_counts <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/GEO_data/GSE96769_scATACseq_counts.txt.gz"
 sample_names <- readLines(file_counts,n = 1)
@@ -77,7 +77,7 @@ dim(counts)
 ```
 
 peaks (from bulk ATAC-seq)
-```{r load-peaks}
+```{r option1-load-peaks}
 peaks <- fread("/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/GEO_data/GSE96769_PeakFile_20160207.bed.gz")
 peak_names <- paste(peaks$V1,peaks$V2,peaks$V3,sep = "_")
 rownames(peaks) <- peak_names
@@ -87,7 +87,7 @@ colnames(counts) <- peak_names
 
 ```
 
-```{r plot-distribution-1, include=FALSE}
+```{r, include=FALSE}
 y <- table(summary(counts)$x)
 x <- names(y)
 y <- as.numeric(y)
@@ -109,7 +109,7 @@ Select the 2,034 samples (cells) passing quality filtering
 
 The 2,034 samples (pass filter) were included in the `metadata.tsv` file on the scATAC-benchmarking website from Chen *et al*.
 
-```{r filter-samples}
+```{r option1-filter}
 samples_filtered <- read.table('/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/input_Chen_2019/metadata.tsv', header = TRUE, stringsAsFactors=FALSE, quote="",row.names=1)
 samples_filtered$name <- rownames(samples_filtered)
 
@@ -121,7 +121,7 @@ dim(counts)
 ```
 
 Remove peaks not exist in any of the cells
-```{r filter-peaks}
+```{r option1-filter-2}
 j <- which(colSums(counts > 0) >= 1)
 peaks <- peaks[j,]
 counts <- counts[,j]
@@ -129,7 +129,7 @@ cat(length(j), "peaks after filtering.  \n")
 
 ```
 
-```{r plot-distribution-2, include=FALSE}
+```{r, include=FALSE}
 y <- table(summary(counts)$x)
 x <- names(y)
 y <- as.numeric(y)
@@ -141,7 +141,7 @@ lines(x,y)
 ```
 
 Binarize counts
-```{r binarize}
+```{r option1-binarize}
 binarized_counts <- as.matrix((counts > 0) + 0)
 binarized_counts <- Matrix(binarized_counts, sparse = TRUE) 
 
@@ -150,7 +150,7 @@ dim(binarized_counts)
 
 Save processed data: `/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/`
 
-```{r save-data}
+```{r option1-savedata, eval=FALSE}
 data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/"
 dir.create(data.dir, showWarnings = FALSE, recursive = TRUE)
 
@@ -166,7 +166,7 @@ save(list = c("samples", "peaks", "counts"),
 
 ```
 
-```{r}
+```{r option1-summary}
 data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/"
 load(file.path(data.dir, "Buenrostro_2018.RData"))
 cat(sprintf("Loaded %d x %d counts matrix.\n",nrow(counts),ncol(counts)))
@@ -184,7 +184,7 @@ cat(sprintf("Proportion of counts that are non-zero: %0.1f%%.\n",
 
 * Process counts using [Chen *et al* pipeline](https://github.com/pinellolab/scATAC-benchmarking/blob/master/Real_Data/Buenrostro_2018/run_methods/Control/Control_buenrostro2018.ipynb)
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 library(Matrix)
 library(tools)
 library(readr)
@@ -291,7 +291,7 @@ dim(binarized_counts)
 ```
 
 Save processed data: `/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/`
-```{r}
+```{r, eval=FALSE}
 saveRDS(counts, file.path(data.dir, "counts_Buenrostro_2018.rds"))
 saveRDS(binarized_counts, file.path(data.dir, "binarized_counts_Buenrostro_2018.rds"))
 
@@ -324,16 +324,16 @@ cat(sprintf("Proportion of counts that are non-zero: %0.1f%%.\n",
 following the [pipeline](https://nbviewer.jupyter.org/github/pinellolab/scATAC-benchmarking/blob/master/Real_Data/Buenrostro_2018/run_methods/chromVAR/chromVAR_buenrostro2018_motifs.ipynb?flush_cache=true)
 
 Load chromVAR and related packages
-```{r}
-# if (!requireNamespace("BiocManager", quietly = TRUE))
-#     install.packages("BiocManager")
-# BiocManager::install("chromVAR")
-# BiocManager::install("motifmatchr")
-# BiocManager::install("BSgenome.Hsapiens.UCSC.hg19")
-# BiocManager::install("JASPAR2016")
+```{r, eval=FALSE, include=FALSE}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("chromVAR")
+BiocManager::install("motifmatchr")
+BiocManager::install("BSgenome.Hsapiens.UCSC.hg19")
+BiocManager::install("JASPAR2016")
 ```
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 library(chromVAR)
 library(motifmatchr)
 library(Matrix)
@@ -349,12 +349,12 @@ dir.create(data.dir, showWarnings = FALSE, recursive = TRUE)
 ```
 
 samples metadata
-```{r}
+```{r option3-metadata}
 samples <- read.table('/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/input_Chen_2019/metadata.tsv', header = TRUE, stringsAsFactors=FALSE, quote="",row.names=1)
 ```
 
 peaks (from aggregated scATAC-seq)
-```{r}
+```{r option3-peaks}
 peakfile <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/input_Chen_2019/combined.sorted.merged.bed"
 peaks <- getPeaks(peakfile, sort_peaks = TRUE)
 peaks <- resize(peaks, width = 500, fix = "center")
@@ -363,7 +363,7 @@ cat(length(peaks), "peaks \n")
 ```
 
 BAM files of scATAC-seq reads
-```{r}
+```{r option3-bam}
 dir_bamfiles <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/input_Chen_2019/sc-bams_nodup/"
 bamfiles <- list.files(path = dir_bamfiles, pattern = "\\.bam$")
 cellnames <- sapply(strsplit(bamfiles,'.',fixed = TRUE), "[[", 1)
@@ -383,12 +383,9 @@ saveRDS(fragment_counts, file.path(data.dir, "fragment_counts_scPeaks_chromVAR_B
 
 ```
 
-```{r}
+```{r option3-counts}
 fragment_counts <- readRDS(file.path(data.dir, "fragment_counts_scPeaks_chromVAR_Buenrostro_2018.rds"))
-fragment_counts
-```
 
-```{r}
 counts <- assay(fragment_counts)
 counts <- t(counts)
 
@@ -426,7 +423,7 @@ dim(binarized_counts)
 ```
 
 Save processed data: `/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/chromVAR/`
-```{r}
+```{r, eval=FALSE}
 saveRDS(counts, file.path(data.dir, "counts_scPeaks_Buenrostro_2018.rds"))
 saveRDS(binarized_counts, file.path(data.dir, "binarized_counts_scPeaks_Buenrostro_2018.rds"))
 
@@ -461,7 +458,7 @@ cat(sprintf("Proportion of counts that are non-zero: %0.1f%%.\n",
 following the [pipeline](https://nbviewer.jupyter.org/github/pinellolab/scATAC-benchmarking/blob/master/Real_Data/Buenrostro_2018/run_methods/chromVAR/chromVAR_buenrostro2018_motifs.ipynb?flush_cache=true)
 
 Load chromVAR and related packages
-```{r}
+```{r message=FALSE, warning=FALSE}
 library(chromVAR)
 library(motifmatchr)
 library(Matrix)
@@ -558,7 +555,7 @@ dim(binarized_counts)
 ```
 
 Save processed data: `/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/chromVAR/`
-```{r}
+```{r, eval=FALSE}
 save(list = c("samples", "peaks", "counts"), 
      file = file.path(data.dir, "Buenrostro_2018_scPeaks_filtered.RData"))
 

@@ -14,12 +14,21 @@
 
 <title>Process data for Buenrostro 2018 scATAC-seq dataset</title>
 
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
@@ -27,7 +36,7 @@
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 
-<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/master/img/reproducible.png">
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
 <!-- Add a small amount of space between sections. -->
 <style type="text/css">
 div.section {
@@ -35,12 +44,16 @@ div.section {
 }
 </style>
 
-<style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
 <script type="text/javascript">
 if (window.hljs) {
   hljs.configure({languages: []});
@@ -53,32 +66,7 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
+
 
 
 
@@ -88,10 +76,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -108,40 +92,13 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 51px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h2 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h3 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h4 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h5 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h6 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -169,7 +126,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -181,7 +138,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -192,10 +149,23 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -207,7 +177,6 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -333,7 +302,7 @@ div.tocify {
 
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
+<div class="row">
 <div class="col-xs-12 col-sm-4 col-md-3">
 <div id="TOC" class="tocify">
 </div>
@@ -361,13 +330,15 @@ div.tocify {
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/stephenslab/scATACseq-topics">source</a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
@@ -397,7 +368,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-11-05
+<strong>Last updated:</strong> 2022-02-24
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -406,8 +377,8 @@ div.tocify {
 <strong>Knit directory:</strong> <code>scATACseq-topics/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
 </p>
 <p>
-This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
-  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.2). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version 1.7.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
 </p>
 <hr>
 </div>
@@ -433,7 +404,7 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 </div>
 <div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it's best to always run the code in an empty environment.</p>
 </div>
 </div>
 </div>
@@ -445,7 +416,7 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 </div>
 <div id="strongSeedstrongcodesetseed20200729code" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The command <code>set.seed(20200729)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+<p>The command <code>set.seed(20200729)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
 </div>
 </div>
 </div>
@@ -488,38 +459,42 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree1da32f8c37df71b84c5000ac6d70eca03c272c18targetblank1da32f8a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/1da32f8c37df71b84c5000ac6d70eca03c272c18" target="_blank">1da32f8</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreec281271dbeccc522993e06cefb03acb4716941b5targetblankc281271a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/c281271dbeccc522993e06cefb03acb4716941b5" target="_blank">c281271</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree1da32f8c37df71b84c5000ac6d70eca03c272c18targetblank1da32f8a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreec281271dbeccc522993e06cefb03acb4716941b5targetblankc281271a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/1da32f8c37df71b84c5000ac6d70eca03c272c18" target="_blank">1da32f8</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/c281271dbeccc522993e06cefb03acb4716941b5" target="_blank">c281271</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 </p>
 <pre><code>
 Ignored files:
+    Ignored:    .DS_Store
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
 
 Untracked files:
-    Untracked:  analysis/clusters_Buenrostro2018_k14.Rmd
-    Untracked:  analysis/clusters_pca_structure_Cusanovich2018.Rmd
+    Untracked:  output/clustering-Cusanovich2018.rds
+    Untracked:  paper/
 
 Unstaged changes:
-    Modified:   analysis/compare_pca_clusters_Buenrostro_2018.Rmd
-    Modified:   analysis/index.Rmd
-    Modified:   analysis/plots_Lareau2019_bonemarrow.Rmd
-    Modified:   scripts/fit_all_models_Lareau2019.sh
+    Modified:   analysis/assess_fits_Buenrostro2018_Chen2019pipeline.Rmd
+    Modified:   analysis/clusters_Cusanovich2018_k13.Rmd
+    Modified:   analysis/gene_analysis_Buenrostro2018_Chen2019pipeline.Rmd
+    Modified:   analysis/gene_analysis_Cusanovich2018.Rmd
+    Modified:   analysis/motif_analysis_Buenrostro2018_Chen2019pipeline.Rmd
+    Modified:   analysis/motif_analysis_Cusanovich2018.Rmd
+    Modified:   analysis/plots_Cusanovich2018.Rmd
 
 </code></pre>
 <p>
-Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
 </p>
 </div>
 </div>
@@ -530,7 +505,7 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <div id="versions" class="tab-pane fade">
 
 <p>
-These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/process_data_Buenrostro2018.Rmd</code>) and HTML (<code>docs/process_data_Buenrostro2018.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/process_data_Buenrostro2018_Chen2019pipeline.Rmd</code>) and HTML (<code>docs/process_data_Buenrostro2018_Chen2019pipeline.html</code>) files. If you've configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
 </p>
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
@@ -559,33 +534,16 @@ Message
 Rmd
 </td>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/1da32f8c37df71b84c5000ac6d70eca03c272c18/analysis/process_data_Buenrostro2018.Rmd" target="_blank">1da32f8</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/c281271dbeccc522993e06cefb03acb4716941b5/analysis/process_data_Buenrostro2018_Chen2019pipeline.Rmd" target="_blank">c281271</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-05
+2022-02-24
 </td>
 <td>
-set binarized counts as sparse matrix
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/89b45be3922b3a5de08b197053ae0474ffdc6698/docs/process_data_Buenrostro2018.html" target="_blank">89b45be</a>
-</td>
-<td>
-kevinlkx
-</td>
-<td>
-2020-11-04
-</td>
-<td>
-Build site.
+check data processing
 </td>
 </tr>
 <tr>
@@ -593,16 +551,16 @@ Build site.
 Rmd
 </td>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/857e1e8164281ddb806d57c6e7a604d6e6716a36/analysis/process_data_Buenrostro2018.Rmd" target="_blank">857e1e8</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/c113844e38826d4646b6c8d07a00050215a4d021/analysis/process_data_Buenrostro2018_Chen2019pipeline.Rmd" target="_blank">c113844</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-04
+2020-11-10
 </td>
 <td>
-process data from Buenrostro 2018 paper
+wflow_rename(&quot;analysis/process_data_Buenrostro2018.Rmd&quot;, &quot;analysis/process_data_Buenrostro2018_Chen2019pipeline.Rmd&quot;)
 </td>
 </tr>
 <tr>
@@ -610,33 +568,16 @@ process data from Buenrostro 2018 paper
 html
 </td>
 <td>
-<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/907fa65bbbb795c9ef5f297ea803e8147dcc74f6/docs/process_data_Buenrostro2018.html" target="_blank">907fa65</a>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/c113844e38826d4646b6c8d07a00050215a4d021/docs/process_data_Buenrostro2018_Chen2019pipeline.html" target="_blank">c113844</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-04
+2020-11-10
 </td>
 <td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/12bf4b36e8a7bd25cf947db2ab65005d2560c2b4/analysis/process_data_Buenrostro2018.Rmd" target="_blank">12bf4b3</a>
-</td>
-<td>
-kevinlkx
-</td>
-<td>
-2020-11-04
-</td>
-<td>
-process data from Buenrostro 2018 paper
+wflow_rename(&quot;analysis/process_data_Buenrostro2018.Rmd&quot;, &quot;analysis/process_data_Buenrostro2018_Chen2019pipeline.Rmd&quot;)
 </td>
 </tr>
 </tbody>
@@ -677,7 +618,7 @@ cat(length(sample_names), &quot;samples. \n&quot;)</code></pre>
 <pre><code>2034 samples. </code></pre>
 <pre class="r"><code>datalist &lt;- lapply(files, function(x)fread(file.path(dir_readcount_output,x))$V4)
 counts &lt;- do.call(&quot;cbind&quot;, datalist)</code></pre>
-<pre class="r"><code>data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/&quot;
+<pre class="r"><code>data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/&quot;
 dir.create(data.dir, showWarnings = FALSE, recursive = TRUE)
 
 # saveRDS(counts, file.path(data.dir, &quot;raw_counts_Buenrostro_2018.rds&quot;))
@@ -726,7 +667,7 @@ filter_peaks &lt;- function (datafr,cutoff = 0.01){
     return(peaks_selected)
 }</code></pre>
 <pre class="r"><code>peaks_selected &lt;- filter_peaks(counts)</code></pre>
-<p><img src="figure/process_data_Buenrostro2018.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/process_data_Buenrostro2018_Chen2019pipeline.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-9-1">
 Past versions of unnamed-chunk-9-1.png
@@ -751,13 +692,13 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/stephenslab/scATACseq-topics/blob/907fa65bbbb795c9ef5f297ea803e8147dcc74f6/docs/figure/process_data_Buenrostro2018.Rmd/unnamed-chunk-9-1.png" target="_blank">907fa65</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/c113844e38826d4646b6c8d07a00050215a4d021/docs/figure/process_data_Buenrostro2018_Chen2019pipeline.Rmd/unnamed-chunk-9-1.png" target="_blank">c113844</a>
 </td>
 <td>
 kevinlkx
 </td>
 <td>
-2020-11-04
+2020-11-10
 </td>
 </tr>
 </tbody>
@@ -789,14 +730,14 @@ save(list = c(&quot;samples&quot;, &quot;peaks&quot;, &quot;counts&quot;),
 <pre class="r"><code>data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/&quot;
 load(file.path(data.dir, &quot;Buenrostro_2018_counts.RData&quot;))
 cat(sprintf(&quot;Loaded %d x %d counts matrix.\n&quot;,nrow(counts),ncol(counts)))</code></pre>
-<pre><code>Loaded 2034 x 101172 counts matrix.</code></pre>
+<pre><code>Loaded 2953 x 491437 counts matrix.</code></pre>
 <pre class="r"><code>cat(sprintf(&quot;Number of samples (cells): %d\n&quot;,nrow(counts)))</code></pre>
-<pre><code>Number of samples (cells): 2034</code></pre>
+<pre><code>Number of samples (cells): 2953</code></pre>
 <pre class="r"><code>cat(sprintf(&quot;Number of peaks: %d\n&quot;,ncol(counts)))</code></pre>
-<pre><code>Number of peaks: 101172</code></pre>
+<pre><code>Number of peaks: 491437</code></pre>
 <pre class="r"><code>cat(sprintf(&quot;Proportion of counts that are non-zero: %0.1f%%.\n&quot;,
             100*mean(counts &gt; 0)))</code></pre>
-<pre><code>Proportion of counts that are non-zero: 6.2%.</code></pre>
+<pre><code>Proportion of counts that are non-zero: 1.3%.</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -805,12 +746,12 @@ cat(sprintf(&quot;Loaded %d x %d counts matrix.\n&quot;,nrow(counts),ncol(counts
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>R version 3.6.1 (2019-07-05)
+<pre><code>R version 4.0.4 (2021-02-15)
 Platform: x86_64-pc-linux-gnu (64-bit)
 Running under: Scientific Linux 7.4 (Nitrogen)
 
 Matrix products: default
-BLAS/LAPACK: /software/openblas-0.2.19-el7-x86_64/lib/libopenblas_haswellp-r0.2.19.so
+BLAS/LAPACK: /software/openblas-0.3.13-el7-x86_64/lib/libopenblas_haswellp-r0.3.13.so
 
 locale:
  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
@@ -825,25 +766,28 @@ attached base packages:
 [8] base     
 
 other attached packages:
-[1] data.table_1.12.8 readr_1.3.1       Matrix_1.2-18     workflowr_1.6.2  
+[1] data.table_1.14.2 readr_2.1.1       Matrix_1.4-0      workflowr_1.7.0  
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.5       knitr_1.28       whisker_0.4      magrittr_1.5    
- [5] hms_0.5.3        lattice_0.20-38  R6_2.5.0         rlang_0.4.8     
- [9] stringr_1.4.0    grid_3.6.1       xfun_0.14        git2r_0.27.1    
-[13] ellipsis_0.3.1   htmltools_0.4.0  yaml_2.2.0       digest_0.6.27   
-[17] rprojroot_1.3-2  lifecycle_0.2.0  tibble_3.0.4     crayon_1.3.4    
-[21] later_1.0.0      vctrs_0.3.4      promises_1.1.0   fs_1.3.1        
-[25] glue_1.4.2       evaluate_0.14    rmarkdown_2.1    stringi_1.4.6   
-[29] pillar_1.4.6     compiler_3.6.1   backports_1.1.10 httpuv_1.5.3.1  
-[33] pkgconfig_2.0.3 </code></pre>
+ [1] Rcpp_1.0.8       highr_0.9        bslib_0.3.1      compiler_4.0.4  
+ [5] pillar_1.7.0     later_1.3.0      git2r_0.29.0     jquerylib_0.1.4 
+ [9] getPass_0.2-2    digest_0.6.29    lattice_0.20-45  jsonlite_1.7.3  
+[13] evaluate_0.14    tibble_3.1.6     lifecycle_1.0.1  pkgconfig_2.0.3 
+[17] rlang_1.0.1      cli_3.2.0        rstudioapi_0.13  yaml_2.2.2      
+[21] xfun_0.29        fastmap_1.1.0    httr_1.4.2       stringr_1.4.0   
+[25] knitr_1.37       hms_1.1.1        sass_0.4.0       fs_1.5.2        
+[29] vctrs_0.3.8      grid_4.0.4       rprojroot_2.0.2  glue_1.6.2      
+[33] R6_2.5.1         processx_3.5.2   fansi_1.0.2      rmarkdown_2.11  
+[37] tzdb_0.2.0       callr_3.7.0      magrittr_2.0.2   whisker_0.4     
+[41] ps_1.6.0         promises_1.2.0.1 htmltools_0.5.2  ellipsis_0.3.2  
+[45] httpuv_1.6.5     utf8_1.2.2       stringi_1.7.6    crayon_1.5.0    </code></pre>
 </div>
 </div>
 
 
 <!-- Adjust MathJax settings so that all math formulae are shown using
 TeX fonts only; see
-http://docs.mathjax.org/en/latest/configuration.html.  This will make
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
 the presentation more consistent at the cost of the webpage sometimes
 taking slightly longer to load. Note that this only works because the
 footer is added to webpages before the MathJax javascript. -->
@@ -863,7 +807,7 @@ footer is added to webpages before the MathJax javascript. -->
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -881,7 +825,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>
@@ -890,6 +834,9 @@ $(document).ready(function () {
 
 <script>
 $(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
 
     // move toc-ignore selectors from section div to header
     $('div.section.toc-ignore')
@@ -902,7 +849,7 @@ $(document).ready(function ()  {
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
       },
       ignoreSelector: ".toc-ignore",
       scrollTo: 0

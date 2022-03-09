@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Kaixuan Luo" />
+
+
+<title>Motif analysis using topic modeling and DA results (v2) for Buenrostro et al (2018) scATAC-seq result</title>
+
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="site_libs/datatables-binding-0.20/datatables.js"></script>
+<link href="site_libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="site_libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="site_libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
+<link href="site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">scATACseq-topics</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/stephenslab/scATACseq-topics">source</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Motif analysis using topic modeling and DA results (v2) for Buenrostro <em>et al</em> (2018) scATAC-seq result</h1>
+<h4 class="author">Kaixuan Luo</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2022-03-09
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>scATACseq-topics/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version 1.7.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it's best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20200729code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20200729)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20200729code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20200729)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree1b7f106da69420a32976ab372b64a31b9548ea4ftargetblank1b7f106a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/1b7f106da69420a32976ab372b64a31b9548ea4f" target="_blank">1b7f106</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree1b7f106da69420a32976ab372b64a31b9548ea4ftargetblank1b7f106a" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/1b7f106da69420a32976ab372b64a31b9548ea4f" target="_blank">1b7f106</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+
+Untracked files:
+    Untracked:  analysis/motif_analysis_Buenrostro2018_v2.Rmd
+    Untracked:  output/clustering-Cusanovich2018.rds
+    Untracked:  paper/
+
+Unstaged changes:
+    Modified:   analysis/assess_fits_Buenrostro2018_Chen2019pipeline.Rmd
+    Modified:   analysis/clusters_Cusanovich2018_k13.Rmd
+    Modified:   analysis/gene_analysis_Buenrostro2018_Chen2019pipeline.Rmd
+    Modified:   analysis/gene_analysis_Cusanovich2018.Rmd
+    Modified:   analysis/motif_analysis_Buenrostro2018_Chen2019pipeline.Rmd
+    Modified:   analysis/motif_analysis_Cusanovich2018.Rmd
+    Modified:   analysis/plots_Cusanovich2018.Rmd
+    Modified:   scripts/postfit_Buenrostro2018_v2.sh
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/motif_analysis_Buenrostro2018_k10_v2.Rmd</code>) and HTML (<code>docs/motif_analysis_Buenrostro2018_k10_v2.html</code>) files. If you've configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/1b7f106da69420a32976ab372b64a31b9548ea4f/analysis/motif_analysis_Buenrostro2018_k10_v2.Rmd" target="_blank">1b7f106</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-09
+</td>
+<td>
+do not show all motif enrichment results
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/38627c5a5045df9360b6e76c8d3db1dd890fb589/docs/motif_analysis_Buenrostro2018_k10_v2.html" target="_blank">38627c5</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-09
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/e17fb16843b61d5d2a176a8eaa4228e5b2f2361a/analysis/motif_analysis_Buenrostro2018_k10_v2.Rmd" target="_blank">e17fb16</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-09
+</td>
+<td>
+switched the order of showing motif enrichment results
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/3551232ab2b64392b152e1c0cc3bca27c5ecdf08/docs/motif_analysis_Buenrostro2018_k10_v2.html" target="_blank">3551232</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-09
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/6954b87d408be5d6ff29b535b032d0de7fe713cd/analysis/motif_analysis_Buenrostro2018_k10_v2.Rmd" target="_blank">6954b87</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-09
+</td>
+<td>
+updated motif enrichment results with four different methods
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<p>Here we perform TF motif analysis for the Buenrostro <em>et al</em> (2018) scATAC-seq result inferred from the multinomial topic model with <span class="math inline">\(k = 10\)</span>.</p>
+<p>We use binarized data downloaded from original paper.</p>
+<div id="load-packages-and-some-functions-used-in-this-analysis" class="section level2">
+<h2>Load packages and some functions used in this analysis</h2>
+<pre class="r"><code>library(Matrix)
+library(fastTopics)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(ggrepel)
+library(cowplot)
+library(plotly)
+library(DT)
+library(reshape2)
+source(&quot;code/motif_analysis.R&quot;)
+source(&quot;code/plots.R&quot;)</code></pre>
+</div>
+<div id="load-data-and-topic-model-results" class="section level2">
+<h2>Load data and topic model results</h2>
+<p>Data downloaded from original paper. Load the <strong>binarized</strong> data and the <span class="math inline">\(k = 11\)</span> Poisson NMF fit results</p>
+<pre class="r"><code>data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/&quot;
+load(file.path(data.dir, &quot;Buenrostro_2018_binarized_counts.RData&quot;))
+cat(sprintf(&quot;%d x %d counts matrix.\n&quot;,nrow(counts),ncol(counts)))</code></pre>
+<pre><code># 2953 x 491437 counts matrix.</code></pre>
+<pre class="r"><code>fit.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/&quot;
+fit &lt;- readRDS(file.path(fit.dir, &quot;/fit-Buenrostro2018-binarized-scd-ex-k=10.rds&quot;))$fit
+fit &lt;- poisson2multinom(fit)</code></pre>
+</div>
+<div id="structure-plot" class="section level2">
+<h2>Structure plot</h2>
+<pre class="r"><code>topic_colors &lt;- c(&quot;darkorange&quot;,&quot;limegreen&quot;,&quot;magenta&quot;,&quot;gold&quot;,&quot;skyblue&quot;,
+                  &quot;darkblue&quot;,&quot;dodgerblue&quot;,&quot;darkmagenta&quot;,&quot;red&quot;,&quot;olivedrab&quot;)
+
+set.seed(1)
+# labels &lt;- factor(samples$label, levels = c(&quot;HSC&quot;, &quot;MPP&quot;, &quot;CMP&quot;, &quot;GMP&quot;, &quot;mono&quot;, &quot;MEP&quot;, &quot;LMPP&quot;, &quot;CLP&quot;, &quot;pDC&quot;, &quot;UNK&quot;))
+
+labels &lt;- factor(samples$label, c(&quot;mono&quot;,&quot;pDC&quot;,&quot;MEP&quot;,&quot;HSC&quot;,&quot;MPP&quot;,&quot;CLP&quot;,
+                                 &quot;LMPP&quot;,&quot;CMP&quot;,&quot;GMP&quot;,&quot;UNK&quot;))
+structure_plot(fit,grouping = labels,colors = topic_colors,
+               # topics = 1:10,
+               gap = 20,perplexity = 50,verbose = FALSE)</code></pre>
+<p><img src="figure/motif_analysis_Buenrostro2018_k10_v2.Rmd/structure-plot-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-1">
+Past versions of structure-plot-1.png
+</button>
+</p>
+<div id="fig-structure-plot-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/3551232ab2b64392b152e1c0cc3bca27c5ecdf08/docs/figure/motif_analysis_Buenrostro2018_k10_v2.Rmd/structure-plot-1.png" target="_blank">3551232</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="motif-enrichment-analysis-using-homer" class="section level2">
+<h2>Motif enrichment analysis using HOMER</h2>
+<ul>
+<li>About HOMER motif analysis
+<ul>
+<li><a href="http://homer.ucsd.edu/homer/motif/" class="uri">http://homer.ucsd.edu/homer/motif/</a></li>
+<li><a href="http://homer.ucsd.edu/homer/ngs/peakMotifs.html" class="uri">http://homer.ucsd.edu/homer/ngs/peakMotifs.html</a></li>
+</ul></li>
+<li><a href="../scripts/postfit_motif_analysis_Buenrostro2018.R">Script for motif enrichment analysis using HOMER</a></li>
+</ul>
+<div id="motif-enrichment-result-using-regions-with-da-p-value-0.05" class="section level3">
+<h3>Motif enrichment result using regions with DA p-value &lt; 0.05</h3>
+<p>Load and compile HOMER results across topics</p>
+<pre class="r"><code>postfit.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/postfit_v2&quot;
+homer.dir &lt;- paste0(postfit.dir, &quot;/motifanalysis-Buenrostro2018-k=10/HOMER/DA_pval_0.05_regions&quot;)
+cat(sprintf(&quot;Directory of motif analysis result: %s \n&quot;, homer.dir))
+homer_res_topics &lt;- readRDS(file.path(homer.dir, &quot;/homer_knownResults.rds&quot;))
+selected_regions &lt;- readRDS(file.path(homer.dir, &quot;/selected_regions.rds&quot;))
+
+# Compile Homer results (pvalue and ranking) across topics
+motif_res &lt;- compile_homer_motif_res(homer_res_topics)
+saveRDS(motif_res, paste0(homer.dir, &quot;/homer_motif_enrichment_results.rds&quot;))
+cat(&quot;compiled homer motif results are saved in&quot;, paste0(homer.dir, &quot;/homer_motif_enrichment_results.rds \n&quot;))</code></pre>
+<pre><code># Directory of motif analysis result: /project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/postfit_v2/motifanalysis-Buenrostro2018-k=10/HOMER/DA_pval_0.05_regions 
+# compiled homer motif results are saved in /project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/postfit_v2/motifanalysis-Buenrostro2018-k=10/HOMER/DA_pval_0.05_regions/homer_motif_enrichment_results.rds</code></pre>
+<p>Top 10 motifs for each topic</p>
+<pre class="r"><code>cat(&quot;Number of regions selected for each topic: \n&quot;)
+print(mapply(nrow, selected_regions[1:(length(selected_regions)-1)]))
+
+colnames_homer &lt;- c(&quot;motif_name&quot;, &quot;consensus&quot;, &quot;P&quot;, &quot;log10P&quot;, &quot;Padj&quot;,  &quot;num_target&quot;, &quot;percent_target&quot;, &quot;num_bg&quot;, &quot;percent_bg&quot;)
+
+top_motifs &lt;- data.frame(matrix(nrow=10, ncol = length(homer_res_topics)))
+colnames(top_motifs) &lt;- names(homer_res_topics)
+for (k in 1:length(homer_res_topics)){
+  homer_res &lt;- homer_res_topics[[k]]
+  colnames(homer_res) &lt;- colnames_homer
+  homer_res &lt;- homer_res %&gt;% separate(motif_name, c(&quot;motif&quot;, &quot;origin&quot;, &quot;database&quot;), &quot;/&quot;)
+  top_motifs[,k] &lt;- head(homer_res$motif, 10)
+}
+
+DT::datatable(data.frame(rank = 1:10, top_motifs), rownames = F, caption = &quot;Top 10 motifs enriched in each topic.&quot;)</code></pre>
+<pre><code># Number of regions selected for each topic: 
+#   k1   k2   k3   k4   k5   k6   k7   k8   k9  k10 
+#   40   19 1322 3223  245   73 1385 1882  252  790</code></pre>
+<div id="htmlwidget-186d8d7bda067e5d3d80" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-186d8d7bda067e5d3d80">{"x":{"filter":"none","vertical":false,"caption":"<caption>Top 10 motifs enriched in each topic.<\/caption>","data":[[1,2,3,4,5,6,7,8,9,10],["CEBP:AP1(bZIP)","Ets1-distal(ETS)","CEBP(bZIP)","NFIL3(bZIP)","ELF3(ETS)","Atf4(bZIP)","Oct11(POU,Homeobox)","EWS:FLI1-fusion(ETS)","Jun-AP1(bZIP)","ELF5(ETS)"],["ERG(ETS)","CEBP(bZIP)","Fos(bZIP)","Bach2(bZIP)","MafK(bZIP)","ETV1(ETS)","Atf3(bZIP)","Tbx20(T-box)","Jun-AP1(bZIP)","Rfx2(HTH)"],["Fra1(bZIP)","Fos(bZIP)","BATF(bZIP)","Atf3(bZIP)","JunB(bZIP)","Fra2(bZIP)","AP-1(bZIP)","Fosl2(bZIP)","Jun-AP1(bZIP)","Bach2(bZIP)"],["IRF8(IRF)","PU.1:IRF8(ETS:IRF)","PU.1-IRF(ETS:IRF)","Ascl1(bHLH)","SpiB(ETS)","IRF3(IRF)","HEB(bHLH)","Ptf1a(bHLH)","PU.1(ETS)","Twist2(bHLH)"],["Gata4(Zf)","GATA3(Zf)","Gata6(Zf)","Gata2(Zf)","Gata1(Zf)","TRPS1(Zf)","GATA:SCL(Zf,bHLH)","RUNX1(Runt)","Fli1(ETS)","RUNX-AML(Runt)"],["ETS1(ETS)","Elf4(ETS)","Fli1(ETS)","Etv2(ETS)","ETV1(ETS)","ERG(ETS)","ETS:E-box(ETS,bHLH)","RUNX2(Runt)","RUNX1(Runt)","EWS:FLI1-fusion(ETS)"],["PU.1(ETS)","Elf4(ETS)","ELF5(ETS)","SpiB(ETS)","IRF8(IRF)","PU.1:IRF8(ETS:IRF)","Fos(bZIP)","Atf3(bZIP)","Fra1(bZIP)","BATF(bZIP)"],["Gata6(Zf)","GATA3(Zf)","Gata4(Zf)","Gata2(Zf)","Gata1(Zf)","TRPS1(Zf)","GATA:SCL(Zf,bHLH)","ERG(ETS)","Etv2(ETS)","ETS1(ETS)"],["ERG(ETS)","Etv2(ETS)","ETV1(ETS)","Fli1(ETS)","ETS1(ETS)","Elf4(ETS)","ETV4(ETS)","EWS:ERG-fusion(ETS)","EHF(ETS)","EWS:FLI1-fusion(ETS)"],["EBF2(EBF)","EBF(EBF)","Ascl1(bHLH)","ETS:E-box(ETS,bHLH)","EBF1(EBF)","Ptf1a(bHLH)","HEB(bHLH)","Ascl2(bHLH)","ERG(ETS)","E2A(bHLH)"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>rank<\/th>\n      <th>k1<\/th>\n      <th>k2<\/th>\n      <th>k3<\/th>\n      <th>k4<\/th>\n      <th>k5<\/th>\n      <th>k6<\/th>\n      <th>k7<\/th>\n      <th>k8<\/th>\n      <th>k9<\/th>\n      <th>k10<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p>Heatmap of motif enrichment -log10(p-value).</p>
+<pre class="r"><code>create_motif_enrichment_heatmap(motif_res, enrichment = &quot;-log10(p-value)&quot;, 
+                                cluster_motifs = TRUE, cluster_topics = TRUE, motif_filter = 10, horizontal = FALSE,
+                                enrichment_range = c(0,100), method_cluster = &quot;average&quot;, font.size.motifs = 4, font.size.topics = 9)</code></pre>
+<p><img src="figure/motif_analysis_Buenrostro2018_k10_v2.Rmd/motif-heatmap-pvalue-p0.05-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-motif-heatmap-pvalue-p0.05-1">
+Past versions of motif-heatmap-pvalue-p0.05-1.png
+</button>
+</p>
+<div id="fig-motif-heatmap-pvalue-p0.05-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/3551232ab2b64392b152e1c0cc3bca27c5ecdf08/docs/figure/motif_analysis_Buenrostro2018_k10_v2.Rmd/motif-heatmap-pvalue-p0.05-1.png" target="_blank">3551232</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code># 133 out of 439 motifs included the heatmap</code></pre>
+<p>Top enriched motifs</p>
+<pre class="r"><code>plots &lt;- vector(&quot;list&quot;, ncol(motif_res$mlog10P))
+names(plots) &lt;- colnames(motif_res$mlog10P)
+
+for( i in 1:length(plots)){
+  plots[[i]] &lt;- create_motif_enrichment_ranking_plot(motif_res, k = i, 
+                                                     max.overlaps = 20, subsample = FALSE)
+}
+
+do.call(plot_grid,plots)</code></pre>
+<p><img src="figure/motif_analysis_Buenrostro2018_k10_v2.Rmd/motif-enrichment-ranking-plot-p0.05-1.png" width="1200" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-motif-enrichment-ranking-plot-p0.05-1">
+Past versions of motif-enrichment-ranking-plot-p0.05-1.png
+</button>
+</p>
+<div id="fig-motif-enrichment-ranking-plot-p0.05-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/38627c5a5045df9360b6e76c8d3db1dd890fb589/docs/figure/motif_analysis_Buenrostro2018_k10_v2.Rmd/motif-enrichment-ranking-plot-p0.05-1.png" target="_blank">38627c5</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-09
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/3551232ab2b64392b152e1c0cc3bca27c5ecdf08/docs/figure/motif_analysis_Buenrostro2018_k10_v2.Rmd/motif-enrichment-ranking-plot-p0.05-1.png" target="_blank">3551232</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="motif-enrichment-result-using-regions-with-da-p-value-0.1" class="section level3">
+<h3>Motif enrichment result using regions with DA p-value &lt; 0.1</h3>
+<p>Load and compile HOMER results across topics</p>
+<pre class="r"><code>postfit.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/postfit_v2&quot;
+homer.dir &lt;- paste0(postfit.dir, &quot;/motifanalysis-Buenrostro2018-k=10/HOMER/DA_pval_0.1_regions&quot;)
+cat(sprintf(&quot;Directory of motif analysis result: %s \n&quot;, homer.dir))
+homer_res_topics &lt;- readRDS(file.path(homer.dir, &quot;/homer_knownResults.rds&quot;))
+selected_regions &lt;- readRDS(file.path(homer.dir, &quot;/selected_regions.rds&quot;))
+
+# Compile Homer results (pvalue and ranking) across topics
+motif_res &lt;- compile_homer_motif_res(homer_res_topics)
+saveRDS(motif_res, paste0(homer.dir, &quot;/homer_motif_enrichment_results.rds&quot;))
+cat(&quot;compiled homer motif results are saved in&quot;, paste0(homer.dir, &quot;/homer_motif_enrichment_results.rds \n&quot;))</code></pre>
+<pre><code># Directory of motif analysis result: /project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/postfit_v2/motifanalysis-Buenrostro2018-k=10/HOMER/DA_pval_0.1_regions 
+# compiled homer motif results are saved in /project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/postfit_v2/motifanalysis-Buenrostro2018-k=10/HOMER/DA_pval_0.1_regions/homer_motif_enrichment_results.rds</code></pre>
+<p>Top 10 motifs for each topic</p>
+<pre class="r"><code>cat(&quot;Number of regions selected for each topic: \n&quot;)
+print(mapply(nrow, selected_regions[1:(length(selected_regions)-1)]))
+
+colnames_homer &lt;- c(&quot;motif_name&quot;, &quot;consensus&quot;, &quot;P&quot;, &quot;log10P&quot;, &quot;Padj&quot;,  &quot;num_target&quot;, &quot;percent_target&quot;, &quot;num_bg&quot;, &quot;percent_bg&quot;)
+
+top_motifs &lt;- data.frame(matrix(nrow=10, ncol = length(homer_res_topics)))
+colnames(top_motifs) &lt;- names(homer_res_topics)
+for (k in 1:length(homer_res_topics)){
+  homer_res &lt;- homer_res_topics[[k]]
+  colnames(homer_res) &lt;- colnames_homer
+  homer_res &lt;- homer_res %&gt;% separate(motif_name, c(&quot;motif&quot;, &quot;origin&quot;, &quot;database&quot;), &quot;/&quot;)
+  top_motifs[,k] &lt;- head(homer_res$motif, 10)
+}
+
+DT::datatable(data.frame(rank = 1:10, top_motifs), rownames = F, caption = &quot;Top 10 motifs enriched in each topic.&quot;)</code></pre>
+<pre><code># Number of regions selected for each topic: 
+#   k1   k2   k3   k4   k5   k6   k7   k8   k9  k10 
+#  163   45 1793 4250  416  125 2091 2772  418 1191</code></pre>
+<div id="htmlwidget-8c86022a2dd9801dde01" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8c86022a2dd9801dde01">{"x":{"filter":"none","vertical":false,"caption":"<caption>Top 10 motifs enriched in each topic.<\/caption>","data":[[1,2,3,4,5,6,7,8,9,10],["ELF5(ETS)","ELF3(ETS)","Elf4(ETS)","ETS1(ETS)","CEBP:AP1(bZIP)","EHF(ETS)","GABPA(ETS)","NFIL3(bZIP)","ETV1(ETS)","Ets1-distal(ETS)"],["HLF(bZIP)","Jun-AP1(bZIP)","NFIL3(bZIP)","Atf4(bZIP)","Fra2(bZIP)","CEBP:AP1(bZIP)","Fosl2(bZIP)","AP-1(bZIP)","Fra1(bZIP)","Atf3(bZIP)"],["Atf3(bZIP)","Fos(bZIP)","BATF(bZIP)","Fra1(bZIP)","AP-1(bZIP)","Fra2(bZIP)","JunB(bZIP)","Fosl2(bZIP)","Jun-AP1(bZIP)","Bach2(bZIP)"],["IRF8(IRF)","PU.1:IRF8(ETS:IRF)","PU.1-IRF(ETS:IRF)","IRF3(IRF)","SpiB(ETS)","Ascl1(bHLH)","PU.1(ETS)","Ptf1a(bHLH)","HEB(bHLH)","Twist2(bHLH)"],["GATA3(Zf)","Gata4(Zf)","Gata6(Zf)","Gata2(Zf)","Gata1(Zf)","TRPS1(Zf)","GATA:SCL(Zf,bHLH)","RUNX1(Runt)","Fli1(ETS)","RUNX-AML(Runt)"],["ETV1(ETS)","ETS1(ETS)","ERG(ETS)","Fli1(ETS)","Etv2(ETS)","Elf4(ETS)","ETV4(ETS)","RUNX1(Runt)","EWS:ERG-fusion(ETS)","EWS:FLI1-fusion(ETS)"],["PU.1(ETS)","Elf4(ETS)","ELF5(ETS)","SpiB(ETS)","Fos(bZIP)","Fra1(bZIP)","PU.1:IRF8(ETS:IRF)","BATF(bZIP)","Atf3(bZIP)","Fra2(bZIP)"],["Gata6(Zf)","GATA3(Zf)","Gata4(Zf)","Gata2(Zf)","TRPS1(Zf)","Gata1(Zf)","GATA:SCL(Zf,bHLH)","ERG(ETS)","RUNX(Runt)","RUNX2(Runt)"],["ERG(ETS)","Etv2(ETS)","Fli1(ETS)","ETV1(ETS)","ETS1(ETS)","Elf4(ETS)","EHF(ETS)","EWS:ERG-fusion(ETS)","ETV4(ETS)","GABPA(ETS)"],["EBF2(EBF)","EBF(EBF)","Ascl1(bHLH)","ETS:E-box(ETS,bHLH)","EBF1(EBF)","Ptf1a(bHLH)","ERG(ETS)","HEB(bHLH)","Ascl2(bHLH)","Etv2(ETS)"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>rank<\/th>\n      <th>k1<\/th>\n      <th>k2<\/th>\n      <th>k3<\/th>\n      <th>k4<\/th>\n      <th>k5<\/th>\n      <th>k6<\/th>\n      <th>k7<\/th>\n      <th>k8<\/th>\n      <th>k9<\/th>\n      <th>k10<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p>Heatmap of motif enrichment -log10(p-value).</p>
+<pre class="r"><code>create_motif_enrichment_heatmap(motif_res, enrichment = &quot;-log10(p-value)&quot;, 
+                                cluster_motifs = TRUE, cluster_topics = TRUE, motif_filter = 10, horizontal = FALSE,
+                                enrichment_range = c(0,100), method_cluster = &quot;average&quot;, font.size.motifs = 4, font.size.topics = 9)</code></pre>
+<p><img src="figure/motif_analysis_Buenrostro2018_k10_v2.Rmd/motif-heatmap-pvalue-p0.1-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-motif-heatmap-pvalue-p0.1-1">
+Past versions of motif-heatmap-pvalue-p0.1-1.png
+</button>
+</p>
+<div id="fig-motif-heatmap-pvalue-p0.1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/3551232ab2b64392b152e1c0cc3bca27c5ecdf08/docs/figure/motif_analysis_Buenrostro2018_k10_v2.Rmd/motif-heatmap-pvalue-p0.1-1.png" target="_blank">3551232</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code># 140 out of 439 motifs included the heatmap</code></pre>
+<p>Top enriched motifs</p>
+<pre class="r"><code>plots &lt;- vector(&quot;list&quot;, ncol(motif_res$mlog10P))
+names(plots) &lt;- colnames(motif_res$mlog10P)
+
+for( i in 1:length(plots)){
+  plots[[i]] &lt;- create_motif_enrichment_ranking_plot(motif_res, k = i, 
+                                                     max.overlaps = 20, subsample = FALSE)
+}
+
+do.call(plot_grid,plots)</code></pre>
+<p><img src="figure/motif_analysis_Buenrostro2018_k10_v2.Rmd/motif-enrichment-ranking-plot-p0.1-1.png" width="1200" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-motif-enrichment-ranking-plot-p0.1-1">
+Past versions of motif-enrichment-ranking-plot-p0.1-1.png
+</button>
+</p>
+<div id="fig-motif-enrichment-ranking-plot-p0.1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/38627c5a5045df9360b6e76c8d3db1dd890fb589/docs/figure/motif_analysis_Buenrostro2018_k10_v2.Rmd/motif-enrichment-ranking-plot-p0.1-1.png" target="_blank">38627c5</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-09
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/3551232ab2b64392b152e1c0cc3bca27c5ecdf08/docs/figure/motif_analysis_Buenrostro2018_k10_v2.Rmd/motif-enrichment-ranking-plot-p0.1-1.png" target="_blank">3551232</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="motif-enrichment-result-using-top-1-regions-with-largest-logfc" class="section level3">
+<h3>Motif enrichment result using top 1% regions with largest logFC</h3>
+<p>Load and compile HOMER results across topics</p>
+<pre class="r"><code>postfit.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/postfit_v2&quot;
+homer.dir &lt;- paste0(postfit.dir, &quot;/motifanalysis-Buenrostro2018-k=10/HOMER/DA_top1percent_regions&quot;)
+cat(sprintf(&quot;Directory of motif analysis result: %s \n&quot;, homer.dir))
+homer_res_topics &lt;- readRDS(file.path(homer.dir, &quot;/homer_knownResults.rds&quot;))
+selected_regions &lt;- readRDS(file.path(homer.dir, &quot;/selected_regions.rds&quot;))
+
+# Compile Homer results (pvalue and ranking) across topics
+motif_res &lt;- compile_homer_motif_res(homer_res_topics)
+saveRDS(motif_res, paste0(homer.dir, &quot;/homer_motif_enrichment_results.rds&quot;))
+cat(&quot;compiled homer motif results are saved in&quot;, paste0(homer.dir, &quot;/homer_motif_enrichment_results.rds \n&quot;))</code></pre>
+<pre><code># Directory of motif analysis result: /project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/postfit_v2/motifanalysis-Buenrostro2018-k=10/HOMER/DA_top1percent_regions 
+# compiled homer motif results are saved in /project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/postfit_v2/motifanalysis-Buenrostro2018-k=10/HOMER/DA_top1percent_regions/homer_motif_enrichment_results.rds</code></pre>
+<p>Top 10 motifs for each topic</p>
+<pre class="r"><code>cat(&quot;Number of regions selected for each topic: \n&quot;)
+print(mapply(nrow, selected_regions[1:(length(selected_regions)-1)]))
+
+colnames_homer &lt;- c(&quot;motif_name&quot;, &quot;consensus&quot;, &quot;P&quot;, &quot;log10P&quot;, &quot;Padj&quot;,  &quot;num_target&quot;, &quot;percent_target&quot;, &quot;num_bg&quot;, &quot;percent_bg&quot;)
+
+top_motifs &lt;- data.frame(matrix(nrow=10, ncol = length(homer_res_topics)))
+colnames(top_motifs) &lt;- names(homer_res_topics)
+for (k in 1:length(homer_res_topics)){
+  homer_res &lt;- homer_res_topics[[k]]
+  colnames(homer_res) &lt;- colnames_homer
+  homer_res &lt;- homer_res %&gt;% separate(motif_name, c(&quot;motif&quot;, &quot;origin&quot;, &quot;database&quot;), &quot;/&quot;)
+  top_motifs[,k] &lt;- head(homer_res$motif, 10)
+}
+
+DT::datatable(data.frame(rank = 1:10, top_motifs), rownames = F, caption = &quot;Top 10 motifs enriched in each topic.&quot;)</code></pre>
+<pre><code># Number of regions selected for each topic: 
+#   k1   k2   k3   k4   k5   k6   k7   k8   k9  k10 
+# 4656 4656 4656 4656 4656 4656 4656 4656 4656 4656</code></pre>
+<div id="htmlwidget-b3ed4724b4c8fc1d3d5f" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-b3ed4724b4c8fc1d3d5f">{"x":{"filter":"none","vertical":false,"caption":"<caption>Top 10 motifs enriched in each topic.<\/caption>","data":[[1,2,3,4,5,6,7,8,9,10],["Elf4(ETS)","PU.1(ETS)","ETS1(ETS)","ETV1(ETS)","ELF5(ETS)","ERG(ETS)","Etv2(ETS)","SpiB(ETS)","NFIL3(bZIP)","EHF(ETS)"],["Elf4(ETS)","ELF5(ETS)","PU.1(ETS)","ETV1(ETS)","Fos(bZIP)","ERG(ETS)","EHF(ETS)","Atf3(bZIP)","ETS1(ETS)","Etv2(ETS)"],["Fos(bZIP)","Atf3(bZIP)","Fra1(bZIP)","BATF(bZIP)","AP-1(bZIP)","JunB(bZIP)","Fra2(bZIP)","Fosl2(bZIP)","Jun-AP1(bZIP)","ERG(ETS)"],["IRF8(IRF)","PU.1:IRF8(ETS:IRF)","PU.1-IRF(ETS:IRF)","IRF3(IRF)","Ascl1(bHLH)","SpiB(ETS)","Ptf1a(bHLH)","HEB(bHLH)","PU.1(ETS)","Twist2(bHLH)"],["Gata6(Zf)","Gata4(Zf)","GATA3(Zf)","Gata2(Zf)","Gata1(Zf)","TRPS1(Zf)","GATA:SCL(Zf,bHLH)","CTCF(Zf)","BORIS(Zf)","RUNX1(Runt)"],["ERG(ETS)","Etv2(ETS)","ETV1(ETS)","ETS1(ETS)","Fli1(ETS)","Elf4(ETS)","EWS:ERG-fusion(ETS)","ETV4(ETS)","EWS:FLI1-fusion(ETS)","GABPA(ETS)"],["PU.1(ETS)","Elf4(ETS)","ELF5(ETS)","CEBP(bZIP)","PU.1:IRF8(ETS:IRF)","SpiB(ETS)","ETS1(ETS)","EHF(ETS)","ELF3(ETS)","IRF8(IRF)"],["Gata6(Zf)","GATA3(Zf)","Gata4(Zf)","Gata2(Zf)","TRPS1(Zf)","Gata1(Zf)","GATA:SCL(Zf,bHLH)","RUNX2(Runt)","RUNX(Runt)","RUNX1(Runt)"],["ERG(ETS)","ETV1(ETS)","Etv2(ETS)","Fli1(ETS)","ETS1(ETS)","Elf4(ETS)","EHF(ETS)","EWS:ERG-fusion(ETS)","ELF3(ETS)","ELF5(ETS)"],["EBF2(EBF)","EBF(EBF)","EBF1(EBF)","ERG(ETS)","Ascl1(bHLH)","Etv2(ETS)","ETV1(ETS)","EWS:ERG-fusion(ETS)","BHLHA15(bHLH)","Twist2(bHLH)"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>rank<\/th>\n      <th>k1<\/th>\n      <th>k2<\/th>\n      <th>k3<\/th>\n      <th>k4<\/th>\n      <th>k5<\/th>\n      <th>k6<\/th>\n      <th>k7<\/th>\n      <th>k8<\/th>\n      <th>k9<\/th>\n      <th>k10<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p>Heatmap of motif enrichment -log10(p-value).</p>
+<pre class="r"><code>create_motif_enrichment_heatmap(motif_res, enrichment = &quot;-log10(p-value)&quot;, 
+                                cluster_motifs = TRUE, cluster_topics = TRUE, motif_filter = 10, horizontal = FALSE,
+                                enrichment_range = c(0,100), method_cluster = &quot;average&quot;, font.size.motifs = 4, font.size.topics = 9)</code></pre>
+<p><img src="figure/motif_analysis_Buenrostro2018_k10_v2.Rmd/motif-heatmap-pvalue-top1percent-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-motif-heatmap-pvalue-top1percent-1">
+Past versions of motif-heatmap-pvalue-top1percent-1.png
+</button>
+</p>
+<div id="fig-motif-heatmap-pvalue-top1percent-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/3551232ab2b64392b152e1c0cc3bca27c5ecdf08/docs/figure/motif_analysis_Buenrostro2018_k10_v2.Rmd/motif-heatmap-pvalue-top1percent-1.png" target="_blank">3551232</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code># 181 out of 439 motifs included the heatmap</code></pre>
+<p>Top enriched motifs</p>
+<pre class="r"><code>plots &lt;- vector(&quot;list&quot;, ncol(motif_res$mlog10P))
+names(plots) &lt;- colnames(motif_res$mlog10P)
+
+for( i in 1:length(plots)){
+  plots[[i]] &lt;- create_motif_enrichment_ranking_plot(motif_res, k = i, 
+                                                     max.overlaps = 20, subsample = FALSE)
+}
+
+do.call(plot_grid,plots)</code></pre>
+<p><img src="figure/motif_analysis_Buenrostro2018_k10_v2.Rmd/motif-enrichment-ranking-plot-top1percent-1.png" width="1200" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-motif-enrichment-ranking-plot-top1percent-1">
+Past versions of motif-enrichment-ranking-plot-top1percent-1.png
+</button>
+</p>
+<div id="fig-motif-enrichment-ranking-plot-top1percent-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/38627c5a5045df9360b6e76c8d3db1dd890fb589/docs/figure/motif_analysis_Buenrostro2018_k10_v2.Rmd/motif-enrichment-ranking-plot-top1percent-1.png" target="_blank">38627c5</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-09
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/3551232ab2b64392b152e1c0cc3bca27c5ecdf08/docs/figure/motif_analysis_Buenrostro2018_k10_v2.Rmd/motif-enrichment-ranking-plot-top1percent-1.png" target="_blank">3551232</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="motif-enrichment-result-using-top-2000-regions-with-largest-logfc" class="section level3">
+<h3>Motif enrichment result using top 2000 regions with largest logFC</h3>
+<p>Load and compile HOMER results across topics</p>
+<pre class="r"><code>postfit.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/postfit_v2&quot;
+homer.dir &lt;- paste0(postfit.dir, &quot;/motifanalysis-Buenrostro2018-k=10/HOMER/DA_top2000_regions&quot;)
+cat(sprintf(&quot;Directory of motif analysis result: %s \n&quot;, homer.dir))
+homer_res_topics &lt;- readRDS(file.path(homer.dir, &quot;/homer_knownResults.rds&quot;))
+selected_regions &lt;- readRDS(file.path(homer.dir, &quot;/selected_regions.rds&quot;))
+
+# Compile Homer results (pvalue and ranking) across topics
+motif_res &lt;- compile_homer_motif_res(homer_res_topics)
+saveRDS(motif_res, paste0(homer.dir, &quot;/homer_motif_enrichment_results.rds&quot;))
+cat(&quot;compiled homer motif results are saved in&quot;, paste0(homer.dir, &quot;/homer_motif_enrichment_results.rds \n&quot;))</code></pre>
+<pre><code># Directory of motif analysis result: /project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/postfit_v2/motifanalysis-Buenrostro2018-k=10/HOMER/DA_top2000_regions 
+# compiled homer motif results are saved in /project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/postfit_v2/motifanalysis-Buenrostro2018-k=10/HOMER/DA_top2000_regions/homer_motif_enrichment_results.rds</code></pre>
+<p>Top 10 motifs for each topic</p>
+<pre class="r"><code>cat(&quot;Number of regions selected for each topic: \n&quot;)
+print(mapply(nrow, selected_regions[1:(length(selected_regions)-1)]))
+
+colnames_homer &lt;- c(&quot;motif_name&quot;, &quot;consensus&quot;, &quot;P&quot;, &quot;log10P&quot;, &quot;Padj&quot;,  &quot;num_target&quot;, &quot;percent_target&quot;, &quot;num_bg&quot;, &quot;percent_bg&quot;)
+
+top_motifs &lt;- data.frame(matrix(nrow=10, ncol = length(homer_res_topics)))
+colnames(top_motifs) &lt;- names(homer_res_topics)
+for (k in 1:length(homer_res_topics)){
+  homer_res &lt;- homer_res_topics[[k]]
+  colnames(homer_res) &lt;- colnames_homer
+  homer_res &lt;- homer_res %&gt;% separate(motif_name, c(&quot;motif&quot;, &quot;origin&quot;, &quot;database&quot;), &quot;/&quot;)
+  top_motifs[,k] &lt;- head(homer_res$motif, 10)
+}
+
+DT::datatable(data.frame(rank = 1:10, top_motifs), rownames = F, caption = &quot;Top 10 motifs enriched in each topic.&quot;)</code></pre>
+<pre><code># Number of regions selected for each topic: 
+#   k1   k2   k3   k4   k5   k6   k7   k8   k9  k10 
+# 2000 2000 2000 2000 2000 2000 2000 2000 2000 2000</code></pre>
+<div id="htmlwidget-3cf7aab9cfafa4f8f95d" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3cf7aab9cfafa4f8f95d">{"x":{"filter":"none","vertical":false,"caption":"<caption>Top 10 motifs enriched in each topic.<\/caption>","data":[[1,2,3,4,5,6,7,8,9,10],["PU.1(ETS)","Elf4(ETS)","NFIL3(bZIP)","ETS1(ETS)","ELF5(ETS)","Etv2(ETS)","ERG(ETS)","CEBP(bZIP)","ETV1(ETS)","HLF(bZIP)"],["Elf4(ETS)","ETV1(ETS)","ERG(ETS)","CEBP(bZIP)","CEBP:AP1(bZIP)","PU.1(ETS)","ETS1(ETS)","Fra1(bZIP)","Etv2(ETS)","ELF5(ETS)"],["Fos(bZIP)","Atf3(bZIP)","Fra1(bZIP)","BATF(bZIP)","AP-1(bZIP)","Fra2(bZIP)","JunB(bZIP)","Fosl2(bZIP)","Jun-AP1(bZIP)","ERG(ETS)"],["IRF8(IRF)","PU.1:IRF8(ETS:IRF)","Ascl1(bHLH)","PU.1-IRF(ETS:IRF)","IRF3(IRF)","HEB(bHLH)","Ptf1a(bHLH)","E2A(bHLH)","Twist2(bHLH)","Ascl2(bHLH)"],["Gata6(Zf)","Gata4(Zf)","GATA3(Zf)","Gata2(Zf)","Gata1(Zf)","TRPS1(Zf)","GATA:SCL(Zf,bHLH)","CTCF(Zf)","BORIS(Zf)","RUNX2(Runt)"],["ERG(ETS)","ETV1(ETS)","Etv2(ETS)","Fli1(ETS)","ETS1(ETS)","Elf4(ETS)","ETV4(ETS)","EWS:FLI1-fusion(ETS)","GABPA(ETS)","RUNX1(Runt)"],["PU.1(ETS)","Elf4(ETS)","PU.1:IRF8(ETS:IRF)","IRF8(IRF)","ELF5(ETS)","CEBP(bZIP)","SpiB(ETS)","PU.1-IRF(ETS:IRF)","EHF(ETS)","ETS1(ETS)"],["Gata6(Zf)","Gata4(Zf)","GATA3(Zf)","Gata2(Zf)","TRPS1(Zf)","Gata1(Zf)","GATA:SCL(Zf,bHLH)","ERG(ETS)","RUNX2(Runt)","RUNX(Runt)"],["ERG(ETS)","Fli1(ETS)","Etv2(ETS)","ETV1(ETS)","ETS1(ETS)","EHF(ETS)","Elf4(ETS)","EWS:ERG-fusion(ETS)","ELF3(ETS)","ETV4(ETS)"],["EBF2(EBF)","EBF(EBF)","EBF1(EBF)","Ascl1(bHLH)","Ptf1a(bHLH)","ERG(ETS)","HEB(bHLH)","ETS:E-box(ETS,bHLH)","Ascl2(bHLH)","Twist2(bHLH)"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>rank<\/th>\n      <th>k1<\/th>\n      <th>k2<\/th>\n      <th>k3<\/th>\n      <th>k4<\/th>\n      <th>k5<\/th>\n      <th>k6<\/th>\n      <th>k7<\/th>\n      <th>k8<\/th>\n      <th>k9<\/th>\n      <th>k10<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p>Heatmap of motif enrichment -log10(p-value).</p>
+<pre class="r"><code>create_motif_enrichment_heatmap(motif_res, enrichment = &quot;-log10(p-value)&quot;, 
+                                cluster_motifs = TRUE, cluster_topics = TRUE, motif_filter = 10, horizontal = FALSE,
+                                enrichment_range = c(0,100), method_cluster = &quot;average&quot;, font.size.motifs = 4, font.size.topics = 9)</code></pre>
+<p><img src="figure/motif_analysis_Buenrostro2018_k10_v2.Rmd/motif-heatmap-pvalue-top2000regions-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-motif-heatmap-pvalue-top2000regions-1">
+Past versions of motif-heatmap-pvalue-top2000regions-1.png
+</button>
+</p>
+<div id="fig-motif-heatmap-pvalue-top2000regions-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/3551232ab2b64392b152e1c0cc3bca27c5ecdf08/docs/figure/motif_analysis_Buenrostro2018_k10_v2.Rmd/motif-heatmap-pvalue-top2000regions-1.png" target="_blank">3551232</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code># 142 out of 439 motifs included the heatmap</code></pre>
+<p>Top enriched motifs</p>
+<pre class="r"><code>plots &lt;- vector(&quot;list&quot;, ncol(motif_res$mlog10P))
+names(plots) &lt;- colnames(motif_res$mlog10P)
+
+for( i in 1:length(plots)){
+  plots[[i]] &lt;- create_motif_enrichment_ranking_plot(motif_res, k = i, 
+                                                     max.overlaps = 20, subsample = FALSE)
+}
+
+do.call(plot_grid,plots)</code></pre>
+<p><img src="figure/motif_analysis_Buenrostro2018_k10_v2.Rmd/motif-enrichment-ranking-plot-top2000regions-1.png" width="1200" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-motif-enrichment-ranking-plot-top2000regions-1">
+Past versions of motif-enrichment-ranking-plot-top2000regions-1.png
+</button>
+</p>
+<div id="fig-motif-enrichment-ranking-plot-top2000regions-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/38627c5a5045df9360b6e76c8d3db1dd890fb589/docs/figure/motif_analysis_Buenrostro2018_k10_v2.Rmd/motif-enrichment-ranking-plot-top2000regions-1.png" target="_blank">38627c5</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-09
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/3551232ab2b64392b152e1c0cc3bca27c5ecdf08/docs/figure/motif_analysis_Buenrostro2018_k10_v2.Rmd/motif-enrichment-ranking-plot-top2000regions-1.png" target="_blank">3551232</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code># R version 4.0.4 (2021-02-15)
+# Platform: x86_64-pc-linux-gnu (64-bit)
+# Running under: Scientific Linux 7.4 (Nitrogen)
+# 
+# Matrix products: default
+# BLAS/LAPACK: /software/openblas-0.3.13-el7-x86_64/lib/libopenblas_haswellp-r0.3.13.so
+# 
+# locale:
+#  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+#  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+#  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+#  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+#  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+# [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+# 
+# attached base packages:
+# [1] stats     graphics  grDevices utils     datasets  methods   base     
+# 
+# other attached packages:
+#  [1] reshape2_1.4.4    DT_0.20           plotly_4.10.0     cowplot_1.1.1    
+#  [5] ggrepel_0.9.1     ggplot2_3.3.5     tidyr_1.1.4       dplyr_1.0.8      
+#  [9] fastTopics_0.6-97 Matrix_1.4-0      workflowr_1.7.0  
+# 
+# loaded via a namespace (and not attached):
+#   [1] Rtsne_0.15           colorspace_2.0-3     ellipsis_0.3.2      
+#   [4] class_7.3-20         rprojroot_2.0.2      fs_1.5.2            
+#   [7] rstudioapi_0.13      farver_2.1.0         listenv_0.8.0       
+#  [10] MatrixModels_0.5-0   prodlim_2019.11.13   fansi_1.0.2         
+#  [13] lubridate_1.8.0      codetools_0.2-18     splines_4.0.4       
+#  [16] knitr_1.37           jsonlite_1.7.3       pROC_1.18.0         
+#  [19] mcmc_0.9-7           caret_6.0-90         ashr_2.2-47         
+#  [22] uwot_0.1.11          compiler_4.0.4       httr_1.4.2          
+#  [25] assertthat_0.2.1     fastmap_1.1.0        lazyeval_0.2.2      
+#  [28] cli_3.2.0            later_1.3.0          prettyunits_1.1.1   
+#  [31] htmltools_0.5.2      quantreg_5.86        tools_4.0.4         
+#  [34] coda_0.19-4          gtable_0.3.0         glue_1.6.2          
+#  [37] Rcpp_1.0.8           jquerylib_0.1.4      vctrs_0.3.8         
+#  [40] nlme_3.1-155         conquer_1.2.1        crosstalk_1.2.0     
+#  [43] iterators_1.0.13     timeDate_3043.102    gower_0.2.2         
+#  [46] xfun_0.29            stringr_1.4.0        globals_0.14.0      
+#  [49] ps_1.6.0             lifecycle_1.0.1      irlba_2.3.5         
+#  [52] future_1.23.0        getPass_0.2-2        MASS_7.3-55         
+#  [55] scales_1.1.1         ipred_0.9-12         hms_1.1.1           
+#  [58] promises_1.2.0.1     parallel_4.0.4       SparseM_1.81        
+#  [61] yaml_2.2.2           pbapply_1.5-0        sass_0.4.0          
+#  [64] rpart_4.1-15         stringi_1.7.6        SQUAREM_2021.1      
+#  [67] highr_0.9            foreach_1.5.1        lava_1.6.10         
+#  [70] truncnorm_1.0-8      rlang_1.0.1          pkgconfig_2.0.3     
+#  [73] matrixStats_0.61.0   evaluate_0.14        lattice_0.20-45     
+#  [76] invgamma_1.1         purrr_0.3.4          labeling_0.4.2      
+#  [79] recipes_0.1.17       htmlwidgets_1.5.4    processx_3.5.2      
+#  [82] tidyselect_1.1.2     parallelly_1.30.0    plyr_1.8.6          
+#  [85] magrittr_2.0.2       R6_2.5.1             generics_0.1.2      
+#  [88] DBI_1.1.2            pillar_1.7.0         whisker_0.4         
+#  [91] withr_2.4.3          survival_3.2-13      mixsqp_0.3-43       
+#  [94] nnet_7.3-17          tibble_3.1.6         future.apply_1.8.1  
+#  [97] crayon_1.5.0         utf8_1.2.2           rmarkdown_2.11      
+# [100] progress_1.2.2       grid_4.0.4           data.table_1.14.2   
+# [103] callr_3.7.0          git2r_0.29.0         ModelMetrics_1.2.2.2
+# [106] digest_0.6.29        httpuv_1.6.5         MCMCpack_1.6-0      
+# [109] RcppParallel_5.1.5   stats4_4.0.4         munsell_0.5.0       
+# [112] viridisLite_0.4.0    bslib_0.3.1          quadprog_1.5-8</code></pre>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -7,6 +7,7 @@
 #' For example, from `orgdb <- org.Hs.eg.db`.
 #' @param keytype_geneID Keytype of the gene ID from OrgDb (e.g. "ENTREZID", "ENSEMBL").
 #' @param columns_extract Other gene info columns to extract (e.g. "SYMBOL", "ENSEMBL").
+#' @return a GRanges object of the gene annotation
 #' @export
 get_gene_annotations <- function(
   TxDb = NULL,
@@ -15,7 +16,6 @@ get_gene_annotations <- function(
   columns_extract = c("SYMBOL", "ENSEMBL")
 ){
 
-  ###########################
   cat("Get genes from TxDb...")
   genes        <- suppressMessages(GenomicFeatures::genes(TxDb))
   geneID_map   <- map_geneIDs(OrgDb, genes$gene_id, keytype_geneID, columns_extract)
@@ -24,7 +24,6 @@ get_gene_annotations <- function(
   genes <- sort(sortSeqlevels(genes), ignore.strand = TRUE)
 
   return(genes)
-
 }
 
 
@@ -35,6 +34,7 @@ get_gene_annotations <- function(
 #' @param geneIDs Input gene IDs.
 #' @param keytype_geneID Keytype of the input gene IDs (e.g. "ENTREZID", "ENSEMBL").
 #' @param columns_extract Other gene ID columns to extract (e.g. "SYMBOL", "ENSEMBL").
+#' @return A data frame of extracted gene IDs.
 #' @export
 map_geneIDs <- function(
   OrgDb = NULL,
