@@ -35,7 +35,7 @@ source("code/plots.R")
 
 ## Load data and topic model results
 Data downloaded from original paper.
-Load the **binarized** data and the $k = 11$ Poisson NMF fit results 
+Load the **binarized** data and the $k = 10$ Poisson NMF fit results 
 ```{r load-data}
 data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/"
 load(file.path(data.dir, "Buenrostro_2018_binarized_counts.RData"))
