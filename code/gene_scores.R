@@ -9,11 +9,12 @@
 #' @param ATAC.regions A data frame containing the coordinates (chr, start, end) of the accessibility regions.
 #' @param genes A data frame containing gene coordinates (chr, start, end, strand, GeneID, etc. ).
 #' @param use.ATAC.centers logical indicating whether to represent ATAC-seq positions by the centers of ATAC-seq regions
-#' @param transform.method Method to transform the region scores.
+#' @param transform Method to transform the region scores.
 #' `abs`: absolute value abs(z), `squared`: squared (z^2), `none`: no transform.
-#' @param normalization.method Method to normalize the weights (`l2`, `sum`, or `none`).
+#' @param normalization Method to normalize the weights (`l2`, `sum`, or `none`).
 #' `sum`: normalize by the sum of weights (i.e. weighted average).
 #' `l2`: normalize by the l2 norm of the weights, as in Stouffer's z-score method.
+#' `none`: no normalization.
 #' @param c scaling constant (default = 5000)
 #' @param window.upstream An integer specifying the size of the window upstream of TSS (default = 100000, i.e. 100kb)
 #' @param window.downstream An integer specifying the size of the window downstream of TSS (default = 100000, i.e. 100kb)
@@ -24,26 +25,26 @@ compute_gene_scores_tss_model <- function(Z,
                                           ATAC.regions,
                                           genes,
                                           use.ATAC.centers = TRUE,
-                                          transform.method = c("abs", "squared", "none"),
-                                          normalization.method = c( "sum", "l2", "none"),
+                                          transform = c("abs", "squared", "none"),
+                                          normalization = c( "sum", "l2", "none"),
                                           c = 5000,
                                           window.upstream = 100000,
                                           window.downstream = 100000
 ) {
 
   # Check input arguments
-  transform.method <- match.arg(transform.method)
-  normalization.method <- match.arg(normalization.method)
+  transform <- match.arg(transform)
+  normalization <- match.arg(normalization)
 
   if(!is.matrix(Z)){
     Z <- as.matrix(Z)
   }
 
   # Transform region scores
-  if (transform.method == "abs") {
+  if (transform == "abs") {
     cat("Use absolute values of region scores. \n")
     Z <- abs(Z)
-  } else if (transform.method == "squared") {
+  } else if (transform == "squared") {
     cat("Use squared region scores. \n")
     Z <- Z^2
   }
@@ -58,7 +59,7 @@ compute_gene_scores_tss_model <- function(Z,
   ATAC.regions <- ATAC.regions %>% mutate_at(c("start", "end"), as.numeric)
 
   if (use.ATAC.centers) {
-    # Represent the region/peaks with the region/peak centers
+    # Use region/peak centers to represent the regions/peaks
     ATAC.regions$center <- (ATAC.regions$start + ATAC.regions$end)/2
     ATAC.regions <- makeGRangesFromDataFrame(ATAC.regions, start.field = "center", end.field = "center")
   }else {
@@ -88,7 +89,7 @@ compute_gene_scores_tss_model <- function(Z,
   # Compute distance from ATAC-seq regions to gene TSS
   dist <- distance_ranges(ATAC.regions[overlaps$idx_ATAC], genes.TSS[overlaps$idx_gene])
 
-  # Compute weight matrix for genes x ATAC regions
+  # Compute weight matrix W for genes x ATAC regions
   weight <- exp(-abs(dist/c))
 
   W <- Matrix::sparseMatrix(i = overlaps$idx_gene,
@@ -104,10 +105,10 @@ compute_gene_scores_tss_model <- function(Z,
   Z.genescore <- W %*% Z
 
   # Normalize gene scores
-  if (normalization.method == "sum"){
+  if (normalization == "sum"){
     # Normalize by the sum of weights, i.e. weighted average
     Z.genescore <- Matrix::Diagonal(x = 1 / Matrix::rowSums(W)) %*% Z.genescore
-  } else if (normalization.method == "l2"){
+  } else if (normalization == "l2"){
     # Normalize by the l2 norm of weights, as in Stouffer's z-score method
     Z.genescore <- Matrix::Diagonal(x = 1 / sqrt(Matrix::rowSums(W^2))) %*% Z.genescore
   }
@@ -137,11 +138,12 @@ compute_gene_scores_tss_model <- function(Z,
 #' Default gene model: "exp(-abs(dist)/5000) + exp(-1)". dist is the distance to gene body.
 #' @param distTo A string, genebody (default) or TSS. `genebody` will compute distances from the ATAC-seq regions to gene body.
 #' `TSS` will compute distances from the ATAC-seq regions to TSS.
-#' @param transform.method Method to transform the region scores.
+#' @param transform Method to transform the region scores.
 #' `abs`: absolute value abs(z), `squared`: squared (z^2), `none`: no transform.
-#' @param normalization.method Method to normalize the weights (`l2`, `sum`, or `none`).
+#' @param normalization Method to normalize the weights (`l2`, `sum`, or `none`).
 #' `l2`: normalize by the l2 norm of the weights, as in Stouffer's z-score method.
 #' `sum`: normalize by the sum of weights (i.e. weighted average).
+#' `none`: no normalization.
 #' @param window.upstream An integer specifying the size of the window upstream of TSS (default = 100000, i.e. 100kb)
 #' @param window.downstream An integer specifying the size of the window downstream of TSS (default = 100000, i.e. 100kb)
 #' @param gene.upstream An integer describing the number of bp upstream the gene to extend the gene body (default = 5000).
@@ -155,8 +157,8 @@ compute_gene_scores_genebody_model <- function(Z,
                                                use.ATAC.centers = TRUE,
                                                weight.model = "exp(-abs(dist)/5000) + exp(-1)",
                                                distTo = "genebody",
-                                               transform.method = c("abs", "squared", "none"),
-                                               normalization.method = c("l2", "sum", "none"),
+                                               transform = c("abs", "squared", "none"),
+                                               normalization = c("l2", "sum", "none"),
                                                window.upstream = 100000,
                                                window.downstream = 100000,
                                                gene.upstream = 5000,
@@ -164,18 +166,18 @@ compute_gene_scores_genebody_model <- function(Z,
 ) {
 
   # Check input arguments
-  transform.method <- match.arg(transform.method)
-  normalization.method <- match.arg(normalization.method)
+  transform <- match.arg(transform)
+  normalization <- match.arg(normalization)
 
   if(!is.matrix(Z)){
     Z <- as.matrix(Z)
   }
 
   # Transform region scores
-  if (transform.method == "abs") {
+  if (transform == "abs") {
     cat("Use absolute values of region scores. \n")
     Z <- abs(Z)
-  } else if (transform.method == "squared") {
+  } else if (transform == "squared") {
     cat("Use squared region scores. \n")
     Z <- Z^2
   }
@@ -243,10 +245,10 @@ compute_gene_scores_genebody_model <- function(Z,
   Z.genescore <- W %*% Z
 
   # Normalize gene scores
-  if (normalization.method == "l2") {
+  if (normalization == "l2") {
     # Normalize by the l2 norm of weights, as in Stouffer's z-score method
     Z.genescore <- Matrix::Diagonal(x = 1 / sqrt(Matrix::rowSums(W^2))) %*% Z.genescore
-  } else if (normalization.method == "sum"){
+  } else if (normalization == "sum"){
     # Normalize by the sum of weights, i.e. weighted average
     Z.genescore <- Matrix::Diagonal(x = 1 / Matrix::rowSums(W)) %*% Z.genescore
   }
