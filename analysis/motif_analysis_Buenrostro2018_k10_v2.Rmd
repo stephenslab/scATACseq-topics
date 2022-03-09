@@ -69,7 +69,7 @@ structure_plot(fit,grouping = labels,colors = topic_colors,
     - http://homer.ucsd.edu/homer/motif/
     - http://homer.ucsd.edu/homer/ngs/peakMotifs.html
 
-  * [Script for motif enrichment analysis using HOMER](../scripts/postfit_motif_analysis_Buenrostro2018.R)
+  * [Script for motif enrichment analysis using HOMER](https://github.com/stephenslab/scATACseq-topics/blob/master/scripts/postfit_motif_analysis_Buenrostro2018.R)
 
 ### Motif enrichment result using regions with DA p-value < 0.05
 
