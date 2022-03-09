@@ -1,0 +1,279 @@
+---
+title: "Gene score analysis using topic modeling and DA results (v2) for Buenrostro *et al* (2018) scATAC-seq result"
+author: Kaixuan Luo
+output:
+  workflowr::wflow_html
+---
+
+Here we perform TF motif and gene analysis
+for the Buenrostro *et al* (2018) scATAC-seq result inferred 
+from the multinomial topic model with $k = 10$.
+
+We use binarized data downloaded from original paper.
+
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(comment = "#",collapse = FALSE,results = "hold",
+                      fig.align = "center",dpi = 120)
+```
+
+## Load packages and some functions used in this analysis
+```{r load-pkgs, message=FALSE}
+library(Matrix)
+library(fastTopics)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(ggrepel)
+library(cowplot)
+library(DT)
+
+source("code/plots.R")
+source("code/gene_annotation.R")
+source("code/gene_scores.R")
+```
+
+## Load data and topic model results
+Load the **binarized** data and the $k = 10$ Poisson NMF fit results 
+```{r load-data}
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/"
+load(file.path(data.dir, "Buenrostro_2018_binarized_counts.RData"))
+cat(sprintf("%d x %d counts matrix.\n",nrow(counts),ncol(counts)))
+```
+
+```{r load-fit}
+fit.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/"
+fit <- readRDS(file.path(fit.dir, "/fit-Buenrostro2018-binarized-scd-ex-k=10.rds"))$fit
+fit <- poisson2multinom(fit)
+```
+
+## Structure plot
+```{r structure-plot, fig.width=7, fig.height=2.5, message=FALSE}
+topic_colors <- c("darkorange","limegreen","magenta","gold","skyblue",
+                  "darkblue","dodgerblue","darkmagenta","red","olivedrab")
+
+set.seed(1)
+# labels <- factor(samples$label, levels = c("HSC", "MPP", "CMP", "GMP", "mono", "MEP", "LMPP", "CLP", "pDC", "UNK"))
+
+labels <- factor(samples$label, c("mono","pDC","MEP","HSC","MPP","CLP",
+                                 "LMPP","CMP","GMP","UNK"))
+structure_plot(fit,grouping = labels,colors = topic_colors,
+               # topics = 1:10,
+               gap = 20,perplexity = 50,verbose = FALSE)
+```
+
+## Differential accessbility analysis of the ATAC-seq regions for the topics
+
+Load results from differential accessbility analysis for the topics
+```{r load-DA-res}
+out.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/postfit_v2"
+cat(sprintf("Load results from %s \n", out.dir))
+DA_res <- readRDS(file.path(out.dir, paste0("DAanalysis-Buenrostro2018-k=10/DA_regions_topics_noshrinkage_10000iters.rds")))
+```
+
+```{r region-volcano-plots, eval=FALSE, include=FALSE, fig.width=8, fig.height=6}
+# Volcano plot of the ATAC regions
+m <- ncol(DA_res$z)
+plots <- vector("list",m)
+names(plots) <- colnames(DA_res$z)
+for (k in 1:m) {
+  plots[[k]] <- volcano_plot(DA_res, k = k, labels = rep("",nrow(DA_res$z)))
+}
+do.call(plot_grid, plots)
+```
+
+Filter out regions with NAs
+```{r filter-regions}
+DA_res <- DA_res[c("postmean", "z", "f0")]
+rows_withNAs <- which(apply(DA_res$z, 1, anyNA))
+cat("Filter out", length(rows_withNAs), "regions with NAs... \n")
+DA_res$postmean <- DA_res$postmean[-rows_withNAs,]
+DA_res$z <- DA_res$z[-rows_withNAs,]
+DA_res$f0 <- DA_res$f0[-rows_withNAs]
+```
+
+## Gene score analysis
+
+### Prepare annotations and regions
+
+Load gene annotations
+```{r gene-annot, message=FALSE, warning=FALSE}
+genome <- "hg19"
+
+# Load gene annotation
+cat("Load gene annotations.\n")
+if(tolower(genome) %in% c("hg19", "hg38", "mm9", "mm10")){
+  cat(sprintf("load TxDb and OrgDb for %s. \n", genome))
+  TxDb  <- getTxDb(genome)
+  OrgDb <- getOrgDb(genome)
+  genes <- get_gene_annotations(TxDb, OrgDb, columns_extract = c("ENSEMBL", "SYMBOL"))
+}else{
+  stop("'genome' is not recongized or not available. Please provide your own gene annotation data.")
+}
+
+# Prepare a data frame of gene annotation for computing gene scores,
+# the first five columns need to be: chr, start, end, strand, gene_id
+genes <- as.data.frame(genes)
+colnames(genes)[1] <- "chr"
+genes <- genes[,c("chr", "start", "end", "strand", "gene_id", "ENSEMBL", "SYMBOL")]
+# Filter out genes without matching Ensembl gene IDs.
+genes <- genes[!grepl("^NA_", genes$ENSEMBL), ]
+```
+
+Extract genomic coordinates for ATAC-seq regions
+```{r region-coordinates, message=FALSE, warning=FALSE}
+regions <- data.frame(x = rownames(DA_res$z)) %>% 
+  tidyr::separate(x, c("chr", "start", "end"), "_") %>%
+  dplyr::mutate_at(c("start", "end"), as.numeric)
+```
+
+
+### Compute gene scores using the TSS model
+
+Gene scores were computed using TSS-based method as in Lareau *et al* Nature Biotech, 2019 as well as the `model 21` in `archR` paper.
+This model weights chromatin accessibility around gene promoters by using bi-directional exponential decays from the TSS.
+
+Compute gene-level scores using weighted sum of region-level z-scores, and then normalized by the l2 norm of weights, as in Stouffer's method.
+
+```{r compute-gene-scores-TSS-none-l2, eval=FALSE}
+gene.dir <- paste0(out.dir, "/geneanalysis-Buenrostro2018-k=10-TSS-none-l2")
+dir.create(gene.dir, showWarnings = FALSE, recursive = TRUE)
+
+cat("Compute gene-level logFC using the TSS model. \n")
+gene_logFC <- compute_gene_scores_tss_model(DA_res$postmean, regions, genes, transform="none", normalization = "sum")
+
+cat("Compute gene scores using the TSS model. \n")
+gene_scores <- compute_gene_scores_tss_model(DA_res$z, regions, genes, transform="none", normalization="l2")
+
+cat("Compute gene-level mean accessbility using the TSS model. \n")
+region_mean_acc <- as.matrix(DA_res$f0)
+gene_mean_acc <- compute_gene_scores_tss_model(region_mean_acc, regions, genes, transform="none", normalization = "none")[,1]
+
+genes <- genes[match(rownames(gene_scores), genes$gene_id), ]
+
+genescore_res <- list(mean_acc = gene_mean_acc,
+                      Z = gene_scores,
+                      logFC = gene_logFC,
+                      genes = genes)
+
+saveRDS(genescore_res, file.path(gene.dir, "genescore_result.rds"))
+```
+
+```{r load-gene-scores-tss}
+gene.dir <- paste0(out.dir, "/geneanalysis-Buenrostro2018-k=10-TSS-none-l2")
+genescore_res <- readRDS(file.path(gene.dir, "genescore_result.rds"))
+genes <- genescore_res$genes
+gene_scores <- genescore_res$Z
+gene_logFC <- genescore_res$logFC
+```
+
+Top 10 genes by abs(gene z-scores)
+```{r top-genes-tss}
+topics <- colnames(gene_scores)
+top_genes <- data.frame(matrix(nrow=10, ncol = ncol(gene_scores)))
+colnames(top_genes) <- topics
+
+for (k in topics){
+  top_genes[,k] <- genes$SYMBOL[head(order(abs(gene_scores[,k]), decreasing=TRUE), 10)]
+}
+
+DT::datatable(data.frame(rank = 1:10, top_genes), rownames = F, caption = "Top 10 genes by abs(gene z-scores)")
+```
+
+Volcano plots of gene scores
+
+**all topics**
+```{r gene-volcano-plots-tss, fig.width=10, fig.height=6, message=FALSE, warning=FALSE}
+genescore_volcano_plot(genescore_res, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)
+```
+
+**topic 1 and topic 4 examples**
+```{r gene-volcano-plots-tss-1, fig.width=8, fig.height=3, message=FALSE, warning=FALSE}
+p.volcano.1 <- genescore_volcano_plot(genescore_res, k = 1, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)
+
+p.volcano.4 <- genescore_volcano_plot(genescore_res, k=4, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)
+
+plot_grid(p.volcano.1, p.volcano.4)
+```
+
+### Compute gene scores using the gene body model
+
+Gene scores were computed using the gene score model (model 42) in the `archR` paper with some modifications.
+This model uses bi-directional exponential decays from the gene TSS (extended upstream by 5 kb by default)
+and the gene transcription termination site (TTS).
+Note: the current version of the function does not account for neighboring gene boundaries.
+
+Compute gene-level scores using weighted sum of region-level z-scores, and then normalized by the l2 norm of weights, as in Stouffer's method.
+
+```{r compute-gene-scores-genebody-none-l2, eval=FALSE}
+gene.dir <- paste0(out.dir, "/geneanalysis-Buenrostro2018-k=10-genebody-none-l2")
+dir.create(gene.dir, showWarnings = FALSE, recursive = TRUE)
+
+cat("Compute gene-level logFC using the gene-body model. \n")
+gene_logFC <- compute_gene_scores_genebody_model(DA_res$postmean, regions, genes, transform="none", normalization="sum")
+
+cat("Compute gene scores using the gene-body model. \n")
+gene_scores <- compute_gene_scores_genebody_model(DA_res$z, regions, genes, transform="none", normalization="l2")
+
+cat("Compute gene-level mean accessbility using the gene-body model. \n")
+region_mean_acc <- as.matrix(DA_res$f0)
+gene_mean_acc <- compute_gene_scores_genebody_model(region_mean_acc, regions, genes, transform="none", normalization="none")[,1]
+
+genes <- genes[match(rownames(gene_scores), genes$gene_id), ]
+
+genescore_res <- list(mean_acc = gene_mean_acc,
+                      Z = gene_scores,
+                      logFC = gene_logFC,
+                      genes = genes)
+
+saveRDS(genescore_res, file.path(gene.dir, "genescore_result.rds"))
+```
+
+```{r load-gene-scores-genebody}
+gene.dir <- paste0(out.dir, "/geneanalysis-Buenrostro2018-k=10-genebody-none-l2")
+genescore_res <- readRDS(file.path(gene.dir, "genescore_result.rds"))
+genes <- genescore_res$genes
+gene_scores <- genescore_res$Z
+gene_logFC <- genescore_res$logFC
+```
+
+Top 10 genes by abs(gene z-scores)
+```{r top-genes-genebody}
+topics <- colnames(gene_scores)
+top_genes <- data.frame(matrix(nrow=10, ncol = ncol(gene_scores)))
+colnames(top_genes) <- topics
+
+for (k in topics){
+  top_genes[,k] <- genes$SYMBOL[head(order(abs(gene_scores[,k]), decreasing=TRUE), 10)]
+}
+
+DT::datatable(data.frame(rank = 1:10, top_genes), rownames = F, caption = "Top 10 genes by abs(gene z-scores)")
+```
+
+Volcano plots of gene scores
+
+**all topics**
+```{r gene-volcano-plots-genebody, fig.width=10, fig.height=6, message=FALSE, warning=FALSE}
+genescore_volcano_plot(genescore_res, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)
+```
+
+**topic 1 and topic 4 examples**
+```{r gene-volcano-plots-genebody-1, fig.width=8, fig.height=3, message=FALSE, warning=FALSE}
+p.volcano.1 <- genescore_volcano_plot(genescore_res, k = 1, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)
+
+p.volcano.4 <- genescore_volcano_plot(genescore_res, k=4, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)
+
+plot_grid(p.volcano.1, p.volcano.4)
+```
+
