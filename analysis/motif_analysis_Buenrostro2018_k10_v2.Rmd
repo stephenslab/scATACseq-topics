@@ -85,12 +85,13 @@ selected_regions <- readRDS(file.path(homer.dir, "/selected_regions.rds"))
 motif_res <- compile_homer_motif_res(homer_res_topics)
 saveRDS(motif_res, paste0(homer.dir, "/homer_motif_enrichment_results.rds"))
 cat("compiled homer motif results are saved in", paste0(homer.dir, "/homer_motif_enrichment_results.rds \n"))
+```
 
+```{r all-motif-enrichment-res-p0.05, eval=FALSE, include=FALSE}
 motif_table <- data.frame(motif = gsub("/.*", "", rownames(motif_res$mlog10P)),
                           round(motif_res$mlog10P,2))
 DT::datatable(motif_table, rownames = F, caption = "Motif enrichment (-log10P)")
 ```
-
 
 Top 10 motifs for each topic
 ```{r top-motifs-p0.05}
@@ -133,8 +134,6 @@ create_motif_enrichment_heatmap(selected_motif_res, enrichment = "-log10(p-value
 ```
 
 Top enriched motifs
-
-Motif enrichment (-log10 p-value) and rankings
 ```{r motif-enrichment-ranking-plot-p0.05, fig.width=10, fig.height=7, warning=FALSE}
 plots <- vector("list", ncol(motif_res$mlog10P))
 names(plots) <- colnames(motif_res$mlog10P)
@@ -162,12 +161,13 @@ selected_regions <- readRDS(file.path(homer.dir, "/selected_regions.rds"))
 motif_res <- compile_homer_motif_res(homer_res_topics)
 saveRDS(motif_res, paste0(homer.dir, "/homer_motif_enrichment_results.rds"))
 cat("compiled homer motif results are saved in", paste0(homer.dir, "/homer_motif_enrichment_results.rds \n"))
+```
 
+```{r all-motif-enrichment-res-p0.1, eval=FALSE, include=FALSE}
 motif_table <- data.frame(motif = gsub("/.*", "", rownames(motif_res$mlog10P)),
                           round(motif_res$mlog10P,2))
 DT::datatable(motif_table, rownames = F, caption = "Motif enrichment (-log10P)")
 ```
-
 
 Top 10 motifs for each topic
 ```{r top-motifs-p0.1}
@@ -196,22 +196,7 @@ create_motif_enrichment_heatmap(motif_res, enrichment = "-log10(p-value)",
                                 enrichment_range = c(0,100), method_cluster = "average", font.size.motifs = 4, font.size.topics = 9)
 ```
 
-```{r selected-motifs-p0.1, include=FALSE, eval=FALSE, fig.width=7, fig.height=6}
-# Heatmap of motif enrichment for selected TF motifs
-toMatch <- c("^GATA\\d*$", "^CEBP.?$", "^SPI.?$", "^IRF\\d*$", "^STAT\\d*$", "^TCF\\d*$", "^BCL\\d*$", "^CTCF$", "^ERG$")
-selected_motifs <- grep(paste(toMatch,collapse="|"), motif_res$motifs$motif, ignore.case = T, value = T)
-rows <- match(selected_motifs, motif_res$motifs$motif)
-selected_motif_res <- lapply(motif_res, FUN = function(x) {x[rows, ]})
-
-create_motif_enrichment_heatmap(selected_motif_res, enrichment = "-log10(p-value)", 
-                                cluster_motifs = TRUE, cluster_topics = TRUE, motif_filter = 10, horizontal = FALSE,
-                                enrichment_range = c(0,100), method_cluster = "average",  font.size.motifs = 8, font.size.topics = 9)
-
-```
-
 Top enriched motifs
-
-Motif enrichment (-log10 p-value) and rankings
 ```{r motif-enrichment-ranking-plot-p0.1, fig.width=10, fig.height=7, warning=FALSE}
 plots <- vector("list", ncol(motif_res$mlog10P))
 names(plots) <- colnames(motif_res$mlog10P)
@@ -239,12 +224,14 @@ selected_regions <- readRDS(file.path(homer.dir, "/selected_regions.rds"))
 motif_res <- compile_homer_motif_res(homer_res_topics)
 saveRDS(motif_res, paste0(homer.dir, "/homer_motif_enrichment_results.rds"))
 cat("compiled homer motif results are saved in", paste0(homer.dir, "/homer_motif_enrichment_results.rds \n"))
+```
 
+
+```{r all-motif-enrichment-res-top1percent, eval=FALSE, include=FALSE}
 motif_table <- data.frame(motif = gsub("/.*", "", rownames(motif_res$mlog10P)),
                           round(motif_res$mlog10P,2))
 DT::datatable(motif_table, rownames = F, caption = "Motif enrichment (-log10P)")
 ```
-
 
 Top 10 motifs for each topic
 ```{r top-motifs-top1percent}
@@ -273,22 +260,7 @@ create_motif_enrichment_heatmap(motif_res, enrichment = "-log10(p-value)",
                                 enrichment_range = c(0,100), method_cluster = "average", font.size.motifs = 4, font.size.topics = 9)
 ```
 
-```{r selected-motifs-top1percent, include=FALSE, eval=FALSE, fig.width=7, fig.height=6}
-# Heatmap of motif enrichment for selected TF motifs
-toMatch <- c("^GATA\\d*$", "^CEBP.?$", "^SPI.?$", "^IRF\\d*$", "^STAT\\d*$", "^TCF\\d*$", "^BCL\\d*$", "^CTCF$", "^ERG$")
-selected_motifs <- grep(paste(toMatch,collapse="|"), motif_res$motifs$motif, ignore.case = T, value = T)
-rows <- match(selected_motifs, motif_res$motifs$motif)
-selected_motif_res <- lapply(motif_res, FUN = function(x) {x[rows, ]})
-
-create_motif_enrichment_heatmap(selected_motif_res, enrichment = "-log10(p-value)", 
-                                cluster_motifs = TRUE, cluster_topics = TRUE, motif_filter = 10, horizontal = FALSE,
-                                enrichment_range = c(0,100), method_cluster = "average",  font.size.motifs = 8, font.size.topics = 9)
-
-```
-
 Top enriched motifs
-
-Motif enrichment (-log10 p-value) and rankings
 ```{r motif-enrichment-ranking-plot-top1percent, fig.width=10, fig.height=7, warning=FALSE}
 plots <- vector("list", ncol(motif_res$mlog10P))
 names(plots) <- colnames(motif_res$mlog10P)
@@ -315,12 +287,13 @@ selected_regions <- readRDS(file.path(homer.dir, "/selected_regions.rds"))
 motif_res <- compile_homer_motif_res(homer_res_topics)
 saveRDS(motif_res, paste0(homer.dir, "/homer_motif_enrichment_results.rds"))
 cat("compiled homer motif results are saved in", paste0(homer.dir, "/homer_motif_enrichment_results.rds \n"))
+```
 
+```{r all-motif-enrichment-res-top2000regions, eval=FALSE, include=FALSE}
 motif_table <- data.frame(motif = gsub("/.*", "", rownames(motif_res$mlog10P)),
                           round(motif_res$mlog10P,2))
 DT::datatable(motif_table, rownames = F, caption = "Motif enrichment (-log10P)")
 ```
-
 
 Top 10 motifs for each topic
 ```{r top-motifs-top2000regions}
@@ -349,22 +322,7 @@ create_motif_enrichment_heatmap(motif_res, enrichment = "-log10(p-value)",
                                 enrichment_range = c(0,100), method_cluster = "average", font.size.motifs = 4, font.size.topics = 9)
 ```
 
-```{r selected-motifs-top2000regions, include=FALSE, eval=FALSE, fig.width=7, fig.height=6}
-# Heatmap of motif enrichment for selected TF motifs
-toMatch <- c("^GATA\\d*$", "^CEBP.?$", "^SPI.?$", "^IRF\\d*$", "^STAT\\d*$", "^TCF\\d*$", "^BCL\\d*$", "^CTCF$", "^ERG$")
-selected_motifs <- grep(paste(toMatch,collapse="|"), motif_res$motifs$motif, ignore.case = T, value = T)
-rows <- match(selected_motifs, motif_res$motifs$motif)
-selected_motif_res <- lapply(motif_res, FUN = function(x) {x[rows, ]})
-
-create_motif_enrichment_heatmap(selected_motif_res, enrichment = "-log10(p-value)", 
-                                cluster_motifs = TRUE, cluster_topics = TRUE, motif_filter = 10, horizontal = FALSE,
-                                enrichment_range = c(0,100), method_cluster = "average",  font.size.motifs = 8, font.size.topics = 9)
-
-```
-
 Top enriched motifs
-
-Motif enrichment (-log10 p-value) and rankings
 ```{r motif-enrichment-ranking-plot-top2000regions, fig.width=10, fig.height=7, warning=FALSE}
 plots <- vector("list", ncol(motif_res$mlog10P))
 names(plots) <- colnames(motif_res$mlog10P)
