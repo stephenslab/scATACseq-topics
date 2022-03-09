@@ -16,7 +16,7 @@ get_gene_annotations <- function(
   columns_extract = c("SYMBOL", "ENSEMBL")
 ){
 
-  cat("Get genes from TxDb...")
+  cat("Get genes from TxDb...\n")
   genes        <- suppressMessages(GenomicFeatures::genes(TxDb))
   geneID_map   <- map_geneIDs(OrgDb, genes$gene_id, keytype_geneID, columns_extract)
   mcols(genes) <- cbind(mcols(genes), geneID_map[,columns_extract])
