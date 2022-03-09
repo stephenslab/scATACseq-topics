@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Kaixuan Luo" />
+
+
+<title>Gene score analysis using topic modeling and DA results (v2) for Buenrostro et al (2018) scATAC-seq result</title>
+
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="site_libs/datatables-binding-0.20/datatables.js"></script>
+<link href="site_libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="site_libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="site_libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
+<link href="site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">scATACseq-topics</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/stephenslab/scATACseq-topics">source</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Gene score analysis using topic modeling and DA results (v2) for Buenrostro <em>et al</em> (2018) scATAC-seq result</h1>
+<h4 class="author">Kaixuan Luo</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2022-03-09
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>scATACseq-topics/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version 1.7.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it's best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20200729code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20200729)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20200729code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20200729)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree1f5743ce8789750ee72990175102f6d70a3f31a7targetblank1f5743ca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/1f5743ce8789750ee72990175102f6d70a3f31a7" target="_blank">1f5743c</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree1f5743ce8789750ee72990175102f6d70a3f31a7targetblank1f5743ca" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/1f5743ce8789750ee72990175102f6d70a3f31a7" target="_blank">1f5743c</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+
+Untracked files:
+    Untracked:  analysis/motif_analysis_Buenrostro2018_v2.Rmd
+    Untracked:  output/clustering-Cusanovich2018.rds
+    Untracked:  paper/
+
+Unstaged changes:
+    Modified:   analysis/assess_fits_Buenrostro2018_Chen2019pipeline.Rmd
+    Modified:   analysis/clusters_Cusanovich2018_k13.Rmd
+    Modified:   analysis/gene_analysis_Buenrostro2018_Chen2019pipeline.Rmd
+    Modified:   analysis/gene_analysis_Cusanovich2018.Rmd
+    Modified:   analysis/motif_analysis_Buenrostro2018_Chen2019pipeline.Rmd
+    Modified:   analysis/motif_analysis_Cusanovich2018.Rmd
+    Modified:   analysis/plots_Cusanovich2018.Rmd
+    Modified:   scripts/postfit_Buenrostro2018_v2.sh
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/gene_analysis_Buenrostro2018_k10_v2.Rmd</code>) and HTML (<code>docs/gene_analysis_Buenrostro2018_k10_v2.html</code>) files. If you've configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/1f5743ce8789750ee72990175102f6d70a3f31a7/analysis/gene_analysis_Buenrostro2018_k10_v2.Rmd" target="_blank">1f5743c</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-09
+</td>
+<td>
+compute gene scores for Buenrostro 2018 data with k = 10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<p>Here we perform TF motif and gene analysis for the Buenrostro <em>et al</em> (2018) scATAC-seq result inferred from the multinomial topic model with <span class="math inline">\(k = 10\)</span>.</p>
+<p>We use binarized data downloaded from original paper.</p>
+<div id="load-packages-and-some-functions-used-in-this-analysis" class="section level2">
+<h2>Load packages and some functions used in this analysis</h2>
+<pre class="r"><code>library(Matrix)
+library(fastTopics)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(ggrepel)
+library(cowplot)
+library(DT)
+
+source(&quot;code/plots.R&quot;)
+source(&quot;code/gene_annotation.R&quot;)
+source(&quot;code/gene_scores.R&quot;)</code></pre>
+</div>
+<div id="load-data-and-topic-model-results" class="section level2">
+<h2>Load data and topic model results</h2>
+<p>Load the <strong>binarized</strong> data and the <span class="math inline">\(k = 10\)</span> Poisson NMF fit results</p>
+<pre class="r"><code>data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/&quot;
+load(file.path(data.dir, &quot;Buenrostro_2018_binarized_counts.RData&quot;))
+cat(sprintf(&quot;%d x %d counts matrix.\n&quot;,nrow(counts),ncol(counts)))</code></pre>
+<pre><code># 2953 x 491437 counts matrix.</code></pre>
+<pre class="r"><code>fit.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/&quot;
+fit &lt;- readRDS(file.path(fit.dir, &quot;/fit-Buenrostro2018-binarized-scd-ex-k=10.rds&quot;))$fit
+fit &lt;- poisson2multinom(fit)</code></pre>
+</div>
+<div id="structure-plot" class="section level2">
+<h2>Structure plot</h2>
+<pre class="r"><code>topic_colors &lt;- c(&quot;darkorange&quot;,&quot;limegreen&quot;,&quot;magenta&quot;,&quot;gold&quot;,&quot;skyblue&quot;,
+                  &quot;darkblue&quot;,&quot;dodgerblue&quot;,&quot;darkmagenta&quot;,&quot;red&quot;,&quot;olivedrab&quot;)
+
+set.seed(1)
+# labels &lt;- factor(samples$label, levels = c(&quot;HSC&quot;, &quot;MPP&quot;, &quot;CMP&quot;, &quot;GMP&quot;, &quot;mono&quot;, &quot;MEP&quot;, &quot;LMPP&quot;, &quot;CLP&quot;, &quot;pDC&quot;, &quot;UNK&quot;))
+
+labels &lt;- factor(samples$label, c(&quot;mono&quot;,&quot;pDC&quot;,&quot;MEP&quot;,&quot;HSC&quot;,&quot;MPP&quot;,&quot;CLP&quot;,
+                                 &quot;LMPP&quot;,&quot;CMP&quot;,&quot;GMP&quot;,&quot;UNK&quot;))
+structure_plot(fit,grouping = labels,colors = topic_colors,
+               # topics = 1:10,
+               gap = 20,perplexity = 50,verbose = FALSE)</code></pre>
+<p><img src="figure/gene_analysis_Buenrostro2018_k10_v2.Rmd/structure-plot-1.png" width="840" style="display: block; margin: auto;" /></p>
+</div>
+<div id="differential-accessbility-analysis-of-the-atac-seq-regions-for-the-topics" class="section level2">
+<h2>Differential accessbility analysis of the ATAC-seq regions for the topics</h2>
+<p>Load results from differential accessbility analysis for the topics</p>
+<pre class="r"><code>out.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/postfit_v2&quot;
+cat(sprintf(&quot;Load results from %s \n&quot;, out.dir))
+DA_res &lt;- readRDS(file.path(out.dir, paste0(&quot;DAanalysis-Buenrostro2018-k=10/DA_regions_topics_noshrinkage_10000iters.rds&quot;)))</code></pre>
+<pre><code># Load results from /project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/postfit_v2</code></pre>
+<p>Filter out regions with NAs</p>
+<pre class="r"><code>DA_res &lt;- DA_res[c(&quot;postmean&quot;, &quot;z&quot;, &quot;f0&quot;)]
+rows_withNAs &lt;- which(apply(DA_res$z, 1, anyNA))
+cat(&quot;Filter out&quot;, length(rows_withNAs), &quot;regions with NAs... \n&quot;)
+DA_res$postmean &lt;- DA_res$postmean[-rows_withNAs,]
+DA_res$z &lt;- DA_res$z[-rows_withNAs,]
+DA_res$f0 &lt;- DA_res$f0[-rows_withNAs]</code></pre>
+<pre><code># Filter out 10 regions with NAs...</code></pre>
+</div>
+<div id="gene-score-analysis" class="section level2">
+<h2>Gene score analysis</h2>
+<div id="prepare-annotations-and-regions" class="section level3">
+<h3>Prepare annotations and regions</h3>
+<p>Load gene annotations</p>
+<pre class="r"><code>genome &lt;- &quot;hg19&quot;
+
+# Load gene annotation
+cat(&quot;Load gene annotations.\n&quot;)
+if(tolower(genome) %in% c(&quot;hg19&quot;, &quot;hg38&quot;, &quot;mm9&quot;, &quot;mm10&quot;)){
+  cat(sprintf(&quot;load TxDb and OrgDb for %s. \n&quot;, genome))
+  TxDb  &lt;- getTxDb(genome)
+  OrgDb &lt;- getOrgDb(genome)
+  genes &lt;- get_gene_annotations(TxDb, OrgDb, columns_extract = c(&quot;ENSEMBL&quot;, &quot;SYMBOL&quot;))
+}else{
+  stop(&quot;&#39;genome&#39; is not recongized or not available. Please provide your own gene annotation data.&quot;)
+}
+
+# Prepare a data frame of gene annotation for computing gene scores,
+# the first five columns need to be: chr, start, end, strand, gene_id
+genes &lt;- as.data.frame(genes)
+colnames(genes)[1] &lt;- &quot;chr&quot;
+genes &lt;- genes[,c(&quot;chr&quot;, &quot;start&quot;, &quot;end&quot;, &quot;strand&quot;, &quot;gene_id&quot;, &quot;ENSEMBL&quot;, &quot;SYMBOL&quot;)]
+# Filter out genes without matching Ensembl gene IDs.
+genes &lt;- genes[!grepl(&quot;^NA_&quot;, genes$ENSEMBL), ]</code></pre>
+<pre><code># Load gene annotations.
+# load TxDb and OrgDb for hg19. 
+# Get genes from TxDb...
+# Input keytype of the gene IDs: ENTREZID 
+# Extract: ENSEMBL 
+# Extract: SYMBOL</code></pre>
+<p>Extract genomic coordinates for ATAC-seq regions</p>
+<pre class="r"><code>regions &lt;- data.frame(x = rownames(DA_res$z)) %&gt;% 
+  tidyr::separate(x, c(&quot;chr&quot;, &quot;start&quot;, &quot;end&quot;), &quot;_&quot;) %&gt;%
+  dplyr::mutate_at(c(&quot;start&quot;, &quot;end&quot;), as.numeric)</code></pre>
+</div>
+<div id="compute-gene-scores-using-the-tss-model" class="section level3">
+<h3>Compute gene scores using the TSS model</h3>
+<p>Gene scores were computed using TSS-based method as in Lareau <em>et al</em> Nature Biotech, 2019 as well as the <code>model 21</code> in <code>archR</code> paper. This model weights chromatin accessibility around gene promoters by using bi-directional exponential decays from the TSS.</p>
+<p>Compute gene-level scores using weighted sum of region-level z-scores, and then normalized by the l2 norm of weights, as in Stouffer's method.</p>
+<pre class="r"><code>gene.dir &lt;- paste0(out.dir, &quot;/geneanalysis-Buenrostro2018-k=10-TSS-none-l2&quot;)
+dir.create(gene.dir, showWarnings = FALSE, recursive = TRUE)
+
+cat(&quot;Compute gene-level logFC using the TSS model. \n&quot;)
+gene_logFC &lt;- compute_gene_scores_tss_model(DA_res$postmean, regions, genes, transform=&quot;none&quot;, normalization = &quot;sum&quot;)
+
+cat(&quot;Compute gene scores using the TSS model. \n&quot;)
+gene_scores &lt;- compute_gene_scores_tss_model(DA_res$z, regions, genes, transform=&quot;none&quot;, normalization=&quot;l2&quot;)
+
+cat(&quot;Compute gene-level mean accessbility using the TSS model. \n&quot;)
+region_mean_acc &lt;- as.matrix(DA_res$f0)
+gene_mean_acc &lt;- compute_gene_scores_tss_model(region_mean_acc, regions, genes, transform=&quot;none&quot;, normalization = &quot;none&quot;)[,1]
+
+genes &lt;- genes[match(rownames(gene_scores), genes$gene_id), ]
+
+genescore_res &lt;- list(mean_acc = gene_mean_acc,
+                      Z = gene_scores,
+                      logFC = gene_logFC,
+                      genes = genes)
+
+saveRDS(genescore_res, file.path(gene.dir, &quot;genescore_result.rds&quot;))</code></pre>
+<pre class="r"><code>gene.dir &lt;- paste0(out.dir, &quot;/geneanalysis-Buenrostro2018-k=10-TSS-none-l2&quot;)
+genescore_res &lt;- readRDS(file.path(gene.dir, &quot;genescore_result.rds&quot;))
+genes &lt;- genescore_res$genes
+gene_scores &lt;- genescore_res$Z
+gene_logFC &lt;- genescore_res$logFC</code></pre>
+<p>Top 10 genes by abs(gene z-scores)</p>
+<pre class="r"><code>topics &lt;- colnames(gene_scores)
+top_genes &lt;- data.frame(matrix(nrow=10, ncol = ncol(gene_scores)))
+colnames(top_genes) &lt;- topics
+
+for (k in topics){
+  top_genes[,k] &lt;- genes$SYMBOL[head(order(abs(gene_scores[,k]), decreasing=TRUE), 10)]
+}
+
+DT::datatable(data.frame(rank = 1:10, top_genes), rownames = F, caption = &quot;Top 10 genes by abs(gene z-scores)&quot;)</code></pre>
+<div id="htmlwidget-186d8d7bda067e5d3d80" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-186d8d7bda067e5d3d80">{"x":{"filter":"none","vertical":false,"caption":"<caption>Top 10 genes by abs(gene z-scores)<\/caption>","data":[[1,2,3,4,5,6,7,8,9,10],["CNPY1","CTSG","OR8B12","BCAS2","ECM2","IFT27","YPEL5","MIR2355","H2BC17","H2AC17"],["MAN1A1","TMEM207","SPRY1","MBOAT1","SERPINI1","PDCD10","SMIM24","PPM1H","PAX9","H4C13"],["MIR548AA2","BRSK2","C8orf86","MIR4764","MIR4267","HNRNPA2B1","CBX3","ACTR1B","ERVV-2","PITPNM3"],["ECE1-AS1","MIR4526","MIR4287","MYO16-AS1","SLC32A1","NUDT17","FCRL4","PTCRA","MIR4265","CLIC3"],["HDC","SNAP23","EPOR","ADCY7","SOD2","TTC26","ADAM19","MKNK1-AS1","SIX5","HBQ1"],["TSSC4","GPR20","SCO2","TMEM52","TSPAN4","POLR2L","MAPK12","TYMP","CARNS1","PLPPR3"],["TGM3","FGD4","SLC11A1","FCER1G","FCAR","FTH1","LYZ","S100A10","ACP3","KYNU"],["PLAAT5","FLJ42969","TSPAN18","ADAMTS7P1","MAGEB16","TMEM236","ST7-AS2","CSNK1G2","FGB","GYPE"],["MIR3918","TRIP6","MRPS21","MATN1","ENO4","UCN2","CDH7","LOC284933","GPR20","MIR711"],["SH2D4B","CD79B","POU2AF1","TOMM40","CIC","MAP1LC3B","FBXO31","TEX36-AS1","SNRNP70","PRKD2"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>rank<\/th>\n      <th>k1<\/th>\n      <th>k2<\/th>\n      <th>k3<\/th>\n      <th>k4<\/th>\n      <th>k5<\/th>\n      <th>k6<\/th>\n      <th>k7<\/th>\n      <th>k8<\/th>\n      <th>k9<\/th>\n      <th>k10<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p>Volcano plots of gene scores</p>
+<p><strong>all topics</strong></p>
+<pre class="r"><code>genescore_volcano_plot(genescore_res, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)</code></pre>
+<p><img src="figure/gene_analysis_Buenrostro2018_k10_v2.Rmd/gene-volcano-plots-tss-1.png" width="1200" style="display: block; margin: auto;" /></p>
+<p><strong>topic 1 and topic 4 examples</strong></p>
+<pre class="r"><code>p.volcano.1 &lt;- genescore_volcano_plot(genescore_res, k = 1, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)
+
+p.volcano.4 &lt;- genescore_volcano_plot(genescore_res, k=4, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)
+
+plot_grid(p.volcano.1, p.volcano.4)</code></pre>
+<p><img src="figure/gene_analysis_Buenrostro2018_k10_v2.Rmd/gene-volcano-plots-tss-1-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="compute-gene-scores-using-the-gene-body-model" class="section level3">
+<h3>Compute gene scores using the gene body model</h3>
+<p>Gene scores were computed using the gene score model (model 42) in the <code>archR</code> paper with some modifications. This model uses bi-directional exponential decays from the gene TSS (extended upstream by 5 kb by default) and the gene transcription termination site (TTS). Note: the current version of the function does not account for neighboring gene boundaries.</p>
+<p>Compute gene-level scores using weighted sum of region-level z-scores, and then normalized by the l2 norm of weights, as in Stouffer's method.</p>
+<pre class="r"><code>gene.dir &lt;- paste0(out.dir, &quot;/geneanalysis-Buenrostro2018-k=10-genebody-none-l2&quot;)
+dir.create(gene.dir, showWarnings = FALSE, recursive = TRUE)
+
+cat(&quot;Compute gene-level logFC using the gene-body model. \n&quot;)
+gene_logFC &lt;- compute_gene_scores_genebody_model(DA_res$postmean, regions, genes, transform=&quot;none&quot;, normalization=&quot;sum&quot;)
+
+cat(&quot;Compute gene scores using the gene-body model. \n&quot;)
+gene_scores &lt;- compute_gene_scores_genebody_model(DA_res$z, regions, genes, transform=&quot;none&quot;, normalization=&quot;l2&quot;)
+
+cat(&quot;Compute gene-level mean accessbility using the gene-body model. \n&quot;)
+region_mean_acc &lt;- as.matrix(DA_res$f0)
+gene_mean_acc &lt;- compute_gene_scores_genebody_model(region_mean_acc, regions, genes, transform=&quot;none&quot;, normalization=&quot;none&quot;)[,1]
+
+genes &lt;- genes[match(rownames(gene_scores), genes$gene_id), ]
+
+genescore_res &lt;- list(mean_acc = gene_mean_acc,
+                      Z = gene_scores,
+                      logFC = gene_logFC,
+                      genes = genes)
+
+saveRDS(genescore_res, file.path(gene.dir, &quot;genescore_result.rds&quot;))</code></pre>
+<pre class="r"><code>gene.dir &lt;- paste0(out.dir, &quot;/geneanalysis-Buenrostro2018-k=10-genebody-none-l2&quot;)
+genescore_res &lt;- readRDS(file.path(gene.dir, &quot;genescore_result.rds&quot;))
+genes &lt;- genescore_res$genes
+gene_scores &lt;- genescore_res$Z
+gene_logFC &lt;- genescore_res$logFC</code></pre>
+<p>Top 10 genes by abs(gene z-scores)</p>
+<pre class="r"><code>topics &lt;- colnames(gene_scores)
+top_genes &lt;- data.frame(matrix(nrow=10, ncol = ncol(gene_scores)))
+colnames(top_genes) &lt;- topics
+
+for (k in topics){
+  top_genes[,k] &lt;- genes$SYMBOL[head(order(abs(gene_scores[,k]), decreasing=TRUE), 10)]
+}
+
+DT::datatable(data.frame(rank = 1:10, top_genes), rownames = F, caption = &quot;Top 10 genes by abs(gene z-scores)&quot;)</code></pre>
+<div id="htmlwidget-8c86022a2dd9801dde01" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8c86022a2dd9801dde01">{"x":{"filter":"none","vertical":false,"caption":"<caption>Top 10 genes by abs(gene z-scores)<\/caption>","data":[[1,2,3,4,5,6,7,8,9,10],["MIR4301","DRD2","ANKK1","CNPY1","LINC01101","RBM33","DNAJB6","HTR3B","TTC12","ESPNL"],["ZEB2","ZEB2-AS1","MIR3688-2","ITGA4","H4C13","NRIP1","MIR3688-1","H3C11","JAK1","AFF1"],["SND1-IT1","WFIKKN1","MIR593","METTL26","CORO7-PAM16","NPY4R","MCRIP2","MIR3922","CORO7","METRN"],["PALD1","LINC02724","VASH2","KLF13","DNAJB6","PRMT7","SMPD3","MIR4287","ABCG1","TAMALIN"],["IL1RL1","IL18R1","SNAP23","MIR4772","TSPAN7","IL18RAP","ZNF106","HDC","LRRC57","ADAM19"],["NAA80","SKI","HYAL3","HYAL1","TUSC2","IFRD2","DNAH1","SLC38A3","FBRSL1","TMEM89"],["TGM3","DMXL2","S100A10","CLEC6A","NEDD9","FTH1","NLRP3","FAM30A","LCN8","RBM47"],["MIR4316","MIR126","FUT7","METTL26","MCRIP2","MIR4674","B3GALT6","TCEA2","RHOT2","EGFL7"],["LOC100129534","MIR711","TMEM89","COL7A1","UQCRC1","MIR3918","UCN2","MIR1206","IQSEC1","ATP2B1"],["SNRNP70","MAN1B1-DT","CD79B","MIR378D1","UAP1L1","STK11","MAN1B1","CARNS1","SH2D4B","PPP1CA"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>rank<\/th>\n      <th>k1<\/th>\n      <th>k2<\/th>\n      <th>k3<\/th>\n      <th>k4<\/th>\n      <th>k5<\/th>\n      <th>k6<\/th>\n      <th>k7<\/th>\n      <th>k8<\/th>\n      <th>k9<\/th>\n      <th>k10<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p>Volcano plots of gene scores</p>
+<p><strong>all topics</strong></p>
+<pre class="r"><code>genescore_volcano_plot(genescore_res, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)</code></pre>
+<p><img src="figure/gene_analysis_Buenrostro2018_k10_v2.Rmd/gene-volcano-plots-genebody-1.png" width="1200" style="display: block; margin: auto;" /></p>
+<p><strong>topic 1 and topic 4 examples</strong></p>
+<pre class="r"><code>p.volcano.1 &lt;- genescore_volcano_plot(genescore_res, k = 1, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)
+
+p.volcano.4 &lt;- genescore_volcano_plot(genescore_res, k=4, label_above_quantile = 0.99,
+                       labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
+                       subsample_below_quantile = 0.5, subsample_rate = 0.1)
+
+plot_grid(p.volcano.1, p.volcano.4)</code></pre>
+<p><img src="figure/gene_analysis_Buenrostro2018_k10_v2.Rmd/gene-volcano-plots-genebody-1-1.png" width="960" style="display: block; margin: auto;" /></p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code># R version 4.0.4 (2021-02-15)
+# Platform: x86_64-pc-linux-gnu (64-bit)
+# Running under: Scientific Linux 7.4 (Nitrogen)
+# 
+# Matrix products: default
+# BLAS/LAPACK: /software/openblas-0.3.13-el7-x86_64/lib/libopenblas_haswellp-r0.3.13.so
+# 
+# locale:
+#  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+#  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+#  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+#  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+#  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+# [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+# 
+# attached base packages:
+# [1] stats4    parallel  stats     graphics  grDevices utils     datasets 
+# [8] methods   base     
+# 
+# other attached packages:
+#  [1] org.Hs.eg.db_3.12.0                    
+#  [2] TxDb.Hsapiens.UCSC.hg19.knownGene_3.2.2
+#  [3] GenomicFeatures_1.42.3                 
+#  [4] AnnotationDbi_1.52.0                   
+#  [5] Biobase_2.50.0                         
+#  [6] GenomicRanges_1.42.0                   
+#  [7] GenomeInfoDb_1.26.7                    
+#  [8] IRanges_2.24.1                         
+#  [9] S4Vectors_0.28.1                       
+# [10] BiocGenerics_0.36.1                    
+# [11] DT_0.20                                
+# [12] cowplot_1.1.1                          
+# [13] ggrepel_0.9.1                          
+# [14] ggplot2_3.3.5                          
+# [15] tidyr_1.1.4                            
+# [16] dplyr_1.0.8                            
+# [17] fastTopics_0.6-97                      
+# [18] Matrix_1.4-0                           
+# [19] workflowr_1.7.0                        
+# 
+# loaded via a namespace (and not attached):
+#   [1] BiocFileCache_1.14.0        plyr_1.8.6                 
+#   [3] lazyeval_0.2.2              splines_4.0.4              
+#   [5] crosstalk_1.2.0             BiocParallel_1.24.1        
+#   [7] listenv_0.8.0               digest_0.6.29              
+#   [9] invgamma_1.1                foreach_1.5.1              
+#  [11] htmltools_0.5.2             SQUAREM_2021.1             
+#  [13] fansi_1.0.2                 memoise_2.0.1              
+#  [15] magrittr_2.0.2              Biostrings_2.58.0          
+#  [17] recipes_0.1.17              globals_0.14.0             
+#  [19] gower_0.2.2                 RcppParallel_5.1.5         
+#  [21] matrixStats_0.61.0          MCMCpack_1.6-0             
+#  [23] askpass_1.1                 prettyunits_1.1.1          
+#  [25] colorspace_2.0-3            rappdirs_0.3.3             
+#  [27] blob_1.2.2                  xfun_0.29                  
+#  [29] callr_3.7.0                 crayon_1.5.0               
+#  [31] RCurl_1.98-1.5              jsonlite_1.7.3             
+#  [33] survival_3.2-13             iterators_1.0.13           
+#  [35] glue_1.6.2                  gtable_0.3.0               
+#  [37] ipred_0.9-12                zlibbioc_1.36.0            
+#  [39] XVector_0.30.0              MatrixModels_0.5-0         
+#  [41] DelayedArray_0.16.3         future.apply_1.8.1         
+#  [43] SparseM_1.81                scales_1.1.1               
+#  [45] DBI_1.1.2                   Rcpp_1.0.8                 
+#  [47] viridisLite_0.4.0           progress_1.2.2             
+#  [49] bit_4.0.4                   lava_1.6.10                
+#  [51] prodlim_2019.11.13          truncnorm_1.0-8            
+#  [53] htmlwidgets_1.5.4           httr_1.4.2                 
+#  [55] ellipsis_0.3.2              XML_3.99-0.8               
+#  [57] pkgconfig_2.0.3             farver_2.1.0               
+#  [59] dbplyr_2.1.1                nnet_7.3-17                
+#  [61] sass_0.4.0                  uwot_0.1.11                
+#  [63] utf8_1.2.2                  caret_6.0-90               
+#  [65] tidyselect_1.1.2            labeling_0.4.2             
+#  [67] rlang_1.0.1                 reshape2_1.4.4             
+#  [69] later_1.3.0                 cachem_1.0.6               
+#  [71] munsell_0.5.0               tools_4.0.4                
+#  [73] cli_3.2.0                   generics_0.1.2             
+#  [75] RSQLite_2.2.9               evaluate_0.14              
+#  [77] stringr_1.4.0               fastmap_1.1.0              
+#  [79] yaml_2.2.2                  mcmc_0.9-7                 
+#  [81] ModelMetrics_1.2.2.2        processx_3.5.2             
+#  [83] knitr_1.37                  bit64_4.0.5                
+#  [85] fs_1.5.2                    purrr_0.3.4                
+#  [87] pbapply_1.5-0               future_1.23.0              
+#  [89] nlme_3.1-155                whisker_0.4                
+#  [91] quantreg_5.86               xml2_1.3.3                 
+#  [93] biomaRt_2.46.3              compiler_4.0.4             
+#  [95] rstudioapi_0.13             curl_4.3.2                 
+#  [97] plotly_4.10.0               tibble_3.1.6               
+#  [99] bslib_0.3.1                 stringi_1.7.6              
+# [101] highr_0.9                   ps_1.6.0                   
+# [103] lattice_0.20-45             vctrs_0.3.8                
+# [105] pillar_1.7.0                lifecycle_1.0.1            
+# [107] jquerylib_0.1.4             data.table_1.14.2          
+# [109] bitops_1.0-7                irlba_2.3.5                
+# [111] conquer_1.2.1               rtracklayer_1.50.0         
+# [113] httpuv_1.6.5                R6_2.5.1                   
+# [115] promises_1.2.0.1            parallelly_1.30.0          
+# [117] codetools_0.2-18            MASS_7.3-55                
+# [119] assertthat_0.2.1            SummarizedExperiment_1.20.0
+# [121] openssl_1.4.6               rprojroot_2.0.2            
+# [123] withr_2.4.3                 GenomicAlignments_1.26.0   
+# [125] Rsamtools_2.6.0             GenomeInfoDbData_1.2.4     
+# [127] hms_1.1.1                   quadprog_1.5-8             
+# [129] grid_4.0.4                  rpart_4.1-15               
+# [131] timeDate_3043.102           coda_0.19-4                
+# [133] class_7.3-20                rmarkdown_2.11             
+# [135] MatrixGenerics_1.2.1        ashr_2.2-47                
+# [137] Rtsne_0.15                  git2r_0.29.0               
+# [139] mixsqp_0.3-43               getPass_0.2-2              
+# [141] pROC_1.18.0                 lubridate_1.8.0</code></pre>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
