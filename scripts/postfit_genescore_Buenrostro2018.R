@@ -73,8 +73,7 @@ regions <- data.frame(x = rownames(DA_res$z)) %>% tidyr::separate(x, c("chr", "s
 
 # Compute gene-level logFC
 # ---------------------------
-# Compute the gene-level logFC
-# using weighted average of region-level logFC
+# Compute the gene-level logFC using weighted average of region-level logFC
 if(toupper(genescoremethod) == "TSS"){
   cat("Compute gene logFC using the TSS model. \n")
   gene_logFC <- compute_gene_scores_tss_model(DA_res$postmean, regions, genes, transform="none", normalization = "sum")
@@ -100,13 +99,13 @@ if(toupper(genescoremethod) == "TSS"){
 # Extract genomic coordinates for ATAC-seq regions
 region_mean_acc <- as.matrix(DA_res$f0)
 
-# Compute the gene-level mean accessbility, by weighted sum of the mean accessbility across topics.
+# Compute the gene-level accessbility, using weighted sum of region-level mean accessbility across topics.
 if(toupper(genescoremethod) == "TSS"){
   cat("Compute gene-level mean accessbility using the TSS model. \n")
-  gene_mean_acc <- compute_gene_scores_tss_model(region_mean_acc, regions, genes, transform="none", normalization = "sum")[,1]
+  gene_mean_acc <- compute_gene_scores_tss_model(region_mean_acc, regions, genes, transform="none", normalization = "none")[,1]
 }else{
   cat("Compute gene-level mean accessbility using the gene-body model. \n")
-  gene_mean_acc <- compute_gene_scores_genebody_model(region_mean_acc, regions, genes, transform="none", normalization = "sum")[,1]
+  gene_mean_acc <- compute_gene_scores_genebody_model(region_mean_acc, regions, genes, transform="none", normalization = "none")[,1]
 }
 
 genes <- genes[match(rownames(gene_scores), genes$gene_id), ]
