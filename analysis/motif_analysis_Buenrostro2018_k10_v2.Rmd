@@ -38,7 +38,7 @@ Data downloaded from original paper.
 Load the **binarized** data and the $k = 10$ Poisson NMF fit results 
 ```{r load-data}
 data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/"
-load(file.path(data.dir, "Buenrostro_2018_binarized_counts.RData"))
+load(file.path(data.dir, "Buenrostro_2018_binarized.RData"))
 cat(sprintf("%d x %d counts matrix.\n",nrow(counts),ncol(counts)))
 ```
 
