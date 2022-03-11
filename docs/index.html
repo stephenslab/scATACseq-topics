@@ -290,7 +290,7 @@ $(document).ready(function () {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-03-09
+<strong>Last updated:</strong> 2022-03-11
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -321,16 +321,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreee5e3bb2e97c7765cb204ca56d79ff2dc37b0689dtargetblanke5e3bb2a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/e5e3bb2e97c7765cb204ca56d79ff2dc37b0689d" target="_blank">e5e3bb2</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree7359d789902490075e24c5b3a9f78ccb8a46b24ftargetblank7359d78a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/7359d789902490075e24c5b3a9f78ccb8a46b24f" target="_blank">7359d78</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreee5e3bb2e97c7765cb204ca56d79ff2dc37b0689dtargetblanke5e3bb2a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree7359d789902490075e24c5b3a9f78ccb8a46b24ftargetblank7359d78a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/e5e3bb2e97c7765cb204ca56d79ff2dc37b0689d" target="_blank">e5e3bb2</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/7359d789902490075e24c5b3a9f78ccb8a46b24f" target="_blank">7359d78</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -345,6 +345,7 @@ Untracked files:
     Untracked:  analysis/motif_analysis_Buenrostro2018_v2.Rmd
     Untracked:  output/clustering-Cusanovich2018.rds
     Untracked:  paper/
+    Untracked:  scripts/postfit_Buenrostro2018_v2.sbatch
 
 Unstaged changes:
     Modified:   analysis/assess_fits_Buenrostro2018_Chen2019pipeline.Rmd
@@ -354,6 +355,7 @@ Unstaged changes:
     Modified:   analysis/motif_analysis_Buenrostro2018_Chen2019pipeline.Rmd
     Modified:   analysis/motif_analysis_Cusanovich2018.Rmd
     Modified:   analysis/plots_Cusanovich2018.Rmd
+    Modified:   analysis/process_data_Buenrostro2018_different_options.Rmd
     Modified:   scripts/postfit_Buenrostro2018_v2.sh
 
 </code></pre>
@@ -393,6 +395,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/7359d789902490075e24c5b3a9f78ccb8a46b24f/analysis/index.Rmd" target="_blank">7359d78</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-11
+</td>
+<td>
+Updated the link for the structure plots and DA analysis for Buenrostro data
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/71126fbda005b4b4e6216e85857972fe7cf8e270/docs/index.html" target="_blank">71126fb</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-09
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1235,6 +1271,14 @@ Start workflowr project.
 </div>
 <p>Topic modeling analysis of single-cell ATAC-seq data</p>
 <ul>
+<li>Buenrostro <em>et al.</em> 2018 dataset
+<ul>
+<li><a href="process_data_Buenrostro2018.html">Process Buenrostro 2018 dataset</a></li>
+<li><a href="assess_fits_Buenrostro2018_Chen2019pipeline.html">Assess model fits</a></li>
+<li><a href="structureplot_DA_Buenrostro2018_k10.html">Structure plots and DA analysis with K=10</a></li>
+<li><a href="motif_analysis_Buenrostro2018_k10_v2.html">Motif analysis (K=10)</a></li>
+<li><a href="gene_analysis_Buenrostro2018_k10_v2.html">Gene score analysis (K=10)</a></li>
+</ul></li>
 <li>Cusanovich <em>et al.</em> 2018 dataset
 <ul>
 <li><a href="process_data_Cusanovich2018.html">Process Cusanovich 2018 dataset</a></li>
@@ -1244,17 +1288,6 @@ Start workflowr project.
 <li><a href="clusters_Cusanovich2018_k13.html">Clustering by topic proportions (K=13)</a></li>
 <li><a href="motif_analysis_Cusanovich2018_v2.html">Motif analysis (K=13, new DA analysis)</a></li>
 <li><a href="gene_analysis_Cusanovich2018_v2.html">Gene analysis (K=13, new DA analysis)</a></li>
-</ul></li>
-<li>Buenrostro <em>et al.</em> 2018 dataset
-<ul>
-<li><a href="process_data_Buenrostro2018.html">Process Buenrostro 2018 dataset</a></li>
-<li><a href="assess_fits_Buenrostro2018_Chen2019pipeline.html">Assess model fits</a></li>
-<li><a href="clusters_Buenrostro2018_k11_Chen2019pipeline.html">Clustering by topic proportions (K=11)</a></li>
-<li><a href="motif_analysis_Buenrostro2018_Chen2019pipeline_v2.html">Motif analysis (K=11, new DA analysis)</a></li>
-<li><a href="gene_analysis_Buenrostro2018_Chen2019pipeline_v2.html">Gene analysis (K=11, new DA analysis)</a></li>
-<li><a href="analysis_Buenrostro2018_k10.html">Structure plots and DA analysis with K=10</a></li>
-<li><a href="motif_analysis_Buenrostro2018_k10_v2.html">Motif analysis (K=10, new DA analysis)</a></li>
-<li><a href="gene_analysis_Buenrostro2018_k10_v2.html">Gene score analysis (K=10, new DA analysis)</a></li>
 </ul></li>
 </ul>
 
