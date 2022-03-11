@@ -1,0 +1,162 @@
+---
+title: "Process data for Buenrostro *et al* (2018) scATAC-seq dataset"
+author: "Kaixuan Luo"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(comment = "#",collapse = FALSE,results = "hold",
+                      fig.align = "center",dpi = 120)
+```
+
+## About Buenrostro 2018 dataset
+
+Reference: Buenrostro, J. D. et al. Integrated Single-Cell Analysis Maps the Continuous Regulatory Landscape of Human Hematopoietic Differentiation. Cell 173, 1535–1548.e16 (2018).
+
+Data were downloaded from GEO: [GSE96772](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE96772)
+
+More details about the samples: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2540299
+
+RCC directory: `/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/`
+
+## Prepare data for topic modeling
+
+We used the processed counts and peaks from Buenrostro *et al* (2018) paper. 
+
+They called ATAC-seq peaks from the bulk ATAC-seq samples.
+
+> Using the previously described approach (Corces et al., 2016), we defined a peak list using all bulk hematopoietic data analyzed here, resulting in 491,437 500bp non-overlapping peaks which we use for the remainder of this study.
+
+Downloaded scATAC-seq processed data from GEO: [GSE96769](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE96769)
+
+* Peaks called from bulk ATAC-seq samples `GSE96769_PeakFile_20160207.bed.gz`
+* scATAC-seq sparse count matrix `GSE96769_scATACseq_counts.txt.gz`
+
+```{r message=FALSE, warning=FALSE}
+library(Matrix)
+library(tools)
+library(readr)
+library(data.table)
+```
+
+Load the fragment counts as a 2,953 x 491,437 sparse matrix.
+```{r load-data}
+# The first row has the sample names
+file_counts <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/GEO_data/GSE96769_scATACseq_counts.txt.gz"
+sample_names <- readLines(file_counts,n = 1)
+sample_names <- unlist(strsplit(sample_names,"\t",fixed = TRUE))
+sample_names <- unlist(strsplit(sample_names,";",fixed = TRUE))
+sample_names <- sample_names[-1]
+
+# Load the fragment counts as sparse matrix.
+dat <- fread(file_counts,sep = "\t",skip = 1)
+class(dat) <- "data.frame"
+names(dat) <- c("i","j","x")
+counts <- sparseMatrix(i = dat$i,j = dat$j,x = dat$x)
+counts <- t(counts)
+rownames(counts) <- sample_names
+dim(counts)
+```
+
+Peaks (from bulk ATAC-seq)
+```{r option1-load-peaks}
+peaks <- fread("/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/GEO_data/GSE96769_PeakFile_20160207.bed.gz")
+peak_names <- paste(peaks$V1,peaks$V2,peaks$V3,sep = "_")
+rownames(peaks) <- peak_names
+cat(sprintf("Number of peaks: %d\n",nrow(peaks)))
+
+colnames(counts) <- peak_names
+```
+
+```{r, include=FALSE}
+y <- table(summary(counts)$x)
+x <- names(y)
+y <- as.numeric(y)
+plot(x,y,pch = 20,log = "y",cex = 0.65,
+     xlab = "number of fragments mapping to peak",
+     ylab = "number of peaks")
+lines(x,y)
+
+```
+
+The supplementary Table S1 provides more details about these samples. 
+https://ars.els-cdn.com/content/image/1-s2.0-S009286741830446X-mmc1.xlsx
+
+Select the 2,034 samples (cells) passing quality filtering
+
+> Single-cell profiles were of consistent high-quality with 2,034 cells passing stringent quality filtering, yielding a median of 8,268 fragments per cell with 76% of those fragments mapping to peaks, resulting in a median of 6,442 fragments in peaks per cell (figure 1E).
+
+> Single-cells were filtered for quality requiring at least 60% of fragments in peaks and requiring greater than 1,000 fragments passing quality filters, quality filters are previously described (Corces et al., 2016) which includes removal of mitochondrial reads and low alignment quality (Q30).
+
+The 2,034 samples (pass filter) were included in the `metadata.tsv` file on the scATAC-benchmarking website from Chen *et al*.
+
+```{r filter-samples}
+samples_filtered <- read.table('/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/input_Chen_2019/metadata.tsv', header = TRUE, stringsAsFactors=FALSE, quote="",row.names=1)
+samples_filtered$name <- rownames(samples_filtered)
+
+idx_samples_filtered <- match(samples_filtered$name, sample_names)
+sample_names_filtered <- sample_names[idx_samples_filtered]
+counts <- counts[idx_samples_filtered,]
+samples <- samples_filtered[,c("name", "label")]
+dim(counts)
+```
+
+Remove peaks not exist in any of the cells
+```{r filter-peaks}
+j <- which(colSums(counts > 0) >= 1)
+peaks <- peaks[j,]
+counts <- counts[,j]
+cat(length(j), "peaks left after filtering.  \n")
+
+dim(counts)
+sum(colSums(counts) == 0)
+sum(rowSums(counts) == 0)
+```
+
+```{r, include=FALSE}
+y <- table(summary(counts)$x)
+x <- names(y)
+y <- as.numeric(y)
+plot(x,y,pch = 20,log = "y",cex = 0.65,
+     xlab = "number of fragments mapping to peak",
+     ylab = "number of peaks")
+lines(x,y)
+```
+
+Binarize counts
+```{r binarize}
+binarized_counts <- as.matrix((counts > 0) + 0)
+binarized_counts <- Matrix(binarized_counts, sparse = TRUE) 
+
+cat(sprintf("Matrix dimension after filtering: %d x %d.\n",nrow(binarized_counts),ncol(binarized_counts)))
+```
+
+Save processed data: `/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/`
+
+```{r savedata, eval=FALSE}
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/"
+dir.create(data.dir, showWarnings = FALSE, recursive = TRUE)
+
+save(list = c("samples", "peaks", "counts"), 
+     file = file.path(data.dir, "Buenrostro_2018.RData"))
+
+counts <- binarized_counts
+save(list = c("samples", "peaks", "counts"), 
+     file = file.path(data.dir, "Buenrostro_2018_binarized.RData"))
+
+```
+
+```{r summarize-data}
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/"
+load(file.path(data.dir, "Buenrostro_2018_binarized.RData"))
+cat(sprintf("Loaded %d x %d counts matrix.\n",nrow(counts),ncol(counts)))
+
+cat(sprintf("Number of samples (cells): %d\n",nrow(counts)))
+cat(sprintf("Number of peaks: %d\n",ncol(counts)))
+cat(sprintf("Proportion of counts that are non-zero: %0.1f%%.\n",
+            100*mean(counts > 0)))
+
+```
+
