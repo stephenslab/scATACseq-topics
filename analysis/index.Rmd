@@ -10,6 +10,13 @@ editor_options:
 
 Topic modeling analysis of single-cell ATAC-seq data
 
+* Buenrostro *et al.* 2018 dataset
+    - [Process Buenrostro 2018 dataset](process_data_Buenrostro2018.html)
+    - [Assess model fits](assess_fits_Buenrostro2018_Chen2019pipeline.html)
+    - [Structure plots and DA analysis with K=10](structureplot_DA_Buenrostro2018_k10.html)
+    - [Motif analysis (K=10)](motif_analysis_Buenrostro2018_k10_v2.html)
+    - [Gene score analysis (K=10)](gene_analysis_Buenrostro2018_k10_v2.html)
+
 * Cusanovich *et al.* 2018 dataset
     - [Process Cusanovich 2018 dataset](process_data_Cusanovich2018.html)
     - [Assess model fits](assess_fits_Cusanovich2018.html)
@@ -18,13 +25,3 @@ Topic modeling analysis of single-cell ATAC-seq data
     - [Clustering by topic proportions (K=13)](clusters_Cusanovich2018_k13.html)
     - [Motif analysis (K=13, new DA analysis)](motif_analysis_Cusanovich2018_v2.html)
     - [Gene analysis (K=13, new DA analysis)](gene_analysis_Cusanovich2018_v2.html)
-
-* Buenrostro *et al.* 2018 dataset
-    - [Process Buenrostro 2018 dataset](process_data_Buenrostro2018.html)
-    - [Assess model fits](assess_fits_Buenrostro2018_Chen2019pipeline.html)
-    - [Clustering by topic proportions (K=11)](clusters_Buenrostro2018_k11_Chen2019pipeline.html)
-    - [Motif analysis (K=11, new DA analysis)](motif_analysis_Buenrostro2018_Chen2019pipeline_v2.html)
-    - [Gene analysis (K=11, new DA analysis)](gene_analysis_Buenrostro2018_Chen2019pipeline_v2.html)
-    - [Structure plots and DA analysis with K=10](analysis_Buenrostro2018_k10.html)
-    - [Motif analysis (K=10, new DA analysis)](motif_analysis_Buenrostro2018_k10_v2.html)
-    - [Gene score analysis (K=10, new DA analysis)](gene_analysis_Buenrostro2018_k10_v2.html)
