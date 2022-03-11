@@ -125,8 +125,11 @@ Remove peaks not exist in any of the cells
 j <- which(colSums(counts > 0) >= 1)
 peaks <- peaks[j,]
 counts <- counts[,j]
-cat(length(j), "peaks after filtering.  \n")
+cat(length(j), "peaks left after filtering.  \n")
 
+dim(counts)
+sum(colSums(counts) == 0)
+sum(rowSums(counts) == 0)
 ```
 
 ```{r, include=FALSE}
@@ -154,8 +157,8 @@ Save processed data: `/project2/mstephens/kevinluo/scATACseq-topics/data/Buenros
 data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/"
 dir.create(data.dir, showWarnings = FALSE, recursive = TRUE)
 
-saveRDS(counts, file.path(data.dir, "counts_Buenrostro_2018.rds"))
-saveRDS(binarized_counts, file.path(data.dir, "binarized_counts_Buenrostro_2018.rds"))
+# saveRDS(counts, file.path(data.dir, "counts_Buenrostro_2018.rds"))
+# saveRDS(binarized_counts, file.path(data.dir, "binarized_counts_Buenrostro_2018.rds"))
 
 save(list = c("samples", "peaks", "counts"), 
      file = file.path(data.dir, "Buenrostro_2018.RData"))
@@ -168,7 +171,7 @@ save(list = c("samples", "peaks", "counts"),
 
 ```{r option1-summary}
 data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/"
-load(file.path(data.dir, "Buenrostro_2018.RData"))
+load(file.path(data.dir, "Buenrostro_2018_binarized.RData"))
 cat(sprintf("Loaded %d x %d counts matrix.\n",nrow(counts),ncol(counts)))
 
 cat(sprintf("Number of samples (cells): %d\n",nrow(counts)))
@@ -306,7 +309,7 @@ save(list = c("samples", "peaks", "counts"),
 
 ```{r}
 data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/"
-load(file.path(data.dir, "Buenrostro_2018_counts.RData"))
+load(file.path(data.dir, "Buenrostro_2018_binarized_counts.RData"))
 cat(sprintf("Loaded %d x %d counts matrix.\n",nrow(counts),ncol(counts)))
 
 cat(sprintf("Number of samples (cells): %d\n",nrow(counts)))
