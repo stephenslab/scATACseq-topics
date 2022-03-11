@@ -376,7 +376,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-03-09
+<strong>Last updated:</strong> 2022-03-11
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -467,16 +467,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree1f5743ce8789750ee72990175102f6d70a3f31a7targetblank1f5743ca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/1f5743ce8789750ee72990175102f6d70a3f31a7" target="_blank">1f5743c</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreec558cfa67b1807fce59de8b44a705e46eb8c2efetargetblankc558cfaa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/c558cfa67b1807fce59de8b44a705e46eb8c2efe" target="_blank">c558cfa</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree1f5743ce8789750ee72990175102f6d70a3f31a7targetblank1f5743ca" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreec558cfa67b1807fce59de8b44a705e46eb8c2efetargetblankc558cfaa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/1f5743ce8789750ee72990175102f6d70a3f31a7" target="_blank">1f5743c</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/c558cfa67b1807fce59de8b44a705e46eb8c2efe" target="_blank">c558cfa</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -491,6 +491,7 @@ Untracked files:
     Untracked:  analysis/motif_analysis_Buenrostro2018_v2.Rmd
     Untracked:  output/clustering-Cusanovich2018.rds
     Untracked:  paper/
+    Untracked:  scripts/postfit_Buenrostro2018_v2.sbatch
 
 Unstaged changes:
     Modified:   analysis/assess_fits_Buenrostro2018_Chen2019pipeline.Rmd
@@ -500,6 +501,7 @@ Unstaged changes:
     Modified:   analysis/motif_analysis_Buenrostro2018_Chen2019pipeline.Rmd
     Modified:   analysis/motif_analysis_Cusanovich2018.Rmd
     Modified:   analysis/plots_Cusanovich2018.Rmd
+    Modified:   analysis/process_data_Buenrostro2018_different_options.Rmd
     Modified:   scripts/postfit_Buenrostro2018_v2.sh
 
 </code></pre>
@@ -539,6 +541,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/c558cfa67b1807fce59de8b44a705e46eb8c2efe/analysis/gene_analysis_Buenrostro2018_k10_v2.Rmd" target="_blank">c558cfa</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-11
+</td>
+<td>
+Fixed the data filename
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/b2c4858b3a3e2e1a6040cfb28d998430df548dcd/docs/gene_analysis_Buenrostro2018_k10_v2.html" target="_blank">b2c4858</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-09
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -584,9 +620,9 @@ source(&quot;code/gene_scores.R&quot;)</code></pre>
 <h2>Load data and topic model results</h2>
 <p>Load the <strong>binarized</strong> data and the <span class="math inline">\(k = 10\)</span> Poisson NMF fit results</p>
 <pre class="r"><code>data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/&quot;
-load(file.path(data.dir, &quot;Buenrostro_2018_binarized_counts.RData&quot;))
+load(file.path(data.dir, &quot;Buenrostro_2018_binarized.RData&quot;))
 cat(sprintf(&quot;%d x %d counts matrix.\n&quot;,nrow(counts),ncol(counts)))</code></pre>
-<pre><code># 2953 x 491437 counts matrix.</code></pre>
+<pre><code># 2034 x 465536 counts matrix.</code></pre>
 <pre class="r"><code>fit.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/&quot;
 fit &lt;- readRDS(file.path(fit.dir, &quot;/fit-Buenrostro2018-binarized-scd-ex-k=10.rds&quot;))$fit
 fit &lt;- poisson2multinom(fit)</code></pre>
@@ -605,6 +641,43 @@ structure_plot(fit,grouping = labels,colors = topic_colors,
                # topics = 1:10,
                gap = 20,perplexity = 50,verbose = FALSE)</code></pre>
 <p><img src="figure/gene_analysis_Buenrostro2018_k10_v2.Rmd/structure-plot-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-1">
+Past versions of structure-plot-1.png
+</button>
+</p>
+<div id="fig-structure-plot-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/b2c4858b3a3e2e1a6040cfb28d998430df548dcd/docs/figure/gene_analysis_Buenrostro2018_k10_v2.Rmd/structure-plot-1.png" target="_blank">b2c4858</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="differential-accessbility-analysis-of-the-atac-seq-regions-for-the-topics" class="section level2">
 <h2>Differential accessbility analysis of the ATAC-seq regions for the topics</h2>
@@ -706,6 +779,43 @@ DT::datatable(data.frame(rank = 1:10, top_genes), rownames = F, caption = &quot;
                        labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
                        subsample_below_quantile = 0.5, subsample_rate = 0.1)</code></pre>
 <p><img src="figure/gene_analysis_Buenrostro2018_k10_v2.Rmd/gene-volcano-plots-tss-1.png" width="1200" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-gene-volcano-plots-tss-1">
+Past versions of gene-volcano-plots-tss-1.png
+</button>
+</p>
+<div id="fig-gene-volcano-plots-tss-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/b2c4858b3a3e2e1a6040cfb28d998430df548dcd/docs/figure/gene_analysis_Buenrostro2018_k10_v2.Rmd/gene-volcano-plots-tss-1.png" target="_blank">b2c4858</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p><strong>topic 1 and topic 4 examples</strong></p>
 <pre class="r"><code>p.volcano.1 &lt;- genescore_volcano_plot(genescore_res, k = 1, label_above_quantile = 0.99,
                        labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
@@ -717,6 +827,43 @@ p.volcano.4 &lt;- genescore_volcano_plot(genescore_res, k=4, label_above_quantil
 
 plot_grid(p.volcano.1, p.volcano.4)</code></pre>
 <p><img src="figure/gene_analysis_Buenrostro2018_k10_v2.Rmd/gene-volcano-plots-tss-1-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-gene-volcano-plots-tss-1-1">
+Past versions of gene-volcano-plots-tss-1-1.png
+</button>
+</p>
+<div id="fig-gene-volcano-plots-tss-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/b2c4858b3a3e2e1a6040cfb28d998430df548dcd/docs/figure/gene_analysis_Buenrostro2018_k10_v2.Rmd/gene-volcano-plots-tss-1-1.png" target="_blank">b2c4858</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="compute-gene-scores-using-the-gene-body-model" class="section level3">
 <h3>Compute gene scores using the gene body model</h3>
@@ -766,6 +913,43 @@ DT::datatable(data.frame(rank = 1:10, top_genes), rownames = F, caption = &quot;
                        labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
                        subsample_below_quantile = 0.5, subsample_rate = 0.1)</code></pre>
 <p><img src="figure/gene_analysis_Buenrostro2018_k10_v2.Rmd/gene-volcano-plots-genebody-1.png" width="1200" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-gene-volcano-plots-genebody-1">
+Past versions of gene-volcano-plots-genebody-1.png
+</button>
+</p>
+<div id="fig-gene-volcano-plots-genebody-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/b2c4858b3a3e2e1a6040cfb28d998430df548dcd/docs/figure/gene_analysis_Buenrostro2018_k10_v2.Rmd/gene-volcano-plots-genebody-1.png" target="_blank">b2c4858</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p><strong>topic 1 and topic 4 examples</strong></p>
 <pre class="r"><code>p.volcano.1 &lt;- genescore_volcano_plot(genescore_res, k = 1, label_above_quantile = 0.99,
                        labels = genescore_res$genes$SYMBOL, max.overlaps = 20,
@@ -777,6 +961,43 @@ p.volcano.4 &lt;- genescore_volcano_plot(genescore_res, k=4, label_above_quantil
 
 plot_grid(p.volcano.1, p.volcano.4)</code></pre>
 <p><img src="figure/gene_analysis_Buenrostro2018_k10_v2.Rmd/gene-volcano-plots-genebody-1-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-gene-volcano-plots-genebody-1-1">
+Past versions of gene-volcano-plots-genebody-1-1.png
+</button>
+</p>
+<div id="fig-gene-volcano-plots-genebody-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/b2c4858b3a3e2e1a6040cfb28d998430df548dcd/docs/figure/gene_analysis_Buenrostro2018_k10_v2.Rmd/gene-volcano-plots-genebody-1-1.png" target="_blank">b2c4858</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
