@@ -1,5 +1,5 @@
 ---
-title: "Process data for Buenrostro *et al* (2018) scATAC-seq dataset"
+title: "Process data for Buenrostro *et al* (2018) scATAC-seq dataset with different options"
 author: "Kaixuan Luo"
 output: workflowr::wflow_html
 editor_options:
@@ -26,9 +26,9 @@ RCC directory: `/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_20
 Here we tried four different options to process the scATAC-seq data. 
 
 In option 1, we used the processed counts and peaks from Buenrostro *et al* (2018) paper. 
-However, the ATAC-seq peaks were defined using the bulk ATAC-seq samples. This may not be ideal 
+The ATAC-seq peaks were defined using the bulk ATAC-seq samples. (This may not be ideal 
 as this approach may miss cell-type specific peaks that do not pass the peak calling threshold 
-using all the bulk ATAC-seq samples. Thus, we did not use this option in our topic modeling of the dataset. 
+using all the bulk ATAC-seq samples. )
 
 In option 2-4, we obtained the processed counts using the BAM reads and peaks from aggregated single cell ATAC-seq data. 
 The processed peaks and BAM files were downloaded from [scATAC-benchmarking website from Chen *et al*](https://github.com/pinellolab/scATAC-benchmarking/)
@@ -76,7 +76,7 @@ rownames(counts) <- sample_names
 dim(counts)
 ```
 
-peaks (from bulk ATAC-seq)
+Peaks (from bulk ATAC-seq)
 ```{r option1-load-peaks}
 peaks <- fread("/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/GEO_data/GSE96769_PeakFile_20160207.bed.gz")
 peak_names <- paste(peaks$V1,peaks$V2,peaks$V3,sep = "_")
@@ -125,11 +125,7 @@ Remove peaks not exist in any of the cells
 j <- which(colSums(counts > 0) >= 1)
 peaks <- peaks[j,]
 counts <- counts[,j]
-cat(length(j), "peaks left after filtering.  \n")
-
-dim(counts)
-sum(colSums(counts) == 0)
-sum(rowSums(counts) == 0)
+cat(length(j), "peaks after filtering.  \n")
 ```
 
 ```{r, include=FALSE}
@@ -140,7 +136,6 @@ plot(x,y,pch = 20,log = "y",cex = 0.65,
      xlab = "number of fragments mapping to peak",
      ylab = "number of peaks")
 lines(x,y)
-
 ```
 
 Binarize counts
@@ -157,16 +152,12 @@ Save processed data: `/project2/mstephens/kevinluo/scATACseq-topics/data/Buenros
 data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/"
 dir.create(data.dir, showWarnings = FALSE, recursive = TRUE)
 
-# saveRDS(counts, file.path(data.dir, "counts_Buenrostro_2018.rds"))
-# saveRDS(binarized_counts, file.path(data.dir, "binarized_counts_Buenrostro_2018.rds"))
-
 save(list = c("samples", "peaks", "counts"), 
      file = file.path(data.dir, "Buenrostro_2018.RData"))
 
 counts <- binarized_counts
 save(list = c("samples", "peaks", "counts"), 
      file = file.path(data.dir, "Buenrostro_2018_binarized.RData"))
-
 ```
 
 ```{r option1-summary}
@@ -178,7 +169,6 @@ cat(sprintf("Number of samples (cells): %d\n",nrow(counts)))
 cat(sprintf("Number of peaks: %d\n",ncol(counts)))
 cat(sprintf("Proportion of counts that are non-zero: %0.1f%%.\n",
             100*mean(counts > 0)))
-
 ```
 
 ### Option 2. Using the single-cell ATAC-seq data processing pipeline adapted from Chen *et al* (2019)
@@ -187,20 +177,13 @@ cat(sprintf("Proportion of counts that are non-zero: %0.1f%%.\n",
 
 * Process counts using [Chen *et al* pipeline](https://github.com/pinellolab/scATAC-benchmarking/blob/master/Real_Data/Buenrostro_2018/run_methods/Control/Control_buenrostro2018.ipynb)
 
-```{r message=FALSE, warning=FALSE}
-library(Matrix)
-library(tools)
-library(readr)
-library(data.table)
-```
-
 count scATAC-seq reads in peaks
 ```{bash, eval=FALSE}
 sbatch ~/projects/scATACseq-topics/scripts/count_reads_peaks_Buenrostro_2018.sbatch
 ```
 
 combine counts from all samples
-```{r}
+```{r option2-samples}
 dir_readcount_output <- '/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/count_reads_peaks_output/'
 files <- list.files(dir_readcount_output, pattern = "\\.txt$")
 sample_names <- sapply(strsplit(files,'\\.'),'[', 1)
@@ -212,7 +195,7 @@ datalist <- lapply(files, function(x)fread(file.path(dir_readcount_output,x))$V4
 counts <- do.call("cbind", datalist)
 ```
 
-```{r}
+```{r option2-load-counts}
 data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/"
 dir.create(data.dir, showWarnings = FALSE, recursive = TRUE)
 
@@ -221,7 +204,7 @@ counts <- readRDS(file.path(data.dir, "raw_counts_Buenrostro_2018.rds"))
 ```
 
 Peaks
-```{r}
+```{r option2-load-peaks}
 peaks <- read.csv("/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/input_Chen_2019/combined.sorted.merged.bed",
                       sep = '\t',header=FALSE,stringsAsFactors=FALSE)
 peaknames <- paste(peaks$V1,peaks$V2,peaks$V3,sep = "_")
@@ -237,7 +220,7 @@ dim(counts)
 ```
 
 Samples metadata
-```{r}
+```{r option2-load-samples}
 samples <- read.table('/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/input_Chen_2019/metadata.tsv', header = TRUE, stringsAsFactors=FALSE, quote="",row.names=1)
 
 head(samples)
@@ -263,7 +246,7 @@ filter_peaks <- function (datafr,cutoff = 0.01){
 }
 ```
 
-```{r}
+```{r option2-filter-peaks}
 peaks_selected <- filter_peaks(counts)
 counts <- counts[peaks_selected,]
 peaks <- peaks[peaks_selected, ]
@@ -274,7 +257,7 @@ dim(counts)
 
 ```
 
-```{r plot-distribution-3, include=FALSE}
+```{r option2-plot-distribution, include=FALSE}
 y <- table(summary(counts)$x)
 x <- names(y)
 y <- as.numeric(y)
@@ -286,7 +269,7 @@ lines(x,y)
 ```
 
 Binarize counts
-```{r}
+```{r option2-binarize}
 binarized_counts <- as.matrix((counts > 0) + 0)
 binarized_counts <- Matrix(binarized_counts, sparse = TRUE) 
 
@@ -294,9 +277,7 @@ dim(binarized_counts)
 ```
 
 Save processed data: `/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/`
-```{r, eval=FALSE}
-saveRDS(counts, file.path(data.dir, "counts_Buenrostro_2018.rds"))
-saveRDS(binarized_counts, file.path(data.dir, "binarized_counts_Buenrostro_2018.rds"))
+```{r option2-save-data, eval=FALSE}
 
 save(list = c("samples", "peaks", "counts"), 
      file = file.path(data.dir, "Buenrostro_2018_counts.RData"))
@@ -307,8 +288,7 @@ save(list = c("samples", "peaks", "counts"),
 
 ```
 
-```{r}
-data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/"
+```{r option2-summarize-data}
 load(file.path(data.dir, "Buenrostro_2018_binarized_counts.RData"))
 cat(sprintf("Loaded %d x %d counts matrix.\n",nrow(counts),ncol(counts)))
 
@@ -352,12 +332,12 @@ dir.create(data.dir, showWarnings = FALSE, recursive = TRUE)
 ```
 
 samples metadata
-```{r option3-metadata}
+```{r option3-metadata, eval=FALSE}
 samples <- read.table('/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/input_Chen_2019/metadata.tsv', header = TRUE, stringsAsFactors=FALSE, quote="",row.names=1)
 ```
 
 peaks (from aggregated scATAC-seq)
-```{r option3-peaks}
+```{r option3-peaks, eval=FALSE}
 peakfile <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/input_Chen_2019/combined.sorted.merged.bed"
 peaks <- getPeaks(peakfile, sort_peaks = TRUE)
 peaks <- resize(peaks, width = 500, fix = "center")
@@ -366,7 +346,7 @@ cat(length(peaks), "peaks \n")
 ```
 
 BAM files of scATAC-seq reads
-```{r option3-bam}
+```{r option3-bam, eval=FALSE}
 dir_bamfiles <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/input_Chen_2019/sc-bams_nodup/"
 bamfiles <- list.files(path = dir_bamfiles, pattern = "\\.bam$")
 cellnames <- sapply(strsplit(bamfiles,'.',fixed = TRUE), "[[", 1)
@@ -375,7 +355,7 @@ sum(cellnames == rownames(samples))
 
 count scATAC-seq paired-end fragments in the peaks using `chromVAR`
 ```{r, eval=FALSE}
-fragment_counts <- getCounts(file.path(dir_bamfiles,bamfile), 
+fragment_counts <- getCounts(file.path(dir_bamfiles,bamfiles), 
                              peaks, 
                              paired = TRUE, 
                              by_rg = TRUE, 
@@ -386,7 +366,7 @@ saveRDS(fragment_counts, file.path(data.dir, "fragment_counts_scPeaks_chromVAR_B
 
 ```
 
-```{r option3-counts}
+```{r option3-counts, eval=FALSE}
 fragment_counts <- readRDS(file.path(data.dir, "fragment_counts_scPeaks_chromVAR_Buenrostro_2018.rds"))
 
 counts <- assay(fragment_counts)
@@ -399,7 +379,7 @@ colnames(counts) <- peak_names
 ```
 
 Filter peaks (accessible in at least 1 sample) using `filterPeaks` in `chromVAR`
-```{r}
+```{r, eval=FALSE}
 idx_peaks_filtered <- filterPeaks(fragment_counts, min_fragments_per_peak = 1, non_overlapping = TRUE, ix_return = TRUE)
 peaks <- peaks[idx_peaks_filtered,]
 counts <- counts[,idx_peaks_filtered]
@@ -419,7 +399,7 @@ lines(x,y)
 ```
 
 Binarize counts
-```{r}
+```{r, eval=FALSE}
 binarized_counts <- as.matrix((counts > 0) + 0)
 binarized_counts <- Matrix(binarized_counts, sparse = TRUE) 
 dim(binarized_counts)
@@ -427,9 +407,6 @@ dim(binarized_counts)
 
 Save processed data: `/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/chromVAR/`
 ```{r, eval=FALSE}
-saveRDS(counts, file.path(data.dir, "counts_scPeaks_Buenrostro_2018.rds"))
-saveRDS(binarized_counts, file.path(data.dir, "binarized_counts_scPeaks_Buenrostro_2018.rds"))
-
 save(list = c("samples", "peaks", "counts"), 
      file = file.path(data.dir, "Buenrostro_2018_scPeaks.RData"))
 
@@ -439,9 +416,7 @@ save(list = c("samples", "peaks", "counts"),
 
 ```
 
-```{r}
-data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/chromVAR/"
-
+```{r option3-summary}
 load(file.path(data.dir, "Buenrostro_2018_binarized_scPeaks.RData"))
 cat(sprintf("Loaded %d x %d counts matrix.\n",nrow(counts),ncol(counts)))
 
@@ -477,12 +452,12 @@ dir.create(data.dir, showWarnings = FALSE, recursive = TRUE)
 ```
 
 samples metadata
-```{r}
+```{r, eval=FALSE}
 samples <- read.table('/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/input_Chen_2019/metadata.tsv', header = TRUE, stringsAsFactors=FALSE, quote="",row.names=1)
 ```
 
 peaks (from aggregated scATAC-seq)
-```{r}
+```{r, eval=FALSE}
 peakfile <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/input_Chen_2019/combined.sorted.merged.bed"
 peaks <- getPeaks(peakfile, sort_peaks = TRUE)
 peaks <- resize(peaks, width = 500, fix = "center")
@@ -491,7 +466,7 @@ cat(length(peaks), "peaks \n")
 ```
 
 BAM reads
-```{r}
+```{r, eval=FALSE}
 dir_bamfiles <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/data/input_Chen_2019/sc-bams_nodup/"
 bamfiles <- list.files(path = dir_bamfiles, pattern = "\\.bam$")
 cellnames <- sapply(strsplit(bamfiles,'.',fixed = TRUE), "[[", 1)
@@ -511,12 +486,12 @@ saveRDS(fragment_counts, file.path(data.dir, "fragment_counts_scPeaks_chromVAR_B
 
 ```
 
-```{r}
+```{r, eval=FALSE}
 fragment_counts <- readRDS(file.path(data.dir, "fragment_counts_scPeaks_chromVAR_Buenrostro_2018.rds"))
 fragment_counts
 ```
 
-```{r}
+```{r, eval=FALSE}
 counts <- assay(fragment_counts)
 counts <- t(counts)
 
@@ -528,7 +503,7 @@ colnames(counts) <- peak_names
 ```
 
 Filter peaks (filter out peaks with fragments in < 1% samples)
-```{r}
+```{r, eval=FALSE}
 fragment_binarized_counts <- fragment_counts
 assay(fragment_binarized_counts) <- Matrix(as.matrix((assay(fragment_binarized_counts) > 0) + 0), sparse = TRUE)
 idx_peaks_filtered <- filterPeaks(fragment_binarized_counts, min_fragments_per_peak = floor(nrow(samples)*0.01), non_overlapping = TRUE, ix_return = TRUE)
@@ -551,7 +526,7 @@ lines(x,y)
 ```
 
 Binarize counts
-```{r}
+```{r, eval=FALSE}
 binarized_counts <- as.matrix((counts > 0) + 0)
 binarized_counts <- Matrix(binarized_counts, sparse = TRUE) 
 dim(binarized_counts)
@@ -568,9 +543,7 @@ save(list = c("samples", "peaks", "counts"),
 
 ```
 
-```{r}
-data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data_Chen2019pipeline/chromVAR/"
-
+```{r option4-summary}
 load(file.path(data.dir, "Buenrostro_2018_binarized_scPeaks_filtered.RData"))
 cat(sprintf("Loaded %d x %d counts matrix.\n",nrow(counts),ncol(counts)))
 
@@ -580,4 +553,3 @@ cat(sprintf("Proportion of counts that are non-zero: %0.1f%%.\n",
             100*mean(counts > 0)))
 
 ```
-
