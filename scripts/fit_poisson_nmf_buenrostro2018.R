@@ -12,14 +12,14 @@ library(fastTopics)
 load("../data/Buenrostro_2018_binarized.RData")
 
 # Filter out chromatin accessibility regions with low mean accessibility.
-i      <- which(colSums(counts) > 19)
+i      <- which(colSums(counts) >= 20)
 peaks  <- peaks[i,]
 counts <- counts[,i]
 
 # Fit a Poisson NMF model.
 t0 <- proc.time()
 fit <- fit_poisson_nmf(counts,k = 8,numiter = 200,method = "scd",
-                       init.method = "random",verbose = "progress",
+                       init.method = "random",verbose = "detailed",
                        control = list(numiter = 4,nc = 8,extrapolate = TRUE))
 t1 <- proc.time()
 timing <- t1 - t0
