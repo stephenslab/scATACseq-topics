@@ -4,16 +4,18 @@
 # (2018) single-cell ATAC-seq data set.
 
 # Load packages.
+library(optparse)
 library(Matrix)
 library(fastTopics)
 
 # Process the command-line arguments.
 parser <- OptionParser()
 parser <- add_option(parser,c("--k","-k"),type = "integer",default = 10)
-parser <- add_option(parser,c("--numprefit","-p"),type="integer",default=200)
+parser <- add_option(parser,c("--numprefit"),type="integer",default=200)
 parser <- add_option(parser,c("--numiter","-n"),type="integer",default=1000)
 parser <- add_option(parser,"--nc",type = "integer",default = 1)
 out    <- parse_args(parser)
+print(out)
 k           <- out$k
 numprefit   <- out$numprefit
 numiter     <- out$numiter
