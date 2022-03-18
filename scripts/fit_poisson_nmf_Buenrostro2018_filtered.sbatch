@@ -13,9 +13,11 @@
 K=${1}
 NUMPREFIT=300
 NUMITER=600
+ROUTFILE=/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/filtered_peaks/fit_poisson_nmf_Buenrostro2018_filtered.Rout
 echo k=${K}
 echo numprefit=${NUMPREFIT}
 echo numiter=${NUMITER}
+echo logfile=${ROUTFILE}
 
 # For reproducibility, I add version numbers to the "module load" calls.
 module load R/4.0.4
@@ -24,5 +26,5 @@ module load R/4.0.4
 echo "Running fit_poisson_nmf_Buenrostro2018_filtered.R"
 export OPENBLAS_NUM_THREADS=1
 Rscript ~/projects/scATACseq-topics/scripts/fit_poisson_nmf_Buenrostro2018_filtered.R \
-  -k ${K} --numprefit ${NUMPREFIT} -n ${NUMITER} \
-  --nc 10 > ${OUTFILE}.Rout
+  -k ${K} --numprefit ${NUMPREFIT} -n ${NUMITER} --nc 10 \
+  > ${ROUTFILE}
