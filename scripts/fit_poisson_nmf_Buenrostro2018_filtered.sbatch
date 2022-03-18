@@ -24,5 +24,5 @@ module load R/4.0.4
 echo "Running fit_poisson_nmf_Buenrostro2018_filtered.R"
 export OPENBLAS_NUM_THREADS=1
 Rscript ~/projects/scATACseq-topics/scripts/fit_poisson_nmf_Buenrostro2018_filtered.R \
-  -k ${K} -p ${NUMPREFIT} -n ${NUMITER} \
+  -k ${K} --numprefit ${NUMPREFIT} -n ${NUMITER} \
   --nc 10 > ${OUTFILE}.Rout
