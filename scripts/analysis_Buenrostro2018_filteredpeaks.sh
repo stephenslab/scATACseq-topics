@@ -6,6 +6,23 @@
 # -----------------------------------------------------
 # Use data processed from the Buenrostro 2018 paper
 # -----------------------------------------------------
+
+# FIT POISSON NMF
+# ---------------
+
+mkdir -p /project2/mstephens/kevinluo/scATACseq-topics/log/Buenrostro_2018/fit_filtered_peaks
+cd /project2/mstephens/kevinluo/scATACseq-topics/log/Buenrostro_2018/fit_filtered_peaks
+
+# K = 9,10,11,12
+sbatch --mem=20G ~/projects/scATACseq-topics/scripts/fit_poisson_nmf_Buenrostro2018_filtered.sbatch 9
+sbatch --mem=20G ~/projects/scATACseq-topics/scripts/fit_poisson_nmf_Buenrostro2018_filtered.sbatch 10
+sbatch --mem=20G ~/projects/scATACseq-topics/scripts/fit_poisson_nmf_Buenrostro2018_filtered.sbatch 11
+sbatch --mem=20G ~/projects/scATACseq-topics/scripts/fit_poisson_nmf_Buenrostro2018_filtered.sbatch 12
+
+
+# DIFF ACCESSIBILITY (DA) ANALYSIS
+# ----------------------------------------
+
 # Settings
 DAT_DIR=/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data
 FIT_DIR=/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized
@@ -17,24 +34,23 @@ cd /project2/mstephens/kevinluo/scATACseq-topics/log/Buenrostro_2018/postfit_v2
 # K = 10
 # -------
 
-# DIFF ACCESSIBILITY (DA) ANALYSIS
-# ----------------------------------------
+sbatch --mem=30G ~/projects/scATACseq-topics/scripts/postfit_Buenrostro2018_v2.sbatch
+
 ## Compute differential accessibility across regions
 DA_DIR=${OUT_DIR}/DAanalysis-Buenrostro2018-k=10
 
-sbatch --mem=20G ~/projects/scATACseq-topics/scripts/postfit_DA_analysis.sbatch \
-       ${DAT_DIR}/Buenrostro_2018_binarized.RData \
-       ${FIT_DIR}/fit-Buenrostro2018-binarized-scd-ex-k=10.rds \
-       10000 100 ${DA_DIR}
+# sbatch --mem=20G ~/projects/scATACseq-topics/scripts/postfit_DA_analysis.sbatch \
+#        ${DAT_DIR}/Buenrostro_2018_binarized.RData \
+#        ${FIT_DIR}/fit-Buenrostro2018-binarized-scd-ex-k=10.rds \
+#        10000 100 ${DA_DIR}
+
+Rscript ~/projects/scATACseq-topics/scripts/DA_analysis_Buenrostro2018.R
 
 # MOTIF ANALYSIS
 # --------------
-## Compute motif enrichment for each topic using HOMER. Select top 1% regions with largest logFC
-MOTIFANALYSIS_DIR=${OUT_DIR}/motifanalysis-Buenrostro2018-k=10-quantile
+## Compute motif enrichment for each topic using HOMER.
+Rscript ~/projects/scATACseq-topics/scripts/postfit_motif_analysis_Buenrostro2018.R
 
-sbatch --mem=30G ~/projects/scATACseq-topics/scripts/postfit_motif_analysis_v2.sbatch \
-       ${DA_DIR}/DA_regions_topics_10000iters.rds \
-       hg19 topPercent ${MOTIFANALYSIS_DIR}
 
 # GENE ANALYSIS
 # -------------
