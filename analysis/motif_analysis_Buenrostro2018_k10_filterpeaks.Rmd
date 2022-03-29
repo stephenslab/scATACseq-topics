@@ -6,7 +6,7 @@ output:
     code_folding: hide
 ---
 
-Here we perform TF motif analysis
+Here we perform TF motif enrichment analysis
 for the Buenrostro *et al* (2018) scATAC-seq result inferred 
 from the multinomial topic model with $k = 10$.
 
@@ -136,12 +136,12 @@ do.call(plot_grid,plots)
 
   * We performed differenital accessbility (DA) analysis with lfc.stat = "vsnull", i.e. comparing each topic with the average.  
   
-  * We selected the significant peaks (regions) with **lsfr < 0.01** to perform motif enrichment analysis using HOMER
-  
-### Motif enrichment result using DA regions
+### Motif enrichment result using DA regions with **lsfr < 0.01** 
+
+We selected the significant peaks (regions) with **lsfr < 0.01** to perform motif enrichment analysis using HOMER.
 
 Load and compile HOMER results across topics
-```{r compile-homer-motif-results}
+```{r compile-homer-motif-results-lsfr0.01}
 homer.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/filtered_peaks/motifanalysis-Buenrostro2018-k=10-vsnull-ash/HOMER/DA_lfsr_0.01_regions"
 cat(sprintf("Directory of motif analysis result: %s \n", homer.dir))
 homer_res_topics <- readRDS(file.path(homer.dir, "/homer_knownResults.rds"))
@@ -153,14 +153,14 @@ saveRDS(motif_res, paste0(homer.dir, "/homer_motif_enrichment_results.rds"))
 cat("compiled homer motif results are saved in", paste0(homer.dir, "/homer_motif_enrichment_results.rds \n"))
 ```
 
-```{r all-motif-enrichment-res, eval=FALSE, include=FALSE}
+```{r all-motif-enrichment-res-lsfr0.01, eval=FALSE, include=FALSE}
 motif_table <- data.frame(motif = gsub("/.*", "", rownames(motif_res$mlog10P)),
                           round(motif_res$mlog10P,2))
 DT::datatable(motif_table, rownames = F, caption = "Motif enrichment (-log10P)")
 ```
 
 List top 10 motifs for each topic
-```{r top-motifs}
+```{r top-motifs-lsfr0.01}
 cat("Number of regions selected for each topic: \n")
 print(mapply(nrow, selected_regions[1:(length(selected_regions)-1)]))
 
@@ -180,20 +180,84 @@ DT::datatable(data.frame(rank = 1:10, top_motifs), rownames = F, caption = "Top 
 ```
 
 Heatmap of motif enrichment -log10(p-value). 
-```{r motif-heatmap-pvalue, fig.width=7, fig.height=12}
+```{r motif-heatmap-pvalue-lsfr0.01, fig.width=7, fig.height=12}
 create_motif_enrichment_heatmap(motif_res, enrichment = "-log10(p-value)", 
                                 cluster_motifs = TRUE, cluster_topics = TRUE, motif_filter = 10, horizontal = FALSE,
                                 enrichment_range = c(0,100), method_cluster = "average", font.size.motifs = 4, font.size.topics = 9)
 ```
 
 Rank the top enriched motifs for each topic
-```{r motif-enrichment-ranking-plot, fig.width=10, fig.height=7, warning=FALSE}
+```{r motif-enrichment-ranking-plot-lsfr0.01, fig.width=10, fig.height=7, warning=FALSE}
 plots <- vector("list", ncol(motif_res$mlog10P))
 names(plots) <- colnames(motif_res$mlog10P)
 
 for( i in 1:length(plots)){
   plots[[i]] <- create_motif_enrichment_ranking_plot(motif_res, k = i, 
-                                                     max.overlaps = 20, subsample = FALSE)
+                                                     max.overlaps = 50, subsample = FALSE)
+}
+
+do.call(plot_grid,plots)
+```
+
+
+### Motif enrichment result using top 1% DA regions with the largest logFC
+
+We selected the top 1% peaks (regions) with the largest logFC to perform motif enrichment analysis using HOMER.
+
+Load and compile HOMER results across topics
+```{r compile-homer-motif-results-top1percent}
+homer.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/filtered_peaks/motifanalysis-Buenrostro2018-k=10-vsnull-ash/HOMER/DA_top1percent_regions"
+cat(sprintf("Directory of motif analysis result: %s \n", homer.dir))
+homer_res_topics <- readRDS(file.path(homer.dir, "/homer_knownResults.rds"))
+selected_regions <- readRDS(file.path(homer.dir, "/selected_regions.rds"))
+
+# Compile Homer results (pvalue and ranking) across topics
+motif_res <- compile_homer_motif_res(homer_res_topics)
+saveRDS(motif_res, paste0(homer.dir, "/homer_motif_enrichment_results.rds"))
+cat("compiled homer motif results are saved in", paste0(homer.dir, "/homer_motif_enrichment_results.rds \n"))
+```
+
+```{r all-motif-enrichment-res-top1percent, eval=FALSE, include=FALSE}
+motif_table <- data.frame(motif = gsub("/.*", "", rownames(motif_res$mlog10P)),
+                          round(motif_res$mlog10P,2))
+DT::datatable(motif_table, rownames = F, caption = "Motif enrichment (-log10P)")
+```
+
+List top 10 motifs for each topic
+```{r top-motifs-top1percent}
+cat("Number of regions selected for each topic: \n")
+print(mapply(nrow, selected_regions[1:(length(selected_regions)-1)]))
+
+colnames_homer <- c("motif_name", "consensus", "P", "log10P", "Padj",  "num_target", "percent_target", "num_bg", "percent_bg")
+
+top_motifs <- data.frame(matrix(nrow=10, ncol = length(homer_res_topics)))
+colnames(top_motifs) <- names(homer_res_topics)
+for (k in 1:length(homer_res_topics)){
+  homer_res <- homer_res_topics[[k]]
+  colnames(homer_res) <- colnames_homer
+  homer_res <- homer_res %>% separate(motif_name, c("motif", "origin", "database"), "/")
+  top_motifs[,k] <- head(homer_res$motif, 10)
+}
+
+DT::datatable(data.frame(rank = 1:10, top_motifs), rownames = F, caption = "Top 10 motifs enriched in each topic.")
+
+```
+
+Heatmap of motif enrichment -log10(p-value). 
+```{r motif-heatmap-pvalue-top1percent, fig.width=7, fig.height=12}
+create_motif_enrichment_heatmap(motif_res, enrichment = "-log10(p-value)", 
+                                cluster_motifs = TRUE, cluster_topics = TRUE, motif_filter = 10, horizontal = FALSE,
+                                enrichment_range = c(0,100), method_cluster = "average", font.size.motifs = 4, font.size.topics = 9)
+```
+
+Rank the top enriched motifs for each topic
+```{r motif-enrichment-ranking-plot-top1percent, fig.width=10, fig.height=7, warning=FALSE}
+plots <- vector("list", ncol(motif_res$mlog10P))
+names(plots) <- colnames(motif_res$mlog10P)
+
+for( i in 1:length(plots)){
+  plots[[i]] <- create_motif_enrichment_ranking_plot(motif_res, k = i, 
+                                                     max.overlaps = 50, subsample = FALSE)
 }
 
 do.call(plot_grid,plots)
