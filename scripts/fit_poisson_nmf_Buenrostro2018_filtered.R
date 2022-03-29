@@ -26,8 +26,8 @@ countsfile <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_201
 method <- "scd"
 extrapolate <- TRUE
 outdir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/filtered_peaks"
-prefitfile <- file.path(outdir, paste0("prefit-Buenrostro2018-binarized-filtered-scd-ex-k=", k))
-outfile <- file.path(outdir, paste0("fit-Buenrostro2018-binarized-filtered-scd-ex-k=", k))
+prefitfile <- file.path(outdir, paste0("prefit-Buenrostro2018-binarized-filtered-scd-ex-k=", k, ".rds"))
+outfile <- file.path(outdir, paste0("fit-Buenrostro2018-binarized-filtered-scd-ex-k=", k, ".rds"))
 
 if (!dir.exists(outdir))
   dir.create(outdir)
