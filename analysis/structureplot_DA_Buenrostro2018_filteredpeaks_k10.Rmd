@@ -1,0 +1,221 @@
+---
+title: "Structure plots and differential analysis of Buenrostro *et al* (2018) scATAC-seq data using fastTopics"
+author: Kaixuan Luo
+output:
+  workflowr::wflow_html:
+    toc: yes
+---
+
+Here we explore the structure in the Buenrostro *et al* (2018) 
+scATAC-seq data inferred from the 
+multinomial topic model.
+
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
+                      fig.align = "center",dpi = 120)
+```
+
+Load packages and some functions used in this analysis.
+
+```{r load-pkgs, message=FALSE}
+library(fastTopics)
+library(Matrix)
+library(dplyr)
+library(ggplot2)
+library(cowplot)
+library(plyr)
+library(dplyr)
+library(RColorBrewer)
+library(DT)
+library(reshape)
+source("code/plots.R")
+```
+
+### Load the data
+Data downloaded from original paper.
+
+Original data
+```{r load-binarized-data}
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/"
+load(file.path(data.dir, "Buenrostro_2018_binarized.RData"))
+cat(sprintf("%d x %d counts matrix.\n",nrow(counts),ncol(counts)))
+samples$cell <- rownames(samples)
+samples$label <- as.factor(samples$label)
+```
+
+Filtered out peaks with accessbility in fewer than 20 cells
+```{r filter-peaks, eval=FALSE}
+i      <- which(colSums(counts) >= 20)
+peaks  <- peaks[i,]
+counts <- counts[,i]
+cat(sprintf("After filtering, we have %d rows and %d columns left. \n",nrow(counts),ncol(counts)))
+```
+Load data after filtering peaks with accessbility in fewer than 20 cells
+```{r load-filtered-data}
+res.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/filtered_peaks"
+load(file.path(res.dir, "Buenrostro_2018_binarized_filtered.RData"))
+cat(sprintf("%d x %d counts matrix.\n",nrow(counts),ncol(counts)))
+samples$cell <- rownames(samples)
+samples$label <- as.factor(samples$label)
+```
+
+### Topic model fit
+
+#### K = 8
+Load the K = 8 topic model fit
+```{r load-fit-k8}
+fit <- readRDS(file.path(res.dir, "/fit-Buenrostro2018-binarized-filtered-scd-ex-k=8.rds"))$fit
+fit <- poisson2multinom(fit)
+```
+
+Structure plot
+```{r structure-plot-k8, fig.width=7, fig.height=2.5, message=FALSE}
+topic_colors <- c("darkorange","limegreen","magenta","gold","skyblue",
+                  "darkblue","dodgerblue","darkmagenta")
+
+set.seed(1)
+# labels <- factor(samples$label, levels = c("HSC", "MPP", "CMP", "GMP", "mono", "MEP", "LMPP", "CLP", "pDC", "UNK"))
+
+labels <- factor(samples$label, c("mono","pDC","MEP","HSC","MPP","CLP",
+                                 "LMPP","CMP","GMP","UNK"))
+structure_plot(fit,grouping = labels,colors = topic_colors,
+               # topics = 1:10,
+               gap = 20,perplexity = 50,verbose = FALSE)
+
+```
+
+#### K = 9
+Load the K = 9 topic model fit.
+```{r load-fit-k9}
+fit <- readRDS(file.path(res.dir, "/fit-Buenrostro2018-binarized-filtered-scd-ex-k=9.rds"))$fit
+fit <- poisson2multinom(fit)
+```
+
+Structure plot
+```{r structure-plot-k9, fig.width=7, fig.height=2.5, message=FALSE}
+topic_colors <- c("darkorange","limegreen","magenta","gold","skyblue",
+                  "darkblue","dodgerblue","darkmagenta","red")
+
+set.seed(1)
+# labels <- factor(samples$label, levels = c("HSC", "MPP", "CMP", "GMP", "mono", "MEP", "LMPP", "CLP", "pDC", "UNK"))
+
+labels <- factor(samples$label, c("mono","pDC","MEP","HSC","MPP","CLP",
+                                 "LMPP","CMP","GMP","UNK"))
+structure_plot(fit,grouping = labels,colors = topic_colors,
+               # topics = 1:10,
+               gap = 20,perplexity = 50,verbose = FALSE)
+
+```
+
+#### K = 10
+Load the K = 10 topic model fit.
+```{r load-fit-k10}
+fit <- readRDS(file.path(res.dir, "/fit-Buenrostro2018-binarized-filtered-scd-ex-k=10.rds"))$fit
+fit <- poisson2multinom(fit)
+```
+
+Structure plot
+```{r structure-plot-k10, fig.width=7, fig.height=2.5, message=FALSE}
+topic_colors <- c("darkorange","limegreen","magenta","gold","skyblue",
+                  "darkblue","dodgerblue","darkmagenta","red","olivedrab")
+
+set.seed(1)
+# labels <- factor(samples$label, levels = c("HSC", "MPP", "CMP", "GMP", "mono", "MEP", "LMPP", "CLP", "pDC", "UNK"))
+
+labels <- factor(samples$label, c("mono","pDC","MEP","HSC","MPP","CLP",
+                                 "LMPP","CMP","GMP","UNK"))
+structure_plot(fit,grouping = labels,colors = topic_colors,
+               # topics = 1:10,
+               gap = 20,perplexity = 50,verbose = FALSE)
+
+```
+
+### K-means clustering on topic proportions
+Define clusters using k-means, and then create structure plot 
+based on the clusters from k-means.
+
+k-means clustering (using 12 clusters) on topic proportions
+```{r structure-plot-kmeans-12clusters, fig.width=7, fig.height=2.5, message=FALSE}
+set.seed(1)
+clusters <- factor(kmeans(fit$L,centers = 12,iter.max = 100)$cluster)
+summary(clusters)
+
+structure_plot(fit,grouping = clusters,colors = topic_colors,
+               gap = 20,perplexity = 50,verbose = FALSE)
+
+```
+
+### Differential accessibility (DA) analysis on topic modeling result with $K = 10$
+
+DA analysis results **without shrinkage** (10000 MCMC iterations)
+
+```{r load-DA-no-shrinkage-res}
+DA_dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/filtered_peaks/DAanalysis-Buenrostro2018-k=10"
+
+DA_res <- readRDS(file.path(DA_dir, "DA_regions_topics_vsnull_noshrinkage_10000iters.rds"))
+summary(DA_res)
+```
+
+Number of regions selected at different p-value cutoffs:
+```{r number-DA-regions-no-shrinkage}
+sig_regions <- matrix(NA, nrow = 10, ncol = 3)
+colnames(sig_regions) <- c("p < 0.01", "p < 0.05", "p < 0.1")
+rownames(sig_regions) <- paste("topic", 1:nrow(sig_regions))
+
+for(k in 1:10){
+  lpval <- DA_res$lpval[,k]
+  pval <- 10^(-lpval)
+  sig_regions[k, ] <- c(length(which(pval < 0.01)), length(which(pval < 0.05)), length(which(pval < 0.1)))
+}
+
+sig_regions
+```
+
+Volcano plots for the regions
+```{r region-volcano-plots-no-shrinkage, fig.width=10, fig.height=6}
+plots <- vector("list",10)
+names(plots) <- 1:10
+
+for (k in 1:10)
+  plots[[k]] <- volcano_plot(DA_res, k, labels = rep("",nrow(DA_res$z)))
+do.call(plot_grid,plots)
+
+```
+
+DA analysis results **with "ash" shrinkage** (10000 MCMC iterations)
+
+```{r load-DA-ash-res}
+DA_dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/filtered_peaks/DAanalysis-Buenrostro2018-k=10"
+
+DA_res <- readRDS(file.path(DA_dir, "DA_regions_topics_vsnull_ash_10000iters.rds"))
+summary(DA_res)
+
+dim(DA_res$z)
+```
+
+
+Number of regions selected at different lfsr cutoffs:
+```{r number-DA-regions-ash}
+sig_regions <- matrix(NA, nrow = 10, ncol = 3)
+colnames(sig_regions) <- c("lfsr < 0.01", "lfsr < 0.05", "lfsr < 0.1")
+rownames(sig_regions) <- paste("topic", 1:nrow(sig_regions))
+
+for(k in 1:10){
+  lfsr <- DA_res$lfsr[,k]
+  sig_regions[k, ] <- c(length(which(lfsr < 0.01)), length(which(lfsr < 0.05)), length(which(lfsr < 0.1)))
+}
+
+sig_regions
+```
+
+
+Volcano plots for the regions
+```{r region-volcano-plots-ash, fig.width=10, fig.height=6}
+plots <- vector("list",10)
+names(plots) <- 1:10
+
+for (k in 1:10)
+  plots[[k]] <- volcano_plot(DA_res, k, labels = rep("",nrow(DA_res$z)))
+do.call(plot_grid,plots)
+
+```
