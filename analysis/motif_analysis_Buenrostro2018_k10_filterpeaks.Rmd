@@ -134,11 +134,11 @@ do.call(plot_grid,plots)
 
   * [Script for motif enrichment analysis using HOMER](https://github.com/stephenslab/scATACseq-topics/blob/master/scripts/postfit_motif_analysis_Buenrostro2018.R)
 
-  * We performed differenital accessbility (DA) analysis with lfc.stat = "vsnull", i.e. comparing each topic with the average.  
+  * We performed differenital accessbility (DA) analysis with lfc.stat = "vsnull", i.e. comparing each topic with the average across topics.  
   
-### Motif enrichment result using DA regions with **lsfr < 0.01** 
+### Motif enrichment result using DA regions with *lsfr < 0.01*
 
-We selected the significant peaks (regions) with **lsfr < 0.01** to perform motif enrichment analysis using HOMER.
+We selected the significant peaks (regions) with lsfr < 0.01 to perform motif enrichment analysis using HOMER.
 
 Load and compile HOMER results across topics
 ```{r compile-homer-motif-results-lsfr0.01}
@@ -200,7 +200,7 @@ do.call(plot_grid,plots)
 ```
 
 
-### Motif enrichment result using top 1% DA regions with the largest logFC
+### Motif enrichment result using *top 1% DA regions* with the largest logFC
 
 We selected the top 1% peaks (regions) with the largest logFC to perform motif enrichment analysis using HOMER.
 
