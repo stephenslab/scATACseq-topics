@@ -10,14 +10,16 @@ editor_options:
 
 Topic modeling analysis of single-cell ATAC-seq data
 
-* Buenrostro *et al.* 2018 dataset
+* Human hematopoietic differentiation dataset from Buenrostro *et al.* 2018
     - [Process Buenrostro 2018 dataset](process_data_Buenrostro2018.html)
     - [Assess model fits](assess_fits_Buenrostro2018_Chen2019pipeline.html)
-    - [Structure plots and DA analysis with K=10](structureplot_DA_Buenrostro2018_k10.html)
+    - [Structure plots and DA analysis (K=10)](structureplot_DA_Buenrostro2018_k10.html)
     - [Motif analysis (K=10)](motif_analysis_Buenrostro2018_k10_v2.html)
     - [Gene score analysis (K=10)](gene_analysis_Buenrostro2018_k10_v2.html)
+    - [Structure plots and DA analysis (K=10) using filtered peaks](structureplot_DA_Buenrostro2018_filteredpeaks_k10.html)
+    - [Motif analysis (K=10 using filtered peaks)](motif_analysis_Buenrostro2018_k10_filterpeaks.html)
 
-* Cusanovich *et al.* 2018 dataset
+* Mouse Atlas dataset from Cusanovich *et al.* 2018
     - [Process Cusanovich 2018 dataset](process_data_Cusanovich2018.html)
     - [Assess model fits](assess_fits_Cusanovich2018.html)
     - [Visualize all tissues with different numbers of topics (k's)](compare_different_k_Cusanovich2018.html)
