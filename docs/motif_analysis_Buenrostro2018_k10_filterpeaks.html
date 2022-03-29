@@ -483,16 +483,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree20907b9909bcab910acf84355168aed896b1e888targetblank20907b9a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/20907b9909bcab910acf84355168aed896b1e888" target="_blank">20907b9</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreeb94b6bd83dc418ccbfcf3d354e7ffc8bf572e829targetblankb94b6bda"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/b94b6bd83dc418ccbfcf3d354e7ffc8bf572e829" target="_blank">b94b6bd</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree20907b9909bcab910acf84355168aed896b1e888targetblank20907b9a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreeb94b6bd83dc418ccbfcf3d354e7ffc8bf572e829targetblankb94b6bda" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/20907b9909bcab910acf84355168aed896b1e888" target="_blank">20907b9</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/b94b6bd83dc418ccbfcf3d354e7ffc8bf572e829" target="_blank">b94b6bd</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -560,6 +560,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/b94b6bd83dc418ccbfcf3d354e7ffc8bf572e829/analysis/motif_analysis_Buenrostro2018_k10_filterpeaks.Rmd" target="_blank">b94b6bd</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-29
+</td>
+<td>
+checked shared regions
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/2dbe21c5550fe8eb400eb93c98ef9e2457124218/docs/motif_analysis_Buenrostro2018_k10_filterpeaks.html" target="_blank">2dbe21c</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-29
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -773,16 +807,16 @@ dim(DA_res$z)</code></pre>
 # f0        126719 -none- numeric
 # [1] 126719     10</code></pre>
 <p>Number of regions selected at different lfsr cutoffs:</p>
-<pre class="r"><code>sig_regions &lt;- matrix(NA, nrow = 10, ncol = 3)
-colnames(sig_regions) &lt;- c(&quot;lfsr &lt; 0.01&quot;, &quot;lfsr &lt; 0.05&quot;, &quot;lfsr &lt; 0.1&quot;)
-rownames(sig_regions) &lt;- paste(&quot;topic&quot;, 1:nrow(sig_regions))
+<pre class="r"><code>n.sig.regions &lt;- matrix(NA, nrow = 10, ncol = 3)
+colnames(n.sig.regions) &lt;- c(&quot;lfsr &lt; 0.01&quot;, &quot;lfsr &lt; 0.05&quot;, &quot;lfsr &lt; 0.1&quot;)
+rownames(n.sig.regions) &lt;- paste(&quot;topic&quot;, 1:nrow(n.sig.regions))
 
 for(k in 1:10){
   lfsr &lt;- DA_res$lfsr[,k]
-  sig_regions[k, ] &lt;- c(length(which(lfsr &lt; 0.01)), length(which(lfsr &lt; 0.05)), length(which(lfsr &lt; 0.1)))
+  n.sig.regions[k, ] &lt;- c(length(which(lfsr &lt; 0.01)), length(which(lfsr &lt; 0.05)), length(which(lfsr &lt; 0.1)))
 }
 
-sig_regions</code></pre>
+n.sig.regions</code></pre>
 <pre><code>#          lfsr &lt; 0.01 lfsr &lt; 0.05 lfsr &lt; 0.1
 # topic 1        15066       21034      25515
 # topic 2        11164       18536      24600
@@ -965,6 +999,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/2dbe21c5550fe8eb400eb93c98ef9e2457124218/docs/figure/motif_analysis_Buenrostro2018_k10_filterpeaks.Rmd/motif-enrichment-ranking-plot-lsfr0.01-1.png" target="_blank">2dbe21c</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/0ce10176faf9cfa59d9e353a1f1c19165fb07759/docs/figure/motif_analysis_Buenrostro2018_k10_filterpeaks.Rmd/motif-enrichment-ranking-plot-lsfr0.01-1.png" target="_blank">0ce1017</a>
 </td>
 <td>
@@ -1091,6 +1136,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/2dbe21c5550fe8eb400eb93c98ef9e2457124218/docs/figure/motif_analysis_Buenrostro2018_k10_filterpeaks.Rmd/motif-enrichment-ranking-plot-top1percent-1.png" target="_blank">2dbe21c</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/0ce10176faf9cfa59d9e353a1f1c19165fb07759/docs/figure/motif_analysis_Buenrostro2018_k10_filterpeaks.Rmd/motif-enrichment-ranking-plot-top1percent-1.png" target="_blank">0ce1017</a>
