@@ -102,16 +102,16 @@ dim(DA_res$z)
 
 Number of regions selected at different lfsr cutoffs:
 ```{r number-DA-regions-ash}
-sig_regions <- matrix(NA, nrow = 10, ncol = 3)
-colnames(sig_regions) <- c("lfsr < 0.01", "lfsr < 0.05", "lfsr < 0.1")
-rownames(sig_regions) <- paste("topic", 1:nrow(sig_regions))
+n.sig.regions <- matrix(NA, nrow = 10, ncol = 3)
+colnames(n.sig.regions) <- c("lfsr < 0.01", "lfsr < 0.05", "lfsr < 0.1")
+rownames(n.sig.regions) <- paste("topic", 1:nrow(n.sig.regions))
 
 for(k in 1:10){
   lfsr <- DA_res$lfsr[,k]
-  sig_regions[k, ] <- c(length(which(lfsr < 0.01)), length(which(lfsr < 0.05)), length(which(lfsr < 0.1)))
+  n.sig.regions[k, ] <- c(length(which(lfsr < 0.01)), length(which(lfsr < 0.05)), length(which(lfsr < 0.1)))
 }
 
-sig_regions
+n.sig.regions
 ```
 
 
@@ -157,6 +157,14 @@ cat("compiled homer motif results are saved in", paste0(homer.dir, "/homer_motif
 motif_table <- data.frame(motif = gsub("/.*", "", rownames(motif_res$mlog10P)),
                           round(motif_res$mlog10P,2))
 DT::datatable(motif_table, rownames = F, caption = "Motif enrichment (-log10P)")
+```
+
+```{r count-shared-regions, include=FALSE, eval=FALSE}
+# Regions shared between topics
+sprintf("%d regions shared between topic 1 and 2.\n", length(intersect(selected_regions$k1$name, selected_regions$k2$name)))
+sprintf("%d regions shared between topic 3 and 4.\n", length(intersect(selected_regions$k3$name, selected_regions$k4$name)))
+sprintf("%d regions shared between topic 5 and 6.\n", length(intersect(selected_regions$k5$name, selected_regions$k6$name)))
+sprintf("%d regions shared between topic 7 and 8.\n", length(intersect(selected_regions$k7$name, selected_regions$k8$name)))
 ```
 
 List top 10 motifs for each topic
@@ -221,6 +229,15 @@ cat("compiled homer motif results are saved in", paste0(homer.dir, "/homer_motif
 motif_table <- data.frame(motif = gsub("/.*", "", rownames(motif_res$mlog10P)),
                           round(motif_res$mlog10P,2))
 DT::datatable(motif_table, rownames = F, caption = "Motif enrichment (-log10P)")
+```
+
+
+```{r count-shared-regions-2, include=FALSE, eval=FALSE}
+# Regions shared between topics
+sprintf("%d regions shared between topic 1 and 2.\n", length(intersect(selected_regions$k1$name, selected_regions$k2$name)))
+sprintf("%d regions shared between topic 3 and 4.\n", length(intersect(selected_regions$k3$name, selected_regions$k4$name)))
+sprintf("%d regions shared between topic 5 and 6.\n", length(intersect(selected_regions$k5$name, selected_regions$k6$name)))
+sprintf("%d regions shared between topic 7 and 8.\n", length(intersect(selected_regions$k7$name, selected_regions$k8$name)))
 ```
 
 List top 10 motifs for each topic
