@@ -1,0 +1,200 @@
+---
+title: "Motif analysis using topic modeling and DA results for Buenrostro *et al* (2018) scATAC-seq result"
+author: Kaixuan Luo
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+---
+
+Here we perform TF motif analysis
+for the Buenrostro *et al* (2018) scATAC-seq result inferred 
+from the multinomial topic model with $k = 10$.
+
+We use binarized data downloaded from original paper.
+
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(comment = "#",collapse = FALSE,results = "hold",
+                      fig.align = "center",dpi = 120)
+```
+
+## Load packages and some functions used in this analysis
+```{r load-pkgs, message=FALSE}
+library(Matrix)
+library(fastTopics)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(ggrepel)
+library(cowplot)
+library(plotly)
+library(DT)
+library(reshape2)
+source("code/motif_analysis.R")
+source("code/plots.R")
+```
+
+## Load data and topic model results
+
+Data downloaded from original paper.
+```{r load-binarized-data}
+data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Buenrostro_2018/processed_data/"
+load(file.path(data.dir, "Buenrostro_2018_binarized.RData"))
+cat(sprintf("%d x %d counts matrix.\n",nrow(counts),ncol(counts)))
+samples$cell <- rownames(samples)
+samples$label <- as.factor(samples$label)
+```
+
+Filtered out peaks with accessbility in fewer than 20 cells
+```{r filter-peaks}
+i      <- which(colSums(counts) >= 20)
+peaks  <- peaks[i,]
+counts <- counts[,i]
+cat(sprintf("After filtering, we have %d rows and %d columns left. \n",nrow(counts),ncol(counts)))
+```
+
+Load data after filtering peaks
+```{r load-filtered-data}
+res.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/filtered_peaks"
+load(file.path(res.dir, "Buenrostro_2018_binarized_filtered.RData"))
+cat(sprintf("%d x %d counts matrix.\n",nrow(counts),ncol(counts)))
+samples$cell <- rownames(samples)
+samples$label <- as.factor(samples$label)
+```
+
+Load the K = 10 topic model fit to data after peak filtering
+```{r load-fit}
+fit <- readRDS(file.path(res.dir, "/fit-Buenrostro2018-binarized-filtered-scd-ex-k=10.rds"))$fit
+fit <- poisson2multinom(fit)
+```
+
+Structure plot
+```{r structure-plot, fig.width=7, fig.height=2.5, message=FALSE}
+topic_colors <- c("darkorange","limegreen","magenta","gold","skyblue",
+                  "darkblue","dodgerblue","darkmagenta","red","olivedrab")
+
+set.seed(1)
+# labels <- factor(samples$label, levels = c("HSC", "MPP", "CMP", "GMP", "mono", "MEP", "LMPP", "CLP", "pDC", "UNK"))
+
+labels <- factor(samples$label, c("mono","pDC","MEP","HSC","MPP","CLP",
+                                 "LMPP","CMP","GMP","UNK"))
+structure_plot(fit,grouping = labels,colors = topic_colors,
+               # topics = 1:10,
+               gap = 20,perplexity = 50,verbose = FALSE)
+
+```
+
+## Differential accessibility (DA) analysis
+
+  * We performed differenital accessbility (DA) analysis on topic modeling result with $K = 10$
+  * DA analysis settings: `ns = 10000, nsplit =100, shrink.method = "ash", lfc.stat = "vsnull"`, i.e. comparing each topic with the average.  
+
+Load DA analysis results with "ash" shrinkage (10000 MCMC iterations)
+
+```{r load-DA-ash-res}
+DA_dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/filtered_peaks/DAanalysis-Buenrostro2018-k=10"
+
+DA_res <- readRDS(file.path(DA_dir, "DA_regions_topics_vsnull_ash_10000iters.rds"))
+summary(DA_res)
+
+dim(DA_res$z)
+```
+
+
+Number of regions selected at different lfsr cutoffs:
+```{r number-DA-regions-ash}
+sig_regions <- matrix(NA, nrow = 10, ncol = 3)
+colnames(sig_regions) <- c("lfsr < 0.01", "lfsr < 0.05", "lfsr < 0.1")
+rownames(sig_regions) <- paste("topic", 1:nrow(sig_regions))
+
+for(k in 1:10){
+  lfsr <- DA_res$lfsr[,k]
+  sig_regions[k, ] <- c(length(which(lfsr < 0.01)), length(which(lfsr < 0.05)), length(which(lfsr < 0.1)))
+}
+
+sig_regions
+```
+
+
+Volcano plots for DA result
+```{r region-volcano-plots-ash, fig.width=10, fig.height=6}
+plots <- vector("list",10)
+names(plots) <- 1:10
+
+for (k in 1:10)
+  plots[[k]] <- volcano_plot(DA_res, k, labels = rep("",nrow(DA_res$z)))
+do.call(plot_grid,plots)
+
+```
+
+## Motif enrichment analysis using HOMER
+
+  * About HOMER motif analysis
+    - http://homer.ucsd.edu/homer/motif/
+    - http://homer.ucsd.edu/homer/ngs/peakMotifs.html
+
+  * [Script for motif enrichment analysis using HOMER](https://github.com/stephenslab/scATACseq-topics/blob/master/scripts/postfit_motif_analysis_Buenrostro2018.R)
+
+  * We performed differenital accessbility (DA) analysis with lfc.stat = "vsnull", i.e. comparing each topic with the average.  
+  
+  * We selected the significant peaks (regions) with **lsfr < 0.01** to perform motif enrichment analysis using HOMER
+  
+### Motif enrichment result using DA regions
+
+Load and compile HOMER results across topics
+```{r compile-homer-motif-results}
+homer.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/filtered_peaks/motifanalysis-Buenrostro2018-k=10-vsnull-ash/HOMER/DA_lfsr_0.01_regions"
+cat(sprintf("Directory of motif analysis result: %s \n", homer.dir))
+homer_res_topics <- readRDS(file.path(homer.dir, "/homer_knownResults.rds"))
+selected_regions <- readRDS(file.path(homer.dir, "/selected_regions.rds"))
+
+# Compile Homer results (pvalue and ranking) across topics
+motif_res <- compile_homer_motif_res(homer_res_topics)
+saveRDS(motif_res, paste0(homer.dir, "/homer_motif_enrichment_results.rds"))
+cat("compiled homer motif results are saved in", paste0(homer.dir, "/homer_motif_enrichment_results.rds \n"))
+```
+
+```{r all-motif-enrichment-res, eval=FALSE, include=FALSE}
+motif_table <- data.frame(motif = gsub("/.*", "", rownames(motif_res$mlog10P)),
+                          round(motif_res$mlog10P,2))
+DT::datatable(motif_table, rownames = F, caption = "Motif enrichment (-log10P)")
+```
+
+List top 10 motifs for each topic
+```{r top-motifs}
+cat("Number of regions selected for each topic: \n")
+print(mapply(nrow, selected_regions[1:(length(selected_regions)-1)]))
+
+colnames_homer <- c("motif_name", "consensus", "P", "log10P", "Padj",  "num_target", "percent_target", "num_bg", "percent_bg")
+
+top_motifs <- data.frame(matrix(nrow=10, ncol = length(homer_res_topics)))
+colnames(top_motifs) <- names(homer_res_topics)
+for (k in 1:length(homer_res_topics)){
+  homer_res <- homer_res_topics[[k]]
+  colnames(homer_res) <- colnames_homer
+  homer_res <- homer_res %>% separate(motif_name, c("motif", "origin", "database"), "/")
+  top_motifs[,k] <- head(homer_res$motif, 10)
+}
+
+DT::datatable(data.frame(rank = 1:10, top_motifs), rownames = F, caption = "Top 10 motifs enriched in each topic.")
+
+```
+
+Heatmap of motif enrichment -log10(p-value). 
+```{r motif-heatmap-pvalue, fig.width=7, fig.height=12}
+create_motif_enrichment_heatmap(motif_res, enrichment = "-log10(p-value)", 
+                                cluster_motifs = TRUE, cluster_topics = TRUE, motif_filter = 10, horizontal = FALSE,
+                                enrichment_range = c(0,100), method_cluster = "average", font.size.motifs = 4, font.size.topics = 9)
+```
+
+Rank the top enriched motifs for each topic
+```{r motif-enrichment-ranking-plot, fig.width=10, fig.height=7, warning=FALSE}
+plots <- vector("list", ncol(motif_res$mlog10P))
+names(plots) <- colnames(motif_res$mlog10P)
+
+for( i in 1:length(plots)){
+  plots[[i]] <- create_motif_enrichment_ranking_plot(motif_res, k = i, 
+                                                     max.overlaps = 20, subsample = FALSE)
+}
+
+do.call(plot_grid,plots)
+```
