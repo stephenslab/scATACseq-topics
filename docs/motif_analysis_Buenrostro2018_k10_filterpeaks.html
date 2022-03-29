@@ -483,16 +483,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree2b53fee585adb28148d1447a7ccace81e8067710targetblank2b53feea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/2b53fee585adb28148d1447a7ccace81e8067710" target="_blank">2b53fee</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree20907b9909bcab910acf84355168aed896b1e888targetblank20907b9a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/20907b9909bcab910acf84355168aed896b1e888" target="_blank">20907b9</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree2b53fee585adb28148d1447a7ccace81e8067710targetblank2b53feea" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree20907b9909bcab910acf84355168aed896b1e888targetblank20907b9a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/2b53fee585adb28148d1447a7ccace81e8067710" target="_blank">2b53fee</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/20907b9909bcab910acf84355168aed896b1e888" target="_blank">20907b9</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -504,7 +504,6 @@ Ignored files:
     Ignored:    .Rproj.user/
 
 Untracked files:
-    Untracked:  .tmp.motifs
     Untracked:  analysis/motif_analysis_Buenrostro2018_v2.Rmd
     Untracked:  output/clustering-Cusanovich2018.rds
     Untracked:  paper/
@@ -561,6 +560,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/20907b9909bcab910acf84355168aed896b1e888/analysis/motif_analysis_Buenrostro2018_k10_filterpeaks.Rmd" target="_blank">20907b9</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-29
+</td>
+<td>
+added motif enrichment result using the top 1% regions
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/0ce10176faf9cfa59d9e353a1f1c19165fb07759/docs/motif_analysis_Buenrostro2018_k10_filterpeaks.html" target="_blank">0ce1017</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-29
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -816,11 +849,11 @@ kevinlkx
 <li><a href="http://homer.ucsd.edu/homer/ngs/peakMotifs.html" class="uri">http://homer.ucsd.edu/homer/ngs/peakMotifs.html</a></li>
 </ul></li>
 <li><p><a href="https://github.com/stephenslab/scATACseq-topics/blob/master/scripts/postfit_motif_analysis_Buenrostro2018.R">Script for motif enrichment analysis using HOMER</a></p></li>
-<li><p>We performed differenital accessbility (DA) analysis with lfc.stat = &quot;vsnull&quot;, i.e. comparing each topic with the average.</p></li>
+<li><p>We performed differenital accessbility (DA) analysis with lfc.stat = &quot;vsnull&quot;, i.e. comparing each topic with the average across topics.</p></li>
 </ul>
 <div id="motif-enrichment-result-using-da-regions-with-lsfr-0.01" class="section level3">
-<h3>Motif enrichment result using DA regions with <strong>lsfr &lt; 0.01</strong></h3>
-<p>We selected the significant peaks (regions) with <strong>lsfr &lt; 0.01</strong> to perform motif enrichment analysis using HOMER.</p>
+<h3>Motif enrichment result using DA regions with <em>lsfr &lt; 0.01</em></h3>
+<p>We selected the significant peaks (regions) with lsfr &lt; 0.01 to perform motif enrichment analysis using HOMER.</p>
 <p>Load and compile HOMER results across topics</p>
 <pre class="r"><code>homer.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/filtered_peaks/motifanalysis-Buenrostro2018-k=10-vsnull-ash/HOMER/DA_lfsr_0.01_regions&quot;
 cat(sprintf(&quot;Directory of motif analysis result: %s \n&quot;, homer.dir))
@@ -859,6 +892,43 @@ DT::datatable(data.frame(rank = 1:10, top_motifs), rownames = F, caption = &quot
                                 cluster_motifs = TRUE, cluster_topics = TRUE, motif_filter = 10, horizontal = FALSE,
                                 enrichment_range = c(0,100), method_cluster = &quot;average&quot;, font.size.motifs = 4, font.size.topics = 9)</code></pre>
 <p><img src="figure/motif_analysis_Buenrostro2018_k10_filterpeaks.Rmd/motif-heatmap-pvalue-lsfr0.01-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-motif-heatmap-pvalue-lsfr0.01-1">
+Past versions of motif-heatmap-pvalue-lsfr0.01-1.png
+</button>
+</p>
+<div id="fig-motif-heatmap-pvalue-lsfr0.01-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/0ce10176faf9cfa59d9e353a1f1c19165fb07759/docs/figure/motif_analysis_Buenrostro2018_k10_filterpeaks.Rmd/motif-heatmap-pvalue-lsfr0.01-1.png" target="_blank">0ce1017</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-29
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code># 220 out of 439 motifs included the heatmap</code></pre>
 <p>Rank the top enriched motifs for each topic</p>
 <pre class="r"><code>plots &lt;- vector(&quot;list&quot;, ncol(motif_res$mlog10P))
@@ -871,9 +941,46 @@ for( i in 1:length(plots)){
 
 do.call(plot_grid,plots)</code></pre>
 <p><img src="figure/motif_analysis_Buenrostro2018_k10_filterpeaks.Rmd/motif-enrichment-ranking-plot-lsfr0.01-1.png" width="1200" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-motif-enrichment-ranking-plot-lsfr0.01-1">
+Past versions of motif-enrichment-ranking-plot-lsfr0.01-1.png
+</button>
+</p>
+<div id="fig-motif-enrichment-ranking-plot-lsfr0.01-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/0ce10176faf9cfa59d9e353a1f1c19165fb07759/docs/figure/motif_analysis_Buenrostro2018_k10_filterpeaks.Rmd/motif-enrichment-ranking-plot-lsfr0.01-1.png" target="_blank">0ce1017</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-29
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="motif-enrichment-result-using-top-1-da-regions-with-the-largest-logfc" class="section level3">
-<h3>Motif enrichment result using top 1% DA regions with the largest logFC</h3>
+<h3>Motif enrichment result using <em>top 1% DA regions</em> with the largest logFC</h3>
 <p>We selected the top 1% peaks (regions) with the largest logFC to perform motif enrichment analysis using HOMER.</p>
 <p>Load and compile HOMER results across topics</p>
 <pre class="r"><code>homer.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/filtered_peaks/motifanalysis-Buenrostro2018-k=10-vsnull-ash/HOMER/DA_top1percent_regions&quot;
@@ -913,6 +1020,43 @@ DT::datatable(data.frame(rank = 1:10, top_motifs), rownames = F, caption = &quot
                                 cluster_motifs = TRUE, cluster_topics = TRUE, motif_filter = 10, horizontal = FALSE,
                                 enrichment_range = c(0,100), method_cluster = &quot;average&quot;, font.size.motifs = 4, font.size.topics = 9)</code></pre>
 <p><img src="figure/motif_analysis_Buenrostro2018_k10_filterpeaks.Rmd/motif-heatmap-pvalue-top1percent-1.png" width="840" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-motif-heatmap-pvalue-top1percent-1">
+Past versions of motif-heatmap-pvalue-top1percent-1.png
+</button>
+</p>
+<div id="fig-motif-heatmap-pvalue-top1percent-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/0ce10176faf9cfa59d9e353a1f1c19165fb07759/docs/figure/motif_analysis_Buenrostro2018_k10_filterpeaks.Rmd/motif-heatmap-pvalue-top1percent-1.png" target="_blank">0ce1017</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-29
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code># 139 out of 439 motifs included the heatmap</code></pre>
 <p>Rank the top enriched motifs for each topic</p>
 <pre class="r"><code>plots &lt;- vector(&quot;list&quot;, ncol(motif_res$mlog10P))
@@ -925,6 +1069,43 @@ for( i in 1:length(plots)){
 
 do.call(plot_grid,plots)</code></pre>
 <p><img src="figure/motif_analysis_Buenrostro2018_k10_filterpeaks.Rmd/motif-enrichment-ranking-plot-top1percent-1.png" width="1200" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-motif-enrichment-ranking-plot-top1percent-1">
+Past versions of motif-enrichment-ranking-plot-top1percent-1.png
+</button>
+</p>
+<div id="fig-motif-enrichment-ranking-plot-top1percent-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/0ce10176faf9cfa59d9e353a1f1c19165fb07759/docs/figure/motif_analysis_Buenrostro2018_k10_filterpeaks.Rmd/motif-enrichment-ranking-plot-top1percent-1.png" target="_blank">0ce1017</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-03-29
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
