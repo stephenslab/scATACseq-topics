@@ -20,13 +20,30 @@ library(ggplot2)
 library(cowplot)
 ```
 
-Load the count data and the $k = 8$ topic model fit:
+Load the count data and the $k = 8$ multinomial topic model fit to
+these data:
 
 ```{r load-data}
-load("../data/Buenrostro_2018/processed_data/Buenrostro_2018_binarized.RData")
+load("data/Buenrostro_2018/processed_data/Buenrostro_2018_binarized.RData")
 fit <- readRDS(
-  file.path("../output/Buenrostro_2018/binarized/filtered_peaks",
+  file.path("output/Buenrostro_2018/binarized/filtered_peaks",
             "fit-Buenrostro2018-binarized-filtered-scd-ex-k=8.rds"))$fit
 fit <- poisson2multinom(fit)
 ```
 
+Visualize the structure identified in the FACS cell populations using
+a Structure plot:
+
+```{r structure-plot, fig.height=1.5, fig.width=8}
+set.seed(1)
+celltypes = factor(samples$label)
+topic_colors <- c("darkorange","limegreen","magenta","gold","skyblue",
+                  "darkblue","dodgerblue","darkmagenta")
+custom_embed_method <- function (fit, ...) {
+  y0 <- pca_from_topics(fit,dims = 1)
+  return(tsne_from_topics(fit,dims = 1,Y_init = matrix(y0)))
+}
+structure_plot(fit,grouping = celltypes,perplexity = 20,n = Inf,gap = 20,
+               verbose = FALSE,colors = topic_colors,
+               embed_method = custom_embed_method)
+```
