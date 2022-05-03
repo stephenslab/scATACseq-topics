@@ -1,0 +1,13 @@
+---
+title: "GoM DE analysis of droplet data"
+author: Peter Carbonetto
+output: workflowr::wflow_html
+---
+
+Here we summarize the results of performing DE analysis on the droplet
+data using the topic model with $K = 7$ topics.
+
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
+                      fig.align = "center",dpi = 120)
+```
