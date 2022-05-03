@@ -18,7 +18,7 @@ Topic modeling analysis of single-cell ATAC-seq data
     - [Gene score analysis (K=10)](gene_analysis_Buenrostro2018_k10_v2.html)
     - [Structure plots and DA analysis (K=10) using filtered peaks](structureplot_DA_Buenrostro2018_filteredpeaks_k10.html)
     - [Motif analysis (K=10 using filtered peaks)](motif_analysis_Buenrostro2018_k10_filterpeaks.html)
-    - [Topic modeling analysis with k = 8 topics](buenrostro2018_k8.html)
+    - [Topic modeling analysis with k = 10 topics](buenrostro2018_k10.html)
 
 * Mouse Atlas dataset from Cusanovich *et al.* 2018
     - [Process Cusanovich 2018 dataset](process_data_Cusanovich2018.html)
