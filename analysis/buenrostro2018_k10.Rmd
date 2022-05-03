@@ -34,16 +34,20 @@ fit <- poisson2multinom(fit)
 Visualize the structure identified in the FACS cell populations using
 a Structure plot:
 
-```{r structure-plot, fig.height=1.5, fig.width=8}
+```{r structure-plot, fig.height=1.5, fig.width=8, message=FALSE}
 set.seed(1)
-celltypes = factor(samples$label)
-topic_colors <- c("darkorange","limegreen","magenta","gold","skyblue",
-                  "darkblue","dodgerblue","darkmagenta")
+celltypes = factor(samples$label,
+                   c("CLP","pDC","LMPP","HSC","MPP","CMP","MEP","GMP",
+				     "mono","UNK"))
+topic_colors <- c("skyblue","orchid","gainsboro","red","darkblue",
+                  "darkorange","forestgreen","limegreen")
 custom_embed_method <- function (fit, ...) {
   y0 <- pca_from_topics(fit,dims = 1)
-  return(tsne_from_topics(fit,dims = 1,Y_init = matrix(y0)))
+  return(tsne_from_topics(fit,dims = 1,Y_init = matrix(y0),eta = 30,
+         perplexity = 70,...))
 }
-structure_plot(fit,grouping = celltypes,perplexity = 20,n = Inf,gap = 20,
+p <- structure_plot(fit,grouping = celltypes,n = Inf,gap = 20,
                verbose = FALSE,colors = topic_colors,
+			   topics = c(1,6,3,5,8,7,2,4),
                embed_method = custom_embed_method)
 ```
