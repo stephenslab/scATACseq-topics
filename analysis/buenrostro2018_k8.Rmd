@@ -1,13 +1,32 @@
 ---
-title: "GoM DE analysis of droplet data"
+title: "Topic modeling analysis of Buenrostro et al (2018) data with k = 8 topics"
 author: Peter Carbonetto
 output: workflowr::wflow_html
 ---
 
-Here we summarize the results of performing DE analysis on the droplet
-data using the topic model with $K = 7$ topics.
+*Add text here.*
 
 ```{r knitr-opts, include=FALSE}
 knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
                       fig.align = "center",dpi = 120)
 ```
+
+Load the packages used in the analysis.
+
+```{r load-pkgs, message=FALSE}
+library(Matrix)
+library(fastTopics)
+library(ggplot2)
+library(cowplot)
+```
+
+Load the count data and the $k = 8$ topic model fit:
+
+```{r load-data}
+load("../data/Buenrostro_2018/processed_data/Buenrostro_2018_binarized.RData")
+fit <- readRDS(
+  file.path("../output/Buenrostro_2018/binarized/filtered_peaks",
+            "fit-Buenrostro2018-binarized-filtered-scd-ex-k=8.rds"))$fit
+fit <- poisson2multinom(fit)
+```
+

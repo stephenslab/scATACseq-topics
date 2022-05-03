@@ -10,3 +10,5 @@ analysis/*png
 analysis/*html
 analysis/*_cache
 analysis/site_libs
+data/Buenrostro_2018/processed_data/Buenrostro_2018_binarized.RData
+output/Buenrostro_2018/binarized/filtered_peaks/fit-Buenrostro2018-binarized-filtered-scd-ex-k=8.rds
