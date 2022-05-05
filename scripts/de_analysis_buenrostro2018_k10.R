@@ -1,67 +1,39 @@
-#! /usr/bin/env Rscript
-# Perform differential accessbility (DA) analysis for Buenrostro 2018 scATAC-seq data with filtered peaks based on topic modeling fit
+# A short script used to perform the differential expression (DE)
+# analysis using the multinomial topic model fitted to the Buenrostro
+# et al (2018) data, with k = 10 topics. These were the steps taken to
+# load R and allocate computing resources for this analysis:
+#
+#   sinteractive -p broadwl -c 8 --mem=16G --time=20:00:00
+#   module load R/3.5.1
+#
+
+# Load a few packages.
+library(tools)
 library(Matrix)
 library(fastTopics)
 
-countsfile           <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/filtered_peaks/Buenrostro_2018_binarized_filtered.RData"
-modelfitfile         <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/filtered_peaks/fit-Buenrostro2018-binarized-filtered-scd-ex-k=10.rds"
-nc                   <- 10
-ns                   <- 10000
-nsplit               <- 100
-outdir               <- "/project2/mstephens/kevinluo/scATACseq-topics/output/Buenrostro_2018/binarized/filtered_peaks/DAanalysis-Buenrostro2018-k=10"
-
-cat(sprintf("countsfile   = %s \n", countsfile))
-cat(sprintf("modelfitfile = %s \n", modelfitfile))
-cat(sprintf("nc           = %s \n", nc))
-cat(sprintf("ns           = %s \n", ns))
-cat(sprintf("nsplit       = %s \n", nsplit))
-cat(sprintf("outdir       = %s \n", outdir))
-
-if(!dir.exists(outdir))
-  dir.create(outdir, showWarnings = FALSE, recursive = T)
-
-# LOAD DATA
-# ---------
+# Initialize the sequence of pseudorandom numbers.
+set.seed(1)
 
 # Load the previously prepared count data.
-cat(sprintf("Loading data from %s.\n",countsfile))
-load(countsfile)
-cat(sprintf("Loaded %d x %d counts matrix.\n",nrow(counts),ncol(counts)))
+load(file.path("../output/Buenrostro_2018/binarized/filtered_peaks",
+               "Buenrostro_2018_binarized_filtered.RData"))
 
-# LOAD MODEL FIT
-# --------------
-cat(sprintf("Loading Poisson NMF model fit from %s\n",modelfitfile))
-fit <- readRDS(modelfitfile)$fit
+# Load the k = 10 Poisson NMF model fit.
+fit <- readRDS(
+  file.path("../output/Buenrostro_2018/binarized/filtered_peaks",
+            "fit-Buenrostro2018-binarized-filtered-scd-ex-k=10.rds"))$fit
+fit <- poisson2multinom(fit)
 
-# DIFFERENTIAL ACCESSIBILITY ANALYSIS
-# -------------------------------------------------
-
-# Perform differential accessbility for logFC relative to the null (average) without shrinkage
-outfile <- file.path(outdir, paste0("DA_regions_topics_vsnull_noshrinkage_", ns,"iters.rds"))
-
-cat("Computing differential accessbility statistics from topic model.\n")
-cat("Run", ns, "iterations of MCMC...\n")
+# Perform the DE analysis.
+t0 <- proc.time()
 timing <- system.time(
-  DA_res <- de_analysis(fit,counts,pseudocount = 0.1,shrink.method = "none",
-                        lfc.stat = "vsnull",
-                        control = list(ns = ns,nc = nc,nsplit = nsplit)))
+  de <- de_analysis(fit,counts,shrink.method = "none",pseudocount = 0.1,
+                    control = list(ns = 1000,nc = 4)))
+t1 <- proc.time()
+timing <- t1 - t0
 cat(sprintf("Computation took %0.2f seconds.\n",timing["elapsed"]))
 
-cat("Saving results.\n")
-saveRDS(DA_res, outfile)
-
-
-# Perform differential accessbility for logFC relative to the null (average) with ash shrinkage
-outfile <- file.path(outdir, paste0("DA_regions_topics_vsnull_ash_", ns,"iters.rds"))
-
-cat("Computing differential accessbility statistics from topic model.\n")
-cat("Run", ns, "iterations of MCMC...\n")
-timing <- system.time(
-  DA_res <- de_analysis(fit,counts,pseudocount = 0.1, lfc.stat = "vsnull",
-                        control = list(ns = ns,nc = nc,nsplit = nsplit)))
-cat(sprintf("Computation took %0.2f seconds.\n",timing["elapsed"]))
-
-cat("Saving results.\n")
-saveRDS(DA_res, outfile)
-
-sessionInfo()
+# Save the results.
+save(list = "de",file = "de-buenrostro2018-k=10-noshrink.RData")
+resaveRdaFiles("de-buenrostro2018-k=10-noshrink.RData")
