@@ -29,7 +29,7 @@ fit <- poisson2multinom(fit)
 t0 <- proc.time()
 timing <- system.time(
   de <- de_analysis(fit,counts,shrink.method = "none",pseudocount = 0.1,
-                    control = list(ns = 1000,nc = 4)))
+                    control = list(ns = 1000,nc = 8)))
 t1 <- proc.time()
 timing <- t1 - t0
 cat(sprintf("Computation took %0.2f seconds.\n",timing["elapsed"]))
