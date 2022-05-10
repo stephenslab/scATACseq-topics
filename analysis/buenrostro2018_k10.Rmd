@@ -20,8 +20,8 @@ library(ggplot2)
 library(cowplot)
 ```
 
-Load the count data and the $k = 10$ multinomial topic model fit to
-these data:
+Load the count data, the $k = 10$ multinomial topic model fit to these
+data, and the results of the DE analysis using this topic model:
 
 ```{r load-data}
 load("data/Buenrostro_2018/processed_data/Buenrostro_2018_binarized.RData")
@@ -29,12 +29,14 @@ fit <- readRDS(
   file.path("output/Buenrostro_2018/binarized/filtered_peaks",
             "fit-Buenrostro2018-binarized-filtered-scd-ex-k=10.rds"))$fit
 fit <- poisson2multinom(fit)
+load(file.path("output/Buenrostro_2018/binarized/filtered_peaks",
+               "de-buenrostro2018-k=10-noshrink.RData"))
 ```
 
 Visualize the structure identified in the FACS cell populations using
 a Structure plot:
 
-```{r structure-plot, fig.height=1.5, fig.width=8, message=FALSE}
+```{r structure-plot, fig.height=1.75, fig.width=8, message=FALSE}
 set.seed(1)
 celltypes = factor(samples$label,
                    c("pDC","CLP","LMPP","HSC","MPP","CMP","MEP","GMP",
@@ -52,3 +54,21 @@ structure_plot(fit,grouping = celltypes,n = Inf,gap = 20,
 			   topics = c(5,10,8,3,4,1,6,7,2,9),
                embed_method = custom_embed_method)
 ```
+
+The `de_analysis` function attempts to quantify *differential
+accessibility* in each of the peaks:
+
+```{r volcano-plots, fig.height=9, fig.width=5.5, message=FALSE}
+n <- nrow(de$z)
+k <- ncol(de$z)
+p <- vector("list",k)
+names(p) <- colnames(de$z)
+for (i in 1:k)
+  p[[i]] <- volcano_plot(de,i,labels = rep("",n)) +
+    guides(fill = "none")
+do.call("plot_grid",c(p,list(nrow = 4,ncol = 3)))
+```
+
+The individual results are not strong, but an enrichment analysis of
+the peaks might point to interesting patterns among these
+differentially accessible peaks.
