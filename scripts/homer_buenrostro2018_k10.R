@@ -30,14 +30,16 @@ for (i in 1:k) {
               row.names = FALSE,col.names = FALSE)
 
   # Run the HOMER motif enrichment analysis.
-  homer.command <-
-    paste("/scratch/midway2/pcarbo/homer/bin/findMotifsGenome.pl",
-          "positions.bed hg19 homer -len 8,10,12 -size 200 -mis 2",
-          "-S 25 -p 4 -h")
-  system.out <- system(homer.command,ignore.stderr = TRUE,
-                       ignore.stdout = TRUE,intern = TRUE)
+  t0 <- proc.time()
+  homer.command <- paste("findMotifsGenome.pl positions.bed hg19 homer",
+                         "-len 8,10,12 -size 200 -mis 2 -S 25 -p 4 -h")
+  system(homer.command)
+  t1 <- proc.time()
+  timing <- t1 - t0
+  cat(sprintf("Computation took %0.2f seconds.\n",timing["elapsed"]))
   res <- read.table("homer/knownResults.txt",sep = "\t",comment.char = "",
                     header = TRUE,check.names = FALSE,stringsAsFactors = FALSE)
+  # TO DO: Clean up HOMER results.
 }
 
 # Save the results.
