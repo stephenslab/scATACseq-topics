@@ -368,7 +368,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-05-03
+<strong>Last updated:</strong> 2022-05-10
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -459,16 +459,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree2fc232b6901640f7413557a90831e6f13b9fa4eftargetblank2fc232ba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/2fc232b6901640f7413557a90831e6f13b9fa4ef" target="_blank">2fc232b</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreea49e37e7256335c95af27c817fe7f992d372eeb6targetblanka49e37ea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/a49e37e7256335c95af27c817fe7f992d372eeb6" target="_blank">a49e37e</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree2fc232b6901640f7413557a90831e6f13b9fa4eftargetblank2fc232ba" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreea49e37e7256335c95af27c817fe7f992d372eeb6targetblanka49e37ea" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/2fc232b6901640f7413557a90831e6f13b9fa4ef" target="_blank">2fc232b</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/a49e37e7256335c95af27c817fe7f992d372eeb6" target="_blank">a49e37e</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -481,6 +481,7 @@ Ignored files:
 
 Untracked files:
     Untracked:  analysis/fit-Buenrostro2018-binarized-scd-ex-k=10.rds
+    Untracked:  analysis/temp.R
     Untracked:  data/Buenrostro_2018_binarized.RData
     Untracked:  output/Buenrostro_2018/
     Untracked:  scripts/fit-buenrostro-2018-k=8.rds
@@ -526,6 +527,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/a49e37e7256335c95af27c817fe7f992d372eeb6/analysis/buenrostro2018_k10.Rmd" target="_blank">a49e37e</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-05-10
+</td>
+<td>
+workflowr::wflow_publish(“analysis/buenrostro2018_k10.Rmd”, verbose = TRUE)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/63d0c5c62feef3ae4ee79b2ff6fa241ac6929810/docs/buenrostro2018_k10.html" target="_blank">63d0c5c</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-05-03
+</td>
+<td>
+Improved the structure plot in the buenrostro2018_k10 analysis.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -590,12 +625,14 @@ workflowr::wflow_rename(“buenrostro2018_k8.Rmd”, “buenrostro2018_k10.Rmd�
 library(fastTopics)
 library(ggplot2)
 library(cowplot)</code></pre>
-<p>Load the count data and the <span class="math inline">\(k = 10\)</span> multinomial topic model fit to these data:</p>
+<p>Load the count data, the <span class="math inline">\(k = 10\)</span> multinomial topic model fit to these data, and the results of the DE analysis using this topic model:</p>
 <pre class="r"><code>load(&quot;data/Buenrostro_2018/processed_data/Buenrostro_2018_binarized.RData&quot;)
 fit &lt;- readRDS(
   file.path(&quot;output/Buenrostro_2018/binarized/filtered_peaks&quot;,
             &quot;fit-Buenrostro2018-binarized-filtered-scd-ex-k=10.rds&quot;))$fit
-fit &lt;- poisson2multinom(fit)</code></pre>
+fit &lt;- poisson2multinom(fit)
+load(file.path(&quot;output/Buenrostro_2018/binarized/filtered_peaks&quot;,
+               &quot;de-buenrostro2018-k=10-noshrink.RData&quot;))</code></pre>
 <p>Visualize the structure identified in the FACS cell populations using a Structure plot:</p>
 <pre class="r"><code>set.seed(1)
 celltypes = factor(samples$label,
@@ -638,6 +675,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/63d0c5c62feef3ae4ee79b2ff6fa241ac6929810/docs/figure/buenrostro2018_k10.Rmd/structure-plot-1.png" target="_blank">63d0c5c</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-05-03
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/7853353da180e7d83171f98ffa78f353fd9d966f/docs/figure/buenrostro2018_k10.Rmd/structure-plot-1.png" target="_blank">7853353</a>
 </td>
 <td>
@@ -651,6 +699,17 @@ Peter Carbonetto
 </table>
 </div>
 </div>
+<p>The <code>de_analysis</code> function attempts to quantify <em>differential accessibility</em> in each of the peaks:</p>
+<pre class="r"><code>n &lt;- nrow(de$z)
+k &lt;- ncol(de$z)
+p &lt;- vector(&quot;list&quot;,k)
+names(p) &lt;- colnames(de$z)
+for (i in 1:k)
+  p[[i]] &lt;- volcano_plot(de,i,labels = rep(&quot;&quot;,n)) +
+    guides(fill = &quot;none&quot;)
+do.call(&quot;plot_grid&quot;,c(p,list(nrow = 4,ncol = 3)))</code></pre>
+<p><img src="figure/buenrostro2018_k10.Rmd/volcano-plots-1.png" width="660" style="display: block; margin: auto;" /></p>
+<p>The individual results are not strong, but an enrichment analysis of the peaks might point to interesting patterns among these differentially accessible peaks.</p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -675,30 +734,32 @@ Peter Carbonetto
 # 
 # other attached packages:
 # [1] cowplot_1.0.0      ggplot2_3.3.5      fastTopics_0.6-117 Matrix_1.2-18     
+# [5] workflowr_1.7.0   
 # 
 # loaded via a namespace (and not attached):
-#  [1] httr_1.4.2         sass_0.4.0         tidyr_1.1.3        jsonlite_1.7.2    
-#  [5] viridisLite_0.3.0  bslib_0.3.1        RcppParallel_5.1.5 assertthat_0.2.1  
-#  [9] highr_0.8          mixsqp_0.3-46      yaml_2.2.0         progress_1.2.2    
-# [13] ggrepel_0.9.1      pillar_1.6.2       backports_1.1.5    lattice_0.20-38   
-# [17] quadprog_1.5-8     quantreg_5.54      glue_1.4.2         digest_0.6.23     
-# [21] promises_1.1.0     colorspace_1.4-1   htmltools_0.5.2    httpuv_1.5.2      
-# [25] pkgconfig_2.0.3    invgamma_1.1       SparseM_1.78       purrr_0.3.4       
-# [29] scales_1.1.0       whisker_0.4        later_1.0.0        Rtsne_0.15        
-# [33] MatrixModels_0.4-1 git2r_0.26.1       tibble_3.1.3       farver_2.0.1      
-# [37] generics_0.0.2     ellipsis_0.3.2     withr_2.5.0        ashr_2.2-54       
-# [41] pbapply_1.5-1      lazyeval_0.2.2     magrittr_2.0.1     crayon_1.4.1      
-# [45] mcmc_0.9-6         evaluate_0.14      fs_1.5.2           fansi_0.4.0       
-# [49] MASS_7.3-51.4      truncnorm_1.0-8    prettyunits_1.1.1  tools_3.6.2       
-# [53] data.table_1.12.8  hms_1.1.0          lifecycle_1.0.0    stringr_1.4.0     
-# [57] MCMCpack_1.4-5     plotly_4.9.2       munsell_0.5.0      irlba_2.3.3       
-# [61] compiler_3.6.2     jquerylib_0.1.4    rlang_0.4.11       grid_3.6.2        
-# [65] htmlwidgets_1.5.1  labeling_0.3       rmarkdown_2.11     gtable_0.3.0      
-# [69] DBI_1.1.0          R6_2.4.1           knitr_1.37         dplyr_1.0.7       
-# [73] uwot_0.1.10        fastmap_1.1.0      utf8_1.1.4         workflowr_1.7.0   
-# [77] rprojroot_1.3-2    stringi_1.4.3      parallel_3.6.2     SQUAREM_2017.10-1 
-# [81] Rcpp_1.0.7         vctrs_0.3.8        tidyselect_1.1.1   xfun_0.29         
-# [85] coda_0.19-3</code></pre>
+#  [1] mcmc_0.9-6         fs_1.5.2           progress_1.2.2     httr_1.4.2        
+#  [5] rprojroot_1.3-2    tools_3.6.2        backports_1.1.5    bslib_0.3.1       
+#  [9] utf8_1.1.4         R6_2.4.1           irlba_2.3.3        uwot_0.1.10       
+# [13] DBI_1.1.0          lazyeval_0.2.2     colorspace_1.4-1   withr_2.5.0       
+# [17] tidyselect_1.1.1   prettyunits_1.1.1  processx_3.5.2     compiler_3.6.2    
+# [21] git2r_0.29.0       quantreg_5.54      SparseM_1.78       plotly_4.9.2      
+# [25] labeling_0.3       sass_0.4.0         scales_1.1.0       SQUAREM_2017.10-1 
+# [29] quadprog_1.5-8     callr_3.7.0        pbapply_1.5-1      mixsqp_0.3-46     
+# [33] stringr_1.4.0      digest_0.6.23      rmarkdown_2.11     MCMCpack_1.4-5    
+# [37] pkgconfig_2.0.3    htmltools_0.5.2    fastmap_1.1.0      invgamma_1.1      
+# [41] highr_0.8          htmlwidgets_1.5.1  rlang_0.4.11       rstudioapi_0.13   
+# [45] jquerylib_0.1.4    generics_0.0.2     farver_2.0.1       jsonlite_1.7.2    
+# [49] dplyr_1.0.7        magrittr_2.0.1     Rcpp_1.0.7         munsell_0.5.0     
+# [53] fansi_0.4.0        lifecycle_1.0.0    stringi_1.4.3      whisker_0.4       
+# [57] yaml_2.2.0         MASS_7.3-51.4      Rtsne_0.15         grid_3.6.2        
+# [61] parallel_3.6.2     promises_1.1.0     ggrepel_0.9.1      crayon_1.4.1      
+# [65] lattice_0.20-38    hms_1.1.0          knitr_1.37         ps_1.6.0          
+# [69] pillar_1.6.2       glue_1.4.2         evaluate_0.14      getPass_0.2-2     
+# [73] data.table_1.12.8  RcppParallel_5.1.5 vctrs_0.3.8        httpuv_1.5.2      
+# [77] MatrixModels_0.4-1 gtable_0.3.0       purrr_0.3.4        tidyr_1.1.3       
+# [81] assertthat_0.2.1   ashr_2.2-54        xfun_0.29          coda_0.19-3       
+# [85] later_1.0.0        viridisLite_0.3.0  truncnorm_1.0-8    tibble_3.1.3      
+# [89] ellipsis_0.3.2</code></pre>
 </div>
 
 
