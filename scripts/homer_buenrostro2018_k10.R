@@ -20,7 +20,10 @@ positions     <- data.frame(chr   = sapply(out,"[[",1),
                             stringsAsFactors = FALSE)
 
 # Repeat for each topic.
-k <- ncol(de$postmean)
+topics <- colnames(de$postmean)
+k      <- length(topics)
+homer  <- vector("list",k)
+names(homer) <- topics
 for (i in 1:k) {
 
   # Create a BED file, "positions.bed", containing the regions with
@@ -37,9 +40,10 @@ for (i in 1:k) {
   t1 <- proc.time()
   timing <- t1 - t0
   cat(sprintf("Computation took %0.2f seconds.\n",timing["elapsed"]))
-  res <- read.table("homer/knownResults.txt",sep = "\t",comment.char = "",
-                    header = TRUE,check.names = FALSE,stringsAsFactors = FALSE)
-  # TO DO: Clean up HOMER results.
+  homer[[i]] <- read.table("homer/knownResults.txt",sep = "\t",
+                           comment.char = "",header = TRUE,
+                           check.names = FALSE,stringsAsFactors = FALSE)
+  system("rm -Rf positions.bed homer")
 }
 
 # Save the results.
