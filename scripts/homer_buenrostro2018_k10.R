@@ -1,6 +1,6 @@
 # TO DO: Explain here what this script does, and how to use it.
 #
-#   sinteractive -p broadwl ...
+#   sinteractive -p broadwl -c 4 --mem=16G --time=24:00:00
 #   module load R/3.5.1
 #
 library(tools)
@@ -24,22 +24,20 @@ k <- ncol(de$postmean)
 for (i in 1:k) {
 
   # Create a BED file, "positions.bed", containing the regions with
-  # p-value < 0.01.
-  rows <- which(de$lpval[,i] > 2)
+  # p-value < 0.05.
+  rows <- which(de$lpval[,i] > -log10(0.05))
   write.table(positions[rows,],"positions.bed",sep = "\t",quote = FALSE,
               row.names = FALSE,col.names = FALSE)
-}
 
-source("../code/motif_analysis.R")
-homer_res <- vector("list", ncol(DA_res$z))
-names(homer_res) <- colnames(DA_res$z)
-for(k in 1:ncol(DA_res$z)){
-  homer_res[[k]] <- run_homer(selected_regions$filenames[k],
-                              genome = genome,
-                              homer.path = homerpath,
-                              use.hypergeometric = TRUE,
-                              out.dir=paste0(homer.dir, "/homer_result_topic_", k),
-                              n.cores=nc)
+  # Run the HOMER motif enrichment analysis.
+  homer.command <-
+    paste("/scratch/midway2/pcarbo/homer/bin/findMotifsGenome.pl",
+          "positions.bed hg19 homer -len 8,10,12 -size 200 -mis 2",
+          "-S 25 -p 4 -h")
+  system.out <- system(homer.command,ignore.stderr = TRUE,
+                       ignore.stdout = TRUE,intern = TRUE)
+  res <- read.table("homer/knownResults.txt",sep = "\t",comment.char = "",
+                    header = TRUE,check.names = FALSE,stringsAsFactors = FALSE)
 }
 
 # Save the results.
