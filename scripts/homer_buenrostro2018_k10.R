@@ -1,6 +1,6 @@
 # TO DO: Explain here what this script does, and how to use it.
 #
-#   sinteractive -p broadwl -c 4 --mem=16G --time=24:00:00
+#   sinteractive -p broadwl -c 4 --mem=16G --time=12:00:00
 #   module load R/3.5.1
 #
 library(tools)
@@ -47,4 +47,4 @@ for (i in 1:k) {
 }
 
 # Save the results.
-# TO DO.
+saveRDS(homer,"homer-buenrostro2018-k=10-noshrink.rds")
