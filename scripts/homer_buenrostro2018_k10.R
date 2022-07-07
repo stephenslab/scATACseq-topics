@@ -8,11 +8,15 @@
 #
 # Also for this script to work the findMotifsGenome.pl Perl script
 # needs to be findable (e.g., by adding the appropriate directory to
-# the PATH environment variable).
+# the PATH environment variable):
+#
+#   export PATH=$SCRATCH/homer/bin:$PATH
+#
 library(tools)
 library(fastTopics)
 
-# Load the results of the DE analysis using the k = 10 topic model.
+# Load the results of the DE analysis using the k = 10 topic model,
+# without the adaptive shrinkage step.
 load(file.path("../output/Buenrostro_2018/binarized/filtered_peaks",
                "de-buenrostro2018-k=10-noshrink.RData"))
 
