@@ -49,4 +49,5 @@ pdat <- transform(pdat,
 p <- ggplot(pdat,aes(x = topic,y = motif,fill = lpval)) +
   geom_tile(color = "white",size = 0.5) +
   scale_fill_manual(values = colors) +
+  labs(x = "",y = "") +
   theme_cowplot(font_size = 8)
