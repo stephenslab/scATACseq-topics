@@ -60,20 +60,21 @@ p1 <- structure_plot(fit,grouping = celltypes,n = Inf,gap = 20,
 print(p1)
 ```
 
-```{r structure-plot-for-paper}
+```{r structure-plot-for-paper, echo=FALSE}
 ggsave("plots/structure_plot_buenrostro.eps",height = 1.6,width = 8)
 ```
 
-From this Structure plot we see that the topics capture chromatin
-accessibility patterns that are characteristic of early hematopoietic
-progenitors (HSC, MPP; topics 2 and 9), and the four different
-hematopoietic cell lineages: CLPs and LMPPs (topic 8); pDCs (topic 3);
-monocytes and GMPs (topics 1 and 7); and MEPs (topic 4). Additional
-topics (topics 5, 6 and 10) may be picking up non-biological factors
-such as patient-specific batch effects or tissue of origin (bone
-marrow or blood). Additionally, the split of the HSC/MPP cells into
-two topics seems to also reflect patient-specific batch effects, which
-also came up in the PCA analysis in the original paper.
+Comparing the topic proportions with the cell labels (provided by
+FACS), we see that the topics capture chromatin accessibility patterns
+characteristic of early hematopoietic progenitors (HSC, MPP; topics 2
+and 9), and the four different hematopoietic cell lineages: CLPs and
+LMPPs (topic 8); pDCs (topic 3); monocytes and GMPs (topics 1 and 7);
+and MEPs (topic 4). Additional topics (topics 5, 6 and 10) may be
+picking up other factors such as patient-specific batch effects or
+tissue of origin (bone marrow or blood). Additionally, the split of
+the HSC/MPP cells into two topics seems to also reflect
+patient-specific batch effects, which also came up in the PCA analysis
+in the original paper.
 
 The `de_analysis` function attempts to quantify *differential
 accessibility* in each of the peaks:
