@@ -54,14 +54,14 @@ celltypes <- factor(samples$label,
                       "mono","UNK"))
 topic_colors <- c("gold","forestgreen","orchid","red","lightgray",
                   "dimgray","orange","dodgerblue","limegreen","mediumblue")
-p1 <- structure_plot(fit,grouping = celltypes,n = Inf,gap = 20,
+p <- structure_plot(fit,grouping = celltypes,n = Inf,gap = 20,
                      perplexity = 70,verbose = FALSE,colors = topic_colors,
 			         topics = c(5,10,8,3,4,1,6,7,2,9))
-print(p1)
+print(p)
 ```
 
 ```{r structure-plot-for-paper, echo=FALSE}
-ggsave("plots/structure_plot_buenrostro.eps",height = 1.6,width = 8)
+ggsave("plots/structure_plot_buenrostro.eps",p,height = 1.6,width = 8)
 ```
 
 Comparing the topic proportions with the cell labels (provided by
@@ -76,20 +76,55 @@ the HSC/MPP cells into two topics seems to also reflect
 patient-specific batch effects, which also came up in the PCA analysis
 in the original paper.
 
-The `de_analysis` function attempts to quantify *differential
-accessibility* in each of the peaks:
+In the GoM DE analysis, we attempt to quantify *differential
+accessibility* among topics. 
 
-```{r volcano-plots, fig.height=9, fig.width=5.5, message=FALSE, eval=FALSE}
-n <- nrow(de$z)
-k <- ncol(de$z)
-p <- vector("list",k)
-names(p) <- colnames(de$z)
-for (i in 1:k)
-  p[[i]] <- volcano_plot(de,i,labels = rep("",n)) +
-    guides(fill = "none")
-do.call("plot_grid",c(p,list(nrow = 4,ncol = 3)))
+```{r de-analysis-plot, fig.height=2, fig.width=2.5, message=FALSE, warning=FALSE}
+pdat <- data.frame(pval = 10^(-as.vector(de$lpval)))
+p <- ggplot(pdat,aes(x = pval)) +
+  geom_histogram(bins = 32,color = "white",fill = "black") +
+  scale_y_continuous(breaks = seq(0,1e5,2e4)) +
+  labs(x = "p-value",y = "LFCs") +
+  theme_cowplot(font_size = 10)
+print(p)
 ```
 
-The individual results are not strong, but an enrichment analysis of
-the peaks might point to interesting patterns among these
-differentially accessible peaks.
+```{r de-analysis-plot-for-paper, echo=FALSE, warning=FALSE}
+ggsave("plots/de_analysis_histogram_buenrostro.eps",p,height = 2.5,width = 3)
+```
+
+The issue is that individual regions rarely show significant
+differences in accessibility, but a *motif enrichment analysis* of the
+regions might point to interesting transcription factors common to the
+more accessible regions. We performed the motif enrichment analysis
+using HOMER.
+
+First, we compile the motif enrichment *p*-values into a single table
+(after removing a small number of duplicate results).
+
+```{r compile-homer-results}
+k <- 10
+topics <- paste0("k",1:k)
+motifs <- sort(unique(homer$k1[,"Motif Name"]))
+n <- length(motifs)
+homer_pvals <- matrix(0,n,k)
+rownames(homer_pvals) <- motifs
+colnames(homer_pvals) <- topics
+for (i in topics) {
+  dat  <- homer[[i]]
+  rows <- which(!duplicated(dat[,"Motif Name"]))
+  dat  <- dat[rows,]
+  rownames(dat)   <- dat[,"Motif Name"]
+  homer_pvals[,i] <- dat[motifs,"P-value"]
+}
+dat  <- homer$k1
+rows <- which(!duplicated(dat[,"Motif Name"]))
+dat  <- dat[rows,]
+rownames(dat) <- dat[,"Motif Name"]
+homer_pvals <- cbind(dat[motifs,c("Motif Name","Consensus")],homer_pvals)
+```
+
+```{r write-homer-results, echo=FALSE}
+write.csv(format(homer_pvals,scientific = TRUE,digits = 2),
+          "homer_buenrostro.csv",row.names = FALSE)
+```

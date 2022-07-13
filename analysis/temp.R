@@ -1,6 +1,3 @@
-library(ggplot2)
-library(cowplot)
-
 # Draft analysis of motifs in topics k = 1 through 10.
 homer <- readRDS(file.path("output/Buenrostro_2018",
                            "binarized/filtered_peaks",
