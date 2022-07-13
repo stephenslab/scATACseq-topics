@@ -4,14 +4,15 @@ author: Peter Carbonetto
 output: workflowr::wflow_html
 ---
 
-Here we 
+Here we summarize and interpret the results from the topic modeling
+analysis of the Buenrostro et al (2018) data, with $k = 10$ topics.
 
 ```{r knitr-opts, include=FALSE}
 knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
                       fig.align = "center",dpi = 120)
 ```
 
-Load the packages used in the analysis.
+Load the packages used in the analysis below.
 
 ```{r load-pkgs, message=FALSE}
 library(Matrix)
@@ -20,17 +21,27 @@ library(ggplot2)
 library(cowplot)
 ```
 
-Load the count data, the $k = 10$ multinomial topic model fit to these
-data, and the results of the DE analysis using this topic model:
+Load the count data (see [here](process_data_Buenrostro2018.html) for
+details on these data and how they were prepared).
 
 ```{r load-data}
 load("data/Buenrostro_2018/processed_data/Buenrostro_2018_binarized.RData")
+```
+
+Next we load the $k = 10$ multinomial topic model fit to these data,
+the results of the GoM DE analysis using this topic model, and the
+results of the HOMER motif enrichment analysis using the *p*-values
+from the GoM DE analysis:
+
+```{r load-results}
 fit <- readRDS(
   file.path("output/Buenrostro_2018/binarized/filtered_peaks",
             "fit-Buenrostro2018-binarized-filtered-scd-ex-k=10.rds"))$fit
 fit <- poisson2multinom(fit)
 load(file.path("output/Buenrostro_2018/binarized/filtered_peaks",
                "de-buenrostro2018-k=10-noshrink.RData"))
+homer <- readRDS(file.path("output/Buenrostro_2018/binarized/filtered_peaks",
+                           "homer-buenrostro2018-k=10-noshrink.rds"))
 ```
 
 Visualize the structure identified in the FACS cell populations using
@@ -38,27 +49,36 @@ a Structure plot:
 
 ```{r structure-plot, fig.height=1.75, fig.width=8, message=FALSE}
 set.seed(1)
-celltypes = factor(samples$label,
-                   c("pDC","CLP","LMPP","HSC","MPP","CMP","MEP","GMP",
-				     "mono","UNK"))
+celltypes <- factor(samples$label,
+                    c("pDC","CLP","LMPP","HSC","MPP","CMP","MEP","GMP",
+                      "mono","UNK"))
 topic_colors <- c("gold","forestgreen","orchid","red","lightgray",
-                  "dimgray","orange","dodgerblue","limegreen",
-				  "mediumblue")
-custom_embed_method <- function (fit, ...) {
-  y0 <- pca_from_topics(fit,dims = 1)
-  return(tsne_from_topics(fit,dims = 1,Y_init = matrix(y0),eta = 30,
-         perplexity = 70,...))
-}
-structure_plot(fit,grouping = celltypes,n = Inf,gap = 20,
-               verbose = FALSE,colors = topic_colors,
-			   topics = c(5,10,8,3,4,1,6,7,2,9),
-               embed_method = custom_embed_method)
+                  "dimgray","orange","dodgerblue","limegreen","mediumblue")
+p1 <- structure_plot(fit,grouping = celltypes,n = Inf,gap = 20,
+                     perplexity = 70,verbose = FALSE,colors = topic_colors,
+			         topics = c(5,10,8,3,4,1,6,7,2,9))
+print(p1)
 ```
+
+```{r structure-plot-for-paper}
+ggsave("plots/structure_plot_buenrostro.eps",height = 1.6,width = 8)
+```
+
+From this Structure plot we see that the topics capture chromatin
+accessibility patterns that are characteristic of early hematopoietic
+progenitors (HSC, MPP; topics 2 and 9), and the four different
+hematopoietic cell lineages: CLPs and LMPPs (topic 8); pDCs (topic 3);
+monocytes and GMPs (topics 1 and 7); and MEPs (topic 4). Additional
+topics (topics 5, 6 and 10) may be picking up non-biological factors
+such as patient-specific batch effects or tissue of origin (bone
+marrow or blood). Additionally, the split of the HSC/MPP cells into
+two topics seems to also reflect patient-specific batch effects, which
+also came up in the PCA analysis in the original paper.
 
 The `de_analysis` function attempts to quantify *differential
 accessibility* in each of the peaks:
 
-```{r volcano-plots, fig.height=9, fig.width=5.5, message=FALSE}
+```{r volcano-plots, fig.height=9, fig.width=5.5, message=FALSE, eval=FALSE}
 n <- nrow(de$z)
 k <- ncol(de$z)
 p <- vector("list",k)
