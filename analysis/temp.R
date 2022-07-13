@@ -74,8 +74,8 @@ for (i in 1:10) {
 }
 pdat <-
   transform(pdat,
-            topic = factor(topic,c("k9","k3","k4","k8","k1","k7",
-                                   "k2","k5","k6","k10")),
+            topic = factor(topic,c("k9","k2","k3","k4","k8","k1","k7",
+                                   "k5","k6","k10")),
             lpval = cut(lpval,c(-257,-150,-100,-50,-30,-20,-10,-5,0)),
             motif = factor(motif,rev(motifs)))
 p <- ggplot(pdat,aes(x = topic,y = motif,fill = lpval)) +
