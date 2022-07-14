@@ -107,24 +107,23 @@ k <- 10
 topics <- paste0("k",1:k)
 motifs <- sort(unique(homer$k1[,"Motif Name"]))
 n <- length(motifs)
-homer_pvals <- matrix(0,n,k)
-rownames(homer_pvals) <- motifs
-colnames(homer_pvals) <- topics
+homer_lpvals <- matrix(0,n,k)
+rownames(homer_lpvals) <- motifs
+colnames(homer_lpvals) <- topics
 for (i in topics) {
   dat  <- homer[[i]]
   rows <- which(!duplicated(dat[,"Motif Name"]))
   dat  <- dat[rows,]
   rownames(dat)   <- dat[,"Motif Name"]
-  homer_pvals[,i] <- dat[motifs,"P-value"]
+  homer_lpvals[,i] <- round(dat[motifs,"Log P-value"],digits = 2)
 }
 dat  <- homer$k1
 rows <- which(!duplicated(dat[,"Motif Name"]))
 dat  <- dat[rows,]
 rownames(dat) <- dat[,"Motif Name"]
-homer_pvals <- cbind(dat[motifs,c("Motif Name","Consensus")],homer_pvals)
+homer_lpvals <- cbind(dat[motifs,c("Motif Name","Consensus")],homer_lpvals)
 ```
 
 ```{r write-homer-results, echo=FALSE}
-write.csv(format(homer_pvals,scientific = TRUE,digits = 2),
-          "homer_buenrostro.csv",row.names = FALSE)
+write.csv(homer_lpvals,"homer_buenrostro.csv",row.names = FALSE)
 ```
