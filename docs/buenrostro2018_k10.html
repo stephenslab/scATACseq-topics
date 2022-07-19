@@ -355,7 +355,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+workflowr <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -366,8 +366,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> </a>
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -376,13 +376,13 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-07-13
+<strong>Last updated:</strong> 2022-07-19
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 5
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 2
+aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>scATACseq-topics/</code> <span
@@ -405,230 +405,35 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
-changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges"
+<div id="strongRMarkdownfilestronguptodate"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of
-the R Markdown file created these results, you’ll want to first commit
-it to the Git repo. If you’re still working on the analysis, you can
-ignore this warning. When you’re finished, you can run
-<code>wflow_publish</code> to commit the R Markdown file and build the
-HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongobjectspresent">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>Environment:</strong> objects present
-</a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
 </p>
 </div>
-<div id="strongEnvironmentstrongobjectspresent"
-class="panel-collapse collapse">
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
 <div class="panel-body">
-<p>
-The global environment had objects present when the code in the R
-Markdown file was run. These objects can affect the analysis in your R
-Markdown file in unknown ways. For reproduciblity it’s best to always
-run the code in an empty environment. Use <code>wflow_publish</code> or
-<code>wflow_build</code> to ensure that the code is always run in an
-empty environment.
-</p>
-<p>
-The following objects were defined in the global environment when these
-results were created:
-</p>
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th style="text-align:left;">
-Name
-</th>
-<th style="text-align:left;">
-Class
-</th>
-<th style="text-align:left;">
-Size
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-celltypes
-</td>
-<td style="text-align:left;">
-factor
-</td>
-<td style="text-align:left;">
-9 Kb
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-counts
-</td>
-<td style="text-align:left;">
-dgCMatrix
-</td>
-<td style="text-align:left;">
-199.6 Mb
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-de
-</td>
-<td style="text-align:left;">
-topic_model_de_analysis;list
-</td>
-<td style="text-align:left;">
-174 Mb
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-fit
-</td>
-<td style="text-align:left;">
-multinom_topic_model_fit;list
-</td>
-<td style="text-align:left;">
-62.2 Mb
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-homer
-</td>
-<td style="text-align:left;">
-list
-</td>
-<td style="text-align:left;">
-1.3 Mb
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-p
-</td>
-<td style="text-align:left;">
-gg;ggplot
-</td>
-<td style="text-align:left;">
-9.7 Mb
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-p1
-</td>
-<td style="text-align:left;">
-gg;ggplot
-</td>
-<td style="text-align:left;">
-469.9 Kb
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-pdat
-</td>
-<td style="text-align:left;">
-data.frame
-</td>
-<td style="text-align:left;">
-9.7 Mb
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-peaks
-</td>
-<td style="text-align:left;">
-data.table;data.frame
-</td>
-<td style="text-align:left;">
-57.3 Mb
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-rows
-</td>
-<td style="text-align:left;">
-integer
-</td>
-<td style="text-align:left;">
-177.7 Kb
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-rows1
-</td>
-<td style="text-align:left;">
-integer
-</td>
-<td style="text-align:left;">
-138.6 Kb
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-rows2
-</td>
-<td style="text-align:left;">
-integer
-</td>
-<td style="text-align:left;">
-39.1 Kb
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-samples
-</td>
-<td style="text-align:left;">
-data.frame
-</td>
-<td style="text-align:left;">
-396.1 Kb
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-topic_colors
-</td>
-<td style="text-align:left;">
-character
-</td>
-<td style="text-align:left;">
-776 bytes
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-x
-</td>
-<td style="text-align:left;">
-logical
-</td>
-<td style="text-align:left;">
-4.8 Mb
-</td>
-</tr>
-</tbody>
-</table>
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
 </div>
 </div>
 </div>
@@ -702,15 +507,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreebd4430fad8cbf2dc7b116cdabc132d43536cf4f6targetblankbd4430fa">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree21cf91e2596311a22db120e59fa106361bb5bcaetargetblank21cf91ea">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/stephenslab/scATACseq-topics/tree/bd4430fad8cbf2dc7b116cdabc132d43536cf4f6" target="_blank">bd4430f</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/tree/21cf91e2596311a22db120e59fa106361bb5bcae" target="_blank">21cf91e</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreebd4430fad8cbf2dc7b116cdabc132d43536cf4f6targetblankbd4430fa"
+id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree21cf91e2596311a22db120e59fa106361bb5bcaetargetblank21cf91ea"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -720,7 +525,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/stephenslab/scATACseq-topics/tree/bd4430fad8cbf2dc7b116cdabc132d43536cf4f6" target="_blank">bd4430f</a>.
+<a href="https://github.com/stephenslab/scATACseq-topics/tree/21cf91e2596311a22db120e59fa106361bb5bcae" target="_blank">21cf91e</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -745,15 +550,10 @@ Ignored files:
 Untracked files:
     Untracked:  analysis/fit-Buenrostro2018-binarized-scd-ex-k=10.rds
     Untracked:  data/Buenrostro_2018_binarized.RData
-    Untracked:  de_analysis_histogram_buenrostro.eps
+    Untracked:  homer_buenrostro.csv
     Untracked:  output/Buenrostro_2018/binarized/filtered_peaks/Buenrostro_2018_binarized_filtered.RData
     Untracked:  plots/
     Untracked:  scripts/fit-buenrostro-2018-k=8.rds
-    Untracked:  scripts/structure_plot_buenrostro2018.png
-
-Unstaged changes:
-    Modified:   analysis/buenrostro2018_k10.Rmd
-    Modified:   analysis/temp.R
 
 </code></pre>
 <p>
@@ -799,6 +599,75 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/21cf91e2596311a22db120e59fa106361bb5bcae/analysis/buenrostro2018_k10.Rmd" target="_blank">21cf91e</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-07-19
+</td>
+<td>
+workflowr::wflow_publish("analysis/buenrostro2018_k10.Rmd", verbose =
+TRUE)
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/b520b1944df2fc0f96c8202196784d7239ddc655/analysis/buenrostro2018_k10.Rmd" target="_blank">b520b19</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-07-14
+</td>
+<td>
+Fixed creation of CSV file in buenrostro2018_k10 analysis.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/b520b1944df2fc0f96c8202196784d7239ddc655/docs/buenrostro2018_k10.html" target="_blank">b520b19</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-07-14
+</td>
+<td>
+Fixed creation of CSV file in buenrostro2018_k10 analysis.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/c318cb429c05c093b7f960f86933c06b039c1771/analysis/buenrostro2018_k10.Rmd" target="_blank">c318cb4</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-07-13
+</td>
+<td>
+Working on compiling homer results into a table.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -1130,8 +999,6 @@ batch effects, which also came up in the PCA analysis in the original
 paper.</p>
 <p>In the GoM DE analysis, we attempt to quantify <em>differential
 accessibility</em> among topics.</p>
-<p><code>de_analysis</code> function attempts to quantify
-<em>differential accessibility</em> in each of the peaks:</p>
 <pre class="r"><code>pdat &lt;- data.frame(pval = 10^(-as.vector(de$lpval)))
 p &lt;- ggplot(pdat,aes(x = pval)) +
   geom_histogram(bins = 32,color = &quot;white&quot;,fill = &quot;black&quot;) +
@@ -1140,9 +1007,84 @@ p &lt;- ggplot(pdat,aes(x = pval)) +
   theme_cowplot(font_size = 10)
 print(p)</code></pre>
 <p><img src="figure/buenrostro2018_k10.Rmd/de-analysis-plot-1.png" width="300" style="display: block; margin: auto;" /></p>
-<p>The individual results are not strong, but an enrichment analysis of
-the peaks might point to interesting patterns among these differentially
-accessible peaks.</p>
+<p>The issue is that individual regions rarely show significant
+differences in accessibility, but a <em>motif enrichment analysis</em>
+of the regions might point to interesting transcription factors common
+to the more accessible regions. We performed the motif enrichment
+analysis using HOMER.</p>
+<p>First, we compile the motif enrichment <em>p</em>-values into a
+single table (after removing a small number of duplicate results).</p>
+<pre class="r"><code>k &lt;- 10
+topics &lt;- paste0(&quot;k&quot;,1:k)
+motifs &lt;- sort(unique(homer$k1[,&quot;Motif Name&quot;]))
+n &lt;- length(motifs)
+homer_lpvals &lt;- matrix(0,n,k)
+rownames(homer_lpvals) &lt;- motifs
+colnames(homer_lpvals) &lt;- topics
+for (i in topics) {
+  dat  &lt;- homer[[i]]
+  rows &lt;- which(!duplicated(dat[,&quot;Motif Name&quot;]))
+  dat  &lt;- dat[rows,]
+  rownames(dat)   &lt;- dat[,&quot;Motif Name&quot;]
+  homer_lpvals[,i] &lt;- round(dat[motifs,&quot;Log P-value&quot;],digits = 2)
+}
+dat  &lt;- homer$k1
+rows &lt;- which(!duplicated(dat[,&quot;Motif Name&quot;]))
+dat  &lt;- dat[rows,]
+rownames(dat) &lt;- dat[,&quot;Motif Name&quot;]
+homer_lpvals &lt;- cbind(dat[motifs,c(&quot;Motif Name&quot;,&quot;Consensus&quot;)],homer_lpvals)</code></pre>
+<p>Next, plot the <em>p</em>-values for selected motifs in a tile
+plot:</p>
+<pre class="r"><code># Colors from colorbrewer2.org.
+colors &lt;- c(&quot;#d73027&quot;,&quot;#f46d43&quot;,&quot;#fdae61&quot;,&quot;#fee090&quot;,
+            &quot;#e0f3f8&quot;,&quot;#abd9e9&quot;,&quot;#74add1&quot;,&quot;#4575b4&quot;)
+motifs &lt;- c(&quot;Hoxc9(Homeobox)/Ainv15-Hoxc9-ChIP-Seq(GSE21812)/Homer&quot;,
+            &quot;Hoxb4(Homeobox)/ES-Hoxb4-ChIP-Seq(GSE34014)/Homer&quot;,
+            &quot;HOXA1(Homeobox)/mES-Hoxa1-ChIP-Seq(SRP084292)/Homer&quot;,
+            &quot;ERG(ETS)/VCaP-ERG-ChIP-Seq(GSE14097)/Homer&quot;,
+            &quot;EWS:ERG-fusion(ETS)/CADO_ES1-EWS:ERG-ChIP-Seq(SRA014231)/Homer&quot;,
+            &quot;Atf1(bZIP)/K562-ATF1-ChIP-Seq(GSE31477)/Homer&quot;,
+            &quot;Atf4(bZIP)/MEF-Atf4-ChIP-Seq(GSE35681)/Homer&quot;,
+            &quot;Atf7(bZIP)/3T3L1-Atf7-ChIP-Seq(GSE56872)/Homer&quot;,
+            &quot;CEBP(bZIP)/ThioMac-CEBPb-ChIP-Seq(GSE21512)/Homer&quot;,
+            &quot;CEBP:AP1(bZIP)/ThioMac-CEBPb-ChIP-Seq(GSE21512)/Homer&quot;,
+            &quot;CEBP:CEBP(bZIP)/MEF-Chop-ChIP-Seq(GSE35681)/Homer&quot;,
+            &quot;EBF2(EBF)/BrownAdipose-EBF2-ChIP-Seq(GSE97114)/Homer&quot;,
+            &quot;EBF(EBF)/proBcell-EBF-ChIP-Seq(GSE21978)/Homer&quot;,
+            &quot;EBF1(EBF)/Near-E2A-ChIP-Seq(GSE21512)/Homer&quot;,
+            &quot;ETS:E-box(ETS,bHLH)/HPC7-Scl-ChIP-Seq(GSE22178)/Homer&quot;,
+            &quot;GATA:SCL(Zf,bHLH)/Ter119-SCL-ChIP-Seq(GSE18720)/Homer&quot;,
+            &quot;Gata1(Zf)/K562-GATA1-ChIP-Seq(GSE18829)/Homer&quot;,
+            &quot;Gata2(Zf)/K562-GATA2-ChIP-Seq(GSE18829)/Homer&quot;,
+            &quot;GATA3(Zf)/iTreg-Gata3-ChIP-Seq(GSE20898)/Homer&quot;,
+            &quot;Gata4(Zf)/Heart-Gata4-ChIP-Seq(GSE35151)/Homer&quot;,
+            &quot;Gata6(Zf)/HUG1N-GATA6-ChIP-Seq(GSE51936)/Homer&quot;,
+            &quot;Tcf12(bHLH)/GM12878-Tcf12-ChIP-Seq(GSE32465)/Homer&quot;,
+            &quot;TCF4(bHLH)/SHSY5Y-TCF4-ChIP-Seq(GSE96915)/Homer&quot;,
+            &quot;Fosl2(bZIP)/3T3L1-Fosl2-ChIP-Seq(GSE56872)/Homer&quot;,
+            &quot;Fos(bZIP)/TSC-Fos-ChIP-Seq(GSE110950)/Homer&quot;,
+            &quot;Jun-AP1(bZIP)/K562-cJun-ChIP-Seq(GSE31477)/Homer&quot;,
+            &quot;JunB(bZIP)/DendriticCells-Junb-ChIP-Seq(GSE36099)/Homer&quot;)
+homer_lpvals &lt;- homer_lpvals[motifs,]
+pdat &lt;- NULL
+for (i in topics) {
+  pdat &lt;- rbind(pdat,
+                data.frame(motif = homer_lpvals[,&quot;Motif Name&quot;],
+                           topic = i,
+                           lpval = homer_lpvals[,i]))
+}
+pdat &lt;- transform(pdat,
+                  topic = factor(topic,c(&quot;k9&quot;,&quot;k2&quot;,&quot;k3&quot;,&quot;k4&quot;,&quot;k8&quot;,
+                                         &quot;k1&quot;,&quot;k7&quot;,&quot;k5&quot;,&quot;k6&quot;,&quot;k10&quot;)),
+            lpval = cut(lpval,c(-Inf,-150,-100,-50,-30,-20,-10,-5,0)),
+            motif = factor(motif,rev(motifs)))
+p &lt;- ggplot(pdat,aes(x = topic,y = motif,fill = lpval)) +
+  geom_tile(color = &quot;white&quot;,size = 0.5) +
+  scale_fill_manual(values = colors) +
+  labs(x = &quot;&quot;,y = &quot;&quot;) +
+  theme_cowplot(font_size = 8)
+print(p)</code></pre>
+<p><img src="figure/buenrostro2018_k10.Rmd/homer-tile-plot-1.png" width="690" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1176,24 +1118,24 @@ Session information
 #  [9] utf8_1.1.4         R6_2.4.1           irlba_2.3.3        uwot_0.1.10       
 # [13] DBI_1.1.0          lazyeval_0.2.2     colorspace_1.4-1   withr_2.5.0       
 # [17] tidyselect_1.1.1   prettyunits_1.1.1  processx_3.5.2     compiler_3.6.2    
-# [21] git2r_0.29.0       cli_3.0.1          quantreg_5.54      SparseM_1.78      
-# [25] plotly_4.9.2       labeling_0.3       sass_0.4.0         scales_1.1.0      
-# [29] SQUAREM_2017.10-1  quadprog_1.5-8     callr_3.7.0        pbapply_1.5-1     
-# [33] mixsqp_0.3-46      systemfonts_1.0.2  stringr_1.4.0      digest_0.6.23     
-# [37] rmarkdown_2.11     MCMCpack_1.4-5     pkgconfig_2.0.3    htmltools_0.5.2   
-# [41] fastmap_1.1.0      invgamma_1.1       highr_0.8          htmlwidgets_1.5.1 
-# [45] rlang_0.4.11       rstudioapi_0.13    jquerylib_0.1.4    generics_0.0.2    
-# [49] farver_2.0.1       jsonlite_1.7.2     dplyr_1.0.7        magrittr_2.0.1    
-# [53] Rcpp_1.0.7         munsell_0.5.0      fansi_0.4.0        lifecycle_1.0.0   
-# [57] stringi_1.4.3      whisker_0.4        yaml_2.2.0         MASS_7.3-51.4     
-# [61] Rtsne_0.15         grid_3.6.2         parallel_3.6.2     promises_1.1.0    
-# [65] ggrepel_0.9.1      crayon_1.4.1       lattice_0.20-38    hms_1.1.0         
-# [69] knitr_1.37         ps_1.6.0           pillar_1.6.2       glue_1.4.2        
-# [73] evaluate_0.14      getPass_0.2-2      data.table_1.12.8  RcppParallel_5.1.5
-# [77] vctrs_0.3.8        httpuv_1.5.2       MatrixModels_0.4-1 gtable_0.3.0      
-# [81] purrr_0.3.4        tidyr_1.1.3        assertthat_0.2.1   ashr_2.2-54       
-# [85] xfun_0.29          coda_0.19-3        later_1.0.0        ragg_0.3.1        
-# [89] viridisLite_0.3.0  truncnorm_1.0-8    tibble_3.1.3       ellipsis_0.3.2</code></pre>
+# [21] git2r_0.29.0       quantreg_5.54      SparseM_1.78       plotly_4.9.2      
+# [25] labeling_0.3       sass_0.4.0         scales_1.1.0       SQUAREM_2017.10-1 
+# [29] quadprog_1.5-8     callr_3.7.0        pbapply_1.5-1      mixsqp_0.3-46     
+# [33] systemfonts_1.0.2  stringr_1.4.0      digest_0.6.23      rmarkdown_2.11    
+# [37] MCMCpack_1.4-5     pkgconfig_2.0.3    htmltools_0.5.2    fastmap_1.1.0     
+# [41] invgamma_1.1       highr_0.8          htmlwidgets_1.5.1  rlang_0.4.11      
+# [45] rstudioapi_0.13    jquerylib_0.1.4    generics_0.0.2     farver_2.0.1      
+# [49] jsonlite_1.7.2     dplyr_1.0.7        magrittr_2.0.1     Rcpp_1.0.8        
+# [53] munsell_0.5.0      fansi_0.4.0        lifecycle_1.0.0    stringi_1.4.3     
+# [57] whisker_0.4        yaml_2.2.0         MASS_7.3-51.4      Rtsne_0.15        
+# [61] grid_3.6.2         parallel_3.6.2     promises_1.1.0     ggrepel_0.9.1     
+# [65] crayon_1.4.1       lattice_0.20-38    hms_1.1.0          knitr_1.37        
+# [69] ps_1.6.0           pillar_1.6.2       glue_1.4.2         evaluate_0.14     
+# [73] getPass_0.2-2      data.table_1.12.8  RcppParallel_5.1.5 vctrs_0.3.8       
+# [77] httpuv_1.5.2       MatrixModels_0.4-1 gtable_0.3.0       purrr_0.3.4       
+# [81] tidyr_1.1.3        assertthat_0.2.1   ashr_2.2-54        xfun_0.29         
+# [85] coda_0.19-3        later_1.0.0        ragg_0.3.1         viridisLite_0.3.0 
+# [89] truncnorm_1.0-8    tibble_3.1.3       ellipsis_0.3.2</code></pre>
 </div>
 
 
