@@ -376,7 +376,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-07-19
+<strong>Last updated:</strong> 2022-07-28
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -507,15 +507,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree21cf91e2596311a22db120e59fa106361bb5bcaetargetblank21cf91ea">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree2e5bb792338193817bf3a2fe848423d14a96812atargetblank2e5bb79a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/stephenslab/scATACseq-topics/tree/21cf91e2596311a22db120e59fa106361bb5bcae" target="_blank">21cf91e</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/tree/2e5bb792338193817bf3a2fe848423d14a96812a" target="_blank">2e5bb79</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree21cf91e2596311a22db120e59fa106361bb5bcaetargetblank21cf91ea"
+id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree2e5bb792338193817bf3a2fe848423d14a96812atargetblank2e5bb79a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -525,7 +525,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/stephenslab/scATACseq-topics/tree/21cf91e2596311a22db120e59fa106361bb5bcae" target="_blank">21cf91e</a>.
+<a href="https://github.com/stephenslab/scATACseq-topics/tree/2e5bb792338193817bf3a2fe848423d14a96812a" target="_blank">2e5bb79</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -548,12 +548,17 @@ Ignored files:
     Ignored:    output/Buenrostro_2018/binarized/filtered_peaks/fit-Buenrostro2018-binarized-filtered-scd-ex-k=8.rds
 
 Untracked files:
+    Untracked:  analysis/#temp.R#
+    Untracked:  analysis/.#temp.R
     Untracked:  analysis/fit-Buenrostro2018-binarized-scd-ex-k=10.rds
     Untracked:  data/Buenrostro_2018_binarized.RData
     Untracked:  homer_buenrostro.csv
     Untracked:  output/Buenrostro_2018/binarized/filtered_peaks/Buenrostro_2018_binarized_filtered.RData
     Untracked:  plots/
     Untracked:  scripts/fit-buenrostro-2018-k=8.rds
+
+Unstaged changes:
+    Modified:   analysis/temp.R
 
 </code></pre>
 <p>
@@ -599,6 +604,41 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/2e5bb792338193817bf3a2fe848423d14a96812a/analysis/buenrostro2018_k10.Rmd" target="_blank">2e5bb79</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-07-28
+</td>
+<td>
+workflowr::wflow_publish("analysis/buenrostro2018_k10.Rmd", verbose =
+TRUE)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/4efb6ddf541588409923b56da00f53f5cf25495e/docs/buenrostro2018_k10.html" target="_blank">4efb6dd</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-07-19
+</td>
+<td>
+Completed analysis of buenrostro et al topics, with k = 10.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -996,7 +1036,21 @@ picking up other factors such as patient-specific batch effects or
 tissue of origin (bone marrow or blood). Additionally, the split of the
 HSC/MPP cells into two topics seems to also reflect patient-specific
 batch effects, which also came up in the PCA analysis in the original
-paper.</p>
+paper. We see this more clearly when we arrange the cells by patient id
+and FACS cell type:</p>
+<pre class="r"><code>n &lt;- nrow(samples)
+x &lt;- rep(&quot;unknown&quot;,n)
+ids &lt;- c(&quot;BM4983&quot;,&quot;BM0106&quot;,&quot;BM0828&quot;,&quot;PB1022&quot;,&quot;BM1077&quot;,&quot;BM1137&quot;,&quot;BM1214&quot;)
+for (id in ids) 
+  x[grepl(id,samples$name,fixed = TRUE)] &lt;- id
+samples$donor &lt;- factor(x)
+set.seed(1)
+donor_and_label &lt;- factor(paste(samples$donor,celltypes,sep = &quot;-&quot;))
+p &lt;- structure_plot(fit,grouping = donor_and_label,n = Inf,gap = 20,
+                     perplexity = 10,verbose = FALSE,colors = topic_colors,
+                     topics = c(5,10,8,3,4,1,6,7,2,9))
+print(p)</code></pre>
+<p><img src="figure/buenrostro2018_k10.Rmd/structure-plot-by-sample-1.png" width="960" style="display: block; margin: auto;" /></p>
 <p>In the GoM DE analysis, we attempt to quantify <em>differential
 accessibility</em> among topics.</p>
 <pre class="r"><code>pdat &lt;- data.frame(pval = 10^(-as.vector(de$lpval)))
@@ -1007,6 +1061,43 @@ p &lt;- ggplot(pdat,aes(x = pval)) +
   theme_cowplot(font_size = 10)
 print(p)</code></pre>
 <p><img src="figure/buenrostro2018_k10.Rmd/de-analysis-plot-1.png" width="300" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-de-analysis-plot-1">
+Past versions of de-analysis-plot-1.png
+</button>
+</p>
+<div id="fig-de-analysis-plot-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/4efb6ddf541588409923b56da00f53f5cf25495e/docs/figure/buenrostro2018_k10.Rmd/de-analysis-plot-1.png" target="_blank">4efb6dd</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-07-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>The issue is that individual regions rarely show significant
 differences in accessibility, but a <em>motif enrichment analysis</em>
 of the regions might point to interesting transcription factors common
@@ -1085,6 +1176,43 @@ p &lt;- ggplot(pdat,aes(x = topic,y = motif,fill = lpval)) +
   theme_cowplot(font_size = 8)
 print(p)</code></pre>
 <p><img src="figure/buenrostro2018_k10.Rmd/homer-tile-plot-1.png" width="690" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-homer-tile-plot-1">
+Past versions of homer-tile-plot-1.png
+</button>
+</p>
+<div id="fig-homer-tile-plot-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/4efb6ddf541588409923b56da00f53f5cf25495e/docs/figure/buenrostro2018_k10.Rmd/homer-tile-plot-1.png" target="_blank">4efb6dd</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-07-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1109,7 +1237,7 @@ Session information
 # [1] stats     graphics  grDevices utils     datasets  methods   base     
 # 
 # other attached packages:
-# [1] cowplot_1.0.0      ggplot2_3.3.5      fastTopics_0.6-131 Matrix_1.2-18     
+# [1] cowplot_1.1.1      ggplot2_3.3.6      fastTopics_0.6-131 Matrix_1.2-18     
 # [5] workflowr_1.7.0   
 # 
 # loaded via a namespace (and not attached):
