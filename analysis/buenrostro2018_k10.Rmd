@@ -74,7 +74,29 @@ picking up other factors such as patient-specific batch effects or
 tissue of origin (bone marrow or blood). Additionally, the split of
 the HSC/MPP cells into two topics seems to also reflect
 patient-specific batch effects, which also came up in the PCA analysis
-in the original paper.
+in the original paper. We see this more clearly when we arrange the
+cells by patient id and FACS cell type:
+
+```{r structure-plot-by-sample, fig.height=2, fig.width=8, message=FALSE}
+n <- nrow(samples)
+x <- rep("unknown",n)
+ids <- c("BM4983","BM0106","BM0828","PB1022","BM1077","BM1137","BM1214")
+for (id in ids) 
+  x[grepl(id,samples$name,fixed = TRUE)] <- id
+samples$donor <- factor(x)
+set.seed(1)
+donor_and_label <- factor(paste(samples$donor,celltypes,sep = "-"))
+p <- structure_plot(fit,grouping = donor_and_label,n = Inf,gap = 20,
+                     perplexity = 10,verbose = FALSE,colors = topic_colors,
+			         topics = c(5,10,8,3,4,1,6,7,2,9))
+print(p)
+```
+
+```{r structure-plot-by-sample-for-paper, echo=FALSE}
+ggsave("plots/structure_plot_by_sample_buenrostro.eps",p,
+       height = 2,width = 11)
+```
+
 
 In the GoM DE analysis, we attempt to quantify *differential
 accessibility* among topics. 
