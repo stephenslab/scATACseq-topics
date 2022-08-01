@@ -28,4 +28,4 @@ Topic modeling analysis of single-cell ATAC-seq data
     - [Clustering by topic proportions (K=13)](clusters_Cusanovich2018_k13.html)
     - [Motif analysis (K=13, new DA analysis)](motif_analysis_Cusanovich2018_v2.html)
     - [Gene analysis (K=13, new DA analysis)](gene_analysis_Cusanovich2018_v2.html)
-    - [Topic modeling analysis with k = 13 topics](cusanovich_k13.html)
+    - [Topic modeling analysis with k = 13 topics](cusanovich2018_k13.html)
