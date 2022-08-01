@@ -507,15 +507,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreef62a0d16177d84e1ed497e5eadeb7f3e74b2a5cftargetblankf62a0d1a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree37f3aebae93e58540de46ce5a2fab2e29fbfc5c5targetblank37f3aeba">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/stephenslab/scATACseq-topics/tree/f62a0d16177d84e1ed497e5eadeb7f3e74b2a5cf" target="_blank">f62a0d1</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/tree/37f3aebae93e58540de46ce5a2fab2e29fbfc5c5" target="_blank">37f3aeb</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreef62a0d16177d84e1ed497e5eadeb7f3e74b2a5cftargetblankf62a0d1a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree37f3aebae93e58540de46ce5a2fab2e29fbfc5c5targetblank37f3aeba"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -525,7 +525,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/stephenslab/scATACseq-topics/tree/f62a0d16177d84e1ed497e5eadeb7f3e74b2a5cf" target="_blank">f62a0d1</a>.
+<a href="https://github.com/stephenslab/scATACseq-topics/tree/37f3aebae93e58540de46ce5a2fab2e29fbfc5c5" target="_blank">37f3aeb</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -602,6 +602,41 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/37f3aebae93e58540de46ce5a2fab2e29fbfc5c5/analysis/cusanovich2018_k13.Rmd" target="_blank">37f3aeb</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-08-01
+</td>
+<td>
+workflowr::wflow_publish("analysis/cusanovich2018_k13.Rmd", verbose =
+TRUE)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/44d4987f69295b82fe6bdc20cf02442f49a73dc1/docs/cusanovich2018_k13.html" target="_blank">44d4987</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-08-01
+</td>
+<td>
+Improved the structure plot in the cusanovich2018_k13 analysis.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -720,15 +755,11 @@ topic model fit:</p>
 <pre class="r"><code>fit &lt;- readRDS(&quot;output/Cusanovich_2018/fit-Cusanovich2018-scd-ex-k=13.rds&quot;)$fit</code></pre>
 <p>This Structure plot shows the cells arranged by tissue. Note that
 replicates were collected for four of the tissues (bone marrow, lung,
-small intestine, whole brain) in a second mouse. Reassuringly, the
-replicates show a very similar distribution of topics. Also
-reassuringly, some tissues are clearly distinguished by the topics
-(e.g., thymus), and similar tissues (e.g., small and large intenstine)
-share topics.</p>
+small intestine, whole brain) in a second mouse.</p>
 <pre class="r"><code>set.seed(1)
 topic_colors &lt;- c(&quot;gold&quot;,&quot;royalblue&quot;,&quot;red&quot;,&quot;sienna&quot;,&quot;limegreen&quot;,
-                  &quot;plum&quot;,&quot;tomato&quot;,&quot;purple&quot;,&quot;dodgerblue&quot;,&quot;forestgreen&quot;,
-                  &quot;darkblue&quot;,&quot;darkorange&quot;,&quot;lightskyblue&quot;)
+                  &quot;plum&quot;,&quot;tomato&quot;,&quot;purple&quot;,&quot;cyan&quot;,&quot;forestgreen&quot;,
+                  &quot;darkblue&quot;,&quot;darkorange&quot;,&quot;lightgray&quot;)
 topics &lt;- c(1,2,5,6,9,11,4,10,8,3,7,12,13)
 p1 &lt;- structure_plot(fit,grouping = samples$tissue.replicate,gap = 30,n = 4000,
                      perplexity = 30,colors = topic_colors,topics = topics,
@@ -759,6 +790,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/44d4987f69295b82fe6bdc20cf02442f49a73dc1/docs/figure/cusanovich2018_k13.Rmd/structure-plot-1-1.png" target="_blank">44d4987</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-08-01
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/643af508686451a9736eedfdb8e595ca681e64a2/docs/figure/cusanovich2018_k13.Rmd/structure-plot-1-1.png" target="_blank">643af50</a>
 </td>
 <td>
@@ -783,6 +825,10 @@ Peter Carbonetto
 </table>
 </div>
 </div>
+<p>Reassuringly, the replicates show a very similar distribution of
+topics. Also reassuringly, some tissues are clearly distinguished by the
+topics (e.g., thymus), and similar tissues (e.g., small and large
+intenstine) share topics.</p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
