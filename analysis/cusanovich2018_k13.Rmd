@@ -44,24 +44,25 @@ fit <- readRDS("output/Cusanovich_2018/fit-Cusanovich2018-scd-ex-k=13.rds")$fit
 
 This Structure plot shows the cells arranged by tissue. Note that
 replicates were collected for four of the tissues (bone marrow, lung,
-small intestine, whole brain) in a second mouse. Reassuringly, the
-replicates show a very similar distribution of topics. Also
-reassuringly, some tissues are clearly distinguished by the topics
-(e.g., thymus), and similar tissues (e.g., small and large intenstine)
-share topics.
+small intestine, whole brain) in a second mouse. 
 
 ```{r structure-plot-1, fig.height=2.5, fig.width=8, message=FALSE}
 set.seed(1)
 topic_colors <- c("gold","royalblue","red","sienna","limegreen",
-                  "plum","tomato","purple","dodgerblue","forestgreen",
-                  "darkblue","darkorange","lightskyblue")
+                  "plum","tomato","purple","cyan","forestgreen",
+                  "darkblue","darkorange","lightgray")
 topics <- c(1,2,5,6,9,11,4,10,8,3,7,12,13)
 p1 <- structure_plot(fit,grouping = samples$tissue.replicate,gap = 30,n = 4000,
                      perplexity = 30,colors = topic_colors,topics = topics,
                      verbose = FALSE)
 print(p1)
 ```
-					 
+
+Reassuringly, the replicates show a very similar distribution of
+topics. Also reassuringly, some tissues are clearly distinguished by
+the topics (e.g., thymus), and similar tissues (e.g., small and large
+intenstine) share topics.
+
 ```{r structure-plot-for-paper-1, echo=FALSE}
 ggsave("plots/structure_plot_by_tissue_cusanovich.eps",p1,
        height = 2.25,width = 9)
