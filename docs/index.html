@@ -13,6 +13,7 @@
 
 <title>Topic modeling analysis of single-cell ATAC-seq data</title>
 
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -39,6 +40,8 @@ div.section {
   padding-top: 12px;
 }
 </style>
+
+
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -265,14 +268,17 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Topic modeling analysis of single-cell ATAC-seq data</h1>
+<h1 class="title toc-ignore">Topic modeling analysis of single-cell
+ATAC-seq data</h1>
 
 </div>
 
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -281,7 +287,9 @@ $(document).ready(function () {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -290,17 +298,27 @@ $(document).ready(function () {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-05-03
+<strong>Last updated:</strong> 2022-08-01
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 0
 </p>
 <p>
-<strong>Knit directory:</strong> <code>scATACseq-topics/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+<strong>Knit directory:</strong> <code>scATACseq-topics/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
 </p>
 <p>
-This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
-  href="https://github.com/workflowr/workflowr">workflowr</a> (version 1.7.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.0). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
 </p>
 <hr>
 </div>
@@ -309,52 +327,80 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguptodate"
+class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree16eb0d97545c1a56c0940a5b19d5679fbeac0e95targetblank16eb0d9a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/16eb0d97545c1a56c0940a5b19d5679fbeac0e95" target="_blank">16eb0d9</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree08d32c286e6e8db9161480f2fa0b3728ee06aa5etargetblank08d32c2a">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/stephenslab/scATACseq-topics/tree/08d32c286e6e8db9161480f2fa0b3728ee06aa5e" target="_blank">08d32c2</a>
+</a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree16eb0d97545c1a56c0940a5b19d5679fbeac0e95targetblank16eb0d9a" class="panel-collapse collapse">
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree08d32c286e6e8db9161480f2fa0b3728ee06aa5etargetblank08d32c2a"
+class="panel-collapse collapse">
 <div class="panel-body">
 <p>
-Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/16eb0d97545c1a56c0940a5b19d5679fbeac0e95" target="_blank">16eb0d9</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version
+<a href="https://github.com/stephenslab/scATACseq-topics/tree/08d32c286e6e8db9161480f2fa0b3728ee06aa5e" target="_blank">08d32c2</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
 </p>
 <p>
-Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
 </p>
 <pre><code>
 Ignored files:
     Ignored:    .DS_Store
     Ignored:    data/.DS_Store
     Ignored:    data/Buenrostro_2018/
+    Ignored:    output/Buenrostro_2018/binarized/filtered_peaks/de-buenrostro2018-k=10-noshrink.RData
+    Ignored:    output/Buenrostro_2018/binarized/filtered_peaks/fit-Buenrostro2018-binarized-filtered-scd-ex-k=10.rds
+    Ignored:    output/Buenrostro_2018/binarized/filtered_peaks/fit-Buenrostro2018-binarized-filtered-scd-ex-k=8.rds
 
 Untracked files:
     Untracked:  analysis/fit-Buenrostro2018-binarized-scd-ex-k=10.rds
     Untracked:  data/Buenrostro_2018_binarized.RData
-    Untracked:  output/Buenrostro_2018/
+    Untracked:  output/Buenrostro_2018/binarized/filtered_peaks/Buenrostro_2018_binarized_filtered.RData
+    Untracked:  output/Cusanovich_2018/
+    Untracked:  plots/
     Untracked:  scripts/fit-buenrostro-2018-k=8.rds
-    Untracked:  scripts/structure_plot_buenrostro2018.png
 
 Unstaged changes:
-    Modified:   .gitignore
-    Modified:   analysis/buenrostro2018_k10.Rmd
+    Modified:   analysis/temp.R
 
 </code></pre>
 <p>
-Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
 </p>
 </div>
 </div>
@@ -365,7 +411,11 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <div id="versions" class="tab-pane fade">
 
 <p>
-These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/index.Rmd</code>) and HTML (<code>docs/index.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analysis/index.Rmd</code>) and HTML
+(<code>docs/index.html</code>) files. If you’ve configured a remote Git
+repository (see <code>?wflow_git_remote</code>), click on the hyperlinks
+in the table below to view the files as they were in that past version.
 </p>
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
@@ -394,6 +444,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/08d32c286e6e8db9161480f2fa0b3728ee06aa5e/analysis/index.Rmd" target="_blank">08d32c2</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-08-01
+</td>
+<td>
+workflowr::wflow_publish("analysis/index.Rmd", verbose = TRUE)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/c04a77d75067ba71b193b1f32c77bf0da094f1ad/docs/index.html" target="_blank">c04a77d</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-05-03
+</td>
+<td>
+Updated link in overview page.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/16eb0d97545c1a56c0940a5b19d5679fbeac0e95/analysis/index.Rmd" target="_blank">16eb0d9</a>
 </td>
 <td>
@@ -403,7 +487,7 @@ Peter Carbonetto
 2022-05-03
 </td>
 <td>
-workflowr::wflow_publish(“index.Rmd”)
+workflowr::wflow_publish("index.Rmd")
 </td>
 </tr>
 <tr>
@@ -437,7 +521,7 @@ Peter Carbonetto
 2022-05-03
 </td>
 <td>
-workflowr::wflow_publish(“index.Rmd”)
+workflowr::wflow_publish("index.Rmd")
 </td>
 </tr>
 <tr>
@@ -505,7 +589,8 @@ kevinlkx
 2022-03-11
 </td>
 <td>
-Updated the link for the structure plots and DA analysis for Buenrostro data
+Updated the link for the structure plots and DA analysis for Buenrostro
+data
 </td>
 </tr>
 <tr>
@@ -777,7 +862,8 @@ kevinlkx
 2021-01-19
 </td>
 <td>
-created separate analysis files of motif and gene analysis for Cusanovich 2018 data
+created separate analysis files of motif and gene analysis for
+Cusanovich 2018 data
 </td>
 </tr>
 <tr>
@@ -811,7 +897,7 @@ kevinlkx
 2021-01-05
 </td>
 <td>
-wflow_publish(“analysis/index.Rmd”)
+wflow_publish("analysis/index.Rmd")
 </td>
 </tr>
 <tr>
@@ -879,7 +965,8 @@ kevinlkx
 2020-12-23
 </td>
 <td>
-add motif and gene analysis results for Cusanovich 2018 and Buenrostro 2018 datasets
+add motif and gene analysis results for Cusanovich 2018 and Buenrostro
+2018 datasets
 </td>
 </tr>
 <tr>
@@ -913,7 +1000,7 @@ kevinlkx
 2020-12-02
 </td>
 <td>
-wflow_publish(“analysis/index.Rmd”)
+wflow_publish("analysis/index.Rmd")
 </td>
 </tr>
 <tr>
@@ -930,7 +1017,7 @@ Peter Carbonetto
 2020-11-09
 </td>
 <td>
-Added “source” link to navbar.
+Added "source" link to navbar.
 </td>
 </tr>
 <tr>
@@ -964,7 +1051,8 @@ kevinlkx
 2020-11-06
 </td>
 <td>
-add PCA and k-means clustering of topic proportions for Buenrostro 2018 results
+add PCA and k-means clustering of topic proportions for Buenrostro 2018
+results
 </td>
 </tr>
 <tr>
@@ -998,7 +1086,7 @@ kevinlkx
 2020-10-21
 </td>
 <td>
-wflow_publish(“analysis/index.Rmd”)
+wflow_publish("analysis/index.Rmd")
 </td>
 </tr>
 <tr>
@@ -1134,7 +1222,7 @@ kevinlkx
 2020-09-10
 </td>
 <td>
-wflow_publish(“analysis/index.Rmd”)
+wflow_publish("analysis/index.Rmd")
 </td>
 </tr>
 <tr>
@@ -1168,7 +1256,7 @@ kevinlkx
 2020-09-10
 </td>
 <td>
-wflow_publish(“analysis/index.Rmd”)
+wflow_publish("analysis/index.Rmd")
 </td>
 </tr>
 <tr>
@@ -1202,7 +1290,7 @@ kevinlkx
 2020-08-24
 </td>
 <td>
-wflow_publish(“analysis/index.Rmd”)
+wflow_publish("analysis/index.Rmd")
 </td>
 </tr>
 <tr>
@@ -1236,7 +1324,7 @@ kevinlkx
 2020-08-22
 </td>
 <td>
-wflow_publish(“analysis/index.Rmd”)
+wflow_publish("analysis/index.Rmd")
 </td>
 </tr>
 <tr>
@@ -1270,7 +1358,7 @@ kevinlkx
 2020-08-19
 </td>
 <td>
-wflow_publish(“analysis/index.Rmd”)
+wflow_publish("analysis/index.Rmd")
 </td>
 </tr>
 <tr>
@@ -1338,7 +1426,7 @@ kevinlkx
 2020-07-29
 </td>
 <td>
-wflow_publish(&quot;analysis/*&quot;)
+wflow_publish("analysis/*")
 </td>
 </tr>
 <tr>
@@ -1367,26 +1455,44 @@ Start workflowr project.
 </div>
 <p>Topic modeling analysis of single-cell ATAC-seq data</p>
 <ul>
-<li>Human hematopoietic differentiation dataset from Buenrostro <em>et al.</em> 2018
+<li>Human hematopoietic differentiation dataset from Buenrostro <em>et
+al.</em> 2018
 <ul>
-<li><a href="process_data_Buenrostro2018.html">Process Buenrostro 2018 dataset</a></li>
-<li><a href="assess_fits_Buenrostro2018_Chen2019pipeline.html">Assess model fits</a></li>
-<li><a href="structureplot_DA_Buenrostro2018_k10.html">Structure plots and DA analysis (K=10)</a></li>
-<li><a href="motif_analysis_Buenrostro2018_k10_v2.html">Motif analysis (K=10)</a></li>
-<li><a href="gene_analysis_Buenrostro2018_k10_v2.html">Gene score analysis (K=10)</a></li>
-<li><a href="structureplot_DA_Buenrostro2018_filteredpeaks_k10.html">Structure plots and DA analysis (K=10) using filtered peaks</a></li>
-<li><a href="motif_analysis_Buenrostro2018_k10_filterpeaks.html">Motif analysis (K=10 using filtered peaks)</a></li>
-<li><a href="buenrostro2018_k10.html">Topic modeling analysis with k = 10 topics</a></li>
+<li><a href="process_data_Buenrostro2018.html">Process Buenrostro 2018
+dataset</a></li>
+<li><a href="assess_fits_Buenrostro2018_Chen2019pipeline.html">Assess
+model fits</a></li>
+<li><a href="structureplot_DA_Buenrostro2018_k10.html">Structure plots
+and DA analysis (K=10)</a></li>
+<li><a href="motif_analysis_Buenrostro2018_k10_v2.html">Motif analysis
+(K=10)</a></li>
+<li><a href="gene_analysis_Buenrostro2018_k10_v2.html">Gene score
+analysis (K=10)</a></li>
+<li><a
+href="structureplot_DA_Buenrostro2018_filteredpeaks_k10.html">Structure
+plots and DA analysis (K=10) using filtered peaks</a></li>
+<li><a href="motif_analysis_Buenrostro2018_k10_filterpeaks.html">Motif
+analysis (K=10 using filtered peaks)</a></li>
+<li><a href="buenrostro2018_k10.html">Topic modeling analysis with k =
+10 topics</a></li>
 </ul></li>
 <li>Mouse Atlas dataset from Cusanovich <em>et al.</em> 2018
 <ul>
-<li><a href="process_data_Cusanovich2018.html">Process Cusanovich 2018 dataset</a></li>
+<li><a href="process_data_Cusanovich2018.html">Process Cusanovich 2018
+dataset</a></li>
 <li><a href="assess_fits_Cusanovich2018.html">Assess model fits</a></li>
-<li><a href="compare_different_k_Cusanovich2018.html">Visualize all tissues with different numbers of topics (k’s)</a></li>
-<li><a href="plots_Cusanovich2018.html">Visualize all tissues (k=13) and then focus on a few tissues</a></li>
-<li><a href="clusters_Cusanovich2018_k13.html">Clustering by topic proportions (K=13)</a></li>
-<li><a href="motif_analysis_Cusanovich2018_v2.html">Motif analysis (K=13, new DA analysis)</a></li>
-<li><a href="gene_analysis_Cusanovich2018_v2.html">Gene analysis (K=13, new DA analysis)</a></li>
+<li><a href="compare_different_k_Cusanovich2018.html">Visualize all
+tissues with different numbers of topics (k’s)</a></li>
+<li><a href="plots_Cusanovich2018.html">Visualize all tissues (k=13) and
+then focus on a few tissues</a></li>
+<li><a href="clusters_Cusanovich2018_k13.html">Clustering by topic
+proportions (K=13)</a></li>
+<li><a href="motif_analysis_Cusanovich2018_v2.html">Motif analysis
+(K=13, new DA analysis)</a></li>
+<li><a href="gene_analysis_Cusanovich2018_v2.html">Gene analysis (K=13,
+new DA analysis)</a></li>
+<li><a href="cusanovich_k13.html">Topic modeling analysis with k = 13
+topics</a></li>
 </ul></li>
 </ul>
 
@@ -1402,6 +1508,8 @@ footer is added to webpages before the MathJax javascript. -->
     "HTML-CSS": { availableFonts: ["TeX"] }
   });
 </script>
+
+
 
 
 
