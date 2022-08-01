@@ -1,0 +1,62 @@
+---
+title: "Topic modeling analysis of Cusanovich et al (2018) data with k = 13 topics"
+author: Peter Carbonetto
+output: workflowr::wflow_html
+---
+
+*Add text here summarizing the analysis.*
+
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
+                      fig.align = "center",dpi = 120)
+```
+
+Load the packages used in the analysis below.
+
+```{r load-pkgs, message=FALSE}
+library(Matrix)
+library(fastTopics)
+library(ggplot2)
+```
+
+Load the sample meta-data:
+
+```{r load-data}
+tissues <-
+  c("BoneMarrow_62016","BoneMarrow_62216",
+  "HeartA_62816","Kidney_62016","Testes_62016","SmallIntestine_62816",
+  "LargeIntestineA_62816",
+  "LargeIntestineB_62816","Liver_62016",
+  "Lung1_62216","Lung2_62216",
+  "Spleen_62016",
+  "Thymus_62016","PreFrontalCortex_62216",
+  "Cerebellum_62216","WholeBrainA_62216","WholeBrainA_62816")
+load("data/Cusanovich_2018/processed_data/Cusanovich_2018_metadata_only.RData")
+samples <- transform(samples,
+                     tissue.replicate = factor(tissue.replicate,tissues))
+```
+					 
+Next load the $k = 13$ multinomial topic model fit:
+
+```{r load-fit}
+fit <- readRDS("output/Cusanovich_2018/fit-Cusanovich2018-scd-ex-k=13.rds")$fit
+```
+
+*Add text here.*
+
+```{r structure-plot-1, fig.height=2.5, fig.width=8, message=FALSE}
+set.seed(1)
+topic_colors <- c("royalblue","gold","red","sienna","limegreen",
+                  "plum","tomato","purple","dodgerblue","forestgreen",
+                  "darkblue","darkorange","lightskyblue")
+topics <- c(1,2,5,6,9,11,4,10,8,3,7,12,13)
+p1 <- structure_plot(fit,grouping = samples$tissue.replicate,gap = 20,n = 4000,
+                     perplexity = 30,colors = topic_colors,topics = topics,
+                     verbose = FALSE)
+print(p1)
+```
+					 
+```{r structure-plot-for-paper-1, echo=FALSE}
+ggsave("plots/structure_plot_by_tissue_cusanovich.eps",p1,
+       height = 2.25,width = 8)
+```
