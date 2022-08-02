@@ -84,10 +84,7 @@ cell_types <-
     "T cells",
     "NK cells",
     "B cells",
-    "Dendritic cells",
-    "Macrophages",
-    "Microglia",
-    "Monocytes",
+    "Other immune cells",
     "Proximal tubule",
     "cluster 18",
     "Pneumocytes",
@@ -117,6 +114,10 @@ x[x == "Loop of henle"] <- "cluster 18"
 x[x == "Distal convoluted tubule"] <- "cluster 18"
 x[x == "Collecting duct"] <- "cluster 18"
 x[x == "DCT/CD"] <- "cluster 18"
+x[x == "Monocytes"] <- "Other immune cells"
+x[x == "Dendritic cells"] <- "Other immune cells"
+x[x == "Macrophages"] <- "Other immune cells"
+x[x == "Microglia"] <- "Other immune cells"
 samples <- transform(samples,
                      cell_label = factor(x,cell_types))
 set.seed(1)
