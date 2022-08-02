@@ -507,15 +507,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree0f830ba9e3d79c20e287327f1f0cf1a10297eec4targetblank0f830baa">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreed6d1bd1a955260eaf6b612fcc6e68b312585598ctargetblankd6d1bd1a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/stephenslab/scATACseq-topics/tree/0f830ba9e3d79c20e287327f1f0cf1a10297eec4" target="_blank">0f830ba</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/tree/d6d1bd1a955260eaf6b612fcc6e68b312585598c" target="_blank">d6d1bd1</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree0f830ba9e3d79c20e287327f1f0cf1a10297eec4targetblank0f830baa"
+id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreed6d1bd1a955260eaf6b612fcc6e68b312585598ctargetblankd6d1bd1a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -525,7 +525,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/stephenslab/scATACseq-topics/tree/0f830ba9e3d79c20e287327f1f0cf1a10297eec4" target="_blank">0f830ba</a>.
+<a href="https://github.com/stephenslab/scATACseq-topics/tree/d6d1bd1a955260eaf6b612fcc6e68b312585598c" target="_blank">d6d1bd1</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -599,6 +599,41 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/d6d1bd1a955260eaf6b612fcc6e68b312585598c/analysis/cusanovich2018_k13.Rmd" target="_blank">d6d1bd1</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-08-02
+</td>
+<td>
+workflowr::wflow_publish("analysis/cusanovich2018_k13.Rmd", verbose =
+TRUE)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/cc5335af06da6e0e4a9fb5950c201678c97c9fd3/docs/cusanovich2018_k13.html" target="_blank">cc5335a</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-08-02
+</td>
+<td>
+Revised the second structure plot.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -906,7 +941,10 @@ Peter Carbonetto
 topics. Also reassuringly, some tissues are clearly distinguished by the
 topics (e.g., thymus), and similar tissues (e.g., small and large
 intenstine) share topics.</p>
-<p><em>Add text here.</em></p>
+<p>This next Structure plot arranges the cells by the cluster labels
+assigned by <a
+href="https://doi.org/10.1016/j.cell.2018.06.052">Cusanovich <em>et
+al</em></a> (see the “cell_type” column in Table S1).</p>
 <pre class="r"><code>cell_types &lt;-
   c(&quot;Cardiomyocytes&quot;,
     &quot;Astrocytes&quot;,
@@ -985,6 +1023,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/cc5335af06da6e0e4a9fb5950c201678c97c9fd3/docs/figure/cusanovich2018_k13.Rmd/structure-plot-2-1.png" target="_blank">cc5335a</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-08-02
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/9eff66becb3f3a3eb6694ad26b8309d48ae7f6b9/docs/figure/cusanovich2018_k13.Rmd/structure-plot-2-1.png" target="_blank">9eff66b</a>
 </td>
 <td>
@@ -998,7 +1047,9 @@ Peter Carbonetto
 </table>
 </div>
 </div>
-<p><em>Add text here.</em></p>
+<p>Clearly, the topics capture much of the high-level structure
+identified by community detection (<em>Cusanovich et al</em> used the
+Louvain algorithm implemented in Seurat).</p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
