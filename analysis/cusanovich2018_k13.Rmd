@@ -68,10 +68,11 @@ ggsave("plots/structure_plot_by_tissue_cusanovich.eps",p1,
        height = 2.25,width = 9)
 ```
 
-This next Structure plot arranges the cells by the cluster labels
-assigned by
-[Cusanovich *et al*](https://doi.org/10.1016/j.cell.2018.06.052) (see
-the "cell_type" column in Table S1).
+In this next Structure plot, we arrange the cells by the "major
+clusters" identified by
+[Cusanovich *et al*](https://doi.org/10.1016/j.cell.2018.06.052) (they
+used the Louvain community detection algorithm implemented in Seurat
+to identify these clusters).
 
 ```{r structure-plot-2, fig.height=2.5, fig.width=8, message=FALSE}
 cell_types <-
@@ -85,7 +86,6 @@ cell_types <-
     "Purkinje cells",
     "Cerebellar granule cells",
     "T cells",
-    "NK cells",
     "B cells",
     "Other immune cells",
     "Proximal tubule",
@@ -121,6 +121,7 @@ x[x == "Monocytes"] <- "Other immune cells"
 x[x == "Dendritic cells"] <- "Other immune cells"
 x[x == "Macrophages"] <- "Other immune cells"
 x[x == "Microglia"] <- "Other immune cells"
+x[x == "NK cells"] <- "Other immune cells"
 samples <- transform(samples,
                      cell_label = factor(x,cell_types))
 set.seed(1)
@@ -130,8 +131,7 @@ print(p2)
 ```
 
 Clearly, the topics capture much of the high-level structure
-identified by community detection (*Cusanovich et al* used the Louvain
-algorithm implemented in Seurat).
+identified by the community detection algorithm.
 
 ```{r structure-plot-for-paper-2, echo=FALSE}
 ggsave("plots/structure_plot_by_cluster_cusanovich.eps",p2,
