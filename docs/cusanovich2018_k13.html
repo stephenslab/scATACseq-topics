@@ -376,7 +376,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-08-01
+<strong>Last updated:</strong> 2022-08-02
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -507,15 +507,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree9e501cbe5be854f22119cb57b9d09ba390e0a94etargetblank9e501cba">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree0f830ba9e3d79c20e287327f1f0cf1a10297eec4targetblank0f830baa">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/stephenslab/scATACseq-topics/tree/9e501cbe5be854f22119cb57b9d09ba390e0a94e" target="_blank">9e501cb</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/tree/0f830ba9e3d79c20e287327f1f0cf1a10297eec4" target="_blank">0f830ba</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree9e501cbe5be854f22119cb57b9d09ba390e0a94etargetblank9e501cba"
+id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree0f830ba9e3d79c20e287327f1f0cf1a10297eec4targetblank0f830baa"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -525,7 +525,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/stephenslab/scATACseq-topics/tree/9e501cbe5be854f22119cb57b9d09ba390e0a94e" target="_blank">9e501cb</a>.
+<a href="https://github.com/stephenslab/scATACseq-topics/tree/0f830ba9e3d79c20e287327f1f0cf1a10297eec4" target="_blank">0f830ba</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -554,9 +554,6 @@ Untracked files:
     Untracked:  output/Buenrostro_2018/binarized/filtered_peaks/Buenrostro_2018_binarized_filtered.RData
     Untracked:  plots/
     Untracked:  scripts/fit-buenrostro-2018-k=8.rds
-
-Unstaged changes:
-    Modified:   analysis/temp.R
 
 </code></pre>
 <p>
@@ -602,6 +599,41 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/0f830ba9e3d79c20e287327f1f0cf1a10297eec4/analysis/cusanovich2018_k13.Rmd" target="_blank">0f830ba</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-08-02
+</td>
+<td>
+workflowr::wflow_publish("analysis/cusanovich2018_k13.Rmd", verbose =
+TRUE)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/9eff66becb3f3a3eb6694ad26b8309d48ae7f6b9/docs/cusanovich2018_k13.html" target="_blank">9eff66b</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-08-01
+</td>
+<td>
+Added a second structure plot to the cusanovich2018_k13 analysis.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -888,10 +920,7 @@ intenstine) share topics.</p>
     &quot;T cells&quot;,
     &quot;NK cells&quot;,
     &quot;B cells&quot;,
-    &quot;Dendritic cells&quot;,
-    &quot;Macrophages&quot;,
-    &quot;Microglia&quot;,
-    &quot;Monocytes&quot;,
+    &quot;Other immune cells&quot;,
     &quot;Proximal tubule&quot;,
     &quot;cluster 18&quot;,
     &quot;Pneumocytes&quot;,
@@ -921,6 +950,10 @@ x[x == &quot;Loop of henle&quot;] &lt;- &quot;cluster 18&quot;
 x[x == &quot;Distal convoluted tubule&quot;] &lt;- &quot;cluster 18&quot;
 x[x == &quot;Collecting duct&quot;] &lt;- &quot;cluster 18&quot;
 x[x == &quot;DCT/CD&quot;] &lt;- &quot;cluster 18&quot;
+x[x == &quot;Monocytes&quot;] &lt;- &quot;Other immune cells&quot;
+x[x == &quot;Dendritic cells&quot;] &lt;- &quot;Other immune cells&quot;
+x[x == &quot;Macrophages&quot;] &lt;- &quot;Other immune cells&quot;
+x[x == &quot;Microglia&quot;] &lt;- &quot;Other immune cells&quot;
 samples &lt;- transform(samples,
                      cell_label = factor(x,cell_types))
 set.seed(1)
@@ -928,6 +961,43 @@ p2 &lt;- structure_plot(fit,grouping = samples$cell_label,gap = 30,n = 4000,
                     perplexity = 30,colors = topic_colors,verbose = FALSE)
 print(p2)</code></pre>
 <p><img src="figure/cusanovich2018_k13.Rmd/structure-plot-2-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-2-1">
+Past versions of structure-plot-2-1.png
+</button>
+</p>
+<div id="fig-structure-plot-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/9eff66becb3f3a3eb6694ad26b8309d48ae7f6b9/docs/figure/cusanovich2018_k13.Rmd/structure-plot-2-1.png" target="_blank">9eff66b</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-08-01
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p><em>Add text here.</em></p>
 <br>
 <p>
