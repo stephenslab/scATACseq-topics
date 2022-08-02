@@ -71,6 +71,7 @@ if (window.hljs) {
 
 
 
+
 <style type = "text/css">
 .main-container {
   max-width: 940px;
@@ -91,6 +92,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -316,7 +320,7 @@ div.tocify {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -368,7 +372,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-02-24
+<strong>Last updated:</strong> 2022-08-02
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -459,16 +463,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreefe19ea80abc5db566fdab01d380d2fa7841083f1targetblankfe19ea8a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/fe19ea80abc5db566fdab01d380d2fa7841083f1" target="_blank">fe19ea8</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreee5ff431d02014329f45e486cd32da28d480951a7targetblanke5ff431a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/scATACseq-topics/tree/e5ff431d02014329f45e486cd32da28d480951a7" target="_blank">e5ff431</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreefe19ea80abc5db566fdab01d380d2fa7841083f1targetblankfe19ea8a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreee5ff431d02014329f45e486cd32da28d480951a7targetblanke5ff431a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/fe19ea80abc5db566fdab01d380d2fa7841083f1" target="_blank">fe19ea8</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/scATACseq-topics/tree/e5ff431d02014329f45e486cd32da28d480951a7" target="_blank">e5ff431</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -478,754 +482,28 @@ Ignored files:
     Ignored:    .DS_Store
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
-    Ignored:    output/plotly/Buenrostro_2018_Chen2019pipeline_v2/
-    Ignored:    output/plotly/Cusanovich2018_v2/
+    Ignored:    analysis/site_libs/
 
 Untracked files:
-    Untracked:  analysis/clusters_Buenrostro2018_k10_Chen2019pipeline.Rmd
-    Untracked:  analysis/process_data_Buenrostro2018_Chen2019.Rmd
-    Untracked:  analysis/selected_figures_Buenrostro2018.Rmd
-    Untracked:  analysis/test_structure_plots_Buenrostro2018_k11_Chen2019pipeline.Rmd
+    Untracked:  analysis/motif_analysis_Buenrostro2018_v2.Rmd
     Untracked:  output/clustering-Cusanovich2018.rds
     Untracked:  paper/
+    Untracked:  scripts/DA_Buenrostro2018_filteredpeaks.sbatch
+    Untracked:  scripts/analysis_Cusanovich2018_filteredpeaks.sh
+    Untracked:  scripts/fit_poisson_nmf_Buenrostro2018_filtered_HeLabExample.R
+    Untracked:  scripts/postfit_Buenrostro2018_filteredpeaks.sbatch
+    Untracked:  scripts/postfit_Buenrostro2018_v2.sbatch
 
 Unstaged changes:
-    Modified:   .gitignore
+    Modified:   analysis/assess_fits_Buenrostro2018_Chen2019pipeline.Rmd
     Modified:   analysis/clusters_Cusanovich2018_k13.Rmd
     Modified:   analysis/gene_analysis_Buenrostro2018_Chen2019pipeline.Rmd
     Modified:   analysis/gene_analysis_Cusanovich2018.Rmd
-    Modified:   analysis/index.Rmd
     Modified:   analysis/motif_analysis_Buenrostro2018_Chen2019pipeline.Rmd
     Modified:   analysis/motif_analysis_Cusanovich2018.Rmd
     Modified:   analysis/plots_Cusanovich2018.Rmd
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_10_genebody-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_10_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_10_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_10_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_10_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_10_genebody-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_10_genebody-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_10_genebody-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_10_genebody-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_10_genebody-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_10_genebody-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_10_genebody-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_10_genebody-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_10_genebody-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_10_tss-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_10_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_10_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_10_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_10_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_10_tss-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_10_tss-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_10_tss-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_10_tss-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_10_tss-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_10_tss-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_10_tss-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_10_tss-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_10_tss-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_11_genebody-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_11_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_11_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_11_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_11_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_11_genebody-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_11_genebody-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_11_genebody-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_11_genebody-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_11_genebody-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_11_genebody-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_11_genebody-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_11_genebody-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_11_genebody-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_11_tss-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_11_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_11_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_11_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_11_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_11_tss-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_11_tss-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_11_tss-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_11_tss-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_11_tss-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_11_tss-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_11_tss-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_11_tss-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_11_tss-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_12_genebody-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_12_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_12_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_12_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_12_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_12_genebody-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_12_genebody-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_12_genebody-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_12_genebody-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_12_genebody-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_12_genebody-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_12_genebody-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_12_genebody-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_12_genebody-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_12_tss-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_12_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_12_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_12_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_12_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_12_tss-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_12_tss-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_12_tss-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_12_tss-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_12_tss-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_12_tss-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_12_tss-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_12_tss-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_12_tss-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_13_genebody-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_13_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_13_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_13_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_13_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_13_genebody-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_13_genebody-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_13_genebody-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_13_genebody-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_13_genebody-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_13_genebody-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_13_genebody-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_13_genebody-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_13_genebody-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_13_tss-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_13_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_13_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_13_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_13_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_13_tss-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_13_tss-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_13_tss-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_13_tss-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_13_tss-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_13_tss-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_13_tss-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_13_tss-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_13_tss-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_1_genebody-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_1_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_1_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_1_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_1_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_1_genebody-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_1_genebody-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_1_genebody-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_1_genebody-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_1_genebody-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_1_genebody-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_1_genebody-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_1_genebody-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_1_genebody-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_1_tss-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_1_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_1_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_1_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_1_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_1_tss-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_1_tss-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_1_tss-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_1_tss-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_1_tss-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_1_tss-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_1_tss-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_1_tss-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_1_tss-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_2_genebody-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_2_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_2_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_2_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_2_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_2_genebody-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_2_genebody-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_2_genebody-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_2_genebody-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_2_genebody-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_2_genebody-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_2_genebody-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_2_genebody-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_2_genebody-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_2_tss-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_2_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_2_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_2_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_2_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_2_tss-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_2_tss-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_2_tss-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_2_tss-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_2_tss-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_2_tss-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_2_tss-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_2_tss-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_2_tss-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_3_genebody-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_3_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_3_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_3_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_3_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_3_genebody-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_3_genebody-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_3_genebody-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_3_genebody-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_3_genebody-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_3_genebody-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_3_genebody-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_3_genebody-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_3_genebody-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_3_tss-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_3_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_3_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_3_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_3_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_3_tss-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_3_tss-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_3_tss-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_3_tss-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_3_tss-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_3_tss-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_3_tss-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_3_tss-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_3_tss-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_4_genebody-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_4_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_4_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_4_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_4_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_4_genebody-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_4_genebody-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_4_genebody-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_4_genebody-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_4_genebody-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_4_genebody-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_4_genebody-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_4_genebody-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_4_genebody-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_4_tss-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_4_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_4_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_4_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_4_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_4_tss-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_4_tss-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_4_tss-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_4_tss-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_4_tss-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_4_tss-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_4_tss-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_4_tss-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_4_tss-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_5_genebody-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_5_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_5_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_5_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_5_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_5_genebody-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_5_genebody-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_5_genebody-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_5_genebody-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_5_genebody-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_5_genebody-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_5_genebody-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_5_genebody-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_5_genebody-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_5_tss-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_5_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_5_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_5_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_5_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_5_tss-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_5_tss-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_5_tss-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_5_tss-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_5_tss-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_5_tss-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_5_tss-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_5_tss-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_5_tss-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_6_genebody-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_6_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_6_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_6_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_6_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_6_genebody-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_6_genebody-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_6_genebody-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_6_genebody-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_6_genebody-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_6_genebody-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_6_genebody-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_6_genebody-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_6_genebody-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_6_tss-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_6_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_6_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_6_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_6_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_6_tss-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_6_tss-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_6_tss-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_6_tss-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_6_tss-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_6_tss-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_6_tss-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_6_tss-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_6_tss-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_7_genebody-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_7_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_7_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_7_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_7_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_7_genebody-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_7_genebody-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_7_genebody-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_7_genebody-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_7_genebody-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_7_genebody-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_7_genebody-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_7_genebody-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_7_genebody-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_7_tss-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_7_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_7_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_7_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_7_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_7_tss-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_7_tss-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_7_tss-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_7_tss-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_7_tss-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_7_tss-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_7_tss-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_7_tss-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_7_tss-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_8_genebody-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_8_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_8_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_8_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_8_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_8_genebody-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_8_genebody-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_8_genebody-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_8_genebody-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_8_genebody-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_8_genebody-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_8_genebody-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_8_genebody-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_8_genebody-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_8_tss-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_8_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_8_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_8_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_8_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_8_tss-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_8_tss-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_8_tss-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_8_tss-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_8_tss-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_8_tss-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_8_tss-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_8_tss-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_8_tss-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_9_genebody-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_9_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_9_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_9_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_9_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_9_genebody-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_9_genebody-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_9_genebody-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_9_genebody-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_9_genebody-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_9_genebody-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_9_genebody-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_9_genebody-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_9_genebody-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_9_tss-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_9_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_9_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_9_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_9_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_9_tss-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_9_tss-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_9_tss-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_9_tss-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_9_tss-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_9_tss-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_9_tss-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_9_tss-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/gsea_topic_9_tss-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_10_genebody-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_10_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_10_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_10_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_10_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_10_genebody-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_10_genebody-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_10_genebody-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_10_genebody-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_10_genebody-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_10_genebody-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_10_genebody-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_10_genebody-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_10_genebody-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_10_tss-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_10_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_10_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_10_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_10_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_10_tss-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_10_tss-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_10_tss-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_10_tss-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_10_tss-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_10_tss-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_10_tss-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_10_tss-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_10_tss-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_11_genebody-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_11_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_11_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_11_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_11_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_11_genebody-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_11_genebody-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_11_genebody-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_11_genebody-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_11_genebody-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_11_genebody-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_11_genebody-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_11_genebody-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_11_genebody-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_11_tss-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_11_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_11_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_11_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_11_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_11_tss-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_11_tss-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_11_tss-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_11_tss-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_11_tss-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_11_tss-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_11_tss-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_11_tss-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_11_tss-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_12_genebody-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_12_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_12_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_12_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_12_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_12_genebody-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_12_genebody-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_12_genebody-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_12_genebody-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_12_genebody-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_12_genebody-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_12_genebody-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_12_genebody-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_12_genebody-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_12_tss-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_12_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_12_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_12_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_12_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_12_tss-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_12_tss-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_12_tss-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_12_tss-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_12_tss-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_12_tss-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_12_tss-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_12_tss-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_12_tss-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_13_genebody-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_13_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_13_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_13_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_13_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_13_genebody-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_13_genebody-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_13_genebody-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_13_genebody-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_13_genebody-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_13_genebody-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_13_genebody-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_13_genebody-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_13_genebody-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_13_tss-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_13_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_13_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_13_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_13_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_13_tss-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_13_tss-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_13_tss-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_13_tss-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_13_tss-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_13_tss-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_13_tss-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_13_tss-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_13_tss-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_1_genebody-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_1_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_1_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_1_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_1_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_1_genebody-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_1_genebody-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_1_genebody-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_1_genebody-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_1_genebody-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_1_genebody-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_1_genebody-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_1_genebody-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_1_genebody-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_1_tss-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_1_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_1_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_1_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_1_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_1_tss-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_1_tss-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_1_tss-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_1_tss-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_1_tss-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_1_tss-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_1_tss-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_1_tss-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_1_tss-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_2_genebody-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_2_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_2_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_2_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_2_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_2_genebody-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_2_genebody-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_2_genebody-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_2_genebody-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_2_genebody-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_2_genebody-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_2_genebody-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_2_genebody-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_2_genebody-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_2_tss-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_2_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_2_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_2_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_2_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_2_tss-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_2_tss-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_2_tss-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_2_tss-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_2_tss-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_2_tss-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_2_tss-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_2_tss-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_2_tss-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_3_genebody-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_3_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_3_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_3_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_3_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_3_genebody-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_3_genebody-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_3_genebody-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_3_genebody-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_3_genebody-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_3_genebody-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_3_genebody-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_3_genebody-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_3_genebody-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_3_tss-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_3_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_3_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_3_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_3_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_3_tss-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_3_tss-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_3_tss-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_3_tss-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_3_tss-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_3_tss-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_3_tss-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_3_tss-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_3_tss-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_4_genebody-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_4_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_4_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_4_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_4_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_4_genebody-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_4_genebody-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_4_genebody-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_4_genebody-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_4_genebody-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_4_genebody-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_4_genebody-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_4_genebody-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_4_genebody-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_4_tss-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_4_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_4_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_4_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_4_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_4_tss-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_4_tss-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_4_tss-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_4_tss-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_4_tss-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_4_tss-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_4_tss-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_4_tss-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_4_tss-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_5_genebody-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_5_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_5_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_5_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_5_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_5_genebody-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_5_genebody-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_5_genebody-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_5_genebody-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_5_genebody-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_5_genebody-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_5_genebody-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_5_genebody-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_5_genebody-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_5_tss-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_5_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_5_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_5_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_5_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_5_tss-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_5_tss-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_5_tss-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_5_tss-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_5_tss-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_5_tss-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_5_tss-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_5_tss-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_5_tss-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_6_genebody-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_6_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_6_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_6_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_6_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_6_genebody-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_6_genebody-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_6_genebody-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_6_genebody-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_6_genebody-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_6_genebody-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_6_genebody-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_6_genebody-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_6_genebody-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_6_tss-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_6_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_6_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_6_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_6_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_6_tss-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_6_tss-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_6_tss-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_6_tss-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_6_tss-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_6_tss-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_6_tss-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_6_tss-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_6_tss-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_7_genebody-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_7_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_7_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_7_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_7_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_7_genebody-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_7_genebody-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_7_genebody-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_7_genebody-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_7_genebody-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_7_genebody-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_7_genebody-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_7_genebody-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_7_genebody-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_7_tss-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_7_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_7_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_7_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_7_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_7_tss-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_7_tss-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_7_tss-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_7_tss-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_7_tss-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_7_tss-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_7_tss-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_7_tss-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_7_tss-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_8_genebody-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_8_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_8_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_8_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_8_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_8_genebody-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_8_genebody-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_8_genebody-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_8_genebody-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_8_genebody-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_8_genebody-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_8_genebody-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_8_genebody-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_8_genebody-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_8_tss-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_8_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_8_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_8_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_8_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_8_tss-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_8_tss-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_8_tss-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_8_tss-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_8_tss-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_8_tss-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_8_tss-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_8_tss-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_8_tss-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_9_genebody-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_9_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_9_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_9_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_9_genebody-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_9_genebody-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_9_genebody-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_9_genebody-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_9_genebody-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_9_genebody-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_9_genebody-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_9_genebody-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_9_genebody-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_9_genebody-sum_files/typedarray-0.1/typedarray.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_9_tss-sum_files/crosstalk-1.1.0.1/css/crosstalk.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_9_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_9_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_9_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_9_tss-sum_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_9_tss-sum_files/htmlwidgets-1.5.3/htmlwidgets.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_9_tss-sum_files/jquery-1.11.3/jquery-AUTHORS.txt
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_9_tss-sum_files/jquery-1.11.3/jquery.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_9_tss-sum_files/jquery-1.11.3/jquery.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_9_tss-sum_files/jquery-1.11.3/jquery.min.map
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_9_tss-sum_files/plotly-binding-4.9.2.1/plotly.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_9_tss-sum_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_9_tss-sum_files/plotly-main-1.52.2/plotly-latest.min.js
-    Deleted:    output/plotly/Cusanovich2018/volcano_topic_9_tss-sum_files/typedarray-0.1/typedarray.min.js
+    Modified:   scripts/DA_analysis_Buenrostro2018_vsnull.R
+    Modified:   scripts/analysis_Buenrostro2018_filteredpeaks.sh
 
 </code></pre>
 <p>
@@ -1264,6 +542,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/e5ff431d02014329f45e486cd32da28d480951a7/analysis/process_data_Cusanovich2018.Rmd" target="_blank">e5ff431</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-08-02
+</td>
+<td>
+filtered peaks for data by tissues
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/c4ead99b374eb437500d2b18a36425c6827a2813/docs/process_data_Cusanovich2018.html" target="_blank">c4ead99</a>
+</td>
+<td>
+kevinlkx
+</td>
+<td>
+2022-02-24
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -1509,6 +821,8 @@ wflow_rename(&quot;analysis/scATACseq_analysis_Cusanovich2018.Rmd&quot;,
 </div>
 </div>
 </div>
+<pre class="r"><code>library(Matrix)
+library(tools)</code></pre>
 <div id="about-cusanovich-2018-dataset" class="section level2">
 <h2>About Cusanovich 2018 dataset</h2>
 <p>Reference: Cusanovich, D., Hill, A., Aghamirzaie, D., Daza, R., Pliner, H., Berletch, J., Filippova, G., Huang, X., Christiansen, L., DeWitt, W., Lee, C., Regalado, S., Read, D., Steemers, F., Disteche, C., Trapnell, C., Shendure, J. (2018). A Single-Cell Atlas of In Vivo Mammalian Chromatin Accessibility Cell 174(5), 1 35. <a href="https://dx.doi.org/10.1016/j.cell.2018.06.052" class="uri">https://dx.doi.org/10.1016/j.cell.2018.06.052</a></p>
@@ -1544,63 +858,29 @@ wflow_rename(&quot;analysis/scATACseq_analysis_Cusanovich2018.Rmd&quot;,
 </ul>
 <pre class="r"><code>cell_metadata &lt;- read.table(&quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/metadata/cell_metadata.txt&quot;, header = TRUE, stringsAsFactors = TRUE, sep = &quot;\t&quot;)
 
-dim(cell_metadata)</code></pre>
-<pre><code>[1] 81173    11</code></pre>
-<pre class="r"><code>cell_metadata[1:3,]</code></pre>
-<pre><code>                                  cell     tissue tissue.replicate cluster
-1 AGCGATAGAACGAATTCGCCTCCGACGGCAGGACGT       Lung      Lung2_62216      10
-2 AGCGATAGAACGAATTCGTTGGTAGTCGATAGAGGC     Spleen     Spleen_62016      10
-3 AGCGATAGAACGCGCAGAAAGCTAGGTTAGGCGAAG BoneMarrow BoneMarrow_62016      10
-  subset_cluster   tsne_1   tsne_2 subset_tsne1 subset_tsne2
-1              1 16.25804 17.05674    -14.44873    -3.100071
-2              1 15.28149 16.10859    -15.23808     1.123518
-3              1 17.03914 14.69750    -16.88165     5.244815
-                     id                cell_label
-1 clusters_10.cluster_1 Hematopoietic progenitors
-2 clusters_10.cluster_1 Hematopoietic progenitors
-3 clusters_10.cluster_1 Hematopoietic progenitors</code></pre>
+dim(cell_metadata)
+
+cell_metadata[1:3,]</code></pre>
 <ul>
 <li><code>cell_metadata.tissue_freq_filtered.txt</code>: Same as <code>cell_metadata.txt</code>, but removes cells in each tissue belonging to a cell_label that accounts for less than 0.5% of the cells in that tissue. These very low frequency labels are often not cell types expected their respective tissues and could be due to slight imperfections in clustering, for example. Provided matrices would need to be subsetted to match this set of cells if using this metadata.</li>
 </ul>
 <pre class="r"><code>cell_metadata &lt;- read.table(&quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/metadata/cell_metadata.tissue_freq_filtered.txt&quot;, header = TRUE, stringsAsFactors = TRUE, sep = &quot;\t&quot;)
 
-dim(cell_metadata)</code></pre>
-<pre><code>[1] 80254    11</code></pre>
-<pre class="r"><code>cell_metadata[1:3,]</code></pre>
-<pre><code>                                  cell     tissue tissue.replicate cluster
-1 AGCGATAGAACGAATTCGCCTCCGACGGCAGGACGT       Lung      Lung2_62216      10
-2 AGCGATAGAACGAATTCGTTGGTAGTCGATAGAGGC     Spleen     Spleen_62016      10
-3 AGCGATAGAACGCGCAGAAAGCTAGGTTAGGCGAAG BoneMarrow BoneMarrow_62016      10
-  subset_cluster   tsne_1   tsne_2 subset_tsne1 subset_tsne2
-1              1 16.25804 17.05674    -14.44873    -3.100071
-2              1 15.28149 16.10859    -15.23808     1.123518
-3              1 17.03914 14.69750    -16.88165     5.244815
-                     id                cell_label
-1 clusters_10.cluster_1 Hematopoietic progenitors
-2 clusters_10.cluster_1 Hematopoietic progenitors
-3 clusters_10.cluster_1 Hematopoietic progenitors</code></pre>
+dim(cell_metadata)
+
+cell_metadata[1:3,]</code></pre>
 <ul>
 <li><p><code>cell_type_assignments.xlsx</code>: Excel document with three tabs expected cell types, cell type markers, and Cell type assignments that contain a pairs of tissues and expected cell types, a list of positive markers for each cell type, and the table of cell type assignments with extra details about assignment criteria when applicable, respectively. This is meant to document justification for cell type assignments provided in <code>cell_metadata.txt</code> above.</p></li>
 <li><p><code>peak_promoter_intersections.txt</code>: Metadata for peaks-intersected TSS pairs in TSV format.</p></li>
 </ul>
 <pre class="r"><code>peak_promoter_intersections &lt;- read.table(&quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/metadata/peak_promoter_intersections.txt&quot;, header = TRUE, stringsAsFactors = TRUE, sep = &quot;\t&quot;)
 
-dim(peak_promoter_intersections)</code></pre>
-<pre><code>[1] 62545     9</code></pre>
-<pre class="r"><code>peak_promoter_intersections[1:3,]</code></pre>
-<pre><code>               peak_id peak_chr peak_start peak_end           ensembl_id
-1 chr1_3206330_3206546     chr1    3206330  3206546 ENSMUSG00000051951.5
-2 chr1_3456171_3457239     chr1    3456171  3457239 ENSMUSG00000089699.1
-3 chr1_3660494_3662750     chr1    3660494  3662750 ENSMUSG00000051951.5
-  gene_short_name ensembl_transcript_id              biotype strand
-1            Xkr4  ENSMUST00000162897.1 processed_transcript      -
-2          Gm1992  ENSMUST00000161581.1            antisense      +
-3            Xkr4  ENSMUST00000070533.4       protein_coding      -</code></pre>
+dim(peak_promoter_intersections)
+
+peak_promoter_intersections[1:3,]</code></pre>
 </div>
 <div id="prepare-data-for-topic-modeling" class="section level2">
 <h2>Prepare data for topic modeling</h2>
-<pre class="r"><code>library(Matrix)
-library(tools)</code></pre>
 <ul>
 <li>Binarized peak by cell matrix: <code>atac_matrix.binary.qc_filtered.rds</code> (only QC filtered cells are included).</li>
 </ul>
@@ -1613,6 +893,9 @@ counts &lt;- t(binarized_matrix)
 length(which(colSums(counts &gt; 0) == 0))
 length(which(rowSums(counts &gt; 0) == 0))
 
+## all peaks are accessible in at least 40 cells.
+range(colSums(counts))
+
 cat(sprintf(&quot;Number of samples (cells): %d\n&quot;,nrow(counts)))
 cat(sprintf(&quot;Number of peaks: %d\n&quot;,ncol(counts)))
 cat(sprintf(&quot;Proportion of counts that are non-zero: %0.1f%%.\n&quot;,
@@ -1621,78 +904,12 @@ cat(sprintf(&quot;Proportion of counts that are non-zero: %0.1f%%.\n&quot;,
 <li><code>cell_metadata.txt</code>: Metadata for cells in TSV format, including several features such as TSNE coordinates, cluster assignments, and cell type assignments.</li>
 </ul>
 <pre class="r"><code>samples &lt;- read.table(&quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/metadata/cell_metadata.txt&quot;, header = TRUE, stringsAsFactors = FALSE, sep = &quot;\t&quot;)
-
-dim(samples)</code></pre>
-<pre><code>[1] 81173    11</code></pre>
-<pre class="r"><code>cat(sprintf(&quot;Number of samples: %d\n&quot;,nrow(samples)))</code></pre>
-<pre><code>Number of samples: 81173</code></pre>
-<pre class="r"><code>print(samples[1:3,])</code></pre>
-<pre><code>                                  cell     tissue tissue.replicate cluster
-1 AGCGATAGAACGAATTCGCCTCCGACGGCAGGACGT       Lung      Lung2_62216      10
-2 AGCGATAGAACGAATTCGTTGGTAGTCGATAGAGGC     Spleen     Spleen_62016      10
-3 AGCGATAGAACGCGCAGAAAGCTAGGTTAGGCGAAG BoneMarrow BoneMarrow_62016      10
-  subset_cluster   tsne_1   tsne_2 subset_tsne1 subset_tsne2
-1              1 16.25804 17.05674    -14.44873    -3.100071
-2              1 15.28149 16.10859    -15.23808     1.123518
-3              1 17.03914 14.69750    -16.88165     5.244815
-                     id                cell_label
-1 clusters_10.cluster_1 Hematopoietic progenitors
-2 clusters_10.cluster_1 Hematopoietic progenitors
-3 clusters_10.cluster_1 Hematopoietic progenitors</code></pre>
+cat(sprintf(&quot;Number of samples: %d\n&quot;,nrow(samples)))
+print(samples[1:3,])</code></pre>
 <p>This study measured single cell chromatin accessibility in 13 different tissues in mice:</p>
 <pre class="r"><code>table(samples$tissue)</code></pre>
-<pre><code>
-      BoneMarrow       Cerebellum            Heart           Kidney 
-            8403             2278             7650             6431 
-  LargeIntestine            Liver             Lung PreFrontalCortex 
-            7086             6167             9996             5959 
-  SmallIntestine           Spleen           Testes           Thymus 
-            4077             4020             2723             7617 
-      WholeBrain 
-            8766 </code></pre>
 <p>Cells were labeled into the cell types:</p>
 <pre class="r"><code>table(samples$cell_label)</code></pre>
-<pre><code>
-         Activated B cells       Alveolar macrophages 
-                       500                        559 
-                Astrocytes                    B cells 
-                      1666                       5772 
-            Cardiomyocytes   Cerebellar granule cells 
-                      4076                       4099 
-           Collecting duct                 Collisions 
-                       164                       1218 
-                    DCT/CD            Dendritic cells 
-                       506                        958 
-  Distal convoluted tubule Endothelial I (glomerular) 
-                       319                        552 
-       Endothelial I cells       Endothelial II cells 
-                       952                       3019 
-               Enterocytes              Erythroblasts 
-                      4783                       2811 
-           Ex. neurons CPN          Ex. neurons CThPN 
-                      1832                       1540 
-          Ex. neurons SCPN  Hematopoietic progenitors 
-                      1466                       3425 
-               Hepatocytes           Immature B cells 
-                      5664                        571 
-        Inhibitory neurons              Loop of henle 
-                      1828                        815 
-               Macrophages                  Microglia 
-                       711                        422 
-                 Monocytes                   NK cells 
-                      1173                        321 
-          Oligodendrocytes                  Podocytes 
-                      1558                        498 
-           Proximal tubule         Proximal tubule S3 
-                      2570                        594 
-            Purkinje cells         Regulatory T cells 
-                       320                        507 
-         SOM+ Interneurons                      Sperm 
-                       553                       2089 
-                   T cells         Type I pneumocytes 
-                      8954                       1622 
-       Type II pneumocytes                    Unknown 
-                       157                      10029 </code></pre>
 <pre class="r"><code>data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/processed_data/&quot;
 dir.create(data.dir, showWarnings = FALSE, recursive = TRUE)
 
@@ -1703,63 +920,56 @@ resaveRdaFiles(file.path(data.dir, &quot;Cusanovich_2018.RData&quot;))</code></p
 <pre class="r"><code>data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/processed_data/&quot;
 load(file.path(data.dir, &quot;Cusanovich_2018.RData&quot;))
 
-cat(sprintf(&quot;Loaded %d x %d counts matrix.\n&quot;,nrow(counts),ncol(counts)))</code></pre>
-<pre><code>Loaded 81173 x 436206 counts matrix.</code></pre>
-<pre class="r"><code>cat(sprintf(&quot;Number of samples (cells): %d\n&quot;,nrow(counts)))</code></pre>
-<pre><code>Number of samples (cells): 81173</code></pre>
-<pre class="r"><code>cat(sprintf(&quot;Number of peaks: %d\n&quot;,ncol(counts)))</code></pre>
-<pre><code>Number of peaks: 436206</code></pre>
-<pre class="r"><code>cat(sprintf(&quot;Proportion of counts that are non-zero: %0.1f%%.\n&quot;,
-            100*mean(counts &gt; 0)))</code></pre>
-<pre><code>Proportion of counts that are non-zero: 1.2%.</code></pre>
+cat(sprintf(&quot;Loaded %d x %d counts matrix.\n&quot;,nrow(counts),ncol(counts)))
+
+cat(sprintf(&quot;Number of samples (cells): %d\n&quot;,nrow(counts)))
+cat(sprintf(&quot;Number of peaks: %d\n&quot;,ncol(counts)))
+cat(sprintf(&quot;Proportion of counts that are non-zero: %0.1f%%.\n&quot;,
+            100*mean(counts &gt; 0)))
+
+range(colSums(counts))</code></pre>
 </div>
 <div id="save-data-separately-by-tissues" class="section level2">
 <h2>Save data separately by tissues</h2>
-<pre class="r"><code>counts_all &lt;- counts
-samples_all &lt;- samples
-rm(counts)
-rm(samples)
+<pre class="r"><code>all_counts &lt;- counts
+all_samples &lt;- samples
 
-tissues &lt;- unique(samples_all$tissue)
-for ( tissue in tissues ) {
-  rows &lt;- which(samples_all$tissue == tissue)
+tissues &lt;- unique(all_samples$tissue)
+print(tissues)</code></pre>
+<pre class="r"><code>for ( tissue in tissues ) {
+  cat(tissue, &quot;\n&quot;)
+  rows &lt;- which(all_samples$tissue == tissue)
   cat(sprintf(&quot;%d cells in %s.\n&quot;,length(rows),tissue))
-  counts &lt;- counts_all[rows,]
-  samples &lt;- samples_all[rows,]
-  save(list = c(&quot;samples&quot;,&quot;counts&quot;), file = paste0(data.dir, &quot;/&quot;, &quot;Cusanovich_2018_&quot;, tissue,&quot;.RData&quot;))
+  counts &lt;- all_counts[rows,]
+  samples &lt;- all_samples[rows,]
+  dim(counts)
+  if(any(colSums(counts) &lt; 20)){
+    # Filtered out peaks with accessbility in fewer than 20 cells
+    cat(&quot;Filter out peaks with accessbility in fewer than 20 cells...\n&quot;)
+    i      &lt;- which(colSums(counts) &gt;= 20)
+    counts &lt;- counts[,i]
+    cat(sprintf(&quot;After filtering, we have %d rows and %d columns left. \n&quot;,nrow(counts),ncol(counts)))
+    save(list = c(&quot;samples&quot;,&quot;counts&quot;), file = paste0(data.dir, &quot;/&quot;, &quot;Cusanovich_2018_&quot;, tissue,&quot;.RData&quot;))
   resaveRdaFiles(paste0(data.dir, &quot;/&quot;, &quot;Cusanovich_2018_&quot;, tissue,&quot;.RData&quot;))
+  }else{
+    cat(&quot;All peaks with accessbility in more than 20 cells. No filtering needed.&quot;)
+  }
 }</code></pre>
-</div>
-<div id="save-data-for-heart-kidney-and-lung-tissues." class="section level2">
-<h2>Save data for heart, kidney and lung tissues.</h2>
-<pre class="r"><code>rows &lt;- which(samples_all$tissue %in% c(&quot;Heart&quot;, &quot;Kidney&quot;, &quot;Lung&quot;))
+<p>Heart, kidney and lung tissues combined.</p>
+<pre class="r"><code>rows &lt;- which(all_samples$tissue %in% c(&quot;Heart&quot;, &quot;Kidney&quot;, &quot;Lung&quot;))
 cat(sprintf(&quot;%d cells in %s.\n&quot;,length(rows),tissue))
 cat(sprintf(&quot;%d cells in heart, kidney and lung.\n&quot;,length(rows)))
-counts &lt;- counts_all[rows,]
-samples &lt;- samples_all[rows,]
+counts &lt;- all_counts[rows,]
+samples &lt;- all_samples[rows,]
 save(list = c(&quot;samples&quot;,&quot;counts&quot;), file = paste0(data.dir, &quot;/&quot;, &quot;Cusanovich_2018_HeartKidneyLung.RData&quot;))
 resaveRdaFiles(paste0(data.dir, &quot;/&quot;, &quot;Cusanovich_2018_HeartKidneyLung.RData&quot;)))</code></pre>
-</div>
-<div id="save-data-for-endothelial-cells." class="section level2">
-<h2>Save data for endothelial cells.</h2>
-<pre class="r"><code>rows &lt;- grep(&quot;Endothelial&quot;,samples_all$cell_label)
+<p>Endothelial cells.</p>
+<pre class="r"><code>rows &lt;- grep(&quot;Endothelial&quot;,all_samples$cell_label)
 cat(sprintf(&quot;%d endothelial cells. \n&quot;,length(rows)))
-counts &lt;- counts_all[rows,]
-samples &lt;- samples_all[rows,]
+counts &lt;- all_counts[rows,]
+samples &lt;- all_samples[rows,]
 save(list = c(&quot;samples&quot;,&quot;counts&quot;), file = paste0(data.dir, &quot;/&quot;, &quot;Cusanovich_2018_Endothelial.RData&quot;))
 resaveRdaFiles(paste0(data.dir, &quot;/&quot;, &quot;Cusanovich_2018_Endothelial.RData&quot;))</code></pre>
-<pre class="r"><code>data.dir &lt;- &quot;/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/processed_data/&quot;
-load(file.path(data.dir, &quot;Cusanovich_2018_Endothelial.RData&quot;))
-
-cat(sprintf(&quot;Loaded %d x %d counts matrix.\n&quot;,nrow(counts),ncol(counts)))</code></pre>
-<pre><code>Loaded 4523 x 436206 counts matrix.</code></pre>
-<pre class="r"><code>cat(sprintf(&quot;Number of samples (cells): %d\n&quot;,nrow(counts)))</code></pre>
-<pre><code>Number of samples (cells): 4523</code></pre>
-<pre class="r"><code>cat(sprintf(&quot;Number of peaks: %d\n&quot;,ncol(counts)))</code></pre>
-<pre><code>Number of peaks: 436206</code></pre>
-<pre class="r"><code>cat(sprintf(&quot;Proportion of counts that are non-zero: %0.1f%%.\n&quot;,
-            100*mean(counts &gt; 0)))</code></pre>
-<pre><code>Proportion of counts that are non-zero: 0.7%.</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1768,41 +978,6 @@ cat(sprintf(&quot;Loaded %d x %d counts matrix.\n&quot;,nrow(counts),ncol(counts
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>R version 4.0.4 (2021-02-15)
-Platform: x86_64-pc-linux-gnu (64-bit)
-Running under: Scientific Linux 7.4 (Nitrogen)
-
-Matrix products: default
-BLAS/LAPACK: /software/openblas-0.3.13-el7-x86_64/lib/libopenblas_haswellp-r0.3.13.so
-
-locale:
- [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
- [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
- [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
- [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
- [9] LC_ADDRESS=C               LC_TELEPHONE=C            
-[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
-
-attached base packages:
-[1] tools     stats     graphics  grDevices utils     datasets  methods  
-[8] base     
-
-other attached packages:
-[1] Matrix_1.4-0    workflowr_1.7.0
-
-loaded via a namespace (and not attached):
- [1] Rcpp_1.0.8       bslib_0.3.1      compiler_4.0.4   pillar_1.7.0    
- [5] later_1.3.0      git2r_0.29.0     jquerylib_0.1.4  getPass_0.2-2   
- [9] digest_0.6.29    lattice_0.20-45  jsonlite_1.7.3   evaluate_0.14   
-[13] tibble_3.1.6     lifecycle_1.0.1  pkgconfig_2.0.3  rlang_1.0.1     
-[17] cli_3.2.0        rstudioapi_0.13  yaml_2.2.2       xfun_0.29       
-[21] fastmap_1.1.0    httr_1.4.2       stringr_1.4.0    knitr_1.37      
-[25] sass_0.4.0       fs_1.5.2         vctrs_0.3.8      grid_4.0.4      
-[29] rprojroot_2.0.2  glue_1.6.2       R6_2.5.1         processx_3.5.2  
-[33] fansi_1.0.2      rmarkdown_2.11   callr_3.7.0      magrittr_2.0.2  
-[37] whisker_0.4      ps_1.6.0         promises_1.2.0.1 htmltools_0.5.2 
-[41] ellipsis_0.3.2   httpuv_1.6.5     utf8_1.2.2       stringi_1.7.6   
-[45] crayon_1.5.0    </code></pre>
 </div>
 </div>
 
