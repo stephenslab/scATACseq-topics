@@ -507,15 +507,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreed6d1bd1a955260eaf6b612fcc6e68b312585598ctargetblankd6d1bd1a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreeb2af8356753be2daa492553bd850e62adee46e0atargetblankb2af835a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/stephenslab/scATACseq-topics/tree/d6d1bd1a955260eaf6b612fcc6e68b312585598c" target="_blank">d6d1bd1</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/tree/b2af8356753be2daa492553bd850e62adee46e0a" target="_blank">b2af835</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreed6d1bd1a955260eaf6b612fcc6e68b312585598ctargetblankd6d1bd1a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreeb2af8356753be2daa492553bd850e62adee46e0atargetblankb2af835a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -525,7 +525,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/stephenslab/scATACseq-topics/tree/d6d1bd1a955260eaf6b612fcc6e68b312585598c" target="_blank">d6d1bd1</a>.
+<a href="https://github.com/stephenslab/scATACseq-topics/tree/b2af8356753be2daa492553bd850e62adee46e0a" target="_blank">b2af835</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -599,6 +599,41 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/b2af8356753be2daa492553bd850e62adee46e0a/analysis/cusanovich2018_k13.Rmd" target="_blank">b2af835</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-08-02
+</td>
+<td>
+workflowr::wflow_publish("analysis/cusanovich2018_k13.Rmd", verbose =
+TRUE)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/ffcfe1283400a7cfcec31b007fd4e47e7a645669/docs/cusanovich2018_k13.html" target="_blank">ffcfe12</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-08-02
+</td>
+<td>
+Added notes to cusanovich2018_k13 analysis.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -941,10 +976,11 @@ Peter Carbonetto
 topics. Also reassuringly, some tissues are clearly distinguished by the
 topics (e.g., thymus), and similar tissues (e.g., small and large
 intenstine) share topics.</p>
-<p>This next Structure plot arranges the cells by the cluster labels
-assigned by <a
+<p>In this next Structure plot, we arrange the cells by the “major
+clusters” identified by <a
 href="https://doi.org/10.1016/j.cell.2018.06.052">Cusanovich <em>et
-al</em></a> (see the “cell_type” column in Table S1).</p>
+al</em></a> (they used the Louvain community detection algorithm
+implemented in Seurat to identify these clusters).</p>
 <pre class="r"><code>cell_types &lt;-
   c(&quot;Cardiomyocytes&quot;,
     &quot;Astrocytes&quot;,
@@ -956,7 +992,6 @@ al</em></a> (see the “cell_type” column in Table S1).</p>
     &quot;Purkinje cells&quot;,
     &quot;Cerebellar granule cells&quot;,
     &quot;T cells&quot;,
-    &quot;NK cells&quot;,
     &quot;B cells&quot;,
     &quot;Other immune cells&quot;,
     &quot;Proximal tubule&quot;,
@@ -992,6 +1027,7 @@ x[x == &quot;Monocytes&quot;] &lt;- &quot;Other immune cells&quot;
 x[x == &quot;Dendritic cells&quot;] &lt;- &quot;Other immune cells&quot;
 x[x == &quot;Macrophages&quot;] &lt;- &quot;Other immune cells&quot;
 x[x == &quot;Microglia&quot;] &lt;- &quot;Other immune cells&quot;
+x[x == &quot;NK cells&quot;] &lt;- &quot;Other immune cells&quot;
 samples &lt;- transform(samples,
                      cell_label = factor(x,cell_types))
 set.seed(1)
@@ -1048,8 +1084,7 @@ Peter Carbonetto
 </div>
 </div>
 <p>Clearly, the topics capture much of the high-level structure
-identified by community detection (<em>Cusanovich et al</em> used the
-Louvain algorithm implemented in Seurat).</p>
+identified by the community detection algorithm.</p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
