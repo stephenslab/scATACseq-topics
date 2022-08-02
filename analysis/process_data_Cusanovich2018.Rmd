@@ -4,6 +4,15 @@ author: "Kaixuan Luo"
 output: workflowr::wflow_html
 ---
 
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(eval=FALSE, comment = "#")
+```
+
+```{r}
+library(Matrix)
+library(tools)
+```
+
 ## About Cusanovich 2018 dataset
 
 Reference: Cusanovich, D., Hill, A., Aghamirzaie, D., Daza, R., Pliner, H., Berletch, J., Filippova, G., Huang, X., Christiansen, L., DeWitt, W., Lee, C., Regalado, S., Read, D., Steemers, F., Disteche, C., Trapnell, C., Shendure, J. (2018). A Single-Cell Atlas of In Vivo Mammalian Chromatin Accessibility Cell 174(5), 1 35. https://dx.doi.org/10.1016/j.cell.2018.06.052
@@ -72,14 +81,9 @@ peak_promoter_intersections[1:3,]
 
 
 ## Prepare data for topic modeling
-```{r}
-library(Matrix)
-library(tools)
-```
 
 * Binarized peak by cell matrix: `atac_matrix.binary.qc_filtered.rds` (only QC filtered cells are included).
 ```{r, eval=FALSE}
-
 ## atac_matrix.binary.qc_filtered.rds: binarized peak by cell matrix in RDS format.
 binarized_matrix <- readRDS("/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/ATAC_matrices/atac_matrix.binary.qc_filtered.rds")
 dim(binarized_matrix)
@@ -88,6 +92,9 @@ counts <- t(binarized_matrix)
 ## all peaks exist in all of the cells
 length(which(colSums(counts > 0) == 0))
 length(which(rowSums(counts > 0) == 0))
+
+## all peaks are accessible in at least 40 cells.
+range(colSums(counts))
 
 cat(sprintf("Number of samples (cells): %d\n",nrow(counts)))
 cat(sprintf("Number of peaks: %d\n",ncol(counts)))
@@ -99,13 +106,8 @@ cat(sprintf("Proportion of counts that are non-zero: %0.1f%%.\n",
 * `cell_metadata.txt`: Metadata for cells in TSV format, including several features such as TSNE coordinates, cluster assignments, and cell type assignments. 
 ```{r}
 samples <- read.table("/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/metadata/cell_metadata.txt", header = TRUE, stringsAsFactors = FALSE, sep = "\t")
-
-dim(samples)
-
 cat(sprintf("Number of samples: %d\n",nrow(samples)))
-
 print(samples[1:3,])
-
 ```
 
 This study measured single cell chromatin accessibility in 13 different tissues in mice:
@@ -129,7 +131,7 @@ resaveRdaFiles(file.path(data.dir, "Cusanovich_2018.RData"))
 ```
 
 
-```{r}
+```{r load-processed-data}
 data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/processed_data/"
 load(file.path(data.dir, "Cusanovich_2018.RData"))
 
@@ -140,60 +142,62 @@ cat(sprintf("Number of peaks: %d\n",ncol(counts)))
 cat(sprintf("Proportion of counts that are non-zero: %0.1f%%.\n",
             100*mean(counts > 0)))
 
+range(colSums(counts))
 ```
 
 ## Save data separately by tissues
+```{r}
+all_counts <- counts
+all_samples <- samples
+
+tissues <- unique(all_samples$tissue)
+print(tissues)
+```
 
 ```{r, eval=FALSE}
-counts_all <- counts
-samples_all <- samples
-rm(counts)
-rm(samples)
-
-tissues <- unique(samples_all$tissue)
 for ( tissue in tissues ) {
-  rows <- which(samples_all$tissue == tissue)
+  cat(tissue, "\n")
+  rows <- which(all_samples$tissue == tissue)
   cat(sprintf("%d cells in %s.\n",length(rows),tissue))
-  counts <- counts_all[rows,]
-  samples <- samples_all[rows,]
-  save(list = c("samples","counts"), file = paste0(data.dir, "/", "Cusanovich_2018_", tissue,".RData"))
+  counts <- all_counts[rows,]
+  samples <- all_samples[rows,]
+  dim(counts)
+  if(any(colSums(counts) < 20)){
+    # Filtered out peaks with accessbility in fewer than 20 cells
+    cat("Filter out peaks with accessbility in fewer than 20 cells...\n")
+    i      <- which(colSums(counts) >= 20)
+    counts <- counts[,i]
+    cat(sprintf("After filtering, we have %d rows and %d columns left. \n",nrow(counts),ncol(counts)))
+    save(list = c("samples","counts"), file = paste0(data.dir, "/", "Cusanovich_2018_", tissue,".RData"))
   resaveRdaFiles(paste0(data.dir, "/", "Cusanovich_2018_", tissue,".RData"))
+  }else{
+    cat("All peaks with accessbility in more than 20 cells. No filtering needed.")
+  }
 }
 
 ```
 
-## Save data for heart, kidney and lung tissues.
+Heart, kidney and lung tissues combined.
 ```{r, eval=FALSE}
-rows <- which(samples_all$tissue %in% c("Heart", "Kidney", "Lung"))
+rows <- which(all_samples$tissue %in% c("Heart", "Kidney", "Lung"))
 cat(sprintf("%d cells in %s.\n",length(rows),tissue))
 cat(sprintf("%d cells in heart, kidney and lung.\n",length(rows)))
-counts <- counts_all[rows,]
-samples <- samples_all[rows,]
+counts <- all_counts[rows,]
+samples <- all_samples[rows,]
 save(list = c("samples","counts"), file = paste0(data.dir, "/", "Cusanovich_2018_HeartKidneyLung.RData"))
 resaveRdaFiles(paste0(data.dir, "/", "Cusanovich_2018_HeartKidneyLung.RData")))
 
 ```
 
-## Save data for endothelial cells.
+Endothelial cells.
 ```{r, eval=FALSE}
-rows <- grep("Endothelial",samples_all$cell_label)
+rows <- grep("Endothelial",all_samples$cell_label)
 cat(sprintf("%d endothelial cells. \n",length(rows)))
-counts <- counts_all[rows,]
-samples <- samples_all[rows,]
+counts <- all_counts[rows,]
+samples <- all_samples[rows,]
 save(list = c("samples","counts"), file = paste0(data.dir, "/", "Cusanovich_2018_Endothelial.RData"))
 resaveRdaFiles(paste0(data.dir, "/", "Cusanovich_2018_Endothelial.RData"))
 
 ```
 
-```{r}
-data.dir <- "/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/processed_data/"
-load(file.path(data.dir, "Cusanovich_2018_Endothelial.RData"))
 
-cat(sprintf("Loaded %d x %d counts matrix.\n",nrow(counts),ncol(counts)))
-
-cat(sprintf("Number of samples (cells): %d\n",nrow(counts)))
-cat(sprintf("Number of peaks: %d\n",ncol(counts)))
-cat(sprintf("Proportion of counts that are non-zero: %0.1f%%.\n",
-            100*mean(counts > 0)))
-
-```
