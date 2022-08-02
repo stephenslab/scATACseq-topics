@@ -507,15 +507,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree37f3aebae93e58540de46ce5a2fab2e29fbfc5c5targetblank37f3aeba">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree9e501cbe5be854f22119cb57b9d09ba390e0a94etargetblank9e501cba">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/stephenslab/scATACseq-topics/tree/37f3aebae93e58540de46ce5a2fab2e29fbfc5c5" target="_blank">37f3aeb</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/tree/9e501cbe5be854f22119cb57b9d09ba390e0a94e" target="_blank">9e501cb</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree37f3aebae93e58540de46ce5a2fab2e29fbfc5c5targetblank37f3aeba"
+id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree9e501cbe5be854f22119cb57b9d09ba390e0a94etargetblank9e501cba"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -525,7 +525,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/stephenslab/scATACseq-topics/tree/37f3aebae93e58540de46ce5a2fab2e29fbfc5c5" target="_blank">37f3aeb</a>.
+<a href="https://github.com/stephenslab/scATACseq-topics/tree/9e501cbe5be854f22119cb57b9d09ba390e0a94e" target="_blank">9e501cb</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -546,12 +546,12 @@ Ignored files:
     Ignored:    output/Buenrostro_2018/binarized/filtered_peaks/de-buenrostro2018-k=10-noshrink.RData
     Ignored:    output/Buenrostro_2018/binarized/filtered_peaks/fit-Buenrostro2018-binarized-filtered-scd-ex-k=10.rds
     Ignored:    output/Buenrostro_2018/binarized/filtered_peaks/fit-Buenrostro2018-binarized-filtered-scd-ex-k=8.rds
+    Ignored:    output/Cusanovich_2018/
 
 Untracked files:
     Untracked:  analysis/fit-Buenrostro2018-binarized-scd-ex-k=10.rds
     Untracked:  data/Buenrostro_2018_binarized.RData
     Untracked:  output/Buenrostro_2018/binarized/filtered_peaks/Buenrostro_2018_binarized_filtered.RData
-    Untracked:  output/Cusanovich_2018/
     Untracked:  plots/
     Untracked:  scripts/fit-buenrostro-2018-k=8.rds
 
@@ -602,6 +602,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/9e501cbe5be854f22119cb57b9d09ba390e0a94e/analysis/cusanovich2018_k13.Rmd" target="_blank">9e501cb</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-08-01
+</td>
+<td>
+workflowr::wflow_publish("analysis/cusanovich2018_k13.Rmd")
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/05361f0db6dcc034c12fe67e5622b40e0f9cd128/docs/cusanovich2018_k13.html" target="_blank">05361f0</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-08-01
+</td>
+<td>
+Made a couple small adjustments to the structure plot in the
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -790,6 +824,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/05361f0db6dcc034c12fe67e5622b40e0f9cd128/docs/figure/cusanovich2018_k13.Rmd/structure-plot-1-1.png" target="_blank">05361f0</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-08-01
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/44d4987f69295b82fe6bdc20cf02442f49a73dc1/docs/figure/cusanovich2018_k13.Rmd/structure-plot-1-1.png" target="_blank">44d4987</a>
 </td>
 <td>
@@ -829,6 +874,61 @@ Peter Carbonetto
 topics. Also reassuringly, some tissues are clearly distinguished by the
 topics (e.g., thymus), and similar tissues (e.g., small and large
 intenstine) share topics.</p>
+<p><em>Add text here.</em></p>
+<pre class="r"><code>cell_types &lt;-
+  c(&quot;Cardiomyocytes&quot;,
+    &quot;Astrocytes&quot;,
+    &quot;Oligodendrocytes&quot;,
+    &quot;Hepatocytes&quot;,
+    &quot;Podocytes&quot;,
+    &quot;Endothelial cells&quot;,
+    &quot;Neurons&quot;,
+    &quot;Purkinje cells&quot;,
+    &quot;Cerebellar granule cells&quot;,
+    &quot;T cells&quot;,
+    &quot;NK cells&quot;,
+    &quot;B cells&quot;,
+    &quot;Dendritic cells&quot;,
+    &quot;Macrophages&quot;,
+    &quot;Microglia&quot;,
+    &quot;Monocytes&quot;,
+    &quot;Proximal tubule&quot;,
+    &quot;cluster 18&quot;,
+    &quot;Pneumocytes&quot;,
+    &quot;Enterocytes&quot;,
+    &quot;Erythroblasts&quot;,
+    &quot;Sperm&quot;,
+    &quot;Hematopoietic progenitors&quot;,
+    &quot;Collisions&quot;,
+    &quot;Unknown&quot;)
+x &lt;- samples$cell_label
+x[x == &quot;Activated B cells&quot;] &lt;- &quot;B cells&quot;
+x[x == &quot;Immature B cells&quot;] &lt;- &quot;B cells&quot;
+x[x == &quot;Ex. neurons CPN&quot;] &lt;- &quot;Neurons&quot;
+x[x == &quot;Ex. neurons SCPN&quot;] &lt;- &quot;Neurons&quot;
+x[x == &quot;Ex. neurons CThPN&quot;] &lt;- &quot;Neurons&quot;
+x[x == &quot;SOM+ Interneurons&quot;] &lt;- &quot;Neurons&quot;
+x[x == &quot;Inhibitory neurons&quot;] &lt;- &quot;Neurons&quot;
+x[x == &quot;Regulatory T cells&quot;] &lt;- &quot;T cells&quot;
+x[x == &quot;Endothelial I cells&quot;] &lt;- &quot;Endothelial cells&quot;
+x[x == &quot;Endothelial II cells&quot;] &lt;- &quot;Endothelial cells&quot;
+x[x == &quot;Endothelial I (glomerular)&quot;] &lt;- &quot;Endothelial cells&quot;
+x[x == &quot;Proximal tubule S3&quot;] &lt;- &quot;Proximal tubule&quot;
+x[x == &quot;Type I pneumocytes&quot;] &lt;- &quot;Pneumocytes&quot;
+x[x == &quot;Type II pneumocytes&quot;] &lt;- &quot;Pneumocytes&quot;
+x[x == &quot;Alveolar macrophages&quot;] &lt;- &quot;Macrophages&quot;
+x[x == &quot;Loop of henle&quot;] &lt;- &quot;cluster 18&quot;
+x[x == &quot;Distal convoluted tubule&quot;] &lt;- &quot;cluster 18&quot;
+x[x == &quot;Collecting duct&quot;] &lt;- &quot;cluster 18&quot;
+x[x == &quot;DCT/CD&quot;] &lt;- &quot;cluster 18&quot;
+samples &lt;- transform(samples,
+                     cell_label = factor(x,cell_types))
+set.seed(1)
+p2 &lt;- structure_plot(fit,grouping = samples$cell_label,gap = 30,n = 4000,
+                    perplexity = 30,colors = topic_colors,verbose = FALSE)
+print(p2)</code></pre>
+<p><img src="figure/cusanovich2018_k13.Rmd/structure-plot-2-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><em>Add text here.</em></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
