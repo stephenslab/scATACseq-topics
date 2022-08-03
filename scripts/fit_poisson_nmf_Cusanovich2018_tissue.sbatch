@@ -14,8 +14,8 @@ TISSUE=${1}
 K=${2}
 
 DATFILE=/project2/mstephens/kevinluo/scATACseq-topics/data/Cusanovich_2018/processed_data/Cusanovich_2018_${TISSUE}.RData
-NUMPREFIT=200
-NUMITER=300
+NUMPREFIT=300
+NUMITER=600
 
 OUTDIR=/project2/mstephens/kevinluo/scATACseq-topics/output/Cusanovich_2018/tissues
 mkdir -p ${OUTDIR}
@@ -35,6 +35,5 @@ echo "Running fit_poisson_nmf_Cusanovich2018_tissue.R"
 export OPENBLAS_NUM_THREADS=1
 Rscript ~/projects/scATACseq-topics/scripts/fit_poisson_nmf_Cusanovich2018_tissue.R \
   --counts ${DATFILE} --tissue ${TISSUE} -k ${K} \
-  --numprefit ${NUMPREFIT} -n ${NUMITER} --nc 10
-
-#  > ${ROUTFILE}
+  --numprefit ${NUMPREFIT} -n ${NUMITER} --nc 10 \
+  > ${ROUTFILE}
