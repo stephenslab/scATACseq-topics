@@ -22,7 +22,7 @@ x <- factor(x,c("Collecting duct","DCT/CD","Distal convoluted tubule",
                 "Other or unknown"))
 samples <- transform(samples,cell_label = x)
 topic_colors <- c("peru","darkmagenta","magenta","gold","darkorange",
-                  "red","lightgray","limegreen","cyan","royalblue")
+                  "red","lightgray","limegreen","dodgerblue","royalblue")
 p1 <- structure_plot(fit,grouping = samples$cell_label,gap = 20,
                      colors = topic_colors,verbose = FALSE)
 print(p1)
