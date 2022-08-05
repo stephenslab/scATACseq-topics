@@ -11,7 +11,9 @@ analysis/*html
 analysis/*_cache
 analysis/site_libs
 data/Buenrostro_2018/processed_data/Buenrostro_2018_binarized.RData
+data/Cusanovich_2018/processed_data/Cusanovich_2018_Kidney.RData
 output/Buenrostro_2018/binarized/filtered_peaks/fit-Buenrostro2018-binarized-filtered-scd-ex-k=8.rds
 output/Buenrostro_2018/binarized/filtered_peaks/fit-Buenrostro2018-binarized-filtered-scd-ex-k=10.rds
 output/Buenrostro_2018/binarized/filtered_peaks/de-buenrostro2018-k=10-noshrink.RData
 output/Cusanovich_2018/fit-Cusanovich2018-scd-ex-k=13.rds
+output/Cusanovich_2018/tissues/fit-Cusanovich2018-Kidney-scd-ex-k=10.rds
