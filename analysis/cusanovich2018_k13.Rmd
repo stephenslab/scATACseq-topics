@@ -4,7 +4,8 @@ author: Peter Carbonetto
 output: workflowr::wflow_html
 ---
 
-*Add text here summarizing the analysis.*
+Here we examine the structure inferred from the $k = 13$ topic model
+fit the Cusanovich *et al* (2018) sci-ATAC-seq data.
 
 ```{r knitr-opts, include=FALSE}
 knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
