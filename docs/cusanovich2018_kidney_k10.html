@@ -507,15 +507,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreed9cfa44abbcdd197c0f8dcac52cdfac25667d6a9targetblankd9cfa44a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree8d165908cf23b0711e0bb2ab347c8d51ca6d89aftargetblank8d16590a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/stephenslab/scATACseq-topics/tree/d9cfa44abbcdd197c0f8dcac52cdfac25667d6a9" target="_blank">d9cfa44</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/tree/8d165908cf23b0711e0bb2ab347c8d51ca6d89af" target="_blank">8d16590</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreed9cfa44abbcdd197c0f8dcac52cdfac25667d6a9targetblankd9cfa44a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree8d165908cf23b0711e0bb2ab347c8d51ca6d89aftargetblank8d16590a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -525,7 +525,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/stephenslab/scATACseq-topics/tree/d9cfa44abbcdd197c0f8dcac52cdfac25667d6a9" target="_blank">d9cfa44</a>.
+<a href="https://github.com/stephenslab/scATACseq-topics/tree/8d165908cf23b0711e0bb2ab347c8d51ca6d89af" target="_blank">8d16590</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -555,9 +555,6 @@ Untracked files:
     Untracked:  output/Buenrostro_2018/binarized/filtered_peaks/Buenrostro_2018_binarized_filtered.RData
     Untracked:  plots/
     Untracked:  scripts/fit-buenrostro-2018-k=8.rds
-
-Unstaged changes:
-    Modified:   analysis/cusanovich2018_kidney_k10.R
 
 </code></pre>
 <p>
@@ -604,6 +601,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/8d165908cf23b0711e0bb2ab347c8d51ca6d89af/analysis/cusanovich2018_kidney_k10.Rmd" target="_blank">8d16590</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-08-05
+</td>
+<td>
+workflowr::wflow_publish("analysis/cusanovich2018_kidney_k10.Rmd")
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/0d6c9fd1830cd25f3f990e48777b4c25da827027/docs/cusanovich2018_kidney_k10.html" target="_blank">0d6c9fd</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-08-05
+</td>
+<td>
+Added structure plots to cusanovich2018_kidney_k10 analysis.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -663,10 +694,6 @@ workflowr::wflow_publish("analysis/cusanovich2018_kidney_k10.Rmd")
 </div>
 </div>
 <p><em>Add overview of the analysis here.</em></p>
-<div class="figure">
-<img src="kidney.jpg" alt="" />
-<p class="caption">kidney diagram</p>
-</div>
 <p>Load the packages used in the analysis below.</p>
 <pre class="r"><code>library(Matrix)
 library(fastTopics)
@@ -707,7 +734,48 @@ p1 &lt;- structure_plot(fit,grouping = samples$cell_label,gap = 20,
                      colors = topic_colors,verbose = FALSE)
 print(p1)</code></pre>
 <p><img src="figure/cusanovich2018_kidney_k10.Rmd/structure-plot-1-1.png" width="960" style="display: block; margin: auto;" /></p>
-<p>Cluster the cells using the topic proportions only.</p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-1-1">
+Past versions of structure-plot-1-1.png
+</button>
+</p>
+<div id="fig-structure-plot-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/0d6c9fd1830cd25f3f990e48777b4c25da827027/docs/figure/cusanovich2018_kidney_k10.Rmd/structure-plot-1-1.png" target="_blank">0d6c9fd</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-08-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Let’s now visualize the topics without the benefit of the previously
+inferred clusters. Instead, we can use PCs computed from the topic
+proportions to subdivide the cells into 5 clusters. (Here we are
+assigning labels to these clusters only to make it easier to refer to
+them.)</p>
 <pre class="r"><code>pca &lt;- prcomp(fit$L)$x
 pc1 &lt;- pca[,1]
 pc2 &lt;- pca[,2]
@@ -725,12 +793,62 @@ y[pc1 &gt;= 0 &amp; pc2 &gt; -0.15] &lt;- &quot;podocytes + other&quot;
 x[rows] &lt;- y
 samples$cluster &lt;- factor(x,c(&quot;DCT + CD&quot;,&quot;loop of henle&quot;,&quot;proximal tubule&quot;,
                               &quot;podocytes + other&quot;,&quot;endothelial I&quot;))</code></pre>
-<p>Plot using our clustering.</p>
+<p>This is what the Structure plot looks like without any external
+grouping of the cells:</p>
 <pre class="r"><code>set.seed(1)
 p2 &lt;- structure_plot(fit,grouping = samples$cluster,gap = 20,
                      colors = topic_colors,verbose = FALSE)
 print(p2)</code></pre>
 <p><img src="figure/cusanovich2018_kidney_k10.Rmd/structure-plot-2-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-2-1">
+Past versions of structure-plot-2-1.png
+</button>
+</p>
+<div id="fig-structure-plot-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/0d6c9fd1830cd25f3f990e48777b4c25da827027/docs/figure/cusanovich2018_kidney_k10.Rmd/structure-plot-2-1.png" target="_blank">0d6c9fd</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-08-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The topics clearly identify four distinctive cell types—(1) loop of
+henle, (2) proximal tubule, (3) distal convoluted tubule (DCT) and
+collecting duct (CD), and (4) endothelial cells—and within these
+distinctive cell types there is sometimes a good amount of continuous
+variation in expression that is further captured by the topics, such as
+the two topics for DCT and CD, and the heterogeneity among the proximal
+tubule cells captured by several topics.</p>
+<p>Diagram from <a href="https://www.osmosis.org">osmosis.com</a>:</p>
+<div class="figure">
+<img src="kidney.jpg" alt="" />
+<p class="caption">kidney diagram</p>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
