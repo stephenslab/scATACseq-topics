@@ -16,23 +16,25 @@ library(fastTopics)
 set.seed(1)
 
 # Load the previously prepared count data.
-load(file.path("../output/Buenrostro_2018/binarized/filtered_peaks",
-               "Buenrostro_2018_binarized_filtered.RData"))
+load(file.path("../data/Cusanovich_2018/processed_data",
+               "Cusanovich_2018_Kidney.RData"))
 
 # Load the k = 10 Poisson NMF model fit.
 fit <- readRDS(
-  file.path("../output/Buenrostro_2018/binarized/filtered_peaks",
-            "fit-Buenrostro2018-binarized-filtered-scd-ex-k=10.rds"))$fit
+  file.path("../output/Cusanovich_2018/tissues",
+            "fit-Cusanovich2018-Kidney-scd-ex-k=10.rds"))$fit
 fit <- poisson2multinom(fit)
+
+stop()
 
 # Perform the DE analysis.
 t0 <- proc.time()
 de <- de_analysis(fit,counts,shrink.method = "none",pseudocount = 0.1,
-                  control = list(ns = 1e5,nc = 8))
+                  control = list(ns = 1e4,nc = 8))
 t1 <- proc.time()
 timing <- t1 - t0
 cat(sprintf("Computation took %0.2f seconds.\n",timing["elapsed"]))
 
 # Save the results.
-save(list = "de",file = "de-buenrostro2018-k=10-noshrink.RData")
-resaveRdaFiles("de-buenrostro2018-k=10-noshrink.RData")
+save(list = "de",file = "de-cusanovich2018-kidney-k=10-noshrink.RData")
+resaveRdaFiles("de-cusanovich2018-kidney-k=10-noshrink.RData")
