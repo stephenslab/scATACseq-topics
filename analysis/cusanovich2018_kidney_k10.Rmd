@@ -1,0 +1,35 @@
+---
+title: "Topic modeling analysis of Cusanovich et al (2018) kidney cells with k = 10 topics"
+author: Peter Carbonetto
+output: workflowr::wflow_html
+---
+
+*Add overview of the analysis here.*
+
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
+                      fig.align = "center",dpi = 120)
+```
+
+Load the packages used in the analysis below.
+
+```{r load-pkgs, message=FALSE}
+library(Matrix)
+library(fastTopics)
+library(ggplot2)
+```
+
+Load the binarized count data.
+
+```{r load-data}
+load("data/Cusanovich_2018/processed_data/Cusanovich_2018_Kidney.RData")
+```
+
+Load the $K = 10$ topic model fit.
+
+```{r load-fit}
+fit <- readRDS(file.path("output/Cusanovich_2018/tissues",
+                         "fit-Cusanovich2018-Kidney-scd-ex-k=10.rds"))$fit
+fit <- poisson2multinom(fit)
+```
+
