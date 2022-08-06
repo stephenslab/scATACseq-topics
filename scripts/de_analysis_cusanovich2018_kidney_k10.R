@@ -1,8 +1,7 @@
 # A short script used to perform the differential expression (DE)
-# analysis using the multinomial topic model fitted to the Cusanovich
-# et al (2018) data, kidney cells only, with k = 10 topics. These were
-# the steps taken to load R and allocate computing resources for this
-# analysis:
+# analysis using the multinomial topic model fitted to the Buenrostro
+# et al (2018) data, with k = 10 topics. These were the steps taken to
+# load R and allocate computing resources for this analysis:
 #
 #   sinteractive -p broadwl -c 8 --mem=16G --time=36:00:00
 #   module load R/3.5.1
