@@ -6,8 +6,6 @@ output: workflowr::wflow_html
 
 *Add overview of the analysis here.*
 
-![kidney diagram](kidney.jpg)
-
 ```{r knitr-opts, include=FALSE}
 knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
                       fig.align = "center",dpi = 120)
@@ -72,7 +70,11 @@ ggsave("plots/structure_plot_by_cell_label_cusanovich_kidney.eps",p1,
        height = 2.25,width = 9)
 ```
 
-Cluster the cells using the topic proportions only.
+Let's now visualize the topics without the benefit of the previously
+inferred clusters. Instead, we can use PCs computed from the topic
+proportions to subdivide the cells into 5 clusters. (Here we are
+assigning labels to these clusters only to make it easier to refer to
+them.)
 
 ```{r clusters-from-topics}
 pca <- prcomp(fit$L)$x
@@ -94,7 +96,8 @@ samples$cluster <- factor(x,c("DCT + CD","loop of henle","proximal tubule",
                               "podocytes + other","endothelial I"))
 ```
 
-Plot using our clustering.
+This is what the Structure plot looks like without any external
+grouping of the cells:
 
 ```{r structure-plot-2, fig.height=2.5, fig.width=8, message=FALSE}
 set.seed(1)
@@ -103,7 +106,19 @@ p2 <- structure_plot(fit,grouping = samples$cluster,gap = 20,
 print(p2)
 ```
 
+The topics clearly identify four distinctive cell types—(1) loop of
+henle, (2) proximal tubule, (3) distal convoluted tubule (DCT) and
+collecting duct (CD), and (4) endothelial cells—and within these
+distinctive cell types there is sometimes a good amount of continuous
+variation in expression that is further captured by the topics, such
+as the two topics for DCT and CD, and the heterogeneity among the
+proximal tubule cells captured by several topics.
+
 ```{r structure-plot-for-paper-2, echo=FALSE}
 ggsave("plots/structure_plot_by_cluster_cusanovich_kidney.eps",p2,
        height = 2,width = 9)
 ```
+
+Diagram from [osmosis.com](https://www.osmosis.org):
+
+![kidney diagram](kidney.jpg)
