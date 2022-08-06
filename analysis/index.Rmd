@@ -29,3 +29,4 @@ Topic modeling analysis of single-cell ATAC-seq data
     - [Motif analysis (K=13, new DA analysis)](motif_analysis_Cusanovich2018_v2.html)
     - [Gene analysis (K=13, new DA analysis)](gene_analysis_Cusanovich2018_v2.html)
     - [Topic modeling analysis with k = 13 topics](cusanovich2018_k13.html)
+    - [Topic modeling analysis of kidney cells with k = 10 topics](cusanovich2018_kidney_k10.html)
