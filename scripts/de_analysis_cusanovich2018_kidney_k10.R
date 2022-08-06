@@ -25,8 +25,6 @@ fit <- readRDS(
             "fit-Cusanovich2018-Kidney-scd-ex-k=10.rds"))$fit
 fit <- poisson2multinom(fit)
 
-stop()
-
 # Perform the DE analysis.
 t0 <- proc.time()
 de <- de_analysis(fit,counts,shrink.method = "none",pseudocount = 0.1,
