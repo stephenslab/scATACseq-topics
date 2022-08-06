@@ -6,6 +6,8 @@ output: workflowr::wflow_html
 
 *Add overview of the analysis here.*
 
+![kidney diagram](kidney.jpg)
+
 ```{r knitr-opts, include=FALSE}
 knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
                       fig.align = "center",dpi = 120)
@@ -33,3 +35,75 @@ fit <- readRDS(file.path("output/Cusanovich_2018/tissues",
 fit <- poisson2multinom(fit)
 ```
 
+This next Structure plot shows the correspondence between the topics
+and the final cell-type labels from Cusanovich *et al*
+("cell_label"). Some of more distinct cell-types (e.g., loop of henle,
+podocytes) are captured by a single topic, Note that some of the
+cell-type labels are combined to improve the Structure plot; in
+particular, several of the labels that only appear once or a few times
+are combined into the "Other or unknown" grouping.
+
+```{r structure-plot-1, fig.height=2.5, fig.width=8, message=FALSE}
+set.seed(1)
+x <- samples$cell_label
+x[x == "Activated B cells" | x == "B cells" | x == "Alveolar macrophages" |
+  x == "Monocytes" | x == "NK cells" | x == "T cells" | 
+  x == "Regulatory T cells" | x == "Dendritic cells" |
+  x == "Macrophages"] <- "Immune cells"
+x[x == "Endothelial I (glomerular)" |
+  x == "Endothelial I cells"] <- "Endothelial I cells"
+x[x == "Collisions" | x == "Enterocytes" | x == "Hepatocytes" |
+  x == "Sperm" | x == "Type II pneumocytes" | x == "Endothelial II cells" |
+  x == "Hematopoietic progenitors" | x == "Unknown"] <- "Other or unknown"
+x <- factor(x,c("Collecting duct","DCT/CD","Distal convoluted tubule",
+                "Loop of henle","Proximal tubule","Proximal tubule S3",
+                "Podocytes","Endothelial I cells","Immune cells",
+                "Other or unknown"))
+samples <- transform(samples,cell_label = x)
+topic_colors <- c("orange","darkmagenta","magenta","gold","peru",
+                  "red","lightgray","limegreen","dodgerblue","royalblue")
+p1 <- structure_plot(fit,grouping = samples$cell_label,gap = 20,
+                     colors = topic_colors,verbose = FALSE)
+print(p1)
+```
+
+```{r structure-plot-for-paper-1, echo=FALSE}
+ggsave("plots/structure_plot_by_cell_label_cusanovich_kidney.eps",p1,
+       height = 2.25,width = 9)
+```
+
+Cluster the cells using the topic proportions only.
+
+```{r clusters-from-topics}
+pca <- prcomp(fit$L)$x
+pc1 <- pca[,1]
+pc2 <- pca[,2]
+x <- rep("other",nrow(pca))
+x[pc1 < 0] <- "proximal tubule"
+x[pc1 > 0 & pc2 > 0.2] <- "endothelial I"
+rows <- which(x == "other")
+fit2 <- select_loadings(fit,loadings = rows)
+pca  <- prcomp(fit2$L)$x
+y    <- rep("DCT + CD",nrow(pca))
+pc1  <- pca[,1]
+pc2  <- pca[,2]
+y[pc1 < 0 & pc2 > -0.15] <- "loop of henle"
+y[pc1 >= 0 & pc2 > -0.15] <- "podocytes + other"
+x[rows] <- y
+samples$cluster <- factor(x,c("DCT + CD","loop of henle","proximal tubule",
+                              "podocytes + other","endothelial I"))
+```
+
+Plot using our clustering.
+
+```{r structure-plot-2, fig.height=2.5, fig.width=8, message=FALSE}
+set.seed(1)
+p2 <- structure_plot(fit,grouping = samples$cluster,gap = 20,
+                     colors = topic_colors,verbose = FALSE)
+print(p2)
+```
+
+```{r structure-plot-for-paper-2, echo=FALSE}
+ggsave("plots/structure_plot_by_cluster_cusanovich_kidney.eps",p2,
+       height = 2,width = 9)
+```
