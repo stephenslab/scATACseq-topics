@@ -507,15 +507,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree4549e6a9ffb45575d49f23be4af0a65ffc536977targetblank4549e6aa">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreed9cfa44abbcdd197c0f8dcac52cdfac25667d6a9targetblankd9cfa44a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/stephenslab/scATACseq-topics/tree/4549e6a9ffb45575d49f23be4af0a65ffc536977" target="_blank">4549e6a</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/tree/d9cfa44abbcdd197c0f8dcac52cdfac25667d6a9" target="_blank">d9cfa44</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree4549e6a9ffb45575d49f23be4af0a65ffc536977targetblank4549e6aa"
+id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreed9cfa44abbcdd197c0f8dcac52cdfac25667d6a9targetblankd9cfa44a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -525,7 +525,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/stephenslab/scATACseq-topics/tree/4549e6a9ffb45575d49f23be4af0a65ffc536977" target="_blank">4549e6a</a>.
+<a href="https://github.com/stephenslab/scATACseq-topics/tree/d9cfa44abbcdd197c0f8dcac52cdfac25667d6a9" target="_blank">d9cfa44</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -609,6 +609,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/d9cfa44abbcdd197c0f8dcac52cdfac25667d6a9/analysis/cusanovich2018_kidney_k10.Rmd" target="_blank">d9cfa44</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-08-05
+</td>
+<td>
+workflowr::wflow_publish("analysis/cusanovich2018_kidney_k10.Rmd")
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/68fba7a1568278e00ed9fd1ec95c179553fdc407/docs/cusanovich2018_kidney_k10.html" target="_blank">68fba7a</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-08-05
+</td>
+<td>
+First build of cusanovich2018_kidney_k10 analysis.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/4549e6a9ffb45575d49f23be4af0a65ffc536977/analysis/cusanovich2018_kidney_k10.Rmd" target="_blank">4549e6a</a>
 </td>
 <td>
@@ -629,6 +663,10 @@ workflowr::wflow_publish("analysis/cusanovich2018_kidney_k10.Rmd")
 </div>
 </div>
 <p><em>Add overview of the analysis here.</em></p>
+<div class="figure">
+<img src="kidney.jpg" alt="" />
+<p class="caption">kidney diagram</p>
+</div>
 <p>Load the packages used in the analysis below.</p>
 <pre class="r"><code>library(Matrix)
 library(fastTopics)
@@ -640,6 +678,59 @@ fit.</p>
 <pre class="r"><code>fit &lt;- readRDS(file.path(&quot;output/Cusanovich_2018/tissues&quot;,
                          &quot;fit-Cusanovich2018-Kidney-scd-ex-k=10.rds&quot;))$fit
 fit &lt;- poisson2multinom(fit)</code></pre>
+<p>This next Structure plot shows the correspondence between the topics
+and the final cell-type labels from Cusanovich <em>et al</em>
+(“cell_label”). Some of more distinct cell-types (e.g., loop of henle,
+podocytes) are captured by a single topic, Note that some of the
+cell-type labels are combined to improve the Structure plot; in
+particular, several of the labels that only appear once or a few times
+are combined into the “Other or unknown” grouping.</p>
+<pre class="r"><code>set.seed(1)
+x &lt;- samples$cell_label
+x[x == &quot;Activated B cells&quot; | x == &quot;B cells&quot; | x == &quot;Alveolar macrophages&quot; |
+  x == &quot;Monocytes&quot; | x == &quot;NK cells&quot; | x == &quot;T cells&quot; | 
+  x == &quot;Regulatory T cells&quot; | x == &quot;Dendritic cells&quot; |
+  x == &quot;Macrophages&quot;] &lt;- &quot;Immune cells&quot;
+x[x == &quot;Endothelial I (glomerular)&quot; |
+  x == &quot;Endothelial I cells&quot;] &lt;- &quot;Endothelial I cells&quot;
+x[x == &quot;Collisions&quot; | x == &quot;Enterocytes&quot; | x == &quot;Hepatocytes&quot; |
+  x == &quot;Sperm&quot; | x == &quot;Type II pneumocytes&quot; | x == &quot;Endothelial II cells&quot; |
+  x == &quot;Hematopoietic progenitors&quot; | x == &quot;Unknown&quot;] &lt;- &quot;Other or unknown&quot;
+x &lt;- factor(x,c(&quot;Collecting duct&quot;,&quot;DCT/CD&quot;,&quot;Distal convoluted tubule&quot;,
+                &quot;Loop of henle&quot;,&quot;Proximal tubule&quot;,&quot;Proximal tubule S3&quot;,
+                &quot;Podocytes&quot;,&quot;Endothelial I cells&quot;,&quot;Immune cells&quot;,
+                &quot;Other or unknown&quot;))
+samples &lt;- transform(samples,cell_label = x)
+topic_colors &lt;- c(&quot;orange&quot;,&quot;darkmagenta&quot;,&quot;magenta&quot;,&quot;gold&quot;,&quot;peru&quot;,
+                  &quot;red&quot;,&quot;lightgray&quot;,&quot;limegreen&quot;,&quot;dodgerblue&quot;,&quot;royalblue&quot;)
+p1 &lt;- structure_plot(fit,grouping = samples$cell_label,gap = 20,
+                     colors = topic_colors,verbose = FALSE)
+print(p1)</code></pre>
+<p><img src="figure/cusanovich2018_kidney_k10.Rmd/structure-plot-1-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>Cluster the cells using the topic proportions only.</p>
+<pre class="r"><code>pca &lt;- prcomp(fit$L)$x
+pc1 &lt;- pca[,1]
+pc2 &lt;- pca[,2]
+x &lt;- rep(&quot;other&quot;,nrow(pca))
+x[pc1 &lt; 0] &lt;- &quot;proximal tubule&quot;
+x[pc1 &gt; 0 &amp; pc2 &gt; 0.2] &lt;- &quot;endothelial I&quot;
+rows &lt;- which(x == &quot;other&quot;)
+fit2 &lt;- select_loadings(fit,loadings = rows)
+pca  &lt;- prcomp(fit2$L)$x
+y    &lt;- rep(&quot;DCT + CD&quot;,nrow(pca))
+pc1  &lt;- pca[,1]
+pc2  &lt;- pca[,2]
+y[pc1 &lt; 0 &amp; pc2 &gt; -0.15] &lt;- &quot;loop of henle&quot;
+y[pc1 &gt;= 0 &amp; pc2 &gt; -0.15] &lt;- &quot;podocytes + other&quot;
+x[rows] &lt;- y
+samples$cluster &lt;- factor(x,c(&quot;DCT + CD&quot;,&quot;loop of henle&quot;,&quot;proximal tubule&quot;,
+                              &quot;podocytes + other&quot;,&quot;endothelial I&quot;))</code></pre>
+<p>Plot using our clustering.</p>
+<pre class="r"><code>set.seed(1)
+p2 &lt;- structure_plot(fit,grouping = samples$cluster,gap = 20,
+                     colors = topic_colors,verbose = FALSE)
+print(p2)</code></pre>
+<p><img src="figure/cusanovich2018_kidney_k10.Rmd/structure-plot-2-1.png" width="960" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -667,28 +758,29 @@ Session information
 # [1] ggplot2_3.3.6      fastTopics_0.6-131 Matrix_1.2-18      workflowr_1.7.0   
 # 
 # loaded via a namespace (and not attached):
-#  [1] httr_1.4.2         tidyr_1.1.3        sass_0.4.0         viridisLite_0.3.0 
-#  [5] jsonlite_1.7.2     bslib_0.3.1        RcppParallel_5.1.5 assertthat_0.2.1  
-#  [9] getPass_0.2-2      mixsqp_0.3-46      progress_1.2.2     yaml_2.2.0        
-# [13] ggrepel_0.9.1      pillar_1.6.2       backports_1.1.5    lattice_0.20-38   
-# [17] quadprog_1.5-8     quantreg_5.54      glue_1.4.2         digest_0.6.23     
-# [21] promises_1.1.0     colorspace_1.4-1   cowplot_1.1.1      htmltools_0.5.2   
-# [25] httpuv_1.5.2       pkgconfig_2.0.3    invgamma_1.1       SparseM_1.78      
-# [29] purrr_0.3.4        scales_1.1.0       processx_3.5.2     whisker_0.4       
-# [33] later_1.0.0        Rtsne_0.15         MatrixModels_0.4-1 git2r_0.29.0      
-# [37] tibble_3.1.3       generics_0.0.2     ellipsis_0.3.2     withr_2.5.0       
-# [41] ashr_2.2-54        pbapply_1.5-1      lazyeval_0.2.2     magrittr_2.0.1    
-# [45] crayon_1.4.1       mcmc_0.9-6         evaluate_0.14      ps_1.6.0          
-# [49] fs_1.5.2           fansi_0.4.0        MASS_7.3-51.4      truncnorm_1.0-8   
-# [53] prettyunits_1.1.1  tools_3.6.2        data.table_1.12.8  hms_1.1.0         
-# [57] lifecycle_1.0.0    stringr_1.4.0      MCMCpack_1.4-5     plotly_4.9.2      
-# [61] munsell_0.5.0      irlba_2.3.3        callr_3.7.0        compiler_3.6.2    
-# [65] jquerylib_0.1.4    rlang_0.4.11       grid_3.6.2         rstudioapi_0.13   
-# [69] htmlwidgets_1.5.1  rmarkdown_2.11     gtable_0.3.0       DBI_1.1.0         
-# [73] R6_2.4.1           knitr_1.37         dplyr_1.0.7        uwot_0.1.10       
-# [77] fastmap_1.1.0      utf8_1.1.4         rprojroot_1.3-2    stringi_1.4.3     
-# [81] parallel_3.6.2     SQUAREM_2017.10-1  Rcpp_1.0.8         vctrs_0.3.8       
-# [85] tidyselect_1.1.1   xfun_0.29          coda_0.19-3</code></pre>
+#  [1] mcmc_0.9-6         fs_1.5.2           progress_1.2.2     httr_1.4.2        
+#  [5] rprojroot_1.3-2    tools_3.6.2        backports_1.1.5    bslib_0.3.1       
+#  [9] utf8_1.1.4         R6_2.4.1           irlba_2.3.3        uwot_0.1.10       
+# [13] DBI_1.1.0          lazyeval_0.2.2     colorspace_1.4-1   withr_2.5.0       
+# [17] tidyselect_1.1.1   prettyunits_1.1.1  processx_3.5.2     compiler_3.6.2    
+# [21] git2r_0.29.0       quantreg_5.54      SparseM_1.78       plotly_4.9.2      
+# [25] labeling_0.3       sass_0.4.0         scales_1.1.0       SQUAREM_2017.10-1 
+# [29] quadprog_1.5-8     callr_3.7.0        pbapply_1.5-1      mixsqp_0.3-46     
+# [33] systemfonts_1.0.2  stringr_1.4.0      digest_0.6.23      rmarkdown_2.11    
+# [37] MCMCpack_1.4-5     pkgconfig_2.0.3    htmltools_0.5.2    fastmap_1.1.0     
+# [41] invgamma_1.1       highr_0.8          htmlwidgets_1.5.1  rlang_0.4.11      
+# [45] rstudioapi_0.13    jquerylib_0.1.4    generics_0.0.2     farver_2.0.1      
+# [49] jsonlite_1.7.2     dplyr_1.0.7        magrittr_2.0.1     Rcpp_1.0.8        
+# [53] munsell_0.5.0      fansi_0.4.0        lifecycle_1.0.0    stringi_1.4.3     
+# [57] whisker_0.4        yaml_2.2.0         MASS_7.3-51.4      Rtsne_0.15        
+# [61] grid_3.6.2         parallel_3.6.2     promises_1.1.0     ggrepel_0.9.1     
+# [65] crayon_1.4.1       lattice_0.20-38    cowplot_1.1.1      hms_1.1.0         
+# [69] knitr_1.37         ps_1.6.0           pillar_1.6.2       glue_1.4.2        
+# [73] evaluate_0.14      getPass_0.2-2      data.table_1.12.8  RcppParallel_5.1.5
+# [77] vctrs_0.3.8        httpuv_1.5.2       MatrixModels_0.4-1 gtable_0.3.0      
+# [81] purrr_0.3.4        tidyr_1.1.3        assertthat_0.2.1   ashr_2.2-54       
+# [85] xfun_0.29          coda_0.19-3        later_1.0.0        ragg_0.3.1        
+# [89] viridisLite_0.3.0  truncnorm_1.0-8    tibble_3.1.3       ellipsis_0.3.2</code></pre>
 </div>
 
 
