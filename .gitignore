@@ -17,3 +17,4 @@ output/Buenrostro_2018/binarized/filtered_peaks/fit-Buenrostro2018-binarized-fil
 output/Buenrostro_2018/binarized/filtered_peaks/de-buenrostro2018-k=10-noshrink.RData
 output/Cusanovich_2018/fit-Cusanovich2018-scd-ex-k=13.rds
 output/Cusanovich_2018/tissues/fit-Cusanovich2018-Kidney-scd-ex-k=10.rds
+output/Cusanovich_2018/tissues/de-cusanovich2018-kidney-k=10-noshrink.RData
