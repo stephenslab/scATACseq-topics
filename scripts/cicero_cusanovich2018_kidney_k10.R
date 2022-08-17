@@ -22,3 +22,20 @@ counts <- dat
 rm(dat)
 class(counts) <- "data.frame"
 cds <- make_atac_cds(counts,binarize = TRUE)
+
+# Compute low-dimensional embedding using t-SNE, and add the t-SNE
+# co-ordinates to the CDS object.
+cds <- detectGenes(cds)
+cds <- reduceDimension(cds,max_components = 2,num_dim = 12,verbose = TRUE,
+                       reduction_method = "DDRTree",norm_method = "none")
+tsne_coords <- t(reducedDimA(cds))
+rownames(tsne_coords) <- rownames(pData(cds))
+cicero_cds <- make_cicero_cds(cds,reduced_coordinates = tsne_coords)
+
+stop()
+
+t0 <- proc.time()
+cons <- run_cicero(cicero_cds,sample_genome,sample_num = 2)
+t1 <- proc.time()
+timing <- t1 - t0
+cat(sprintf("Computation took %0.2f seconds.\n",timing["elapsed"]))
