@@ -20,5 +20,5 @@ dat$j  <- colnames(counts)[dat$j]
 names(dat) <- c("peak","cell","count")
 counts <- dat
 rm(dat)
-stop()
+class(counts) <- "data.frame"
 cds <- make_atac_cds(counts,binarize = TRUE)
