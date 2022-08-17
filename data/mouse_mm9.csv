@@ -1,3 +1,5 @@
+# mouse assembly mm9 chromosome lengths downloaded from 
+# https://www.ncbi.nlm.nih.gov/grc/mouse/data?asm=MGSCv37
 chr,length,genbank,refseq
 chr1,197195432,CM000994.1,NC_000067.5
 chr2,181748087,CM000995.1,NC_000068.6
