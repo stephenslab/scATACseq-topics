@@ -1,5 +1,9 @@
 # TO DO: Explain here what this script does, and how to use it.
-
+#
+# sinteractive -p mstephens --account=pi-mstephens -c 4 --mem=16G \
+#   --time=24:00:00
+# module load R/3.5.1
+#
 # Load a few packages.
 library(tools)
 library(Matrix)
@@ -27,7 +31,7 @@ cds <- make_atac_cds(counts,binarize = TRUE)
 # co-ordinates to the CDS object.
 cds <- detectGenes(cds)
 cds <- reduceDimension(cds,max_components = 2,num_dim = 12,verbose = TRUE,
-                       reduction_method = "DDRTree",norm_method = "none")
+                       reduction_method = "tSNE",norm_method = "none")
 tsne_coords <- t(reducedDimA(cds))
 rownames(tsne_coords) <- rownames(pData(cds))
 cicero_cds <- make_cicero_cds(cds,reduced_coordinates = tsne_coords)
