@@ -1,5 +1,15 @@
 # TO DO: Explain here what this script does, and how to use it.
 #
+# We then ran Cicero for open sites for each cluster separately to
+# identify co-accessible sites using the following parameters:
+# aggregation k = 30, window size = 500 kb, distance constraint = 250
+# kb. The aggregation value k is the number of cells that are aggregated
+# using k-nearest neighbors prior to calculating co-accessibility
+# scores, the window size parameter controls the size of each model
+# window in the genome, and the distance constraint parameter is the
+# distance at which the distance penalty is trained to regularize the
+# majority of connections.
+#
 # sinteractive -p mstephens --account=pi-mstephens -c 4 --mem=16G \
 #   --time=24:00:00
 # module load R/3.5.1
