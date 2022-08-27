@@ -1,8 +1,9 @@
-# Downloaded seq_gene.md.gz from
-# https://ftp.ncbi.nih.gov/genomes/MapView/Mus_musculus/sequence/BUILD.37.2/initial_release/
-# gunzip seq_gene.md.gz
-# remove "#" from first line
-# gzip seq_gene.md
+# In this script we generate the file mm9_seq_gene.RData.
+# Before running this script, first download seq_gene.md.gz from
+# https://ftp.ncbi.nih.gov/genomes/MapView/Mus_musculus/sequence/BUILD.37.2/initial_release
+# Then run: gunzip seq_gene.md.gz
+# Remove "#" from first line.
+# Finally, run: gzip seq_gene.md
 library(tools)
 library(data.table)
 seq_gene <- fread("seq_gene.md.gz",sep = "\t",quote = "",
