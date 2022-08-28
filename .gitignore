@@ -14,6 +14,7 @@ data/Cusanovich_2018/processed_data/activity_scores.quantitative.rds
 data/Cusanovich_2018/processed_data/master_cicero_conns.rds
 data/Buenrostro_2018/processed_data/Buenrostro_2018_binarized.RData
 data/Cusanovich_2018/processed_data/Cusanovich_2018_Kidney.RData
+scripts/seq_gene.md.gz
 output/Buenrostro_2018/binarized/filtered_peaks/fit-Buenrostro2018-binarized-filtered-scd-ex-k=8.rds
 output/Buenrostro_2018/binarized/filtered_peaks/fit-Buenrostro2018-binarized-filtered-scd-ex-k=10.rds
 output/Buenrostro_2018/binarized/filtered_peaks/de-buenrostro2018-k=10-noshrink.RData
