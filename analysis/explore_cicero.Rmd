@@ -47,6 +47,25 @@ cicero <- transform(cicero,
                     Peak2 = as.character(Peak2))
 ```
 
+Load the $K = 10$ topic model fit, and the results of the DE analysis
+using this topic model (without the adaptive shrinkage step).
+
+```{r load-topics}
+fit <- readRDS(file.path("output/Cusanovich_2018/tissues",
+                         "fit-Cusanovich2018-Kidney-scd-ex-k=10.rds"))$fit
+fit <- poisson2multinom(fit)
+load(file.path("output/Cusanovich_2018/tissues",
+	       "de-cusanovich2018-kidney-k=10-noshrink.RData"))
+```
+
+From the Structure plots [here](cusanovich2018_kidney_k10.html), topic
+8 appears to capture Loop of Henle (LoH) cells, so in the remainder 
+we focus on topic 8.
+
+```{r which-topic}
+k <- 8
+```
+
 [mouse-atlas]: https://atlas.gs.washington.edu/mouse-atac/
 [cusanovich-2018-cell]: https://doi.org/10.1016/j.cell.2018.06.052
 [park-2018-science]: https://doi.org/10.1126/science.aar2131
