@@ -7,11 +7,12 @@ output: workflowr::wflow_html
 The aim of this short analysis is to get a better understanding of the
 Cicero co-accessibility data, and how (and whether) these data can be
 used to connect chromatin accessibility peaks to genes in order to
-identify "driving genes" for topics. As an illustration, here I focus
-on the Cicero data for a single gene, *Slc12a1*, that was highlighted
-in the [Cusanovich et al (2018) *Cell* paper][cusanovich-2018-cell] in
-connection with the "loop of henle" cell type (see Fig. 5 of that
-paper).
+identify "driving genes" for topics estimated from single-cell
+ATAC-seq data. As an illustration, here we focus on the Cicero data
+for a single gene, *Slc12a1*, that was highlighted in
+[Cusanovich *et al*, 2018][cusanovich-2018-cell] in connection with
+the "loop of henle" cell type (see Fig. 5 of that paper, and see also
+[Park *et al*, 2018][park-2018-science]).
 
 ```{r knitr-opts, include=FALSE}
 knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
@@ -34,10 +35,10 @@ Assembly.
 load("data/mm9_seq_gene.RData")
 ```
 
-Load the cicero co-accessibility data for gene *Slc12a1.*
-
-TO DO: Explain where these data were downloaded from and how they were
-compiled.
+Load the Cicero co-accessibility data for gene *Slc12a1.* (These data
+were downloaded from the
+[Mouse sci-ATAC-seq Atlas website][mouse-atlas] then prepared using
+the `extract_slc12a1_data.R` script.)
 
 ```{r load-cicero}
 load("data/Cusanovich_2018/processed_data/slc12a1_data.RData")
@@ -46,4 +47,6 @@ cicero <- transform(cicero,
                     Peak2 = as.character(Peak2))
 ```
 
+[mouse-atlas]: https://atlas.gs.washington.edu/mouse-atac/
 [cusanovich-2018-cell]: https://doi.org/10.1016/j.cell.2018.06.052
+[park-2018-science]: https://doi.org/10.1126/science.aar2131
