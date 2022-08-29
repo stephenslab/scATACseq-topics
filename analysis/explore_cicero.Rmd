@@ -103,7 +103,7 @@ ggplot(pdat,aes(x = loading,y = score)) +
 for the peaks near gene Slc12a1; specifically, within 400 kb of the
 transcribed region of gene Slc12a1.
 
-```{r, fig.height=5, fig.width=5}
+```{r de-slc12a1, fig.height=5, fig.width=5}
 d <- 4e5
 seq_gene <- subset(seq_gene,feature_name == "Slc12a1")
 rows <- which(with(positions,chr == paste0("chr",seq_gene$chromosome) &
@@ -117,14 +117,14 @@ pdat <- data.frame(start      = positions[rows,"start"]/1e5,
                    cicero_hit = is.element(positions[rows,"name"],peaks))
 p1 <- ggplot(pdat,aes(x = start,y = lpval,color = cicero_hit)) +
   geom_point() +
-  scale_color_manual(values = c("darkblue","magenta")) +
+  scale_color_manual(values = c("royalblue","magenta")) +
   labs(x = "position on chromosome 2 (kb)",
        y = "-log10 p-value") +
   theme_cowplot()
 p2 <- ggplot(pdat,aes(x = start,y = postmean,color = cicero_hit)) +
   geom_point() +
   geom_hline(yintercept = 0,color = "black",linetype = "dashed") +
-  scale_color_manual(values = c("darkblue","magenta")) +
+  scale_color_manual(values = c("royalblue","magenta")) +
   labs(x = "position on chromosome 2 (kb)",
        y = "LFC estimate") +
   theme_cowplot()
