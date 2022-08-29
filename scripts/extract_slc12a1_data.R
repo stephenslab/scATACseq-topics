@@ -1,4 +1,11 @@
 # Extract some data for the "explore_cicero" analysis.
+#
+# The data files activity_scores.quantitative.rds and
+# master_cicero_conns.rds files were downloaded from the Mouse
+# sci-ATAC-seq Atlas website:
+#
+#   https://atlas.gs.washington.edu/mouse-atac/
+#
 library(Matrix)
 library(tools)
 
