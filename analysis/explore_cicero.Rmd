@@ -35,8 +35,8 @@ Assembly.
 load("data/mm9_seq_gene.RData")
 ```
 
-Load the Cicero co-accessibility data for gene *Slc12a1.* (These data
-were downloaded from the
+Load the Cicero co-accessibility data, including the "gene activity
+scores", for gene *Slc12a1.* (These data were downloaded from the
 [Mouse sci-ATAC-seq Atlas website][mouse-atlas] then prepared using
 the `extract_slc12a1_data.R` script.)
 
@@ -64,6 +64,38 @@ we focus on topic 8.
 
 ```{r which-topic}
 k <- 8
+```
+
+Get the base-pair positions of the peaks.
+
+```{r get-positions}
+feature_names <- rownames(de$postmean)
+out           <- strsplit(feature_names,"_")
+positions     <- data.frame(chr   = sapply(out,"[[",1),
+                            start = sapply(out,"[[",2),
+                            end   = sapply(out,"[[",3),
+                            name  = feature_names,
+                            stringsAsFactors = FALSE)
+positions <- transform(positions,
+                       start = as.numeric(start),
+                       end   = as.numeric(end))
+```
+
+Before examining the co-accessibility data in detail, this first plot
+confirms that *Slc12a1* is highly relevant to topic 8, the LoH topic.
+It is a simple scatterplot showing the *Slc12a1* gene activity score
+and topic proportion for each cell. (Note that the gene activity
+scores are shown on the log-scale.)
+
+```{r scores-vs-loadings-scatterplot, fig.height=3, fig.width=3}
+pdat <- data.frame(loading = fit$L[,k],score = log10(1 + scores))
+b <- coef(lm(score ~ loading,data = pdat))
+ggplot(pdat,aes(x = loading,y = score)) +
+  geom_point() +
+  geom_abline(intercept = b["(Intercept)"],slope = b["loading"],
+              color = "dodgerblue",size = 1,linetype = "dashed") +
+  labs(x = "topic proportion",y = "gene activity score") +
+  theme_cowplot()
 ```
 
 [mouse-atlas]: https://atlas.gs.washington.edu/mouse-atac/
