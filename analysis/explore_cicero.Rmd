@@ -1,8 +1,17 @@
 ---
-title: "Exploring cicero co-assessibility data in kidney cells"
+title: "Exploring Cicero co-assessibility data in kidney data"
 author: Peter Carbonetto
 output: workflowr::wflow_html
 ---
+
+The aim of this short analysis is to get a better understanding of the
+Cicero co-accessibility data, and how (and whether) these data can be
+used to connect chromatin accessibility peaks to genes in order to
+identify "driving genes" for topics. As an illustration, here I focus
+on the Cicero data for a single gene, *Slc12a1*, that was highlighted
+in the [Cusanovich et al (2018) *Cell* paper][cusanovich-2018-cell] in
+connection with the "loop of henle" cell type (see Fig. 5 of that
+paper).
 
 ```{r knitr-opts, include=FALSE}
 knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
@@ -10,3 +19,31 @@ knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
 ```
 
 Load the packages used in the analysis below.
+
+```{r load-pkgs, message=FALSE}
+library(fastTopics)
+library(ggplot2)
+library(cowplot)
+library(ashr)
+```
+
+Load the base-pair positions of the genes for the mm9 Mouse Genome
+Assembly.
+
+```{r load-genes}
+load("data/mm9_seq_gene.RData")
+```
+
+Load the cicero co-accessibility data for gene *Slc12a1.*
+
+TO DO: Explain where these data were downloaded from and how they were
+compiled.
+
+```{r load-cicero}
+load("data/Cusanovich_2018/processed_data/slc12a1_data.RData")
+cicero <- transform(cicero,
+                    Peak1 = as.character(Peak1),
+                    Peak2 = as.character(Peak2))
+```
+
+[cusanovich-2018-cell]: https://doi.org/10.1016/j.cell.2018.06.052
