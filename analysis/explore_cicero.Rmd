@@ -55,7 +55,7 @@ fit <- readRDS(file.path("output/Cusanovich_2018/tissues",
                          "fit-Cusanovich2018-Kidney-scd-ex-k=10.rds"))$fit
 fit <- poisson2multinom(fit)
 load(file.path("output/Cusanovich_2018/tissues",
-	       "de-cusanovich2018-kidney-k=10-noshrink.RData"))
+               "de-cusanovich2018-kidney-k=10-noshrink.RData"))
 ```
 
 From the Structure plots [here](cusanovich2018_kidney_k10.html), topic
