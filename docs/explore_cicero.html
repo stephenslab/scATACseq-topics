@@ -376,7 +376,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-08-29
+<strong>Last updated:</strong> 2022-08-30
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -507,15 +507,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreed1f84859628d333e11668ed3860f1616dec81286targetblankd1f8485a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree22bb834dcf0fa2833f161ab60d19703a57a66ad7targetblank22bb834a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/stephenslab/scATACseq-topics/tree/d1f84859628d333e11668ed3860f1616dec81286" target="_blank">d1f8485</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/tree/22bb834dcf0fa2833f161ab60d19703a57a66ad7" target="_blank">22bb834</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreed1f84859628d333e11668ed3860f1616dec81286targetblankd1f8485a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree22bb834dcf0fa2833f161ab60d19703a57a66ad7targetblank22bb834a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -525,7 +525,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/stephenslab/scATACseq-topics/tree/d1f84859628d333e11668ed3860f1616dec81286" target="_blank">d1f8485</a>.
+<a href="https://github.com/stephenslab/scATACseq-topics/tree/22bb834dcf0fa2833f161ab60d19703a57a66ad7" target="_blank">22bb834</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -556,9 +556,6 @@ Untracked files:
     Untracked:  output/Buenrostro_2018/binarized/filtered_peaks/Buenrostro_2018_binarized_filtered.RData
     Untracked:  plots/
     Untracked:  scripts/fit-buenrostro-2018-k=8.rds
-
-Unstaged changes:
-    Modified:   analysis/explore_cicero.R
 
 </code></pre>
 <p>
@@ -604,6 +601,74 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/22bb834dcf0fa2833f161ab60d19703a57a66ad7/analysis/explore_cicero.Rmd" target="_blank">22bb834</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-08-30
+</td>
+<td>
+workflowr::wflow_publish("analysis/explore_cicero.Rmd", verbose = TRUE)
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/84c54c8ffffd37758cb89d4e88633c2f2f4f1999/analysis/explore_cicero.Rmd" target="_blank">84c54c8</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-08-29
+</td>
+<td>
+A couple small improvements to the explore_cicero analysis.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/89de0240f93205b039e398a1ca9fd3aa4c990747/analysis/explore_cicero.Rmd" target="_blank">89de024</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-08-29
+</td>
+<td>
+Adding another plot to the explore_cicero analysis.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/ff33f2d0167e129a300a6b13d521ba680575b36f/docs/explore_cicero.html" target="_blank">ff33f2d</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-08-29
+</td>
+<td>
+Added scatterplot to explore_cicero analysis.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -769,8 +834,9 @@ positions &lt;- transform(positions,
 <p>Before examining the co-accessibility data in detail, this first plot
 confirms that <em>Slc12a1</em> is highly relevant to topic 8, the LoH
 topic. It is a simple scatterplot showing the <em>Slc12a1</em> gene
-activity score and topic proportion for each cell. (Note that the gene
-activity scores are shown on the log-scale.)</p>
+activity score and topic proportion for each cell. The dashed blue line
+shows the “best fit” line between the two quantities. (Note that the
+gene activity scores are shown on the log-scale.)</p>
 <pre class="r"><code>pdat &lt;- data.frame(loading = fit$L[,k],score = log10(1 + scores))
 b &lt;- coef(lm(score ~ loading,data = pdat))
 ggplot(pdat,aes(x = loading,y = score)) +
@@ -780,6 +846,82 @@ ggplot(pdat,aes(x = loading,y = score)) +
   labs(x = &quot;topic proportion&quot;,y = &quot;gene activity score&quot;) +
   theme_cowplot()</code></pre>
 <p><img src="figure/explore_cicero.Rmd/scores-vs-loadings-scatterplot-1.png" width="360" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-scores-vs-loadings-scatterplot-1">
+Past versions of scores-vs-loadings-scatterplot-1.png
+</button>
+</p>
+<div id="fig-scores-vs-loadings-scatterplot-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/ff33f2d0167e129a300a6b13d521ba680575b36f/docs/figure/explore_cicero.Rmd/scores-vs-loadings-scatterplot-1.png" target="_blank">ff33f2d</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-08-29
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Having confirmed the strong relationship between <em>Slc12a1</em> and
+topic 8, let’s examine more closely the <code>de_analysis</code> results
+for the peaks near <em>Slc12a1</em>. Let’s use a window of 400 kb near
+the transcribed region of <em>Slc12a1</em> (124.97–125.06 Mb on
+chromosome 2).</p>
+<pre class="r"><code>d &lt;- 4e5
+seq_gene &lt;- subset(seq_gene,feature_name == &quot;Slc12a1&quot;)
+rows &lt;- which(with(positions,chr == paste0(&quot;chr&quot;,seq_gene$chromosome) &amp;
+                   start &gt; seq_gene$chr_start - d &amp;
+                   end &lt; seq_gene$chr_stop + d))
+peaks &lt;- c(cicero$Peak1,cicero$Peak2)</code></pre>
+<p>These next two plots show the <em>p</em>-values (top) and the LFC
+estimates for topic 8 and for the 111 peaks near <em>Slc12a1</em>. The
+genes that are identified by Cicero as being relevant to
+<em>Slc12a1</em> are highlighted in magenta.</p>
+<pre class="r"><code>pdat &lt;- data.frame(start      = positions[rows,&quot;start&quot;]/1e5,
+                   postmean   = de$postmean[rows,k],
+                   z          = de$z[rows,k],
+                   lpval      = de$lpval[rows,k],
+                   cicero_hit = is.element(positions[rows,&quot;name&quot;],peaks))
+p1 &lt;- ggplot(pdat,aes(x = start,y = lpval,color = cicero_hit)) +
+  geom_point() +
+  scale_color_manual(values = c(&quot;royalblue&quot;,&quot;magenta&quot;)) +
+  labs(x = &quot;position on chromosome 2 (kb)&quot;,
+       y = &quot;-log10 p-value&quot;) +
+  theme_cowplot()
+p2 &lt;- ggplot(pdat,aes(x = start,y = postmean,color = cicero_hit)) +
+  geom_point() +
+  geom_hline(yintercept = 0,color = &quot;black&quot;,linetype = &quot;dashed&quot;) +
+  scale_color_manual(values = c(&quot;royalblue&quot;,&quot;magenta&quot;)) +
+  labs(x = &quot;position on chromosome 2 (kb)&quot;,
+       y = &quot;LFC estimate&quot;) +
+  theme_cowplot()
+plot_grid(p1,p2,nrow = 2,ncol = 1)</code></pre>
+<p><img src="figure/explore_cicero.Rmd/de-slc12a1-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p>It is interesting that most of the Cicero-identified peaks show good
+evidence for being more accessible in topic 8. But it is also
+interesting that many other peaks near the gene also show good evidence
+for being more accessible in topic 8.</p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
