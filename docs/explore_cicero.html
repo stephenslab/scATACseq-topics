@@ -507,15 +507,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree22bb834dcf0fa2833f161ab60d19703a57a66ad7targetblank22bb834a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreee931791774f0d4e54b1573aff9946ebdda11ffeetargetblanke931791a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/stephenslab/scATACseq-topics/tree/22bb834dcf0fa2833f161ab60d19703a57a66ad7" target="_blank">22bb834</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/tree/e931791774f0d4e54b1573aff9946ebdda11ffee" target="_blank">e931791</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree22bb834dcf0fa2833f161ab60d19703a57a66ad7targetblank22bb834a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreee931791774f0d4e54b1573aff9946ebdda11ffeetargetblanke931791a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -525,7 +525,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/stephenslab/scATACseq-topics/tree/22bb834dcf0fa2833f161ab60d19703a57a66ad7" target="_blank">22bb834</a>.
+<a href="https://github.com/stephenslab/scATACseq-topics/tree/e931791774f0d4e54b1573aff9946ebdda11ffee" target="_blank">e931791</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -541,6 +541,7 @@ were generated:
 <pre><code>
 Ignored files:
     Ignored:    .DS_Store
+    Ignored:    analysis/figure/
     Ignored:    data/.DS_Store
     Ignored:    data/Buenrostro_2018/
     Ignored:    data/Cusanovich_2018/processed_data/Cusanovich_2018_Kidney.RData
@@ -556,6 +557,9 @@ Untracked files:
     Untracked:  output/Buenrostro_2018/binarized/filtered_peaks/Buenrostro_2018_binarized_filtered.RData
     Untracked:  plots/
     Untracked:  scripts/fit-buenrostro-2018-k=8.rds
+
+Unstaged changes:
+    Deleted:    analysis/explore_cicero.R
 
 </code></pre>
 <p>
@@ -601,6 +605,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/e931791774f0d4e54b1573aff9946ebdda11ffee/analysis/explore_cicero.Rmd" target="_blank">e931791</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-08-30
+</td>
+<td>
+workflowr::wflow_publish("analysis/explore_cicero.Rmd", verbose = TRUE)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/69df48dfa456dcf9c7832d0e4011fedc8ccf64de/docs/explore_cicero.html" target="_blank">69df48d</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-08-30
+</td>
+<td>
+Added more text to explore_cicero analysis.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -918,10 +956,66 @@ p2 &lt;- ggplot(pdat,aes(x = start,y = postmean,color = cicero_hit)) +
   theme_cowplot()
 plot_grid(p1,p2,nrow = 2,ncol = 1)</code></pre>
 <p><img src="figure/explore_cicero.Rmd/de-slc12a1-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-de-slc12a1-1">
+Past versions of de-slc12a1-1.png
+</button>
+</p>
+<div id="fig-de-slc12a1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/69df48dfa456dcf9c7832d0e4011fedc8ccf64de/docs/figure/explore_cicero.Rmd/de-slc12a1-1.png" target="_blank">69df48d</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-08-30
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>It is interesting that most of the Cicero-identified peaks show good
 evidence for being more accessible in topic 8. But it is also
 interesting that many other peaks near the gene also show good evidence
 for being more accessible in topic 8.</p>
+<p>To improve the LFC estimates, a simple thing we can do is run ash
+separately on the subset of peaks that are near <em>Slc12a1</em>. By
+focussing on this small subset of peaks, ash should recognize that there
+is a strong signal near the gene, and not shrink the estimates too
+strongly.</p>
+<pre class="r"><code>pdat &lt;- transform(pdat,se = postmean/z)
+fit &lt;- ash(pdat$postmean,pdat$se,mixcompdist = &quot;normal&quot;,method = &quot;shrink&quot;)</code></pre>
+<p>Indeed, ash preserves the strongest signals, and shrinks the others
+to zero, or close to zero. It is also interesting that the effects of
+all the Cicero-identified peaks remain after the adaptive shrinkage
+step:</p>
+<pre class="r"><code>pdat$ashmean &lt;- fit$result$PosteriorMean
+ggplot(pdat,aes(x = postmean,y = ashmean,color = cicero_hit)) +
+  geom_point() +
+  geom_abline(intercept = 0,slope = 1,color = &quot;black&quot;,linetype = &quot;dashed&quot;) +
+  scale_color_manual(values = c(&quot;royalblue&quot;,&quot;magenta&quot;)) +
+  labs(x = &quot;original LFC estimate&quot;,y = &quot;ash LFC estimate&quot;) +
+  theme_cowplot()</code></pre>
+<p><img src="figure/explore_cicero.Rmd/shrinkage-scatterplot-1.png" width="480" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
