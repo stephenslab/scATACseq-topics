@@ -145,6 +145,32 @@ evidence for being more accessible in topic 8. But it is also
 interesting that many other peaks near the gene also show good
 evidence for being more accessible in topic 8.
 
+To improve the LFC estimates, a simple thing we can do is run ash
+separately on the subset of peaks that are near *Slc12a1*. By
+focussing on this small subset of peaks, ash should recognize that
+there is a strong signal near the gene, and not shrink the estimates
+too strongly.
+
+```{r run-ashr}
+pdat <- transform(pdat,se = postmean/z)
+fit <- ash(pdat$postmean,pdat$se,mixcompdist = "normal",method = "shrink")
+```
+
+Indeed, ash preserves the strongest signals, and shrinks the others to
+zero, or close to zero.  It is also interesting that the effects of
+all the Cicero-identified peaks remain after the adaptive shrinkage
+step:
+
+```{r shrinkage-scatterplot, fig.height=3, fig.width=4}
+pdat$ashmean <- fit$result$PosteriorMean
+ggplot(pdat,aes(x = postmean,y = ashmean,color = cicero_hit)) +
+  geom_point() +
+  geom_abline(intercept = 0,slope = 1,color = "black",linetype = "dashed") +
+  scale_color_manual(values = c("royalblue","magenta")) +
+  labs(x = "original LFC estimate",y = "ash LFC estimate") +
+  theme_cowplot()
+```
+
 [mouse-atlas]: https://atlas.gs.washington.edu/mouse-atac/
 [cusanovich-2018-cell]: https://doi.org/10.1016/j.cell.2018.06.052
 [park-2018-science]: https://doi.org/10.1126/science.aar2131
