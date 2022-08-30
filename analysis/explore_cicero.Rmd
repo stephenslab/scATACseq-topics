@@ -99,17 +99,26 @@ ggplot(pdat,aes(x = loading,y = score)) +
   theme_cowplot()
 ```
 
-*TO DO: Revise this text.* Here let's examine the de_analysis results
-for the peaks near gene Slc12a1; specifically, within 400 kb of the
-transcribed region of gene Slc12a1.
+Having confirmed the strong relationship between *Slc12a1* and topic
+8, let's examine more closely the `de_analysis` results for the peaks
+near *Slc12a1*. Let's use a window of 400 kb near the transcribed
+region of *Slc12a1* (124.97--125.06 Mb on chromosome 2).
 
-```{r de-slc12a1, fig.height=5, fig.width=5}
+```{r get-peaks-near-slc12a1}
 d <- 4e5
 seq_gene <- subset(seq_gene,feature_name == "Slc12a1")
 rows <- which(with(positions,chr == paste0("chr",seq_gene$chromosome) &
                    start > seq_gene$chr_start - d &
                    end < seq_gene$chr_stop + d))
 peaks <- c(cicero$Peak1,cicero$Peak2)
+```
+
+These next two plots show the *p*-values (top) and the LFC estimates
+for topic 8 and for the `r length(rows)` peaks near *Slc12a1*. The
+genes that are identified by Cicero as being relevant to *Slc12a1* are
+highlighted in magenta.
+
+```{r de-slc12a1, fig.height=5, fig.width=5}
 pdat <- data.frame(start      = positions[rows,"start"]/1e5,
                    postmean   = de$postmean[rows,k],
                    z          = de$z[rows,k],
@@ -130,6 +139,11 @@ p2 <- ggplot(pdat,aes(x = start,y = postmean,color = cicero_hit)) +
   theme_cowplot()
 plot_grid(p1,p2,nrow = 2,ncol = 1)
 ```
+
+It is interesting that most of the Cicero-identified peaks show good
+evidence for being more accessible in topic 8. But it is also
+interesting that many other peaks near the gene also show good
+evidence for being more accessible in topic 8.
 
 [mouse-atlas]: https://atlas.gs.washington.edu/mouse-atac/
 [cusanovich-2018-cell]: https://doi.org/10.1016/j.cell.2018.06.052
