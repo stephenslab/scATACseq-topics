@@ -99,7 +99,7 @@ ggplot(pdat,aes(x = loading,y = score)) +
   theme_cowplot()
 ```
 
-Having confirmed the strong relationship between *Slc12a1* and topic
+THaving confirmed the strong relationship between *Slc12a1* and topic
 8, let's examine more closely the `de_analysis` results for the peaks
 near *Slc12a1*. Let's use a window of 400 kb near the transcribed
 region of *Slc12a1* (124.97--125.06 Mb on chromosome 2).
@@ -115,7 +115,7 @@ peaks <- c(cicero$Peak1,cicero$Peak2)
 
 These next two plots show the *p*-values (top) and the LFC estimates
 for topic 8 and for the `r length(rows)` peaks near *Slc12a1*. The
-genes that are identified by Cicero as being relevant to *Slc12a1* are
+peaks that are identified by Cicero as being relevant to *Slc12a1* are
 highlighted in magenta.
 
 ```{r de-slc12a1, fig.height=5, fig.width=5}
