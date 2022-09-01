@@ -33,7 +33,8 @@ positions <- transform(positions,
                        end   = as.numeric(end))
 
 # Run ash once on all peaks for a selected topic to obtain a
-# reasonable setting for "mixsd".
+# reasonable setting for "mixsd". Here we use topic k = 8 because it
+# seems to correspond well to the Loop of Henle (LoH) cell type.
 j <- "k8"
 b <- de$postmean[,j]
 z <- de$z[,j]
@@ -57,12 +58,7 @@ for (i in 1:n) {
                      chr   == gene_dat$chromosome &
                      start >= gene_dat$chr_start - d &
                      end   <= gene_dat$chr_stop + d))
-  m <- length(rows)
-  if (m > 1) {
-
-    # If there are fewer than 20 peaks near the gene, do not estimate
-    # the ash prior.
-    fixg <- (m >= 20)
+  if (length(rows) > 1) {
 
     # Set up the ash inputs.
     b  <- de$postmean[rows,]
@@ -71,8 +67,6 @@ for (i in 1:n) {
     se[z == 0] <- as.numeric(NA)
     se[b == 0] <- 0
 
-    stop()
-    
     # Perform adaptive shrinkage separately for each topic.
     res <- shrink_estimates(b,se,mixsd)
 
@@ -83,7 +77,7 @@ for (i in 1:n) {
     colnames(res$b)    <- paste0("k",1:k)
     colnames(res$se)   <- paste0("k",1:k)
     colnames(res$lfsr) <- paste0("k",1:k)
-    gene_scores[[i]] <- out[c("b","se","lfsr")]
+    gene_scores[[i]]   <- res[c("b","se","z","lfsr")]
   }
 }
 cat("\n")

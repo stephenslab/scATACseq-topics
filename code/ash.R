@@ -3,6 +3,10 @@
 # standard errors (se), z-scores (z) and local false sign rates
 # (lfsr). All effects i in which either b[i] or se[i] is missing (NA)
 # are not revised.
+#
+# The specific ash options used here are intended to work well for the
+# shrinkage of the de_analysis results for peaks nearby a gene.
+#
 shrink_estimates <- function (b, se, mixsd, prior = rep(4,length(mixsd))) {
   
   # Set up the z-scores output.
@@ -11,8 +15,8 @@ shrink_estimates <- function (b, se, mixsd, prior = rep(4,length(mixsd))) {
   
   # Run adaptive shrinkage.
   i   <- which(!(is.na(b) | is.na(se)))
-  out <- ash(b[i],se[i],mixcompdist = "normal",mixsd = mixsd,
-             prior = prior,...)
+  out <- ash(b[i],se[i],mixcompdist = "normal",pointmass = FALSE,
+             mixsd = mixsd,prior = prior)
   b1  <- out$result$PosteriorMean
   se1 <- out$result$PosteriorSD
   
@@ -30,6 +34,7 @@ shrink_estimates <- function (b, se, mixsd, prior = rep(4,length(mixsd))) {
   lfsr[i] <- out$result$lfsr
 
   # Output the revised estimates (b), the standard errors (se), the
-  # z-scores (z), and the local false sign rates (lfsr).
-  return(list(b = b,se = se,z = z,lfsr = lfsr))
+  # z-scores (z), the local false sign rates (lfsr) and the raw ash
+  # output (ash).
+  return(list(b = b,se = se,z = z,lfsr = lfsr,ash = out))
 }
