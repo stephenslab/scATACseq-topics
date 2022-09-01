@@ -1,6 +1,7 @@
 # TO DO: Explain here what this script does, and how to use it.
 library(fastTopics)
 library(ashr)
+library(tools)
 source("../code/ash.R")
 
 # Initialize the sequence of pseudorandom numbers.
@@ -81,3 +82,8 @@ for (i in 1:n) {
   }
 }
 cat("\n")
+
+# Save the results to an .RData file.
+save(list = "gene_scores",
+     file = "gene-scores-cusanovich2018-kidney-k=10.RData")
+resaveRdaFiles("gene-scores-cusanovich2018-kidney-k=10.RData")
