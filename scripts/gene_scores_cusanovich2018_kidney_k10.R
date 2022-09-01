@@ -28,13 +28,38 @@ positions <- transform(positions,
                        start = as.numeric(start),
                        end   = as.numeric(end))
 
-# For each gene, perform adaptive shrinkage (ash) on the de_analysis
-# results for all peaks near the gene.
+# For each gene, and for each topic, perform adaptive shrinkage (ash)
+# on the de_analysis results for all peaks near the gene.
 d <- 2e5
 n <- nrow(seq_gene)
+k <- ncol(de$postmean)
 gene_scores <- vector("list",n)
+numpeaks <- rep(0,n)
 names(gene_scores) <- seq_gene$feature_name
+names(numpeaks) <- seq_gene$feature_name
 for (i in 1:n) {
-  cat(sprintf("%d (%s) ",i,seq_gene[i,"feature_name"]))
+  gene_dat <- seq_gene[i,]
+  cat(sprintf("%d (%s) ",i,gene_dat$feature_name))
+  rows <- which(with(positions,
+                     chr   == gene_dat$chromosome &
+                     start >= gene_dat$chr_start - d &
+                     end   <= gene_dat$chr_stop + d))
+  m    <- length(rows)
+  numpeaks[i] <- m
+  if (m > 1) {
+    res <- list(b      = matrix(0,m,k),
+                se     = matrix(0,m,k),
+                lfsr   = matrix(0,m,k),
+                svalue = matrix(0,m,k))
+    ash_dat <- data.frame(b =  de$postmean
+  # for (j in 1:k) {
+  se <- with(out,postmean/z)
+    se[out$z == 0] <- as.numeric(NA)
+    se[out$postmean == 0] <- 0
+    res          <- shrink_estimates(out$postmean,se,...)
+  #   dat <- data.frame(b = de$postmean[rows,k])
+  #   dat <- transform(dat,se = postmean/z)
+  #   fit <- ash(dat$b,pdat$se,mixcompdist = "normal",method = "shrink")
 }
 cat("\n")
+
