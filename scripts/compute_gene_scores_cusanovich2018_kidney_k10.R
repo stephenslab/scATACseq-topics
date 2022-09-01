@@ -1,4 +1,8 @@
-# TO DO: Explain here what this script does, and how to use it.
+# Here we perform adaptive shrinkage separately for the peaks near
+# each gene in order to produce gene-wise statistics from the results
+# at the level of chromatin accessibility peaks. For this analysis we
+# use the de_analysis results generated from the
+# de_analysis_cusanovich2018_kidney_k10.R script.
 library(fastTopics)
 library(ashr)
 library(tools)
