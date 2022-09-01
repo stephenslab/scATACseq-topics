@@ -32,8 +32,14 @@ positions <- transform(positions,
                        start = as.numeric(start),
                        end   = as.numeric(end))
 
-# TO DO: Run ash once on all peaks for a selected topic to obtain a
-# reasonable setting for mixsd.
+# Run ash once on all peaks for a selected topic to obtain a
+# reasonable setting for "mixsd".
+j <- "k8"
+b <- de$postmean[,j]
+z <- de$z[,j]
+se <- b/z
+res <- ash(b,se,mixcompdist = "normal",method = "shrink")
+mixsd <- res$fitted_g$sd
 
 # For each gene, and for each topic, perform adaptive shrinkage (ash)
 # on the de_analysis results for all peaks near the gene.
@@ -65,11 +71,10 @@ for (i in 1:n) {
     se[z == 0] <- as.numeric(NA)
     se[b == 0] <- 0
 
+    stop()
+    
     # Perform adaptive shrinkage separately for each topic.
-    #
-    # TO DO: Add a prior to encourage non-sparse weights.
-    #
-    res <- fastTopics:::shrink_estimates(b,se,prior = rep(1,16))
+    res <- shrink_estimates(b,se,mixsd)
 
     # Store the ash results.
     rownames(res$b)    <- positions[rows,"name"]
