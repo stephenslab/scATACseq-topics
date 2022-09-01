@@ -7,7 +7,7 @@
 # The specific ash options used here are intended to work well for the
 # shrinkage of the de_analysis results for peaks nearby a gene.
 #
-shrink_estimates <- function (b, se, mixsd, prior = rep(4,length(mixsd))) {
+shrink_estimates <- function (b, se, mixsd, prior = rep(2,length(mixsd))) {
   
   # Set up the z-scores output.
   z <- b
