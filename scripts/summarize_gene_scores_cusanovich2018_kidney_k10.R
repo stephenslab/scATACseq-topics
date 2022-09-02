@@ -1,4 +1,6 @@
-# TO DO: Explain here what this script is for, and how to use it.
+# In this short script we use the results of the gene-by-gene adaptive
+# shrinkage in compute_gene_scores_cusanovich2018_kidney_k10.R to
+# generate a de_analysis data structure for genes instead of peaks.
 library(fastTopics)
 library(tools)
 load(file.path("../output/Cusanovich_2018/tissues",
