@@ -6,7 +6,24 @@ load(file.path("../output/Cusanovich_2018/tissues",
 k <- 10
 n <- length(gene_scores)
 A <- matrix(as.numeric(NA),n,k)
-rownames(A) <- names(gene_scores)
+genes       <- names(gene_scores)
+rownames(A) <- genes
 colnames(A) <- paste0("k",1:k)
 de_gene <- list(postmean = A,se = A,z = A,lfsr = A)
-class(de) <- c("topic_model_de_analysis","list")
+class(de_gene) <- c("topic_model_de_analysis","list")
+for (i in 1:n) {
+  cat(sprintf("%d (%s) ",i,genes[i]))
+  res <- gene_scores[[i]]
+  if (is.list(res)) {
+    for (j in 1:k) {
+      row <- which.min(res$lfsr[,j])
+      de_gene$postmean[i,j] <- res$b[row,j]
+      de_gene$se[i,j]       <- res$se[row,j]
+      de_gene$z[i,j]        <- res$z[row,j]
+      de_gene$lfsr[i,j]     <- res$lfsr[row,j]
+    }
+  }
+}
+cat("\n")
+save(list = "de_gene",file = "de-gene-cusanovich2018-kidney-k=10.RData")
+resaveRdaFiles("de-gene-cusanovich2018-kidney-k=10.RData")
