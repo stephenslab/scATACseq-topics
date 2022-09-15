@@ -45,21 +45,25 @@ for (gene in genes) {
   
   # Get the peaks near the gene.
   rows <- which(is.element(peaks,cicero_gene[[gene]]))
-  
-  # Set up the ash inputs.
-  b  <- de$postmean[rows,,drop = FALSE]
-  z  <- de$z[rows,,drop = FALSE]
-  se <- b/z
-  se[z == 0] <- as.numeric(NA)
-  se[b == 0] <- 0
+  if (length(rows) > 0) {
+      
+    # Set up the ash inputs.
+    b  <- de$postmean[rows,,drop = FALSE]
+    z  <- de$z[rows,,drop = FALSE]
+    se <- b/z
+    se[z == 0] <- as.numeric(NA)
+    se[b == 0] <- 0
 
-  # Perform adaptive shrinkage.
-  res <- shrink_estimates(b,se,g = res0$fitted_g,fixg = length(rows) < 5)
+    # Perform adaptive shrinkage.
+    res <- shrink_estimates(b,se,g = res0$fitted_g,fixg = length(rows) < 5)
 
-  # Store the ash results.
-  gene_scores[[gene]] <- res[c("b","se","z","lfsr")]
+    # Store the ash results.
+    gene_scores[[gene]] <- res[c("b","se","z","lfsr")]
+  }
 }
 cat("\n")
+
+stop()
 
 # Save the results to an .RData file.
 save(list = "gene_scores",
