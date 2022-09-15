@@ -16,9 +16,9 @@ class(de_gene) <- c("topic_model_de_analysis","list")
 for (i in 1:n) {
   cat(sprintf("%d (%s) ",i,genes[i]))
   res <- gene_scores[[i]]
-  if (is.list(res)) {
-    for (j in 1:k) {
-      row <- which.min(res$lfsr[,j])
+  for (j in 1:k) {
+    row <- which.min(res$lfsr[,j])
+    if (length(row) > 0) {
       de_gene$postmean[i,j] <- res$b[row,j]
       de_gene$se[i,j]       <- res$se[row,j]
       de_gene$z[i,j]        <- res$z[row,j]
