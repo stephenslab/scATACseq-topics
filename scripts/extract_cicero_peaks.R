@@ -11,3 +11,16 @@ class(cicero) <- "data.frame"
 cicero <- cicero[c("Peak1","Peak2","peak1.tss.gene_id",
                    "peak2.tss.gene_id","cluster")]
 cicero <- subset(cicero,is.element(cluster,c(11,18,25,30)))
+cicero  <- transform(cicero,
+                     Peak1             = as.character(Peak1),
+                     Peak2             = as.character(Peak2),
+                     peak1.tss.gene_id = factor(peak1.tss.gene_id),
+                     peak2.tss.gene_id = factor(peak2.tss.gene_id))
+cicero_gene <- tapply(cicero$Peak1,cicero$peak1.tss.gene_id,unique,
+                      simplify = FALSE)
+
+# Save these data to an .RData file.
+save(list = "cicero_gene",file = "cicero_gene.RData")
+resaveRdaFiles("cicero_gene.RData")
+
+
