@@ -1,4 +1,5 @@
-# TO DO: Explain here what this script is for, and how to use it.
+# Using the Cicero co-accessibility data, generate a data structure
+# containing a list of peaks for each gene.
 #
 #   sinteractive -p broadwl -c 8 --mem=16G --time=24:00:00
 #
@@ -22,5 +23,3 @@ cicero_gene <- tapply(cicero$Peak1,cicero$peak1.tss.gene_id,unique,
 # Save these data to an .RData file.
 save(list = "cicero_gene",file = "cicero_gene.RData")
 resaveRdaFiles("cicero_gene.RData")
-
-
