@@ -1,0 +1,13 @@
+# TO DO: Explain here what this script is for, and how to use it.
+#
+#   sinteractive -p broadwl -c 8 --mem=16G --time=24:00:00
+#
+library(tools)
+
+# Get the peaks linked to each gene.
+cicero <- readRDS(file.path("../data/Cusanovich_2018/processed_data",
+                            "master_cicero_conns.rds"))
+class(cicero) <- "data.frame"
+cicero <- cicero[c("Peak1","Peak2","peak1.tss.gene_id",
+                   "peak2.tss.gene_id","cluster")]
+cicero <- subset(cicero,is.element(cluster,c(11,18,25,30)))

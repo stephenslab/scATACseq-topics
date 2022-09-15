@@ -1,5 +1,3 @@
-# TO DO: Explain here what this script does, and how to use it.
-#
 # We then ran Cicero for open sites for each cluster separately to
 # identify co-accessible sites using the following parameters:
 # aggregation k = 30, window size = 500 kb, distance constraint = 250
@@ -45,8 +43,6 @@ cds <- reduceDimension(cds,max_components = 2,num_dim = 12,verbose = TRUE,
 tsne_coords <- t(reducedDimA(cds))
 rownames(tsne_coords) <- rownames(pData(cds))
 cicero_cds <- make_cicero_cds(cds,reduced_coordinates = tsne_coords)
-
-stop()
 
 t0 <- proc.time()
 cons <- run_cicero(cicero_cds,sample_genome,sample_num = 2)
