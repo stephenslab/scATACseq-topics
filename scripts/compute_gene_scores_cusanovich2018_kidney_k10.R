@@ -47,8 +47,8 @@ for (gene in genes) {
   rows <- which(is.element(peaks,cicero_gene[[gene]]))
   
   # Set up the ash inputs.
-  b  <- de$postmean[rows,]
-  z  <- de$z[rows,]
+  b  <- de$postmean[rows,,drop = FALSE]
+  z  <- de$z[rows,,drop = FALSE]
   se <- b/z
   se[z == 0] <- as.numeric(NA)
   se[b == 0] <- 0
