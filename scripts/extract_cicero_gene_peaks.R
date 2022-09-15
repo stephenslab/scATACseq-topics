@@ -1,8 +1,5 @@
 # Using the Cicero co-accessibility data, generate a data structure
 # containing a list of peaks for each gene.
-#
-#   sinteractive -p broadwl -c 8 --mem=16G --time=24:00:00
-#
 library(tools)
 
 # Get the peaks linked to each gene.
