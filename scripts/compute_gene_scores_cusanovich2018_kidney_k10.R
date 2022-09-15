@@ -41,7 +41,7 @@ genes <- names(cicero_gene)
 gene_scores <- vector("list",length(genes))
 names(gene_scores) <- genes
 for (gene in genes) {
-  cat("%s ",gene)
+  cat(gene,"")
   
   # Get the peaks near the gene.
   rows <- which(is.element(peaks,cicero_gene[[gene]]))
@@ -63,7 +63,10 @@ for (gene in genes) {
 }
 cat("\n")
 
-stop()
+# Remove genes that do not have any peaks with differentially
+# accessibility results.
+i <- which(!sapply(gene_scores,is.null))
+gene_scores <- gene_scores[i]
 
 # Save the results to an .RData file.
 save(list = "gene_scores",
