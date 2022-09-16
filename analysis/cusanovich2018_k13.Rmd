@@ -64,6 +64,10 @@ topics. Also reassuringly, some tissues are clearly distinguished by
 the topics (e.g., thymus), and similar tissues (e.g., small and large
 intenstine) share topics.
 
+```{r tissue-sample-sizes}
+table(samples$tissue.replicate)
+```
+
 ```{r structure-plot-for-paper-1, echo=FALSE}
 ggsave("plots/structure_plot_by_tissue_cusanovich.eps",p1,
        height = 2.25,width = 9)
@@ -133,6 +137,10 @@ print(p2)
 
 Clearly, the topics capture much of the high-level structure
 identified by the community detection algorithm.
+
+```{r cell-type-sample-sizes}
+table(samples$cell_label)
+```
 
 ```{r structure-plot-for-paper-2, echo=FALSE}
 ggsave("plots/structure_plot_by_cluster_cusanovich.eps",p2,
