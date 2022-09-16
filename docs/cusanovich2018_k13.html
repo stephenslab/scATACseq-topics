@@ -376,7 +376,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-08-05
+<strong>Last updated:</strong> 2022-09-16
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -507,15 +507,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree4aca819118ff61f071ec0766150f56cfbfafe2c5targetblank4aca819a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree1d2f32aa7d32b7539a0d92f2bbdaedd8a1ab8a57targetblank1d2f32aa">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/stephenslab/scATACseq-topics/tree/4aca819118ff61f071ec0766150f56cfbfafe2c5" target="_blank">4aca819</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/tree/1d2f32aa7d32b7539a0d92f2bbdaedd8a1ab8a57" target="_blank">1d2f32a</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree4aca819118ff61f071ec0766150f56cfbfafe2c5targetblank4aca819a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree1d2f32aa7d32b7539a0d92f2bbdaedd8a1ab8a57targetblank1d2f32aa"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -525,7 +525,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/stephenslab/scATACseq-topics/tree/4aca819118ff61f071ec0766150f56cfbfafe2c5" target="_blank">4aca819</a>.
+<a href="https://github.com/stephenslab/scATACseq-topics/tree/1d2f32aa7d32b7539a0d92f2bbdaedd8a1ab8a57" target="_blank">1d2f32a</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -547,10 +547,15 @@ Ignored files:
     Ignored:    output/Buenrostro_2018/binarized/filtered_peaks/de-buenrostro2018-k=10-noshrink.RData
     Ignored:    output/Buenrostro_2018/binarized/filtered_peaks/fit-Buenrostro2018-binarized-filtered-scd-ex-k=10.rds
     Ignored:    output/Buenrostro_2018/binarized/filtered_peaks/fit-Buenrostro2018-binarized-filtered-scd-ex-k=8.rds
-    Ignored:    output/Cusanovich_2018/
+    Ignored:    output/Cusanovich_2018/.DS_Store
+    Ignored:    output/Cusanovich_2018/fit-Cusanovich2018-scd-ex-k=13.rds
+    Ignored:    output/Cusanovich_2018/tissues/.DS_Store
+    Ignored:    output/Cusanovich_2018/tissues/de-cusanovich2018-kidney-k=10-noshrink.RData
+    Ignored:    output/Cusanovich_2018/tissues/fit-Cusanovich2018-Kidney-scd-ex-k=10.rds
+    Ignored:    output/Cusanovich_2018/tissues/gene-scores-cusanovich2018-kidney-k=10.RData
+    Ignored:    scripts/seq_gene.md.gz
 
 Untracked files:
-    Untracked:  analysis/cusanovich2018_kidney_k10.Rmd
     Untracked:  analysis/fit-Buenrostro2018-binarized-scd-ex-k=10.rds
     Untracked:  data/Buenrostro_2018_binarized.RData
     Untracked:  output/Buenrostro_2018/binarized/filtered_peaks/Buenrostro_2018_binarized_filtered.RData
@@ -601,6 +606,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/1d2f32aa7d32b7539a0d92f2bbdaedd8a1ab8a57/analysis/cusanovich2018_k13.Rmd" target="_blank">1d2f32a</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-09-16
+</td>
+<td>
+workflowr::wflow_publish("analysis/cusanovich2018_k13.Rmd")
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/99ebf6014674169d5a839f698aa50a7aab6b3698/docs/cusanovich2018_k13.html" target="_blank">99ebf60</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-08-05
+</td>
+<td>
+Added text to beginning of cusanovich2018_k13 analysis.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1015,6 +1054,20 @@ Peter Carbonetto
 topics. Also reassuringly, some tissues are clearly distinguished by the
 topics (e.g., thymus), and similar tissues (e.g., small and large
 intenstine) share topics.</p>
+<pre class="r"><code>table(samples$tissue.replicate)
+# 
+#       BoneMarrow_62016       BoneMarrow_62216           HeartA_62816 
+#                   4033                   4370                   7650 
+#           Kidney_62016           Testes_62016   SmallIntestine_62816 
+#                   6431                   2723                   4077 
+#  LargeIntestineA_62816  LargeIntestineB_62816            Liver_62016 
+#                   2281                   4805                   6167 
+#            Lung1_62216            Lung2_62216           Spleen_62016 
+#                   5122                   4874                   4020 
+#           Thymus_62016 PreFrontalCortex_62216       Cerebellum_62216 
+#                   7617                   5959                   2278 
+#      WholeBrainA_62216      WholeBrainA_62816 
+#                   5494                   3272</code></pre>
 <p>In this next Structure plot, we arrange the cells by the “major
 clusters” identified by <a
 href="https://doi.org/10.1016/j.cell.2018.06.052">Cusanovich <em>et
@@ -1135,6 +1188,22 @@ Peter Carbonetto
 </div>
 <p>Clearly, the topics capture much of the high-level structure
 identified by the community detection algorithm.</p>
+<pre class="r"><code>table(samples$cell_label)
+# 
+#            Cardiomyocytes                Astrocytes          Oligodendrocytes 
+#                      4076                      1666                      1558 
+#               Hepatocytes                 Podocytes         Endothelial cells 
+#                      5664                       498                      4523 
+#                   Neurons            Purkinje cells  Cerebellar granule cells 
+#                      7219                       320                      4099 
+#                   T cells                   B cells        Other immune cells 
+#                      9461                      6843                      4144 
+#           Proximal tubule                cluster 18               Pneumocytes 
+#                      3164                      1804                      1779 
+#               Enterocytes             Erythroblasts                     Sperm 
+#                      4783                      2811                      2089 
+# Hematopoietic progenitors                Collisions                   Unknown 
+#                      3425                      1218                     10029</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1159,7 +1228,7 @@ Session information
 # [1] stats     graphics  grDevices utils     datasets  methods   base     
 # 
 # other attached packages:
-# [1] ggplot2_3.3.6      fastTopics_0.6-131 Matrix_1.2-18      workflowr_1.7.0   
+# [1] ggplot2_3.3.6      fastTopics_0.6-131 Matrix_1.4-2       workflowr_1.7.0   
 # 
 # loaded via a namespace (and not attached):
 #  [1] mcmc_0.9-6         fs_1.5.2           progress_1.2.2     httr_1.4.2        
