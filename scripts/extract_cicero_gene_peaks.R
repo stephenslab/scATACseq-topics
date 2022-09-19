@@ -8,7 +8,7 @@ cicero <- readRDS(file.path("../data/Cusanovich_2018/processed_data",
 class(cicero) <- "data.frame"
 cicero <- cicero[c("Peak1","Peak2","peak1.tss.gene_id",
                    "peak2.tss.gene_id","cluster")]
-cicero <- subset(cicero,is.element(cluster,c(11,18,25,30)))
+cicero <- subset(cicero,is.element(cluster,c(11,18,22,25)))
 cicero  <- transform(cicero,
                      Peak1             = as.character(Peak1),
                      Peak2             = as.character(Peak2),
