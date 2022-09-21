@@ -131,14 +131,14 @@ rownames(gene_info) <- gene_info$Ensembl
 ids <- rownames(de_gene$postmean)
 gene_info <- gene_info[ids,]
 genes <- gene_info$Symbol
-k <- 9 # 1, 2, 3, 5, 8, 9, 10
-genes[!(de_gene$lfsr[,k] < 0.05)] <- ""
-# i <- which(is.element(genes,loh_genes))
+k <- 8 # 1, 2, 3, 5, 8, 9, 10
+genes[!(abs(de_gene$z[,k]) > 8 & de_gene$postmean[,k] > 2)] <- ""
+i <- which(is.element(genes,loh_genes))
 # i <- which(is.element(genes,dct_genes))
 # i <- which(is.element(genes,podo_genes))
 # i <- which(is.element(genes,endo_genes))
 # i <- which(is.element(genes,cd_genes))
-i <- which(is.element(genes,pt_genes))
+# i <- which(is.element(genes,pt_genes))
 genes[i] <- paste0("(x)",genes[i])
 p <- volcano_plot(de_gene,k = k,labels = genes,ymax = 20,
                   do.label = function (lfc, z) TRUE)
