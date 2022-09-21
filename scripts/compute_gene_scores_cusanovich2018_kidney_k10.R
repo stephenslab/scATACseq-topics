@@ -12,7 +12,7 @@ source("../code/ash.R")
 set.seed(1)
 
 # Load the data structure associating genes with peaks.
-load("../data/cicero_gene.RData")
+load("../data/cicero_gene_kidney.RData")
 
 # Load the results of the differential accessibility analysis using
 # the k = 10 topic model.
@@ -25,8 +25,8 @@ z  <- as.vector(de$z)
 se <- b/z
 res0 <- ash(b,se,mixcompdist = "normal",method = "shrink",outputlevel = 1)
 
-# For each gene and each topic, perform adaptive shrinkage on the
-# de_analysis results for all peaks near the gene.
+# For each gene, perform adaptive shrinkage on the de_analysis results
+# for all peaks near the gene.
 peaks <- rownames(de$postmean)
 genes <- names(cicero_gene)
 gene_scores <- vector("list",length(genes))
@@ -46,7 +46,7 @@ for (gene in genes) {
     se[b == 0] <- 0
 
     # Perform adaptive shrinkage.
-    res <- shrink_estimates(b,se,g = res0$fitted_g,fixg = length(rows) < 5)
+    res <- shrink_estimates(b,se,g = res0$fitted_g,fixg = length(rows) < 10)
 
     # Store the ash results.
     gene_scores[[gene]] <- res[c("b","se","z","lfsr")]

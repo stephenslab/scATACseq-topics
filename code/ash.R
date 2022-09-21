@@ -15,8 +15,8 @@ shrink_estimates <- function (b, se, g, fixg = TRUE) {
   
   # Run adaptive shrinkage.
   i   <- which(!(is.na(b) | is.na(se)))
-  out <- ash(b[i],se[i],mixcompdist = "normal",method = "shrink",g = g,
-             fixg = fixg)
+  out <- ash(b[i],se[i],mixcompdist = "normal",method = "shrink", 
+             g = g,fixg = fixg)
   b1  <- out$result$PosteriorMean
   se1 <- out$result$PosteriorSD
   
@@ -34,7 +34,7 @@ shrink_estimates <- function (b, se, g, fixg = TRUE) {
   lfsr[i] <- out$result$lfsr
   rownames(lfsr) <- rownames(b)
   colnames(lfsr) <- colnames(b)
-  
+
   # Output the revised estimates (b), the standard errors (se), the
   # z-scores (z), the local false sign rates (lfsr) and the raw ash
   # output (ash).
