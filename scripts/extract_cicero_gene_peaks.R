@@ -14,7 +14,9 @@ cicero  <- transform(cicero,
                      Peak2             = as.character(Peak2),
                      peak1.tss.gene_id = factor(peak1.tss.gene_id),
                      peak2.tss.gene_id = factor(peak2.tss.gene_id))
-cicero_gene <- tapply(cicero$Peak1,cicero$peak1.tss.gene_id,unique,
+# cicero_gene <- tapply(cicero$Peak1,cicero$peak1.tss.gene_id,unique,
+#                       simplify = FALSE)
+cicero_gene <- tapply(cicero$Peak2,cicero$peak1.tss.gene_id,unique,
                       simplify = FALSE)
 
 # Save these data to an .RData file.
