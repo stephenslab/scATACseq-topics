@@ -38,12 +38,16 @@ table(cicero.test1$conn_type)
 
 cicero.test1 %>% filter(peak1.tss.gene_id %in% gene.of.interest) %>% head()
 
+# peaks that the gene of interest overlap with
 cicero_gene_self_peaks <- cicero.test1 %>% filter(peak1.tss.gene_id == gene.of.interest) %>% pull(Peak1) %>% unique()
 
+# peaks that connect to the gene of interest
 cicero_gene_connected_peaks <- cicero.test1 %>% filter(peak1.tss.gene_id == gene.of.interest) %>% pull(Peak2) %>% unique()
 
+# all peaks that related to the gene of interest
 cicero_gene_all_peaks <- union(cicero_gene_self_peaks, cicero_gene_connected_peaks)
 
+# we may miss some self peaks if we only use connected peaks
 setdiff(cicero_gene_all_peaks, cicero_gene_connected_peaks)
 
 # all genes
