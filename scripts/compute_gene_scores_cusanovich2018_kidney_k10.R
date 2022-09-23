@@ -11,7 +11,7 @@ source("../code/ash.R")
 # Initialize the sequence of pseudorandom numbers.
 set.seed(1)
 
-# Load the data structure associating genes with peaks.
+# Load the sparse matrix associating genes with peaks.
 load("../data/cicero_gene_kidney.RData")
 
 # Load the results of the differential accessibility analysis using
@@ -28,14 +28,15 @@ res0 <- ash(b,se,mixcompdist = "normal",method = "shrink",outputlevel = 1)
 # For each gene, perform adaptive shrinkage on the de_analysis results
 # for all peaks near the gene.
 peaks <- rownames(de$postmean)
-genes <- names(cicero_gene)
+genes <- colnames(cicero_gene_mat)
 gene_scores <- vector("list",length(genes))
 names(gene_scores) <- genes
 for (gene in genes) {
   cat(gene,"")
-  
+
   # Get the peaks near the gene.
-  rows <- which(is.element(peaks,cicero_gene[[gene]]))
+  rows <- which(cicero_gene_mat[,gene] > 0)
+  rows <- which(is.element(peaks,rownames(cicero_gene_mat)[rows]))
   if (length(rows) > 0) {
 
     # Set up the ash inputs.
@@ -47,9 +48,11 @@ for (gene in genes) {
 
     # Perform adaptive shrinkage.
     res <- shrink_estimates(b,se,g = res0$fitted_g,fixg = length(rows) < 10)
-
+    res$loglik <- res$ash$loglik
+    res$logLR  <- res$ash$logLR
+    
     # Store the ash results.
-    gene_scores[[gene]] <- res[c("b","se","z","lfsr")]
+    gene_scores[[gene]] <- res[c("loglik","logLR","b","se","z","lfsr")]
   }
 }
 cat("\n")
