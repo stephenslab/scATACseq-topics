@@ -1,5 +1,6 @@
 # Using the Cicero co-accessibility data, generate a data structure
 # containing a list of peaks for each gene.
+library(Matrix)
 library(tools)
 
 # Import the Cicero co-accessibility data.
@@ -20,10 +21,15 @@ cicero <- transform(cicero,
 # are: (1) "peak1.tss.gene_id", Ensemble gene id of the proximal TSS
 # overlapping Peak1; (2) "Peak2", peak id of the second peak in the
 # connection.
+#
+# TO DO:Encode these data as a sparse matrix.
+#
 cicero_gene <- tapply(cicero$Peak2,cicero$peak1.tss.gene_id,unique,
                       simplify = FALSE)
 # cicero_gene <- tapply(cicero$Peak1,cicero$peak1.tss.gene_id,unique,
 #                       simplify = FALSE)
+j <- unlist
+sparseMatrix(i = i,j = j,dims = )
 
 # Save these data to an .RData file.
 save(list = "cicero_gene",file = "cicero_gene_kidney.RData")
