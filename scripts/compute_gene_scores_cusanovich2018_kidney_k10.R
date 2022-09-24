@@ -26,7 +26,9 @@ se <- b/z
 res0 <- ash(b,se,mixcompdist = "normal",method = "shrink",outputlevel = 1)
 
 # For each gene, perform adaptive shrinkage on the de_analysis results
-# for all peaks near the gene.
+# for all peaks near the gene. The adaptive shrinkage is performed
+# separately for each topic.
+k     <- ncol(de$postmean)
 peaks <- rownames(de$postmean)
 genes <- colnames(cicero_gene_mat)
 gene_scores <- vector("list",length(genes))
@@ -37,7 +39,8 @@ for (gene in genes) {
   # Get the peaks near the gene.
   rows <- which(cicero_gene_mat[,gene] > 0)
   rows <- which(is.element(peaks,rownames(cicero_gene_mat)[rows]))
-  if (length(rows) > 0) {
+  n    <- length(rows)
+  if (n > 0) {
 
     # Set up the ash inputs.
     b  <- de$postmean[rows,,drop = FALSE]
@@ -46,7 +49,19 @@ for (gene in genes) {
     se[z == 0] <- as.numeric(NA)
     se[b == 0] <- 0
 
-    # Perform adaptive shrinkage.
+    # Set up the ash outputs.
+    res <- list(loglik = rep(0,k),
+                logLR = rep(0,k),
+                b     = matrix(0,n,k),
+                se    = matrix(0,n,k),
+                z     = matrix(0,n,k),
+                lfsr  = matrix(0,n,k))
+    names(loglik) <- paste0("k",1:k)
+    names(logLR)  <- paste0("k",1:k)
+    
+    # Perform the adaptive shrinkage separately for each topic.
+    #
+    # TO DO: Modify this code.
     res <- shrink_estimates(b,se,g = res0$fitted_g,fixg = length(rows) < 10)
     res$loglik <- res$ash$loglik
     res$logLR  <- res$ash$logLR

@@ -18,12 +18,10 @@ for (i in 1:n) {
   res <- gene_scores[[i]]
   for (j in 1:k) {
     row <- which.min(res$lfsr[,j])
-    if (length(row) > 0) {
-      de_gene$postmean[i,j] <- res$b[row,j]
-      de_gene$se[i,j]       <- res$se[row,j]
-      de_gene$z[i,j]        <- res$z[row,j]
-      de_gene$lfsr[i,j]     <- res$lfsr[row,j]
-    }
+    de_gene$postmean[i,j] <- res$b[row,j]
+    de_gene$z[i,j]        <- res$logLR
+    de_gene$se[i,j]       <- res$se[row,j]
+    de_gene$lfsr[i,j]     <- res$lfsr[row,j]
   }
 }
 cat("\n")
