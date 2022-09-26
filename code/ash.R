@@ -1,13 +1,6 @@
-# Perform adaptive shrinkage on the matrix of effect estimates b and
-# their standard errors, then output the revised effect estimates (b),
-# standard errors (se), z-scores (z) and local false sign rates
-# (lfsr). All effects i in which either b[i] or se[i] is missing (NA)
-# are not revised.
+# TOO DO: Explain here what this function is for, and how to use it.
 #
-# The specific ash options used here are intended to work well for the
-# shrinkage of the de_analysis results for peaks nearby a gene.
-#
-shrink_estimates <- function (b, se, g, fixg = TRUE) {
+ash_test_enrich <- function (b, se, g, prior = "uniform") {
   
   # Set up the z-scores output.
   z <- b
@@ -15,8 +8,8 @@ shrink_estimates <- function (b, se, g, fixg = TRUE) {
   
   # Run adaptive shrinkage.
   i   <- which(!(is.na(b) | is.na(se)))
-  out <- ash(b[i],se[i],mixcompdist = "normal",method = "shrink", 
-             g = g,fixg = fixg)
+  out <- ash(b[i],se[i],mixcompdist = "normal",pointmass = FALSE,
+             g = g,prior = prior,outputlevel = 2)
   b1  <- out$result$PosteriorMean
   se1 <- out$result$PosteriorSD
   
@@ -28,15 +21,17 @@ shrink_estimates <- function (b, se, g, fixg = TRUE) {
   z[i[se1 == 0]] <- as.numeric(NA)
 
   # Extract the lfsr estimates.
-  m       <- nrow(b)
-  k       <- ncol(b)
-  lfsr    <- matrix(as.numeric(NA),m,k)
-  lfsr[i] <- out$result$lfsr
-  rownames(lfsr) <- rownames(b)
-  colnames(lfsr) <- colnames(b)
+  lfsr <- out$result$lfsr
 
   # Output the revised estimates (b), the standard errors (se), the
-  # z-scores (z), the local false sign rates (lfsr) and the raw ash
-  # output (ash).
-  return(list(b = b,se = se,z = z,lfsr = lfsr,ash = out))
+  # z-scores (z), the local false sign rates (lfsr), the likelihood
+  # ratio (logLR), the weighted posterior coefficient (coef), and the
+  # updated prior weights (pi).
+  i <- which(lfsr < 0.05)
+  if (length(i) == 0)
+    coef <- 0
+  else
+    coef <- mean(b[i])
+  return(list(b = b,se = se,z = z,lfsr = lfsr,logLR = out$logLR,
+              coef = coef,pi = out$fitted_g$pi))
 }
