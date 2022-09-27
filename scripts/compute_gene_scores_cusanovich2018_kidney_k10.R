@@ -8,6 +8,10 @@ library(ashr)
 library(tools)
 source("../code/ash.R")
 
+# The "prior sample size" used when running ash on the peaks linked to
+# each gene.
+n0 <- 20
+
 # Initialize the sequence of pseudorandom numbers.
 set.seed(1)
 
@@ -24,6 +28,7 @@ b  <- as.vector(de$postmean)
 z  <- as.vector(de$z)
 se <- b/z
 res0 <- ash(b,se,mixcompdist = "normal",method = "shrink",outputlevel = 1)
+g0 <- res0$fitted_g
 
 # For each gene, perform adaptive shrinkage on the de_analysis results
 # for all peaks near the gene. The adaptive shrinkage is performed
@@ -42,32 +47,48 @@ for (gene in genes) {
   n    <- length(rows)
   if (n > 0) {
 
-    # Set up the ash inputs.
-    b  <- de$postmean[rows,,drop = FALSE]
-    z  <- de$z[rows,,drop = FALSE]
-    se <- b/z
-    se[z == 0] <- as.numeric(NA)
-    se[b == 0] <- 0
-
-    # Set up the ash outputs.
-    res <- list(loglik = rep(0,k),
-                logLR = rep(0,k),
+    # Set up storage for the ash outputs.
+    res <- list(logLR = rep(0,k),
+                coef  = rep(0,k),
                 b     = matrix(0,n,k),
                 se    = matrix(0,n,k),
                 z     = matrix(0,n,k),
                 lfsr  = matrix(0,n,k))
-    names(loglik) <- paste0("k",1:k)
-    names(logLR)  <- paste0("k",1:k)
+    rownames(res$b)    <- rownames(de$postmean)[rows]
+    rownames(res$se)   <- rownames(de$postmean)[rows]
+    rownames(res$z)    <- rownames(de$postmean)[rows]
+    rownames(res$lfsr) <- rownames(de$postmean)[rows]
+    colnames(res$b)    <- paste0("k",1:k)
+    colnames(res$se)   <- paste0("k",1:k)
+    colnames(res$z)    <- paste0("k",1:k)
+    colnames(res$lfsr) <- paste0("k",1:k)
+    names(res$coef)  <- paste0("k",1:k)
+    names(res$logLR) <- paste0("k",1:k)
     
     # Perform the adaptive shrinkage separately for each topic.
-    #
-    # TO DO: Modify this code.
-    res <- shrink_estimates(b,se,g = res0$fitted_g,fixg = length(rows) < 10)
-    res$loglik <- res$ash$loglik
-    res$logLR  <- res$ash$logLR
+    for (i in 1:k) {
+
+      # Set up the ash inputs.
+      b  <- de$postmean[rows,i,drop = FALSE]
+      z  <- de$z[rows,i,drop = FALSE]
+      se <- b/z
+      se[z == 0] <- as.numeric(NA)
+      se[b == 0] <- 0
+
+      # Perform the adaptive shrinkage step.
+      out <- ash_test_enrich(b,se,g0,prior = 1.01 + n0*g0$pi)
+
+      # Store the ash results.
+      res$b[,i]    <- out$b
+      res$se[,i]   <- out$se
+      res$z[,i]    <- out$z
+      res$lfsr[,i] <- out$lfsr
+      res$coef[i]  <- out$coef
+      res$logLR[i] <- out$logLR
+    }
     
-    # Store the ash results.
-    gene_scores[[gene]] <- res[c("loglik","logLR","b","se","z","lfsr")]
+    # Store the results for that gene.
+    gene_scores[[gene]] <- res
   }
 }
 cat("\n")

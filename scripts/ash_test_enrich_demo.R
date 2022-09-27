@@ -10,7 +10,7 @@ logLR <- NULL
 coefs <- NULL
 for (i in seq(0,1990,10)) {
   j <- i + (1:10)
-  out <- ash_test_enrich(b[j],se[j],g = g0,prior = 1.01 + g0$pi)
+  out <- ash_test_enrich(b[j],se[j],g0,prior = 1.01 + g0$pi)
   logLR <- c(logLR,out$logLR)
   coefs <- c(coefs,out$coef)
 }
