@@ -5,8 +5,8 @@ library(fastTopics)
 library(tools)
 load(file.path("../output/Cusanovich_2018/tissues",
                "gene-scores-cusanovich2018-kidney-k=10.RData"))
-k <- 10
 n <- length(gene_scores)
+k <- length(gene_scores[[1]]$logLR)
 A <- matrix(as.numeric(NA),n,k)
 genes       <- names(gene_scores)
 rownames(A) <- genes
@@ -14,14 +14,14 @@ colnames(A) <- paste0("k",1:k)
 de_gene <- list(postmean = A,se = A,z = A,lfsr = A)
 class(de_gene) <- c("topic_model_de_analysis","list")
 for (i in 1:n) {
-  cat(sprintf("%d (%s) ",i,genes[i]))
+  cat(i,"")
   res <- gene_scores[[i]]
   for (j in 1:k) {
-    row <- which.min(res$lfsr[,j])
-    de_gene$postmean[i,j] <- res$b[row,j]
-    de_gene$z[i,j]        <- res$logLR
-    de_gene$se[i,j]       <- res$se[row,j]
-    de_gene$lfsr[i,j]     <- res$lfsr[row,j]
+    r <- which.min(res$lfsr[,j])
+    de_gene$postmean[i,j] <- res$coef[j]
+    de_gene$z[i,j]        <- res$logLR[j]
+    de_gene$se[i,j]       <- res$se[r,j]
+    de_gene$lfsr[i,j]     <- res$lfsr[r,j]
   }
 }
 cat("\n")
