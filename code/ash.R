@@ -28,7 +28,7 @@ ash_test_enrich <- function (b, se, g,
   z[i[se1 == 0]] <- as.numeric(NA)
 
   # Extract the lfsr estimates.
-  lfsr <- rep(0.5,n)
+  lfsr <- rep(1,n)
   lfsr[i] <- out$result$lfsr
 
   # Get the mean posterior enrichment coefficient among the

@@ -53,7 +53,7 @@ for (gene in genes) {
                 b     = matrix(0,n,k),
                 se    = matrix(as.numeric(NA),n,k),
                 z     = matrix(0,n,k),
-                lfsr  = matrix(0.5,n,k))
+                lfsr  = matrix(1,n,k))
     rownames(res$b)    <- rownames(de$postmean)[rows]
     rownames(res$se)   <- rownames(de$postmean)[rows]
     rownames(res$z)    <- rownames(de$postmean)[rows]
