@@ -100,6 +100,11 @@ pt_genes <- c("Miox","Slc34a1","Akr1c21","Ttc36","Slc27a2","Acsm2",
               "Fah","Prodh","Hspe1","Cyp2d26","Prss8","Ces1d","Gm10804",
               "Ephx2","Slco1a6","Ugt3a1","Slc6a20b","Eci3","Acox3","Mpv17l",
               "Hsd3b2","Them7","Lap3","Tmem106a")
+pt_genes_S1 <- c("Slc5a2","Slc5a12","Spp2","Slc6a19","Gatm","Slc7a7")
+ept_genes <- c("Ace","Acsm1","AI317395","Aqp11","BC089597","Bdh2","C2","Cml1",
+               "Cryl1","Entpd5","Fbp1","Fmo2","Glyctk","Mettl7b","Mogat2",
+               "Prodh2","Slc18a1","Slc22a6","Slc27a2","Slc3a1","Slc6a20b",
+               "Sord","Spp2","Tcn2","Ugt2b37")
 cd_genes <- c("Aqp2","Hsd11b2","Fxyd4","Apela","Aqp3","Npnt","Scnn1b",
               "Wfdc2","Kcne1","Scnn1g","Hes1","Cav1","Cdh16","Adgrg1",
               "Cav2","Nudt4","Tspan8","Kcnj1","Cdo1","Tmem45b","Tacstd2",
@@ -131,14 +136,20 @@ rownames(gene_info) <- gene_info$Ensembl
 ids <- rownames(de_gene$postmean)
 gene_info <- gene_info[ids,]
 genes <- gene_info$Symbol
-k <- 8 # 1, 2, 3, 5, 8, 9, 10
-genes[!(abs(de_gene$z[,k]) > 8 & de_gene$postmean[,k] > 2)] <- ""
-i <- which(is.element(genes,loh_genes))
+k <- 9 # 1, 2, 3, 5, 8, 9, 10
+prior_genes <- c(pt_genes_S1)
+# genes[!(abs((de_gene$z[,k]) > 50 & de_gene$postmean[,k] > 1) |
+#         de_gene$postmean[,k] > 3)] <- ""
+genes[!(abs((de_gene$z[,k]) > 50 & de_gene$postmean[,k] > 2) |
+        de_gene$postmean[,k] > 2.75 |
+        is.element(genes,prior_genes))] <- ""
+# i <- which(is.element(genes,loh_genes))
 # i <- which(is.element(genes,dct_genes))
 # i <- which(is.element(genes,podo_genes))
 # i <- which(is.element(genes,endo_genes))
 # i <- which(is.element(genes,cd_genes))
-# i <- which(is.element(genes,pt_genes))
-genes[i] <- paste0("(x)",genes[i])
-p <- volcano_plot(de_gene,k = k,labels = genes,ymax = 20,
-                  do.label = function (lfc, z) TRUE)
+i <- which(is.element(genes,prior_genes))
+genes[i] <- paste0("*",genes[i])
+p <- volcano_plot(de_gene,k = k,labels = genes,ymax = 300,
+                  do.label = function (lfc, z) TRUE) +
+  labs(x = "mean coef",y = "logBF")
