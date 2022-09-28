@@ -48,12 +48,12 @@ for (gene in genes) {
   if (n > 0) {
 
     # Set up storage for the ash outputs.
-    res <- list(logLR = rep(0,k),
+    res <- list(logLR = rep(as.numeric(NA),k),
                 coef  = rep(0,k),
                 b     = matrix(0,n,k),
-                se    = matrix(0,n,k),
+                se    = matrix(as.numeric(NA),n,k),
                 z     = matrix(0,n,k),
-                lfsr  = matrix(0,n,k))
+                lfsr  = matrix(0.5,n,k))
     rownames(res$b)    <- rownames(de$postmean)[rows]
     rownames(res$se)   <- rownames(de$postmean)[rows]
     rownames(res$z)    <- rownames(de$postmean)[rows]
@@ -69,22 +69,24 @@ for (gene in genes) {
     for (i in 1:k) {
 
       # Set up the ash inputs.
-      b  <- de$postmean[rows,i,drop = FALSE]
-      z  <- de$z[rows,i,drop = FALSE]
+      b  <- de$postmean[rows,i]
+      z  <- de$z[rows,i]
       se <- b/z
       se[z == 0] <- as.numeric(NA)
       se[b == 0] <- 0
 
       # Perform the adaptive shrinkage step.
-      out <- ash_test_enrich(b,se,g0,prior = 1.01 + n0*g0$pi)
+      if (any(!is.na(se))) {
+        out <- ash_test_enrich(b,se,g0,prior = 1.01 + n0*g0$pi)
 
-      # Store the ash results.
-      res$b[,i]    <- out$b
-      res$se[,i]   <- out$se
-      res$z[,i]    <- out$z
-      res$lfsr[,i] <- out$lfsr
-      res$coef[i]  <- out$coef
-      res$logLR[i] <- out$logLR
+        # Store the ash results.
+        res$b[,i]    <- out$b
+        res$se[,i]   <- out$se
+        res$z[,i]    <- out$z
+        res$lfsr[,i] <- out$lfsr
+        res$coef[i]  <- out$coef
+        res$logLR[i] <- out$logLR
+      }
     }
     
     # Store the results for that gene.

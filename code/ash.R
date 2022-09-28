@@ -9,6 +9,7 @@ ash_test_enrich <- function (b, se, g,
                              lfsr.threshold = 0.05) {
   
   # Set up the z-scores output.
+  n <- length(b)
   z <- b
   z[is.na(b) | is.na(se)] <- as.numeric(NA)
   
@@ -27,7 +28,8 @@ ash_test_enrich <- function (b, se, g,
   z[i[se1 == 0]] <- as.numeric(NA)
 
   # Extract the lfsr estimates.
-  lfsr <- out$result$lfsr
+  lfsr <- rep(0.5,n)
+  lfsr[i] <- out$result$lfsr
 
   # Get the mean posterior enrichment coefficient among the
   # co-ordinates satisfying the lfsr threshold.
