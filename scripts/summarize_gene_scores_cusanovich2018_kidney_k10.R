@@ -18,6 +18,12 @@ for (i in 1:n) {
   res <- gene_scores[[i]]
   for (j in 1:k) {
     r <- which.min(res$lfsr[,j])
+
+    # To simplify creation of the volcano plots, here we store the
+    # mean coefficients (coef) in the "postmean" slot, and we store
+    # the log-likelihood ratios in the "z" slow. The standard errors
+    # (se) and lfsr's are filled in as well, although they are less
+    # essential.
     de_gene$postmean[i,j] <- res$coef[j]
     de_gene$z[i,j]        <- res$logLR[j]
     de_gene$se[i,j]       <- res$se[r,j]
