@@ -156,16 +156,94 @@ gene_info <- gene_info[ids,]
 genes     <- gene_info$Symbol
 ```
 
-```{r volcano-plots, fig.height=3, fig.width=3}
+*Add text here.*
+
+```{r volcano-plots-1, fig.height=13, fig.width=8, warning=FALSE}
+k <- 2
+label_genes <- (is.element(genes,cd_genes) & de_gene$logLR[,k] > 4) |
+               (de_gene$logLR[,k] > 35 & de_gene$coef[,k] > 0) |
+               (de_gene$coef[,k] > 3)
+k2_genes <- genes
+k2_genes[!label_genes] <- ""
+p2 <- volcano_plot_enrich(de_gene,k = 2,labels = k2_genes,
+                          highlight = is.element(genes,cd_genes),
+                          ymax = 100)
+k <- 5
+label_genes <- (is.element(genes,dct_genes) & de_gene$logLR[,k] > 4) |
+               (de_gene$logLR[,k] > 40 & de_gene$coef[,k] > 1) |
+               (de_gene$coef[,k] > 3)
+k5_genes <- genes
+k5_genes[!label_genes] <- ""
+p5 <- volcano_plot_enrich(de_gene,k = 5,labels = k5_genes,
+                          highlight = is.element(genes,dct_genes),
+                          ymax = 100)
+k <- 3
+label_genes <- (is.element(genes,endo_genes) & de_gene$logLR[,k] > 4) |
+               (de_gene$logLR[,k] > 85 & de_gene$coef[,k] > 2.25) |
+               (de_gene$coef[,k] > 4.5)
+k3_genes <- genes
+k3_genes[!label_genes] <- ""
+p3 <- volcano_plot_enrich(de_gene,k = 3,labels = k3_genes,
+                          highlight = is.element(genes,endo_genes),
+                          ymax = 125)
+k <- 1
+label_genes <- (is.element(genes,podo_genes) & de_gene$logLR[,k] > 4) |
+               (de_gene$logLR[,k] > 50 & de_gene$coef[,k] > 2) |
+               (de_gene$logLR[,k] > 20 & de_gene$coef[,k] > 3.75)
+k1_genes <- genes
+k1_genes[!label_genes] <- ""
+p1 <- volcano_plot_enrich(de_gene,k = 1,labels = k1_genes,
+                          highlight = is.element(genes,podo_genes),
+                          ymax = 80)
 k <- 8
-label_genes <- (is.element(x,loh_genes) & de_gene$logLR[,k] > 4) |
+label_genes <- (is.element(genes,loh_genes) & de_gene$logLR[,k] > 4) |
                (de_gene$logLR[,k] > 60 & de_gene$coef[,k] > 0) |
                (de_gene$coef[,k] > 3)
-x <- genes
-x[!label_genes] <- ""
-p8 <- volcano_plot_enrich(de_gene,k = 8,labels = x,
-                          highlight = is.element(x,loh_genes),
-                          ymax = 200)
+k8_genes <- genes
+k8_genes[!label_genes] <- ""
+p8 <- volcano_plot_enrich(de_gene,k = 8,labels = k8_genes,
+                          highlight = is.element(genes,loh_genes),
+                          ymax = 140)
+plot_grid(p2,p5,
+          p3,p1,
+          p8,
+          nrow = 3,ncol = 2)
+```
+
+*Add text here.*
+
+```{r volcano-plots-2, fig.width=8, fig.height=4.5, warning=FALSE}
+k <- 9
+label_genes <- (is.element(genes,c(pt_genes,S1_genes)) &
+                de_gene$logLR[,k] > 4) |
+               (de_gene$logLR[,k] > 100 & de_gene$coef[,k] > 1) |
+               (de_gene$coef[,k] > 3)
+k9_genes <- genes
+k9_genes[!label_genes] <- ""
+k9_highlight <- rep(0,length(genes))
+k9_highlight[is.element(genes,pt_genes)] <- 1
+k9_highlight[is.element(genes,S1_genes)] <- 2
+p9 <- volcano_plot_enrich(de_gene,k = 9,labels = k9_genes,
+                          highlight = factor(k9_highlight),ymax = 200)
+k <- 10
+label_genes <- (is.element(genes,c(pt_genes,S3_genes)) &
+                de_gene$logLR[,k] > 4) |
+               (de_gene$logLR[,k] > 65 & de_gene$coef[,k] > 1.5) |
+               (de_gene$coef[,k] > 3)
+k10_genes <- genes
+k10_genes[!label_genes] <- ""
+k10_highlight <- rep(0,length(genes))
+k10_highlight[is.element(genes,pt_genes)] <- 1
+k10_highlight[is.element(genes,S3_genes)] <- 2
+p10 <- volcano_plot_enrich(de_gene,k = 10,labels = k10_genes,
+                           highlight = factor(k10_highlight),ymax = 200)
+plot_grid(p9,p10,nrow = 1,ncol = 2)
+```
+
+*Add text here.*
+
+```{r volcano-plots-3, fig.width=8, fig.height=3, warning=FALSE}
+rnorm(5)
 ```
 
 Diagram from [osmosis.com](https://www.osmosis.org):
