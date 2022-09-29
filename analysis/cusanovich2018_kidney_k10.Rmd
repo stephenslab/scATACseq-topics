@@ -19,6 +19,7 @@ library(pathways)
 library(fastTopics)
 library(ggplot2)
 library(cowplot)
+source("code/kidney_genes.R")
 ```
 
 Load the binarized count data.
