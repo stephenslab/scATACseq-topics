@@ -18,8 +18,10 @@ library(Matrix)
 library(pathways)
 library(fastTopics)
 library(ggplot2)
+library(ggrepel)
 library(cowplot)
 source("code/kidney_genes.R")
+source("code/volcano_plots.R")
 ```
 
 Load the binarized count data.
@@ -144,22 +146,26 @@ gene_info <- gene_sets_mouse$gene_info
 gene_info <- subset(gene_info,!is.na(Ensembl))
 gene_info <- subset(gene_info,!duplicated(Ensembl))
 ids <- gene_info$Ensembl
-ids <- intersect(ids,rownames(de_gene$postmean))
-de_gene$postmean <- de_gene$postmean[ids,]
-de_gene$se       <- de_gene$se[ids,]
-de_gene$z        <- de_gene$z[ids,]
-de_gene$lfsr     <- de_gene$lfsr[ids,]
-n             <- nrow(de_gene$postmean)
-de_gene$f0    <- rep(0,n)
-de_gene$lower <- with(de_gene,postmean - se)
-de_gene$upper <- with(de_gene,postmean + se)
-for (i in 1:k)
-  de_gene$lfsr[,i] <- p.adjust(de_gene$lfsr[,i],method = "bonferroni")
-ids       <- rownames(de_gene$postmean)
+ids <- intersect(ids,rownames(de_gene$coef))
+de_gene$coef  <- de_gene$coef[ids,]
+de_gene$logLR <- de_gene$logLR[ids,]
+ids       <- rownames(de_gene$coef)
 gene_info <- subset(gene_info,is.element(Ensembl,ids))
 rownames(gene_info) <- gene_info$Ensembl
 gene_info <- gene_info[ids,]
 genes     <- gene_info$Symbol
+```
+
+```{r volcano-plots, fig.height=3, fig.width=3}
+k <- 8
+label_genes <- (is.element(x,loh_genes) & de_gene$logLR[,k] > 4) |
+               (de_gene$logLR[,k] > 60 & de_gene$coef[,k] > 0) |
+               (de_gene$coef[,k] > 3)
+x <- genes
+x[!label_genes] <- ""
+p8 <- volcano_plot_enrich(de_gene,k = 8,labels = x,
+                          highlight = is.element(x,loh_genes),
+                          ymax = 200)
 ```
 
 Diagram from [osmosis.com](https://www.osmosis.org):

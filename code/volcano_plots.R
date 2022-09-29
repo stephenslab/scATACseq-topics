@@ -1,0 +1,21 @@
+# TO DO: Explain here what this function is for, and how to use it.
+volcano_plot_enrich <- function (de, k, labels,
+                                 highlight = rep(FALSE,length(labels)),
+                                 ymax = Inf) {
+  dat <- data.frame(coef  = de$coef[,k],
+                    logLR = de$logLR[,k],
+                    label = labels,
+                    highlight = factor(highlight))
+  dat <- transform(dat,logLR = pmin(ymax,logLR))
+  return(ggplot(dat,aes_string(x = "coef",y = "logLR",label = "label",
+                               color = highlight)) +
+         geom_point(shape = 21,size = 2,color = "white",fill = "black") +
+         geom_text_repel(size = 2.25,fontface = "italic",
+                         segment.color = "darkgray",segment.size = 0.25,
+                         min.segment.length = 0,max.overlaps = Inf,
+                         show.legend = FALSE,na.rm = TRUE) +
+         scale_color_manual(values = c("darkgray","tomato")) +
+         labs(x = "mean enrichment coefficient",y = "log Bayes factor",
+              title = paste("topic",k)) +
+         theme_cowplot(font_size = 10))
+}

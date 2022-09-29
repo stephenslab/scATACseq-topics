@@ -11,23 +11,13 @@ A <- matrix(as.numeric(NA),n,k)
 genes       <- names(gene_scores)
 rownames(A) <- genes
 colnames(A) <- paste0("k",1:k)
-de_gene <- list(postmean = A,se = A,z = A,lfsr = A)
-class(de_gene) <- c("topic_model_de_analysis","list")
+de_gene <- list(coef = A,logLR = A)
 for (i in 1:n) {
   cat(i,"")
   res <- gene_scores[[i]]
   for (j in 1:k) {
-    r <- which.min(res$lfsr[,j])
-
-    # To simplify creation of the volcano plots, here we store the
-    # mean coefficients (coef) in the "postmean" slot, and we store
-    # the log-likelihood ratios in the "z" slow. The standard errors
-    # (se) and lfsr's are filled in as well, although they are less
-    # essential.
-    de_gene$postmean[i,j] <- res$coef[j]
-    de_gene$z[i,j]        <- res$logLR[j]
-    de_gene$se[i,j]       <- res$se[r,j]
-    de_gene$lfsr[i,j]     <- res$lfsr[r,j]
+    de_gene$coef[i,j]  <- res$coef[j]
+    de_gene$logLR[i,j] <- res$logLR[j]
   }
 }
 cat("\n")
