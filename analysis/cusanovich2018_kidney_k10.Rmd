@@ -242,11 +242,15 @@ plot_grid(p9,p10,nrow = 1,ncol = 2)
 
 To do:
 
++ Put together the Structure plots for the paper.
+
++ Change x-axis label in volcano plots.
+
 + Compile enrichment results into tables.
 
 + Create volcano plots for remaining topics.
 
-+ Put together volcano plots for paper.
++ Put together the volcano plots for paper.
 
 ```{r volcano-plots-3, fig.width=8, fig.height=3, warning=FALSE}
 # Add remaining volcano plots here.
