@@ -240,10 +240,16 @@ p10 <- volcano_plot_enrich(de_gene,k = 10,labels = k10_genes,
 plot_grid(p9,p10,nrow = 1,ncol = 2)
 ```
 
-*Add text here.*
+To do:
+
++ Compile enrichment results into tables.
+
++ Create volcano plots for remaining topics.
+
++ Put together volcano plots for paper.
 
 ```{r volcano-plots-3, fig.width=8, fig.height=3, warning=FALSE}
-rnorm(5)
+# Add remaining volcano plots here.
 ```
 
 Diagram from [osmosis.com](https://www.osmosis.org):
