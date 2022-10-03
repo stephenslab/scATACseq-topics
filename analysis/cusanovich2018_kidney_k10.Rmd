@@ -75,6 +75,7 @@ topic_colors <- c("orange","darkmagenta","magenta","gold","peru",
                   "red","lightgray","limegreen","dodgerblue","royalblue")
 p1 <- structure_plot(fit,grouping = samples$cell_label,gap = 20,
                      colors = topic_colors,verbose = FALSE)
+table(grouping = samples$cell_label)
 print(p1)
 ```
 
@@ -116,6 +117,7 @@ grouping of the cells:
 set.seed(1)
 p2 <- structure_plot(fit,grouping = samples$cluster,gap = 20,
                      colors = topic_colors,verbose = FALSE)
+table(grouping = samples$cluster)
 print(p2)
 ```
 
