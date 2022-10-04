@@ -16,7 +16,7 @@ volcano_plot_enrich <- function (de, k, labels,
                          min.segment.length = 0,max.overlaps = Inf,
                          show.legend = FALSE,na.rm = TRUE) +
          scale_color_manual(values = c("darkgray","tomato","dodgerblue")) +
-         labs(x = "mean enrichment coefficient",y = "log Bayes factor",
+         labs(x = "mean l.e. LFC",y = "log Bayes factor",
               title = paste("topic",k)) +
          theme_cowplot(font_size = 10))
 }
