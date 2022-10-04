@@ -4,7 +4,8 @@ author: Peter Carbonetto
 output: workflowr::wflow_html
 ---
 
-*Add overview of the analysis here.*
+Here we examine the structure inferred from the topic model fit to
+the Mouse sci-ATAC-seq Atlas kidney cells, with $K = 10$ topics.
 
 ```{r knitr-opts, include=FALSE}
 knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
@@ -158,7 +159,11 @@ gene_info <- gene_info[ids,]
 genes     <- gene_info$Symbol
 ```
 
-*Add text here.*
+These next few volcano plots show, for each gene tested for
+enrichment, the mean LFC on the x-axis against the logBF for
+enrichment on the y-axis. Marker genes identified in the
+[Park *et al* paper](https://doi.org/10.1126/science.aar2131) are
+highlighted in red.
 
 ```{r volcano-plots-1, fig.height=13, fig.width=8, warning=FALSE}
 k <- 2
@@ -212,7 +217,9 @@ plot_grid(p2,p5,
           nrow = 3,ncol = 2)
 ```
 
-*Add text here.*
+These next two volcano plots also highlight, in blue, the marker genes
+identified in [Wu *et al*](https://doi.org/10.1007/s12079-022-00685-z)
+for the S1 and S3 segments of the proximal tubule.
 
 ```{r volcano-plots-2, fig.width=8, fig.height=4.5, warning=FALSE}
 k <- 9
@@ -242,20 +249,37 @@ p10 <- volcano_plot_enrich(de_gene,k = 10,labels = k10_genes,
 plot_grid(p9,p10,nrow = 1,ncol = 2)
 ```
 
+These volcano plots summarize the gene enrichment results for the
+remaining topics.
+
 To do:
-
-+ Put together the Structure plots for the paper.
-
-+ Change x-axis label in volcano plots.
 
 + Compile enrichment results into tables.
 
-+ Create volcano plots for remaining topics.
++ Create volcano plots for paper.
 
-+ Put together the volcano plots for paper.
-
-```{r volcano-plots-3, fig.width=8, fig.height=3, warning=FALSE}
-# Add remaining volcano plots here.
+```{r volcano-plots-3, fig.width=8, fig.height=8.5, warning=FALSE}
+k <- 4
+label_genes <- (de_gene$logLR[,k] > 40 & de_gene$coef[,k] > 1.75) |
+               (de_gene$logLR[,k] > 10 & de_gene$coef[,k] > 2)
+k4_genes <- genes
+k4_genes[!label_genes] <- ""
+p4 <- volcano_plot_enrich(de_gene,k = 4,labels = k4_genes)
+k <- 6
+label_genes <- (de_gene$logLR[,k] > 20) |
+               (de_gene$logLR[,k] > 10 & de_gene$coef[,k] > 2)
+k6_genes <- genes
+k6_genes[!label_genes] <- ""
+p6 <- volcano_plot_enrich(de_gene,k = 6,labels = k6_genes,ymax = 40)
+k <- 7
+label_genes <- (de_gene$logLR[,k] > 75 & de_gene$coef[,k] > 0) |
+               (de_gene$logLR[,k] > 10 & de_gene$coef[,k] > 1.75) |
+			   (grepl("Zfp",gene_info$Symbol,fixed = TRUE) &
+                de_gene$logLR[,k] > 15)
+k7_genes <- genes
+k7_genes[!label_genes] <- ""
+p7 <- volcano_plot_enrich(de_gene,k = 7,labels = k7_genes,ymax = 200)
+plot_grid(p4,p6,p7,nrow = 2,ncol = 2)
 ```
 
 Diagram from [osmosis.com](https://www.osmosis.org):
