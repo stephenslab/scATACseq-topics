@@ -256,7 +256,11 @@ To do:
 
 + Compile enrichment results into tables.
 
-+ Create volcano plots for paper.
++ Create volcano plots for paper. In particular, volcano plots for
+  topics 9 and 10 will go in the main text, and the remaining will go
+  in the supplement.
+
++ Fill out "selected top genes".
 
 ```{r volcano-plots-3, fig.width=8, fig.height=8.5, warning=FALSE}
 k <- 4
