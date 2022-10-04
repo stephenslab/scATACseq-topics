@@ -376,7 +376,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-10-03
+<strong>Last updated:</strong> 2022-10-04
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -507,15 +507,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreedade9f6dd882ff30c82020373fe3a5b6104999c9targetblankdade9f6a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreedd40726398ded849d21b6b0fbf75ddb5bc1167a2targetblankdd40726a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/stephenslab/scATACseq-topics/tree/dade9f6dd882ff30c82020373fe3a5b6104999c9" target="_blank">dade9f6</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/tree/dd40726398ded849d21b6b0fbf75ddb5bc1167a2" target="_blank">dd40726</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreedade9f6dd882ff30c82020373fe3a5b6104999c9targetblankdade9f6a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreedd40726398ded849d21b6b0fbf75ddb5bc1167a2targetblankdd40726a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -525,7 +525,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/stephenslab/scATACseq-topics/tree/dade9f6dd882ff30c82020373fe3a5b6104999c9" target="_blank">dade9f6</a>.
+<a href="https://github.com/stephenslab/scATACseq-topics/tree/dd40726398ded849d21b6b0fbf75ddb5bc1167a2" target="_blank">dd40726</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -561,6 +561,10 @@ Untracked files:
     Untracked:  output/Buenrostro_2018/binarized/filtered_peaks/Buenrostro_2018_binarized_filtered.RData
     Untracked:  plots/
     Untracked:  scripts/fit-buenrostro-2018-k=8.rds
+    Untracked:  scripts/gene_enrich_cusanovich2018_kidney_k10.csv
+
+Unstaged changes:
+    Modified:   scripts/compile_de_gene_table.R
 
 </code></pre>
 <p>
@@ -607,6 +611,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/dd40726398ded849d21b6b0fbf75ddb5bc1167a2/analysis/cusanovich2018_kidney_k10.Rmd" target="_blank">dd40726</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-10-04
+</td>
+<td>
+workflowr::wflow_publish("analysis/cusanovich2018_kidney_k10.Rmd",
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/7419f5c76dbe89b325b2c7e8295aad14fe8f243b/docs/cusanovich2018_kidney_k10.html" target="_blank">7419f5c</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-10-03
+</td>
+<td>
+Added label counts to cusanovich2018_kidney_k10 analysis.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -887,7 +925,9 @@ workflowr::wflow_publish("analysis/cusanovich2018_kidney_k10.Rmd")
 </div>
 </div>
 </div>
-<p><em>Add overview of the analysis here.</em></p>
+<p>Here we examine the structure inferred from the topic model fit to
+the Mouse sci-ATAC-seq Atlas kidney cells, with <span
+class="math inline">\(K = 10\)</span> topics.</p>
 <p>Load the packages used in the analysis below.</p>
 <pre class="r"><code>library(Matrix)
 library(pathways)
@@ -1082,7 +1122,11 @@ gene_info &lt;- subset(gene_info,is.element(Ensembl,ids))
 rownames(gene_info) &lt;- gene_info$Ensembl
 gene_info &lt;- gene_info[ids,]
 genes     &lt;- gene_info$Symbol</code></pre>
-<p><em>Add text here.</em></p>
+<p>These next few volcano plots show, for each gene tested for
+enrichment, the mean LFC on the x-axis against the logBF for enrichment
+on the y-axis. Marker genes identified in the <a
+href="https://doi.org/10.1126/science.aar2131">Park <em>et al</em>
+paper</a> are highlighted in red.</p>
 <pre class="r"><code>k &lt;- 2
 label_genes &lt;- (is.element(genes,cd_genes) &amp; de_gene$logLR[,k] &gt; 4) |
                (de_gene$logLR[,k] &gt; 35 &amp; de_gene$coef[,k] &gt; 0) |
@@ -1157,6 +1201,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/7419f5c76dbe89b325b2c7e8295aad14fe8f243b/docs/figure/cusanovich2018_kidney_k10.Rmd/volcano-plots-1-1.png" target="_blank">7419f5c</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-10-03
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/648fbbc7255adfa4b6080eaab2a00c01f0377542/docs/figure/cusanovich2018_kidney_k10.Rmd/volcano-plots-1-1.png" target="_blank">648fbbc</a>
 </td>
 <td>
@@ -1181,7 +1236,10 @@ Peter Carbonetto
 </table>
 </div>
 </div>
-<p><em>Add text here.</em></p>
+<p>These next two volcano plots also highlight, in blue, the marker
+genes identified in <a
+href="https://doi.org/10.1007/s12079-022-00685-z">Wu <em>et al</em></a>
+for the S1 and S3 segments of the proximal tubule.</p>
 <pre class="r"><code>k &lt;- 9
 label_genes &lt;- (is.element(genes,c(pt_genes,S1_genes)) &amp;
                 de_gene$logLR[,k] &gt; 4) |
@@ -1232,6 +1290,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/7419f5c76dbe89b325b2c7e8295aad14fe8f243b/docs/figure/cusanovich2018_kidney_k10.Rmd/volcano-plots-2-1.png" target="_blank">7419f5c</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-10-03
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/648fbbc7255adfa4b6080eaab2a00c01f0377542/docs/figure/cusanovich2018_kidney_k10.Rmd/volcano-plots-2-1.png" target="_blank">648fbbc</a>
 </td>
 <td>
@@ -1256,15 +1325,35 @@ Peter Carbonetto
 </table>
 </div>
 </div>
+<p>These volcano plots summarize the gene enrichment results for the
+remaining topics.</p>
 <p>To do:</p>
 <ul>
-<li><p>Put together the Structure plots for the paper.</p></li>
-<li><p>Change x-axis label in volcano plots.</p></li>
 <li><p>Compile enrichment results into tables.</p></li>
-<li><p>Create volcano plots for remaining topics.</p></li>
-<li><p>Put together the volcano plots for paper.</p></li>
+<li><p>Create volcano plots for paper.</p></li>
 </ul>
-<pre class="r"><code># Add remaining volcano plots here.</code></pre>
+<pre class="r"><code>k &lt;- 4
+label_genes &lt;- (de_gene$logLR[,k] &gt; 40 &amp; de_gene$coef[,k] &gt; 1.75) |
+               (de_gene$logLR[,k] &gt; 10 &amp; de_gene$coef[,k] &gt; 2)
+k4_genes &lt;- genes
+k4_genes[!label_genes] &lt;- &quot;&quot;
+p4 &lt;- volcano_plot_enrich(de_gene,k = 4,labels = k4_genes)
+k &lt;- 6
+label_genes &lt;- (de_gene$logLR[,k] &gt; 20) |
+               (de_gene$logLR[,k] &gt; 10 &amp; de_gene$coef[,k] &gt; 2)
+k6_genes &lt;- genes
+k6_genes[!label_genes] &lt;- &quot;&quot;
+p6 &lt;- volcano_plot_enrich(de_gene,k = 6,labels = k6_genes,ymax = 40)
+k &lt;- 7
+label_genes &lt;- (de_gene$logLR[,k] &gt; 75 &amp; de_gene$coef[,k] &gt; 0) |
+               (de_gene$logLR[,k] &gt; 10 &amp; de_gene$coef[,k] &gt; 1.75) |
+               (grepl(&quot;Zfp&quot;,gene_info$Symbol,fixed = TRUE) &amp;
+                de_gene$logLR[,k] &gt; 15)
+k7_genes &lt;- genes
+k7_genes[!label_genes] &lt;- &quot;&quot;
+p7 &lt;- volcano_plot_enrich(de_gene,k = 7,labels = k7_genes,ymax = 200)
+plot_grid(p4,p6,p7,nrow = 2,ncol = 2)</code></pre>
+<p><img src="figure/cusanovich2018_kidney_k10.Rmd/volcano-plots-3-1.png" width="960" style="display: block; margin: auto;" /></p>
 <p>Diagram from <a href="https://www.osmosis.org">osmosis.com</a>:</p>
 <div class="figure">
 <img src="kidney.jpg" alt="" />
