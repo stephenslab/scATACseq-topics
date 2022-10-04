@@ -33,8 +33,15 @@ for (i in 1:k) {
   dat <- rbind(dat,x)
 }
 
+# Re-index the topics to align with Structure plots in the paper.
+dat <- transform(dat,topic = factor(topic))
+levels(dat) <- c("k1","k2","k3","k4","k5","k6","k7","k8","k9","k10")
+levels(dat) <- c("k6","k1","k3","k4","k5","k6","k7","k8","k9","k10") # new
+
 # Filter out genes with logLR <= 20.
 dat <- subset(dat,logLR > 20)
+
+stop()
 
 # Reorder the genes by topic, then by logLR.
 rows <- with(dat,order(topic,-logLR))
@@ -44,7 +51,6 @@ rownames(dat) <- NULL
 # Write the data frame to a CSV file.
 dat <-
   transform(dat,
-    topic = paste0("k",topic),
     coef  = format(round(coef,digits = 3),trim = TRUE,scientific = FALSE),
     logLR = format(round(logLR,digits = 3),trim = TRUE,scientific = FALSE))
 write.csv(dat,"gene_enrich_cusanovich2018_kidney_k10.csv",
