@@ -223,7 +223,7 @@ for the S1 and S3 segments of the proximal tubule.
 
 ```{r volcano-plots-2, fig.width=8, fig.height=4.5, warning=FALSE}
 k <- 9
-label_genes <- (is.element(genes,c(pt_genes,S1_genes)) &
+label_genes <- (is.element(genes,S1_genes) &
                 de_gene$logLR[,k] > 4) |
                (de_gene$logLR[,k] > 100 & de_gene$coef[,k] > 1) |
                (de_gene$coef[,k] > 3)
@@ -235,7 +235,7 @@ k9_highlight[is.element(genes,S1_genes)] <- 2
 p9 <- volcano_plot_enrich(de_gene,k = 9,labels = k9_genes,
                           highlight = factor(k9_highlight),ymax = 200)
 k <- 10
-label_genes <- (is.element(genes,c(pt_genes,S3_genes)) &
+label_genes <- (is.element(genes,S3_genes) &
                 de_gene$logLR[,k] > 4) |
                (de_gene$logLR[,k] > 65 & de_gene$coef[,k] > 1.5) |
                (de_gene$coef[,k] > 3)
@@ -254,13 +254,11 @@ remaining topics.
 
 To do:
 
-+ Compile enrichment results into tables.
-
 + Create volcano plots for paper. In particular, volcano plots for
   topics 9 and 10 will go in the main text, and the remaining will go
-  in the supplement.
+  in the supplement. Also, fill out "selected top genes".
 
-+ Fill out "selected top genes".
++ Compile enrichment results into tables.
 
 ```{r volcano-plots-3, fig.width=8, fig.height=8.5, warning=FALSE}
 k <- 4
@@ -287,5 +285,11 @@ plot_grid(p4,p6,p7,nrow = 2,ncol = 2)
 ```
 
 Diagram from [osmosis.com](https://www.osmosis.org):
+
+```{r volcano-plots-for-paper, echo=FALSE}
+ggsave("plots/volcano_plots_cusanovich_kidney_pt.eps",
+       plot_grid(p9,p10,nrow = 1,ncol = 2),
+	   height = 4.5,width = 8)
+```
 
 ![kidney diagram](kidney.jpg)
