@@ -25,29 +25,27 @@ k   <- ncol(de_gene$coef)
 dat <- NULL
 for (i in 1:k) {
   x <- data.frame(topic   = i,
-                  ensembl = gene_info$Ensembl,
                   symbol  = gene_info$Symbol,
-                  coef    = de_gene$coef[,i],
+                  ensembl = gene_info$Ensembl,
                   logLR   = de_gene$logLR[,i],
+                  coef    = de_gene$coef[,i],
                   stringsAsFactors = FALSE)
   dat <- rbind(dat,x)
 }
 
 # Re-index the topics to align with Structure plots in the paper.
 dat <- transform(dat,topic = factor(topic))
-levels(dat) <- c("k1","k2","k3","k4","k5","k6","k7","k8","k9","k10")
-levels(dat) <- c("k6","k1","k3","k4","k5","k6","k7","k8","k9","k10") # new
-
+levels(dat$topic) <- c("k6","k1","k7","k9","k2","k8","k10","k3","k4","k5")
+dat <- transform(dat,topic = factor(as.character(topic),paste0("k",1:k)))
+                 
 # Filter out genes with logLR <= 20.
 dat <- subset(dat,logLR > 20)
-
-stop()
 
 # Reorder the genes by topic, then by logLR.
 rows <- with(dat,order(topic,-logLR))
 dat  <- dat[rows,]
 rownames(dat) <- NULL
-
+                 
 # Write the data frame to a CSV file.
 dat <-
   transform(dat,
