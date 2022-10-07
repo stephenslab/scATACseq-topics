@@ -38,8 +38,8 @@ dat <- transform(dat,topic = factor(topic))
 levels(dat$topic) <- c("k6","k1","k7","k9","k2","k8","k10","k3","k4","k5")
 dat <- transform(dat,topic = factor(as.character(topic),paste0("k",1:k)))
                  
-# Filter out genes with logLR <= 20.
-dat <- subset(dat,logLR > 20)
+# Filter out genes with logLR <= 17.
+dat <- subset(dat,logLR > 17)
 
 # Reorder the genes by topic, then by logLR.
 rows <- with(dat,order(topic,-logLR))
