@@ -225,6 +225,7 @@ for the S1 and S3 segments of the proximal tubule.
 k <- 9
 label_genes <- (is.element(genes,S1_genes) &
                 de_gene$logLR[,k] > 4) |
+               (de_gene$logLR[,k] > 40 & de_gene$coef[,k] > 2.25) |
                (de_gene$logLR[,k] > 100 & de_gene$coef[,k] > 1) |
                (de_gene$coef[,k] > 3)
 k9_genes <- genes
@@ -258,8 +259,6 @@ To do:
   topics 9 and 10 will go in the main text, and the remaining will go
   in the supplement. Also, fill out "selected top genes".
 
-+ Compile enrichment results into tables.
-
 ```{r volcano-plots-3, fig.width=8, fig.height=8.5, warning=FALSE}
 k <- 4
 label_genes <- (de_gene$logLR[,k] > 40 & de_gene$coef[,k] > 1.75) |
@@ -290,6 +289,9 @@ Diagram from [osmosis.com](https://www.osmosis.org):
 ggsave("plots/volcano_plots_cusanovich_kidney_pt.eps",
        plot_grid(p9,p10,nrow = 1,ncol = 2),
 	   height = 4.5,width = 8)
+ggsave("plots/volcano_plots_cusanovich_kidney_other.eps",
+       plot_grid(p1,p2,p3,p4,p5,p6,p7,p8,nrow = 3,ncol = 3),
+	   height = 12,width = 10)
 ```
 
 ![kidney diagram](kidney.jpg)
