@@ -1,6 +1,6 @@
 # TO DO: Explain here what this script is for, and how to use it.
 #
-#   sinteractive -p broadwl -c 8 --mem=64G --time=10:00:00
+#   sinteractive -p broadwl -c 8 --mem=32G --time=10:00:00
 #   module load R/3.5.1
 #
 
@@ -13,18 +13,13 @@ library(fastTopics)
 set.seed(1)
 
 # Load the previously prepared count data.
-load(file.path("../data/Cusanovich_2018/processed_data",
-               "Cusanovich_2018_Kidney.RData"))
+load(file.path("../output/Buenrostro_2018/binarized/filtered_peaks",
+               "Buenrostro_2018_binarized_filtered.RData"))
 
 # Load the k = 10 Poisson NMF model fit.
 fit_pois <- readRDS(
-  file.path("../output/Cusanovich_2018/tissues",
-            "fit-Cusanovich2018-Kidney-scd-ex-k=10.rds"))$fit
-
-# Convert the Poisson NMF model to a binomial topic model without any EM
-# updates to refine the fit. (This step involves a simple rescaling of L
-# and F, and should be very fast.)
-fit_binom <- poisson2binom(counts,fit_pois,numem = 0)
+  file.path("../output/Buenrostro_2018/binarized/filtered_peaks",
+            "fit-Buenrostro2018-binarized-filtered-scd-ex-k=10.rds"))$fit
 
 # Perform the conversion a second time, this time with several EM
 # updates to refine the fit.
@@ -36,5 +31,6 @@ cat(sprintf("Computation took %0.2f seconds.\n",timing["elapsed"]))
 
 # Save the results.
 save(list = c("fit_binom","fit_binom_em"),
-     file = "binom-fit-cusanovich2018-kidney-k=10.RData")
-resaveRdaFiles("binom-fit-cusanovich2018-kidney-k=10.RData")
+     file = "binom-fit-buenrostro2018-k=10.RData")
+resaveRdaFiles("binom-fit-buenrostro2018-k=10.RData")
+
