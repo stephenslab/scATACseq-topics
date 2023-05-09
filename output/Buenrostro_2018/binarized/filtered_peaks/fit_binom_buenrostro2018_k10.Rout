@@ -1,0 +1,28 @@
+Rescaling L and F using non-negative linear regression (nnlm).
+Rescaling L and F using non-negative linear regression (nnlm).
+Performing 20 EM updates to refine the fit.
+iter  |F - F'|  |L - L'|
+   1 8.114e+03 8.114e+03
+   2 2.849e-01 2.849e-01
+   3 2.717e-01 2.717e-01
+   4 3.203e-01 3.203e-01
+   5 2.753e-01 2.753e-01
+   6 4.806e-01 4.806e-01
+   7 5.577e-01 5.577e-01
+   8 5.263e-01 5.263e-01
+   9 4.984e-01 4.984e-01
+  10 5.296e-01 5.296e-01
+  11 5.257e-01 5.257e-01
+  12 4.638e-01 4.638e-01
+  13 4.361e-01 4.361e-01
+  14 4.389e-01 4.389e-01
+  15 3.930e-01 3.930e-01
+  16 4.325e-01 4.325e-01
+  17 3.896e-01 3.896e-01
+  18 3.696e-01 3.696e-01
+  19 3.348e-01 3.348e-01
+  20 3.328e-01 3.328e-01
+Computation took 194.94 seconds.
+[1] 0.7989
+[1] 0.9384
+[1] 0.4845
