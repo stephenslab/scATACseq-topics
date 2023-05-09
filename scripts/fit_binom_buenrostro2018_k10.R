@@ -1,6 +1,6 @@
 # TO DO: Explain here what this script is for, and how to use it.
 #
-#   sinteractive -p broadwl -c 8 --mem=32G --time=10:00:00
+#   sinteractive -p broadwl -c 8 --mem=100G --time=1:00:00
 #   module load R/3.5.1
 #
 
@@ -24,13 +24,16 @@ fit_pois <- readRDS(
 # Perform the conversion a second time, this time with several EM
 # updates to refine the fit.
 t0 <- proc.time()
-fit_binom_em <- poisson2binom(counts,fit_pois,numem = 4)
+fit_binom_em <- poisson2binom(counts,fit_pois,numem = 20)
 t1 <- proc.time()
 timing <- t1 - t0
 cat(sprintf("Computation took %0.2f seconds.\n",timing["elapsed"]))
+
+# Compare the two binomial fits.
+print(mean(abs(fit_binom$L - fit_binom_em$L) < 0.01))
+print(mean(abs(fit_binom$F - fit_binom_em$F) < 0.05))
 
 # Save the results.
 save(list = c("fit_binom","fit_binom_em"),
      file = "binom-fit-buenrostro2018-k=10.RData")
 resaveRdaFiles("binom-fit-buenrostro2018-k=10.RData")
-
