@@ -23,12 +23,12 @@ fit_pois <- readRDS(
 # Convert the Poisson NMF model to a binomial topic model without any EM
 # updates to refine the fit. (This step involves a simple rescaling of L
 # and F, and should be very fast.)
-fit_binom <- poisson2binom(X,fit_pois,numem = 0)
+fit_binom <- poisson2binom(counts,fit_pois,numem = 0)
 
 # Perform the conversion a second time, this time with several EM
 # updates to refine the fit.
 t0 <- proc.time()
-fit_binom_em <- poisson2binom(X,fit_pois,numem = 4)
+fit_binom_em <- poisson2binom(counts,fit_pois,numem = 4)
 t1 <- proc.time()
 timing <- t1 - t0
 cat(sprintf("Computation took %0.2f seconds.\n",timing["elapsed"]))
