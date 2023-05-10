@@ -37,10 +37,10 @@ samples <- transform(samples,
                      tissue.replicate = factor(tissue.replicate,tissues))
 ```
 					 
-Next load the $k = 13$ multinomial topic model fit:
+Next load the $k = 13$ binomial topic model fit.
 
 ```{r load-fit}
-fit <- readRDS("output/Cusanovich_2018/fit-Cusanovich2018-scd-ex-k=13.rds")$fit
+load("output/Cusanovich_2018/binom-fit-cusanovich2018-k=13.RData")
 ```
 
 This Structure plot shows the cells arranged by tissue. Note that
@@ -53,9 +53,9 @@ topic_colors <- c("gold","royalblue","red","sienna","limegreen",
                   "plum","tomato","purple","cyan","forestgreen",
                   "darkblue","darkorange","lightgray")
 topics <- c(1,2,5,6,9,11,4,10,8,3,7,12,13)
-p1 <- structure_plot(fit,grouping = samples$tissue.replicate,gap = 30,n = 4000,
-                     perplexity = 30,colors = topic_colors,topics = topics,
-                     verbose = FALSE)
+p1 <- structure_plot(fit_binom,grouping = samples$tissue.replicate,gap = 30,
+                     n = 4000,perplexity = 30,colors = topic_colors,
+					 topics = topics,verbose = FALSE)
 print(p1)
 ```
 
@@ -130,8 +130,8 @@ x[x == "NK cells"] <- "Other immune cells"
 samples <- transform(samples,
                      cell_label = factor(x,cell_types))
 set.seed(1)
-p2 <- structure_plot(fit,grouping = samples$cell_label,gap = 30,n = 4000,
-                    perplexity = 30,colors = topic_colors,verbose = FALSE)
+p2 <- structure_plot(fit_binom,grouping = samples$cell_label,gap = 30,n = 4000,
+                     perplexity = 30,colors = topic_colors,verbose = FALSE)
 print(p2)
 ```
 
