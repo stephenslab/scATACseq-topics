@@ -24,14 +24,11 @@ Load the sample meta-data:
 
 ```{r load-data}
 tissues <-
-  c("BoneMarrow_62016","BoneMarrow_62216",
-  "HeartA_62816","Kidney_62016","Testes_62016","SmallIntestine_62816",
-  "LargeIntestineA_62816",
-  "LargeIntestineB_62816","Liver_62016",
-  "Lung1_62216","Lung2_62216",
-  "Spleen_62016",
-  "Thymus_62016","PreFrontalCortex_62216",
-  "Cerebellum_62216","WholeBrainA_62216","WholeBrainA_62816")
+  c("Testes_62016","BoneMarrow_62016","BoneMarrow_62216","HeartA_62816",
+    "Liver_62016","Kidney_62016","SmallIntestine_62816","LargeIntestineA_62816",
+	"LargeIntestineB_62816","Lung1_62216","Lung2_62216",
+	"Spleen_62016","Thymus_62016","PreFrontalCortex_62216","Cerebellum_62216",
+	"WholeBrainA_62216","WholeBrainA_62816")
 load("data/Cusanovich_2018/processed_data/Cusanovich_2018_metadata_only.RData")
 samples <- transform(samples,
                      tissue.replicate = factor(tissue.replicate,tissues))
@@ -41,6 +38,7 @@ Next load the $k = 13$ binomial topic model fit.
 
 ```{r load-fit}
 load("output/Cusanovich_2018/binom-fit-cusanovich2018-k=13.RData")
+round(colSums(fit_binom$L),digits = 2)
 ```
 
 This Structure plot shows the cells arranged by tissue. Note that
@@ -52,7 +50,7 @@ set.seed(1)
 topic_colors <- c("gold","royalblue","red","sienna","limegreen",
                   "plum","tomato","purple","cyan","forestgreen",
                   "darkblue","darkorange","lightgray")
-topics <- c(1,2,5,6,9,11,4,10,8,3,7,12,13)
+topics <- c(10,5,7,11,8,9,1,2,4,3,12,6,13)
 p1 <- structure_plot(fit_binom,grouping = samples$tissue.replicate,gap = 30,
                      n = 4000,perplexity = 30,colors = topic_colors,
 					 topics = topics,verbose = FALSE)
@@ -93,12 +91,12 @@ cell_types <-
     "T cells",
     "B cells",
     "Other immune cells",
+    "Erythroblasts",
+    "Sperm",
     "Proximal tubule",
     "cluster 18",
     "Pneumocytes",
     "Enterocytes",
-    "Erythroblasts",
-    "Sperm",
     "Hematopoietic progenitors",
     "Collisions",
     "Unknown")
@@ -131,7 +129,8 @@ samples <- transform(samples,
                      cell_label = factor(x,cell_types))
 set.seed(1)
 p2 <- structure_plot(fit_binom,grouping = samples$cell_label,gap = 30,n = 4000,
-                     perplexity = 30,colors = topic_colors,verbose = FALSE)
+                     perplexity = 30,topics = topics,colors = topic_colors,
+					 verbose = FALSE)
 print(p2)
 ```
 
