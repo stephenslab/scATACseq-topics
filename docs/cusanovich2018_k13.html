@@ -507,15 +507,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree559104e6ec2e0e27caa3fef5708c8e111b255b2dtargetblank559104ea">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreebbff4dabc7c14435842444926e7b254d24d9bb92targetblankbbff4daa">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/stephenslab/scATACseq-topics/tree/559104e6ec2e0e27caa3fef5708c8e111b255b2d" target="_blank">559104e</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/tree/bbff4dabc7c14435842444926e7b254d24d9bb92" target="_blank">bbff4da</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree559104e6ec2e0e27caa3fef5708c8e111b255b2dtargetblank559104ea"
+id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstreebbff4dabc7c14435842444926e7b254d24d9bb92targetblankbbff4daa"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -525,7 +525,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/stephenslab/scATACseq-topics/tree/559104e6ec2e0e27caa3fef5708c8e111b255b2d" target="_blank">559104e</a>.
+<a href="https://github.com/stephenslab/scATACseq-topics/tree/bbff4dabc7c14435842444926e7b254d24d9bb92" target="_blank">bbff4da</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -541,12 +541,14 @@ were generated:
 <pre><code>
 Ignored files:
     Ignored:    .DS_Store
+    Ignored:    analysis/.DS_Store
     Ignored:    data/.DS_Store
     Ignored:    data/Buenrostro_2018/
     Ignored:    data/Cusanovich_2018/processed_data/Cusanovich_2018_Kidney.RData
     Ignored:    output/Buenrostro_2018/binarized/filtered_peaks/de-buenrostro2018-k=10-noshrink.RData
     Ignored:    output/Buenrostro_2018/binarized/filtered_peaks/fit-Buenrostro2018-binarized-filtered-scd-ex-k=10.rds
     Ignored:    output/Buenrostro_2018/binarized/filtered_peaks/fit-Buenrostro2018-binarized-filtered-scd-ex-k=8.rds
+    Ignored:    output/Cusanovich_2018/binom-fit-cusanovich2018-k=13.RData
     Ignored:    output/Cusanovich_2018/fit-Cusanovich2018-scd-ex-k=13.rds
     Ignored:    output/Cusanovich_2018/tissues/.DS_Store
     Ignored:    output/Cusanovich_2018/tissues/de-cusanovich2018-kidney-k=10-noshrink.RData
@@ -558,7 +560,6 @@ Untracked files:
     Untracked:  analysis/fit-Buenrostro2018-binarized-scd-ex-k=10.rds
     Untracked:  data/Buenrostro_2018_binarized.RData
     Untracked:  output/Buenrostro_2018/binarized/filtered_peaks/Buenrostro_2018_binarized_filtered.RData
-    Untracked:  output/Cusanovich_2018/binom-fit-cusanovich2018-k=13.RData
     Untracked:  plots/
     Untracked:  scripts/fit-buenrostro-2018-k=8.rds
 
@@ -609,6 +610,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/bbff4dabc7c14435842444926e7b254d24d9bb92/analysis/cusanovich2018_k13.Rmd" target="_blank">bbff4da</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2023-05-10
+</td>
+<td>
+wflow_publish("analysis/cusanovich2018_k13.Rmd", verbose = TRUE)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/fdf6da0a4011eabbc4e9f6aed79089bc9991c4a8/docs/cusanovich2018_k13.html" target="_blank">fdf6da0</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2023-05-10
+</td>
+<td>
+Regenerated cusanovich2018_k13 plots using the binomial topic model.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -991,20 +1026,22 @@ library(fastTopics)
 library(ggplot2)</code></pre>
 <p>Load the sample meta-data:</p>
 <pre class="r"><code>tissues &lt;-
-  c(&quot;BoneMarrow_62016&quot;,&quot;BoneMarrow_62216&quot;,
-  &quot;HeartA_62816&quot;,&quot;Kidney_62016&quot;,&quot;Testes_62016&quot;,&quot;SmallIntestine_62816&quot;,
-  &quot;LargeIntestineA_62816&quot;,
-  &quot;LargeIntestineB_62816&quot;,&quot;Liver_62016&quot;,
-  &quot;Lung1_62216&quot;,&quot;Lung2_62216&quot;,
-  &quot;Spleen_62016&quot;,
-  &quot;Thymus_62016&quot;,&quot;PreFrontalCortex_62216&quot;,
-  &quot;Cerebellum_62216&quot;,&quot;WholeBrainA_62216&quot;,&quot;WholeBrainA_62816&quot;)
+  c(&quot;Testes_62016&quot;,&quot;BoneMarrow_62016&quot;,&quot;BoneMarrow_62216&quot;,&quot;HeartA_62816&quot;,
+    &quot;Liver_62016&quot;,&quot;Kidney_62016&quot;,&quot;SmallIntestine_62816&quot;,&quot;LargeIntestineA_62816&quot;,
+    &quot;LargeIntestineB_62816&quot;,&quot;Lung1_62216&quot;,&quot;Lung2_62216&quot;,
+    &quot;Spleen_62016&quot;,&quot;Thymus_62016&quot;,&quot;PreFrontalCortex_62216&quot;,&quot;Cerebellum_62216&quot;,
+    &quot;WholeBrainA_62216&quot;,&quot;WholeBrainA_62816&quot;)
 load(&quot;data/Cusanovich_2018/processed_data/Cusanovich_2018_metadata_only.RData&quot;)
 samples &lt;- transform(samples,
                      tissue.replicate = factor(tissue.replicate,tissues))</code></pre>
 <p>Next load the <span class="math inline">\(k = 13\)</span> binomial
 topic model fit.</p>
-<pre class="r"><code>load(&quot;output/Cusanovich_2018/binom-fit-cusanovich2018-k=13.RData&quot;)</code></pre>
+<pre class="r"><code>load(&quot;output/Cusanovich_2018/binom-fit-cusanovich2018-k=13.RData&quot;)
+round(colSums(fit_binom$L),digits = 2)
+#       k1       k2       k3       k4       k5       k6       k7       k8 
+#  5138.54  5368.10  6126.67  5759.31  2519.55  8669.73  3225.29  4648.47 
+#       k9      k10      k11      k12      k13 
+#  4943.79     0.58  3699.20  7836.81 23236.96</code></pre>
 <p>This Structure plot shows the cells arranged by tissue. Note that
 replicates were collected for four of the tissues (bone marrow, lung,
 small intestine, whole brain) in a second mouse.</p>
@@ -1012,7 +1049,7 @@ small intestine, whole brain) in a second mouse.</p>
 topic_colors &lt;- c(&quot;gold&quot;,&quot;royalblue&quot;,&quot;red&quot;,&quot;sienna&quot;,&quot;limegreen&quot;,
                   &quot;plum&quot;,&quot;tomato&quot;,&quot;purple&quot;,&quot;cyan&quot;,&quot;forestgreen&quot;,
                   &quot;darkblue&quot;,&quot;darkorange&quot;,&quot;lightgray&quot;)
-topics &lt;- c(1,2,5,6,9,11,4,10,8,3,7,12,13)
+topics &lt;- c(10,5,7,11,8,9,1,2,4,3,12,6,13)
 p1 &lt;- structure_plot(fit_binom,grouping = samples$tissue.replicate,gap = 30,
                      n = 4000,perplexity = 30,colors = topic_colors,
                      topics = topics,verbose = FALSE)
@@ -1040,6 +1077,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/fdf6da0a4011eabbc4e9f6aed79089bc9991c4a8/docs/figure/cusanovich2018_k13.Rmd/structure-plot-1-1.png" target="_blank">fdf6da0</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2023-05-10
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/05361f0db6dcc034c12fe67e5622b40e0f9cd128/docs/figure/cusanovich2018_k13.Rmd/structure-plot-1-1.png" target="_blank">05361f0</a>
@@ -1094,12 +1142,12 @@ topics (e.g., thymus), and similar tissues (e.g., small and large
 intenstine) share topics.</p>
 <pre class="r"><code>table(samples$tissue.replicate)
 # 
-#       BoneMarrow_62016       BoneMarrow_62216           HeartA_62816 
-#                   4033                   4370                   7650 
-#           Kidney_62016           Testes_62016   SmallIntestine_62816 
-#                   6431                   2723                   4077 
-#  LargeIntestineA_62816  LargeIntestineB_62816            Liver_62016 
-#                   2281                   4805                   6167 
+#           Testes_62016       BoneMarrow_62016       BoneMarrow_62216 
+#                   2723                   4033                   4370 
+#           HeartA_62816            Liver_62016           Kidney_62016 
+#                   7650                   6167                   6431 
+#   SmallIntestine_62816  LargeIntestineA_62816  LargeIntestineB_62816 
+#                   4077                   2281                   4805 
 #            Lung1_62216            Lung2_62216           Spleen_62016 
 #                   5122                   4874                   4020 
 #           Thymus_62016 PreFrontalCortex_62216       Cerebellum_62216 
@@ -1124,12 +1172,12 @@ implemented in Seurat to identify these clusters).</p>
     &quot;T cells&quot;,
     &quot;B cells&quot;,
     &quot;Other immune cells&quot;,
+    &quot;Erythroblasts&quot;,
+    &quot;Sperm&quot;,
     &quot;Proximal tubule&quot;,
     &quot;cluster 18&quot;,
     &quot;Pneumocytes&quot;,
     &quot;Enterocytes&quot;,
-    &quot;Erythroblasts&quot;,
-    &quot;Sperm&quot;,
     &quot;Hematopoietic progenitors&quot;,
     &quot;Collisions&quot;,
     &quot;Unknown&quot;)
@@ -1162,7 +1210,8 @@ samples &lt;- transform(samples,
                      cell_label = factor(x,cell_types))
 set.seed(1)
 p2 &lt;- structure_plot(fit_binom,grouping = samples$cell_label,gap = 30,n = 4000,
-                     perplexity = 30,colors = topic_colors,verbose = FALSE)
+                     perplexity = 30,topics = topics,colors = topic_colors,
+                     verbose = FALSE)
 print(p2)</code></pre>
 <p><img src="figure/cusanovich2018_k13.Rmd/structure-plot-2-1.png" width="960" style="display: block; margin: auto;" /></p>
 <p>
@@ -1187,6 +1236,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/fdf6da0a4011eabbc4e9f6aed79089bc9991c4a8/docs/figure/cusanovich2018_k13.Rmd/structure-plot-2-1.png" target="_blank">fdf6da0</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2023-05-10
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/5bcab84198a424042e429e4216819136fb3f780c/docs/figure/cusanovich2018_k13.Rmd/structure-plot-2-1.png" target="_blank">5bcab84</a>
@@ -1236,10 +1296,10 @@ identified by the community detection algorithm.</p>
 #                      7219                       320                      4099 
 #                   T cells                   B cells        Other immune cells 
 #                      9461                      6843                      4144 
-#           Proximal tubule                cluster 18               Pneumocytes 
-#                      3164                      1804                      1779 
-#               Enterocytes             Erythroblasts                     Sperm 
-#                      4783                      2811                      2089 
+#             Erythroblasts                     Sperm           Proximal tubule 
+#                      2811                      2089                      3164 
+#                cluster 18               Pneumocytes               Enterocytes 
+#                      1804                      1779                      4783 
 # Hematopoietic progenitors                Collisions                   Unknown 
 #                      3425                      1218                     10029</code></pre>
 <br>
