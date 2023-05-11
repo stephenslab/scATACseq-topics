@@ -376,7 +376,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-10-10
+<strong>Last updated:</strong> 2023-05-11
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -394,7 +394,7 @@ title="This is the local directory in which the code in this file was executed."
 This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
 analysis was created with <a
   href="https://github.com/workflowr/workflowr">workflowr</a> (version
-1.7.0). The <em>Checks</em> tab describes the reproducibility checks
+1.7.0.3). The <em>Checks</em> tab describes the reproducibility checks
 that were applied when the results were created. The <em>Past
 versions</em> tab lists the development history.
 </p>
@@ -507,15 +507,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree992fdf78a48586abe1f6daa7c72ef6914324f544targetblank992fdf7a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree19c288523adbf5e736d018d2d990bd7ec004e5f0targetblank19c2885a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/stephenslab/scATACseq-topics/tree/992fdf78a48586abe1f6daa7c72ef6914324f544" target="_blank">992fdf7</a>
+<a href="https://github.com/stephenslab/scATACseq-topics/tree/19c288523adbf5e736d018d2d990bd7ec004e5f0" target="_blank">19c2885</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree992fdf78a48586abe1f6daa7c72ef6914324f544targetblank992fdf7a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabscATACseqtopicstree19c288523adbf5e736d018d2d990bd7ec004e5f0targetblank19c2885a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -525,7 +525,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/stephenslab/scATACseq-topics/tree/992fdf78a48586abe1f6daa7c72ef6914324f544" target="_blank">992fdf7</a>.
+<a href="https://github.com/stephenslab/scATACseq-topics/tree/19c288523adbf5e736d018d2d990bd7ec004e5f0" target="_blank">19c2885</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -541,13 +541,14 @@ were generated:
 <pre><code>
 Ignored files:
     Ignored:    .DS_Store
+    Ignored:    analysis/.DS_Store
     Ignored:    data/.DS_Store
     Ignored:    data/Buenrostro_2018/
     Ignored:    data/Cusanovich_2018/processed_data/Cusanovich_2018_Kidney.RData
     Ignored:    output/Buenrostro_2018/binarized/filtered_peaks/de-buenrostro2018-k=10-noshrink.RData
     Ignored:    output/Buenrostro_2018/binarized/filtered_peaks/fit-Buenrostro2018-binarized-filtered-scd-ex-k=10.rds
     Ignored:    output/Buenrostro_2018/binarized/filtered_peaks/fit-Buenrostro2018-binarized-filtered-scd-ex-k=8.rds
-    Ignored:    output/Cusanovich_2018/.DS_Store
+    Ignored:    output/Cusanovich_2018/binom-fit-cusanovich2018-k=13.RData
     Ignored:    output/Cusanovich_2018/fit-Cusanovich2018-scd-ex-k=13.rds
     Ignored:    output/Cusanovich_2018/tissues/.DS_Store
     Ignored:    output/Cusanovich_2018/tissues/de-cusanovich2018-kidney-k=10-noshrink.RData
@@ -607,6 +608,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/19c288523adbf5e736d018d2d990bd7ec004e5f0/analysis/cusanovich2018_kidney_k10.Rmd" target="_blank">19c2885</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2023-05-11
+</td>
+<td>
+wflow_publish("analysis/cusanovich2018_kidney_k10.Rmd", verbose = TRUE)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/scATACseq-topics/2aa25a123ee10ff92d98afee76d011fb4a74efd8/docs/cusanovich2018_kidney_k10.html" target="_blank">2aa25a1</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-10-10
+</td>
+<td>
+Generate PDFs of volcano plots for paper (cusanovich2018_kidney_k10).
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1004,11 +1039,10 @@ source(&quot;code/kidney_genes.R&quot;)
 source(&quot;code/volcano_plots.R&quot;)</code></pre>
 <p>Load the binarized count data.</p>
 <pre class="r"><code>load(&quot;data/Cusanovich_2018/processed_data/Cusanovich_2018_Kidney.RData&quot;)</code></pre>
-<p>Load the <span class="math inline">\(K = 10\)</span> topic model
-fit.</p>
-<pre class="r"><code>fit &lt;- readRDS(file.path(&quot;output/Cusanovich_2018/tissues&quot;,
-                         &quot;fit-Cusanovich2018-Kidney-scd-ex-k=10.rds&quot;))$fit
-fit &lt;- poisson2multinom(fit)</code></pre>
+<p>Load the <span class="math inline">\(K = 10\)</span> binomial topic
+model fit.</p>
+<pre class="r"><code>load(file.path(&quot;output/Cusanovich_2018/tissues&quot;,
+               &quot;binom-fit-cusanovich2018-kidney-k=10.RData&quot;))</code></pre>
 <p>Load the gene-wise results obtained from the <code>de_analysis</code>
 of the peaks.</p>
 <pre class="r"><code>load(file.path(&quot;output/Cusanovich_2018/tissues&quot;,
@@ -1038,8 +1072,9 @@ x &lt;- factor(x,c(&quot;Collecting duct&quot;,&quot;DCT/CD&quot;,&quot;Distal c
 samples &lt;- transform(samples,cell_label = x)
 topic_colors &lt;- c(&quot;orange&quot;,&quot;darkmagenta&quot;,&quot;magenta&quot;,&quot;gold&quot;,&quot;peru&quot;,
                   &quot;red&quot;,&quot;lightgray&quot;,&quot;limegreen&quot;,&quot;dodgerblue&quot;,&quot;royalblue&quot;)
-p1 &lt;- structure_plot(fit,grouping = samples$cell_label,gap = 20,
-                     colors = topic_colors,verbose = FALSE)
+p1 &lt;- structure_plot(fit_binom,grouping = samples$cell_label,gap = 20,
+                     verbose = FALSE,colors = topic_colors,
+                     topics = c(6,5,2,10,1,8,3,4,9,7))
 table(grouping = samples$cell_label)
 print(p1)</code></pre>
 <p><img src="figure/cusanovich2018_kidney_k10.Rmd/structure-plot-1-1.png" width="960" style="display: block; margin: auto;" /></p>
@@ -1090,32 +1125,23 @@ Peter Carbonetto
 #         Other or unknown 
 #                      338</code></pre>
 <p>Let’s now visualize the topics without the benefit of the previously
-inferred clusters. Instead, we can use PCs computed from the topic
-proportions to subdivide the cells into 5 clusters. (Here we are
-assigning labels to these clusters only to make it easier to refer to
-them.)</p>
-<pre class="r"><code>pca &lt;- prcomp(fit$L)$x
-pc1 &lt;- pca[,1]
-pc2 &lt;- pca[,2]
-x &lt;- rep(&quot;other&quot;,nrow(pca))
-x[pc1 &lt; 0] &lt;- &quot;proximal tubule&quot;
-x[pc1 &gt; 0 &amp; pc2 &gt; 0.2] &lt;- &quot;endothelial I&quot;
-rows &lt;- which(x == &quot;other&quot;)
-fit2 &lt;- select_loadings(fit,loadings = rows)
-pca  &lt;- prcomp(fit2$L)$x
-y    &lt;- rep(&quot;DCT + CD&quot;,nrow(pca))
-pc1  &lt;- pca[,1]
-pc2  &lt;- pca[,2]
-y[pc1 &lt; 0 &amp; pc2 &gt; -0.15] &lt;- &quot;loop of henle&quot;
-y[pc1 &gt;= 0 &amp; pc2 &gt; -0.15] &lt;- &quot;podocytes + other&quot;
-x[rows] &lt;- y
-samples$cluster &lt;- factor(x,c(&quot;DCT + CD&quot;,&quot;loop of henle&quot;,&quot;proximal tubule&quot;,
-                              &quot;podocytes + other&quot;,&quot;endothelial I&quot;))</code></pre>
+inferred clusters. Instead, we can use the topic proportioins to
+subdivide the cells. (Here we are assigning labels to these clusters
+only to make it easier to refer to them.)</p>
+<pre class="r"><code>n &lt;- nrow(fit_binom$L)
+x &lt;- rep(&quot;other&quot;,n)
+x[fit_binom$L[,&quot;k8&quot;] &gt; 0.2] &lt;- &quot;loop of henle&quot;
+x[fit_binom$L[,&quot;k1&quot;] &gt; 0.2] &lt;- &quot;podocytes&quot;
+x[fit_binom$L[,&quot;k3&quot;] &gt; 0.2] &lt;- &quot;endothelial I&quot;
+x[fit_binom$L[,&quot;k2&quot;] + fit_binom$L[,&quot;k5&quot;] &gt; 0.2] &lt;- &quot;DCT + CD&quot;
+samples$cluster &lt;- factor(x,c(&quot;DCT + CD&quot;,&quot;loop of henle&quot;,&quot;podocytes&quot;,
+                              &quot;endothelial I&quot;,&quot;other&quot;))</code></pre>
 <p>This is what the Structure plot looks like without any external
 grouping of the cells:</p>
 <pre class="r"><code>set.seed(1)
-p2 &lt;- structure_plot(fit,grouping = samples$cluster,gap = 20,
-                     colors = topic_colors,verbose = FALSE)
+p2 &lt;- structure_plot(fit_binom,grouping = samples$cluster,gap = 20,
+                     colors = topic_colors,topics = c(6,5,2,10,1,8,3,4,9,7),
+                     perplexity = 50,verbose = FALSE)
 table(grouping = samples$cluster)
 print(p2)</code></pre>
 <p><img src="figure/cusanovich2018_kidney_k10.Rmd/structure-plot-2-1.png" width="960" style="display: block; margin: auto;" /></p>
@@ -1157,10 +1183,8 @@ Peter Carbonetto
 </div>
 </div>
 <pre><code># grouping
-#          DCT + CD     loop of henle   proximal tubule podocytes + other 
-#              1012               843              2878              1071 
-#     endothelial I 
-#               627</code></pre>
+#      DCT + CD loop of henle     podocytes endothelial I         other 
+#          1087           728           529           816          3271</code></pre>
 <p>The topics clearly identify four distinctive cell types—(1) loop of
 henle, (2) proximal tubule, (3) distal convoluted tubule (DCT) and
 collecting duct (CD), and (4) endothelial cells—and within these
@@ -1266,6 +1290,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/2aa25a123ee10ff92d98afee76d011fb4a74efd8/docs/figure/cusanovich2018_kidney_k10.Rmd/volcano-plots-1-1.png" target="_blank">2aa25a1</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-10-10
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/b98cc33f770a652463e9ee2fb957fc85d2bd0211/docs/figure/cusanovich2018_kidney_k10.Rmd/volcano-plots-1-1.png" target="_blank">b98cc33</a>
 </td>
 <td>
@@ -1367,6 +1402,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/2aa25a123ee10ff92d98afee76d011fb4a74efd8/docs/figure/cusanovich2018_kidney_k10.Rmd/volcano-plots-2-1.png" target="_blank">2aa25a1</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-10-10
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/b98cc33f770a652463e9ee2fb957fc85d2bd0211/docs/figure/cusanovich2018_kidney_k10.Rmd/volcano-plots-2-1.png" target="_blank">b98cc33</a>
 </td>
 <td>
@@ -1415,12 +1461,6 @@ Peter Carbonetto
 </div>
 <p>These volcano plots summarize the gene enrichment results for the
 remaining topics.</p>
-<p>To do:</p>
-<ul>
-<li>Create volcano plots for paper. In particular, volcano plots for
-topics 9 and 10 will go in the main text, and the remaining will go in
-the supplement. Also, fill out “selected top genes”.</li>
-</ul>
 <pre class="r"><code>k &lt;- 4
 label_genes &lt;- (de_gene$logLR[,k] &gt; 40 &amp; de_gene$coef[,k] &gt; 1.75) |
                (de_gene$logLR[,k] &gt; 10 &amp; de_gene$coef[,k] &gt; 2)
@@ -1467,6 +1507,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/scATACseq-topics/blob/2aa25a123ee10ff92d98afee76d011fb4a74efd8/docs/figure/cusanovich2018_kidney_k10.Rmd/volcano-plots-3-1.png" target="_blank">2aa25a1</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-10-10
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/scATACseq-topics/blob/b98cc33f770a652463e9ee2fb957fc85d2bd0211/docs/figure/cusanovich2018_kidney_k10.Rmd/volcano-plots-3-1.png" target="_blank">b98cc33</a>
 </td>
 <td>
@@ -1481,10 +1532,6 @@ Peter Carbonetto
 </div>
 </div>
 <p>Diagram from <a href="https://www.osmosis.org">osmosis.com</a>:</p>
-<pre><code># Warning: Removed 2 rows containing missing values (geom_point).
-# Warning: Removed 1 rows containing missing values (geom_point).
-
-# Warning: Removed 1 rows containing missing values (geom_point).</code></pre>
 <div class="figure">
 <img src="kidney.jpg" alt="" />
 <p class="caption">kidney diagram</p>
@@ -1513,36 +1560,36 @@ Session information
 # [1] stats     graphics  grDevices utils     datasets  methods   base     
 # 
 # other attached packages:
-# [1] cowplot_1.1.1      ggrepel_0.9.1      ggplot2_3.3.6      fastTopics_0.6-131
-# [5] pathways_0.1-20    Matrix_1.4-2       workflowr_1.7.0   
+# [1] cowplot_1.1.1     ggrepel_0.9.1     ggplot2_3.3.6     fastTopics_0.7-19
+# [5] pathways_0.1-20   Matrix_1.3-4      workflowr_1.7.0.3
 # 
 # loaded via a namespace (and not attached):
 #  [1] mcmc_0.9-6          fs_1.5.2            progress_1.2.2     
-#  [4] httr_1.4.2          rprojroot_1.3-2     tools_3.6.2        
-#  [7] backports_1.1.5     bslib_0.3.1         utf8_1.1.4         
-# [10] R6_2.4.1            irlba_2.3.3         uwot_0.1.10        
-# [13] DBI_1.1.0           lazyeval_0.2.2      colorspace_1.4-1   
-# [16] withr_2.5.0         tidyselect_1.1.1    gridExtra_2.3      
-# [19] prettyunits_1.1.1   processx_3.5.2      compiler_3.6.2     
-# [22] git2r_0.29.0        quantreg_5.54       SparseM_1.78       
-# [25] plotly_4.9.2        labeling_0.3        sass_0.4.0         
+#  [4] httr_1.4.2          rprojroot_2.0.3     tools_3.6.2        
+#  [7] bslib_0.3.1         utf8_1.1.4          R6_2.4.1           
+# [10] irlba_2.3.3         uwot_0.1.10         DBI_1.1.0          
+# [13] lazyeval_0.2.2      colorspace_1.4-1    withr_2.5.0        
+# [16] tidyselect_1.1.1    gridExtra_2.3       prettyunits_1.1.1  
+# [19] processx_3.5.2      compiler_3.6.2      git2r_0.29.0       
+# [22] cli_3.5.0           quantreg_5.54       SparseM_1.78       
+# [25] plotly_4.10.1       labeling_0.3        sass_0.4.0         
 # [28] scales_1.1.0        SQUAREM_2017.10-1   quadprog_1.5-8     
 # [31] callr_3.7.0         pbapply_1.5-1       mixsqp_0.3-46      
 # [34] systemfonts_1.0.2   stringr_1.4.0       digest_0.6.23      
 # [37] rmarkdown_2.11      MCMCpack_1.4-5      pkgconfig_2.0.3    
-# [40] htmltools_0.5.2     highr_0.8           fastmap_1.1.0      
-# [43] invgamma_1.1        htmlwidgets_1.5.1   rlang_0.4.11       
+# [40] htmltools_0.5.4     highr_0.8           fastmap_1.1.0      
+# [43] invgamma_1.1        htmlwidgets_1.6.1   rlang_1.0.6        
 # [46] rstudioapi_0.13     farver_2.0.1        jquerylib_0.1.4    
 # [49] generics_0.0.2      jsonlite_1.7.2      BiocParallel_1.18.1
 # [52] dplyr_1.0.7         magrittr_2.0.1      Rcpp_1.0.8         
-# [55] munsell_0.5.0       fansi_0.4.0         lifecycle_1.0.0    
+# [55] munsell_0.5.0       fansi_0.4.0         lifecycle_1.0.3    
 # [58] stringi_1.4.3       whisker_0.4         yaml_2.2.0         
 # [61] MASS_7.3-51.4       Rtsne_0.15          grid_3.6.2         
 # [64] parallel_3.6.2      promises_1.1.0      crayon_1.4.1       
 # [67] lattice_0.20-38     hms_1.1.0           knitr_1.37         
 # [70] ps_1.6.0            pillar_1.6.2        fgsea_1.15.1       
 # [73] fastmatch_1.1-0     glue_1.4.2          evaluate_0.14      
-# [76] getPass_0.2-2       data.table_1.12.8   RcppParallel_5.1.5 
+# [76] getPass_0.2-2       data.table_1.14.2   RcppParallel_5.1.5 
 # [79] vctrs_0.3.8         httpuv_1.5.2        MatrixModels_0.4-1 
 # [82] gtable_0.3.0        purrr_0.3.4         tidyr_1.1.3        
 # [85] assertthat_0.2.1    ashr_2.2-54         xfun_0.29          
