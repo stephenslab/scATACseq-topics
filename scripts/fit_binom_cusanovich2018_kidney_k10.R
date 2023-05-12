@@ -3,7 +3,7 @@
 # were the steps taken to load R and allocate computing resources for
 # this analysis:
 #
-#   sinteractive -p broadwl -c 8 --mem=100G --time=1:00:00
+#   sinteractive -p broadwl -c 8 --mem=100G --time=8:00:00
 #   module load R/3.5.1
 #
 
@@ -32,15 +32,10 @@ fit_binom <- poisson2binom(counts,fit_pois,numem = 0)
 # Perform the conversion a second time, this time with several EM
 # updates to refine the fit.
 t0 <- proc.time()
-fit_binom_em <- poisson2binom(counts,fit_pois,numem = 20)
+fit_binom_em <- poisson2binom(counts,fit_pois,numem = 100)
 t1 <- proc.time()
 timing <- t1 - t0
 cat(sprintf("Computation took %0.2f seconds.\n",timing["elapsed"]))
-
-# Compare the two binomial fits.
-print(mean(abs(fit_binom$L - fit_binom_em$L) < 0.01))
-print(mean(abs(fit_binom$L - fit_binom_em$L) < 0.05))
-print(mean(abs(fit_binom$F - fit_binom_em$F) < 0.01))
 
 # Save the results.
 save(list = c("fit_binom","fit_binom_em"),
