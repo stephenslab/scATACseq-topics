@@ -41,3 +41,6 @@ cat(sprintf("Computation took %0.2f seconds.\n",timing["elapsed"]))
 save(list = c("fit_binom","fit_binom_em"),
      file = "binom-fit-buenrostro2018-k=10.RData")
 resaveRdaFiles("binom-fit-buenrostro2018-k=10.RData")
+
+# Output the session info.
+print(sessionInfo())
