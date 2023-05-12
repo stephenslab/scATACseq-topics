@@ -31,12 +31,11 @@ Load the binarized count data.
 load("data/Cusanovich_2018/processed_data/Cusanovich_2018_Kidney.RData")
 ```
 
-Load the $K = 10$ topic model fit.
+Load the $K = 10$ binomial topic model fit.
 
 ```{r load-fit}
-fit <- readRDS(file.path("output/Cusanovich_2018/tissues",
-                         "fit-Cusanovich2018-Kidney-scd-ex-k=10.rds"))$fit
-fit <- poisson2multinom(fit)
+load(file.path("output/Cusanovich_2018/tissues",
+               "binom-fit-cusanovich2018-kidney-k=10.RData"))
 ```
 
 Load the gene-wise results obtained from the `de_analysis` of the
@@ -74,8 +73,9 @@ x <- factor(x,c("Collecting duct","DCT/CD","Distal convoluted tubule",
 samples <- transform(samples,cell_label = x)
 topic_colors <- c("orange","darkmagenta","magenta","gold","peru",
                   "red","lightgray","limegreen","dodgerblue","royalblue")
-p1 <- structure_plot(fit,grouping = samples$cell_label,gap = 20,
-                     colors = topic_colors,verbose = FALSE)
+p1 <- structure_plot(fit_binom,grouping = samples$cell_label,gap = 20,
+                     verbose = FALSE,colors = topic_colors,
+					 topics = c(6,5,2,10,1,8,3,4,9,7))
 table(grouping = samples$cell_label)
 print(p1)
 ```
@@ -86,29 +86,19 @@ ggsave("plots/structure_plot_by_cell_label_cusanovich_kidney.eps",p1,
 ```
 
 Let's now visualize the topics without the benefit of the previously
-inferred clusters. Instead, we can use PCs computed from the topic
-proportions to subdivide the cells into 5 clusters. (Here we are
-assigning labels to these clusters only to make it easier to refer to
-them.)
+inferred clusters. Instead, we can use the topic proportioins to
+subdivide the cells. (Here we are assigning labels to these clusters
+only to make it easier to refer to them.)
 
 ```{r clusters-from-topics}
-pca <- prcomp(fit$L)$x
-pc1 <- pca[,1]
-pc2 <- pca[,2]
-x <- rep("other",nrow(pca))
-x[pc1 < 0] <- "proximal tubule"
-x[pc1 > 0 & pc2 > 0.2] <- "endothelial I"
-rows <- which(x == "other")
-fit2 <- select_loadings(fit,loadings = rows)
-pca  <- prcomp(fit2$L)$x
-y    <- rep("DCT + CD",nrow(pca))
-pc1  <- pca[,1]
-pc2  <- pca[,2]
-y[pc1 < 0 & pc2 > -0.15] <- "loop of henle"
-y[pc1 >= 0 & pc2 > -0.15] <- "podocytes + other"
-x[rows] <- y
-samples$cluster <- factor(x,c("DCT + CD","loop of henle","proximal tubule",
-                              "podocytes + other","endothelial I"))
+n <- nrow(fit_binom$L)
+x <- rep("other",n)
+x[fit_binom$L[,"k8"] > 0.2] <- "loop of henle"
+x[fit_binom$L[,"k1"] > 0.2] <- "podocytes"
+x[fit_binom$L[,"k3"] > 0.2] <- "endothelial I"
+x[fit_binom$L[,"k2"] + fit_binom$L[,"k5"] > 0.2] <- "DCT + CD"
+samples$cluster <- factor(x,c("DCT + CD","loop of henle","podocytes",
+                              "endothelial I","other"))
 ```
 
 This is what the Structure plot looks like without any external
@@ -116,8 +106,9 @@ grouping of the cells:
 
 ```{r structure-plot-2, fig.height=2.5, fig.width=8, message=FALSE}
 set.seed(1)
-p2 <- structure_plot(fit,grouping = samples$cluster,gap = 20,
-                     colors = topic_colors,verbose = FALSE)
+p2 <- structure_plot(fit_binom,grouping = samples$cluster,gap = 20,
+                     colors = topic_colors,topics = c(6,5,2,10,1,8,3,4,9,7),
+					 perplexity = 50,verbose = FALSE)
 table(grouping = samples$cluster)
 print(p2)
 ```
@@ -253,12 +244,6 @@ plot_grid(p9,p10,nrow = 1,ncol = 2)
 These volcano plots summarize the gene enrichment results for the
 remaining topics.
 
-To do:
-
-+ Create volcano plots for paper. In particular, volcano plots for
-  topics 9 and 10 will go in the main text, and the remaining will go
-  in the supplement. Also, fill out "selected top genes".
-
 ```{r volcano-plots-3, fig.width=8, fig.height=8.5, warning=FALSE}
 k <- 4
 label_genes <- (de_gene$logLR[,k] > 40 & de_gene$coef[,k] > 1.75) |
@@ -285,7 +270,7 @@ plot_grid(p4,p6,p7,nrow = 2,ncol = 2)
 
 Diagram from [osmosis.com](https://www.osmosis.org):
 
-```{r volcano-plots-for-paper, echo=FALSE}
+```{r volcano-plots-for-paper, echo=FALSE, warning=FALSE}
 ggsave("plots/volcano_plots_cusanovich_kidney_pt.eps",
        plot_grid(p9,p10,nrow = 1,ncol = 2),
 	   height = 4.5,width = 8)
