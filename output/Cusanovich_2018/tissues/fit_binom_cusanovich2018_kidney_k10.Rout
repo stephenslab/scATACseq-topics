@@ -1,6 +1,6 @@
 Rescaling L and F using non-negative linear regression (nnlm).
 Rescaling L and F using non-negative linear regression (nnlm).
-Performing 20 EM updates to refine the fit.
+Performing 100 EM updates to refine the fit.
 iter  |F - F'|  |L - L'|
    1 4.642e+00 4.642e+00
    2 1.209e-01 1.209e-01
@@ -22,11 +22,87 @@ iter  |F - F'|  |L - L'|
   18 1.683e-01 1.683e-01
   19 1.525e-01 1.525e-01
   20 1.157e-01 1.157e-01
-Computation took 1240.95 seconds.
-[1] 0.8319
-[1] 0.9523
-[1] 0.7443
-> sessionInfo()
+  21 1.239e-01 1.239e-01
+  22 1.186e-01 1.186e-01
+  23 1.103e-01 1.103e-01
+  24 1.304e-01 1.304e-01
+  25 1.391e-01 1.391e-01
+  26 1.550e-01 1.550e-01
+  27 1.607e-01 1.607e-01
+  28 1.803e-01 1.803e-01
+  29 1.801e-01 1.801e-01
+  30 1.843e-01 1.843e-01
+  31 1.792e-01 1.792e-01
+  32 1.775e-01 1.775e-01
+  33 1.910e-01 1.910e-01
+  34 1.562e-01 1.562e-01
+  35 1.560e-01 1.560e-01
+  36 1.512e-01 1.512e-01
+  37 1.545e-01 1.545e-01
+  38 1.523e-01 1.523e-01
+  39 1.406e-01 1.406e-01
+  40 1.397e-01 1.397e-01
+  41 1.568e-01 1.568e-01
+  42 1.382e-01 1.382e-01
+  43 1.224e-01 1.224e-01
+  44 1.141e-01 1.141e-01
+  45 1.118e-01 1.118e-01
+  46 1.102e-01 1.102e-01
+  47 9.866e-02 9.866e-02
+  48 1.086e-01 1.086e-01
+  49 1.047e-01 1.047e-01
+  50 1.020e-01 1.020e-01
+  51 9.627e-02 9.627e-02
+  52 8.659e-02 8.659e-02
+  53 7.953e-02 7.953e-02
+  54 8.341e-02 8.341e-02
+  55 8.841e-02 8.841e-02
+  56 9.085e-02 9.085e-02
+  57 8.692e-02 8.692e-02
+  58 7.605e-02 7.605e-02
+  59 8.199e-02 8.199e-02
+  60 8.133e-02 8.133e-02
+  61 7.378e-02 7.378e-02
+  62 7.117e-02 7.117e-02
+  63 6.995e-02 6.995e-02
+  64 7.299e-02 7.299e-02
+  65 6.978e-02 6.978e-02
+  66 6.637e-02 6.637e-02
+  67 6.601e-02 6.601e-02
+  68 7.360e-02 7.360e-02
+  69 7.475e-02 7.475e-02
+  70 6.957e-02 6.957e-02
+  71 6.802e-02 6.802e-02
+  72 7.483e-02 7.483e-02
+  73 7.375e-02 7.375e-02
+  74 7.193e-02 7.193e-02
+  75 6.792e-02 6.792e-02
+  76 6.267e-02 6.267e-02
+  77 6.424e-02 6.424e-02
+  78 7.017e-02 7.017e-02
+  79 7.074e-02 7.074e-02
+  80 6.957e-02 6.957e-02
+  81 6.840e-02 6.840e-02
+  82 7.049e-02 7.049e-02
+  83 7.092e-02 7.092e-02
+  84 6.476e-02 6.476e-02
+  85 6.455e-02 6.455e-02
+  86 6.314e-02 6.314e-02
+  87 5.956e-02 5.956e-02
+  88 5.791e-02 5.791e-02
+  89 6.406e-02 6.406e-02
+  90 6.475e-02 6.475e-02
+  91 6.026e-02 6.026e-02
+  92 5.665e-02 5.665e-02
+  93 5.893e-02 5.893e-02
+  94 5.879e-02 5.879e-02
+  95 5.924e-02 5.924e-02
+  96 6.529e-02 6.529e-02
+  97 6.823e-02 6.823e-02
+  98 6.634e-02 6.634e-02
+  99 6.414e-02 6.414e-02
+ 100 6.650e-02 6.650e-02
+Computation took 7767.28 seconds.
 R version 3.5.1 (2018-07-02)
 Platform: x86_64-pc-linux-gnu (64-bit)
 Running under: CentOS Linux 7 (Core)
@@ -35,39 +111,35 @@ Matrix products: default
 BLAS/LAPACK: /software/openblas-0.2.19-el7-x86_64/lib/libopenblas_haswellp-r0.2.19.so
 
 locale:
- [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C
- [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8
- [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8
- [7] LC_PAPER=en_US.UTF-8       LC_NAME=C
- [9] LC_ADDRESS=C               LC_TELEPHONE=C
-[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
 
 attached base packages:
-[1] tools     stats     graphics  grDevices utils     datasets  methods
-[8] base
+[1] tools     stats     graphics  grDevices utils     datasets  methods  
+[8] base     
 
 other attached packages:
-[1] fastTopics_0.7-17 testthat_3.0.2    Matrix_1.2-15
+[1] fastTopics_0.7-17 Matrix_1.2-15    
 
 loaded via a namespace (and not attached):
- [1] httr_1.4.2         pkgload_1.2.3      tidyr_0.8.3        jsonlite_1.6
- [5] viridisLite_0.3.0  RcppParallel_5.0.1 assertthat_0.2.0   mixsqp_0.3-46
- [9] remotes_2.4.1      progress_1.2.0     ggrepel_0.9.1      sessioninfo_1.1.1
-[13] pillar_1.9.0       backports_1.1.2    lattice_0.20-38    quantreg_5.36
-[17] glue_1.4.2         quadprog_1.5-5     digest_0.6.18      colorspace_1.3-2
-[21] cowplot_1.1.1      htmltools_0.5.2    pkgconfig_2.0.2    devtools_2.4.2
-[25] invgamma_1.1       SparseM_1.77       purrr_0.3.4        scales_1.0.0
-[29] processx_3.5.0     Rtsne_0.15         MatrixModels_0.4-1 tibble_3.1.0
-[33] generics_0.0.2     ggplot2_3.3.3      usethis_2.1.3      ellipsis_0.3.2
-[37] cachem_1.0.6       withr_2.4.1        ashr_2.2-55        pbapply_1.4-3
-[41] lazyeval_0.2.1     cli_3.6.1          magrittr_1.5       crayon_1.3.4
-[45] memoise_2.0.0      mcmc_0.9-7         ps_1.6.0           fs_1.5.0
-[49] fansi_0.4.0        MASS_7.3-51.1      truncnorm_1.0-8    pkgbuild_1.2.0
-[53] data.table_1.12.0  prettyunits_1.0.2  hms_0.4.2          lifecycle_1.0.3
-[57] MCMCpack_1.4-4     plotly_4.9.3       munsell_0.5.0      irlba_2.3.3
-[61] callr_3.7.0        compiler_3.5.1     rlang_1.1.1        grid_3.5.1
-[65] rstudioapi_0.13    htmlwidgets_1.5.3  gtable_0.2.0       DBI_1.0.0
-[69] R6_2.3.0           dplyr_1.0.5        fastmap_1.1.0      uwot_0.1.8
-[73] utf8_1.1.4         rprojroot_1.3-2    desc_1.4.0         parallel_3.5.1
-[77] SQUAREM_2017.10-1  Rcpp_1.0.9         vctrs_0.6.2        tidyselect_1.1.0
-[81] coda_0.19-2
+ [1] progress_1.2.0     tidyselect_1.1.0   NNLM_0.4.4         ashr_2.2-55       
+ [5] purrr_0.3.4        pbapply_1.4-3      lattice_0.20-38    colorspace_1.3-2  
+ [9] vctrs_0.6.2        generics_0.0.2     viridisLite_0.3.0  htmltools_0.5.2   
+[13] MCMCpack_1.4-4     utf8_1.1.4         plotly_4.9.3       rlang_1.1.1       
+[17] mixsqp_0.3-46      pillar_1.9.0       glue_1.4.2         DBI_1.0.0         
+[21] uwot_0.1.8         lifecycle_1.0.3    MatrixModels_0.4-1 munsell_0.5.0     
+[25] gtable_0.2.0       htmlwidgets_1.5.3  coda_0.19-2        fastmap_1.1.0     
+[29] SparseM_1.77       invgamma_1.1       quantreg_5.36      irlba_2.3.3       
+[33] parallel_3.5.1     fansi_0.4.0        Rcpp_1.0.9         scales_1.0.0      
+[37] RcppParallel_5.0.1 jsonlite_1.6       truncnorm_1.0-8    mcmc_0.9-7        
+[41] hms_0.4.2          ggplot2_3.3.3      digest_0.6.18      Rtsne_0.15        
+[45] dplyr_1.0.5        ggrepel_0.9.1      cowplot_1.1.1      grid_3.5.1        
+[49] quadprog_1.5-5     cli_3.6.1          magrittr_1.5       lazyeval_0.2.1    
+[53] tibble_3.1.0       crayon_1.3.4       tidyr_0.8.3        pkgconfig_2.0.2   
+[57] MASS_7.3-51.1      ellipsis_0.3.2     prettyunits_1.0.2  SQUAREM_2017.10-1 
+[61] data.table_1.12.0  assertthat_0.2.0   httr_1.4.2         R6_2.3.0          
+[65] compiler_3.5.1    
