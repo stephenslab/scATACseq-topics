@@ -19,13 +19,13 @@ set.seed(1)
 load(file.path("../data/Cusanovich_2018/processed_data",
                "Cusanovich_2018_Kidney.RData"))
 
-# Load the k = 10 Poisson NMF model fit.
+# Load the k = 10 binomial topic model fit.
 load(file.path("../output/Cusanovich_2018/tissues",
                "binom-fit-cusanovich2018-kidney-k=10.RData"))
 
 # Perform the DE analysis.
 t0 <- proc.time()
-de <- de_analysis(fit_binom,counts,shrink.method = "none",pseudocount = 0.1,
+de <- de_analysis(fit_binom_em,counts,shrink.method = "none",pseudocount = 0.1,
                   control = list(ns = 1e5,nc = 8))
 t1 <- proc.time()
 timing <- t1 - t0
