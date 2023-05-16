@@ -3,8 +3,7 @@
 # generate a de_analysis data structure for genes instead of peaks.
 library(fastTopics)
 library(tools)
-load(file.path("../output/Cusanovich_2018/tissues",
-               "gene-scores-cusanovich2018-kidney-k=10.RData"))
+load("gene-scores-cusanovich2018-kidney-k=10.RData")
 n <- length(gene_scores)
 k <- length(gene_scores[[1]]$logLR)
 A <- matrix(as.numeric(NA),n,k)

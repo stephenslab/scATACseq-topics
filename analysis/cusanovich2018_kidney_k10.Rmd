@@ -42,8 +42,7 @@ Load the gene-wise results obtained from the `de_analysis` of the
 peaks.
 
 ```{r load-de-gene}
-load(file.path("output/Cusanovich_2018/tissues",
-               "de-gene-cusanovich2018-kidney-k=10.RData"))
+load("scripts/de-gene-cusanovich2018-kidney-k=10.RData")
 ```
 
 This next Structure plot shows the correspondence between the topics
@@ -73,9 +72,9 @@ x <- factor(x,c("Collecting duct","DCT/CD","Distal convoluted tubule",
 samples <- transform(samples,cell_label = x)
 topic_colors <- c("orange","darkmagenta","magenta","gold","peru",
                   "red","lightgray","limegreen","dodgerblue","royalblue")
-p1 <- structure_plot(fit_binom,grouping = samples$cell_label,gap = 20,
+p1 <- structure_plot(fit_binom_em,grouping = samples$cell_label,gap = 20,
                      verbose = FALSE,colors = topic_colors,
-					 topics = c(6,5,2,10,1,8,3,4,9,7))
+					 topics = c(3,4,6,5,2,1,8,10,9,7))
 table(grouping = samples$cell_label)
 print(p1)
 ```
@@ -91,12 +90,12 @@ subdivide the cells. (Here we are assigning labels to these clusters
 only to make it easier to refer to them.)
 
 ```{r clusters-from-topics}
-n <- nrow(fit_binom$L)
+n <- nrow(fit_binom_em$L)
 x <- rep("other",n)
-x[fit_binom$L[,"k8"] > 0.2] <- "loop of henle"
-x[fit_binom$L[,"k1"] > 0.2] <- "podocytes"
-x[fit_binom$L[,"k3"] > 0.2] <- "endothelial I"
-x[fit_binom$L[,"k2"] + fit_binom$L[,"k5"] > 0.2] <- "DCT + CD"
+x[fit_binom_em$L[,"k8"] > 0.2] <- "loop of henle"
+x[fit_binom_em$L[,"k1"] > 0.2] <- "podocytes"
+x[fit_binom_em$L[,"k3"] > 0.2] <- "endothelial I"
+x[fit_binom_em$L[,"k2"] + fit_binom$L[,"k5"] > 0.2] <- "DCT + CD"
 samples$cluster <- factor(x,c("DCT + CD","loop of henle","podocytes",
                               "endothelial I","other"))
 ```
@@ -106,9 +105,9 @@ grouping of the cells:
 
 ```{r structure-plot-2, fig.height=2.5, fig.width=8, message=FALSE}
 set.seed(1)
-p2 <- structure_plot(fit_binom,grouping = samples$cluster,gap = 20,
-                     colors = topic_colors,topics = c(6,5,2,10,1,8,3,4,9,7),
-					 perplexity = 50,verbose = FALSE)
+p2 <- structure_plot(fit_binom_em,grouping = samples$cluster,gap = 20,
+                     colors = topic_colors,topics = c(3,4,6,5,2,1,8,10,9,7),
+					 perplexity = 30,verbose = FALSE)
 table(grouping = samples$cluster)
 print(p2)
 ```
@@ -158,18 +157,17 @@ highlighted in red.
 
 ```{r volcano-plots-1, fig.height=13, fig.width=8, warning=FALSE}
 k <- 2
-label_genes <- (is.element(genes,cd_genes) & de_gene$logLR[,k] > 4) |
-               (de_gene$logLR[,k] > 35 & de_gene$coef[,k] > 0) |
-               (de_gene$coef[,k] > 3)
+label_genes <- is.element(genes,cd_genes) |
+               (de_gene$logLR[,k] > 35 & de_gene$coef[,k] > 1)
 k2_genes <- genes
 k2_genes[!label_genes] <- ""
 p2 <- volcano_plot_enrich(de_gene,k = 2,labels = k2_genes,
                           highlight = is.element(genes,cd_genes),
                           ymax = 100)
 k <- 5
-label_genes <- (is.element(genes,dct_genes) & de_gene$logLR[,k] > 4) |
-               (de_gene$logLR[,k] > 40 & de_gene$coef[,k] > 1) |
-               (de_gene$coef[,k] > 3)
+label_genes <- is.element(genes,dct_genes) |
+               (de_gene$logLR[,k] > 50 & de_gene$coef[,k] > 1.5) |
+			   (de_gene$logLR[,k] > 20 & de_gene$coef[,k] > 2)
 k5_genes <- genes
 k5_genes[!label_genes] <- ""
 p5 <- volcano_plot_enrich(de_gene,k = 5,labels = k5_genes,
@@ -195,13 +193,12 @@ p1 <- volcano_plot_enrich(de_gene,k = 1,labels = k1_genes,
                           ymax = 80)
 k <- 8
 label_genes <- (is.element(genes,loh_genes) & de_gene$logLR[,k] > 4) |
-               (de_gene$logLR[,k] > 60 & de_gene$coef[,k] > 0) |
-               (de_gene$coef[,k] > 3)
+               (de_gene$logLR[,k] > 20 & de_gene$coef[,k] > 1)
 k8_genes <- genes
 k8_genes[!label_genes] <- ""
 p8 <- volcano_plot_enrich(de_gene,k = 8,labels = k8_genes,
                           highlight = is.element(genes,loh_genes),
-                          ymax = 140)
+                          ymax = 80)
 plot_grid(p2,p5,
           p3,p1,
           p8,
@@ -214,11 +211,9 @@ for the S1 and S3 segments of the proximal tubule.
 
 ```{r volcano-plots-2, fig.width=8, fig.height=4.5, warning=FALSE}
 k <- 9
-label_genes <- (is.element(genes,S1_genes) &
-                de_gene$logLR[,k] > 4) |
-               (de_gene$logLR[,k] > 40 & de_gene$coef[,k] > 2.25) |
-               (de_gene$logLR[,k] > 100 & de_gene$coef[,k] > 1) |
-               (de_gene$coef[,k] > 3)
+label_genes <- (is.element(genes,pt_genes) |
+               is.element(genes,S1_genes)) &
+			   de_gene$logLR[,k] > 10
 k9_genes <- genes
 k9_genes[!label_genes] <- ""
 k9_highlight <- rep(0,length(genes))
@@ -227,10 +222,8 @@ k9_highlight[is.element(genes,S1_genes)] <- 2
 p9 <- volcano_plot_enrich(de_gene,k = 9,labels = k9_genes,
                           highlight = factor(k9_highlight),ymax = 200)
 k <- 10
-label_genes <- (is.element(genes,S3_genes) &
-                de_gene$logLR[,k] > 4) |
-               (de_gene$logLR[,k] > 65 & de_gene$coef[,k] > 1.5) |
-               (de_gene$coef[,k] > 3)
+label_genes <- is.element(genes,pt_genes) |
+               is.element(genes,S3_genes)
 k10_genes <- genes
 k10_genes[!label_genes] <- ""
 k10_highlight <- rep(0,length(genes))
@@ -245,23 +238,9 @@ These volcano plots summarize the gene enrichment results for the
 remaining topics.
 
 ```{r volcano-plots-3, fig.width=8, fig.height=8.5, warning=FALSE}
-k <- 4
-label_genes <- (de_gene$logLR[,k] > 40 & de_gene$coef[,k] > 1.75) |
-               (de_gene$logLR[,k] > 10 & de_gene$coef[,k] > 2)
-k4_genes <- genes
-k4_genes[!label_genes] <- ""
-p4 <- volcano_plot_enrich(de_gene,k = 4,labels = k4_genes)
-k <- 6
-label_genes <- (de_gene$logLR[,k] > 20) |
-               (de_gene$logLR[,k] > 10 & de_gene$coef[,k] > 2)
-k6_genes <- genes
-k6_genes[!label_genes] <- ""
-p6 <- volcano_plot_enrich(de_gene,k = 6,labels = k6_genes,ymax = 40)
 k <- 7
-label_genes <- (de_gene$logLR[,k] > 75 & de_gene$coef[,k] > 0) |
-               (de_gene$logLR[,k] > 10 & de_gene$coef[,k] > 1.75) |
-			   (grepl("Zfp",gene_info$Symbol,fixed = TRUE) &
-                de_gene$logLR[,k] > 15)
+label_genes <- (grepl("Zfp",gene_info$Symbol,fixed = TRUE) &
+                de_gene$logLR[,k] > 8)
 k7_genes <- genes
 k7_genes[!label_genes] <- ""
 p7 <- volcano_plot_enrich(de_gene,k = 7,labels = k7_genes,ymax = 200)

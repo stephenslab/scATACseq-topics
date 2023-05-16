@@ -20,8 +20,7 @@ load("../data/cicero_gene_kidney.RData")
 
 # Load the results of the differential accessibility analysis using
 # the k = 10 topic model.
-load(file.path("../output/Cusanovich_2018/tissues",
-               "de-cusanovich2018-kidney-k=10-noshrink.RData"))
+load("de-cusanovich2018-kidney-k=10-noshrink.RData")
 
 # Run ash once on all peaks and all topics.
 b  <- as.vector(de$postmean)
